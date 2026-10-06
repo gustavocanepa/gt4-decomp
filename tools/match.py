@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Disassemble GT4 functions and check C re-implementations against them, instruction by instruction.
+"""Disassemble the game's functions and check C/C++ re-implementations against them, instruction by instruction.
 
     match.py asm  ADDR            print the original function (size from build/functions.csv)
     match.py gnu ADDR             the same, as GNU assembler text with labels (for m2c)
-    match.py check ADDR file.c    compile file.c with ee-gcc 2.96 (WSL) and compare the
+    match.py check ADDR file.c    compile file.c with the project's compiler (WSL) and compare the
                                   function it defines with the original at ADDR
 
 Words carrying a relocation in the compiled object (call targets, %hi/%lo of globals) can only
@@ -15,33 +15,41 @@ import os
 import struct
 import subprocess
 import sys
+import time
 
 import rabbitizer
 
-from core2elf import drop_duplicates, unpack_core
+import project
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CORE = os.path.join(ROOT, "orig", "SCUS-97328", "files", "CORE.GT4")
+ROOT = project.ROOT
+CORE = project.path(project.CONFIG["game"]["executable"])
+CATEGORY = getattr(rabbitizer.InstrCategory, project.CONFIG["cpu"]["category"])
 FUNCTIONS = os.path.join(ROOT, "build", "functions.csv")
 NOP = 0
 
 R_MIPS_26, R_MIPS_HI16, R_MIPS_LO16, R_MIPS_GPREL16 = 4, 5, 6, 7
 
 
+_spans = {}
+
+
 def load_text():
-    _, _, entry, sections = unpack_core(open(CORE, "rb").read())
-    for addr, blob in drop_duplicates(sections):
+    """The section holding the entry point: the code."""
+    entry, sections = project.load_image()
+    for addr, blob in sections:
         if addr <= entry < addr + len(blob):
             return addr, blob
     raise SystemExit("no code section")
 
 
 def function_span(addr):
-    with open(FUNCTIONS) as f:
-        for row in csv.DictReader(f):
-            if int(row["address"], 16) == addr:
-                return int(row["max_size"])
-    raise SystemExit(f"0x{addr:08x} is not a known function start")
+    if not _spans:
+        with open(FUNCTIONS) as f:
+            for row in csv.DictReader(f):
+                _spans[int(row["address"], 16)] = int(row["max_size"])
+    if addr not in _spans:
+        raise SystemExit(f"0x{addr:08x} is not a known function start")
+    return _spans[addr]
 
 
 def words_at(text_addr, text, addr, size):
@@ -56,7 +64,7 @@ def trim_padding(words):
 
 
 def disasm(word, vram):
-    return rabbitizer.Instruction(word, vram, rabbitizer.InstrCategory.R5900).disassemble()
+    return rabbitizer.Instruction(word, vram, CATEGORY).disassemble()
 
 
 def read_object(path):
@@ -90,12 +98,17 @@ def read_object(path):
 
 
 def compile_c(src):
-    obj = os.path.join(ROOT, "build", "match.o")
-    rel_src = os.path.relpath(os.path.abspath(src), ROOT).replace("\\", "/")
-    cmd = ["wsl", "-d", "Ubuntu", "--cd", "/mnt/" + ROOT[0].lower() + ROOT[2:].replace("\\", "/"),
-           "--", "bash", "tools/eecc.sh", rel_src, "build/match.o"]
+    # One object per call: several checks may run at once (autoloop --jobs).
+    os.makedirs(os.path.join(ROOT, "build", "obj"), exist_ok=True)
+    obj = os.path.join(ROOT, "build", "obj", f"match_{os.getpid()}_{time.time_ns()}.o")
+    rel = lambda p: os.path.relpath(os.path.abspath(p), ROOT).replace("\\", "/")
+    args = ["bash", "tools/cc_wsl.sh", rel(src), rel(obj), project.compiler_command()]
+    if os.name == "nt":
+        cmd = ["wsl", "-d", "Ubuntu", "--cd", "/mnt/" + ROOT[0].lower() + ROOT[2:].replace("\\", "/"), "--"] + args
+    else:
+        cmd = args
     env = dict(os.environ, MSYS_NO_PATHCONV="1")
-    res = subprocess.run(cmd, capture_output=True, text=True, env=env)
+    res = subprocess.run(cmd, capture_output=True, text=True, env=env, cwd=ROOT)
     if res.returncode != 0:
         sys.stderr.write(res.stdout + res.stderr)
         raise SystemExit("compile failed")
@@ -114,7 +127,7 @@ def gnu_asm(addr):
     """The original function as GNU assembler text with labels, the input m2c expects."""
     text_addr, text = load_text()
     words = trim_padding(words_at(text_addr, text, addr, function_span(addr)))
-    instrs = [rabbitizer.Instruction(w, addr + i * 4, rabbitizer.InstrCategory.R5900)
+    instrs = [rabbitizer.Instruction(w, addr + i * 4, CATEGORY)
               for i, w in enumerate(words)]
     labels = {i.getBranchVramGeneric() for i in instrs if i.isBranch()}
     lines = [".set noreorder", ".set noat", "", f"glabel func_{addr:08X}"]
@@ -144,7 +157,9 @@ def cmd_asm(addr):
 def cmd_check(addr, src):
     text_addr, text = load_text()
     target = trim_padding(words_at(text_addr, text, addr, function_span(addr)))
-    blob, relocs, funcs = read_object(compile_c(src))
+    obj = compile_c(src)
+    blob, relocs, funcs = read_object(obj)
+    os.remove(obj)
     if not funcs:
         raise SystemExit("no function in the compiled object")
     fname, foff, fsize = funcs[0]

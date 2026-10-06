@@ -23,7 +23,7 @@ already re-creates; this project covers the executable. No game files are ever c
 ## Step 2: compiler and pilot (2026-10-06)
 
 - `tools/find_functions.py`: 15,068 functions reached by `jal` in the code section.
-- `tools/eecc.sh`: ee-gcc 2.96 under WSL (unpacked on the Linux filesystem; sources are copied to
+- `tools/eecc.sh` (now `cc_wsl.sh`): ee-gcc 2.96 under WSL (unpacked on the Linux filesystem; sources are copied to
   /tmp because the 32-bit compiler cannot stat files on mounted Windows drives).
 - `tools/match.py`: instruction-by-instruction judge. Flags `-O2 -G0`; game code is C++.
 - Pilot: 13 of 20 random functions matched within two rounds; see PILOT.md. Sources in `src/`.

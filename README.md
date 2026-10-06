@@ -16,20 +16,23 @@ executable that runs them. Format documentation comes from the
 - The executable is understood: retail `CORE.GT4` is raw deflate (no encryption), loading at
   `0x00100000` with entry `0x00100008`; 15,068 functions are reached by calls.
 - The compiler is identified: Sony's ee-gcc 2.96 build `001003-1`, `-O2 -G0`; game code is C++.
-- A first pilot matched 13 of 20 randomly picked functions; see [PILOT.md](PILOT.md).
+- A first pilot matched 13 of 20 randomly picked functions by hand; see [PILOT.md](PILOT.md).
+- 14% of the functions are exact copies of another; one match settles a whole group.
   Matched functions are in [`src/`](src/).
 
 ## Setup
 
-Requirements: Python 3 with `rabbitizer` (`pip install rabbitizer`), and Linux or WSL with 32-bit
-support for the compiler.
+Requirements: Python 3.11+ with `rabbitizer` (`pip install rabbitizer`), and Linux or WSL (Ubuntu).
 
 1. Dump your disc and place the image as described in [`orig/README.md`](orig/README.md), then
    extract and convert the executable (commands there).
-2. Unpack decomp.me's
-   [`ee-gcc2.96.tar.xz`](https://github.com/decompme/compilers/releases/tag/compilers) into
-   `~/.local/share/gt4/ee-gcc2.96` on the Linux side.
-3. Build the function list: `python tools/find_functions.py orig/SCUS-97328/files/CORE.GT4 build/functions.csv`
+2. Set up the Linux side once: `bash tools/setup_linux.sh` (compiler, MIPS binutils, permuter).
+3. Build the function list and the duplicate groups:
+   `python tools/find_functions.py orig/SCUS-97328/files/CORE.GT4 build/functions.csv` and
+   `python tools/dedup.py scan`.
+
+The automated loop (`tools/autoloop.py`) and how to reuse these tools for another game are
+described in [TOOLS.md](TOOLS.md).
 
 ## Working on a function
 

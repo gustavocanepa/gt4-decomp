@@ -1,0 +1,29 @@
+# Everything the tools need to know about this game. Another game = another project.toml
+# (plus a loader in tools/loaders/ and a knowledge file); the tools themselves stay the same.
+
+[game]
+name = "Gran Turismo 4 (NTSC-U, SCUS-97328 v1.01)"
+executable = "orig/SCUS-97328/files/CORE.GT4"
+# tools/loaders/<loader>.py must define load(path) -> (entry, [(address, bytes), ...])
+loader = "gt4_core"
+
+[cpu]
+# rabbitizer instruction category and assembler/objdump flags for the permuter
+category = "R5900"
+as_flags = "-EL -march=r5900 -mabi=eabi"
+objdump_arch = "mips:5900"
+# m2c target triple for the first draft of each function
+m2c_target = "mipsee-gcc-c"
+
+[compiler]
+name = "Sony ee-gcc 2.96 (2.96-ee-001003-1)"
+# Runs on Linux/WSL. {dir} is replaced by the directory below; sources are compiled from /tmp.
+dir = "~/.local/share/gt4/ee-gcc2.96"
+command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0"
+# The language model output is compiled as this language (file extension).
+extension = "cpp"
+
+[model]
+# Facts given to the model with every function: the compiler's habits (shared by every game built
+# with it) and this game's own idioms.
+knowledge = ["knowledge/ee-gcc-2.96.md", "knowledge/gt4.md"]

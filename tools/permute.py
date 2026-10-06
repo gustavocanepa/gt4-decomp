@@ -16,6 +16,7 @@ import subprocess
 import sys
 
 import match
+import project
 
 ROOT = match.ROOT
 
@@ -33,11 +34,10 @@ PRELUDE = """.set noat
 COMPILE_SH = """#!/usr/bin/env bash
 # Invoked by the permuter as: compile.sh input.c -o output.o
 set -e
-cc="${EE_GCC_DIR:-$HOME/.local/share/gt4/ee-gcc2.96}"
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
 { echo 'extern "C" {'; cat "$1"; echo '}'; } > "$work/in.cpp"
-(cd "$work" && "$cc/bin/ee-gcc" -c -B "$cc/bin/ee-" -O2 -G0 in.cpp -o out.o)
+(cd "$work" && {command} in.cpp -o out.o)
 cp "$work/out.o" "$3"
 """
 
@@ -48,7 +48,7 @@ dir="$HOME/.local/share/gt4/perm/{name}"
 rm -rf "$dir"; mkdir -p "$dir"
 cp "{src_dir}/target.s" "{src_dir}/compile.sh" "{src_dir}/settings.toml" "$dir/"
 chmod +x "$dir/compile.sh"
-mips-linux-gnu-as -EL -march=r5900 -mabi=eabi "$dir/target.s" -o "$dir/target.o"
+mips-linux-gnu-as {as_flags} "$dir/target.s" -o "$dir/target.o"
 cpp -P "{src_dir}/source.c" > "$dir/base.c"
 "$dir/compile.sh" "$dir/base.c" -o "$dir/base.o"
 cd "$HOME/.local/share/gt4/decomp-permuter"
@@ -78,17 +78,19 @@ def main():
     os.makedirs(work, exist_ok=True)
     asm = match.gnu_asm(addr).replace(".set noreorder\n.set noat\n", "")
     open(os.path.join(work, "target.s"), "w", newline="\n").write(PRELUDE + asm)
-    open(os.path.join(work, "compile.sh"), "w", newline="\n").write(COMPILE_SH)
+    open(os.path.join(work, "compile.sh"), "w", newline="\n").write(
+        COMPILE_SH.replace("{command}", project.compiler_command()))
     open(os.path.join(work, "settings.toml"), "w", newline="\n").write(
         f'func_name = "{name}"\ncompiler_type = "gcc"\n'
-        'objdump_command = "mips-linux-gnu-objdump -drz -m mips:5900"\n')
+        f'objdump_command = "mips-linux-gnu-objdump -drz -m {project.CONFIG["cpu"]["objdump_arch"]}"\n')
     src = open(a.source, encoding="utf-8").read()
     # The permuter looks the function up by name: drop C++ mangling hints if any.
     open(os.path.join(work, "source.c"), "w", newline="\n").write(src)
     for leftover in ("result.c",):
         if os.path.exists(os.path.join(work, leftover)):
             os.remove(os.path.join(work, leftover))
-    script = RUN_SH.format(name=name, src_dir=to_wsl(work), seconds=a.seconds, jobs=a.jobs)
+    script = RUN_SH.format(name=name, src_dir=to_wsl(work), seconds=a.seconds, jobs=a.jobs,
+                           as_flags=project.CONFIG["cpu"]["as_flags"])
     open(os.path.join(work, "run.sh"), "w", newline="\n").write(script)
 
     env = dict(os.environ, MSYS_NO_PATHCONV="1")

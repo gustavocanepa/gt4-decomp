@@ -27,45 +27,32 @@ from concurrent.futures import ThreadPoolExecutor
 import rabbitizer
 
 import match
-from core2elf import drop_duplicates, unpack_core
+import project
 
 ROOT = match.ROOT
 AUTO = os.path.join(ROOT, "build", "auto")
 LOG = os.path.join(AUTO, "log.jsonl")
 M2C = os.path.join(ROOT, "tools", "ext", "m2c", "m2c.py")
 
-SYSTEM = """You write C++ that GCC 2.96 (Sony ee-gcc 2.96-ee-001003-1, cc1plus, -O2 -G0, PS2 Emotion Engine)
-compiles to exactly the instructions of a given MIPS function from Gran Turismo 4. Output ONE fenced
-```cpp block holding a complete, self-contained translation unit: declare every struct, global and
-callee you use (extern), then define the function with the exact name given. No headers, no
+SYSTEM = f"""You write C++ that {project.CONFIG["compiler"]["name"]} ({project.compiler_command().split(" -c ", 1)[-1]})
+compiles to exactly the instructions of a given function from {project.CONFIG["game"]["name"]}. Output ONE
+fenced ```cpp block holding a complete, self-contained translation unit: declare every struct, global
+and callee you use (extern), then define the function with the exact name given. No headers, no
 explanations outside the block. Matching is judged instruction by instruction; addresses filled by the
 linker (call targets, %hi/%lo of globals) only need the right opcode and registers.
 
-Known facts about this code base:
-- Game code is C++; old g++ ABI. Virtual calls look like: vtbl = *(obj+k); entry = vtbl + 8*i;
-  delta = (short)entry[0]; fn = entry[4]; fn(obj + delta, ...). Write them in C style with a
-  struct VEntry { short delta; short index; R (*fn)(...); }.
+Conventions:
 - Name globals D_XXXXXXXX (char arrays or typed externs) and callees func_XXXXXXXX.
 - Model offsets with explicit char padding fields in structs.
-- Strings keep their length 16 bytes before the text.
-- sqrt is inline asm: __asm__("sqrt.s %0, %1" : "=f"(r) : "f"(x)).
-- Register allocation and instruction order follow statement order: if only a few instructions
-  differ, try reordering statements, introducing or removing a temporary, a pointer variable for a
-  sub-struct, an inline helper, a different loop form, or signed/unsigned types.
-- Arguments arrive in $a0-$a3 then $t0-$t3 (8 integer registers), floats in $f12-$f19. A register
-  that is not written before a call still holds the caller's own argument: the callee receives it
-  unchanged, so pass that parameter through. Read which registers each call actually sets.
-- Tail calls: a function ending in `j callee` (a jump, after restoring $ra) returns that callee's
-  result: write `return callee(...);` with a non-void return type. A final `jal callee` followed by
-  the epilogue means the result is not returned (a plain call in a void function).
 - Write C that is also valid C++ (always the `struct` keyword, no classes, references, templates or
   default arguments): it is compiled as C++, but tools also parse it as C.
-- Never use goto unless nothing else works."""
+- Never use goto unless nothing else works.
+
+{project.knowledge()}"""
 
 
 def text_and_data():
-    _, _, entry, sections = unpack_core(open(match.CORE, "rb").read())
-    return entry, drop_duplicates(sections)
+    return project.load_image()
 
 
 def plain(words):
@@ -181,7 +168,7 @@ def m2c_draft(addr):
     path = os.path.join(AUTO, f"{addr:08x}.s")
     with open(path, "w") as f:
         f.write(match.gnu_asm(addr))
-    res = subprocess.run([sys.executable, M2C, "-t", "mipsee-gcc-c", path], capture_output=True, text=True)
+    res = subprocess.run([sys.executable, M2C, "-t", project.CONFIG["cpu"]["m2c_target"], path], capture_output=True, text=True)
     return (res.stdout or res.stderr).strip()[:6000]
 
 
