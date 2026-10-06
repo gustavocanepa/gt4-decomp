@@ -7,3 +7,5 @@ build/
 *.elf
 *.bin
 __pycache__/
+tools/compilers/
+tools/bin/
