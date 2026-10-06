@@ -1,0 +1,9 @@
+# Game files never enter the repository: each user dumps their own disc.
+orig/*
+!orig/README.md
+build/
+*.iso
+*.chd
+*.elf
+*.bin
+__pycache__/

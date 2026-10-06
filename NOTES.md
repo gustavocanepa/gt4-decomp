@@ -1,0 +1,26 @@
+# Gran Turismo 4 decompilation: working notes
+
+Goal: a matching decompilation of the GT4 engine (`CORE.GT4`), leading to a native PC port.
+Game logic lives mostly in Adhoc scripts, which [OpenAdhoc](https://github.com/Nenkai/OpenAdhoc)
+already re-creates; this project covers the executable. No game files are ever committed.
+
+## Step 1: the executable (2026-10-06)
+
+- Disc: SCUS-97328 v1.01 (`SYSTEM.CNF`: `VER = 1.01`, `VMODE = NTSC`). Root: `SCUS_973.28` (273 KB
+  bootstrap), `CORE.GT4` (2.0 MB), `IOPRP300.IMG`, `IRX/`, `NET/`, `EPSON/`, `GT4.VOL` (2.46 GB of data).
+- `CORE.GT4` (retail, no encryption layer): `u16 flags = 0x0101`, `u32 size = 6119116`, raw deflate.
+  Decompressed: two 128-byte hashes, entry `0x00100008`, three sections:
+  - `0x00100000..0x00617a14` (5.34 MB, code and data)
+  - `0x00617a80..0x006d5dfc` (779 KB)
+  - `0x006179fc..0x00617a14` (24 bytes, an identical copy of the first section's tail; dropped)
+- Compiler: the binary carries `Libgcc_2_96_ee_001003_1`, i.e. Sony's **ee-gcc 2.96** (build
+  001003) from the PS2 SDK, the compiler other PS2 decompilations already reproduce. A matching
+  (byte-identical) decompilation should therefore be possible.
+- 41 CVS `$Header$` tags, all from RTime's Medius/DME network middleware (`dme_client`, `rt_crypt`,
+  `rt_udp`, `rt_upnp`, `rt_util`, ...), dated 2003-2004: they mark third-party units, not
+  Polyphony's own code.
+
+## Next
+- Load `CORE.GT4.elf` in Ghidra; inventory functions; locate the Sony SDK and Medius libraries.
+- Set up splat + objdiff with ee-gcc 2.96; find the exact compiler flags with a few small functions.
+- Map names from the GT HD prototype symbols onto GT4 functions.
