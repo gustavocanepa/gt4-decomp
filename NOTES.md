@@ -16,9 +16,9 @@ already re-creates; this project covers the executable. No game files are ever c
 - Compiler: the binary carries `Libgcc_2_96_ee_001003_1`, i.e. Sony's **ee-gcc 2.96** (build
   001003) from the PS2 SDK, the compiler other PS2 decompilations already reproduce. A matching
   (byte-identical) decompilation should therefore be possible.
-- 41 CVS `$Header$` tags, all from RTime's Medius/DME network middleware (`dme_client`, `rt_crypt`,
+- 41 CVS `$Header$` tags, all from Sony's Medius/DME network middleware (`dme_client`, `rt_crypt`,
   `rt_udp`, `rt_upnp`, `rt_util`, ...), dated 2003-2004: they mark third-party units, not
-  Polyphony's own code.
+  Polyphony's own code. (`tools/find_tags.py` lists them.)
 
 ## Step 2: compiler and pilot (2026-10-06)
 
