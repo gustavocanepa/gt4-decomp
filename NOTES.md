@@ -20,7 +20,16 @@ already re-creates; this project covers the executable. No game files are ever c
   `rt_udp`, `rt_upnp`, `rt_util`, ...), dated 2003-2004: they mark third-party units, not
   Polyphony's own code.
 
+## Step 2: compiler and pilot (2026-10-06)
+
+- `tools/find_functions.py`: 15,068 functions reached by `jal` in the code section.
+- `tools/eecc.sh`: ee-gcc 2.96 under WSL (unpacked on the Linux filesystem; sources are copied to
+  /tmp because the 32-bit compiler cannot stat files on mounted Windows drives).
+- `tools/match.py`: instruction-by-instruction judge. Flags `-O2 -G0`; game code is C++.
+- Pilot: 13 of 20 random functions matched within two rounds; see PILOT.md. Sources in `src/`.
+
 ## Next
-- Load `CORE.GT4.elf` in Ghidra; inventory functions; locate the Sony SDK and Medius libraries.
-- Set up splat + objdiff with ee-gcc 2.96; find the exact compiler flags with a few small functions.
+- Second inventory pass: functions only reached through pointers (vtables, tables in data).
+- Reconstruct the shared code that gets inlined everywhere: gcc 2.96 STL, the string class.
+- Automate the loop (m2c draft, compile, compare, retry) and measure cost per function.
 - Map names from the GT HD prototype symbols onto GT4 functions.

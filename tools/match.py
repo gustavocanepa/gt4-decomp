@@ -131,6 +131,14 @@ def cmd_check(addr, src):
     # are padding, not part of the function.
     if len(target) > len(mine) and all(w == NOP for w in target[len(mine):]):
         target = target[:len(mine)]
+    # The inventory only knows functions reached by jal, so a function called through a
+    # pointer is glued to the one before it. If mine returns where the original goes on,
+    # judge only my span and say where the next function seems to start.
+    following = None
+    ends = mine[-2] == 0x03E00008 or mine[-2] >> 26 == 2  # jr $ra, or a tail call (j)
+    if len(target) > len(mine) >= 2 and ends:
+        following = addr + len(mine) * 4
+        target = target[:len(mine)]
 
     width = max(len(target), len(mine))
     bad = 0
@@ -151,6 +159,8 @@ def cmd_check(addr, src):
         print("\n".join(lines))
         sys.exit(1)
     print(f"{fname}: MATCH ({len(target)} instructions)")
+    if following:
+        print(f"note: the original goes on after the return; another function seems to start at 0x{following:08x}")
 
 
 def main():
