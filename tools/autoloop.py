@@ -7,7 +7,7 @@ the judge's diff after each failed attempt. Everything is logged to build/auto/l
 tokens and cost, so the price per function can be measured.
 
     autoloop.py pick NAME COUNT [--max-bytes 320] [--seed N]   choose a batch -> build/auto/NAME.txt
-    autoloop.py run NAME [--attempts 4] [--model claude-sonnet-5]
+    autoloop.py run NAME [--attempts 4] [--model claude-sonnet-5] [--effort auto]
     autoloop.py report [NAME]
 """
 import argparse
@@ -50,6 +50,12 @@ Known facts about this code base:
 - Register allocation and instruction order follow statement order: if only a few instructions
   differ, try reordering statements, introducing or removing a temporary, a pointer variable for a
   sub-struct, an inline helper, a different loop form, or signed/unsigned types.
+- Arguments arrive in $a0-$a3 then $t0-$t3 (8 integer registers), floats in $f12-$f19. A register
+  that is not written before a call still holds the caller's own argument: the callee receives it
+  unchanged, so pass that parameter through. Read which registers each call actually sets.
+- Tail calls: a function ending in `j callee` (a jump, after restoring $ra) returns that callee's
+  result: write `return callee(...);` with a non-void return type. A final `jal callee` followed by
+  the epilogue means the result is not returned (a plain call in a void function).
 - Never use goto unless nothing else works."""
 
 
@@ -140,13 +146,16 @@ def m2c_draft(addr):
     return (res.stdout or res.stderr).strip()[:6000]
 
 
-def ask(prompt, model, session=None):
-    cmd = ["claude", "-p", "--model", model, "--output-format", "json", "--tools", "",
+def ask(prompt, model, effort, session=None):
+    cmd = ["claude", "-p", "--model", model, "--effort", effort, "--output-format", "json", "--tools", "",
            "--strict-mcp-config", "--system-prompt", SYSTEM]
     if session:
         cmd += ["--resume", session]
+    # When launched from inside a Claude Code session, its CLAUDE_*/ANTHROPIC_* variables would
+    # point the child CLI at the parent's credentials; use the user's own CLI login instead.
+    env = {k: v for k, v in os.environ.items() if not k.upper().startswith(("CLAUDE", "ANTHROPIC"))}
     t0 = time.time()
-    res = subprocess.run(cmd, input=prompt, capture_output=True, text=True, encoding="utf-8", timeout=900)
+    res = subprocess.run(cmd, input=prompt, capture_output=True, text=True, encoding="utf-8", timeout=900, env=env)
     try:
         data = json.loads(res.stdout)
     except json.JSONDecodeError:
@@ -173,10 +182,47 @@ def check(addr, path):
     return res.returncode == 0, out
 
 
+def mnemonics(addr):
+    out = []
+    for line in match.gnu_asm(addr).splitlines():
+        m = re.search(r"\*/\s+(\S+)", line)
+        if m:
+            out.append(m.group(1))
+    return out
+
+
+def similar_examples(addr, count=2):
+    """The solved functions whose instruction sequences look most like this one."""
+    target = mnemonics(addr)
+    grams = set(zip(target, target[1:]))
+    scored = []
+    for name in os.listdir(os.path.join(ROOT, "src")):
+        m = re.match(r"func_([0-9A-F]{8})\.(c|cpp)$", name)
+        if not m or int(m.group(1), 16) == addr:
+            continue
+        other = mnemonics(int(m.group(1), 16))
+        og = set(zip(other, other[1:]))
+        if not og:
+            continue
+        score = len(grams & og) / len(grams | og) - abs(len(other) - len(target)) / (4 * max(len(target), 1))
+        scored.append((score, int(m.group(1), 16), name))
+    scored.sort(reverse=True)
+    picked = []
+    for score, a, name in scored[:count]:
+        source = open(os.path.join(ROOT, "src", name), encoding="utf-8").read()
+        picked.append((a, source))
+    return picked
+
+
 def first_prompt(addr, sections):
     strings = strings_used(addr, sections)
-    parts = [f"Function: func_{addr:08X}\n", "Original assembly:\n```\n" + match.gnu_asm(addr) + "```\n",
-             "m2c draft (types and names are guesses):\n```c\n" + m2c_draft(addr) + "\n```\n"]
+    parts = []
+    for a, source in similar_examples(addr):
+        parts.append(f"Solved example (func_{a:08X}, matches exactly):\n```\n" + match.gnu_asm(a) +
+                     "```\n```cpp\n" + source.strip() + "\n```\n")
+    parts += [f"Now the function to write: func_{addr:08X}\n",
+              "Original assembly:\n```\n" + match.gnu_asm(addr) + "```\n",
+              "m2c draft (types and names are guesses):\n```c\n" + m2c_draft(addr) + "\n```\n"]
     if strings:
         parts.append("Strings at addresses the code builds (use them as literals if they fit):\n" +
                      "\n".join(f"  0x{a:08X}: {json.dumps(s)}" for a, s in sorted(strings.items())) + "\n")
@@ -193,7 +239,22 @@ def feedback(result):
             f"relocation):\n{head}\n```\n" + "\n".join(shown) + more + "\n```\nFix it; reply with the full translation unit again.")
 
 
-def run_one(addr, sections, attempts, model, log):
+def diff_ratio(judge_output):
+    m = re.search(r"(\d+) of (\d+) instructions differ", judge_output)
+    return int(m.group(1)) / int(m.group(2)) if m else 1.0
+
+
+def close_enough(judge_output):
+    """Worth a pricier try: same length as the original (usually only registers or order differ),
+    or at most half of the instructions differ."""
+    m = re.search(r"original (\d+), mine (\d+)", judge_output)
+    same_length = bool(m) and m.group(1) == m.group(2)
+    return same_length or diff_ratio(judge_output) <= 0.5
+
+
+def run_one(addr, sections, attempts, model, effort, log, max_cost=0.40):
+    """effort "auto": two cheap low-effort tries, then medium effort only while the result is
+    close (see close_enough) and the function has cost less than max_cost."""
     work = os.path.join(AUTO, f"{addr:08x}")
     os.makedirs(work, exist_ok=True)
     session = None
@@ -201,8 +262,19 @@ def run_one(addr, sections, attempts, model, log):
     prompt = first_prompt(addr, sections)
     matched, last = False, ""
     tries = 0
+    used = []
     for tries in range(1, attempts + 1):
-        reply = ask(prompt, model, session)
+        level = effort
+        if effort == "auto":
+            if tries <= 2:
+                level = "low"
+            elif close_enough(last) and totals["cost"] < max_cost:
+                level = "medium"
+            else:
+                tries -= 1
+                break
+        used.append(level)
+        reply = ask(prompt, model, level, session)
         session = reply["session"]
         for k in totals:
             totals[k] += reply[k]
@@ -218,23 +290,30 @@ def run_one(addr, sections, attempts, model, log):
         prompt = feedback(last)
     words = len(match.trim_padding(match.words_at(*match.load_text(), addr, match.function_span(addr))))
     entry = {"addr": f"{addr:08x}", "bytes": words * 4, "matched": matched, "attempts": tries,
-             "model": model, **{k: round(v, 4) if isinstance(v, float) else v for k, v in totals.items()},
+             "model": model, "effort": effort, "levels": used, **{k: round(v, 4) if isinstance(v, float) else v for k, v in totals.items()},
              "last": last.splitlines()[0] if last else "", "time": time.strftime("%Y-%m-%d %H:%M:%S")}
     log.write(json.dumps(entry) + "\n")
     log.flush()
     return entry
 
 
-def cmd_run(name, attempts, model):
+def cmd_run(name, attempts, model, effort, retry_deferred=False):
     _, sections = text_and_data()
     batch = [int(l, 16) for l in open(os.path.join(AUTO, f"{name}.txt")) if l.strip()]
     done = done_addrs()
+    # Functions the "auto" policy already gave up on are left for a later, richer pass.
+    if os.path.exists(LOG) and not retry_deferred:
+        for line in open(LOG):
+            if line.strip():
+                r = json.loads(line)
+                if r.get("effort") == "auto" and not r.get("matched", True):
+                    done.add(int(r["addr"], 16))
     with open(LOG, "a") as log:
         for i, addr in enumerate(batch, 1):
             if addr in done:
                 continue
             try:
-                e = run_one(addr, sections, attempts, model, log)
+                e = run_one(addr, sections, attempts, model, effort, log)
                 print(f"[{i}/{len(batch)}] {e['addr']} {e['bytes']}B {'MATCH' if e['matched'] else 'no'} "
                       f"in {e['attempts']} ${e['cost']:.3f} {e['seconds']:.0f}s", flush=True)
             except Exception as ex:  # keep the batch going; the error is logged
@@ -262,6 +341,11 @@ def cmd_report(name=None):
               f"${cost / max(len(ok), 1):.3f} per match")
         print(f"tokens {tokens:,} total, {tokens // len(tried):,} per function tried")
         print(f"attempts per match: {sum(r['attempts'] for r in ok) / max(len(ok), 1):.2f}")
+        for key in sorted({(r.get("model"), r.get("effort", "default")) for r in tried}):
+            b = [r for r in tried if (r.get("model"), r.get("effort", "default")) == key]
+            c = sum(r.get("cost", 0) for r in b)
+            print(f"  {key[0]} effort={key[1]}: {sum(r['matched'] for r in b)}/{len(b)} matched, "
+                  f"${c / len(b):.3f} per function")
         for lo, hi in ((0, 64), (65, 160), (161, 320), (321, 10000)):
             b = [r for r in tried if lo <= r["bytes"] <= hi]
             if b:
@@ -275,12 +359,14 @@ def main():
     p.add_argument("--max-bytes", type=int, default=320); p.add_argument("--seed", type=int, default=1)
     r = sub.add_parser("run"); r.add_argument("name"); r.add_argument("--attempts", type=int, default=4)
     r.add_argument("--model", default="claude-sonnet-5")
+    r.add_argument("--effort", default="auto", choices=["auto", "low", "medium", "high", "xhigh", "max"])
+    r.add_argument("--retry-deferred", action="store_true", help="also retry functions the auto policy gave up on")
     q = sub.add_parser("report"); q.add_argument("name", nargs="?")
     a = ap.parse_args()
     if a.cmd == "pick":
         cmd_pick(a.name, a.count, a.max_bytes, a.seed)
     elif a.cmd == "run":
-        cmd_run(a.name, a.attempts, a.model)
+        cmd_run(a.name, a.attempts, a.model, a.effort, a.retry_deferred)
     else:
         cmd_report(a.name)
 
