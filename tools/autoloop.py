@@ -6,7 +6,7 @@ original assembly, the m2c draft and any strings the code points at; the session
 the judge's diff after each failed attempt. Everything is logged to build/auto/log.jsonl, including
 tokens and cost, so the price per function can be measured.
 
-    autoloop.py pick NAME COUNT [--max-bytes 320] [--order impact|random] [--seed N]   choose a batch
+    autoloop.py pick NAME COUNT [--max-bytes 160] [--order impact|random] [--seed N]   choose a batch
     autoloop.py run NAME [--attempts 4] [--model claude-sonnet-5] [--effort auto] [--jobs N]
     autoloop.py report [NAME]
 """
@@ -240,13 +240,31 @@ def similar_examples(addr, count=2):
     return picked
 
 
+def hints(addr):
+    """Facts read straight off the assembly, stated per function (models skip general rules)."""
+    text_addr, text = match.load_text()
+    words = match.trim_padding(match.words_at(text_addr, text, addr, match.function_span(addr)))
+    out = []
+    if len(words) >= 2:
+        tail = [w for w in words if w != 0][-2:]
+        if tail and tail[0] >> 26 == 2:  # j target, then the delay slot: a tail call
+            target = ((addr & 0xF0000000) | ((tail[0] & 0x03FFFFFF) << 2))
+            out.append(f"It ends with a tail call (`j func_{target:08X}`): write "
+                       f"`return func_{target:08X}(...);` and give both functions a non-void return type.")
+    if any(w >> 26 == 0x11 and ((w >> 21) & 31) in (0x10, 0x11) for w in words):
+        out.append("It does floating-point arithmetic: float parameters arrive in $f12, $f13, ... "
+                   "and a float result is returned in $f0.")
+    return out
+
+
 def first_prompt(addr, sections):
     strings = strings_used(addr, sections)
     parts = []
     for a, source in similar_examples(addr):
         parts.append(f"Solved example (func_{a:08X}, matches exactly):\n```\n" + match.gnu_asm(a) +
                      "```\n```cpp\n" + source.strip() + "\n```\n")
-    parts += [f"Now the function to write: func_{addr:08X}\n",
+    facts = hints(addr)
+    parts += [f"Now the function to write: func_{addr:08X}\n" + "".join(f"- {h}\n" for h in facts),
               "Original assembly:\n```\n" + match.gnu_asm(addr) + "```\n",
               "m2c draft (types and names are guesses):\n```c\n" + m2c_draft(addr) + "\n```\n"]
     if strings:
@@ -306,7 +324,8 @@ def run_one(addr, sections, attempts, model, effort, log, max_cost=0.40):
         if needs_close and not close_enough(last):
             break
         # Stop before an attempt that would likely push the function over its budget.
-        if used and totals["cost"] + max(last_cost, 0.02) > max_cost:
+        estimate = max(last_cost, 0.02) * (3 if used and level != used[-1][1] else 1)  # medium ~3x low
+        if used and totals["cost"] + estimate > max_cost:
             break
         if mdl != (used[-1][0] if used else mdl):
             session = None  # a session cannot change model; start over with the full prompt
@@ -421,7 +440,7 @@ def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("pick"); p.add_argument("name"); p.add_argument("count", type=int)
-    p.add_argument("--max-bytes", type=int, default=320); p.add_argument("--seed", type=int, default=1)
+    p.add_argument("--max-bytes", type=int, default=160); p.add_argument("--seed", type=int, default=1)
     p.add_argument("--order", choices=["random", "impact"], default="impact")
     r = sub.add_parser("run"); r.add_argument("name"); r.add_argument("--attempts", type=int, default=4)
     r.add_argument("--model", default="claude-sonnet-5")

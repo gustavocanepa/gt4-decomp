@@ -11,3 +11,7 @@ How Sony's ee-gcc 2.96 (PS2 Emotion Engine, -O2 -G0) shapes code (valid for any 
 - 64-bit `sd`/`ld` save and restore registers; struct copies of 8-byte aligned data use `ld`/`sd`
   pairs (declare such structs with __attribute__((aligned(8))) or 64-bit members).
 - `beql`/`bnel` (branch likely) come from the compiler, not from special source constructs.
+- Return values: if a callee's result stays in $v0 until the end while later temporaries use $v1,
+  the function returns that result (keep it in a variable and return it). Old g++ constructors do
+  this: call the base constructor, store the vtable pointer, return what the base constructor
+  returned (`this`).
