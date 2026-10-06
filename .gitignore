@@ -9,3 +9,4 @@ build/
 __pycache__/
 tools/compilers/
 tools/bin/
+tools/ext/

@@ -2,6 +2,7 @@
 """Disassemble GT4 functions and check C re-implementations against them, instruction by instruction.
 
     match.py asm  ADDR            print the original function (size from build/functions.csv)
+    match.py gnu ADDR             the same, as GNU assembler text with labels (for m2c)
     match.py check ADDR file.c    compile file.c with ee-gcc 2.96 (WSL) and compare the
                                   function it defines with the original at ADDR
 
@@ -109,6 +110,28 @@ def same_ignoring_reloc(a, b, rtype):
     return a == b
 
 
+def gnu_asm(addr):
+    """The original function as GNU assembler text with labels, the input m2c expects."""
+    text_addr, text = load_text()
+    words = trim_padding(words_at(text_addr, text, addr, function_span(addr)))
+    instrs = [rabbitizer.Instruction(w, addr + i * 4, rabbitizer.InstrCategory.R5900)
+              for i, w in enumerate(words)]
+    labels = {i.getBranchVramGeneric() for i in instrs if i.isBranch()}
+    lines = [".set noreorder", ".set noat", "", f"glabel func_{addr:08X}"]
+    for ins in instrs:
+        pc = ins.vram
+        if pc in labels:
+            lines.append(f".L{pc:08X}:")
+        if ins.isBranch():
+            text = ins.disassemble(immOverride=f".L{ins.getBranchVramGeneric():08X}")
+        elif ins.isJumpWithAddress():
+            text = ins.disassemble(immOverride=f"func_{ins.getInstrIndexAsVram():08X}")
+        else:
+            text = ins.disassemble()
+        lines.append(f"/* {pc:08X} {ins.getRaw():08X} */  {text}")
+    return "\n".join(lines) + "\n"
+
+
 def cmd_asm(addr):
     text_addr, text = load_text()
     words = trim_padding(words_at(text_addr, text, addr, function_span(addr)))
@@ -166,6 +189,8 @@ def cmd_check(addr, src):
 def main():
     if len(sys.argv) >= 3 and sys.argv[1] == "asm":
         cmd_asm(int(sys.argv[2], 16))
+    elif len(sys.argv) >= 3 and sys.argv[1] == "gnu":
+        sys.stdout.write(gnu_asm(int(sys.argv[2], 16)))
     elif len(sys.argv) >= 4 and sys.argv[1] == "check":
         cmd_check(int(sys.argv[2], 16), sys.argv[3])
     else:
