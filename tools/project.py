@@ -28,7 +28,8 @@ def compiler_command():
     """The compile command for Linux/WSL, with $HOME in place of ~."""
     c = CONFIG["compiler"]
     directory = c["dir"].replace("~", "$HOME", 1)
-    return c["command"].replace("{dir}", directory)
+    # GT4_COMPILER_COMMAND overrides the command (for experiments with flags).
+    return os.environ.get("GT4_COMPILER_COMMAND", c["command"]).replace("{dir}", directory)
 
 
 def knowledge():
