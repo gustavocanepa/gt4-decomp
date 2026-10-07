@@ -1,0 +1,12 @@
+extern "C" void func_005C1D00(void);
+
+__asm__(
+    ".text\n"
+    ".align 2\n"
+    ".globl func_005C1D00\n"
+    ".type func_005C1D00, @function\n"
+"func_005C1D00:\n"
+    ".word 0x0000004D\n"
+    ".word 0x24000008\n"
+    ".size func_005C1D00, . - func_005C1D00\n"
+);
