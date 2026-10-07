@@ -1,7 +1,7 @@
-extern int D_84005688;
-extern int D_8400568C;
+extern int D_0064B498;
+extern int D_0064B49C;
 
 void func_00530600(int arg0, int arg1) {
-    D_84005688 = arg0;
-    D_8400568C = arg1;
+    D_0064B498 = arg0;
+    D_0064B49C = arg1;
 }

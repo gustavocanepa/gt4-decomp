@@ -1,6 +1,6 @@
-extern float D_84006630;
+extern float D_00846638;
 
 float func_0045C0D8(void)
 {
-    return D_84006630;
+    return D_00846638;
 }

@@ -8,11 +8,11 @@ struct S_0060EA00 {
     void *unk40C;
 };
 
-extern "C" char D_00689680[];
+extern "C" char D_00689710[];
 
 extern "C" void func_0060F418(struct S_0060EA00 *arg0) {
     arg0->unk0 = 0;
     arg0->unk4 = 0;
-    arg0->unk40C = D_00689680;
+    arg0->unk40C = D_00689710;
     arg0->unk8 = 0;
 }

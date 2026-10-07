@@ -109,8 +109,15 @@ def apply(addr):
         path = os.path.join(ROOT, "build", "auto", f"dup_{o:08x}.{ext}")
         os.makedirs(os.path.dirname(path), exist_ok=True)
         open(path, "w", encoding="utf-8").write(text)
-        res = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "match.py"), "check", f"{o:x}", path],
-                             capture_output=True, text=True)
+        check = lambda: subprocess.run([sys.executable, os.path.join(ROOT, "tools", "match.py"), "check",
+                                        f"{o:x}", path], capture_output=True, text=True)
+        res = check()
+        if res.returncode != 0 and "wrong address" in res.stdout:
+            # Same code, other globals: point the copy at the addresses its original uses.
+            renames = match.suggest_renames(o, path)
+            if renames:
+                open(path, "w", encoding="utf-8").write(match.apply_renames(text, renames))
+                res = check()
         if res.returncode == 0:
             os.replace(path, os.path.join(ROOT, "src", f"func_{o:08X}.{ext}"))
             print(f"0x{o:08x}: MATCH (copy of 0x{addr:08x})")

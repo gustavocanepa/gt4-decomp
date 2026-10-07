@@ -19,19 +19,32 @@ executable ──loader──> code + data sections
             2. model writes the function (Claude Code CLI, no tools, fresh session)
                Haiku first for small functions, then Sonnet low effort,
                Sonnet medium effort only while the result is close; budget per function
-            3. match.py check: compile with the original compiler, compare instruction by
-               instruction (relocated fields: opcode and registers only); diff goes back to
-               the model
+            3. match.py check: compile with the original compiler, resolve every relocation
+               to a func_/D_ADDR symbol at its real address, compare word by word; the diff
+               (and any "wrong address" symbol) goes back to the model
             4. near miss after the last try -> permute.py (decomp-permuter, CPU only)
             5. on a match: src/func_ADDR.cpp, then dedup.py apply copies it to every
                identical function (each copy re-checked)
         autoloop.py report  matches, cost and tokens per function, by size and by model
+
+build.py               full build: every matched function linked at its original address into one
+                       ELF, the not-yet-decompiled code taken from your executable (.incbin);
+                       passes when both loaded segments hash the same as the original
+  ├─ link_diff.py      what differs after linking, per function, disassembled side by side
+  └─ fix_symbols.py    repairs functions that reference the wrong address (renames the symbol)
 ```
+
+`match.py check` proves one function in isolation; `build.py` proves them all together, with
+real addresses. Run the build before every commit: a function only counts once it links.
 
 | Tool | Purpose |
 |---|---|
 | `project.py` | reads `project.toml`; loads the executable through its loader (cached) |
 | `match.py` | `asm`/`gnu` views of an original function; `check` compiles and judges a source |
+| `build.py` | full build and SHA-1 comparison with the original; per-function report in `build/full/` |
+| `link_diff.py`, `fix_symbols.py` | explain and repair functions that differ after linking |
+| `asm_policy.py` | rejects assembly posing as C (file-scope asm, `.word`, multi-instruction blocks) |
+| `agent_step.py` | the queue driven by AI agents or people: `fill`, `claim`, `prompt`, `try`, `giveup` |
 | `cc_wsl.sh` | runs the project's compiler on Linux/WSL from a temporary directory |
 | `find_functions.py` | function inventory from call targets |
 | `dedup.py` | finds identical functions and propagates matches to them |

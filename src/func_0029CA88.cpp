@@ -9,7 +9,7 @@ struct NodeB {
     Unk64 *unk64;
 };
 
-extern char D_005C4C30[];
+extern char D_005E5F40[];
 extern char D_005F26E0[];
 
 extern void *func_005C0FC8(int, void *, int, void *, void *, void *);
@@ -26,7 +26,7 @@ int func_0029CA88(void **arg0, NodeB **arg1)
     temp_v1 = *arg1;
     if (temp_v1 != 0) {
         Unk64 *u = temp_v1->unk64;
-        var_s0 = func_005C0FC8(u->unk4, D_005C4C30, 0,
+        var_s0 = func_005C0FC8(u->unk4, D_005E5F40, 0,
                                 (char *)temp_v1 + u->unk0,
                                 D_005F26E0, temp_v1);
     }

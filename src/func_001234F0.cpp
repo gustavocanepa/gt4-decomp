@@ -1,5 +1,5 @@
-extern int D_61FF86E0;
+extern int D_00618710;
 
 void func_001234F0(int arg0) {
-    D_61FF86E0 = arg0;
+    D_00618710 = arg0;
 }

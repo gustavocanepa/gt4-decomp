@@ -1,5 +1,5 @@
-extern float D_840065C0;
+extern float D_006238AC;
 
 void func_00456828(float arg0) {
-    D_840065C0 = arg0;
+    D_006238AC = arg0;
 }

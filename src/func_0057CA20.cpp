@@ -6,10 +6,10 @@ struct S {
     void *unk8;
 };
 
-extern char D_00681BD0;
+extern char D_00689F10;
 
 void func_0057CA20(struct S *arg0) {
     arg0->unk4 = 0;
     arg0->unk0 = 0;
-    arg0->unk8 = &D_00681BD0;
+    arg0->unk8 = &D_00689F10;
 }

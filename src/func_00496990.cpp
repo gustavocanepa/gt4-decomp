@@ -1,5 +1,5 @@
-extern char D_00841E48;
+extern char D_00624AD0;
 
 void *func_00496990(void) {
-    return &D_00841E48;
+    return &D_00624AD0;
 }

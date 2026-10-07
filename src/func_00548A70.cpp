@@ -1,5 +1,5 @@
-extern int D_61FF8D78;
+extern int D_0064C3D4;
 
 void func_00548A70(void) {
-    D_61FF8D78 = 0;
+    D_0064C3D4 = 0;
 }

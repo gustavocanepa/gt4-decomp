@@ -1,5 +1,5 @@
-extern int D_006186F4;
+extern int D_0086F7D8;
 
 int func_0054FE98(void) {
-    return D_006186F4;
+    return D_0086F7D8;
 }

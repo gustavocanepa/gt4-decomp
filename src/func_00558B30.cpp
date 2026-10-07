@@ -1,4 +1,4 @@
-extern char D_006D67B0;
+extern char D_00873558;
 
 extern "C" void func_00576090(void *a0);
 extern "C" void func_005760A8(void *a0, int a1);
@@ -6,10 +6,10 @@ extern "C" void func_005760A8(void *a0, int a1);
 extern "C" void func_00558B30(int arg0, int arg1) {
     if (arg1 == 0xFFFF) {
         if (arg0 == 1) {
-            func_00576090(&D_006D67B0);
+            func_00576090(&D_00873558);
         }
         if (arg0 == 0) {
-            func_005760A8(&D_006D67B0, 2);
+            func_005760A8(&D_00873558, 2);
         }
     }
 }
