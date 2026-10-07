@@ -112,6 +112,7 @@ def cmd_pick(name, count, max_bytes, seed, order="random"):
                 if r.get("effort") == "auto" and r.get("matched") is False:
                     done.add(int(r["addr"], 16))
     pool = []
+    sizes = {}
     with open(match.FUNCTIONS) as f:
         for row in csv.DictReader(f):
             addr, span = int(row["address"], 16), int(row["max_size"])
@@ -125,7 +126,12 @@ def cmd_pick(name, count, max_bytes, seed, order="random"):
             words = match.trim_padding(match.words_at(text_addr, text, addr, span))
             if 8 <= len(words) * 4 <= max_bytes and plain(words):
                 pool.append(addr)
-    if order == "impact":
+                sizes[addr] = len(words) * 4
+    if order == "small":
+        # Smallest first, duplicates' representatives before the rest at equal size.
+        score = impact()
+        batch = sorted(pool, key=lambda a: (sizes[a], -score(a)))[:count]
+    elif order == "impact":
         score = impact()
         batch = sorted(pool, key=lambda a: -score(a))[:count]
     else:
@@ -452,7 +458,7 @@ def main():
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("pick"); p.add_argument("name"); p.add_argument("count", type=int)
     p.add_argument("--max-bytes", type=int, default=160); p.add_argument("--seed", type=int, default=1)
-    p.add_argument("--order", choices=["random", "impact"], default="impact")
+    p.add_argument("--order", choices=["random", "impact", "small"], default="impact")
     r = sub.add_parser("run"); r.add_argument("name"); r.add_argument("--attempts", type=int, default=4)
     r.add_argument("--model", default="claude-sonnet-5")
     r.add_argument("--effort", default="auto", choices=["auto", "low", "medium", "high", "xhigh", "max"])

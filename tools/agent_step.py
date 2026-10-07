@@ -62,10 +62,10 @@ def size(addr):
 def cmd_fill(count, max_bytes):
     with Lock():
         left = [a for a in read_lines(QUEUE) if a and a not in set(read_lines(CLAIMED))]
-        if len(left) >= count // 2:
+        if len(left) >= count // 2 and "--force" not in sys.argv:
             print(f"{len(left)} still queued")
             return
-        autoloop.cmd_pick("_queue", count, max_bytes, 1, "impact")
+        autoloop.cmd_pick("_queue", count, max_bytes, 1, "small")
         claimed = set(read_lines(CLAIMED))
         new = [a for a in read_lines(os.path.join(AUTO, "_queue.txt")) if a and a not in claimed]
         with open(QUEUE, "w") as f:
