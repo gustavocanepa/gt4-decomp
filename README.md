@@ -18,7 +18,22 @@ executable that runs them. Format documentation comes from the
 - The compiler is identified: Sony's ee-gcc 2.96 build `001003-1`, `-O2 -G0`; game code is C++.
 - A first pilot matched 13 of 20 randomly picked functions by hand; see [PILOT.md](PILOT.md).
 - 14% of the functions are exact copies of another; one match settles a whole group.
-  Matched functions are in [`src/`](src/).
+- **2,903 of 14,665 functions (19.8%) match byte for byte.** Matched functions are in [`src/`](src/).
+  Most were produced by AI agents (Claude) driving the tools in [`tools/`](tools/), each one verified
+  by the compiler and the judge, never by eye.
+
+## Credits
+
+Started and maintained by **Gustavo Canepa** ([@gustavocanepa](https://github.com/gustavocanepa)),
+with AI agents (Anthropic's Claude) doing the bulk of the matching. Thanks to Nenkai and the Gran
+Turismo modding community, whose research made the file formats and scripts understandable.
+
+If you use these tools or this work elsewhere, please credit this project (see [LICENSE](LICENSE)).
+
+## Contributing
+
+Help is welcome: matching functions, naming them, reconstructing structs and classes, or improving
+the tools. Start with [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Setup
 
