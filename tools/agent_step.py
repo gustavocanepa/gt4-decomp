@@ -113,16 +113,11 @@ def cmd_try(addr, path):
     ok, out = autoloop.check(addr, path)
     if ok:
         shutil.copy(path, os.path.join(ROOT, "src", f"func_{addr:08X}.cpp"))
-        # Copies are propagated in the background (a group can hold hundreds of functions);
-        # tools/dedup_all.py catches any that were missed.
-        subprocess.Popen([sys.executable, os.path.join(ROOT, "tools", "dedup.py"), "apply", f"{addr:x}"],
-                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                         # No window, for it and for the wsl calls it makes (a detached process
-                         # without a console would open one per call).
-                         creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        # Copies are propagated later, in one batch, by tools/dedup_all.py (a group can hold
+        # hundreds of functions, too many to check while the worker waits).
         log({"addr": f"{addr:08x}", "bytes": size(addr), "matched": True, "effort": "agent",
              "fakematch": asm_policy.fakematch(src)})
-        print("MATCH (copies are being propagated in the background)")
+        print("MATCH")
     else:
         lines = out.splitlines()
         print("\n".join(lines[:80]))
