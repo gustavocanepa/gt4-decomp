@@ -28,7 +28,12 @@ Started and maintained by **Gustavo Canepa** ([@gustavocanepa](https://github.co
 with AI agents (Anthropic's Claude) doing the bulk of the matching. Thanks to Nenkai and the Gran
 Turismo modding community, whose research made the file formats and scripts understandable.
 
-If you use these tools or this work elsewhere, please credit this project (see [LICENSE](LICENSE)).
+If you use these tools or this work elsewhere, please credit this project (MIT, see [LICENSE](LICENSE)).
+
+This license covers the tools, documentation and the source code written for this project.
+Gran Turismo 4 is a trademark of Sony Interactive Entertainment; this project is not affiliated
+with or endorsed by Sony Interactive Entertainment or Polyphony Digital. It contains no game data,
+and you need your own copy of the game to use it.
 
 ## Contributing
 
