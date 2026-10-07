@@ -3,15 +3,15 @@ typedef unsigned int u32;
 extern "C" void func_005F26E0();
 extern "C" void func_005BFB68(void *a0, void *a1, void *a2);
 
-extern char D_0068BC18[];
-extern int D_008A1BA0;
+extern char D_0069E870[];
+extern int D_006D5F58;
 
-static int D_0088D9A0;
+extern int D_0088EE90;
 
 extern "C" void *func_005F1C00(void) {
-    if (D_0088D9A0 == 0) {
+    if (D_0088EE90 == 0) {
         func_005F26E0();
-        func_005BFB68(&D_0088D9A0, D_0068BC18, &D_008A1BA0);
+        func_005BFB68(&D_0088EE90, D_0069E870, &D_006D5F58);
     }
-    return &D_0088D9A0;
+    return &D_0088EE90;
 }

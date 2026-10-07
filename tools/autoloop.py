@@ -97,7 +97,7 @@ def impact():
     return lambda a: groups.get(a, 1) + min(calls.get(a, 0), 50) / 100
 
 
-def cmd_pick(name, count, max_bytes, seed, order="random"):
+def cmd_pick(name, count, max_bytes, seed, order="random", min_bytes=8):
     text_addr, text = match.load_text()
     done = done_addrs()
     # One representative per group of identical functions: the others follow via dedup.
@@ -130,7 +130,7 @@ def cmd_pick(name, count, max_bytes, seed, order="random"):
                     continue
                 seen_groups.add(g)
             words = match.trim_padding(match.words_at(text_addr, text, addr, span))
-            if 8 <= len(words) * 4 <= max_bytes and plain(words):
+            if min_bytes <= len(words) * 4 <= max_bytes and plain(words):
                 pool.append(addr)
                 sizes[addr] = len(words) * 4
     if order == "small":
@@ -240,7 +240,7 @@ def mnemonics(addr):
     return out
 
 
-def similar_examples(addr, count=2):
+def similar_examples(addr, count=4):
     """The solved functions whose instruction sequences look most like this one."""
     target = mnemonics(addr)
     grams = set(zip(target, target[1:]))
@@ -256,11 +256,54 @@ def similar_examples(addr, count=2):
         score = len(grams & og) / len(grams | og) - abs(len(other) - len(target)) / (4 * max(len(target), 1))
         scored.append((score, int(m.group(1), 16), name))
     scored.sort(reverse=True)
-    picked = []
-    for score, a, name in scored[:count]:
+    picked, seen = [], set()
+    for score, a, name in scored:
         source = open(os.path.join(ROOT, "src", name), encoding="utf-8").read()
+        body = re.sub(r"func_[0-9A-F]{8}|D_[0-9A-F]{8}", "", source)
+        if body in seen:  # copies of one function teach nothing new
+            continue
+        seen.add(body)
         picked.append((a, source))
+        if len(picked) == count:
+            break
     return picked
+
+
+_names = {}
+
+
+def rtti_name(addr):
+    """Name tools/rtti.py gave the function (class and vtable slot), if any."""
+    if not _names:
+        path = os.path.join(ROOT, "config", "symbol_addrs.txt")
+        if os.path.exists(path):
+            for line in open(path):
+                parts = line.split("=")
+                if len(parts) == 2 and "type:func" in line:
+                    _names[int(parts[1].split(";")[0].strip(), 16)] = parts[0].strip()
+        _names.setdefault(-1, "")
+    return _names.get(addr)
+
+
+def callee_context(addr):
+    """For each function this one calls: its RTTI name and, if solved, its declaration."""
+    out = []
+    targets = sorted(set(int(t[5:], 16) for t in re.findall(r"func_[0-9A-F]{8}", match.gnu_asm(addr))))
+    for target in targets:
+        if target == addr:
+            continue
+        line = f"func_{target:08X}"
+        name = rtti_name(target)
+        if name:
+            line += f" ({name})"
+        src = next((n for n in os.listdir(os.path.join(ROOT, "src")) if n.startswith(f"func_{target:08X}.")), None)
+        if src:
+            text = open(os.path.join(ROOT, "src", src), encoding="utf-8").read()
+            m = re.search(r"^[^;{}\n]*\bfunc_%08X\b[^;{]*\)" % target, text, re.M)
+            if m:
+                line += f": solved, defined as `{m.group(0).strip()}`"
+        out.append(line)
+    return out
 
 
 def hints(addr):
@@ -287,6 +330,12 @@ def first_prompt(addr, sections):
         parts.append(f"Solved example (func_{a:08X}, matches exactly):\n```\n" + match.gnu_asm(a) +
                      "```\n```cpp\n" + source.strip() + "\n```\n")
     facts = hints(addr)
+    name = rtti_name(addr)
+    if name:
+        facts.insert(0, f"RTTI names this function {name} (class and vtable slot from the game's own type info)")
+    callees = callee_context(addr)
+    if callees:
+        facts.append("Functions it calls: " + "; ".join(callees))
     parts += [f"Now the function to write: func_{addr:08X}\n" + "".join(f"- {h}\n" for h in facts),
               "Original assembly:\n```\n" + match.gnu_asm(addr) + "```\n",
               "m2c draft (types and names are guesses):\n```c\n" + m2c_draft(addr) + "\n```\n"]

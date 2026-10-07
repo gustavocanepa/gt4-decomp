@@ -27,7 +27,7 @@ def measures(funcs, total_data=0):
     nm = sum(f["matched"] for f in funcs)
     pct = lambda a, b: round(100.0 * a / b, 4) if b else 0.0
     return {
-        "fuzzy_match_percent": pct(matched, total),
+        "fuzzy_match_percent": round(sum(f["size"] * f.get("fuzzy", 100.0 if f["matched"] else 0.0) for f in funcs) / total, 4) if total else 0.0,
         "total_code": str(total), "matched_code": str(matched), "matched_code_percent": pct(matched, total),
         "total_data": str(total_data), "matched_data": "0", "matched_data_percent": 0.0,
         "total_functions": n, "matched_functions": nm, "matched_functions_percent": pct(nm, n),
@@ -57,6 +57,8 @@ def main():
     done = {n[5:13].lower() for n in os.listdir(os.path.join(ROOT, "src")) if n.startswith("func_")}
     rows = list(csv.DictReader(open(match.FUNCTIONS)))
     text_addr, text = match.load_text()
+    partial_path = os.path.join(ROOT, "build", "auto", "partial.json")
+    partial = json.load(open(partial_path)) if os.path.exists(partial_path) else {}
     funcs = []
     for r in rows:
         addr = int(r["address"], 16)
@@ -66,7 +68,8 @@ def main():
         words = match.trim_padding(match.words_at(text_addr, text, addr, int(r["max_size"])))
         size = int(sizes.get(key, 4 * len(words)))
         funcs.append({"addr": addr, "size": size, "matched": key in done,
-                      "complete": status.get(key) == "linked"})
+                      "complete": status.get(key) == "linked" or status.get(key, "").startswith("linked as part"),
+                      "fuzzy": 100.0 if key in done else partial.get(key, 0.0)})
     data_size = 0xBE37C
     m = measures(funcs, data_size)
 
@@ -94,7 +97,7 @@ def main():
             "measures": um,
             "sections": [{"name": ".text", "size": um["total_code"], "fuzzy_match_percent": um["fuzzy_match_percent"]}],
             "functions": [{"name": names.get(f["addr"], f"func_{f['addr']:08X}"), "size": str(f["size"]),
-                           "fuzzy_match_percent": 100.0 if f["matched"] else 0.0,
+                           "fuzzy_match_percent": f["fuzzy"],
                            "metadata": {"virtual_address": str(f["addr"])}} for f in fs],
             "metadata": {"complete": all(f["complete"] for f in fs), "progress_categories": ["game"],
                          "auto_generated": True},

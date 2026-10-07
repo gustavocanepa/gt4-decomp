@@ -6,7 +6,7 @@ extern "C" void func_005BFB68(void *a0, void *a1, void *a2);
 extern char D_0068BC18[];
 extern int D_008A1BA0;
 
-static int D_0088D9A0;
+extern int D_0088D9A0;
 
 extern "C" void *func_005C2050(void) {
     if (D_0088D9A0 == 0) {

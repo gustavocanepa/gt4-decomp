@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """What inline assembly a decompiled source may contain.
 
-Allowed: single-instruction intrinsics the C compiler cannot express (e.g. `sqrt.s`, `max.s`) and
-register-pinned variables (`register T x asm("$3")`, a GNU C extension; such sources are fakematches
-and get flagged). Rejected: file-scope assembly, raw instruction words (`.word`), and inline blocks
-of more than one instruction. Functions that were hand-written in assembly in the original belong in
+Allowed: single-instruction intrinsics the C compiler cannot express (e.g. `sqrt.s`, `max.s`).
+Rejected: file-scope assembly, raw instruction words (`.word`), inline blocks of more than one
+instruction, and register-pinned variables (`register T x asm("$3")`, a fakematch). Functions that were hand-written in assembly in the original belong in
 asm/ as .s files and are counted separately, not as decompiled functions.
 
     asm_policy.py FILE...    print the violations; exit 1 if any
@@ -23,6 +22,9 @@ def violations(src):
         out.append("raw instruction words (.word)")
     if FILE_SCOPE.search(src) or re.search(r'\.globl|glabel', src):
         out.append("file-scope assembly")
+    if fakematch(src):
+        out.append("register variable pinned to a machine register (register ... asm(\"$n\")); "
+                   "the original code did not choose its registers by hand")
     for m in ASM_BLOCK.finditer(src):
         text = "".join(s[1:-1] for s in re.findall(STRING, m.group(1)))
         insns = [s for s in re.split(r'\\n|;', text) if s.strip() and not s.strip().startswith(".")]

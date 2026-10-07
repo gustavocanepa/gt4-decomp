@@ -6,12 +6,12 @@ extern "C" void func_005BFB68(void *a0, void *a1, void *a2);
 extern char D_0069A690[];
 extern int D_0088E000;
 
-static int D_0088D9A0;
+extern int D_0088E4B0;
 
 extern "C" void *func_005E3890(void) {
-    if (D_0088D9A0 == 0) {
+    if (D_0088E4B0 == 0) {
         func_005D4F58();
-        func_005BFB68(&D_0088D9A0, D_0069A690, &D_0088E000);
+        func_005BFB68(&D_0088E4B0, D_0069A690, &D_0088E000);
     }
-    return &D_0088D9A0;
+    return &D_0088E4B0;
 }

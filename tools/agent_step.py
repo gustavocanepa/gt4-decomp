@@ -27,7 +27,9 @@ import match
 
 ROOT = match.ROOT
 AUTO = autoloop.AUTO
-QUEUE = os.path.join(AUTO, "queue.txt")
+# --queue NAME picks another queue (e.g. "medium" for bigger functions given to a stronger model).
+QUEUE = os.path.join(AUTO, (f"queue_{sys.argv[sys.argv.index('--queue') + 1]}" if "--queue" in sys.argv
+                            else "queue") + ".txt")
 CLAIMED = os.path.join(AUTO, "claimed.txt")
 LOCK = os.path.join(AUTO, "queue.lock")
 
@@ -68,7 +70,8 @@ def cmd_fill(count, max_bytes):
             print(f"{len(left)} still queued")
             return
         order = sys.argv[sys.argv.index("--order") + 1] if "--order" in sys.argv else "small"
-        autoloop.cmd_pick("_queue", count, max_bytes, 1, order)
+        min_bytes = int(sys.argv[sys.argv.index("--min-bytes") + 1]) if "--min-bytes" in sys.argv else 8
+        autoloop.cmd_pick("_queue", count, max_bytes, 1, order, min_bytes)
         claimed = set(read_lines(CLAIMED))
         new = [a for a in read_lines(os.path.join(AUTO, "_queue.txt")) if a and a not in claimed]
         # Newly picked functions go first: with --order impact they settle the most copies.
@@ -119,8 +122,25 @@ def cmd_try(addr, path):
              "fakematch": asm_policy.fakematch(src)})
         print("MATCH")
     else:
+        record_partial(addr, out)
         lines = out.splitlines()
         print("\n".join(lines[:80]))
+
+
+def record_partial(addr, out):
+    """Keep the best partial score per function (share of instructions that match) for the
+    progress report, so near misses show up instead of counting as 0%."""
+    import re
+    m = re.search(r"(\d+) of (\d+) instructions differ", out)
+    if not m:
+        return
+    score = round(100.0 * (1 - int(m.group(1)) / int(m.group(2))), 1)
+    path = os.path.join(AUTO, "partial.json")
+    with Lock():
+        best = json.load(open(path)) if os.path.exists(path) else {}
+        if score > best.get(f"{addr:08x}", -1):
+            best[f"{addr:08x}"] = score
+            json.dump(best, open(path, "w"))
 
 
 def cmd_giveup(addr, attempts):

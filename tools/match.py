@@ -289,6 +289,12 @@ def cmd_check(addr, src):
         target = target[:len(mine)]
 
     linked, unresolved = link_words(mine, srelocs, foff, addr)
+    own_vars = sorted({srelocs[o][1] for o in unresolved} & {".bss", ".data", ".sbss", ".sdata"})
+    if own_vars:
+        print(f"{fname}: REJECTED: references its own {', '.join(own_vars)}: a game global is defined "
+              "here (static, or without extern) instead of declared; declare it `extern TYPE D_XXXXXXXX;` "
+              "so its address can be checked")
+        sys.exit(1)
     width = max(len(target), len(mine))
     bad = 0
     lines = []
