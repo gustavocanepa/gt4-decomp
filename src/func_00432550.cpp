@@ -1,0 +1,10 @@
+typedef int s32;
+
+extern "C" s32 func_00432548(s32 arg0);
+extern "C" void func_005A4724(s32 arg0, s32 arg1, s32 arg2);
+
+extern "C" s32 func_00432550(s32 arg0, s32 arg1) {
+    s32 temp = func_00432548(arg0);
+    func_005A4724(arg1, arg0, temp);
+    return arg1 + func_00432548(arg0);
+}
