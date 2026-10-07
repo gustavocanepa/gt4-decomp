@@ -1,0 +1,39 @@
+# Functions written in assembly in the original (SDK kernel-call stubs, libgcc routines).
+# They are not decompilation targets: the build keeps them as .s generated from your own
+# executable, and progress counts them separately. One address per line, then a note.
+0057f6f8 libgcc soft-float compare
+0058b138 kernel-call stub
+0058b140 kernel-call stub
+0058b150 kernel-call stub
+0058b168 kernel-call stub
+0058b178 kernel-call stub
+0058b198 kernel-call stub
+0058b1b8 kernel-call stub
+0058b1c0 kernel-call stub
+0058b1c8 kernel-call stub
+0058b1d0 kernel-call stub
+0058b1d8 kernel-call stub
+0058b200 kernel-call stub
+0058b208 kernel-call stub
+0058b210 kernel-call stub
+0058b228 kernel-call stub
+0058b248 kernel-call stub
+0058b250 kernel-call stub
+0058b260 kernel-call stub
+0058b268 kernel-call stub
+0058b278 kernel-call stub
+0058b280 kernel-call stub
+0058b290 kernel-call stub
+0058b2a0 kernel-call stub
+0058b2a8 kernel-call stub
+0058b360 kernel-call stub
+005c1ce0 kernel-call stub
+005c1ce8 kernel-call stub
+005c1cf0 kernel-call stub
+005c1cf8 kernel-call stub
+005c1d00 kernel-call stub
+005c1d08 kernel-call stub
+005c1d10 kernel-call stub
+005c1d18 kernel-call stub
+005c1d20 kernel-call stub
+005c1d28 kernel-call stub

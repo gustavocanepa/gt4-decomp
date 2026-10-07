@@ -72,6 +72,12 @@ def done_addrs():
         m = re.match(r"func_([0-9A-F]{8})\.", name)
         if m:
             out.add(int(m.group(1), 16))
+    # Functions written in assembly in the original are not decompilation targets.
+    asm_list = os.path.join(ROOT, "config", "asm_functions.txt")
+    if os.path.exists(asm_list):
+        for line in open(asm_list):
+            if line.strip() and not line.startswith("#"):
+                out.add(int(line.split()[0], 16))
     return out
 
 

@@ -19,6 +19,7 @@ import subprocess
 import sys
 import time
 
+import asm_policy
 import autoloop
 import match
 
@@ -98,6 +99,13 @@ def cmd_prompt(addr):
 
 
 def cmd_try(addr, path):
+    src = open(path, encoding="utf-8").read()
+    bad = asm_policy.violations(src)
+    if bad:
+        print("REJECTED: " + "; ".join(bad) + ". Write C, not assembly: only single-instruction "
+              "intrinsics (e.g. sqrt.s) may be inline asm. If the function cannot be written in C, "
+              f"run `python tools/agent_step.py giveup {addr:x} 4`.")
+        return
     ok, out = autoloop.check(addr, path)
     if ok:
         shutil.copy(path, os.path.join(ROOT, "src", f"func_{addr:08X}.cpp"))
@@ -105,7 +113,7 @@ def cmd_try(addr, path):
                              capture_output=True, text=True)
         copies = res.stdout.count(": MATCH")
         log({"addr": f"{addr:08x}", "bytes": size(addr), "matched": True, "effort": "agent",
-             "copies": copies})
+             "copies": copies, "fakematch": asm_policy.fakematch(src)})
         print(f"MATCH (+{copies} copies)")
     else:
         lines = out.splitlines()
