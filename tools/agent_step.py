@@ -124,7 +124,21 @@ def cmd_try(addr, path):
     else:
         record_partial(addr, out)
         lines = out.splitlines()
-        print("\n".join(lines[:80]))
+        if len(lines) <= 100:
+            print("\n".join(lines))
+        else:
+            # Long functions: the header, then every differing line with one line of context.
+            head = [l for l in lines if not l.startswith(("!", " "))]
+            body = [l for l in lines if l.startswith(("!", " "))]
+            keep = sorted({j for i, l in enumerate(body) if l.startswith("!") for j in (i - 1, i, i + 1)
+                           if 0 <= j < len(body)})
+            shown, prev = [], -2
+            for j in keep:
+                if j != prev + 1:
+                    shown.append(f"  ... (line {j + 1})")
+                shown.append(body[j])
+                prev = j
+            print("\n".join(head + shown))
 
 
 def record_partial(addr, out):
