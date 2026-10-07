@@ -15,3 +15,7 @@ How Sony's ee-gcc 2.96 (PS2 Emotion Engine, -O2 -G0) shapes code (valid for any 
   the function returns that result (keep it in a variable and return it). Old g++ constructors do
   this: call the base constructor, store the vtable pointer, return what the base constructor
   returned (`this`).
+- Counted loops: write the loop the way a programmer would, e.g. `for (i = 0; i < 125; i++)
+  v = f(&obj->elems[i], v);` over an array (or `p++` as its own statement). The compiler itself
+  turns it into a down-counting register plus a pointer stride; reproducing that counter by hand
+  with do/while or `p++` inside the call puts the decrement in the wrong slot.
