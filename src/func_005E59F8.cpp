@@ -1,0 +1,15 @@
+extern "C" void func_005D50C8();
+extern "C" void func_005BFB68(void *a0, void *a1, void *a2);
+
+extern char D_00697E08[];
+extern int D_0088E5D0;
+
+static int D_0088E150;
+
+extern "C" void *func_005E59F8(void) {
+    if (D_0088E150 == 0) {
+        func_005D50C8();
+        func_005BFB68(&D_0088E150, D_00697E08, &D_0088E5D0);
+    }
+    return &D_0088E150;
+}
