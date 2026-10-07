@@ -24,6 +24,7 @@ import hashlib
 import json
 import os
 import re
+import struct
 import subprocess
 import sys
 
@@ -65,6 +66,58 @@ def splat_functions():
         size = 4 * sum(1 for l in lines if INSN.match(l))
         if size:
             out[int(m.group(1), 16)] = (size, [l for l in lines if not l.startswith(".align")])
+    return out
+
+
+def elf_section(path, name):
+    """Bytes of one section of an ELF32 little-endian object."""
+    d = open(path, "rb").read()
+    shoff, = struct.unpack_from("<I", d, 32)
+    shentsize, shnum, shstrndx = struct.unpack_from("<HHH", d, 46)
+    secs = [struct.unpack_from("<10I", d, shoff + i * shentsize) for i in range(shnum)]
+    base = secs[shstrndx][4]
+    for s in secs:
+        if d[base + s[0]:d.index(b"\0", base + s[0])].decode() == name:
+            return d[s[4]:s[4] + s[5]]
+    return b""
+
+
+def place_rodata(addrs, data_addr, orig_data, orig_text, text_addr):
+    """{function address: original address of its object's .rodata} for the objects whose
+    references to their own .rodata all agree on one place, holding the same bytes."""
+    if not addrs:
+        return {}
+    local = os.path.join(OUT, "robj")
+    os.makedirs(local, exist_ok=True)
+    names = " ".join(f"func_{a:08X}.o" for a in addrs)
+    wsl(f'cd "{WSL_DIR}/obj" && cp {names} {to_wsl(local)}/\n')
+    sext = lambda v: (v & 0xFFFF) - 0x10000 if v & 0x8000 else v & 0xFFFF
+    word = lambda a: struct.unpack_from("<I", orig_text, a - text_addr)[0]
+    out = {}
+    for addr in addrs:
+        path = os.path.join(local, f"func_{addr:08X}.o")
+        blob, srelocs, _ = match.read_object(path, want_symbols=True)
+        rodata = elf_section(path, ".rodata")
+        mine = lambda off: struct.unpack_from("<I", blob, off)[0]
+        bases = set()
+        offs = sorted(srelocs)
+        for n, off in enumerate(offs):
+            rtype, sym = srelocs[off][0], srelocs[off][1]
+            if sym != ".rodata" or rtype != match.R_MIPS_HI16:
+                continue
+            lo = next((o for o in offs[n + 1:] if srelocs[o][1] == ".rodata" and srelocs[o][0] == match.R_MIPS_LO16), None)
+            if lo is None:
+                bases.add(None)
+                continue
+            addend = ((mine(off) & 0xFFFF) << 16) + sext(mine(lo))
+            target = ((word(addr + off) & 0xFFFF) << 16) + sext(word(addr + lo))
+            bases.add(target - addend)
+        if len(bases) != 1 or None in bases:
+            continue
+        base = bases.pop()
+        o = base - data_addr
+        if 0 <= o and o + len(rodata) <= len(orig_data) and orig_data[o:o + len(rodata)] == rodata:
+            out[addr] = base
     return out
 
 
@@ -155,19 +208,32 @@ done
         elif line.startswith("U ") and cur is not None:
             parsed[cur]["undefined"].append(line.split()[1])
     undefined = set()
+    rodata_candidates = []
     # An object may cover the functions after its own (a source defining two); it only has to stop
     # before the next function that has a source of its own. The byte comparison settles the rest.
     src_starts = sorted(sources) + [text_addr + text_size]
-    for addr in sorted(sources):
-        nxt = src_starts[src_starts.index(addr) + 1]
+    covered_until, covering = 0, None
+    for i, addr in enumerate(src_starts[:-1]):
         p = parsed.get(addr)
+        if addr < covered_until:
+            status[addr] = f"linked as part of func_{covering:08X}"
+            continue
+        nxt = src_starts[i + 1]
+        # A source that also defines the functions after it (e.g. a copy glued to its neighbour)
+        # takes their place if it ends exactly where a later source starts.
+        if p and ".text" in p["sections"] and p["sections"][".text"] > nxt - addr:
+            end = addr + p["sections"][".text"]
+            later = [s for s in src_starts if addr < s]
+            nxt = next(s for s in later if s >= end)
         if p is None or ".text" not in p["sections"]:
             status[addr] = "does not compile"
             continue
         extra = {k: v for k, v in p["sections"].items()
                  if v and k not in HARMLESS and not k.startswith(".rel") and not k.endswith("tab")}
         bad_syms = [s for s in p["undefined"] if not SYMBOL.match(s)]
-        if extra:
+        if set(extra) == {".rodata"} and not p["sections"].get(".rel.rodata"):
+            rodata_candidates.append(addr)
+        if extra and addr not in rodata_candidates:
             status[addr] = "brings its own data: " + ", ".join(sorted(extra))
         elif bad_syms:
             status[addr] = "references unnamed-address symbols: " + ", ".join(bad_syms[:3])
@@ -177,6 +243,25 @@ done
             objects[addr] = p["sections"][".text"]
             undefined.update(p["undefined"])
             status[addr] = "linked"
+            covered_until, covering = addr + p["sections"][".text"], addr
+
+    # 2b. Objects with their own constants (.rodata): the original's instructions say where those
+    # constants live, so the object's .rodata goes exactly there, if its bytes are the original's.
+    rodata_at = place_rodata([a for a in rodata_candidates if a in objects], data_addr,
+                             elf[data_off:data_off + data_size], elf[text_off:text_off + text_size], text_addr)
+    for addr in rodata_candidates:
+        if addr in objects and addr not in rodata_at:
+            del objects[addr]
+            status[addr] = "brings its own data: .rodata (its place in the original could not be confirmed)"
+    data_plan, end = [], data_addr
+    for addr, base in sorted(rodata_at.items(), key=lambda kv: kv[1]):
+        if base < end:  # overlaps one already placed
+            del objects[addr]
+            status[addr] = "brings its own data: .rodata (overlaps another function's)"
+            continue
+        data_plan.append((addr, base))
+        end = base + parsed[addr]["sections"][".rodata"]
+    placed_rodata = len(data_plan)
 
     # 3. Linker script: objects at their addresses, the original's bytes in between.
     gaps, order = [], []
@@ -209,7 +294,18 @@ done
             cur = f + fsize
         if cur < end:
             asm += incbin(cur, end - cur)
-    asm += ['.section .data.orig, "aw"', ".balign 4", '.incbin "data.bin"']
+    # Data: the original's bytes, with each placed .rodata in between at its address.
+    data_body, pos = [], data_addr
+    for addr, base in data_plan:
+        if base > pos:
+            asm += [f'.section .data.g{pos:08x}, "aw"',
+                    f'.incbin "data.bin", 0x{pos - data_addr:x}, 0x{base - pos:x}']
+            data_body.append(f"    gaps.o(.data.g{pos:08x})")
+        data_body.append(f"    obj/func_{addr:08X}.o(.rodata)")
+        pos = base + parsed[addr]["sections"][".rodata"]
+    asm += [f'.section .data.g{pos:08x}, "aw"',
+            f'.incbin "data.bin", 0x{pos - data_addr:x}, 0x{data_addr + data_size - pos:x}']
+    data_body.append(f"    gaps.o(.data.g{pos:08x})")
     open(os.path.join(OUT, "gaps.s"), "w", newline="\n").write("\n".join(asm) + "\n")
 
     syms = []
@@ -236,7 +332,7 @@ done
             body.append(f"    obj/func_{addr:08X}.o(.text)")
     ld = ("\n".join(syms) + "\nSECTIONS\n{\n"
           f"  .text 0x{text_addr:x} : SUBALIGN(4)\n  {{\n" + "\n".join(body) + "\n  }\n"
-          f"  .data 0x{data_addr:x} : SUBALIGN(4) {{ gaps.o(.data.orig) }}\n"
+          f"  .data 0x{data_addr:x} : SUBALIGN(1)\n  {{\n" + "\n".join(data_body) + "\n  }\n"
           "  /DISCARD/ : { *(.reginfo) *(.mdebug*) *(.comment) *(.pdr) *(.eh_frame) *(.gcc_except_table) *(*) }\n}\n")
     open(os.path.join(OUT, "link.ld"), "w", newline="\n").write(ld)
 
@@ -298,7 +394,7 @@ cp gt4.elf built_text.bin built_data.bin {to_wsl(OUT)}/
         key = s.split(":")[0].split(" (")[0]
         counts[key] = counts.get(key, 0) + 1
     print(f".text {'OK' if text_ok else 'DIFFERS'}  sha1 {sha(built_text)} (original {sha(orig_text)})")
-    print(f".data {'OK' if data_ok else 'DIFFERS'}")
+    print(f".data {'OK' if data_ok else 'DIFFERS'} ({placed_rodata} functions' constants placed from source)")
     for k, v in sorted(counts.items(), key=lambda kv: -kv[1]):
         print(f"  {v:5d}  {k}")
     print(f"code from source: {linked_bytes} of {text_size} bytes ({linked_bytes / text_size:.2%}); "
