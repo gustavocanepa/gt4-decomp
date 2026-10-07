@@ -45,6 +45,29 @@ HARMLESS = {".text", ".reginfo", ".mdebug", ".mdebug.eabi64", ".comment", ".pdr"
 STRIP = "-R .eh_frame -R .rel.eh_frame -R .mdebug -R .mdebug.eabi64"
 
 
+SPLAT_DIR = os.path.join(ROOT, "build", "splat", "asm", "nonmatchings", "core", "text")
+SPLAT_SYMBOL = re.compile(r"\b(?:func|D|jtbl)_[0-9A-F]{8}\b")
+INSN = re.compile(r"^\s*/\* [0-9A-F]+ [0-9A-F]{8} [0-9A-F]{8} \*/")
+
+
+def splat_functions():
+    """{address: (size, assembly lines)} for every function splat wrote (tools/splat.sh), with
+    alignment directives dropped: functions are placed by address, not by alignment."""
+    out = {}
+    if not os.path.isdir(SPLAT_DIR):
+        return out
+    for name in os.listdir(SPLAT_DIR):
+        m = re.match(r"func_([0-9A-F]{8})\.s$", name)
+        if not m:
+            continue
+        lines = open(os.path.join(SPLAT_DIR, name)).read().splitlines()
+        # Size from the instructions themselves: each one carries "/* offset vram word */".
+        size = 4 * sum(1 for l in lines if INSN.match(l))
+        if size:
+            out[int(m.group(1), 16)] = (size, [l for l in lines if not l.startswith(".align")])
+    return out
+
+
 def to_wsl(path):
     path = os.path.abspath(path).replace("\\", "/")
     return f"/mnt/{path[0].lower()}{path[2:]}"
@@ -80,6 +103,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--jobs", type=int, default=4)
     ap.add_argument("--keep-going", action="store_true", help="exit 0 even if the image differs")
+    ap.add_argument("--incbin", action="store_true",
+                    help="fill undecompiled code with raw bytes even if splat's assembly is there")
     a = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
 
@@ -164,17 +189,44 @@ done
     if pos < text_addr + text_size:
         gaps.append((pos, text_addr + text_size - pos))
         order.append(("gap", pos))
-    asm = [".set noreorder"]
+    splat_funcs = {} if a.incbin else splat_functions()
+    incbin = lambda start, size: [f'.incbin "text.bin", 0x{start - text_addr:x}, 0x{size:x}']
+    asm = [".set noreorder", ".set noat", f'.include "macro.inc"']
+    from_asm = 0
     for start, size in gaps:
-        asm += [f'.section .text.g{start:08x}, "ax"', ".balign 4",
-                f'.incbin "text.bin", 0x{start - text_addr:x}, 0x{size:x}']
+        asm += [f'.section .text.g{start:08x}, "ax"', ".balign 4"]
+        # Assembly from splat for every whole function inside the gap; raw bytes elsewhere.
+        cur, end = start, start + size
+        for f in sorted(x for x in splat_funcs if start <= x < end):
+            fsize, body = splat_funcs[f]
+            if f < cur or f + fsize > end:
+                continue
+            if f > cur:
+                asm += incbin(cur, f - cur)
+            asm += body
+            from_asm += fsize
+            cur = f + fsize
+        if cur < end:
+            asm += incbin(cur, end - cur)
     asm += ['.section .data.orig, "aw"', ".balign 4", '.incbin "data.bin"']
     open(os.path.join(OUT, "gaps.s"), "w", newline="\n").write("\n".join(asm) + "\n")
 
-    defined = {f"func_{a:08X}" for a in objects}
     syms = []
-    for s in sorted(undefined):  # PROVIDE never overrides a real definition
-        syms.append(f"PROVIDE({s} = 0x{SYMBOL.match(s).group(1)});")
+    referenced = set(undefined)
+    for _, body in splat_funcs.values():
+        for line in body:
+            referenced.update(m.group(0) for m in SPLAT_SYMBOL.finditer(line))
+    for s in sorted(referenced):  # PROVIDE never overrides a real definition
+        m = SYMBOL.match(s)
+        if m:
+            syms.append(f"PROVIDE({s} = 0x{m.group(1)});")
+    for extra in ("undefined_syms_auto.txt", "undefined_funcs_auto.txt"):
+        path = os.path.join(ROOT, "build", "splat", extra)
+        if splat_funcs and os.path.exists(path):
+            for line in open(path):
+                m = re.match(r"\s*(\w+)\s*=\s*(0x[0-9A-Fa-f]+);", line)
+                if m:
+                    syms.append(f"PROVIDE({m.group(1)} = {m.group(2)});")
     body = []
     for kind, addr in order:
         if kind == "gap":
@@ -187,13 +239,31 @@ done
           "  /DISCARD/ : { *(.reginfo) *(.mdebug*) *(.comment) *(.pdr) *(.eh_frame) *(.gcc_except_table) *(*) }\n}\n")
     open(os.path.join(OUT, "link.ld"), "w", newline="\n").write(ld)
 
-    # 4. Link and compare.
+    # 4. Assemble the gaps. Instructions the modern assembler cannot parse in splat's syntax
+    # (VU0 macro mode) are emitted as their raw words; they are still undecompiled assembly.
     print(f"linking {len(objects)} functions...", flush=True)
+    for attempt in range(3):
+        out = wsl(f"""
+d="{WSL_DIR}"
+cp {to_wsl(OUT)}/text.bin {to_wsl(OUT)}/data.bin {to_wsl(OUT)}/gaps.s {to_wsl(OUT)}/link.ld {to_wsl(os.path.join(ROOT, 'include', 'macro.inc'))} "$d/"
+cd "$d"
+mips-linux-gnu-as {project.CONFIG['cpu']['as_flags']} gaps.s -o gaps.o 2>&1 | grep -E '^gaps.s:[0-9]+: Error' | cut -d: -f2 || true
+""")
+        bad = {int(n) for n in out.split()}
+        if not bad:
+            break
+        lines = asm
+        for n in bad:
+            m = re.match(r"^(\s*)/\* [0-9A-F]+ [0-9A-F]{8} ([0-9A-F]{8}) \*/", lines[n - 1])
+            if m:
+                # splat prints the instruction's bytes in file order (little endian)
+                word = int.from_bytes(bytes.fromhex(m.group(2)), "little")
+                lines[n - 1] = f"{m.group(1)}.word 0x{word:08X}  # {lines[n - 1].strip()}"
+        open(os.path.join(OUT, "gaps.s"), "w", newline="\n").write("\n".join(lines) + "\n")
+        print(f"  {len(bad)} instructions emitted as raw words", flush=True)
     wsl(f"""
 d="{WSL_DIR}"
-cp {to_wsl(OUT)}/text.bin {to_wsl(OUT)}/data.bin {to_wsl(OUT)}/gaps.s {to_wsl(OUT)}/link.ld "$d/"
 cd "$d"
-mips-linux-gnu-as {project.CONFIG['cpu']['as_flags']} gaps.s -o gaps.o
 mips-linux-gnu-ld -EL -e 0x100008 -T link.ld -o gt4.elf --no-check-sections
 mips-linux-gnu-objcopy -O binary --only-section=.text gt4.elf built_text.bin
 mips-linux-gnu-objcopy -O binary --only-section=.data gt4.elf built_data.bin
@@ -230,7 +300,8 @@ cp gt4.elf built_text.bin built_data.bin {to_wsl(OUT)}/
     print(f".data {'OK' if data_ok else 'DIFFERS'}")
     for k, v in sorted(counts.items(), key=lambda kv: -kv[1]):
         print(f"  {v:5d}  {k}")
-    print(f"code from source: {linked_bytes} of {text_size} bytes ({linked_bytes / text_size:.2%})")
+    print(f"code from source: {linked_bytes} of {text_size} bytes ({linked_bytes / text_size:.2%}); "
+          f"from splat's assembly: {from_asm} bytes ({from_asm / text_size:.2%}); the rest raw bytes")
     for addr, s in sorted(status.items()):
         if s != "linked":
             print(f"  {addr:08x}  {s}")

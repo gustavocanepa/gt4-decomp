@@ -19,8 +19,8 @@ executable that runs them. Format documentation comes from the
 - A first pilot matched 13 of 20 randomly picked functions by hand; see [PILOT.md](PILOT.md).
 - 14% of the functions are exact copies of another; one match settles a whole group.
 - **The full build reproduces the original executable** (both loaded segments, SHA-1 checked):
-  2,974 functions are linked from C++ source at their original addresses, the rest still comes
-  from your own executable. 156 more match on their own but carry their own constants
+  3,112 functions are linked from C++ source at their original addresses, and nearly all the
+  rest (97.7% of the code) is assembled from splat's disassembly of your own executable. 156 more match on their own but carry their own constants
   (`.rodata`) and wait for their translation unit. Matched functions are in [`src/`](src/);
   36 functions that were hand-written assembly in the original are listed in
   [`config/asm_functions.txt`](config/asm_functions.txt) and not counted.
@@ -52,7 +52,10 @@ Requirements: Python 3.11+ with `rabbitizer` (`pip install rabbitizer`), and Lin
 1. Dump your disc and place the image as described in [`orig/README.md`](orig/README.md), then
    extract and convert the executable (commands there).
 2. Set up the Linux side once: `bash tools/setup_linux.sh` (compiler, MIPS binutils, permuter).
-3. Build the function list and the duplicate groups:
+3. Split the executable with splat (assembly for every function, under `build/splat/`):
+   `bash tools/splat.sh` (in WSL/Linux).
+4. Check that the full build reproduces your executable: `python tools/build.py`.
+5. Build the function list and the duplicate groups:
    `python tools/find_functions.py orig/SCUS-97328/files/CORE.GT4 build/functions.csv` and
    `python tools/dedup.py scan`.
 

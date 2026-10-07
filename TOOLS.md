@@ -27,9 +27,11 @@ executable ──loader──> code + data sections
                identical function (each copy re-checked)
         autoloop.py report  matches, cost and tokens per function, by size and by model
 
+splat.sh               splat (config/gt4.yaml) splits your executable: one .s per function
 build.py               full build: every matched function linked at its original address into one
-                       ELF, the not-yet-decompiled code taken from your executable (.incbin);
-                       passes when both loaded segments hash the same as the original
+                       ELF, the not-yet-decompiled code assembled from splat's output (raw bytes
+                       only where splat has no function); passes when both loaded segments hash
+                       the same as the original
   ├─ link_diff.py      what differs after linking, per function, disassembled side by side
   └─ fix_symbols.py    repairs functions that reference the wrong address (renames the symbol)
 ```

@@ -23,3 +23,9 @@ if [ ! -d "$base/decomp-permuter" ]; then
     git clone -q --depth 1 https://github.com/simonlindholm/decomp-permuter "$base/decomp-permuter"
 fi
 python3 "$base/decomp-permuter/permuter.py" --help >/dev/null && echo "permuter ok"
+
+echo "== splat (in a venv)"
+sudo apt-get install -y -qq python3-venv >/dev/null
+if [ ! -x "$base/venv/bin/python" ]; then python3 -m venv "$base/venv"; fi
+"$base/venv/bin/pip" install -q "splat64[mips]"
+"$base/venv/bin/python" -c "import splat; print('splat', splat.__version__)"
