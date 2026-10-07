@@ -155,10 +155,11 @@ done
         elif line.startswith("U ") and cur is not None:
             parsed[cur]["undefined"].append(line.split()[1])
     undefined = set()
-    for i, addr in enumerate(starts):
-        if addr not in sources:
-            continue
-        nxt = starts[i + 1] if i + 1 < len(starts) else text_addr + text_size
+    # An object may cover the functions after its own (a source defining two); it only has to stop
+    # before the next function that has a source of its own. The byte comparison settles the rest.
+    src_starts = sorted(sources) + [text_addr + text_size]
+    for addr in sorted(sources):
+        nxt = src_starts[src_starts.index(addr) + 1]
         p = parsed.get(addr)
         if p is None or ".text" not in p["sections"]:
             status[addr] = "does not compile"

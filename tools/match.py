@@ -270,6 +270,11 @@ def cmd_check(addr, src):
     fsize = max(fsize, len(blob) - foff)
     mine = list(struct.unpack_from(f"<{fsize // 4}I", blob, foff))
     mine = trim_padding(mine)
+    # A source may define more than the function itself (e.g. the one that follows it); those
+    # words are judged against whatever follows in the original.
+    if len(mine) > len(target):
+        room = (text_addr + len(text) - addr) // 4
+        target = words_at(text_addr, text, addr, 4 * min(len(mine), room))
     # Functions are 8-byte aligned: nops left in the original after my last instruction
     # are padding, not part of the function.
     if len(target) > len(mine) and all(w == NOP for w in target[len(mine):]):

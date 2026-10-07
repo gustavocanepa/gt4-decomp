@@ -45,6 +45,9 @@ real addresses. Run the build before every commit: a function only counts once i
 | `match.py` | `asm`/`gnu` views of an original function; `check` compiles and judges a source |
 | `build.py` | full build and SHA-1 comparison with the original; per-function report in `build/full/` |
 | `link_diff.py`, `fix_symbols.py` | explain and repair functions that differ after linking |
+| `inventory.py` | function inventory from splat (31,164 functions, pointer-only ones included) |
+| `dedup_all.py` | propagates every matched function to all its copies |
+| `report.py`, `publish_progress.py` | objdiff-format progress report; pushed alone to the `progress` branch, whose workflow uploads it for decomp.dev |
 | `asm_policy.py` | rejects assembly posing as C (file-scope asm, `.word`, multi-instruction blocks) |
 | `agent_step.py` | the queue driven by AI agents or people: `fill`, `claim`, `prompt`, `try`, `giveup` |
 | `cc_wsl.sh` | runs the project's compiler on Linux/WSL from a temporary directory |

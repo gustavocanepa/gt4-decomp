@@ -1,0 +1,5 @@
+extern void func_00309360(void);
+void func_00221AB8(void)
+{
+    func_00309360();
+}

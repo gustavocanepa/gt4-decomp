@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Steps for an agent (a Claude Code subagent) working through the function queue by hand.
 
-    agent_step.py fill COUNT [--max-bytes 160]   refill the queue (impact order) if it runs low
+    agent_step.py fill COUNT [--max-bytes 160] [--order small|impact] [--force]
+                                                 refill the queue if it runs low (new picks first)
     agent_step.py claim N                        take the next N functions from the queue
     agent_step.py prompt ADDR                    the rules + everything known about ADDR
     agent_step.py try ADDR FILE                  judge FILE; on a match keep it and copy it to the
@@ -21,6 +22,7 @@ import time
 
 import asm_policy
 import autoloop
+import inventory
 import match
 
 ROOT = match.ROOT
@@ -28,7 +30,6 @@ AUTO = autoloop.AUTO
 QUEUE = os.path.join(AUTO, "queue.txt")
 CLAIMED = os.path.join(AUTO, "claimed.txt")
 LOCK = os.path.join(AUTO, "queue.lock")
-TOTAL = 14665
 
 
 class Lock:
@@ -66,11 +67,14 @@ def cmd_fill(count, max_bytes):
         if len(left) >= count // 2 and "--force" not in sys.argv:
             print(f"{len(left)} still queued")
             return
-        autoloop.cmd_pick("_queue", count, max_bytes, 1, "small")
+        order = sys.argv[sys.argv.index("--order") + 1] if "--order" in sys.argv else "small"
+        autoloop.cmd_pick("_queue", count, max_bytes, 1, order)
         claimed = set(read_lines(CLAIMED))
         new = [a for a in read_lines(os.path.join(AUTO, "_queue.txt")) if a and a not in claimed]
+        # Newly picked functions go first: with --order impact they settle the most copies.
+        queue = [a for a in new if a not in left] + left
         with open(QUEUE, "w") as f:
-            f.write("".join(a + "\n" for a in left + [a for a in new if a not in left]))
+            f.write("".join(a + "\n" for a in queue))
         print(f"queue: {len(left)} + {len(new)} new")
 
 
@@ -130,7 +134,8 @@ def cmd_stats():
     n = len([x for x in os.listdir(os.path.join(ROOT, "src")) if x.startswith("func_")])
     rows = [json.loads(l) for l in open(autoloop.LOG) if l.strip()]
     agent = [r for r in rows if r.get("effort") == "agent" or r.get("levels") == ["agent"]]
-    print(f"{n}/{TOTAL} functions ({n / TOTAL:.1%}); agent results: "
+    total = inventory.targets()
+    print(f"{n}/{total} functions ({n / total:.1%}); agent results: "
           f"{sum(r['matched'] for r in agent)} matched, {sum(not r['matched'] for r in agent)} deferred; "
           f"queue left: {len([a for a in read_lines(QUEUE) if a and a not in set(read_lines(CLAIMED))])}")
 
@@ -139,7 +144,7 @@ def main():
     a = sys.argv[1:]
     os.makedirs(os.path.join(AUTO, "agent"), exist_ok=True)
     if a[:1] == ["fill"]:
-        cmd_fill(int(a[1]), int(a[3]) if len(a) > 3 and a[2] == "--max-bytes" else 160)
+        cmd_fill(int(a[1]), int(a[a.index("--max-bytes") + 1]) if "--max-bytes" in a else 160)
     elif a[:1] == ["claim"]:
         cmd_claim(int(a[1]))
     elif a[:1] == ["prompt"]:
