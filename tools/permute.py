@@ -76,7 +76,12 @@ def main():
 
     work = os.path.join(ROOT, "build", "perm", f"{addr:08x}")
     os.makedirs(work, exist_ok=True)
-    asm = match.gnu_asm(addr).replace(".set noreorder\n.set noat\n", "")
+    # The judge's view of the original's length already leaves out a glued-on next function.
+    judged = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "match.py"), "check", a.addr, a.source],
+                            capture_output=True, text=True).stdout
+    m = re.search(r"\(original (\d+), mine \d+\)|MATCH \((\d+) instructions\)", judged)
+    count = int(m.group(1) or m.group(2)) if m else None
+    asm = match.gnu_asm(addr, count).replace(".set noreorder\n.set noat\n", "")
     open(os.path.join(work, "target.s"), "w", newline="\n").write(PRELUDE + asm)
     open(os.path.join(work, "compile.sh"), "w", newline="\n").write(
         COMPILE_SH.replace("{command}", project.compiler_command()))
@@ -84,6 +89,11 @@ def main():
         f'func_name = "{name}"\ncompiler_type = "gcc"\n'
         f'objdump_command = "mips-linux-gnu-objdump -drz -m {project.CONFIG["cpu"]["objdump_arch"]}"\n')
     src = open(a.source, encoding="utf-8").read()
+    # The permuter parses C: drop C++ linkage markers (compile.sh wraps the file in extern "C").
+    src = re.sub(r'extern\s+"C"\s*\{', "", src)
+    src = re.sub(r'extern\s+"C"\s*', "extern ", src)
+    if src.count("{") < src.count("}"):
+        src = src[::-1].replace("}", "", src.count("}") - src.count("{"))[::-1]
     # The permuter looks the function up by name: drop C++ mangling hints if any.
     open(os.path.join(work, "source.c"), "w", newline="\n").write(src)
     for leftover in ("result.c",):

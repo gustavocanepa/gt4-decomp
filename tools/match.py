@@ -123,10 +123,13 @@ def same_ignoring_reloc(a, b, rtype):
     return a == b
 
 
-def gnu_asm(addr):
-    """The original function as GNU assembler text with labels, the input m2c expects."""
+def gnu_asm(addr, count=None):
+    """The original function as GNU assembler text with labels, the input m2c expects.
+    count: keep only the first count instructions (a function glued to the next one)."""
     text_addr, text = load_text()
     words = trim_padding(words_at(text_addr, text, addr, function_span(addr)))
+    if count:
+        words = words[:count]
     instrs = [rabbitizer.Instruction(w, addr + i * 4, CATEGORY)
               for i, w in enumerate(words)]
     labels = {i.getBranchVramGeneric() for i in instrs if i.isBranch()}
