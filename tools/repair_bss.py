@@ -53,6 +53,11 @@ def main():
     a = ap.parse_args()
     report = json.load(open(os.path.join(ROOT, "build", "full", "report.json")))
     todo = [int(k, 16) for k, s in report["functions"].items() if ".bss" in s]
+    # Resume: skip what an earlier run already settled (its output is build/repair_bss.out).
+    prev = os.path.join(ROOT, "build", "repair_bss.out")
+    if os.path.exists(prev):
+        settled = {int(l.split()[0], 16) for l in open(prev) if l.strip().endswith(("fixed", "removed"))}
+        todo = [a for a in todo if a not in settled]
     print(f"{len(todo)} sources to repair", flush=True)
     tally = {}
     with ThreadPoolExecutor(a.jobs) as pool:

@@ -2,11 +2,11 @@ extern "C" void func_005BFB88(void *a0, void *a1);
 
 extern char D_006C0FF8[];
 
-static int D_006D5E18;
+extern int D_006D6218;
 
 extern "C" void *func_0060F770(void) {
-    if (D_006D5E18 == 0) {
-        func_005BFB88(&D_006D5E18, D_006C0FF8);
+    if (D_006D6218 == 0) {
+        func_005BFB88(&D_006D6218, D_006C0FF8);
     }
-    return &D_006D5E18;
+    return &D_006D6218;
 }

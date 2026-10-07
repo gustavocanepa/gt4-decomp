@@ -19,6 +19,7 @@ import struct
 import subprocess
 import sys
 import time
+import uuid
 
 import rabbitizer
 
@@ -109,7 +110,7 @@ def read_object(path, want_symbols=False):
 def compile_c(src):
     # One object per call: several checks may run at once (autoloop --jobs).
     os.makedirs(os.path.join(ROOT, "build", "obj"), exist_ok=True)
-    obj = os.path.join(ROOT, "build", "obj", f"match_{os.getpid()}_{time.time_ns()}.o")
+    obj = os.path.join(ROOT, "build", "obj", f"match_{os.getpid()}_{uuid.uuid4().hex}.o")
     rel = lambda p: os.path.relpath(os.path.abspath(p), ROOT).replace("\\", "/")
     args = ["bash", "tools/cc_wsl.sh", rel(src), rel(obj), project.compiler_command()]
     if os.name == "nt":
