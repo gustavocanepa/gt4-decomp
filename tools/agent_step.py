@@ -8,6 +8,7 @@
     agent_step.py try ADDR FILE                  judge FILE; on a match keep it and copy it to the
                                                  function's duplicates; prints MATCH or the diff
     agent_step.py giveup ADDR ATTEMPTS           record a function as deferred
+    agent_step.py release ADDR                   give a claimed function back untried
     agent_step.py stats                          progress
 
 Every result goes to build/auto/log.jsonl like autoloop.py's, so reports and the deferred list
@@ -157,6 +158,15 @@ def record_partial(addr, out):
             json.dump(best, open(path, "w"))
 
 
+def cmd_release(addr):
+    """Give a claimed function back to the queue without trying it."""
+    with Lock():
+        claimed = [a for a in read_lines(CLAIMED) if a and a != f"{addr:08x}"]
+        with open(CLAIMED, "w") as f:
+            f.write("".join(a + "\n" for a in claimed))
+    print("released")
+
+
 def cmd_giveup(addr, attempts):
     log({"addr": f"{addr:08x}", "bytes": size(addr), "matched": False, "effort": "auto",
          "attempts": attempts, "levels": ["agent"]})
@@ -184,6 +194,8 @@ def main():
         cmd_prompt(int(a[1], 16))
     elif a[:1] == ["try"]:
         cmd_try(int(a[1], 16), a[2])
+    elif a[:1] == ["release"]:
+        cmd_release(int(a[1], 16))
     elif a[:1] == ["giveup"]:
         cmd_giveup(int(a[1], 16), int(a[2]))
     elif a[:1] == ["stats"]:

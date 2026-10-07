@@ -20,7 +20,7 @@ Known facts about Gran Turismo 4's code (learned while matching; add new ones as
 - `d = (char *)(r + 1)` inside the else branch keeps the `addiu` in that branch; initialising `d` at its declaration hoists it above the branch.
 - Several string temporaries sharing one stack slot (all at sp+0) come from one `Str s;` declared at function scope and reused; a separate `Str s` per block gets a new slot. Inside a block, declaration order of pointers decides s0/s1.
 - A two-way test on 0/1 is `if (a == 0) ... else if (a == 1)` (`bnez`, then `li 1` / `bnel`), not a switch. A gap before a stack temp is matched by sizing the earlier buffer (e.g. `s32[8]` for 0x20 bytes).
-- Open: a handle's object loaded from `0($sp)` and offset by a large constant (`->p10 + 0x38CB0`) lands in $v1/$a0 in the original but $v0/$v1 in ours; inline accessors and reordering have not fixed it yet (00161cb0, 00162ec8).
+- A handle's object loaded from `0($sp)` and offset by a large constant (`->p10 + 0x38CB0`) in $v1/$a0 as in the original: write `ph = tmp; ps = &s;` before the handle constructor (`ps` lands in its delay slot) and read the object through `(*ph)->p10` (solved in 00162498).
 - An 8-byte `{ptr, int}` guard struct handed to a call is passed as its two members (`f(g.p, g.n)`: two `lw`); passing the struct by value packs it with `ldl`/`ldr` into one 64-bit register.
 - Float arguments scaled ahead of a run of calls (several `mul.s` into $f12/$f20/$f21 before the first `jal`) come from separate `float h = a * 0.5f;` statements first. Product sums are written unfactored (`sx * cy * cz + cx * sy * sz`); CSE then picks the original temporaries and store order.
 - The game code was compiled with `-fno-exceptions` (only 53 library functions, from 0x596fa0 on, have exception frames), and so are our sources: constructors/destructors and RAII helpers no longer drag in exception cleanup, so real C++ classes can be used where the original used them.
@@ -44,3 +44,7 @@ Known facts about Gran Turismo 4's code (learned while matching; add new ones as
 - `char buf[64] = "x";` compiles to `lb`/`sb` byte copies from rodata, then an inlined `memset(buf + 2, 0, 0x3E)` call (func_005A48D8).
 - A value computed only at the call site (`f(&h, vcall() != 0 ? -1 : g(o))`) puts `li -1` straight into $a1 before the `bnez`; assigning `v = -1;` before the test needs an extra saved register.
 - Arguments the original loads before an inner call and keeps in $s registers (`f(h0.p, b.p, g(c.p))`) are loaded into locals first, in the original's order.
+- An inline wrapper around a call (`static inline void call(char *p, const char *t) { f(p, t); }`, used as `call(base + 0x3A368, c_str(...))`) makes the big-constant add go through $at into the variable's $s register after the inner call, then `move $a0`.
+- Block-scoped scalar temporaries in disjoint branches share one stack slot; two adjacent slots (sp+0x30/0x34) need two function-scope locals.
+- `addiu s2, sp, 0x20` for `&string` in a later branch's delay slot: `ps = &s;` comes after the calls that build the source, just before the null check.
+- Open: `move $a2, $v0` placed in sprintf's (func_0057DA20) delay slot after the $a0/$a1 setup (0013e370) - not reproduced by prototype, literal, local or inline changes.
