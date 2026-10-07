@@ -63,7 +63,21 @@ def plain(words):
             return False  # COP0, COP2/VU, MMI, cache, lqc2/sqc2, lq/sq
         if op == 0 and (x & 0x3F) in (0x0C, 0x0F):
             return False  # syscall, sync
-    return True
+    return not other_compiler(words)
+
+
+def other_compiler(words):
+    """True for code built by another compiler (the Sony SDK libraries): its prologue saves the
+    callee-saved registers 16 bytes apart, where the game's ee-gcc 2.96 packs them 8 apart."""
+    offsets = []
+    for x in words[:16]:
+        if x >> 26 == 0x3F and (x >> 21) & 31 == 29:  # sd $rt, off($sp)
+            rt = (x >> 16) & 31
+            if 16 <= rt <= 23 or rt in (30, 31):
+                offsets.append(x & 0xFFFF)
+    offsets.sort()
+    gaps = {b - a for a, b in zip(offsets, offsets[1:])}
+    return len(offsets) >= 3 and gaps == {16}
 
 
 def done_addrs():

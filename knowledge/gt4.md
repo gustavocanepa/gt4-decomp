@@ -48,3 +48,7 @@ Known facts about Gran Turismo 4's code (learned while matching; add new ones as
 - Block-scoped scalar temporaries in disjoint branches share one stack slot; two adjacent slots (sp+0x30/0x34) need two function-scope locals.
 - `addiu s2, sp, 0x20` for `&string` in a later branch's delay slot: `ps = &s;` comes after the calls that build the source, just before the null check.
 - Open: `move $a2, $v0` placed in sprintf's (func_0057DA20) delay slot after the $a0/$a1 setup (0013e370) - not reproduced by prototype, literal, local or inline changes.
+- Sony SDK code (sce* wrappers, e.g. the sceDbc RPC at 0058ff90) was built by another compiler: it saves callee-saved registers 16 bytes apart (sd at 0x10/0x20/0x30...), restores $ra first and keeps only the `lui` of a global in an $s register. Our compiler cannot produce it; autoloop.other_compiler() keeps such functions out of the queues (270 found).
+- Two temporaries whose stack slots differ between branches (sp+0 in one, sp+0x10 in the other): `buf0[4]` at function scope and `buf1[4]` inside the else block. A `blez` to the second block means the first block is `if (arg2 > 0)`.
+- In a destructor, `(char *)self + 0x26D80` gives `lui/ori; addu a0, a0, s0` (constant register first); `if (flags & 1) return func_005C1628(self);` gives the sibling `j`.
+- An argument register set again in a branch slot after a call belongs to the next call: declare the current callee with fewer arguments (e.g. func_004468F8 takes 2).
