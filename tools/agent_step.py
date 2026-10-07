@@ -113,12 +113,14 @@ def cmd_try(addr, path):
     ok, out = autoloop.check(addr, path)
     if ok:
         shutil.copy(path, os.path.join(ROOT, "src", f"func_{addr:08X}.cpp"))
-        res = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "dedup.py"), "apply", f"{addr:x}"],
-                             capture_output=True, text=True)
-        copies = res.stdout.count(": MATCH")
+        # Copies are propagated in the background (a group can hold hundreds of functions);
+        # tools/dedup_all.py catches any that were missed.
+        subprocess.Popen([sys.executable, os.path.join(ROOT, "tools", "dedup.py"), "apply", f"{addr:x}"],
+                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                         creationflags=getattr(subprocess, "DETACHED_PROCESS", 0))
         log({"addr": f"{addr:08x}", "bytes": size(addr), "matched": True, "effort": "agent",
-             "copies": copies, "fakematch": asm_policy.fakematch(src)})
-        print(f"MATCH (+{copies} copies)")
+             "fakematch": asm_policy.fakematch(src)})
+        print("MATCH (copies are being propagated in the background)")
     else:
         lines = out.splitlines()
         print("\n".join(lines[:80]))

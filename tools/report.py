@@ -37,6 +37,18 @@ def measures(funcs, total_data=0):
     }
 
 
+def load_names():
+    """{address: name} from config/symbol_addrs.txt (tools/rtti.py)."""
+    path = os.path.join(ROOT, "config", "symbol_addrs.txt")
+    out = {}
+    if os.path.exists(path):
+        for line in open(path):
+            parts = line.split("=")
+            if len(parts) == 2 and "type:func" in line:
+                out[int(parts[1].split(";")[0].strip(), 16)] = parts[0].strip()
+    return out
+
+
 def main():
     build = json.load(open(os.path.join(ROOT, "build", "full", "report.json")))
     status = build["functions"]
@@ -57,16 +69,39 @@ def main():
                       "complete": status.get(key) == "linked"})
     data_size = 0xBE37C
     m = measures(funcs, data_size)
-    unit = {
-        "name": "core/text",
-        "measures": m,
-        "sections": [{"name": ".text", "size": m["total_code"], "fuzzy_match_percent": m["fuzzy_match_percent"]}],
-        "functions": [{"name": f"func_{f['addr']:08X}", "size": str(f["size"]),
-                       "fuzzy_match_percent": 100.0 if f["matched"] else 0.0,
-                       "metadata": {"virtual_address": str(f["addr"])}} for f in funcs],
-        "metadata": {"complete": False, "source_path": "src", "progress_categories": ["game"]},
-    }
-    report = {"measures": m, "units": [unit], "version": 2,
+
+    # Units: config/units.txt (tools/units.py), else one unit for all the code.
+    units_path = os.path.join(ROOT, "config", "units.txt")
+    bounds = [(0x100000, "core/text")]
+    if os.path.exists(units_path):
+        bounds = [(int(l.split()[0], 16), l.split()[1]) for l in open(units_path)
+                  if l.strip() and not l.startswith("#")]
+    names = load_names()
+    import bisect
+    keys = [b[0] for b in bounds]
+    grouped = {}
+    for f in funcs:
+        grouped.setdefault(bounds[max(0, bisect.bisect_right(keys, f["addr"]) - 1)][1], []).append(f)
+    units = []
+    for _, uname in bounds:
+        fs = grouped.get(uname, [])
+        if not fs:
+            continue
+        um = measures(fs)
+        um["total_units"], um["complete_units"] = 1, int(all(f["complete"] for f in fs))
+        units.append({
+            "name": uname,
+            "measures": um,
+            "sections": [{"name": ".text", "size": um["total_code"], "fuzzy_match_percent": um["fuzzy_match_percent"]}],
+            "functions": [{"name": names.get(f["addr"], f"func_{f['addr']:08X}"), "size": str(f["size"]),
+                           "fuzzy_match_percent": 100.0 if f["matched"] else 0.0,
+                           "metadata": {"virtual_address": str(f["addr"])}} for f in fs],
+            "metadata": {"complete": all(f["complete"] for f in fs), "progress_categories": ["game"],
+                         "auto_generated": True},
+        })
+    m["total_units"] = len(units)
+    m["complete_units"] = sum(u["metadata"]["complete"] for u in units)
+    report = {"measures": m, "units": units, "version": 2,
               "categories": [{"id": "game", "name": "Game", "measures": m}]}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(report, open(OUT, "w"), indent=1)

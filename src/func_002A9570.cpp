@@ -1,0 +1,9 @@
+typedef int s32;
+
+extern s32 D_006197A0;
+
+extern "C" void func_002A9AF0(s32 arg0);
+
+extern "C" void func_002A9570(void) {
+    func_002A9AF0(D_006197A0);
+}

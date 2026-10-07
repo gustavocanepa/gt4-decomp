@@ -48,6 +48,8 @@ real addresses. Run the build before every commit: a function only counts once i
 | `inventory.py` | function inventory from splat (31,164 functions, pointer-only ones included) |
 | `dedup_all.py` | propagates every matched function to all its copies |
 | `report.py`, `publish_progress.py` | objdiff-format progress report; pushed alone to the `progress` branch, whose workflow uploads it for decomp.dev |
+| `rtti.py` | classes from gcc 2.96 RTTI: names, bases, vtables, virtual methods, constructors -> `config/symbol_addrs.txt` |
+| `units.py` | proposes translation units from each class's cluster of functions -> `config/units.txt` |
 | `asm_policy.py` | rejects assembly posing as C (file-scope asm, `.word`, multi-instruction blocks) |
 | `agent_step.py` | the queue driven by AI agents or people: `fill`, `claim`, `prompt`, `try`, `giveup` |
 | `cc_wsl.sh` | runs the project's compiler on Linux/WSL from a temporary directory |
