@@ -40,3 +40,7 @@ Known facts about Gran Turismo 4's code (learned while matching; add new ones as
 - Calls that return `this` (e.g. func_0015F3E0, func_001792D8, func_001A5D20) are declared returning a pointer: the next handle load then lands in $v1 like the original.
 - Two values with unrelated roles in one $s register: one variable reused for both roles.
 - Open: library code at 0x596fa0 and above (SGI STL rb-tree/vector, 005d5940, 005d5df0, 005d5f80, 005efcd8) frees stack temporaries at the end of each statement and reuses their slots, while our compile keeps them to the end of the function. Not caused by -fexceptions (checked); possibly other flags or another compiler build for the libraries.
+- A declared but unused local array still takes its own 16-byte stack slot: an unexplained 0x10 gap between temporaries is a `s32 spare[4];` at that spot (a single store to it stays in the code).
+- `char buf[64] = "x";` compiles to `lb`/`sb` byte copies from rodata, then an inlined `memset(buf + 2, 0, 0x3E)` call (func_005A48D8).
+- A value computed only at the call site (`f(&h, vcall() != 0 ? -1 : g(o))`) puts `li -1` straight into $a1 before the `bnez`; assigning `v = -1;` before the test needs an extra saved register.
+- Arguments the original loads before an inner call and keeps in $s registers (`f(h0.p, b.p, g(c.p))`) are loaded into locals first, in the original's order.
