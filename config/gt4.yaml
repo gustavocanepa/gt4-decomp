@@ -1,0 +1,50 @@
+# splat configuration for CORE.GT4 (Gran Turismo 4, NTSC-U SCUS-97328 v1.01).
+# The "rom" is the executable's memory image, made from your own CORE.GT4 by tools/splat.sh.
+# Everything splat writes (assembly, data, linker script) is generated from your copy of the game
+# and stays out of the repository (build/splat/).
+name: Gran Turismo 4 (CORE.GT4)
+sha1: 38cc7f0d7841d1b75e76ad3678efd813386f65ce
+options:
+  basename: gt4
+  base_path: ..
+  target_path: build/splat/CORE.GT4.rom
+  elf_path: build/splat/gt4.elf
+  platform: ps2
+  compiler: EEGCC
+
+  asm_path: build/splat/asm
+  src_path: build/splat/src
+  build_path: build/splat/obj
+  ld_script_path: build/splat/gt4.ld
+  cache_path: build/splat/.splat_cache
+  symbol_addrs_path:
+    - config/symbol_addrs.txt
+  undefined_funcs_auto_path: build/splat/undefined_funcs_auto.txt
+  undefined_syms_auto_path: build/splat/undefined_syms_auto.txt
+
+  ld_dependencies: False
+  ld_wildcard_sections: True
+  find_file_boundaries: False
+  o_as_suffix: True
+  create_asm_dependencies: False
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+  named_regs_for_c_funcs: False
+
+  section_order: [.text, .data, .rodata, .sdata, .sbss, .bss]
+  auto_link_sections: [.data, .rodata, .sdata, .sbss, .bss]
+
+segments:
+  - name: core
+    type: code
+    start: 0x000000
+    vram: 0x00100000
+    bss_size: 0x0
+    subsegments:
+      - [0x000000, c, core/text]            # code: 0x00100000 - 0x00617a14 (one .s per function)
+      - [0x517A14, pad]                     # zero gap between the two loaded segments
+      - [0x517A80, data, core/data]         # data: 0x00617a80 - 0x006d5dfc
+  - [0x5D5DFC]

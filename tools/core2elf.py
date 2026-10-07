@@ -59,17 +59,32 @@ def drop_duplicates(sections):
 
 
 def build_elf(entry, sections):
-    # ELF32, little endian, MIPS, one PT_LOAD per section, no section headers.
-    ehsize, phentsize = 52, 32
+    # ELF32, little endian, MIPS, one PT_LOAD per section, plus section headers (.text for the
+    # section holding the entry point, .data for the others) so splat, Ghidra and objdiff can
+    # name them.
+    ehsize, phentsize, shentsize = 52, 32, 40
     phoff = ehsize
     offset = phoff + phentsize * len(sections)
     offset = (offset + 0xFF) & ~0xFF
     phdrs, blobs = b"", []
+    names = []
     for addr, blob in sections:
         flags = 7  # RWX: code and data share segments here
         phdrs += struct.pack("<8I", 1, offset, addr, addr, len(blob), len(blob), flags, 0x10)
         blobs.append((offset, blob))
+        is_code = addr <= entry < addr + len(blob)
+        names.append(".text" if is_code else ".data" if ".data" not in names else f".data{len(names)}")
         offset = (offset + len(blob) + 0xF) & ~0xF
+    shstrtab = b"\0" + b"".join(n.encode() + b"\0" for n in names) + b".shstrtab\0"
+    shstr_off = offset
+    shoff = (shstr_off + len(shstrtab) + 3) & ~3
+    shdrs = bytes(shentsize)  # SHN_UNDEF
+    name_pos = 1
+    for (addr, blob), (off, _), name in zip(sections, blobs, names):
+        flags = 0x6 if name == ".text" else 0x3  # AX / WA
+        shdrs += struct.pack("<10I", name_pos, 1, flags, addr, off, len(blob), 0, 0, 16, 0)
+        name_pos += len(name) + 1
+    shdrs += struct.pack("<10I", name_pos, 3, 0, 0, shstr_off, len(shstrtab), 0, 0, 1, 0)
     ident = b"\x7fELF" + bytes([1, 1, 1, 0]) + bytes(8)
     header = ident + struct.pack(
         "<HHIIIIIHHHHHH",
@@ -78,14 +93,16 @@ def build_elf(entry, sections):
         1,          # EV_CURRENT
         entry,
         phoff,
-        0,          # no section headers
+        shoff,
         0x20924001, # e_flags of PS2 (EE) executables: noreorder, 5900, mips3
-        ehsize, phentsize, len(sections), 40, 0, 0,
+        ehsize, phentsize, len(sections), shentsize, len(sections) + 2, len(sections) + 1,
     )
     out = bytearray(header + phdrs)
     for off, blob in blobs:
         out += bytes(off - len(out))
         out += blob
+    out += bytes(shstr_off - len(out)) + shstrtab
+    out += bytes(shoff - len(out)) + shdrs
     return bytes(out)
 
 
