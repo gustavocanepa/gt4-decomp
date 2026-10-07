@@ -19,7 +19,7 @@ m2c_target = "mipsee-gcc-c"
 name = "Sony ee-gcc 2.96 (2.96-ee-001003-1)"
 # Runs on Linux/WSL. {dir} is replaced by the directory below; sources are compiled from /tmp.
 dir = "~/.local/share/gt4/ee-gcc2.96"
-command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0"
+command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions"
 # The language model output is compiled as this language (file extension).
 extension = "cpp"
 

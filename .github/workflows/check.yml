@@ -32,7 +32,7 @@ jobs:
           mkdir -p /tmp/obj
           fail=0
           for f in src/func_*; do
-            "$d/bin/ee-gcc" -c -B "$d/bin/ee-" -O2 -G0 "$f" -o "/tmp/obj/$(basename "${f%.*}").o" \
+            "$d/bin/ee-gcc" -c -B "$d/bin/ee-" -O2 -G0 -fno-exceptions "$f" -o "/tmp/obj/$(basename "${f%.*}").o" \
               || { echo "::error file=$f::does not compile"; fail=1; }
           done
           echo "$(ls /tmp/obj | wc -l) sources compiled"
