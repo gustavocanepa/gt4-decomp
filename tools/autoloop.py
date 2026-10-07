@@ -33,6 +33,7 @@ ROOT = match.ROOT
 AUTO = os.path.join(ROOT, "build", "auto")
 LOG = os.path.join(AUTO, "log.jsonl")
 M2C = os.path.join(ROOT, "tools", "ext", "m2c", "m2c.py")
+CLI_CONFIG = os.environ.get("DECOMP_CLAUDE_CONFIG", os.path.expanduser("~/.claude-decomp"))
 
 SYSTEM = f"""You write C++ that {project.CONFIG["compiler"]["name"]} ({project.compiler_command().split(" -c ", 1)[-1]})
 compiles to exactly the instructions of a given function from {project.CONFIG["game"]["name"]}. Output ONE
@@ -103,6 +104,13 @@ def cmd_pick(name, count, max_bytes, seed, order="random"):
                 group_of[int(a, 16)] = i
             if any(int(a, 16) in done for a in g):
                 seen_groups.add(i)
+    # Functions already tried and given up on wait for a later pass (autoloop.py run --retry-deferred).
+    if os.path.exists(LOG):
+        for line in open(LOG):
+            if line.strip():
+                r = json.loads(line)
+                if r.get("effort") == "auto" and r.get("matched") is False:
+                    done.add(int(r["addr"], 16))
     pool = []
     with open(match.FUNCTIONS) as f:
         for row in csv.DictReader(f):
@@ -180,6 +188,9 @@ def ask(prompt, model, effort, session=None):
     # When launched from inside a Claude Code session, its CLAUDE_*/ANTHROPIC_* variables would
     # point the child CLI at the parent's credentials; use the user's own CLI login instead.
     env = {k: v for k, v in os.environ.items() if not k.upper().startswith(("CLAUDE", "ANTHROPIC"))}
+    # A login of its own: sharing ~/.claude with the Claude app makes each one's token refresh
+    # invalidate the other's. Log in once with CLAUDE_CONFIG_DIR set to this directory.
+    env["CLAUDE_CONFIG_DIR"] = CLI_CONFIG
     t0 = time.time()
     res = subprocess.run(cmd, input=prompt, capture_output=True, text=True, encoding="utf-8", timeout=900, env=env)
     try:
