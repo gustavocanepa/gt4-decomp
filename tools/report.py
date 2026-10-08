@@ -46,6 +46,12 @@ def load_names():
             parts = line.split("=")
             if len(parts) == 2 and "type:func" in line:
                 out[int(parts[1].split(";")[0].strip(), 16)] = parts[0].strip()
+    adhoc = os.path.join(ROOT, "config", "adhoc_methods.txt")
+    if os.path.exists(adhoc):
+        for line in open(adhoc):
+            parts = line.split()
+            if len(parts) == 3 and not line.startswith("#"):
+                out[int(parts[2], 16)] = f"{parts[0]}::{parts[1]}"
     return out
 
 

@@ -49,6 +49,8 @@ real addresses. Run the build before every commit: a function only counts once i
 | `dedup_all.py` | propagates every matched function to all its copies |
 | `report.py`, `publish_progress.py` | objdiff-format progress report; pushed alone to the `progress` branch, whose workflow uploads it for decomp.dev |
 | `rtti.py` | classes from gcc 2.96 RTTI: names, bases, vtables, virtual methods, constructors -> `config/symbol_addrs.txt` |
+| `registration.py` | the script engine's class-registration functions: names for 1,061 native methods (`config/adhoc_methods.txt`) and the functions themselves from a template |
+| `trivial.py` | solves two-instruction functions from templates, no model |
 | `units.py` | proposes translation units from each class's cluster of functions -> `config/units.txt` |
 | `asm_policy.py` | rejects assembly posing as C (file-scope asm, `.word`, multi-instruction blocks) |
 | `agent_step.py` | the queue driven by AI agents or people: `fill`, `claim`, `prompt`, `try`, `giveup` |

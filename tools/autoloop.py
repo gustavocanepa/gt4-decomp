@@ -295,6 +295,13 @@ def rtti_name(addr):
                 parts = line.split("=")
                 if len(parts) == 2 and "type:func" in line:
                     _names[int(parts[1].split(";")[0].strip(), 16)] = parts[0].strip()
+        # Script-engine method names (tools/registration.py) are more telling than vtable slots.
+        adhoc = os.path.join(ROOT, "config", "adhoc_methods.txt")
+        if os.path.exists(adhoc):
+            for line in open(adhoc):
+                parts = line.split()
+                if len(parts) == 3 and not line.startswith("#"):
+                    _names[int(parts[2], 16)] = f"{parts[0]}::{parts[1]} (native method of the script engine)"
         _names.setdefault(-1, "")
     return _names.get(addr)
 
