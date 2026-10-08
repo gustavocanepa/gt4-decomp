@@ -33,6 +33,8 @@ MACROS = open(os.path.join(os.path.dirname(M2C), "m2c_macros.h")).read()
 PRELUDE = ("typedef signed char s8; typedef unsigned char u8; typedef short s16; typedef unsigned short u16;\n"
            "typedef int s32; typedef unsigned int u32; typedef long long s64; typedef unsigned long long u64;\n"
            "typedef float f32; typedef double f64;\n"
+           "typedef int s128 __attribute__((mode(TI))); typedef unsigned int u128 __attribute__((mode(TI)));\n"
+           "#define NULL 0\n"
            "void *memcpy(void *, const void *, unsigned int);\n" + MACROS + "\n")
 
 
@@ -126,6 +128,11 @@ def attempt(addr):
         return {"addr": f"{addr:08x}", "result": "m2c timeout"}
     if not body or "M2C_ERROR" in body:
         return {"addr": f"{addr:08x}", "result": "m2c could not decompile it"}
+    # m2c names the address of a stack local `sp` when it cannot name the local itself: give it
+    # a local buffer so the draft compiles (the judge or the permuter takes it from there).
+    if re.search(r"\bsp\b", body.split("{", 1)[-1]):
+        body = re.sub(r"(^\w[^\n]*\bfunc_%08X\([^)]*\)\s*\{\n)" % addr,
+                      lambda m: m.group(1) + "    s8 sp[0x10];\n", body, count=1, flags=re.M)
     path = os.path.join(OUT, f"{addr:08x}.c")
     first = None
     for how, text in variants(addr, body):

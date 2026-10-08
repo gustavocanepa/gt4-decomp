@@ -51,6 +51,7 @@ real addresses. Run the build before every commit: a function only counts once i
 | `rtti.py` | classes from gcc 2.96 RTTI: names, bases, vtables, virtual methods, constructors -> `config/symbol_addrs.txt` |
 | `registration.py` | the script engine's class-registration functions: names for 1,061 native methods (`config/adhoc_methods.txt`) and the functions themselves from a template |
 | `cpu_solve.py` | CPU only: m2c's draft (`--valid-syntax`) compiled and judged as is for every unmatched function; near misses kept for the permuter |
+| `patches/m2c-unused-params.patch` | fix for m2c (GPL-3.0, apply to tools/ext/m2c): in `--valid-syntax`, unused leading argument registers become placeholder parameters (m2c's own 431 tests pass) |
 | `permute_cpu.py` | CPU only: decomp-permuter on those near misses, closest first |
 | `trivial.py` | solves two-instruction functions from templates, no model |
 | `units.py` | proposes translation units from each class's cluster of functions -> `config/units.txt` |

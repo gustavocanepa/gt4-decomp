@@ -1,0 +1,43 @@
+# Fix for matt-kempster/m2c (GPL-3.0, like m2c itself): in --valid-syntax mode, declare unused
+# leading integer argument registers so a function reading only $a1 compiles reading $a1.
+# Same issue as item 6 of matt-kempster/m2c#365. Apply with: git -C tools/ext/m2c apply ../../patches/m2c-unused-params.patch
+diff --git a/m2c/translate.py b/m2c/translate.py
+index 0bbddbb..fb2810b 100644
+--- a/m2c/translate.py
++++ b/m2c/translate.py
+@@ -4906,9 +4906,33 @@ def translate_to_ast(
+ 
+     # Guess parameters
+     if not fn_sig.params_known:
+-        while len(fn_sig.params) < len(stack_info.arguments):
++        arguments = list(stack_info.arguments)
++        if options.valid_syntax:
++            # Unused leading register arguments are not in stack_info.arguments, so a
++            # function that only reads the second argument register would be emitted as
++            # f(T arg1) and compile reading the first one. Add placeholders for every
++            # integer argument register before the last one used.
++            used = {arg.loc for arg in arguments}
++            int_slots = [
++                slot
++                for slot in arch.default_function_abi_candidate_slots()
++                if slot.loc.reg is not None and not slot.loc.reg.is_float()
++            ]
++            uses_float_args = any(
++                arg.loc.reg is not None and arg.loc.reg.is_float() for arg in arguments
++            )
++            last = max(
++                (i for i, slot in enumerate(int_slots) if slot.loc in used), default=-1
++            )
++            for slot in [] if uses_float_args else int_slots[:last]:
++                if slot.loc not in used:
++                    stack_info.add_argument(
++                        PassedInArg(slot.loc, stack_info=stack_info, type=Type.any_reg())
++                    )
++            arguments = list(stack_info.arguments)
++        while len(fn_sig.params) < len(arguments):
+             fn_sig.params.append(FunctionParam())
+-        for param, arg in zip(fn_sig.params, stack_info.arguments):
++        for param, arg in zip(fn_sig.params, arguments):
+             param.type.unify(arg.type)
+             if not param.name:
+                 param.name = arg.format(Formatter())
