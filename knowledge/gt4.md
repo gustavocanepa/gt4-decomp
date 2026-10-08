@@ -52,3 +52,7 @@ Known facts about Gran Turismo 4's code (learned while matching; add new ones as
 - Two temporaries whose stack slots differ between branches (sp+0 in one, sp+0x10 in the other): `buf0[4]` at function scope and `buf1[4]` inside the else block. A `blez` to the second block means the first block is `if (arg2 > 0)`.
 - In a destructor, `(char *)self + 0x26D80` gives `lui/ori; addu a0, a0, s0` (constant register first); `if (flags & 1) return func_005C1628(self);` gives the sibling `j`.
 - An argument register set again in a branch slot after a call belongs to the next call: declare the current callee with fewer arguments (e.g. func_004468F8 takes 2).
+- Two calls made before either result is tested: store both results first (`a = f(e); b = g(e); if (a != m || b != m)`); calls inside `||` make the second conditional. A second call-then-test block whose argument move sits in the `jal` delay slot uses a new variable for its result.
+- `len = x; if (n < len) len = n;` gives `movn` into len's register (as the original); a `b < a ? b : a` helper gives `movz` into the other operand's register.
+- Static init/destroy functions `(init, prio)`: test the priority first, one `if (prio == 0xFFFF && init == 1)` per object (nesting merges the repeated init tests). Array-destroy loops name the global directly (`if (D) { T *q = D + 2; while (q != D) { --q; dtor(q, 2); } }`) to get the original's `beql`/copy.
+- String assignment: `if (src != &self->s) { release(dst); copy-construct dst from *src; }`, returning void.
