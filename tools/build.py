@@ -122,6 +122,9 @@ def place_rodata(addrs, data_addr, orig_data, orig_text, text_addr):
 
 
 def to_wsl(path):
+    """The path as the Linux side sees it (unchanged when already running on Linux)."""
+    if os.name != "nt":
+        return os.path.abspath(path)
     path = os.path.abspath(path).replace("\\", "/")
     return f"/mnt/{path[0].lower()}{path[2:]}"
 
@@ -131,8 +134,8 @@ def wsl(script, check=True):
     path = os.path.join(OUT, "step.sh")
     open(path, "w", newline="\n").write("set -e\n" + script)
     env = dict(os.environ, MSYS_NO_PATHCONV="1")
-    res = subprocess.run(["wsl", "-d", "Ubuntu", "--", "bash", to_wsl(path)],
-                         capture_output=True, text=True, env=env)
+    cmd = ["wsl", "-d", "Ubuntu", "--", "bash", to_wsl(path)] if os.name == "nt" else ["bash", path]
+    res = subprocess.run(cmd, capture_output=True, text=True, env=env)
     if check and res.returncode:
         sys.exit(f"WSL step failed:\n{res.stdout[-3000:]}\n{res.stderr[-3000:]}")
     return res.stdout

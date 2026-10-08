@@ -60,6 +60,8 @@ if [ -n "$best" ]; then cp "$best/source.c" "{src_dir}/result.c"; echo "FOUND"; 
 
 
 def to_wsl(path):
+    if os.name != "nt":
+        return os.path.abspath(path)
     path = os.path.abspath(path).replace("\\", "/")
     return f"/mnt/{path[0].lower()}{path[2:]}"
 
@@ -104,8 +106,9 @@ def main():
     open(os.path.join(work, "run.sh"), "w", newline="\n").write(script)
 
     env = dict(os.environ, MSYS_NO_PATHCONV="1")
-    res = subprocess.run(["wsl", "-d", "Ubuntu", "--", "bash", to_wsl(os.path.join(work, "run.sh"))],
-                         capture_output=True, text=True, env=env)
+    run = os.path.join(work, "run.sh")
+    cmd = ["wsl", "-d", "Ubuntu", "--", "bash", to_wsl(run)] if os.name == "nt" else ["bash", run]
+    res = subprocess.run(cmd, capture_output=True, text=True, env=env)
     out = (res.stdout + res.stderr).strip()
     print(out.splitlines()[-1] if out else "no output")
     result = os.path.join(work, "result.c")

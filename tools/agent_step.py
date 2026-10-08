@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Steps for an agent (a Claude Code subagent) working through the function queue by hand.
 
-    agent_step.py fill COUNT [--max-bytes 160] [--order small|impact] [--force]
+    agent_step.py fill COUNT [--min-bytes N] [--max-bytes N] [--order small|impact] [--range LO:HI] [--force]
                                                  refill the queue if it runs low (new picks first)
     agent_step.py claim N                        take the next N functions from the queue
     agent_step.py prompt ADDR                    the rules + everything known about ADDR
@@ -75,6 +75,10 @@ def cmd_fill(count, max_bytes):
         autoloop.cmd_pick("_queue", count, max_bytes, 1, order, min_bytes)
         claimed = set(read_lines(CLAIMED))
         new = [a for a in read_lines(os.path.join(AUTO, "_queue.txt")) if a and a not in claimed]
+        # --range LO:HI keeps only addresses in [LO, HI), so separate sessions never overlap.
+        if "--range" in sys.argv:
+            lo, hi = (int(x, 16) for x in sys.argv[sys.argv.index("--range") + 1].split(":"))
+            new = [a for a in new if lo <= int(a, 16) < hi]
         # Newly picked functions go first: with --order impact they settle the most copies.
         queue = [a for a in new if a not in left] + left
         with open(QUEUE, "w") as f:
