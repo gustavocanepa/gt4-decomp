@@ -1,0 +1,7 @@
+typedef int s32;
+
+extern "C" void func_00578230(s32 arg0, s32 arg1, s32 arg2);
+
+extern "C" void func_0060FB10(s32 arg0) {
+    func_00578230(arg0, 7, 0);
+}
