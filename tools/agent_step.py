@@ -72,13 +72,14 @@ def cmd_fill(count, max_bytes):
             return
         order = sys.argv[sys.argv.index("--order") + 1] if "--order" in sys.argv else "small"
         min_bytes = int(sys.argv[sys.argv.index("--min-bytes") + 1]) if "--min-bytes" in sys.argv else 8
-        autoloop.cmd_pick("_queue", count, max_bytes, 1, order, min_bytes)
+        # With --range, pick generously and filter afterwards (the picker sees the whole game).
+        autoloop.cmd_pick("_queue", count * 40 if "--range" in sys.argv else count, max_bytes, 1, order, min_bytes)
         claimed = set(read_lines(CLAIMED))
         new = [a for a in read_lines(os.path.join(AUTO, "_queue.txt")) if a and a not in claimed]
         # --range LO:HI keeps only addresses in [LO, HI), so separate sessions never overlap.
         if "--range" in sys.argv:
             lo, hi = (int(x, 16) for x in sys.argv[sys.argv.index("--range") + 1].split(":"))
-            new = [a for a in new if lo <= int(a, 16) < hi]
+            new = [a for a in new if lo <= int(a, 16) < hi][:count]
         # Newly picked functions go first: with --order impact they settle the most copies.
         queue = [a for a in new if a not in left] + left
         with open(QUEUE, "w") as f:
