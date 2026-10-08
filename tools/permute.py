@@ -36,8 +36,9 @@ COMPILE_SH = """#!/usr/bin/env bash
 set -e
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
-{ echo 'extern "C" {'; cat "$1"; echo '}'; } > "$work/in.cpp"
-(cd "$work" && {command} in.cpp -o out.o)
+if [ "{lang}" = "c" ]; then cp "$1" "$work/in.c"; src=in.c; else
+  { echo 'extern "C" {'; cat "$1"; echo '}'; } > "$work/in.cpp"; src=in.cpp; fi
+(cd "$work" && {command} $src -o out.o)
 cp "$work/out.o" "$3"
 """
 
@@ -75,6 +76,8 @@ def main():
     a = ap.parse_args()
     addr = int(a.addr, 16)
     name = f"func_{addr:08X}"
+    # C sources (e.g. m2c drafts, tools/cpu_solve.py) are compiled as C, C++ ones as C++.
+    lang = "c" if a.source.endswith(".c") else "cpp"
 
     work = os.path.join(ROOT, "build", "perm", f"{addr:08x}")
     os.makedirs(work, exist_ok=True)
@@ -86,7 +89,7 @@ def main():
     asm = match.gnu_asm(addr, count).replace(".set noreorder\n.set noat\n", "")
     open(os.path.join(work, "target.s"), "w", newline="\n").write(PRELUDE + asm)
     open(os.path.join(work, "compile.sh"), "w", newline="\n").write(
-        COMPILE_SH.replace("{command}", project.compiler_command()))
+        COMPILE_SH.replace("{command}", project.compiler_command()).replace("{lang}", lang))
     open(os.path.join(work, "settings.toml"), "w", newline="\n").write(
         f'func_name = "{name}"\ncompiler_type = "gcc"\n'
         f'objdump_command = "mips-linux-gnu-objdump -drz -m {project.CONFIG["cpu"]["objdump_arch"]}"\n')
@@ -114,13 +117,13 @@ def main():
     result = os.path.join(work, "result.c")
     if not os.path.exists(result):
         sys.exit(1)
-    final = os.path.join(work, "result.cpp")
+    final = os.path.join(work, f"result.{lang if lang == 'c' else 'cpp'}")
     shutil.copy(result, final)
     ok = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "match.py"), "check", a.addr, final],
                         capture_output=True, text=True)
     print((ok.stdout or ok.stderr).splitlines()[0])
     if ok.returncode == 0:
-        shutil.copy(final, os.path.join(ROOT, "src", f"{name}.cpp"))
+        shutil.copy(final, os.path.join(ROOT, "src", f"{name}.{lang if lang == 'c' else 'cpp'}"))
         sys.exit(0)
     sys.exit(1)
 
