@@ -36,10 +36,10 @@ PRELUDE = ("typedef signed char s8; typedef unsigned char u8; typedef short s16;
            "void *memcpy(void *, const void *, unsigned int);\n" + MACROS + "\n")
 
 
-def draft(addr):
-    asm = os.path.join(OUT, f"{addr:08x}.s")
+def draft(addr, extra=()):
+    asm = os.path.join(OUT, f"{addr:08x}{'_'.join(x.strip('-') for x in extra)}.s")
     open(asm, "w", newline="\n").write(match.gnu_asm(addr))
-    res = subprocess.run([sys.executable, M2C, "-t", "mipsee-gcc-c", "--valid-syntax", asm],
+    res = subprocess.run([sys.executable, M2C, "-t", "mipsee-gcc-c", "--valid-syntax", *extra, asm],
                          capture_output=True, text=True, timeout=120)
     os.remove(asm)
     return res.stdout if res.returncode == 0 else None
@@ -52,6 +52,73 @@ def solve(addr):
         return {"addr": f"{addr:08x}", "result": f"error: {str(e)[:80]}"}
 
 
+def tail_call(body, addr):
+    """The game's rule (knowledge/ee-gcc-2.96.md): a function ending in `j callee` was written
+    `return callee(...);` with a non-void return type. m2c writes a plain call."""
+    words = match.trim_padding(match.words_at(*match.load_text(), addr, match.function_span(addr)))
+    ends = [w for w in words if w][-2:]
+    if not ends or ends[0] >> 26 != 2:
+        return None
+    callee = f"func_{(((ends[0] & 0x3FFFFFF) << 2) | (addr & 0xF0000000)):08X}"
+    lines = body.rstrip().split("\n")
+    # last statement before the closing brace
+    for i in range(len(lines) - 1, -1, -1):
+        s = lines[i].strip()
+        if s == "}" or not s:
+            continue
+        if s.startswith(callee + "(") and s.endswith(";"):
+            lines[i] = lines[i].replace(callee + "(", "return " + callee + "(", 1)
+            break
+        return None
+    out = "\n".join(lines) + "\n"
+    out = re.sub(r"^void (func_%08X\()" % addr, r"M2C_UNK \1", out, flags=re.M)
+    out = re.sub(r"^void (%s\()" % callee, r"M2C_UNK \1", out, flags=re.M)
+    return out
+
+
+def missing_params(body, addr):
+    """m2c names parameters by register (arg1 = $a1) but drops unused ones, so `f(s32 arg1)`
+    compiles arg1 into $a0. Declare every parameter up to the highest one used."""
+    m = re.search(r"^(.*\bfunc_%08X)\(([^)]*)\)\s*\{" % addr, body, re.M)
+    if not m or m.group(2).strip() in ("", "void"):
+        return None
+    params = [p.strip() for p in m.group(2).split(",")]
+    named = {}
+    for p in params:
+        n = re.search(r"\barg(\d+)$", p)
+        if not n:
+            return None
+        named[int(n.group(1))] = p
+    top = max(named)
+    if len(named) == top + 1:
+        return None
+    full = ", ".join(named.get(i, f"M2C_UNK arg{i}") for i in range(top + 1))
+    return body[:m.start(2)] + full + body[m.end(2):]
+
+
+def variants(addr, body):
+    """m2c's draft, then the same draft corrected with rules learned on this game."""
+    yield "m2c", body
+    p = missing_params(body, addr)
+    if p:
+        body = p
+        yield "m2c+params", body
+    t = tail_call(body, addr)
+    if t:
+        yield "m2c+tailcall", t
+    try:
+        v = draft(addr, ["--void"])
+    except subprocess.TimeoutExpired:
+        v = None
+    if v and "M2C_ERROR" not in v and v != body:
+        yield "m2c --void", v
+
+
+def judge(addr, path):
+    return subprocess.run([sys.executable, os.path.join(ROOT, "tools", "match.py"), "check", f"{addr:x}", path],
+                          capture_output=True, text=True)
+
+
 def attempt(addr):
     try:
         body = draft(addr)
@@ -60,9 +127,17 @@ def attempt(addr):
     if not body or "M2C_ERROR" in body:
         return {"addr": f"{addr:08x}", "result": "m2c could not decompile it"}
     path = os.path.join(OUT, f"{addr:08x}.c")
-    open(path, "w", newline="\n").write(PRELUDE + body)
-    res = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "match.py"), "check", f"{addr:x}", path],
-                         capture_output=True, text=True)
+    first = None
+    for how, text in variants(addr, body):
+        open(path, "w", newline="\n").write(PRELUDE + text)
+        res = judge(addr, path)
+        if res.returncode == 0 and "could not be checked" not in res.stdout:
+            break
+        first = first or (how, text, res)
+    else:
+        # keep the first variant's draft and verdict for the permuter and the report
+        how, text, res = first
+        open(path, "w", newline="\n").write(PRELUDE + text)
     if res.returncode == 0 and "could not be checked" not in res.stdout:
         dest = os.path.join(ROOT, "src", f"func_{addr:08X}.c")
         if not any(os.path.exists(os.path.join(ROOT, "src", f"func_{addr:08X}.{e}")) for e in ("c", "cpp")):
@@ -80,11 +155,19 @@ def main():
     ap.add_argument("--jobs", type=int, default=3)
     ap.add_argument("--max-bytes", type=int, default=2048)
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--retry", action="store_true", help="try earlier failures again")
     a = ap.parse_args()
+    a_retry = a.retry
     os.makedirs(OUT, exist_ok=True)
     tried = set()
     if os.path.exists(RESULTS):
-        tried = {json.loads(l)["addr"] for l in open(RESULTS) if l.strip()}
+        latest = {}
+        for l in open(RESULTS):
+            if l.strip():
+                r = json.loads(l)
+                latest[r["addr"]] = r["result"]
+        # --retry: try the failures again (after the variants got better)
+        tried = {a for a, res in latest.items() if not (a_retry and res in ("differs", "does not compile"))}
     done = autoloop.done_addrs()
     asm_only = inventory.asm_functions()
     text_addr, text = match.load_text()
