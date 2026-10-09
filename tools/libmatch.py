@@ -26,10 +26,12 @@ loses its `static` (gcc does not output an unreferenced static function) and is 
 address with a #define, as are all the symbols with known addresses.
 """
 import argparse
+import atexit
 import csv
 import json
 import os
 import re
+import shutil
 import struct
 import subprocess
 import sys
@@ -65,24 +67,35 @@ def to_wsl(path):
 def compile_library(cfg, extra_defines=()):
     """Compile every file of the library in WSL (from /tmp: the old compiler cannot stat files on
     Windows mounts). Returns {file: object path}."""
-    out = os.path.join(OUT, cfg["name"])
+    # This run's objects go to a directory of its own (build/libmatch/NAME/obj_PID, removed at
+    # exit), so parallel scans of one library never read each other's half-written objects; the
+    # stable copy in build/libmatch/NAME/ (what `diff` reads) is replaced only once every file
+    # compiled, so a failed compile leaves the previous scan's objects whole.
+    stable = os.path.join(OUT, cfg["name"])
+    out = os.path.join(stable, f"obj_{os.getpid()}")
     os.makedirs(out, exist_ok=True)
+    atexit.register(shutil.rmtree, out, True)
     defines = " ".join(f"'-D{d}'" for d in list(cfg.get("defines", [])) + list(extra_defines))
     command = project.compiler_command(cfg.get("compiler"))
-    lines = ["set -e", f'w="$(mktemp -d)"', 'trap \'rm -rf "$w"\' EXIT',
+    lines = ["set -eo pipefail", f'w="$(mktemp -d)"', 'trap \'rm -rf "$w"\' EXIT',
              f'cp -r "{to_wsl(cfg["source"])}"/. "$w/"', f'mkdir -p "$w/shim"',
              f'cp "{to_wsl(SHIM)}"/* "$w/shim/"', 'cd "$w"']
     for f in cfg["files"]:
         stem = os.path.splitext(f)[0]
         lines.append(f'{command} {defines} -I. -Ishim "{f}" -o "{stem}.o" '
                      f'2>"{stem}.err" || {{ cat "{stem}.err"; exit 1; }}')
-        lines.append(f'cp "{stem}.o" "{to_wsl(out)}/"')
+    for f in cfg["files"]:
+        lines.append(f'cp "{os.path.splitext(f)[0]}.o" "{to_wsl(out)}/"')
     script = os.path.join(out, "compile.sh")
     open(script, "w", newline="\n").write("\n".join(lines) + "\n")
     cmd = ["wsl", "-d", "Ubuntu", "--", "bash", to_wsl(script)] if os.name == "nt" else ["bash", script]
     res = subprocess.run(cmd, capture_output=True, text=True, env=dict(os.environ, MSYS_NO_PATHCONV="1"))
     if res.returncode:
         sys.exit(f"compile failed:\n{res.stdout[-3000:]}\n{res.stderr[-3000:]}")
+    for f in cfg["files"]:
+        obj = os.path.splitext(f)[0] + ".o"
+        shutil.copy(os.path.join(out, obj), os.path.join(stable, obj + ".part"))
+        os.replace(os.path.join(stable, obj + ".part"), os.path.join(stable, obj))
     return {f: os.path.join(out, os.path.splitext(f)[0] + ".o") for f in cfg["files"]}
 
 

@@ -2,6 +2,7 @@
 __t6vector2Z10T_005DBC00Zt9GameAlloc1Z10T_005DBC00RCt6vector2Z10T_005DBC00Zt9GameAlloc1Z10T_005DBC00 = 0x0030F740; // type:func
 memmove__FPvPCvUi = 0x005A47D4; // type:func
 memset = 0x005A48D8; // type:func
+__builtin_new = 0x005C1498; // type:func
 __builtin_delete = 0x005C1628; // type:func
 insert__t6vector2ZUsZt9GameAlloc1ZUsPUsUiRCUs = 0x005C52A8; // type:func
 __uninitialized_fill_n_aux__H3ZP10E_0013BD50ZUiZ10E_0013BD50_X01X11RCX21G12__false_type_X01 = 0x005C5690; // type:func

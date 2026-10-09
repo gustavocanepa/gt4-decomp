@@ -274,6 +274,30 @@ def cmd_asm(addr):
         print(f"/* {pc:08X} {w:08X} */  {disasm(w, pc)}")
 
 
+def link_problem(addr, src):
+    """Why a source that matches alone would still differ after the full build (tools/build.py
+    places each object at the address its file name stands for, and links one source per
+    address): a message, or None. This is what held 77 matching sources out of the image once:
+    a regenerated name table moved names to other addresses, so named files landed on top of
+    other functions' sources."""
+    named = project.source_address(src)
+    if named is not None and named != addr:
+        return (f"the file name stands for 0x{named:08x} ({symbols.symbol(named)}), so the build "
+                f"links it there, not at 0x{addr:08x}; name the file func_{addr:08X} or {symbols.symbol(addr)}")
+    norm = lambda p: os.path.normcase(os.path.abspath(p))
+    if not norm(src).startswith(norm(project.SRC) + os.sep):
+        return None  # a draft outside src/: the build does not see it
+    import layout
+    others = [os.path.join(project.SRC, f"func_{addr:08X}{ext}") for ext in project.SOURCE_EXTS]
+    others += [os.path.join(ROOT, layout.path_for(addr, ext).replace("/", os.sep)) for ext in project.SOURCE_EXTS]
+    others.append(project.sources(refresh=True).get(addr))
+    others = sorted({norm(p) for p in others if p and os.path.exists(p)} - {norm(src)})
+    if others:
+        return (f"another source stands for 0x{addr:08x} too: {os.path.relpath(others[0], ROOT)}; "
+                "the build links only one of them")
+    return None
+
+
 def cmd_check(addr, src):
     text_addr, text = load_text()
     target = trim_padding(words_at(text_addr, text, addr, function_span(addr)))
@@ -342,6 +366,10 @@ def cmd_check(addr, src):
             print(f"wrong address: the original does not use {sym} where marked; take the address "
                   "from the original's instruction and rename the symbol")
         print("\n".join(lines))
+        sys.exit(1)
+    problem = link_problem(addr, src)
+    if problem:
+        print(f"{fname}: DIFFERS AFTER LINKING (matches alone): {problem}")
         sys.exit(1)
     print(f"{fname}: MATCH ({len(target)} instructions)")
     if unresolved:

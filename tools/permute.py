@@ -14,6 +14,7 @@ import re
 import shutil
 import subprocess
 import sys
+import uuid
 
 import match
 import project
@@ -43,10 +44,12 @@ cp "$work/out.o" "$3"
 """
 
 RUN_SH = """#!/usr/bin/env bash
-# Prepare the permuter directory on the Linux filesystem, then run it for a while.
-set -e
+# Prepare the permuter directory on the Linux filesystem, then run it for a while. The directory
+# is this run's alone (two runs on one function do not clobber each other) and goes at the end.
+set -eo pipefail
 dir="$HOME/.local/share/gt4/perm/{name}"
 rm -rf "$dir"; mkdir -p "$dir"
+trap 'rm -rf "$dir"' EXIT
 cp "{src_dir}/target.s" "{src_dir}/compile.sh" "{src_dir}/settings.toml" "$dir/"
 chmod +x "$dir/compile.sh"
 mips-linux-gnu-as {as_flags} "$dir/target.s" -o "$dir/target.o"
@@ -79,7 +82,10 @@ def main():
     # C sources (e.g. m2c drafts, tools/cpu_solve.py) are compiled as C, C++ ones as C++.
     lang = "c" if a.source.endswith(".c") else "cpp"
 
-    work = os.path.join(ROOT, "build", "perm", f"{addr:08x}")
+    # One directory per run (build/perm/ADDR/run_PID_xxxx and its Linux-side twin): several
+    # permutations of one function may run at once without sharing a file.
+    token = f"{os.getpid()}_{uuid.uuid4().hex[:8]}"
+    work = os.path.join(ROOT, "build", "perm", f"{addr:08x}", f"run_{token}")
     os.makedirs(work, exist_ok=True)
     # The judge's view of the original's length already leaves out a glued-on next function.
     judged = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "match.py"), "check", a.addr, a.source],
@@ -104,7 +110,7 @@ def main():
     for leftover in ("result.c",):
         if os.path.exists(os.path.join(work, leftover)):
             os.remove(os.path.join(work, leftover))
-    script = RUN_SH.format(name=name, src_dir=to_wsl(work), seconds=a.seconds, jobs=a.jobs,
+    script = RUN_SH.format(name=f"{name}_{token}", src_dir=to_wsl(work), seconds=a.seconds, jobs=a.jobs,
                            as_flags=project.CONFIG["cpu"]["as_flags"])
     open(os.path.join(work, "run.sh"), "w", newline="\n").write(script)
 
@@ -123,6 +129,12 @@ def main():
                         capture_output=True, text=True)
     print((ok.stdout or ok.stderr).splitlines()[0])
     if ok.returncode == 0:
+        # Never a second source for one address (the build links only one of them): a function
+        # matched meanwhile by another job keeps its source, this result stays in the run directory.
+        existing = project.source_for(addr)
+        if existing:
+            print(f"a source already stands for {name}: {existing}; result kept in {final}")
+            sys.exit(0)
         shutil.copy(final, os.path.join(ROOT, "src", f"{name}.{lang if lang == 'c' else 'cpp'}"))
         sys.exit(0)
     sys.exit(1)

@@ -44,6 +44,54 @@ decomp.me's archive) compile that source with it. Sources without a marker use t
 `match.py check` proves one function in isolation; `build.py` proves them all together, with
 real addresses. Run the build before every commit: a function only counts once it links.
 
+## Numbers: one source of truth
+
+Every number the project shows comes from the last full build, in this order, and never by hand:
+
+```
+build.py  ->  build/full/report.json   per-function status, linked bytes, data placed; and the
+                                        provenance: `generated`, `commit`, `dirty`, `partial`,
+                                        `orphan_sources`, `duplicate_sources`, the .text/.data SHA-1s
+report.py ->  progress/report.json      objdiff format (what decomp.dev reads)
+              progress/report.meta.json generation date, the build's commit and hashes, the counts
+                                        the README quotes (linked functions, data functions...)
+update_readme.py -> README.md           the Status bullets between <!-- progress:start/end -->
+publish_progress.py                     runs the two above, then pushes report.json + report.meta.json
+                                        to the `progress` branch (date and commit in the message)
+```
+
+`publish_progress.py` refuses (and `--check` only tells) unless the build is complete (not
+`--limit`), reproduces the original (.text and .data), was made from the commit HEAD points at
+with nothing uncommitted under src/, config/, include/ or tools/ then and now, and found no orphan
+or duplicated source. So: commit, `build.py`, `publish_progress.py`, commit the README it rewrote.
+
+Two things the build counts as wrong and fails on (`--keep-going` still exits 0): an **orphan
+source**, a file under src/ whose name no address claims (a name missing from
+config/adhoc_methods.txt or config/symbol_addrs.txt), which the build silently leaves out; and
+**two sources for one address**, of which `project.sources` keeps only one (the judge says
+"another source stands for ADDR too"). Both happened on 2026-10-09: config/adhoc_methods.txt was
+reverted to its pre-rush 1,062 rows while 672 sources and the 143 class-registration functions
+(300 KB of code) used the regenerated names, so the registration functions failed to link
+("references unnamed-address symbols") and the linked code fell from 30.5% to 27.1% although the
+build still hashed like the original. `registration.py names` now merges with the existing file
+(a name never disappears; an old spelling stays as an alias), and the build and the publish
+report both problems.
+
+Isolation and failure rules of every compile step: each `cc_wsl.sh`, `cc_rf.sh` and
+`lines_wsl.sh` call works in its own `mktemp -d`, removes a stale output first and writes the
+output through a temporary name only when every stage succeeded (`set -eo pipefail`);
+`build.py` reuses `obj/func_ADDR.o` only if `obj/func_ADDR.src` says it was made from the same
+source path, compiler and content hash (objects are named by address, so a renamed or
+re-addressed file would otherwise link another function's code, as 0x5C3A78 did on 2026-10-09;
+mtimes cannot tell), names temporaries per object (`.raw`, `.err`), removes the old object and
+record before recompiling and whatever a failed compile or objcopy left, prunes objects whose
+source no longer exists before every link, removes the previous report and image before it
+starts, and names its WSL step scripts per process; `match.py` names its
+objects per call (`build/obj/match_PID_UUID.o`); `permute.py` works in `build/perm/ADDR/run_PID_x/`
+and a Linux-side twin removed at exit, and never writes a second source for an address;
+`libmatch.py` compiles into `build/libmatch/NAME/obj_PID/` (removed at exit) and replaces the
+stable objects `diff` reads only after every file compiled.
+
 | Tool | Purpose |
 |---|---|
 | `project.py` | reads `project.toml`; loads the executable through its loader (cached) |
@@ -52,7 +100,7 @@ real addresses. Run the build before every commit: a function only counts once i
 | `link_diff.py`, `fix_symbols.py` | explain and repair functions that differ after linking |
 | `inventory.py` | function inventory from splat (31,164 functions, pointer-only ones included) |
 | `dedup_all.py` | propagates every matched function to all its copies |
-| `report.py`, `publish_progress.py` | objdiff-format progress report; pushed alone to the `progress` branch, whose workflow uploads it for decomp.dev |
+| `report.py`, `update_readme.py`, `publish_progress.py` | objdiff-format progress report plus `report.meta.json` (date, commit, hashes, counts) from the last full build; the README's Status bullets written from them; the publish, refused unless the build is complete, reproduces the original and describes HEAD (see "Numbers: one source of truth") |
 | `rtti.py` | classes from gcc 2.96 RTTI: names, bases, vtables, virtual methods, constructors -> `config/symbol_addrs.txt` |
 | `registration.py` | the script engine's class-registration functions: names for the native methods (`config/adhoc_methods.txt`) and the functions themselves from a template; `try ADDR` / `solve -jN`. Handles the parent getter per class, one- and two-callback registrars (null or repeated callbacks included) and global-object registrations (135 functions, 101 of them solved by the tool, 4 left) |
 | `families.py` | families of similar functions (identical masked words, or MinHash similarity of 4-gram shingles) ranked by unmatched bytes, with matched members counted -> `build/families.json`; `show ID` lists a family |
@@ -77,7 +125,9 @@ real addresses. Run the build before every commit: a function only counts once i
 | `static_init.py` | static-initialization functions (gcc's `__static_initialization_and_destruction_0`): `try ADDR` / `solve` write one `if (prio == 0xFFFF && init == 1) ctor(&D_x, n);` per store and call read from the assembly, kept only when the judge accepts it (244 functions, 416 KB, no model); the 65 left differ only in one delay-slot decision of the original compiler (see knowledge/gt4.md) |
 | `units.py` | proposes translation units from each class's cluster of functions -> `config/units.txt` |
 | `asm_policy.py` | rejects assembly posing as C (file-scope asm, `.word`, multi-instruction blocks) |
-| `agent_step.py` | the queue driven by AI agents or people: `fill`, `claim`, `prompt`, `try`, `giveup` |
+| `agent_step.py` | the queue driven by AI agents or people: `fill`, `claim`, `prompt` (includes the function's attempts diary), `try`, `giveup` |
+| `attempts.py` | the attempts diary, `knowledge/attempts.jsonl` (versioned, one JSON record per attempt: addr, time, who, hypothesis, result, diff/of, file, compiler, source), so agents stop repeating failed ideas. `show ADDR` prints the function's records, its family's records, the closest automatic drafts (cpu_solve, region compilers, fragments, failed model runs, partial score) and the draft files under build/ named with the address; `log ADDR --hypothesis TEXT --result RESULT [--diff N --of M --file F --compiler C --who W]` appends one record and points out similar hypotheses already recorded; `summary` lists the most-attempted unmatched functions; `seed` rebuilds the seeded records (source `seed:...`; everything else is kept) from the open notes of knowledge/*.md, build/auto notes files, failed autoloop/agent runs (build/auto/log.jsonl), near_fix's tried lists and fragments' results. Failed weight: 1 per failed hypothesis by an agent or person, 0.3 per failed automatic tool run |
+| `work_queue.py` | the work queue ranked by expected return (`build/queue.json`, top N printed): items are single unmatched functions (one per group of identical copies) and families with >= 3 unmatched members (build/families.json). value = unmatched bytes settled (copies included) x (1 + callers/200, capped); p = chance of a match from the closest draft's differing/total instructions (cpu_solve, region compilers, fragments, model runs) or a size prior, x 0.7 per failed attempt in the diary; cost = size-proportional, cheaper for close drafts, dearer per failed attempt, for library code without a working profile (0x5547e8+), SDK code (ee-gcc 2.9) and VU/MMI/COP code; score = value x p / cost. Each item names an approach: family generator / template from a matched member, rule (near_fix, fragments, permuter) for drafts <= 3 instructions off, sibling template, library source, other compiler, agent or hand work from the best draft. `--top N --kind function|family --min-bytes/--max-bytes --grep TEXT`. (Not `queue.py`: that name would shadow Python's `queue` module for every tool in tools/.) |
 | `cc_wsl.sh` | runs the project's compiler on Linux/WSL from a temporary directory |
 | `find_functions.py` | function inventory from call targets |
 | `dedup.py` | finds identical functions and propagates matches to them |

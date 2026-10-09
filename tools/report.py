@@ -9,6 +9,7 @@ linked into the full build that reproduces the original. The report holds only n
 percentages; nothing from the game.
 """
 import csv
+import datetime
 import json
 import os
 
@@ -18,6 +19,7 @@ import project
 
 ROOT = match.ROOT
 OUT = os.path.join(ROOT, "progress", "report.json")
+META = os.path.join(ROOT, "progress", "report.meta.json")  # provenance and the README's counts
 
 
 def measures(funcs, total_data=None, data=None):
@@ -104,6 +106,18 @@ def main():
                       "complete": status.get(key) == "linked" or status.get(key, "").startswith("linked as part"),
                       "fuzzy": 100.0 if key in done else partial.get(key, 0.0),
                       "data": int(data_sizes.get(key, 0)) if build.get("data_matches") else 0})
+    # A source that defines the functions after its own is one object whose size (build sizes)
+    # covers them all; the covered functions have their own entries, so the covering function
+    # keeps only its own bytes and no byte counts twice. Linked code then adds up to the build's
+    # linked_code_bytes.
+    covered = {}
+    for f in funcs:
+        s = status.get(f"{f['addr']:08x}", "")
+        if s.startswith("linked as part of func_"):
+            covered[int(s[len("linked as part of func_"):], 16)] = covered.get(int(s[len("linked as part of func_"):], 16), 0) + f["size"]
+    for f in funcs:
+        if f["addr"] in covered:
+            f["size"] = max(0, f["size"] - covered[f["addr"]])
     # Total data as objdiff counts it (data and bss sections): the .data segment, which holds
     # .data, .rodata and .sdata, plus .bss/.sbss. Only the constants placed by the build count
     # as matched, and only while the built .data is identical to the original.
@@ -164,6 +178,21 @@ def main():
               "categories": [{"id": "game", "name": "Game", "measures": m}]}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(report, open(OUT, "w"), indent=1)
+    # Provenance, next to the report (objdiff's format has no room for it): when it was made,
+    # which build it reads (its commit, date, hashes) and the counts the README quotes.
+    linked = sum(1 for f in funcs if f["complete"])
+    meta = {"generated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "commit": build.get("commit"), "dirty": build.get("dirty"),
+            "build": {"generated": build.get("generated"), "partial": build.get("partial", False),
+                      "text_matches": build.get("text_matches"), "data_matches": build.get("data_matches"),
+                      "text_sha1": build.get("text_sha1"), "data_sha1": build.get("data_sha1"),
+                      "orphan_sources": len(build.get("orphan_sources", [])),
+                      "duplicate_sources": len(build.get("duplicate_sources", {}))},
+            "linked_functions": linked, "data_functions": sum(1 for f in funcs if f["data"]),
+            "asm_functions": len(asm), "data_bytes": data_size, "bss_bytes": bss_size}
+    json.dump(meta, open(META, "w"), indent=1)
+    if not (build.get("text_matches") and build.get("data_matches")):
+        print("WARNING: the build this report reads does not reproduce the original (.text/.data differ)")
     print(f"functions: {m['matched_functions']} / {m['total_functions']} matched "
           f"({m['matched_functions_percent']:.2f}%); code: {int(m['matched_code']):,} / {int(m['total_code']):,} bytes "
           f"matched ({m['matched_code_percent']:.2f}%), {m['complete_code_percent']:.2f}% linked; "

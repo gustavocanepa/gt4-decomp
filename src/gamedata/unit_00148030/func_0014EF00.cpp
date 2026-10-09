@@ -37,55 +37,55 @@ extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
-extern "C" void adhoc__buildGearRatioData(void);
-extern "C" void adhoc__buildEngineCurveData(void);
-extern "C" void adhoc__getBrakeControllerRange(void);
-extern "C" void adhoc__getBrakeControllerSetting(void);
-extern "C" void adhoc__setBrakeControllerSetting(void);
-extern "C" void adhoc__getGearRange(void);
-extern "C" void adhoc__getGearSetting(void);
-extern "C" void adhoc__setGearSetting(void);
-extern "C" void adhoc__setGearAuto(void);
-extern "C" void adhoc__getDriveTrainRange(void);
-extern "C" void adhoc__getDriveTrainSetting(void);
-extern "C" void adhoc__setDriveTrainSetting(void);
-extern "C" void adhoc__getRacingModifyRange(void);
-extern "C" void adhoc__getRacingModifySetting(void);
-extern "C" void adhoc__setRacingModifySetting(void);
-extern "C" void adhoc__getLSDRange(void);
-extern "C" void adhoc__getLSDSetting(void);
-extern "C" void adhoc__setLSDSetting(void);
-extern "C" void adhoc__getSuspensionRange(void);
-extern "C" void adhoc__getSuspensionSetting(void);
-extern "C" void adhoc__setSuspensionSetting(void);
-extern "C" void adhoc__getTCSCRange(void);
-extern "C" void adhoc__getTCSCSetting(void);
-extern "C" void adhoc__setTCSCSetting(void);
-extern "C" void adhoc__getASCCRange(void);
-extern "C" void adhoc__getASCCSetting(void);
-extern "C" void adhoc__setASCCSetting(void);
-extern "C" void adhoc__getBallastRange(void);
-extern "C" void adhoc__getBallastSetting(void);
-extern "C" void adhoc__setBallastSetting(void);
-extern "C" void adhoc__getNOSRange(void);
-extern "C" void adhoc__getNOSSetting(void);
-extern "C" void adhoc__setNOSSetting(void);
-extern "C" void adhoc__haveTireCategoryWheel(void);
-extern "C" void adhoc__setTireCategoryWheel(void);
-extern "C" void adhoc__getCurrentWheel(void);
-extern "C" void adhoc__haveWing(void);
-extern "C" void adhoc__setWing(void);
-extern "C" void adhoc__getCurrentWing(void);
-extern "C" void adhoc__getRevLimit(void);
-extern "C" void adhoc__getShiftLimit(void);
-extern "C" void adhoc__getRedLine(void);
-extern "C" void adhoc__getOilLifeRate(void);
+extern "C" void MCarGarage__buildGearRatioData(void);
+extern "C" void MCarGarage__buildEngineCurveData(void);
+extern "C" void MCarGarage__getBrakeControllerRange(void);
+extern "C" void MCarGarage__getBrakeControllerSetting(void);
+extern "C" void MCarGarage__setBrakeControllerSetting(void);
+extern "C" void MCarGarage__getGearRange(void);
+extern "C" void MCarGarage__getGearSetting(void);
+extern "C" void MCarGarage__setGearSetting(void);
+extern "C" void MCarGarage__setGearAuto(void);
+extern "C" void MCarGarage__getDriveTrainRange(void);
+extern "C" void MCarGarage__getDriveTrainSetting(void);
+extern "C" void MCarGarage__setDriveTrainSetting(void);
+extern "C" void MCarGarage__getRacingModifyRange(void);
+extern "C" void MCarGarage__getRacingModifySetting(void);
+extern "C" void MCarGarage__setRacingModifySetting(void);
+extern "C" void MCarGarage__getLSDRange(void);
+extern "C" void MCarGarage__getLSDSetting(void);
+extern "C" void MCarGarage__setLSDSetting(void);
+extern "C" void MCarGarage__getSuspensionRange(void);
+extern "C" void MCarGarage__getSuspensionSetting(void);
+extern "C" void MCarGarage__setSuspensionSetting(void);
+extern "C" void MCarGarage__getTCSCRange(void);
+extern "C" void MCarGarage__getTCSCSetting(void);
+extern "C" void MCarGarage__setTCSCSetting(void);
+extern "C" void MCarGarage__getASCCRange(void);
+extern "C" void MCarGarage__getASCCSetting(void);
+extern "C" void MCarGarage__setASCCSetting(void);
+extern "C" void MCarGarage__getBallastRange(void);
+extern "C" void MCarGarage__getBallastSetting(void);
+extern "C" void MCarGarage__setBallastSetting(void);
+extern "C" void MCarGarage__getNOSRange(void);
+extern "C" void MCarGarage__getNOSSetting(void);
+extern "C" void MCarGarage__setNOSSetting(void);
+extern "C" void MCarGarage__haveTireCategoryWheel(void);
+extern "C" void MCarGarage__setTireCategoryWheel(void);
+extern "C" void MCarGarage__getCurrentWheel(void);
+extern "C" void MCarGarage__haveWing(void);
+extern "C" void MCarGarage__setWing(void);
+extern "C" void MCarGarage__getCurrentWing(void);
+extern "C" void MCarGarage__getRevLimit(void);
+extern "C" void MCarGarage__getShiftLimit(void);
+extern "C" void MCarGarage__getRedLine(void);
+extern "C" void MCarGarage__getOilLifeRate(void);
 extern "C" void MCarGarage__get_oil(void);
-extern "C" void adhoc__replaceOil(void);
+extern "C" void MCarGarage__replaceOil(void);
 extern "C" void MCarGarage__get_dirtiness(void);
-extern "C" void adhoc__getBodyLifeRate(void);
+extern "C" void MCarGarage__getBodyLifeRate(void);
 extern "C" void MCarGarage__get_bodyLife(void);
-extern "C" void adhoc__refreshBody(void);
+extern "C" void MCarGarage__refreshBody(void);
 extern "C" void MCarGarage__get_odometer(void);
 
 extern "C" void func_0014EF00(Obj *arg0) {
@@ -103,7 +103,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__buildGearRatioData);
+        func_002F3818(arg0, &s, MCarGarage__buildGearRatioData);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -125,7 +125,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__buildEngineCurveData);
+        func_002F3818(arg0, &s, MCarGarage__buildEngineCurveData);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -147,7 +147,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getBrakeControllerRange);
+        func_002F3818(arg0, &s, MCarGarage__getBrakeControllerRange);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -169,7 +169,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getBrakeControllerSetting);
+        func_002F3818(arg0, &s, MCarGarage__getBrakeControllerSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -191,7 +191,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__setBrakeControllerSetting);
+        func_002F3818(arg0, &s, MCarGarage__setBrakeControllerSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -213,7 +213,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getGearRange);
+        func_002F3818(arg0, &s, MCarGarage__getGearRange);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -235,7 +235,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getGearSetting);
+        func_002F3818(arg0, &s, MCarGarage__getGearSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -257,7 +257,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__setGearSetting);
+        func_002F3818(arg0, &s, MCarGarage__setGearSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -279,7 +279,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__setGearAuto);
+        func_002F3818(arg0, &s, MCarGarage__setGearAuto);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -301,7 +301,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getDriveTrainRange);
+        func_002F3818(arg0, &s, MCarGarage__getDriveTrainRange);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -323,7 +323,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getDriveTrainSetting);
+        func_002F3818(arg0, &s, MCarGarage__getDriveTrainSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -345,7 +345,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__setDriveTrainSetting);
+        func_002F3818(arg0, &s, MCarGarage__setDriveTrainSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -367,7 +367,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getRacingModifyRange);
+        func_002F3818(arg0, &s, MCarGarage__getRacingModifyRange);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -389,7 +389,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getRacingModifySetting);
+        func_002F3818(arg0, &s, MCarGarage__getRacingModifySetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -411,7 +411,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__setRacingModifySetting);
+        func_002F3818(arg0, &s, MCarGarage__setRacingModifySetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -433,7 +433,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getLSDRange);
+        func_002F3818(arg0, &s, MCarGarage__getLSDRange);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -455,7 +455,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getLSDSetting);
+        func_002F3818(arg0, &s, MCarGarage__getLSDSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -477,7 +477,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__setLSDSetting);
+        func_002F3818(arg0, &s, MCarGarage__setLSDSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -499,7 +499,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getSuspensionRange);
+        func_002F3818(arg0, &s, MCarGarage__getSuspensionRange);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -521,7 +521,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getSuspensionSetting);
+        func_002F3818(arg0, &s, MCarGarage__getSuspensionSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -543,7 +543,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__setSuspensionSetting);
+        func_002F3818(arg0, &s, MCarGarage__setSuspensionSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -565,7 +565,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getTCSCRange);
+        func_002F3818(arg0, &s, MCarGarage__getTCSCRange);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -587,7 +587,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getTCSCSetting);
+        func_002F3818(arg0, &s, MCarGarage__getTCSCSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -609,7 +609,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__setTCSCSetting);
+        func_002F3818(arg0, &s, MCarGarage__setTCSCSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -631,7 +631,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getASCCRange);
+        func_002F3818(arg0, &s, MCarGarage__getASCCRange);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -653,7 +653,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getASCCSetting);
+        func_002F3818(arg0, &s, MCarGarage__getASCCSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -675,7 +675,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__setASCCSetting);
+        func_002F3818(arg0, &s, MCarGarage__setASCCSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -697,7 +697,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getBallastRange);
+        func_002F3818(arg0, &s, MCarGarage__getBallastRange);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -719,7 +719,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getBallastSetting);
+        func_002F3818(arg0, &s, MCarGarage__getBallastSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -741,7 +741,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__setBallastSetting);
+        func_002F3818(arg0, &s, MCarGarage__setBallastSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -763,7 +763,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getNOSRange);
+        func_002F3818(arg0, &s, MCarGarage__getNOSRange);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -785,7 +785,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getNOSSetting);
+        func_002F3818(arg0, &s, MCarGarage__getNOSSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -807,7 +807,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__setNOSSetting);
+        func_002F3818(arg0, &s, MCarGarage__setNOSSetting);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -829,7 +829,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__haveTireCategoryWheel);
+        func_002F3818(arg0, &s, MCarGarage__haveTireCategoryWheel);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -851,7 +851,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__setTireCategoryWheel);
+        func_002F3818(arg0, &s, MCarGarage__setTireCategoryWheel);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -873,7 +873,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getCurrentWheel);
+        func_002F3818(arg0, &s, MCarGarage__getCurrentWheel);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -895,7 +895,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__haveWing);
+        func_002F3818(arg0, &s, MCarGarage__haveWing);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -917,7 +917,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__setWing);
+        func_002F3818(arg0, &s, MCarGarage__setWing);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -939,7 +939,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getCurrentWing);
+        func_002F3818(arg0, &s, MCarGarage__getCurrentWing);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -961,7 +961,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getRevLimit);
+        func_002F3818(arg0, &s, MCarGarage__getRevLimit);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -983,7 +983,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getShiftLimit);
+        func_002F3818(arg0, &s, MCarGarage__getShiftLimit);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1005,7 +1005,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getRedLine);
+        func_002F3818(arg0, &s, MCarGarage__getRedLine);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1027,7 +1027,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getOilLifeRate);
+        func_002F3818(arg0, &s, MCarGarage__getOilLifeRate);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1071,7 +1071,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__replaceOil);
+        func_002F3818(arg0, &s, MCarGarage__replaceOil);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1115,7 +1115,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__getBodyLifeRate);
+        func_002F3818(arg0, &s, MCarGarage__getBodyLifeRate);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1159,7 +1159,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, adhoc__refreshBody);
+        func_002F3818(arg0, &s, MCarGarage__refreshBody);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

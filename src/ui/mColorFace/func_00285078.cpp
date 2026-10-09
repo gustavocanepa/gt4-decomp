@@ -44,8 +44,8 @@ extern char D_0069AC30[];
 extern char D_0069AC40[];
 extern char D_00834160[];
 extern "C" void MColorFace__global_00834160(void);
-extern "C" void MColorFace__set_alpha(void);
 extern "C" void MColorFace__get_alpha(void);
+extern "C" void MColorFace__set_alpha(void);
 extern "C" void MColorFace__getColor(void);
 extern "C" void MColorFace__setColor(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
@@ -94,7 +94,7 @@ extern "C" void func_00285078(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, MColorFace__set_alpha, MColorFace__get_alpha);
+        func_002F3860(arg0, &s, MColorFace__get_alpha, MColorFace__set_alpha);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -116,7 +116,7 @@ extern "C" void func_00285078(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MColorFace__set_alpha);
+        func_002F3818(arg0, &s, MColorFace__get_alpha);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -138,7 +138,7 @@ extern "C" void func_00285078(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MColorFace__get_alpha);
+        func_002F3818(arg0, &s, MColorFace__set_alpha);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

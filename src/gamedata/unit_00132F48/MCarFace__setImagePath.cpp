@@ -13,55 +13,47 @@ struct S00659988 {
 
 struct Str {
     char *p;
-    char pad[0xC];
+    s32 pad[3];
 };
 
-struct Handle {
-    void *p;
-    char pad[0xC];
+struct VEntry {
+    short delta;
+    short index;
+    void (*fn)(Str *, void *);
 };
 
-extern "C" void func_00137D60(void *arg0, int arg1);
-extern "C" void func_00137DB8(void *arg0, void *arg1);
-extern "C" void func_0013A370(Str *ret, void *arg1);
-extern "C" void func_00312318(void *arg0, int arg1);
-extern "C" void func_00314B20(void *arg0, void *arg1);
-extern "C" void func_003285A8(void *p);
-extern "C" void func_003285F8(void *p);
+struct Obj {
+    char pad0[4];
+    char *vtbl;
+};
+
 extern "C" struct S00659988 *func_005C11A8(void);
 extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
+extern "C" void func_00137D60(void *arg0, int arg1);
+extern "C" void func_00137DB8(void *arg0);
+extern "C" void func_0013A3D8(s32 arg0, Str *arg1);
 
-static inline void str_release(Str *s) {
-    Rep *q = (Rep *)(s->p - 0x10);
-    if (--q->ref == 0) {
-        s32 size = q->cap + 0x10;
-        func_00326798(q, size, 4, func_005C11A8()->name);
-    }
-}
-
-extern "C" void MCarFace__setImagePath(void **arg0, void *arg1) {
-    Handle o;
-    Handle h;
+extern "C" void MCarFace__setImagePath(void *arg0, s32 arg1, s32 n, Obj **args) {
+    s32 tmp[4];
     Str s;
     Str *ps;
-    Handle *ph;
-
-    func_00137DB8(&o, arg1);
-    ps = &s;
-    func_0013A370(ps, o.p);
-    ph = &h;
-    func_00314B20(ph, ps);
-    if ((void *)arg0 != (void *)ph) {
-        void *p = ph->p;
-        if (p != 0) {
-            func_003285A8(p);
-        }
-        if (*arg0 != 0) {
-            func_003285F8(*arg0);
-        }
-        *arg0 = p;
+    func_00137DB8(tmp);
+    {
+        Obj *o = *args;
+        s32 h;
+        VEntry *e;
+        ps = &s;
+        h = tmp[0];
+        e = (VEntry *)(o->vtbl + 0x18);
+        e->fn(ps, (char *)o + e->delta);
+        func_0013A3D8(h, ps);
     }
-    func_00312318(ph, 2);
-    str_release(ps);
-    func_00137D60(&o, 2);
+    {
+        Rep *q = (Rep *)(ps->p - 0x10);
+        if (--q->ref == 0) {
+            s32 cap = q->cap + 0x10;
+            func_00326798(q, cap, 4, func_005C11A8()->name);
+        }
+    }
+    func_00137D60(tmp, 2);
 }

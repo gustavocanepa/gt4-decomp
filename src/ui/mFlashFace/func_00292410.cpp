@@ -51,8 +51,8 @@ extern char D_0069B240[];
 extern char D_0069B248[];
 extern char D_00835A20[];
 extern "C" void MFlashFace__global_00835A20(void);
-extern "C" void MFlashFace__set_flash_path(void);
 extern "C" void MFlashFace__get_flash_path(void);
+extern "C" void MFlashFace__set_flash_path(void);
 extern "C" void MFlashFace__get_cache(void);
 extern "C" void MFlashFace__set_cache(void);
 extern "C" void MFlashFace__get_from_disk(void);
@@ -105,7 +105,7 @@ extern "C" void func_00292410(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, MFlashFace__set_flash_path, MFlashFace__get_flash_path);
+        func_002F3860(arg0, &s, MFlashFace__get_flash_path, MFlashFace__set_flash_path);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -127,7 +127,7 @@ extern "C" void func_00292410(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MFlashFace__set_flash_path);
+        func_002F3818(arg0, &s, MFlashFace__get_flash_path);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -149,7 +149,7 @@ extern "C" void func_00292410(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MFlashFace__get_flash_path);
+        func_002F3818(arg0, &s, MFlashFace__set_flash_path);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

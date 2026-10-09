@@ -149,6 +149,17 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - `sltu $v1, $zero, b; xori $v0, a, 0x0; movn flag, $v1, $v0` = `if (a && b) flag = true;` (bool
   flag, int/bool a, b set 0/1 earlier); `if (a) flag = b;` or `flag = a && b;` drop the `sltu`/`xori`
   (func_00352C90).
+- Nested countdown loops in a constructor (`k = N-1 ... bne k, -1`, an empty loop padded with nops,
+  constants re-materialised per inner loop) are g++ vec-init loops: build the arrays with
+  `new (p) Holder;` where Holder's members are arrays of small classes with inline ctors; set an
+  element's vptr first through a base class ctor. A `Blank() {}` element loses its empty loop; give
+  Blank an implicit ctor via a member `Inner i;` with `Inner() {}` (RacePhotoDevelop__structor_0).
+- `lui $x, 0x62; addiu $x, $x, -0x7A78` is 0x618588 (the low half is signed): name the global
+  from the sum, not from the `lui` (mUpdateContextPS2__virtual_64 matched only after that).
+  A global `{ T v[2]; int cur; }` addressed as `lw 0x78(base)` from the array start is read through
+  an inline member (`View *current() { return &v[cur]; }`) on a struct nested in the global.
+- Store order in a run of zero stores comes out rotated (the last source store is scheduled first):
+  write the run so that its first store in the original is last in the source.
 - A ternary or `if` whose arm reads memory (`p->x < 0 ? -p->x : p->x`) is never turned into
   `movn`; it stays a branch-likely with the arm in the slot. A local temporary instead gives `movn`.
 - `bc1tl/bc1fl` with `neg.s` in the slot = `a < 0.0f ? -a : a` (probe).
@@ -169,6 +180,18 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   the slot; `if (f() != 0) return 0; ...` gives plain `bne`.
 - One-word `bne` vs `bnel` before a call path may depend on whether the callee is defined earlier
   in the same file (known not to throw). We compile one function per file: park such residuals.
+
+- Drafts m2c could not write (empty bodies, "2 of 2 differ") are mostly small `switch`es and float
+  clamps; decompile from `match.py asm`. The switch shape is visible in the compare tree: write
+  every case the tree tests even when bodies are equal (`case 2: return x; case 3: return x;` keeps
+  two compares, `case 2: case 3:` merges them), add empty `case 0: break;` arms and an explicit
+  `default:` (`case 2: default:` for a shared tail) until the tree matches (func_00430BC0,
+  func_003AFD78, func_00472A78, func_00472758: case -> `extern char D_x[]` string returns).
+- A store duplicated at the end of both arms (`jr; sh` twice) is written in each arm; one store
+  after the if/else gives a branch-likely into a shared tail (func_00350F48).
+- A 64-bit `ld`/mask/`or`/`sd` on a struct field is a bitfield update through a struct copy:
+  `B t = *(B *)(p + off); t.b = 1; t.c = 0; *(B *)(p + off) = t;` (func_00374470); direct
+  bitfield stores give `sb`.
 
 ## Loops
 - Counted loops: write the loop the way a programmer would, e.g. `for (i = 0; i < 125; i++)
@@ -478,3 +501,14 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
   mSceneViewFace__virtual_78/79 (856 B each), 9 differ -> MATCH. `__builtin_expect(p != 0, ...)`
   changes the code instead (an `sltu`). The symptom also leaves a `nop` before the next loop
   label (`.p2align 3` padding shifts by one instruction).
+- **Loop entered by a jump to its bottom test, with the found-block before the body** (func_0046B7B8):
+  the original's `for` exit test was not copied to the top (`duplicate_loop_exit_test`), so the
+  entry jumps straight to `slt; bnel` at the bottom and jump.c moves the `break` block after the
+  barrier before the loop. Written as `k = 0; goto test; do { ... test:; } while (k < last);`,
+  with the loop's own pointer locals (not the ones reused after the loop): 64 -> 1 differ; the
+  last `bc1tl` came from two `return -1` sharing one label (`goto fail;` ... `fail: return -1;`).
+- **Declaration order of locals picks the callee-saved FP registers** (func_00370960): swapping
+  `f32 mx; f32 my;` moved them between `$f24`/`$f25` (4 -> 2 differ), and initialising a pointer
+  local just before its first use (not at its declaration) fixed the last pair -> MATCH. A
+  constant the original holds in a callee-saved FP register from the prologue on is a local
+  initialised at the top (`f32 k = 0x1.0C152p-3f;`, func_00410630); write such literals in hex.

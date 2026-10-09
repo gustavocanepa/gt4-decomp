@@ -30,6 +30,17 @@ function counts only when the judge says MATCH and the full build still hashes l
 - Drafts and results of the CPU tools: build/auto/cpu/ (results.jsonl), build/auto/*.
 - Never touch orig/ (the user's game files); never commit game data.
 
+## Before and after every function: the attempts diary
+- Choose work with `python tools/work_queue.py --top 30` (expected bytes recovered / expected cost,
+  with a suggested approach per item; families first when a generator pays more than one function).
+- Before touching a function: `python tools/attempts.py show ADDR` (every hypothesis already tried,
+  the family's diary, the closest automatic drafts and the draft files under build/). Do not repeat
+  a recorded failed idea; if you have nothing new, pick another item.
+- After each judged hypothesis, matched or not: `python tools/attempts.py log ADDR --hypothesis
+  "what you changed and why" --result match|differs|worse|no-change|no-compile|abandoned --diff N
+  --of M [--file PATH] [--compiler NAME] --who YOUR_NAME`. One line per idea, specific enough that the
+  next agent can tell whether its idea is the same. knowledge/attempts.jsonl is versioned.
+
 ## Tools by purpose (details in TOOLS.md)
 - Drafts: `cpu_solve.py` (m2c with EE register names, compile_fix, variants, `--context types`),
   `types_db.py` (prototypes/globals/layouts context), `fragments.py` (learned statement edits),
@@ -37,6 +48,7 @@ function counts only when the judge says MATCH and the full build still hashes l
   with another compiler).
 - Families/generators: `families.py`, `static_init.py`, `registration.py`, `accessors.py`,
   `siblings.py`, `stl.py`, `libmatch.py` (third-party code from public source, THIRD_PARTY.md).
+- Planning: `work_queue.py` (ranked work items), `attempts.py` (show/log/summary of the diary).
 - Diagnosis: `census.py` (why functions fail, ranked), `compiler_probe.py`, `coverage.py`.
 
 ## Recipes that worked (read the knowledge section before re-deriving)
@@ -53,9 +65,13 @@ function counts only when the judge says MATCH and the full build still hashes l
 - knowledge/gt4.md — project rules: C++/STL/string/handles/registration, open problems.
 - knowledge/architecture.md, classes.md, script-engine.md, runtime-types.md — what the game code is.
 - knowledge/coverage-map.md — what is matched and missing, by unit.
+- knowledge/attempts.jsonl — every attempt per function (read it with tools/attempts.py show ADDR).
 
 ## Rules for agents
 - English for all code and docs, in the existing style. Byte-exact only; new sources only on MATCH.
+- `attempts.py show ADDR` before working on a function, `attempts.py log ADDR ...` after every judged
+  hypothesis (also the failed ones: they are the point). Stop on a function after ~10 failed
+  hypotheses of your own and log `abandoned` with what is left to try.
 - Foreground commands only: never background/detached processes or anything that opens console
   windows (it froze the user's PC once). At most 2 parallel jobs; keep > 4 GB RAM free.
 - Do not commit or push (the main session reviews, builds and commits).

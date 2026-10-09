@@ -108,6 +108,11 @@ def cmd_prompt(addr):
     print(autoloop.SYSTEM)
     print("\n" + "=" * 70 + "\n")
     print(autoloop.first_prompt(addr, sections))
+    import attempts
+    print("\n" + "=" * 70 + "\nAlready tried (tools/attempts.py; do not repeat a failed idea):\n")
+    attempts.cmd_show(f"{addr:08x}", files=False)
+    print(f"\nAfter judging, record each hypothesis: python tools/attempts.py log {addr:x} "
+          f'--hypothesis "..." --result differs --diff N')
     print(f"\nWrite the translation unit to build/auto/agent/{addr:08x}.cpp, then run:\n"
           f"  python tools/agent_step.py try {addr:x} build/auto/agent/{addr:08x}.cpp")
 

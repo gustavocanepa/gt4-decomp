@@ -14,7 +14,7 @@ more for the same class (`func_0014EF00(obj)` at the end of func_00141B90). So t
 and the functions are written from one template (matched by Claude Fable on func_0015CC58 and
 others) with only the strings, callbacks, getter and registrars changed.
 
-    registration.py names       -> config/adhoc_methods.txt (class, method, callback address)
+    registration.py names [OUT] -> config/adhoc_methods.txt (class, method, callback address), or OUT
     registration.py try ADDR    write and judge one function (prints the diff on failure)
     registration.py solve [-jN] write and judge every unmatched registration function
 """
@@ -329,6 +329,36 @@ def source(addr, blocks):
     return "".join(out)
 
 
+def parse_loose(body):
+    """The one-callback registrations of a function that is not of the template's shape (a script
+    module built with func_00306E00 and filled through a local object, func_0030E100 and others):
+    [('m1', string, registrar, callback)]. The callback is the one loaded in the registrar's delay
+    slot, else the last one loaded since the previous registration (never an older one)."""
+    out, strings, cb = [], [], None
+    lines = [l for l in body if LO.search(l) or JAL.search(l)]
+    for i, line in enumerate(lines):
+        m = JAL.search(line)
+        if m and m.group(1) in REGISTRARS:
+            nxt = lines[i + 1] if i + 1 < len(lines) else ""
+            slot = [s for s in LO.findall(nxt) if s.startswith("func_")] if nxt.split("*/")[0].strip() and \
+                int(nxt.split()[2], 16) == int(line.split()[2], 16) + 4 else []
+            if slot:
+                cb = slot[0]
+            if strings and cb:
+                out.append(("m1", strings[-1], m.group(1), cb))
+            cb = None
+            continue
+        if m and m.group(1) in REGISTRARS2 + GLOBAL_REGISTRARS:
+            cb = None
+            continue
+        for s in LO.findall(line):
+            if s.startswith("D_") and s != REP:
+                strings.append(f"D_{int(s[2:], 16):08X}")
+            elif s.startswith("func_"):
+                cb = s
+    return out
+
+
 def candidates():
     funcs = build.splat_functions()
     out = {}
@@ -356,6 +386,14 @@ def cmd_names():
         for b in blocks:
             if b[0] == "call" and int(b[1][5:], 16) in cands and int(b[1][5:], 16) not in owner and addr in owner:
                 owner[int(b[1][5:], 16)] = owner[addr]
+    # functions of another shape (script modules filled through a local object): their plain
+    # method/function registrations only, listed under the function's own name
+    for addr, (_, body) in build.splat_functions().items():
+        if addr not in cands and f"func_{addr:08X}" not in REGISTRARS + REGISTRARS2 + GLOBAL_REGISTRARS:
+            if any(r in line for line in body for r in REGISTRARS if "jal" in line):
+                loose = parse_loose(body)
+                if loose:
+                    cands[addr] = loose
     rows = []
     for addr, blocks in sorted(cands.items()):
         cname = owner.get(addr) or f"func_{addr:08X}"
@@ -370,11 +408,16 @@ def cmd_names():
                         rows.append((cname, prefix + mname, cb))
             elif b[0] == "global" and b[3] != "0":
                 rows.append((cname, "global_" + b[2][2:], b[3]))
-    path = os.path.join(ROOT, "config", "adhoc_methods.txt")
+    rows = [(c, m, f"0x{cb[5:]}") for c, m, cb in rows]
+    # splat's listing has every function, matched or not, so the list is rebuilt from the original
+    # code each time; rows of an older file are never merged back (the first generator paired a
+    # callback loaded in the registrar's delay slot with the next name, and merging its rows back
+    # would leave one name on two addresses).
+    path = sys.argv[2] if len(sys.argv) > 2 else os.path.join(ROOT, "config", "adhoc_methods.txt")
     with open(path, "w", newline="\n") as f:
         f.write("# Native methods the script engine registers: class, method, callback (tools/registration.py names)\n"
                 "# get_X/set_X: attribute X (func_002F3860); global_ADDR: registered on the global symbol at ADDR\n")
-        f.writelines(f"{c} {m} 0x{cb[5:]}\n" for c, m, cb in rows)
+        f.writelines(f"{c} {m} {cb}\n" for c, m, cb in rows)
     print(f"{len(rows)} methods of {len({r[0] for r in rows})} classes -> {path}")
 
 

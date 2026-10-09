@@ -23,8 +23,9 @@ loops, branch-likely, float code, ALU arithmetic) gives up with a reason.
     dtors.py scan [--names]       every unmatched vtable slot-0 method of config/classes.json, plus
                                   (--names) every unmatched X__structor_N of the symbol table;
                                   src/ on MATCH (layout.path_for)
-    dtors.py scan --structors [--part=K/N]   every unmatched X__structor_N (constructors, complete
-                                  and deleting destructors), optionally the K-th of N slices
+    dtors.py scan --structors [--part=K/N] [--range=LO-HI]   every unmatched X__structor_N
+                                  (constructors, complete and deleting destructors), optionally
+                                  the K-th of N slices or an address range
 """
 import itertools
 import json
@@ -164,7 +165,9 @@ class Func:
         self.loopvars = set()
         self.subst = None         # (offset, name): inside a member helper, this+offset is `name`
         self.used_args = {0}
+        self.used_fargs = set()
         self.fregs = {}
+        self.fwritten = set()
         self.ptr_args = set()
         self.returns = []         # v0 at each jr ra
         self.forvars = {}         # for-mode loop variable -> (initial value, stride, steps so far)
@@ -191,6 +194,9 @@ class Func:
             if self.subst:
                 return self.at(e, 0)
             return "arg0"
+        if k.startswith("farg"):
+            self.used_fargs.add(int(k[4:]))
+            return k
         if k.startswith("arg"):
             self.used_args.add(int(k[3:]))
             return k
@@ -221,13 +227,18 @@ class Func:
             return f"*({t})({self.at(e[1], e[2])})"
         if k == "and":
             return f"{self.r(e[1])} & {e[2]:#x}"
+        if k == "bin":
+            o = e[1]
+            if o.endswith("u"):
+                return f"((unsigned){self.r(e[2])} {o[:-1]} (unsigned){self.r(e[3])})"
+            return f"((s32){self.r(e[2])} {o} (s32){self.r(e[3])})"
         if k == "fk":
             # gcc 2.96 does not round decimal float literals correctly: write the value a quarter
             # of an ulp above the float, which both rounding and truncation bring back to it
             f = struct.unpack("<f", struct.pack("<I", e[1]))[0]
             nxt = struct.unpack("<f", struct.pack("<I", e[1] + 1))[0]
-            t = "%.9g" % f
-            if f != 0 and e[1] & 0x7F800000 != 0x7F800000:
+            t = repr(f)                                  # exact when short (1.0, 0.5, -2.0)
+            if len(t.replace("-", "").replace(".", "").lstrip("0")) > 8 and e[1] & 0x7F800000 != 0x7F800000:
                 t = "%.12g" % (f + (nxt - f) / 4)
             if "." not in t and "e" not in t and "inf" not in t and "nan" not in t:
                 t += ".0"
@@ -237,11 +248,11 @@ class Func:
     def kind(self, e):
         if e[0] == "k" and is_addr(e[1]) and c_string(e[1]):
             return "const char *"
-        if e[0] == "fk" or e[0] == "ld" and e[3] == "float":
+        if e[0] == "fk" or e[0] == "ld" and e[3] == "float" or e[0].startswith("farg"):
             return "float"
         if e[0][:3] == "arg" and e[0] != "arg0":
             return "void *" if int(e[0][3:]) in self.ptr_args else "s32"
-        if e[0] == "k" and not is_addr(e[1]) or e[0] == "and":
+        if e[0] == "k" and not is_addr(e[1]) or e[0] in ("and", "bin"):
             return "s32"
         if e[0] == "ld" and e[3] != "void *":
             return "s32"
@@ -327,6 +338,7 @@ class Func:
 
     def after_call(self):
         self.fregs = {r: v for r, v in self.fregs.items() if r >= 20}
+        self.fwritten = set()
         for r in list(self.regs):
             if r in CALLER_SAVED:
                 del self.regs[r]
@@ -337,6 +349,8 @@ class Func:
         if not re.fullmatch(r"[A-Za-z_]\w*", name):
             name = f"func_{target:08X}"
         args = [self.get(a) for a in ARGS[:self.nargs()]]
+        nf = max((r - 11 for r in self.fwritten), default=0)
+        args += [self.fregs[12 + j] for j in range(nf)]       # float arguments after the ints
         self.proto(name, args)
         rec = {"id": len(self.calls), "name": name, "args": args, "used": False, "tail": tail}
         self.calls.append(rec)
@@ -392,11 +406,25 @@ class Func:
             return
         if op == 0x09 and rs == SP and rt == SP:    # frame
             return
+        if op in (0x39, 0x31) and rs == SP and rt >= 20:          # saved FPRs
+            if op == 0x31:
+                self.fregs.pop(rt, None)
+            return
+        if op == 0x11 and rs == 0x10 and fn == 6:                 # mov.s
+            fs, fd = rd, (w >> 6) & 31
+            if fs not in self.fregs:
+                raise GiveUp("mov.s of an unset register")
+            self.fregs[fd] = self.fregs[fs]
+            if 12 <= fd < 20:
+                self.fwritten.add(fd)
+            return
         if op == 0x11 and rs == 4 and (w & 0x7FF) == 0:          # mtc1
             v = self.get(rt)
             if v[0] != "k":
                 raise GiveUp("mtc1 of a non-constant")
             self.fregs[rd] = ("fk", v[1])
+            if 12 <= rd < 20:
+                self.fwritten.add(rd)
             return
         if op == 0x31:                                            # lwc1
             if rs == SP:
@@ -405,6 +433,8 @@ class Func:
             if b[0] == "add" and b[1][0] in ("arg0", "var"):
                 b, simm = b[1], b[2] + simm
             self.fregs[rt] = ("ld", b, simm, "float")
+            if 12 <= rt < 20:
+                self.fwritten.add(rt)
             return
         if op == 0x39:                                            # swc1
             if rs == SP or rt not in self.fregs:
@@ -438,8 +468,28 @@ class Func:
             self.set(rt, ("and", self.get(rs), imm))
         elif op == 0 and fn in (0x2D, 0x21, 0x25) and (rt == ZERO or rs == ZERO):
             self.set(rd, self.get(rs if rt == ZERO else rt))
+        elif op == 0 and fn in (0x24, 0x25, 0x26, 0x23, 0x2F, 0x2A, 0x2B, 0x04, 0x06, 0x07):
+            ops = {0x24: "&", 0x25: "|", 0x26: "^", 0x23: "-", 0x2F: "-", 0x2A: "<", 0x2B: "<u",
+                   0x04: "<<", 0x06: ">>u", 0x07: ">>"}
+            a, b = self.get(rs), self.get(rt)
+            if fn in (0x04, 0x06, 0x07):                  # shifts by register: value in rt
+                a, b = b, a
+            self.set(rd, ("bin", ops[fn], a, b))
+        elif op == 0 and fn in (0x00, 0x02, 0x03) and rd != 0:   # shifts by immediate
+            sa = (w >> 6) & 31
+            self.set(rd, ("bin", {0: "<<", 2: ">>u", 3: ">>"}[fn], self.get(rt), ("k", sa)))
+        elif op in (0x0A, 0x0B):                          # slti / sltiu
+            self.set(rt, ("bin", "<" if op == 0x0A else "<u", self.get(rs), ("k", simm & 0xFFFFFFFF)))
+        elif op == 0x0E:                                  # xori
+            self.set(rt, ("bin", "^", self.get(rs), ("k", imm)))
         elif op == 0 and fn in (0x2D, 0x21):
-            self.set(rd, ("sum", self.get(rs), self.get(rt)))
+            a, b = self.get(rs), self.get(rt)
+            if a[0] == "k" and not is_addr(a[1]):
+                self.set(rd, add(b, a[1] - (1 << 32) if a[1] & 0x80000000 else a[1]))
+            elif b[0] == "k" and not is_addr(b[1]):
+                self.set(rd, add(a, b[1] - (1 << 32) if b[1] & 0x80000000 else b[1]))
+            else:
+                self.set(rd, ("sum", a, b))
         elif op in LOADS:
             if rs == SP:
                 raise GiveUp("stack load")
@@ -562,7 +612,9 @@ class Func:
     def is_cbranch(self, j):
         w = self.words[j]
         op = w >> 26
-        return op in (4, 5, 0x14, 0x15) and not (op == 4 and (w >> 16) & 0x3FF == 0)
+        if op == 1:
+            return (w >> 16) & 31 in (0, 1, 2, 3)
+        return op in (4, 5, 6, 7, 0x14, 0x15, 0x16, 0x17) and not (op == 4 and (w >> 16) & 0x3FF == 0)
 
     def merge(self, saved):
         self.regs = {r: v for r, v in self.regs.items() if saved[0].get(r) == v}
@@ -613,13 +665,13 @@ class Func:
                 self.one(i + 1)
                 v = self.regs.get(V0)
                 self.returns.append(v)
-                self.emit({"k": "ret", "val": v})
+                self.emit({"k": "ret", "val": v, "nested": self.indent > 1})
                 return True
             elif self.is_cbranch(i):
                 tgt = self.branch_target(i)
                 if tgt <= i or tgt > len(self.words):
                     raise GiveUp("backward branch")
-                likely = op in (0x14, 0x15)
+                likely = op in (0x14, 0x15, 0x16, 0x17) or op == 1 and (w >> 16) & 2
                 join = tgt
                 if likely:
                     # the delay slot is a copy of the instruction before the (moved) target
@@ -639,6 +691,37 @@ class Func:
                 saved = dict(self.regs), set(self.written)
                 if bottom is not None:
                     i = self.loop(i, bottom, join, c, saved)
+                    continue
+                bw = self.words[join - 2] if join - 2 > i + 1 else None
+                if bw is not None and bw >> 16 == 0x1000 and self.branch_target(join - 2) > join:
+                    # if (c) { then } else { else }: the then-arm ends in `b` over the else-arm
+                    end = self.branch_target(join - 2)
+                    copy = self.words[join - 1] == self.words[end - 1] and self.words[join - 1] != 0
+                    if copy:
+                        end -= 1                         # the b's slot holds the join's first insn
+                    self.emit({"k": "open", "kw": "if", "c": c})
+                    self.indent += 1
+                    ret1 = self.run(i + 2, join - 2)
+                    if not ret1 and not copy:
+                        self.one(join - 1)
+                    self.indent -= 1
+                    regs1 = (dict(self.regs), set(self.written))
+                    self.emit({"k": "close"})
+                    self.emit({"k": "open", "kw": "else"})
+                    self.regs, self.written = dict(saved[0]), set(saved[1])
+                    self.indent += 1
+                    ret2 = self.run(join, end)
+                    self.indent -= 1
+                    self.emit({"k": "close"})
+                    if ret1 and ret2:
+                        return True
+                    if ret1:
+                        pass
+                    elif ret2:
+                        self.regs, self.written = regs1
+                    else:
+                        self.merge(regs1)
+                    i = end
                     continue
                 self.emit({"k": "open", "kw": "if", "c": c})
                 self.indent += 1
@@ -896,6 +979,8 @@ class Func:
             self.forvars[x["name"]] = (init, stride, bump + x["n"])
             return None
         if k == "open":
+            if x["kw"] == "else":
+                return "else {"
             if x["kw"] == "do":
                 f = self.for_loop(x["loop"])
                 if f:
@@ -915,7 +1000,7 @@ class Func:
             return "}"
         if k == "ret":
             if self.ret_type == "void":
-                return None
+                return "return;" if x.get("nested") else None
             v = x["val"]
             return f"return {self.r(v)};"
         if k == "decl":
@@ -968,6 +1053,8 @@ class Func:
 
     def build(self, perms=None):
         self.regs = {r: (f"arg{n}",) for n, r in enumerate(ARGS)}
+        self.fregs = {12 + n: (f"farg{n}",) for n in range(8)}
+        self.fwritten = set()
         self.written = {4}
         self.jal_delay = False
         self.str_release = False
@@ -1019,7 +1106,7 @@ class Func:
                 lines.append("    " * ind + t)
             k += 1
         for c in self.calls:
-            if c["used"]:
+            if c["used"] or "vret" in self.knobs and not c["name"].startswith("func_00326798"):
                 self.protos[c["name"]][0] = "void *"
         # second pass with the final prototypes (casts, return types)
         helpers, lines = [], []
@@ -1071,7 +1158,8 @@ class Func:
         out.append("")
         n = max(self.used_args) + 1
         params = ", ".join(["void *arg0"] + [f"{self.kind((f'arg{j}',))}{'' if self.kind((f'arg{j}',)).endswith('*') else ' '}arg{j}"
-                                             for j in range(1, n)])
+                                             for j in range(1, n)]
+                           + [f"float farg{j}" for j in range(max(self.used_fargs, default=-1) + 1)])
         sep = "" if self.ret_type.endswith("*") else " "
         out.append(f'extern "C" {self.ret_type}{sep}{name}({params}) {{')
         out += lines
@@ -1089,7 +1177,7 @@ def judge(addr, text):
 
 VARIANTS = [(), ("member",), ("node",), ("member", "node"), ("reset",), ("reset", "member", "node"),
             ("block", "node"), ("block", "node", "member"), ("block",), ("member_wide",),
-            ("member_wide", "node"), ("array",), ("array", "member"), ("array", "node", "member"), ("for",), ("retcall",)]
+            ("member_wide", "node"), ("array",), ("array", "member"), ("array", "node", "member"), ("for",), ("retcall",), ("vret",)]
 
 
 def solve(addr):
@@ -1122,9 +1210,12 @@ def solve(addr):
     # then the order of independent stores, run by run (greedy): all orders of up to 4 stores,
     # single moves for longer runs
     knobs = best[3]
+    if best[0] > 12:                               # far off: not a scheduling question
+        return False, best[1], best[2]
     f = Func(addr, knobs)
     f.build()
     perms = {}
+    budget = 40
     for k, j in f.store_runs():
         n = j - k
         if n <= 4:
@@ -1138,6 +1229,9 @@ def solve(addr):
                         o.insert(b, o.pop(a))
                         cands.append(tuple(o))
         for order in cands:
+            budget -= 1
+            if budget < 0:
+                break
             trial = dict(perms)
             trial[(k, j)] = order
             try:
@@ -1196,6 +1290,10 @@ def targets(names):
 
 def cmd_scan(names, structors=False, part=None):
     todo = all_structors() if structors else targets(names)
+    rng = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--range=")), None)
+    if rng:                                        # LO-HI (hex addresses): a stable batch
+        lo, hi = (int(x, 16) for x in rng.split("-"))
+        todo = [a for a in todo if lo <= a < hi]
     if part:                                       # K/N: the K-th of N slices (foreground batches)
         k, n = map(int, part.split("/"))
         todo = todo[(k - 1) * len(todo) // n:k * len(todo) // n]
@@ -1208,15 +1306,15 @@ def cmd_scan(names, structors=False, part=None):
             os.makedirs(os.path.dirname(path), exist_ok=True)
             open(path, "w", newline="\n").write(src)
             ok += 1
-            print(f"{a:08x} MATCH -> {layout.path_for(a)}")
+            print(f"{a:08x} MATCH -> {layout.path_for(a)}", flush=True)
         elif res is None:
             gave += 1
             reasons[src] = reasons.get(src, 0) + 1
-            print(f"{a:08x} give up: {src}")
+            print(f"{a:08x} give up: {src}", flush=True)
         else:
             fail += 1
             first = out.splitlines()[0] if out else ""
-            print(f"{a:08x} differs: {first}")
+            print(f"{a:08x} differs: {first}", flush=True)
     print(f"{len(todo)} candidates: {ok} MATCH, {fail} differ, {gave} give up")
 
 
