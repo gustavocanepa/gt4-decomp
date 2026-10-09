@@ -1,5 +1,8 @@
 # Gran Turismo 4 decompilation
 
+[![Code](https://decomp.dev/gustavocanepa/gt4-decomp.svg?mode=shield&measure=code&label=Code)](https://decomp.dev/gustavocanepa/gt4-decomp)
+[![Functions](https://decomp.dev/gustavocanepa/gt4-decomp.svg?mode=shield&measure=functions&label=Functions)](https://decomp.dev/gustavocanepa/gt4-decomp)
+
 A work-in-progress matching decompilation of the Gran Turismo 4 engine (PS2, `CORE.GT4`, NTSC-U
 SCUS-97328 v1.01): C++ source that compiles, with the original compiler, to the exact same
 instructions as the game. The long-term goal is a native port.
