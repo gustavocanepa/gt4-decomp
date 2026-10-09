@@ -1,0 +1,26 @@
+name: progress
+
+# decomp.dev reads the progress report from workflow runs on the default branch, as an artifact
+# named VERSION_report. The report cannot be built in CI (that needs the game), so it is made
+# locally by tools/report.py and pushed to the `progress` branch by tools/publish_progress.py;
+# this workflow republishes that report from the default branch.
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch the latest report from the progress branch
+        run: |
+          git init -q .
+          git fetch -q --depth 1 "https://github.com/${{ github.repository }}.git" progress
+          git show FETCH_HEAD:report.json > report.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SCUS-97328_report
+          path: report.json
