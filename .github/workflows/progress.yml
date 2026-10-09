@@ -6,7 +6,7 @@ name: progress
 # this workflow republishes that report from the default branch.
 on:
   push:
-    branches: [main]
+    branches: [master]
   schedule:
     - cron: "17 */6 * * *"
   workflow_dispatch:
