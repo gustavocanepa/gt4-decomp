@@ -33,6 +33,16 @@ executable that runs them. Format documentation comes from the
   Most were produced by AI agents (Claude) driving the tools in [`tools/`](tools/), each one verified
   by the compiler and the judge, never by eye.
 
+## Documentation
+
+What the game code does, as far as the project has established it (each page marks what is inferred or unknown):
+
+- [`knowledge/architecture.md`](knowledge/architecture.md): the engine's subsystems (start-up, Adhoc script VM, game data, UI, race and physics, sound, file system, network, libraries), address ranges, match status and how they connect.
+- [`knowledge/classes.md`](knowledge/classes.md): the 509 RTTI classes grouped by subsystem, with parents, instance sizes, vtable sizes and script natives.
+- [`knowledge/script-engine.md`](knowledge/script-engine.md): how C++ classes are registered with the Adhoc VM and how scripts call into them, mapped to the community's documentation.
+- [`knowledge/runtime-types.md`](knowledge/runtime-types.md): the ref-counted string, handles, allocator, STL containers and object layout seen in the matched code.
+- [`knowledge/coverage-map.md`](knowledge/coverage-map.md): what is matched and what is missing, by subsystem; [`knowledge/gt4.md`](knowledge/gt4.md) and [`knowledge/ee-gcc-2.96.md`](knowledge/ee-gcc-2.96.md) cover the compiler side.
+
 ## Credits
 
 Started and maintained by **Gustavo Canepa** ([@gustavocanepa](https://github.com/gustavocanepa)),
