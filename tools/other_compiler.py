@@ -12,10 +12,12 @@ other compiler; src/func_ADDR.c on MATCH.
 
     other_compiler.py list                 the functions, with sizes
     other_compiler.py solve [-jN] [--limit N] [--retry]
+    other_compiler.py climb [ADDR...]      the 2.9 rules (climb) on the saved near misses
     other_compiler.py stats                results of the last run (build/auto/other/results.jsonl)
 """
 import json
 import os
+import re
 import sys
 from concurrent.futures import ThreadPoolExecutor
 
@@ -24,8 +26,10 @@ import cpu_solve
 import families
 import match
 import near_fix
+import project
 
 ROOT = match.ROOT
+NL = chr(10)
 COMPILER = "ee-gcc2.9-991111"
 MARKER = f"/* compiler: {COMPILER} */\n"
 OUT = os.path.join(ROOT, "build", "auto", "other")
@@ -50,6 +54,102 @@ def draft(addr, *args, **kw):
 cpu_solve.draft = draft
 
 
+ABS = re.compile(r"\*\((\w+(?: \w+)*) \*\)0x([0-9A-Fa-f]{6,8})\b")
+TEXT_ARG = re.compile(r"(?<=[(,] )0x(5[0-9A-Fa-f]{5})(?=[,)])|(?<=\()0x(5[0-9A-Fa-f]{5})(?=[,)])")
+
+
+def name_addresses(body):
+    """Absolute data addresses named: `*(T *)0x657A80` -> `D_00657A80` (`extern T D_00657A80;`), and
+    a code address passed as an argument (`f(0x800, 0x5B13F8, p)`) -> the function. ee-gcc 2.9 puts
+    the `lui` of a literal address in another register and schedules it elsewhere than a symbol's
+    (`lui $v1` + `lw 0x7A80($v1)` before the saves), so unlike 2.96 the literal never matches, even
+    when the diff shows no addiu/ori pair for near_fix.addresses to see."""
+    head, brace, rest = body.partition("{")
+    decls = {}
+
+    def data(m):
+        value = int(m.group(2), 16)
+        if not 0x100000 <= value < 0x2000000:
+            return m.group(0)
+        decls[f"D_{value:08X}"] = f"extern {m.group(1)} D_{value:08X};\n"
+        return f"D_{value:08X}"
+
+    def code(m):
+        value = int(m.group(1) or m.group(2), 16)
+        decls[f"func_{value:08X}"] = f"void func_{value:08X}();\n"
+        return f"func_{value:08X}"
+    new = TEXT_ARG.sub(code, ABS.sub(data, rest))
+    if new == rest:
+        return None
+    decls = {k: v for k, v in decls.items() if not re.search(r"\b" + k + r"\b", head)}
+    lines = head.rsplit("\n", 1)
+    return lines[0] + "\n" + "".join(decls.values()) + lines[1] + brace + new
+
+
+def _block_end(text, i):
+    """Index just past the brace block opening at text[i] == '{'."""
+    depth = 0
+    for j in range(i, len(text)):
+        depth += (text[j] == "{") - (text[j] == "}")
+        if depth == 0:
+            return j + 1
+    return -1
+
+
+def _negate(cond):
+    if "&&" not in cond and "||" not in cond:
+        for a, b in (("!=", "=="), ("==", "!="), (">=", "<"), ("<=", ">"), (" < ", " >= "), (" > ", " <= ")):
+            if cond.count(a) == 1:
+                return cond.replace(a, b)
+    return f"!({cond})"
+
+
+def swapped_arms(body):
+    """Each `if (c) {A} else {B}` written `if (!c) {B} else {A}`, one at a time. ee-gcc 2.9 lays the
+    arms out in source order (the else arm is the branch target), so m2c's choice of polarity shows
+    as a `bnel`/`beqz` pair with the arms exchanged."""
+    for m in re.finditer(r"\bif \((.*)\) \{\n", body):
+        open_ = m.end() - 2
+        end = _block_end(body, open_)
+        if end < 0 or not body.startswith(" else {", end):
+            continue
+        end2 = _block_end(body, end + 6)
+        if end2 < 0:
+            continue
+        a, b = body[open_ + 1:end - 1], body[end + 7:end2 - 1]
+        yield body[:m.start()] + f"if ({_negate(m.group(1))}) {{" + b + "} else {" + a + "}" + body[end2:]
+
+
+def climb(addr, body, verdict, budget=40):
+    """Greedy descent over the 2.9 rules (named addresses, arms swapped, unused results void):
+    keep every variant that lowers the count of differing instructions."""
+    path = os.path.join(near_fix.OUT, f"{addr:08x}.c")
+    best = near_fix.differ(verdict)
+    tries = 0
+    named = name_addresses(body)
+    if named:
+        ok, v = near_fix.judge(addr, path, named)
+        tries += 1
+        if ok:
+            return True, named, tries
+        if near_fix.differ(v) <= best:
+            body, best = named, near_fix.differ(v)
+    improved = True
+    while improved and tries < budget:
+        improved = False
+        for variant in list(swapped_arms(body)) + list(near_fix.void_returns(body)):
+            if tries >= budget:
+                break
+            ok, v = near_fix.judge(addr, path, variant)
+            tries += 1
+            if ok:
+                return True, variant, tries
+            if near_fix.differ(v) < best:
+                body, best, improved = variant, near_fix.differ(v), True
+                break
+    return False, body, tries
+
+
 def functions():
     """[(addr, size)] of the unmatched functions with the other compiler's prologue."""
     done = autoloop.done_addrs()
@@ -66,6 +166,23 @@ def solve_one(addr):
             ok, tries = False, 0
         if ok:
             row = dict(row, result="match", how=row.get("how", "") + "+near_fix", near_fix_tries=tries)
+        else:
+            row = climb_one(addr, row)
+    return row
+
+
+def climb_one(addr, row):
+    """climb() from the saved draft; src/func_ADDR.c on MATCH."""
+    draft = open(os.path.join(OUT, f"{addr:08x}.c")).read()
+    body = draft[len(cpu_solve.PRELUDE):] if draft.startswith(cpu_solve.PRELUDE) else draft
+    ok, verdict = near_fix.judge(addr, os.path.join(near_fix.OUT, f"{addr:08x}.c"), body)
+    if not ok:
+        ok, body, tries = climb(addr, body, verdict)
+    if ok:
+        dest = os.path.join(ROOT, "src", f"func_{addr:08X}.c")
+        if not project.source_for(addr):
+            open(dest, "w", newline=NL).write(cpu_solve.PRELUDE + body)
+        return dict(row, result="match", how=row.get("how", "") + "+climb")
     return row
 
 
@@ -93,6 +210,16 @@ def cmd_solve(jobs, limit, retry):
     print(stats)
 
 
+def near_misses(limit=40):
+    """The closest drafts of the last runs, best result per function."""
+    best = {}
+    for line in open(RESULTS) if os.path.exists(RESULTS) else []:
+        r = json.loads(line)
+        if r["result"] == "differs" and (r["addr"] not in best or r["differ"] < best[r["addr"]]["differ"]):
+            best[r["addr"]] = r
+    return sorted(best.values(), key=lambda r: r["differ"])[:limit]
+
+
 def cmd_stats():
     rows = [json.loads(l) for l in open(RESULTS)] if os.path.exists(RESULTS) else []
     sizes = dict(functions())
@@ -118,6 +245,15 @@ def main():
         jobs = next((int(a[2:]) for a in args if a.startswith("-j")), 2)
         limit = int(args[args.index("--limit") + 1]) if "--limit" in args else 10 ** 9
         cmd_solve(jobs, limit, "--retry" in args)
+    elif args[:1] == ["climb"]:
+        os.makedirs(near_fix.OUT, exist_ok=True)
+        todo = [int(a, 16) for a in args[1:]] or [int(r["addr"], 16) for r in near_misses()]
+        done = autoloop.done_addrs()
+        for addr in todo:
+            if addr in done or project.source_for(addr):
+                continue
+            row = climb_one(addr, {"addr": f"{addr:08x}"})
+            print(f"{addr:08x} {row.get('result', 'differs')}", flush=True)
     elif args[:1] == ["stats"]:
         cmd_stats()
     else:

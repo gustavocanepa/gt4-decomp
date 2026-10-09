@@ -5946,3 +5946,6 @@ type_info__vtable = 0x0068A2F8; // type:data
 type_info__virtual_00 = 0x005BFAC8; // type:func
 type_info__structor_0 = 0x005BFAC8; // type:func
 type_info__structor_1 = 0x006163B0; // type:func
+__muldi3 = 0x005BA060; // type:func
+__udivdi3 = 0x005BAE00; // type:func
+__umoddi3 = 0x005BB380; // type:func

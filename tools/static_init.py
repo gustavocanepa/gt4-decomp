@@ -187,7 +187,7 @@ def parse(addr):
     return shape
 
 
-def source(addr, shape):
+def source(addr, shape, nothrow=()):
     funcs = function_starts()
     objs, datas, cbs, callees = [], [], [], {}
     for it in shape.items:
@@ -214,7 +214,8 @@ def source(addr, shape):
     out += [f"extern Obj D_{a:08X};\n" for a in objs]
     out += [f"extern char D_{a:08X}[];\n" for a in dict.fromkeys(datas) if a not in objs]
     out += [f'extern "C" void func_{a:08X}(void);\n' for a in dict.fromkeys(cbs)]
-    out += [f'extern "C" void func_{t:08X}({", ".join(sig) or "void"});\n' for t, sig in callees.items()]
+    out += [f'extern "C" void func_{t:08X}({", ".join(sig) or "void"}){" throw()" if t in nothrow else ""};\n'
+            for t, sig in callees.items()]
     out.append(f'\nextern "C" void func_{addr:08X}(s32 init, s32 prio)\n{{\n')
     for it in shape.items:
         cond = f"prio == 0xFFFF && init == {it[3]}"
@@ -253,11 +254,25 @@ def attempt(addr):
     shape = parse(addr)
     if shape is None:
         return None, "not this shape", None
-    text = source(addr, shape)
-    if text is None:
-        return None, "unsupported value or call", None
-    ok, out, path = judge(addr, text)
-    return ok, out, path
+    # Callees declared throw() get a REG_EH_REGION 0 note, so reorg's liveness scan
+    # (resource.c find_dead_or_set_registers, which stops at any call that can throw) sees the
+    # epilogue restore past the destructor call: the dtor guard then keeps a plain bnez with the
+    # reload copied into its slot instead of an annulled bnel.
+    dtors = {it[1] for it in shape.items if it[0] == "call" and it[3] == 0}
+    calls = {it[1] for it in shape.items if it[0] == "call"}
+    first = None
+    for nothrow in ((), dtors, calls):
+        if nothrow == () or nothrow:
+            text = source(addr, shape, nothrow)
+            if text is None:
+                return None, "unsupported value or call", None
+            ok, out, path = judge(addr, text)
+            if ok:
+                return ok, out, path
+            first = first or (ok, out, path)
+    if first:
+        judge(addr, source(addr, shape))
+    return first
 
 
 def cmd_try(addr):

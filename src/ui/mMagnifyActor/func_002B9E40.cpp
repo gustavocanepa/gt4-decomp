@@ -42,14 +42,14 @@ extern char D_0069C1B0[];
 extern char D_0069C1C0[];
 extern char D_00838A30[];
 extern char D_00838A28[];
-extern "C" void func_002B99B8(void);
-extern "C" void func_002B9A28(void);
-extern "C" void func_002B9B00(void);
-extern "C" void func_002B9B98(void);
-extern "C" void func_002B9C08(void);
-extern "C" void func_002B9CA0(void);
-extern "C" void func_002B9D10(void);
-extern "C" void func_002B9DB0(void);
+extern "C" void MMagnifyActor__global_00838A30(void);
+extern "C" void MMagnifyActor__global_00838A28(void);
+extern "C" void MMagnifyActor__get_repeat(void);
+extern "C" void MMagnifyActor__set_repeat(void);
+extern "C" void MMagnifyActor__get_reverse_phase(void);
+extern "C" void MMagnifyActor__set_reverse_phase(void);
+extern "C" void MMagnifyActor__get_period(void);
+extern "C" void MMagnifyActor__set_period(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern "C" void func_002F36E0(Obj *arg0, void *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
@@ -82,8 +82,8 @@ extern "C" void func_002B9E40(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_001FF0F8());
-    func_00306780(arg0, D_00838A30, func_002B99B8);
-    func_002F36E0(arg0, D_00838A28, func_002B9A28);
+    func_00306780(arg0, D_00838A30, MMagnifyActor__global_00838A30);
+    func_002F36E0(arg0, D_00838A28, MMagnifyActor__global_00838A28);
     {
         Str *ps = &s;
         const char *src = D_0069C1A8;
@@ -97,7 +97,7 @@ extern "C" void func_002B9E40(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002B9B00, func_002B9B98);
+        func_002F3860(arg0, &s, MMagnifyActor__get_repeat, MMagnifyActor__set_repeat);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -119,7 +119,7 @@ extern "C" void func_002B9E40(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002B9C08, func_002B9CA0);
+        func_002F3860(arg0, &s, MMagnifyActor__get_reverse_phase, MMagnifyActor__set_reverse_phase);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -141,7 +141,7 @@ extern "C" void func_002B9E40(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002B9D10, func_002B9DB0);
+        func_002F3860(arg0, &s, MMagnifyActor__get_period, MMagnifyActor__set_period);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

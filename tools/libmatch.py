@@ -26,10 +26,12 @@ loses its `static` (gcc does not output an unreferenced static function) and is 
 address with a #define, as are all the symbols with known addresses.
 """
 import argparse
+import atexit
 import csv
 import json
 import os
 import re
+import shutil
 import struct
 import subprocess
 import sys
@@ -65,24 +67,35 @@ def to_wsl(path):
 def compile_library(cfg, extra_defines=()):
     """Compile every file of the library in WSL (from /tmp: the old compiler cannot stat files on
     Windows mounts). Returns {file: object path}."""
-    out = os.path.join(OUT, cfg["name"])
+    # This run's objects go to a directory of its own (build/libmatch/NAME/obj_PID, removed at
+    # exit), so parallel scans of one library never read each other's half-written objects; the
+    # stable copy in build/libmatch/NAME/ (what `diff` reads) is replaced only once every file
+    # compiled, so a failed compile leaves the previous scan's objects whole.
+    stable = os.path.join(OUT, cfg["name"])
+    out = os.path.join(stable, f"obj_{os.getpid()}")
     os.makedirs(out, exist_ok=True)
+    atexit.register(shutil.rmtree, out, True)
     defines = " ".join(f"'-D{d}'" for d in list(cfg.get("defines", [])) + list(extra_defines))
     command = project.compiler_command(cfg.get("compiler"))
-    lines = ["set -e", f'w="$(mktemp -d)"', 'trap \'rm -rf "$w"\' EXIT',
+    lines = ["set -eo pipefail", f'w="$(mktemp -d)"', 'trap \'rm -rf "$w"\' EXIT',
              f'cp -r "{to_wsl(cfg["source"])}"/. "$w/"', f'mkdir -p "$w/shim"',
              f'cp "{to_wsl(SHIM)}"/* "$w/shim/"', 'cd "$w"']
     for f in cfg["files"]:
         stem = os.path.splitext(f)[0]
         lines.append(f'{command} {defines} -I. -Ishim "{f}" -o "{stem}.o" '
                      f'2>"{stem}.err" || {{ cat "{stem}.err"; exit 1; }}')
-        lines.append(f'cp "{stem}.o" "{to_wsl(out)}/"')
+    for f in cfg["files"]:
+        lines.append(f'cp "{os.path.splitext(f)[0]}.o" "{to_wsl(out)}/"')
     script = os.path.join(out, "compile.sh")
     open(script, "w", newline="\n").write("\n".join(lines) + "\n")
     cmd = ["wsl", "-d", "Ubuntu", "--", "bash", to_wsl(script)] if os.name == "nt" else ["bash", script]
     res = subprocess.run(cmd, capture_output=True, text=True, env=dict(os.environ, MSYS_NO_PATHCONV="1"))
     if res.returncode:
         sys.exit(f"compile failed:\n{res.stdout[-3000:]}\n{res.stderr[-3000:]}")
+    for f in cfg["files"]:
+        obj = os.path.splitext(f)[0] + ".o"
+        shutil.copy(os.path.join(out, obj), os.path.join(stable, obj + ".part"))
+        os.replace(os.path.join(stable, obj + ".part"), os.path.join(stable, obj))
     return {f: os.path.join(out, os.path.splitext(f)[0] + ".o") for f in cfg["files"]}
 
 
@@ -377,8 +390,13 @@ def flatten(cfg, name, depth=0):
         return None
     text = strip_comments(open(path, encoding="utf-8", errors="replace").read(), keep_first=base == cfg["source"])
     out = []
+    in_header = False  # inside the kept first comment (newlib's documentation shows `#include`s)
     for i, line in enumerate(text.split("\n")):
-        m = INCLUDE.match(line)
+        m = None if in_header else INCLUDE.match(line)
+        if "/*" in line and "*/" not in line[line.index("/*"):]:
+            in_header = True
+        elif in_header and "*/" in line:
+            in_header = False
         inner = None
         if m and depth < 8:
             inner = flatten(cfg, m.group(2), depth + 1)
@@ -410,6 +428,8 @@ class Definition:
 MACRO_DEF = re.compile(r"^\s*#\s*define\s+(\w+)\((\w+)\)\s*(.*)$")
 MACRO_UNDEF = re.compile(r"^\s*#\s*undef\s+(\w+)")
 EXTERN_C = re.compile(r'\s*extern\s+"C"\s*\{')
+# An old-style definition's head: `name (a, b)` followed by the parameter declarations (newlib).
+KNR_HEAD = re.compile(r"\b\w+\s*\(\s*(?:\w+\s*,\s*)*\w+\s*\)\s*(?:[^;{}=]+;\s*)+$")
 
 
 def expand_name(macros, text):
@@ -420,6 +440,10 @@ def expand_name(macros, text):
         param, body = macros[m.group(1)]
         parts = [p.strip() for p in body.split("##")]
         return "".join(m.group(2) if p == param else p for p in parts)
+    # newlib's `_DEFUN (name, (args), decls)` and `_DEFUN_VOID (name)`
+    m = re.search(r"\b_DEFUN(?:\s*\(\s*(\w+)\s*,|_VOID\s*\(\s*(\w+)\s*\))", text)
+    if m:
+        return m.group(1) or m.group(2)
     m = re.search(r"(\w+)\s*\(", text)
     return m.group(1) if m else None
 
@@ -519,7 +543,7 @@ def find_definitions(lines):
             if ch == "{":
                 if depth == 0 and pending is None:
                     head = "\n".join(l for l, _ in lines[stmt_start:i]) + "\n" + line[:col]
-                    if re.search(r"\)\s*$", head.strip()) and "=" not in head.split(")")[-1]:
+                    if (re.search(r"\)\s*$", head.strip()) and "=" not in head.split(")")[-1]) or KNR_HEAD.search(head.strip()):
                         kind, name = "func", expand_name(macros, head)
                     elif "=" in head:
                         # `T name[] =`, or the name wrapped in a macro: `T NS(encodings)[] =`
@@ -551,7 +575,8 @@ def find_definitions(lines):
             pending = None
             stmt_start = i + 1
         elif depth == 0 and pending is None and (";" in code or not stripped):
-            stmt_start = i + 1
+            if not (stripped and KNR_HEAD.search("\n".join(l for l, _ in lines[stmt_start:i + 1]).strip())):
+                stmt_start = i + 1
     return defs
 
 

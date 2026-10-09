@@ -38,10 +38,10 @@ extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 
 extern char D_0083A0B0[];
 extern char D_0083A0A8[];
-extern "C" void func_002CE6C8(void);
-extern "C" void func_002CE738(void);
-extern "C" void func_002CE7D8(void);
-extern "C" void func_002CE870(void);
+extern "C" void MScriptWatcher__global_0083A0B0(void);
+extern "C" void MScriptWatcher__global_0083A0A8(void);
+extern "C" void MScriptWatcher__get_count(void);
+extern "C" void MScriptWatcher__set_count(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern "C" void func_002F36E0(Obj *arg0, void *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
@@ -74,8 +74,8 @@ extern "C" void func_002CE8E0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00254260());
-    func_00306780(arg0, D_0083A0B0, func_002CE6C8);
-    func_002F36E0(arg0, D_0083A0A8, func_002CE738);
+    func_00306780(arg0, D_0083A0B0, MScriptWatcher__global_0083A0B0);
+    func_002F36E0(arg0, D_0083A0A8, MScriptWatcher__global_0083A0A8);
     {
         Str *ps = &s;
         const char *src = "period";
@@ -89,7 +89,7 @@ extern "C" void func_002CE8E0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002CE7D8, func_002CE870);
+        func_002F3860(arg0, &s, MScriptWatcher__get_count, MScriptWatcher__set_count);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

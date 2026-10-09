@@ -38,8 +38,8 @@ extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 
 extern char D_00827600[];
 extern char D_008275F8[];
-extern "C" void func_005CF6A0(void);
-extern "C" void func_0032AED0(void);
+extern "C" void MEyetoyImageProcessor__global_00827600(void);
+extern "C" void MLoggerControl__global_008212E8(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 
 extern "C" void func_001B9A88(Obj *arg0) {
@@ -67,6 +67,6 @@ extern "C" void func_001B9A88(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00827600, func_005CF6A0);
-    func_00306780(arg0, D_008275F8, func_0032AED0);
+    func_00306780(arg0, D_00827600, MEyetoyImageProcessor__global_00827600);
+    func_00306780(arg0, D_008275F8, MLoggerControl__global_008212E8);
 }

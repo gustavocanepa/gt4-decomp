@@ -38,23 +38,17 @@ extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
-extern char D_006926F8[];
-extern char D_00692708[];
-extern char D_00692710[];
-extern char D_00692718[];
-extern char D_00692728[];
-extern char D_00692738[];
-extern "C" void func_0019E700(void);
-extern "C" void func_0019E798(void);
+extern "C" void MPlayList__get_size(void);
+extern "C" void MPlayList__get_shuffle(void);
 extern "C" void MPlayList__initStraight(void);
 extern "C" void MPlayList__initShuffle(void);
-extern "C" void func_0019E900(void);
+extern "C" void MPlayList__get_play_data(void);
 
 extern "C" void func_0019ED28(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_006926F8;
+        const char *src = "MPlayList";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -80,7 +74,7 @@ extern "C" void func_0019ED28(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00692708;
+        const char *src = "size";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -91,7 +85,7 @@ extern "C" void func_0019ED28(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0019E700, 0);
+        func_002F3860(arg0, &s, MPlayList__get_size, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -102,7 +96,7 @@ extern "C" void func_0019ED28(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692710;
+        const char *src = "shuffle";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -113,7 +107,7 @@ extern "C" void func_0019ED28(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0019E798, func_0019E798);
+        func_002F3860(arg0, &s, MPlayList__get_shuffle, MPlayList__get_shuffle);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -124,7 +118,7 @@ extern "C" void func_0019ED28(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692718;
+        const char *src = "initStraight";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -146,7 +140,7 @@ extern "C" void func_0019ED28(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692728;
+        const char *src = "initShuffle";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -168,7 +162,7 @@ extern "C" void func_0019ED28(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692710;
+        const char *src = "shuffle";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -179,7 +173,7 @@ extern "C" void func_0019ED28(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0019E798, func_0019E798);
+        func_002F3860(arg0, &s, MPlayList__get_shuffle, MPlayList__get_shuffle);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -190,7 +184,7 @@ extern "C" void func_0019ED28(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692738;
+        const char *src = "play_data";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -201,7 +195,7 @@ extern "C" void func_0019ED28(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0019E900, func_0019E900);
+        func_002F3860(arg0, &s, MPlayList__get_play_data, MPlayList__get_play_data);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

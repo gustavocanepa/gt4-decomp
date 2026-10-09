@@ -13,11 +13,12 @@ Three steps per function:
    64-bit stores of the same values to consecutive offsets of another base becomes one
    assignment `*(BlockN *)(dst) = *(BlockN *)(src)` with `typedef struct { char b[N]; } BlockN;`
    (the element type u16/u32 tried as well: the alignment decides the instruction order);
-3. the drafts are judged with every library compiler profile (the first-line marker), the
-   closest is kept, src/func_ADDR.c is written on a match (cpu_solve/near_fix do the judging).
+3. the drafts are judged with every library compiler profile (the first-line marker): functions
+   whose unaligned pairs are right half first (`ldr; ldl`, right_first) only with
+   ee-gcc2.96-nsa-nosib-rf, the others only with the left-first profiles; the closest is kept, src/func_ADDR.c is written on a match (cpu_solve/near_fix do the judging).
 
     blockcopy.py queue                 # list the m2c failures with ldl/ldr in 0x494578+
-    blockcopy.py solve [-j2] [--limit N] [--compilers a,b,c]
+    blockcopy.py solve [-j2] [--limit N] [--compilers a,b,c] [--list FILE]
     blockcopy.py one ADDR              # one function, verbose
 
 Results: build/auto/blockcopy/results.jsonl (resumable), drafts in build/auto/blockcopy/COMPILER/.
@@ -50,7 +51,8 @@ PAIRS = {("ldl", "ldr"): ("ld", 7), ("sdl", "sdr"): ("sd", 7), ("lwl", "lwr"): (
 
 def rewrite_asm(asm):
     """Each `xxl rt, off+k(base)` + `xxr rt, off(base)` pair (either order, adjacent or separated
-    by other instructions) as one aligned load/store at off. Returns (asm, [(op, off, base)])."""
+    by other instructions) as one aligned load/store at off, the second half as a nop (deleting
+    it emptied delay slots: `jr $ra` + `sdr` made m2c give up). Returns (asm, [(op, off, base)])."""
     lines = asm.split("\n")
     parsed = [INSN.match(l) for l in lines]
     found = []
@@ -74,7 +76,8 @@ def rewrite_asm(asm):
                 used.add(i)
                 used.add(j)
                 lines[i] = f"{m.group(1)}{new:<12}{m.group(3)}, {lo:#x}({m.group(5)})"
-                lines[j] = None
+                # a nop keeps the other half's slot: it may be a branch delay slot
+                lines[j] = f"{n.group(1)}nop"
                 found.append((new, lo, m.group(5)))
                 break
             break
@@ -302,6 +305,15 @@ def attempt(addr, compiler, verbose=False):
         if ok:
             best = (0, best[1] + "+near_fix", None)
     if best[0] == 0:
+        # near_fix writes its own match to src/; a block variant's match is written here and
+        # judged again in place (the marker is the prelude's first line)
+        dest = os.path.join(ROOT, "src", f"func_{addr:08X}.c")
+        if best[2] is not None and not project.source_for(addr):
+            open(dest, "w", newline="\n").write(cpu_solve.PRELUDE + best[2])
+            if cpu_solve.differs_by(cpu_solve.judge(addr, dest)) != 0:
+                os.remove(dest)
+                return {"addr": f"{addr:08x}", "result": "differs", "differ": -1, "compiler": compiler,
+                        "how": best[1] + " (src/ re-judge failed)"}
         return {"addr": f"{addr:08x}", "result": "match", "compiler": compiler, "how": best[1]}
     return {"addr": f"{addr:08x}", "result": "differs", "differ": best[0], "compiler": compiler, "how": best[1]}
 
@@ -312,6 +324,26 @@ def safe(args):
         return attempt(addr, compiler)
     except Exception as e:  # one bad function must not stop the run
         return {"addr": f"{addr:08x}", "result": f"error: {str(e)[:80]}", "compiler": compiler}
+
+
+# the right half then the left half of the SAME access kind on one register (`ldr X` then `sdl X`
+# is a left-first load followed by its left-first store: 130 such functions were wrongly excluded)
+RIGHT_FIRST = re.compile(r"\b([ls])([dw])r\s+(\$\w+), [^\n]*\n[^\n]*\b\1\2l\s+\3,")
+RF_COMPILER = "ee-gcc2.96-nsa-nosib-rf"  # tools/cc_rf.sh: gcc -S, tools/rf_as.py, as
+
+
+def right_first(asm):
+    """An unaligned pair in `xxr; xxl` order. gcc writes `uld/usd/ulw/usw` and every GNU as we
+    have (ee 2.9 and 2.96) expands them left half first, as does gcc's own block move: 284
+    library functions (the 0x5c2b60.. pointer-to-member thunks among them) went through an
+    assembler expanding them right first; they are judged only with RF_COMPILER
+    (knowledge/ee-gcc-2.96.md)."""
+    return bool(RIGHT_FIRST.search(asm))
+
+
+def fits(addr, compiler):
+    """Right-first functions only with RF_COMPILER, the others only with the left-first ones."""
+    return right_first(_real_gnu_asm(addr)) == (compiler == RF_COMPILER)
 
 
 def queue():
@@ -350,13 +382,14 @@ def main():
     ap.add_argument("addr", nargs="?")
     ap.add_argument("-j", "--jobs", type=int, default=2)
     ap.add_argument("--limit", type=int, default=0)
-    ap.add_argument("--compilers", default=",".join(COMPILERS))
+    ap.add_argument("--compilers", default=",".join(COMPILERS + [RF_COMPILER]))
+    ap.add_argument("--list", help="solve these addresses (one hex per line) instead of the queue")
     a = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
     compilers = a.compilers.split(",")
     install()
     if a.cmd == "one":
-        for c in compilers:
+        for c in [c for c in compilers if fits(int(a.addr, 16), c)]:
             setup(c)
             r = attempt(int(a.addr, 16), c, verbose=True)
             print(json.dumps(r))
@@ -378,7 +411,10 @@ def main():
             print(f"{v:5} {k}")
         return
     done = autoloop.done_addrs()
-    todo = [int(x, 16) for x in open(QUEUE).read().split()] if os.path.exists(QUEUE) else queue()
+    if a.list:
+        todo = [int(x, 16) for x in open(a.list).read().split()]
+    else:
+        todo = [int(x, 16) for x in open(QUEUE).read().split()] if os.path.exists(QUEUE) else queue()
     todo = [x for x in todo if x not in done]
     if a.limit:
         todo = todo[:a.limit]
@@ -387,7 +423,7 @@ def main():
     for compiler in compilers:  # one compiler per phase: cpu_solve's globals carry the marker
         matched = {r["addr"] for r in rows if r["result"] == "match"}
         tried = {r["addr"] for r in rows if r.get("compiler") == compiler}
-        phase = [x for x in todo if f"{x:08x}" not in matched and f"{x:08x}" not in tried]
+        phase = [x for x in todo if f"{x:08x}" not in matched and f"{x:08x}" not in tried and fits(x, compiler)]
         print(f"{len(phase)} functions with {compiler}", flush=True)
         setup(compiler)
         stats = {}

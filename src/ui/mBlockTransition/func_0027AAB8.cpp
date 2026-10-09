@@ -42,14 +42,14 @@ extern char D_0069A7E8[];
 extern char D_0069A7F0[];
 extern char D_00832AE0[];
 extern char D_00832AD8[];
-extern "C" void func_0027A658(void);
-extern "C" void func_0027A6D0(void);
-extern "C" void func_0027A788(void);
-extern "C" void func_0027A828(void);
-extern "C" void func_0027A898(void);
-extern "C" void func_0027A938(void);
-extern "C" void func_0027A9A8(void);
-extern "C" void func_0027AA48(void);
+extern "C" void MBlockTransition__global_00832AE0(void);
+extern "C" void MBlockTransition__global_00832AD8(void);
+extern "C" void MBlockTransition__get_range(void);
+extern "C" void MBlockTransition__set_range(void);
+extern "C" void MBlockTransition__get_slope(void);
+extern "C" void MBlockTransition__set_slope(void);
+extern "C" void MBlockTransition__get_period(void);
+extern "C" void MBlockTransition__set_period(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern "C" void func_002F36E0(Obj *arg0, void *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
@@ -82,8 +82,8 @@ extern "C" void func_0027AAB8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_0024C9B0());
-    func_00306780(arg0, D_00832AE0, func_0027A658);
-    func_002F36E0(arg0, D_00832AD8, func_0027A6D0);
+    func_00306780(arg0, D_00832AE0, MBlockTransition__global_00832AE0);
+    func_002F36E0(arg0, D_00832AD8, MBlockTransition__global_00832AD8);
     {
         Str *ps = &s;
         const char *src = D_0069A7E0;
@@ -97,7 +97,7 @@ extern "C" void func_0027AAB8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0027A788, func_0027A828);
+        func_002F3860(arg0, &s, MBlockTransition__get_range, MBlockTransition__set_range);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -119,7 +119,7 @@ extern "C" void func_0027AAB8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0027A898, func_0027A938);
+        func_002F3860(arg0, &s, MBlockTransition__get_slope, MBlockTransition__set_slope);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -141,7 +141,7 @@ extern "C" void func_0027AAB8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0027A9A8, func_0027AA48);
+        func_002F3860(arg0, &s, MBlockTransition__get_period, MBlockTransition__set_period);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

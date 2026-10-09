@@ -3,7 +3,6 @@ typedef unsigned int u32;
 extern "C" void func_00604FF0();
 extern "C" void func_005BFB68(void *a0, void *a1, void *a2);
 
-extern char D_00693E50[];
 extern int D_006D6138;
 
 extern int D_0088DE50;
@@ -11,7 +10,7 @@ extern int D_0088DE50;
 extern "C" void *func_005D0D60(void) {
     if (D_0088DE50 == 0) {
         func_00604FF0();
-        func_005BFB68(&D_0088DE50, D_00693E50, &D_006D6138);
+        func_005BFB68(&D_0088DE50, ((char *)"Q28Jpeg2Sys14JpegDecoderGT4"), &D_006D6138);
     }
     return &D_0088DE50;
 }

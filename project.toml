@@ -66,3 +66,24 @@ archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-
 dir = "~/.local/share/gt4/compilers/ee-gcc2.96-nosib"
 command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-optimize-sibling-calls"
 archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
+
+# Library code assembled by a tool that expands gcc's unaligned-access macros (uld/usd/ulw/usw)
+# right half first (ldr before ldl; GNU as does left first): gcc -S, tools/rf_as.py, then as.
+[compilers."ee-gcc2.96-nsa-nosib-rf"]
+dir = "~/.local/share/gt4/compilers/ee-gcc2.96-nsa-nosib"
+command = "bash {tools}/cc_rf.sh \"{dir}/bin/ee-gcc -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-strict-aliasing -fno-optimize-sibling-calls\""
+archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
+
+# The game's flags (and the library flags) with gcc's symbolic load/store macros written out before
+# assembling (tools/hilo_as.py): the project's gas sometimes gives the macro's lui the opcode of the
+# load it ends with (`lw rX, 0(rX)` carrying R_MIPS_HI16) after a `.p2align 3,,7` frag, e.g. an
+# indexed global array D_X[i] right after a branch (found on 0x001f6c58).
+[compilers."ee-gcc2.96-hilo"]
+dir = "~/.local/share/gt4/ee-gcc2.96"
+command = "bash {tools}/cc_hilo.sh \"{dir}/bin/ee-gcc -B {dir}/bin/ee- -O2 -G0 -fno-exceptions\""
+archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
+
+[compilers."ee-gcc2.96-nsa-hilo"]
+dir = "~/.local/share/gt4/compilers/ee-gcc2.96-no-strict-aliasing"
+command = "bash {tools}/cc_hilo.sh \"{dir}/bin/ee-gcc -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-strict-aliasing\""
+archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"

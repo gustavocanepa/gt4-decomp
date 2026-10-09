@@ -85,58 +85,58 @@ extern char D_00699B80[];
 extern char D_00699B90[];
 extern char D_00699B98[];
 extern char D_00699BA8[];
-extern "C" void func_002567C0(void);
-extern "C" void func_00256860(void);
-extern "C" void func_00256900(void);
-extern "C" void func_002569A0(void);
-extern "C" void func_00256730(void);
-extern "C" void func_00256588(void);
-extern "C" void func_00256680(void);
-extern "C" void func_00256AB8(void);
-extern "C" void func_00256A40(void);
-extern "C" void func_00256BD0(void);
-extern "C" void func_00256B58(void);
-extern "C" void func_00256CE8(void);
-extern "C" void func_00256C70(void);
-extern "C" void func_00256D88(void);
-extern "C" void func_00256E28(void);
-extern "C" void func_00256E90(void);
-extern "C" void func_00256F30(void);
-extern "C" void func_00256F98(void);
-extern "C" void func_00257038(void);
-extern "C" void func_002570A0(void);
-extern "C" void func_00257140(void);
-extern "C" void func_002571A8(void);
-extern "C" void func_00257248(void);
-extern "C" void func_002572B0(void);
-extern "C" void func_00257350(void);
-extern "C" void func_002573B8(void);
-extern "C" void func_00257458(void);
-extern "C" void func_002574C0(void);
-extern "C" void func_00257560(void);
-extern "C" void MWidget__setActor(void);
-extern "C" void func_00257698(void);
-extern "C" void func_002558F8(void);
-extern "C" void func_00255B20(void);
-extern "C" void func_00255C08(void);
-extern "C" void func_002556D0(void);
-extern "C" void func_00255E30(void);
-extern "C" void func_00255F18(void);
-extern "C" void func_00256250(void);
-extern "C" void func_00257AA0(void);
-extern "C" void func_00257B38(void);
-extern "C" void func_00257BE0(void);
-extern "C" void func_00257C78(void);
-extern "C" void func_00257CE0(void);
-extern "C" void func_00257DD8(void);
-extern "C" void func_00257ED0(void);
-extern "C" void func_00257FC8(void);
-extern "C" void func_002580C0(void);
-extern "C" void func_002581B8(void);
-extern "C" void func_002582B0(void);
-extern "C" void func_002583A8(void);
-extern "C" void func_002584A0(void);
-extern "C" void MWidget__getActor(void);
+extern "C" void MWidget__get_next(void);
+extern "C" void MWidget__get_prev(void);
+extern "C" void MWidget__get_next_window(void);
+extern "C" void MWidget__get_prev_window(void);
+extern "C" void MWidget__get_context(void);
+extern "C" void MWidget__get_is_face(void);
+extern "C" void MWidget__get_is_composite(void);
+extern "C" void MWidget__get_visible(void);
+extern "C" void MWidget__set_visible(void);
+extern "C" void MWidget__get_can_focus(void);
+extern "C" void MWidget__set_can_focus(void);
+extern "C" void MWidget__get_can_default(void);
+extern "C" void MWidget__set_can_default(void);
+extern "C" void MWidget__get_active(void);
+extern "C" void MWidget__set_active(void);
+extern "C" void MWidget__get_insensitive(void);
+extern "C" void MWidget__set_insensitive(void);
+extern "C" void MWidget__get_x(void);
+extern "C" void MWidget__set_x(void);
+extern "C" void MWidget__get_y(void);
+extern "C" void MWidget__set_y(void);
+extern "C" void MWidget__get_w(void);
+extern "C" void MWidget__set_w(void);
+extern "C" void MWidget__get_h(void);
+extern "C" void MWidget__set_h(void);
+extern "C" void MWidget__get_sx(void);
+extern "C" void MWidget__set_sx(void);
+extern "C" void MWidget__get_sy(void);
+extern "C" void MWidget__set_sy(void);
+extern "C" void MWidget__get_actor(void);
+extern "C" void MWidget__set_actor(void);
+extern "C" void MWidget__get_scale(void);
+extern "C" void MWidget__get_rotate(void);
+extern "C" void MWidget__get_translate(void);
+extern "C" void MWidget__get_skew(void);
+extern "C" void MWidget__get_opacity(void);
+extern "C" void MWidget__get_navigate_source(void);
+extern "C" void MWidget__get_navigate_target(void);
+extern "C" void MWidget__get_tooltip_key(void);
+extern "C" void MWidget__set_tooltip_key(void);
+extern "C" void MWidget__get_tooltip(void);
+extern "C" void MWidget__set_tooltip(void);
+extern "C" void MWidget__get_packing(void);
+extern "C" void MWidget__get_pack_allocate_x(void);
+extern "C" void MWidget__get_pack_allocate_y(void);
+extern "C" void MWidget__get_pack_reverse(void);
+extern "C" void MWidget__get_pack_expand_x(void);
+extern "C" void MWidget__get_pack_expand_y(void);
+extern "C" void MWidget__get_pack_fill_x(void);
+extern "C" void MWidget__get_pack_fill_y(void);
+extern "C" void MWidget__get_minimum_width(void);
+extern "C" void MWidget__get_minimum_height(void);
 extern "C" void MWidget__doInitialize(void);
 extern "C" void MWidget__doCopy(void);
 extern "C" void MWidget__interpolateX(void);
@@ -183,7 +183,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002567C0, 0);
+        func_002F3860(arg0, &s, MWidget__get_next, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -205,7 +205,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256860, 0);
+        func_002F3860(arg0, &s, MWidget__get_prev, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -227,7 +227,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256900, 0);
+        func_002F3860(arg0, &s, MWidget__get_next_window, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -249,7 +249,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002569A0, 0);
+        func_002F3860(arg0, &s, MWidget__get_prev_window, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -271,7 +271,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256730, 0);
+        func_002F3860(arg0, &s, MWidget__get_context, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -293,7 +293,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256730, 0);
+        func_002F3860(arg0, &s, MWidget__get_context, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -315,7 +315,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256588, func_00256588);
+        func_002F3860(arg0, &s, MWidget__get_is_face, MWidget__get_is_face);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -337,7 +337,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256680, 0);
+        func_002F3860(arg0, &s, MWidget__get_is_composite, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -359,7 +359,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256AB8, func_00256A40);
+        func_002F3860(arg0, &s, MWidget__get_visible, MWidget__set_visible);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -381,7 +381,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256BD0, func_00256B58);
+        func_002F3860(arg0, &s, MWidget__get_can_focus, MWidget__set_can_focus);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -403,7 +403,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256CE8, func_00256C70);
+        func_002F3860(arg0, &s, MWidget__get_can_default, MWidget__set_can_default);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -425,7 +425,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256D88, func_00256E28);
+        func_002F3860(arg0, &s, MWidget__get_active, MWidget__set_active);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -447,7 +447,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256E90, func_00256F30);
+        func_002F3860(arg0, &s, MWidget__get_insensitive, MWidget__set_insensitive);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -469,7 +469,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256F98, func_00257038);
+        func_002F3860(arg0, &s, MWidget__get_x, MWidget__set_x);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -491,7 +491,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002570A0, func_00257140);
+        func_002F3860(arg0, &s, MWidget__get_y, MWidget__set_y);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -513,7 +513,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002571A8, func_00257248);
+        func_002F3860(arg0, &s, MWidget__get_w, MWidget__set_w);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -535,7 +535,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002572B0, func_00257350);
+        func_002F3860(arg0, &s, MWidget__get_h, MWidget__set_h);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -557,7 +557,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002573B8, func_00257458);
+        func_002F3860(arg0, &s, MWidget__get_sx, MWidget__set_sx);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -579,7 +579,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002574C0, func_00257560);
+        func_002F3860(arg0, &s, MWidget__get_sy, MWidget__set_sy);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -601,7 +601,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, MWidget__setActor, func_00257698);
+        func_002F3860(arg0, &s, MWidget__get_actor, MWidget__set_actor);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -623,7 +623,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002558F8, func_002558F8);
+        func_002F3860(arg0, &s, MWidget__get_scale, MWidget__get_scale);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -645,7 +645,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00255B20, func_00255B20);
+        func_002F3860(arg0, &s, MWidget__get_rotate, MWidget__get_rotate);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -667,7 +667,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00255C08, func_00255C08);
+        func_002F3860(arg0, &s, MWidget__get_translate, MWidget__get_translate);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -689,7 +689,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002556D0, func_002556D0);
+        func_002F3860(arg0, &s, MWidget__get_skew, MWidget__get_skew);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -711,7 +711,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00255E30, func_00255E30);
+        func_002F3860(arg0, &s, MWidget__get_opacity, MWidget__get_opacity);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -733,7 +733,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00255F18, func_00255F18);
+        func_002F3860(arg0, &s, MWidget__get_navigate_source, MWidget__get_navigate_source);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -755,7 +755,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256250, func_00256250);
+        func_002F3860(arg0, &s, MWidget__get_navigate_target, MWidget__get_navigate_target);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -777,7 +777,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00256250, func_00256250);
+        func_002F3860(arg0, &s, MWidget__get_navigate_target, MWidget__get_navigate_target);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -799,7 +799,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00257AA0, func_00257B38);
+        func_002F3860(arg0, &s, MWidget__get_tooltip_key, MWidget__set_tooltip_key);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -821,7 +821,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00257BE0, func_00257C78);
+        func_002F3860(arg0, &s, MWidget__get_tooltip, MWidget__set_tooltip);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -843,7 +843,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00257CE0, func_00257CE0);
+        func_002F3860(arg0, &s, MWidget__get_packing, MWidget__get_packing);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -865,7 +865,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00257DD8, func_00257DD8);
+        func_002F3860(arg0, &s, MWidget__get_pack_allocate_x, MWidget__get_pack_allocate_x);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -887,7 +887,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00257ED0, func_00257ED0);
+        func_002F3860(arg0, &s, MWidget__get_pack_allocate_y, MWidget__get_pack_allocate_y);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -909,7 +909,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00257FC8, func_00257FC8);
+        func_002F3860(arg0, &s, MWidget__get_pack_reverse, MWidget__get_pack_reverse);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -931,7 +931,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002580C0, func_002580C0);
+        func_002F3860(arg0, &s, MWidget__get_pack_expand_x, MWidget__get_pack_expand_x);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -953,7 +953,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002581B8, func_002581B8);
+        func_002F3860(arg0, &s, MWidget__get_pack_expand_y, MWidget__get_pack_expand_y);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -975,7 +975,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002582B0, func_002582B0);
+        func_002F3860(arg0, &s, MWidget__get_pack_fill_x, MWidget__get_pack_fill_x);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -997,7 +997,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002583A8, func_002583A8);
+        func_002F3860(arg0, &s, MWidget__get_pack_fill_y, MWidget__get_pack_fill_y);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1019,7 +1019,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002584A0, func_002584A0);
+        func_002F3860(arg0, &s, MWidget__get_minimum_width, MWidget__get_minimum_width);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1041,7 +1041,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, MWidget__getActor, MWidget__getActor);
+        func_002F3860(arg0, &s, MWidget__get_minimum_height, MWidget__get_minimum_height);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1063,7 +1063,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MWidget__setActor);
+        func_002F3818(arg0, &s, MWidget__get_actor);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1085,7 +1085,7 @@ extern "C" void func_00258670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, func_00257698);
+        func_002F3818(arg0, &s, MWidget__set_actor);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

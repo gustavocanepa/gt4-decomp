@@ -52,17 +52,17 @@ extern char D_00697718[];
 extern char D_00697720[];
 extern char D_0082AD88[];
 extern char D_0082AD80[];
-extern "C" void func_0020B5E0(void);
-extern "C" void func_0020B650(void);
+extern "C" void MFadeActor__global_0082AD88(void);
+extern "C" void MFadeActor__global_0082AD80(void);
 extern "C" void MFadeActor__warp(void);
-extern "C" void func_0020B8A0(void);
-extern "C" void func_0020B7B0(void);
-extern "C" void func_0020B828(void);
-extern "C" void func_0020B910(void);
-extern "C" void func_0020B980(void);
-extern "C" void func_0020B9F0(void);
-extern "C" void func_0020BA60(void);
-extern "C" void func_0020BAC8(void);
+extern "C" void MFadeActor__set_slope(void);
+extern "C" void MFadeActor__set_velocity(void);
+extern "C" void MFadeActor__set_period(void);
+extern "C" void MFadeActor__set_over(void);
+extern "C" void MFadeActor__set_src_over(void);
+extern "C" void MFadeActor__set_dest_over(void);
+extern "C" void MFadeActor__set_out(void);
+extern "C" void MFadeActor__set_repeat(void);
 
 extern "C" void func_0020BB30(Obj *arg0) {
     Str s;
@@ -92,8 +92,8 @@ extern "C" void func_0020BB30(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_001FF0F8());
-    func_00306780(arg0, D_0082AD88, func_0020B5E0);
-    func_002F36E0(arg0, D_0082AD80, func_0020B650);
+    func_00306780(arg0, D_0082AD88, MFadeActor__global_0082AD88);
+    func_002F36E0(arg0, D_0082AD80, MFadeActor__global_0082AD80);
     {
         Str *ps = &s;
         const char *src = D_006976C8;
@@ -129,7 +129,7 @@ extern "C" void func_0020BB30(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_0020B8A0);
+        func_002F3860(arg0, &s, 0, MFadeActor__set_slope);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -151,7 +151,7 @@ extern "C" void func_0020BB30(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_0020B7B0);
+        func_002F3860(arg0, &s, 0, MFadeActor__set_velocity);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -173,7 +173,7 @@ extern "C" void func_0020BB30(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_0020B828);
+        func_002F3860(arg0, &s, 0, MFadeActor__set_period);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -195,7 +195,7 @@ extern "C" void func_0020BB30(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_0020B910);
+        func_002F3860(arg0, &s, 0, MFadeActor__set_over);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -217,7 +217,7 @@ extern "C" void func_0020BB30(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_0020B980);
+        func_002F3860(arg0, &s, 0, MFadeActor__set_src_over);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -239,7 +239,7 @@ extern "C" void func_0020BB30(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_0020B9F0);
+        func_002F3860(arg0, &s, 0, MFadeActor__set_dest_over);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -261,7 +261,7 @@ extern "C" void func_0020BB30(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_0020BA60);
+        func_002F3860(arg0, &s, 0, MFadeActor__set_out);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -283,7 +283,7 @@ extern "C" void func_0020BB30(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_0020BAC8);
+        func_002F3860(arg0, &s, 0, MFadeActor__set_repeat);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

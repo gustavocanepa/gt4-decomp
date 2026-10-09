@@ -39,29 +39,9 @@ extern "C" int func_00309CC0(void);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
 extern "C" void func_003068A8(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_00699660[];
-extern char D_00699670[];
-extern char D_00699688[];
-extern char D_00699698[];
-extern char D_006996A8[];
-extern char D_006996C0[];
-extern char D_006996D8[];
-extern char D_006996F0[];
-extern char D_00699708[];
-extern char D_00699720[];
-extern char D_00699738[];
-extern char D_00699748[];
-extern char D_00699758[];
-extern char D_00699768[];
-extern char D_00699778[];
-extern char D_00699780[];
-extern char D_00699790[];
-extern char D_006997A0[];
-extern char D_006997B0[];
-extern char D_006997C0[];
-extern "C" void func_0024F478(void);
-extern "C" void func_0024F568(void);
-extern "C" void func_0024F658(void);
+extern "C" void MUpdateContext__get_cursor_speed_ratio(void);
+extern "C" void MUpdateContext__get_repeat_start(void);
+extern "C" void MUpdateContext__get_repeat_speed(void);
 extern "C" void MUpdateContext__getPadButtonState(void);
 extern "C" void MUpdateContext__getLastPadButtonState(void);
 extern "C" void MUpdateContext__getPadAnalogChannel(void);
@@ -83,7 +63,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00699660;
+        const char *src = "MUpdateContext";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -109,7 +89,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00699670;
+        const char *src = "cursor_speed_ratio";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -120,7 +100,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0024F478, func_0024F478);
+        func_002F3860(arg0, &s, MUpdateContext__get_cursor_speed_ratio, MUpdateContext__get_cursor_speed_ratio);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -131,7 +111,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699688;
+        const char *src = "repeat_start";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -142,7 +122,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0024F568, func_0024F568);
+        func_002F3860(arg0, &s, MUpdateContext__get_repeat_start, MUpdateContext__get_repeat_start);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -153,7 +133,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699698;
+        const char *src = "repeat_speed";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -164,7 +144,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0024F658, func_0024F658);
+        func_002F3860(arg0, &s, MUpdateContext__get_repeat_speed, MUpdateContext__get_repeat_speed);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -175,7 +155,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006996A8;
+        const char *src = "getPadButtonState";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -197,7 +177,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006996C0;
+        const char *src = "getLastPadButtonState";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -219,7 +199,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006996D8;
+        const char *src = "getPadAnalogChannel";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -241,7 +221,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006996F0;
+        const char *src = "getLastPadAnalogChannel";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -263,7 +243,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699708;
+        const char *src = "createRenderContext";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -285,7 +265,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699720;
+        const char *src = "getRenderContext";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -307,7 +287,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699738;
+        const char *src = "getStartPage";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -329,7 +309,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699748;
+        const char *src = "setStartPage";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -351,7 +331,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699758;
+        const char *src = "enterEventLoop";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -373,7 +353,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699768;
+        const char *src = "leaveEventLoop";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -395,7 +375,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699778;
+        const char *src = "loadGpb";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -417,7 +397,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699780;
+        const char *src = "loadGpbFromMC";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -439,7 +419,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699790;
+        const char *src = "existGpbBinary";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -461,7 +441,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006997A0;
+        const char *src = "unloadGpb";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -483,7 +463,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006997B0;
+        const char *src = "translate";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -505,7 +485,7 @@ extern "C" void func_0024F7A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006997C0;
+        const char *src = "Sync";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

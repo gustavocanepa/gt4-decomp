@@ -52,21 +52,21 @@ extern char D_0069C4D0[];
 extern char D_0069C4D8[];
 extern char D_008390F0[];
 extern char D_008390E8[];
-extern "C" void func_002C0668(void);
-extern "C" void func_002C06D8(void);
+extern "C" void MMoveActor__global_008390F0(void);
+extern "C" void MMoveActor__global_008390E8(void);
 extern "C" void MMoveActor__warp(void);
 extern "C" void MMoveActor__doFlip(void);
-extern "C" void func_002C0DB8(void);
-extern "C" void func_002C0EA0(void);
-extern "C" void func_002C0880(void);
-extern "C" void func_002C0968(void);
-extern "C" void func_002C0A00(void);
-extern "C" void func_002C0A70(void);
-extern "C" void func_002C0B10(void);
-extern "C" void func_002C0B80(void);
-extern "C" void func_002C0C20(void);
-extern "C" void func_002C0C90(void);
-extern "C" void func_002C0D28(void);
+extern "C" void MMoveActor__get_destinationX(void);
+extern "C" void MMoveActor__get_destinationY(void);
+extern "C" void MMoveActor__get_out(void);
+extern "C" void MMoveActor__get_ratio(void);
+extern "C" void MMoveActor__set_ratio(void);
+extern "C" void MMoveActor__get_repeat(void);
+extern "C" void MMoveActor__set_repeat(void);
+extern "C" void MMoveActor__get_linear(void);
+extern "C" void MMoveActor__set_linear(void);
+extern "C" void MMoveActor__get_flip(void);
+extern "C" void MMoveActor__set_flip(void);
 
 extern "C" void func_002C0F88(Obj *arg0) {
     Str s;
@@ -96,8 +96,8 @@ extern "C" void func_002C0F88(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_001FF0F8());
-    func_00306780(arg0, D_008390F0, func_002C0668);
-    func_002F36E0(arg0, D_008390E8, func_002C06D8);
+    func_00306780(arg0, D_008390F0, MMoveActor__global_008390F0);
+    func_002F36E0(arg0, D_008390E8, MMoveActor__global_008390E8);
     {
         Str *ps = &s;
         const char *src = D_0069C488;
@@ -155,7 +155,7 @@ extern "C" void func_002C0F88(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002C0DB8, func_002C0DB8);
+        func_002F3860(arg0, &s, MMoveActor__get_destinationX, MMoveActor__get_destinationX);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -177,7 +177,7 @@ extern "C" void func_002C0F88(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002C0EA0, func_002C0EA0);
+        func_002F3860(arg0, &s, MMoveActor__get_destinationY, MMoveActor__get_destinationY);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -199,7 +199,7 @@ extern "C" void func_002C0F88(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002C0880, func_002C0880);
+        func_002F3860(arg0, &s, MMoveActor__get_out, MMoveActor__get_out);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -221,7 +221,7 @@ extern "C" void func_002C0F88(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002C0968, func_002C0A00);
+        func_002F3860(arg0, &s, MMoveActor__get_ratio, MMoveActor__set_ratio);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -243,7 +243,7 @@ extern "C" void func_002C0F88(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002C0A70, func_002C0B10);
+        func_002F3860(arg0, &s, MMoveActor__get_repeat, MMoveActor__set_repeat);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -265,7 +265,7 @@ extern "C" void func_002C0F88(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002C0B80, func_002C0C20);
+        func_002F3860(arg0, &s, MMoveActor__get_linear, MMoveActor__set_linear);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -287,7 +287,7 @@ extern "C" void func_002C0F88(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002C0C90, func_002C0D28);
+        func_002F3860(arg0, &s, MMoveActor__get_flip, MMoveActor__set_flip);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

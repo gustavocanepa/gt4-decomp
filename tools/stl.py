@@ -43,7 +43,11 @@ COMPILER = "ee-gcc2.96-stl"
 # key compare function -> (type name, Rep::clone, Rep::operator delete, heap name getter): the
 # key is a libstdc++ v2 basic_string (knowledge/gt4.md); Str2 is a second instantiation of it
 # (another allocator; its release is not known yet, so members that destroy keys stay open)
-KEYS = {0x5C2A50: ("Str", 0x5C2560, 0x326798, 0x5C11A8), 0x608D98: ("Str2", 0x5D2B58, None, None)}
+# keys that are not strings: a one-word class (the compare is a guess: only members that compare
+# keys depend on it, and none of those has been matched for these trees)
+POD_KEYS = {"HSymID": 4}
+PLAIN_FREE = 0x575DA0  # memalign's free (the second allocator): takes the block only
+KEYS = {0x5C2A50: ("Str", 0x5C2560, 0x326798, 0x5C11A8), 0x608D98: ("Str2", 0x5D2B58, PLAIN_FREE, None)}
 # allocate function -> (style, deallocate): "tagged" is allocate(size, 4, typeid(T).name()),
 # "plain" is allocate(0x10, size) with no type_info
 ALLOCS = {0x326750: ("tagged", 0x326798), 0x575E60: ("plain", 0x575DA0)}
@@ -79,6 +83,14 @@ class Spec:
         return (f"map<{self.key}, {self.mapped}> node {self.node_size:#x}"
                 + (f" type_info func_{self.tf:08X}" if self.tf else f" allocator func_{self.alloc:08X}")
                 + (f" dtor func_{self.dtor:08X}" if self.dtor else ""))
+
+
+# Trees whose _M_insert is inlined or not deducible (a key that is not a string), entered by hand from
+# one member: {address of that member: Spec}; `stl.py try ADDR` starts from it like from an _M_insert.
+# map<HSymID, HValue> (type string t13_Rb_tree_node1Zt4pair2ZC6HSymIDZ6HValue): node 0x18, the value's
+# copy constructor func_00323B48 and destructor func_00323B60, from its _M_copy and _M_erase.
+KNOWN_TREES = {0x5EEB70: Spec("HSymID", 0x18, 0x5EFEA0, 0x326750, "ctor", 4, ctor=0x323B48, dtor=0x323B60, at=0x5EEB70)}
+KNOWN_ANCHORS = {0x5EEB70: "_M_copy"}
 
 
 # ---------------------------------------------------------------- reading the original
@@ -140,12 +152,18 @@ def deduce(addr):
 # ---------------------------------------------------------------- the source
 
 def key_source(name):
+    if name in POD_KEYS:
+        return (f"struct {name} {{\n    int w[{POD_KEYS[name] // 4}];\n"
+                f"    bool operator<(const {name} &o) const {{ return w[0] < o.w[0]; }}\n}};\n")
     compare, (_, clone, free, heap) = next((c, k) for c, k in KEYS.items() if k[0] == name)
-    release = (f"func_{free:08X}(r, size, 4, func_{heap:08X}()->name);" if free
-               else "stl_unknown_release(r, size);")
-    decls = (f'extern "C" HeapName *func_{heap:08X}(void);\n'
-             f'extern "C" void func_{free:08X}(void *p, int size, int align, const char *name);' if free
-             else 'extern "C" void stl_unknown_release(void *p, int size);')
+    if free == PLAIN_FREE:  # the second allocator's string: free(rep), declared with the allocator
+        release, decls = f"func_{free:08X}(r);", ""
+    elif free:
+        release = f"func_{free:08X}(r, size, 4, func_{heap:08X}()->name);"
+        decls = (f'extern "C" HeapName *func_{heap:08X}(void);\n'
+                 f'extern "C" void func_{free:08X}(void *p, int size, int align, const char *name);')
+    else:
+        release, decls = "stl_unknown_release(r, size);", 'extern "C" void stl_unknown_release(void *p, int size);'
     return f"""struct Rep {{
     int len;
     int cap;
@@ -217,10 +235,10 @@ def source(spec, member):
         tag = f"template <> struct TypeTag<Node> {{ static void *tf() {{ return func_{spec.tf:08X}(); }} }};"
     else:
         alloc_decl = f'extern "C" void *func_{spec.alloc:08X}(int heap, int size);'
-        free_decl = f'extern "C" void func_{free:08X}(void *p, int size);'
+        free_decl = f'extern "C" void func_{free:08X}(void *p);'  # memalign's free: the block only
         tf_decl = ""
         allocate = f"(T *)func_{spec.alloc:08X}(0x10, n * sizeof(T))"
-        deallocate = f"func_{free:08X}(p, n * sizeof(T))"
+        deallocate = f"func_{free:08X}(p)"
         tag = ""
     text = f"""/* compiler: {COMPILER} */
 /* SGI STL (include/stl/stl_tree.h) instantiated by tools/stl.py:
@@ -553,7 +571,8 @@ def solve_tree(addr, spec, members, done, verify=False):
     order = [m for m in members if m not in NEEDS_DTOR] + [m for m in NEEDS_DTOR if m in members]
     pool = set() if verify else done
     for member in order:
-        found, status = solve_member(spec, member, tag, pool, text_addr, text, known, only=addr if member == "_M_insert" else None)
+        anchor = KNOWN_ANCHORS.get(addr, "_M_insert")
+        found, status = solve_member(spec, member, tag, pool, text_addr, text, known, only=addr if member == anchor else None)
         if status == "MATCH":
             known.add(found)
             if spec.dtor:
@@ -584,7 +603,7 @@ def main():
     members = a.member or list(MEMBERS)
     if a.command == "try":
         addr = int(a.addr, 16)
-        spec = deduce(addr)
+        spec = KNOWN_TREES.get(addr) or deduce(addr)
         if spec is None:
             raise SystemExit(f"0x{addr:08x} does not look like an rb-tree _M_insert")
         if a.dtor:

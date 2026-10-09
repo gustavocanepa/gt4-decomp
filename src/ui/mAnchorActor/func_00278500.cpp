@@ -41,8 +41,8 @@ extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern char D_0069A680[];
 extern char D_00832660[];
 extern char D_00832658[];
-extern "C" void func_00278398(void);
-extern "C" void func_00278408(void);
+extern "C" void MAnchorActor__global_00832660(void);
+extern "C" void MAnchorActor__global_00832658(void);
 
 extern "C" void func_00278500(Obj *arg0) {
     Str s;
@@ -69,6 +69,6 @@ extern "C" void func_00278500(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_001FF0F8());
-    func_00306780(arg0, D_00832660, func_00278398);
-    func_002F36E0(arg0, D_00832658, func_00278408);
+    func_00306780(arg0, D_00832660, MAnchorActor__global_00832660);
+    func_002F36E0(arg0, D_00832658, MAnchorActor__global_00832658);
 }

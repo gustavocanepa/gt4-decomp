@@ -151,80 +151,80 @@ extern char D_00690958[];
 extern char D_00690968[];
 extern char D_00690980[];
 extern char D_00823700[];
-extern "C" void func_0015F790(void);
+extern "C" void MGame__global_00823700(void);
 extern "C" void MGame__getConfigScriptFile(void);
 extern "C" void MGame__checkExistValidGameData(void);
 extern "C" void MGame__getOption(void);
 extern "C" void MGame__setOption(void);
-extern "C" void func_00161CB0(void);
-extern "C" void func_0015F9B0(void);
-extern "C" void func_0015FA48(void);
-extern "C" void func_0015FAE8(void);
-extern "C" void func_0015FCA8(void);
-extern "C" void func_0015FE68(void);
-extern "C" void func_00160028(void);
-extern "C" void func_00160128(void);
-extern "C" void func_00160218(void);
-extern "C" void func_00160410(void);
-extern "C" void func_00160500(void);
-extern "C" void func_001605F0(void);
-extern "C" void func_001607B0(void);
-extern "C" void func_00160850(void);
-extern "C" void func_001608C8(void);
-extern "C" void func_00160970(void);
-extern "C" void func_001609F0(void);
-extern "C" void func_00160AD0(void);
-extern "C" void func_00160BB0(void);
-extern "C" void func_00160C58(void);
-extern "C" void func_00160CD8(void);
-extern "C" void func_00160D80(void);
-extern "C" void func_00160E00(void);
-extern "C" void func_00160EF0(void);
-extern "C" void func_00161030(void);
-extern "C" void func_001610D0(void);
-extern "C" void func_00161170(void);
-extern "C" void func_001611E8(void);
-extern "C" void func_00161290(void);
-extern "C" void func_00161310(void);
-extern "C" void func_001613F0(void);
-extern "C" void func_001614D0(void);
-extern "C" void func_00161578(void);
-extern "C" void func_001615F8(void);
-extern "C" void func_001616A0(void);
-extern "C" void func_00161720(void);
+extern "C" void MGame__get_option(void);
+extern "C" void MGame__get_calendar(void);
+extern "C" void MGame__get_garage(void);
+extern "C" void MGame__get_course_code(void);
+extern "C" void MGame__get_race_code(void);
+extern "C" void MGame__get_game_code(void);
+extern "C" void MGame__get_max_entry(void);
+extern "C" void MGame__get_laps(void);
+extern "C" void MGame__get_difficulty(void);
+extern "C" void MGame__get_enemy_level(void);
+extern "C" void MGame__get_overwrite_enemy_num(void);
+extern "C" void MGame__get_car_code(void);
+extern "C" void MGame__get_car_color(void);
+extern "C" void MGame__set_car_color(void);
+extern "C" void MGame__get_assist_type(void);
+extern "C" void MGame__set_assist_type(void);
+extern "C" void MGame__get_assist_asm(void);
+extern "C" void MGame__get_assist_tcs(void);
+extern "C" void MGame__get_manual(void);
+extern "C" void MGame__set_manual(void);
+extern "C" void MGame__get_vibration(void);
+extern "C" void MGame__set_vibration(void);
+extern "C" void MGame__get_tire_idx(void);
+extern "C" void MGame__get_car_code_2p(void);
+extern "C" void MGame__set_car_code_2p(void);
+extern "C" void MGame__get_car_color_2p(void);
+extern "C" void MGame__set_car_color_2p(void);
+extern "C" void MGame__get_assist_type_2p(void);
+extern "C" void MGame__set_assist_type_2p(void);
+extern "C" void MGame__get_assist_asm_2p(void);
+extern "C" void MGame__get_assist_tcs_2p(void);
+extern "C" void MGame__get_manual_2p(void);
+extern "C" void MGame__set_manual_2p(void);
+extern "C" void MGame__get_vibration_2p(void);
+extern "C" void MGame__set_vibration_2p(void);
+extern "C" void MGame__get_tire_idx_2p(void);
 extern "C" void MGame__getEntryCarCode(void);
 extern "C" void MGame__setEntryCarCode(void);
-extern "C" void func_00161D58(void);
-extern "C" void func_00161E00(void);
-extern "C" void func_00161E80(void);
-extern "C" void func_00162138(void);
+extern "C" void MGame__get_selected_course(void);
+extern "C" void MGame__set_selected_course(void);
+extern "C" void MGame__get_selected_car(void);
+extern "C" void MGame__set_selected_car(void);
 extern "C" void MGame__getBattleSettingRace(void);
 extern "C" void MGame__getBattleSettingEntry(void);
-extern "C" void func_001621B8(void);
-extern "C" void func_00162328(void);
-extern "C" void func_00162498(void);
-extern "C" void func_001625D8(void);
-extern "C" void func_001626B0(void);
-extern "C" void func_001627F0(void);
-extern "C" void func_00162920(void);
-extern "C" void func_00162A60(void);
-extern "C" void func_00162B90(void);
-extern "C" void func_00162CD8(void);
-extern "C" void func_00162E20(void);
-extern "C" void func_00162EC8(void);
-extern "C" void func_00163010(void);
-extern "C" void func_00163158(void);
-extern "C" void func_00163200(void);
-extern "C" void func_00163348(void);
-extern "C" void func_00163490(void);
-extern "C" void func_00163538(void);
-extern "C" void func_00163680(void);
-extern "C" void func_00165DC8(void);
-extern "C" void func_00165E68(void);
-extern "C" void func_00166B08(void);
-extern "C" void func_00166BB0(void);
-extern "C" void func_00166C20(void);
-extern "C" void func_00166CC8(void);
+extern "C" void MGame__get_car_garage(void);
+extern "C" void MGame__get_car_garage_2p(void);
+extern "C" void MGame__get_major_menu_project(void);
+extern "C" void MGame__set_major_menu_project(void);
+extern "C" void MGame__get_major_menu_page(void);
+extern "C" void MGame__set_major_menu_page(void);
+extern "C" void MGame__get_major_menu_widget(void);
+extern "C" void MGame__set_major_menu_widget(void);
+extern "C" void MGame__get_last_sequence(void);
+extern "C" void MGame__get_next_sequence(void);
+extern "C" void MGame__set_next_sequence(void);
+extern "C" void MGame__get_last_menu_project(void);
+extern "C" void MGame__get_next_menu_project(void);
+extern "C" void MGame__set_next_menu_project(void);
+extern "C" void MGame__get_last_menu_arg(void);
+extern "C" void MGame__get_next_menu_arg(void);
+extern "C" void MGame__set_next_menu_arg(void);
+extern "C" void MGame__get_menu_result(void);
+extern "C" void MGame__set_menu_result(void);
+extern "C" void MGame__get_last_record(void);
+extern "C" void MGame__set_last_record(void);
+extern "C" void MGame__get_labo_folder(void);
+extern "C" void MGame__set_labo_folder(void);
+extern "C" void MGame__get_labo_list_index(void);
+extern "C" void MGame__set_labo_list_index(void);
 extern "C" void MGame__menuPush(void);
 extern "C" void MGame__menuPop(void);
 extern "C" void MGame__menuRef(void);
@@ -232,9 +232,9 @@ extern "C" void MGame__menuClearStack(void);
 extern "C" void MGame__saveMenuStack(void);
 extern "C" void MGame__loadMenuStack(void);
 extern "C" void MGame__setReturnToLastMenuProject(void);
-extern "C" void func_00165D20(void);
-extern "C" void func_00163708(void);
-extern "C" void func_00163860(void);
+extern "C" void MGame__get_demonstration(void);
+extern "C" void MGame__get_money(void);
+extern "C" void MGame__set_money(void);
 extern "C" void MGame__incMoney(void);
 extern "C" void MGame__setMoneyZero(void);
 extern "C" void MGame__isEnoughMoney(void);
@@ -253,27 +253,27 @@ extern "C" void MGame__getBspecTotalExperience(void);
 extern "C" void MGame__getBspecCarExperience(void);
 extern "C" void MGame__getBspecCourseExperience(void);
 extern "C" void MGame__getBspecBattleExperience(void);
-extern "C" void func_00164640(void);
-extern "C" void func_00164778(void);
-extern "C" void func_001647F8(void);
-extern "C" void func_00164930(void);
-extern "C" void func_001649B0(void);
-extern "C" void func_00164AF0(void);
-extern "C" void func_00164B90(void);
-extern "C" void func_00164C88(void);
-extern "C" void func_00164D80(void);
-extern "C" void func_00164E70(void);
-extern "C" void func_00164F18(void);
-extern "C" void func_00164FC0(void);
-extern "C" void func_00165068(void);
-extern "C" void func_00165110(void);
-extern "C" void func_001651B0(void);
-extern "C" void func_00165250(void);
+extern "C" void MGame__get_username(void);
+extern "C" void MGame__set_username(void);
+extern "C" void MGame__get_password(void);
+extern "C" void MGame__set_password(void);
+extern "C" void MGame__get_last_entry_name(void);
+extern "C" void MGame__set_last_entry_name(void);
+extern "C" void MGame__get_withdrawn(void);
+extern "C" void MGame__get_withdrawnGT4p(void);
+extern "C" void MGame__get_met_type(void);
+extern "C" void MGame__get_course_record(void);
+extern "C" void MGame__get_machine_record(void);
+extern "C" void MGame__get_license_record(void);
+extern "C" void MGame__get_race_record(void);
+extern "C" void MGame__get_present(void);
+extern "C" void MGame__get_favorite_car(void);
+extern "C" void MGame__get_favorite_course(void);
 extern "C" void MGame__isSuspended(void);
-extern "C" void func_00165390(void);
-extern "C" void func_001655A8(void);
+extern "C" void MGame__get_suspended_racecode(void);
+extern "C" void MGame__get_suspended_session(void);
 extern "C" void MGame__abandonRace(void);
-extern "C" void func_001656F8(void);
+extern "C" void MGame__get_used_car(void);
 extern "C" void MGame__getAllMusicList(void);
 extern "C" void MGame__loadShutterSound(void);
 extern "C" void MGame__isCarAvailable(void);
@@ -315,7 +315,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00823700, func_0015F790);
+    func_00306780(arg0, D_00823700, MGame__global_00823700);
     {
         Str *ps = &s;
         const char *src = D_00690200;
@@ -417,7 +417,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00161CB0, 0);
+        func_002F3860(arg0, &s, MGame__get_option, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -439,7 +439,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0015F9B0, 0);
+        func_002F3860(arg0, &s, MGame__get_calendar, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -461,7 +461,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0015FA48, 0);
+        func_002F3860(arg0, &s, MGame__get_garage, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -483,7 +483,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0015FAE8, func_0015FAE8);
+        func_002F3860(arg0, &s, MGame__get_course_code, MGame__get_course_code);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -505,7 +505,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0015FCA8, func_0015FCA8);
+        func_002F3860(arg0, &s, MGame__get_race_code, MGame__get_race_code);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -527,7 +527,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0015FE68, func_0015FE68);
+        func_002F3860(arg0, &s, MGame__get_game_code, MGame__get_game_code);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -549,7 +549,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00160028, func_00160028);
+        func_002F3860(arg0, &s, MGame__get_max_entry, MGame__get_max_entry);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -571,7 +571,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00160128, func_00160128);
+        func_002F3860(arg0, &s, MGame__get_laps, MGame__get_laps);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -593,7 +593,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00160218, func_00160218);
+        func_002F3860(arg0, &s, MGame__get_difficulty, MGame__get_difficulty);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -615,7 +615,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00160410, func_00160410);
+        func_002F3860(arg0, &s, MGame__get_enemy_level, MGame__get_enemy_level);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -637,7 +637,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00160500, func_00160500);
+        func_002F3860(arg0, &s, MGame__get_overwrite_enemy_num, MGame__get_overwrite_enemy_num);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -659,7 +659,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001605F0, func_001605F0);
+        func_002F3860(arg0, &s, MGame__get_car_code, MGame__get_car_code);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -681,7 +681,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001607B0, func_00160850);
+        func_002F3860(arg0, &s, MGame__get_car_color, MGame__set_car_color);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -703,7 +703,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001608C8, func_00160970);
+        func_002F3860(arg0, &s, MGame__get_assist_type, MGame__set_assist_type);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -725,7 +725,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001609F0, func_001609F0);
+        func_002F3860(arg0, &s, MGame__get_assist_asm, MGame__get_assist_asm);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -747,7 +747,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00160AD0, func_00160AD0);
+        func_002F3860(arg0, &s, MGame__get_assist_tcs, MGame__get_assist_tcs);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -769,7 +769,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00160BB0, func_00160C58);
+        func_002F3860(arg0, &s, MGame__get_manual, MGame__set_manual);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -791,7 +791,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00160CD8, func_00160D80);
+        func_002F3860(arg0, &s, MGame__get_vibration, MGame__set_vibration);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -813,7 +813,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00160E00, func_00160E00);
+        func_002F3860(arg0, &s, MGame__get_tire_idx, MGame__get_tire_idx);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -835,7 +835,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00160EF0, func_00161030);
+        func_002F3860(arg0, &s, MGame__get_car_code_2p, MGame__set_car_code_2p);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -857,7 +857,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001610D0, func_00161170);
+        func_002F3860(arg0, &s, MGame__get_car_color_2p, MGame__set_car_color_2p);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -879,7 +879,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001611E8, func_00161290);
+        func_002F3860(arg0, &s, MGame__get_assist_type_2p, MGame__set_assist_type_2p);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -901,7 +901,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00161310, func_00161310);
+        func_002F3860(arg0, &s, MGame__get_assist_asm_2p, MGame__get_assist_asm_2p);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -923,7 +923,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001613F0, func_001613F0);
+        func_002F3860(arg0, &s, MGame__get_assist_tcs_2p, MGame__get_assist_tcs_2p);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -945,7 +945,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001614D0, func_00161578);
+        func_002F3860(arg0, &s, MGame__get_manual_2p, MGame__set_manual_2p);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -967,7 +967,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001615F8, func_001616A0);
+        func_002F3860(arg0, &s, MGame__get_vibration_2p, MGame__set_vibration_2p);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -989,7 +989,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00161720, func_00161720);
+        func_002F3860(arg0, &s, MGame__get_tire_idx_2p, MGame__get_tire_idx_2p);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1055,7 +1055,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00161D58, func_00161E00);
+        func_002F3860(arg0, &s, MGame__get_selected_course, MGame__set_selected_course);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1077,7 +1077,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00161E80, func_00162138);
+        func_002F3860(arg0, &s, MGame__get_selected_car, MGame__set_selected_car);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1143,7 +1143,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001621B8, func_001621B8);
+        func_002F3860(arg0, &s, MGame__get_car_garage, MGame__get_car_garage);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1165,7 +1165,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00162328, func_00162328);
+        func_002F3860(arg0, &s, MGame__get_car_garage_2p, MGame__get_car_garage_2p);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1187,7 +1187,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00162498, func_001625D8);
+        func_002F3860(arg0, &s, MGame__get_major_menu_project, MGame__set_major_menu_project);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1209,7 +1209,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001626B0, func_001627F0);
+        func_002F3860(arg0, &s, MGame__get_major_menu_page, MGame__set_major_menu_page);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1231,7 +1231,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00162920, func_00162A60);
+        func_002F3860(arg0, &s, MGame__get_major_menu_widget, MGame__set_major_menu_widget);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1253,7 +1253,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00162B90, 0);
+        func_002F3860(arg0, &s, MGame__get_last_sequence, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1275,7 +1275,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00162CD8, func_00162E20);
+        func_002F3860(arg0, &s, MGame__get_next_sequence, MGame__set_next_sequence);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1297,7 +1297,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00162EC8, 0);
+        func_002F3860(arg0, &s, MGame__get_last_menu_project, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1319,7 +1319,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00163010, func_00163158);
+        func_002F3860(arg0, &s, MGame__get_next_menu_project, MGame__set_next_menu_project);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1341,7 +1341,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00163200, 0);
+        func_002F3860(arg0, &s, MGame__get_last_menu_arg, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1363,7 +1363,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00163348, func_00163490);
+        func_002F3860(arg0, &s, MGame__get_next_menu_arg, MGame__set_next_menu_arg);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1385,7 +1385,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00163538, func_00163680);
+        func_002F3860(arg0, &s, MGame__get_menu_result, MGame__set_menu_result);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1407,7 +1407,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00165DC8, func_00165E68);
+        func_002F3860(arg0, &s, MGame__get_last_record, MGame__set_last_record);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1429,7 +1429,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00166B08, func_00166BB0);
+        func_002F3860(arg0, &s, MGame__get_labo_folder, MGame__set_labo_folder);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1451,7 +1451,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00166C20, func_00166CC8);
+        func_002F3860(arg0, &s, MGame__get_labo_list_index, MGame__set_labo_list_index);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1627,7 +1627,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00165D20, 0);
+        func_002F3860(arg0, &s, MGame__get_demonstration, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1649,7 +1649,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00163708, func_00163860);
+        func_002F3860(arg0, &s, MGame__get_money, MGame__set_money);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2067,7 +2067,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00164640, func_00164778);
+        func_002F3860(arg0, &s, MGame__get_username, MGame__set_username);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2089,7 +2089,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001647F8, func_00164930);
+        func_002F3860(arg0, &s, MGame__get_password, MGame__set_password);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2111,7 +2111,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001649B0, func_00164AF0);
+        func_002F3860(arg0, &s, MGame__get_last_entry_name, MGame__set_last_entry_name);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2133,7 +2133,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00164B90, func_00164B90);
+        func_002F3860(arg0, &s, MGame__get_withdrawn, MGame__get_withdrawn);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2155,7 +2155,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00164C88, func_00164C88);
+        func_002F3860(arg0, &s, MGame__get_withdrawnGT4p, MGame__get_withdrawnGT4p);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2177,7 +2177,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00164D80, func_00164D80);
+        func_002F3860(arg0, &s, MGame__get_met_type, MGame__get_met_type);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2199,7 +2199,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00164E70, 0);
+        func_002F3860(arg0, &s, MGame__get_course_record, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2221,7 +2221,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00164F18, 0);
+        func_002F3860(arg0, &s, MGame__get_machine_record, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2243,7 +2243,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00164FC0, 0);
+        func_002F3860(arg0, &s, MGame__get_license_record, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2265,7 +2265,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00165068, 0);
+        func_002F3860(arg0, &s, MGame__get_race_record, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2287,7 +2287,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00165110, 0);
+        func_002F3860(arg0, &s, MGame__get_present, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2309,7 +2309,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001651B0, 0);
+        func_002F3860(arg0, &s, MGame__get_favorite_car, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2331,7 +2331,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00165250, 0);
+        func_002F3860(arg0, &s, MGame__get_favorite_course, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2375,7 +2375,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00165390, func_00165390);
+        func_002F3860(arg0, &s, MGame__get_suspended_racecode, MGame__get_suspended_racecode);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2397,7 +2397,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001655A8, func_001655A8);
+        func_002F3860(arg0, &s, MGame__get_suspended_session, MGame__get_suspended_session);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -2441,7 +2441,7 @@ extern "C" void func_00166D38(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001656F8, 0);
+        func_002F3860(arg0, &s, MGame__get_used_car, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

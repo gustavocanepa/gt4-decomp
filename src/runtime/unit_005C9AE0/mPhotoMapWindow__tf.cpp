@@ -3,7 +3,6 @@ typedef unsigned int u32;
 extern "C" void mBox__tf();
 extern "C" void func_005BFB68(void *a0, void *a1, void *a2);
 
-extern char D_00692368[];
 extern int D_0088E020;
 
 extern int D_0088DC90;
@@ -11,7 +10,7 @@ extern int D_0088DC90;
 extern "C" void *mPhotoMapWindow__tf(void) {
     if (D_0088DC90 == 0) {
         mBox__tf();
-        func_005BFB68(&D_0088DC90, D_00692368, &D_0088E020);
+        func_005BFB68(&D_0088DC90, ((char *)"15mPhotoMapWindow"), &D_0088E020);
     }
     return &D_0088DC90;
 }

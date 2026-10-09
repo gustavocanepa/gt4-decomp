@@ -36,11 +36,6 @@ extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_003068A8(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_006932A0[];
-extern char D_006932B0[];
-extern char D_006932C0[];
-extern char D_006932C8[];
-extern char D_006932D0[];
 extern "C" void MCourseData__GetMaxCarNum(void);
 extern "C" void MCourseData__GetType(void);
 extern "C" void MCourseData__GetID(void);
@@ -50,7 +45,7 @@ extern "C" void func_001B34D0(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_006932A0;
+        const char *src = "MCourseData";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -76,7 +71,7 @@ extern "C" void func_001B34D0(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_006932B0;
+        const char *src = "GetMaxCarNum";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -98,7 +93,7 @@ extern "C" void func_001B34D0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006932C0;
+        const char *src = "GetType";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -120,7 +115,7 @@ extern "C" void func_001B34D0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006932C8;
+        const char *src = "GetID";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -142,7 +137,7 @@ extern "C" void func_001B34D0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006932D0;
+        const char *src = "GetAttrString";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

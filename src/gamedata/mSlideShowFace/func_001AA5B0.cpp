@@ -46,12 +46,12 @@ extern char D_00692DC0[];
 extern char D_00692DD0[];
 extern char D_00692DD8[];
 extern char D_008261C0[];
-extern "C" void func_005CE1B0(void);
+extern "C" void MSlideShowFace__global_008261C0(void);
 extern "C" void MSlideShowFace__doPlay(void);
 extern "C" void MSlideShowFace__doStop(void);
 extern "C" void MSlideShowFace__isPlaying(void);
-extern "C" void func_001AA460(void);
-extern "C" void func_001AA548(void);
+extern "C" void MSlideShowFace__get_shuffle(void);
+extern "C" void MSlideShowFace__set_demo(void);
 
 extern "C" void func_001AA5B0(Obj *arg0) {
     Str s;
@@ -81,7 +81,7 @@ extern "C" void func_001AA5B0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_008261C0, func_005CE1B0);
+    func_00306780(arg0, D_008261C0, MSlideShowFace__global_008261C0);
     {
         Str *ps = &s;
         const char *src = D_00692DB0;
@@ -161,7 +161,7 @@ extern "C" void func_001AA5B0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001AA460, func_001AA460);
+        func_002F3860(arg0, &s, MSlideShowFace__get_shuffle, MSlideShowFace__get_shuffle);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -183,7 +183,7 @@ extern "C" void func_001AA5B0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_001AA548);
+        func_002F3860(arg0, &s, 0, MSlideShowFace__set_demo);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

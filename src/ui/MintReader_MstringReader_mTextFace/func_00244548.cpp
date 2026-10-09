@@ -56,26 +56,26 @@ extern char D_00699108[];
 extern char D_00699118[];
 extern char D_00699128[];
 extern char D_0082F8C8[];
-extern "C" void func_002437B8(void);
-extern "C" void func_00243858(void);
-extern "C" void func_002438F8(void);
-extern "C" void func_00243A68(void);
-extern "C" void func_00243B08(void);
-extern "C" void func_00243BF0(void);
-extern "C" void func_00243ED8(void);
-extern "C" void func_00243F70(void);
-extern "C" void func_00243FE8(void);
-extern "C" void func_00244080(void);
-extern "C" void func_002440E8(void);
-extern "C" void func_00244258(void);
-extern "C" void func_00244340(void);
-extern "C" void func_00244428(void);
-extern "C" void func_005DC780(void);
-extern "C" void func_005DC7A8(void);
-extern "C" void func_005DC7D0(void);
-extern "C" void func_005DC7F8(void);
-extern "C" void func_005DC820(void);
-extern "C" void func_005DC848(void);
+extern "C" void MTextFace__global_0082F8C8(void);
+extern "C" void MTextFace__get_key(void);
+extern "C" void MTextFace__set_key(void);
+extern "C" void MTextFace__get_value(void);
+extern "C" void MTextFace__get_text(void);
+extern "C" void MTextFace__set_text(void);
+extern "C" void MTextFace__get_color(void);
+extern "C" void MTextFace__set_color(void);
+extern "C" void MTextFace__get_shadow_color(void);
+extern "C" void MTextFace__set_shadow_color(void);
+extern "C" void MTextFace__get_align(void);
+extern "C" void MTextFace__get_scale_x(void);
+extern "C" void MTextFace__get_scale_y(void);
+extern "C" void MTextFace__get_proportional(void);
+extern "C" void MTextFace__get_aligned(void);
+extern "C" void MTextFace__set_aligned(void);
+extern "C" void MTextFace__get_equalized(void);
+extern "C" void MTextFace__set_equalized(void);
+extern "C" void MTextFace__get_multiline(void);
+extern "C" void MTextFace__set_multiline(void);
 extern "C" void MTextFace__getTextSize(void);
 extern "C" void MTextFace__abbreviate(void);
 extern "C" void MTextFace__adjustScale(void);
@@ -108,7 +108,7 @@ extern "C" void func_00244548(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_0082F8C8, func_002437B8);
+    func_00306780(arg0, D_0082F8C8, MTextFace__global_0082F8C8);
     {
         Str *ps = &s;
         const char *src = D_00699088;
@@ -122,7 +122,7 @@ extern "C" void func_00244548(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00243858, func_002438F8);
+        func_002F3860(arg0, &s, MTextFace__get_key, MTextFace__set_key);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -144,7 +144,7 @@ extern "C" void func_00244548(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00243A68, 0);
+        func_002F3860(arg0, &s, MTextFace__get_value, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -166,7 +166,7 @@ extern "C" void func_00244548(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00243B08, func_00243BF0);
+        func_002F3860(arg0, &s, MTextFace__get_text, MTextFace__set_text);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -188,7 +188,7 @@ extern "C" void func_00244548(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00243ED8, func_00243F70);
+        func_002F3860(arg0, &s, MTextFace__get_color, MTextFace__set_color);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -210,7 +210,7 @@ extern "C" void func_00244548(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00243FE8, func_00244080);
+        func_002F3860(arg0, &s, MTextFace__get_shadow_color, MTextFace__set_shadow_color);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -232,7 +232,7 @@ extern "C" void func_00244548(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002440E8, func_002440E8);
+        func_002F3860(arg0, &s, MTextFace__get_align, MTextFace__get_align);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -254,7 +254,7 @@ extern "C" void func_00244548(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00244258, func_00244258);
+        func_002F3860(arg0, &s, MTextFace__get_scale_x, MTextFace__get_scale_x);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -276,7 +276,7 @@ extern "C" void func_00244548(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00244340, func_00244340);
+        func_002F3860(arg0, &s, MTextFace__get_scale_y, MTextFace__get_scale_y);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -298,7 +298,7 @@ extern "C" void func_00244548(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00244428, func_00244428);
+        func_002F3860(arg0, &s, MTextFace__get_proportional, MTextFace__get_proportional);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -320,7 +320,7 @@ extern "C" void func_00244548(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005DC780, func_005DC7A8);
+        func_002F3860(arg0, &s, MTextFace__get_aligned, MTextFace__set_aligned);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -342,7 +342,7 @@ extern "C" void func_00244548(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005DC7D0, func_005DC7F8);
+        func_002F3860(arg0, &s, MTextFace__get_equalized, MTextFace__set_equalized);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -364,7 +364,7 @@ extern "C" void func_00244548(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005DC820, func_005DC848);
+        func_002F3860(arg0, &s, MTextFace__get_multiline, MTextFace__set_multiline);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

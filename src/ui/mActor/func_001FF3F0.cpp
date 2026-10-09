@@ -36,21 +36,17 @@ extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_00697130[];
-extern char D_00697138[];
-extern char D_00697148[];
-extern char D_00697150[];
 extern "C" void MActor__initialize(void);
 extern "C" void MActor__rewind(void);
-extern "C" void func_001FF250(void);
-extern "C" void func_001FF2E8(void);
+extern "C" void MActor__get_name(void);
+extern "C" void MActor__set_name(void);
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
 
 extern "C" void func_001FF3F0(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00697130;
+        const char *src = "MActor";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -76,7 +72,7 @@ extern "C" void func_001FF3F0(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00697138;
+        const char *src = "initialize";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -98,7 +94,7 @@ extern "C" void func_001FF3F0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00697148;
+        const char *src = "rewind";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -120,7 +116,7 @@ extern "C" void func_001FF3F0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00697150;
+        const char *src = "name";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -131,7 +127,7 @@ extern "C" void func_001FF3F0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001FF250, func_001FF2E8);
+        func_002F3860(arg0, &s, MActor__get_name, MActor__set_name);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

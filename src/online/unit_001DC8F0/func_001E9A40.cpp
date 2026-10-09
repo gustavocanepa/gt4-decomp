@@ -214,23 +214,23 @@ extern char D_00696B10[];
 extern char D_00696B28[];
 extern char D_00696B40[];
 extern char D_008296B8[];
-extern "C" void func_001DCA68(void);
-extern "C" void func_001DCC28(void);
-extern "C" void func_001DD7B0(void);
-extern "C" void func_001DD6D0(void);
-extern "C" void func_001DF5A8(void);
-extern "C" void func_001DF640(void);
-extern "C" void func_001DF840(void);
-extern "C" void func_001DF778(void);
-extern "C" void func_001DFAB0(void);
-extern "C" void func_001E8658(void);
-extern "C" void func_001E85F8(void);
-extern "C" void func_001E8750(void);
-extern "C" void func_001E86F0(void);
-extern "C" void func_001DCAD8(void);
+extern "C" void MNetwork__global_008296B8(void);
+extern "C" void MNetwork__get_pipe(void);
+extern "C" void MNetwork__get_language(void);
+extern "C" void MNetwork__set_language(void);
+extern "C" void MNetwork__get_my_id(void);
+extern "C" void MNetwork__get_my_name(void);
+extern "C" void MNetwork__get_svo_url(void);
+extern "C" void MNetwork__set_svo_url(void);
+extern "C" void MNetwork__get_im_pipe(void);
+extern "C" void MNetwork__get_rally_stage_index(void);
+extern "C" void MNetwork__set_rally_stage_index(void);
+extern "C" void MNetwork__get_rally_id(void);
+extern "C" void MNetwork__set_rally_id(void);
+extern "C" void MNetwork__get_network_enable(void);
 extern "C" void MNetwork__setLobbyMessageEnable(void);
-extern "C" void func_005D33B8(void);
-extern "C" void func_005D33E0(void);
+extern "C" void MNetwork__get_error_exit(void);
+extern "C" void MNetwork__set_error_exit(void);
 extern "C" void MNetwork__isNetworkAdaptorAvailable(void);
 extern "C" void MNetwork__isInterfaceInitialized(void);
 extern "C" void MNetwork__isNetworkInitialized(void);
@@ -422,7 +422,7 @@ extern "C" void func_001E9A40(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_008296B8, func_001DCA68);
+    func_00306780(arg0, D_008296B8, MNetwork__global_008296B8);
     {
         Str *ps = &s;
         const char *src = D_00695F90;
@@ -436,7 +436,7 @@ extern "C" void func_001E9A40(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001DCC28, 0);
+        func_002F3860(arg0, &s, MNetwork__get_pipe, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -458,7 +458,7 @@ extern "C" void func_001E9A40(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001DD7B0, func_001DD6D0);
+        func_002F3860(arg0, &s, MNetwork__get_language, MNetwork__set_language);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -480,7 +480,7 @@ extern "C" void func_001E9A40(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001DF5A8, 0);
+        func_002F3860(arg0, &s, MNetwork__get_my_id, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -502,7 +502,7 @@ extern "C" void func_001E9A40(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001DF640, 0);
+        func_002F3860(arg0, &s, MNetwork__get_my_name, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -524,7 +524,7 @@ extern "C" void func_001E9A40(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001DF840, func_001DF778);
+        func_002F3860(arg0, &s, MNetwork__get_svo_url, MNetwork__set_svo_url);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -546,7 +546,7 @@ extern "C" void func_001E9A40(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001DFAB0, 0);
+        func_002F3860(arg0, &s, MNetwork__get_im_pipe, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -568,7 +568,7 @@ extern "C" void func_001E9A40(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001E8658, func_001E85F8);
+        func_002F3860(arg0, &s, MNetwork__get_rally_stage_index, MNetwork__set_rally_stage_index);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -590,7 +590,7 @@ extern "C" void func_001E9A40(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001E8750, func_001E86F0);
+        func_002F3860(arg0, &s, MNetwork__get_rally_id, MNetwork__set_rally_id);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -612,7 +612,7 @@ extern "C" void func_001E9A40(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001DCAD8, func_001DCAD8);
+        func_002F3860(arg0, &s, MNetwork__get_network_enable, MNetwork__get_network_enable);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -656,7 +656,7 @@ extern "C" void func_001E9A40(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005D33B8, func_005D33E0);
+        func_002F3860(arg0, &s, MNetwork__get_error_exit, MNetwork__set_error_exit);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

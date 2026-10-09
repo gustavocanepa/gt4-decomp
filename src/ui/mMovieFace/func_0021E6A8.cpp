@@ -59,7 +59,7 @@ extern char D_00697FC8[];
 extern char D_00697FD0[];
 extern char D_00697FE0[];
 extern char D_0082D668[];
-extern "C" void func_0021DF48(void);
+extern "C" void MMovieFace__global_0082D668(void);
 extern "C" void MMovieFace__initialize(void);
 extern "C" void MMovieFace__terminate(void);
 extern "C" void MMovieFace__preload(void);
@@ -67,18 +67,18 @@ extern "C" void MMovieFace__loadIpic(void);
 extern "C" void MMovieFace__expandAlpha(void);
 extern "C" void MMovieFace__asyncSound(void);
 extern "C" void MMovieFace__setPause(void);
-extern "C" void func_0021E030(void);
-extern "C" void func_0021E118(void);
+extern "C" void MMovieFace__get_movie_name(void);
+extern "C" void MMovieFace__set_movie_name(void);
 extern "C" void MMovieFace__reserveName(void);
 extern "C" void MMovieFace__setFrameHook(void);
 extern "C" void MMovieFace__setUnUpdate(void);
 extern "C" void MMovieFace__refOther(void);
 extern "C" void MMovieFace__load(void);
 extern "C" void MMovieFace__unload(void);
-extern "C" void func_0021E4D0(void);
-extern "C" void func_0021E5C0(void);
-extern "C" void func_005DA508(void);
-extern "C" void func_005DA530(void);
+extern "C" void MMovieFace__get_AC3(void);
+extern "C" void MMovieFace__get_audio_track(void);
+extern "C" void MMovieFace__get_interlace(void);
+extern "C" void MMovieFace__set_interlace(void);
 
 extern "C" void func_0021E6A8(Obj *arg0) {
     Str s;
@@ -108,7 +108,7 @@ extern "C" void func_0021E6A8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_002A0EC8());
-    func_00306780(arg0, D_0082D668, func_0021DF48);
+    func_00306780(arg0, D_0082D668, MMovieFace__global_0082D668);
     {
         Str *ps = &s;
         const char *src = D_00697F00;
@@ -276,7 +276,7 @@ extern "C" void func_0021E6A8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0021E030, func_0021E118);
+        func_002F3860(arg0, &s, MMovieFace__get_movie_name, MMovieFace__set_movie_name);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -430,7 +430,7 @@ extern "C" void func_0021E6A8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0021E4D0, func_0021E4D0);
+        func_002F3860(arg0, &s, MMovieFace__get_AC3, MMovieFace__get_AC3);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -452,7 +452,7 @@ extern "C" void func_0021E6A8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0021E5C0, func_0021E5C0);
+        func_002F3860(arg0, &s, MMovieFace__get_audio_track, MMovieFace__get_audio_track);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -474,7 +474,7 @@ extern "C" void func_0021E6A8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005DA508, func_005DA530);
+        func_002F3860(arg0, &s, MMovieFace__get_interlace, MMovieFace__set_interlace);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

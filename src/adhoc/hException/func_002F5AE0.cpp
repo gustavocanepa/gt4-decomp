@@ -38,10 +38,10 @@ extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 
 extern char D_0083D2D0[];
 extern char D_0083D2C8[];
-extern "C" void func_002F5808(void);
-extern "C" void func_002F5920(void);
-extern "C" void func_002F5688(void);
-extern "C" void func_002F5760(void);
+extern "C" void Exception__global_0083D2D0(void);
+extern "C" void Exception__global_0083D2C8(void);
+extern "C" void Exception__get_message(void);
+extern "C" void Exception__set_message(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern "C" void func_002F36E0(Obj *arg0, void *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
@@ -74,8 +74,8 @@ extern "C" void func_002F5AE0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_0083D2D0, func_002F5808);
-    func_002F36E0(arg0, D_0083D2C8, func_002F5920);
+    func_00306780(arg0, D_0083D2D0, Exception__global_0083D2D0);
+    func_002F36E0(arg0, D_0083D2C8, Exception__global_0083D2C8);
     {
         Str *ps = &s;
         const char *src = "period";
@@ -89,7 +89,7 @@ extern "C" void func_002F5AE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002F5688, func_002F5760);
+        func_002F3860(arg0, &s, Exception__get_message, Exception__set_message);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

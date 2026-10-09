@@ -3,7 +3,6 @@ typedef unsigned int u32;
 extern "C" void mTransition__tf();
 extern "C" void func_005BFB68(void *a0, void *a1, void *a2);
 
-extern char D_0069AD40[];
 extern int D_0088E2F0;
 
 extern int D_0088E590;
@@ -11,7 +10,7 @@ extern int D_0088E590;
 extern "C" void *mColorTransition__tf(void) {
     if (D_0088E590 == 0) {
         mTransition__tf();
-        func_005BFB68(&D_0088E590, D_0069AD40, &D_0088E2F0);
+        func_005BFB68(&D_0088E590, ((char *)"16mColorTransition"), &D_0088E2F0);
     }
     return &D_0088E590;
 }

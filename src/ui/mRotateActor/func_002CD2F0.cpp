@@ -52,18 +52,18 @@ extern char D_0069C950[];
 extern char D_0069C958[];
 extern char D_00839E70[];
 extern char D_00839E68[];
-extern "C" void func_002CCB78(void);
-extern "C" void func_002CCBE8(void);
+extern "C" void MRotateActor__global_00839E70(void);
+extern "C" void MRotateActor__global_00839E68(void);
 extern "C" void MRotateActor__warp(void);
 extern "C" void MRotateActor__doFlip(void);
-extern "C" void func_002CCCF0(void);
-extern "C" void func_002CCDD8(void);
-extern "C" void func_002CCED0(void);
-extern "C" void func_002CCFC8(void);
-extern "C" void func_002CD050(void);
-extern "C" void func_002CD0C8(void);
-extern "C" void func_002CD168(void);
-extern "C" void func_002CD1D8(void);
+extern "C" void MRotateActor__get_destination(void);
+extern "C" void MRotateActor__get_velocity(void);
+extern "C" void MRotateActor__get_ratio(void);
+extern "C" void MRotateActor__set_out(void);
+extern "C" void MRotateActor__set_cw(void);
+extern "C" void MRotateActor__get_repeat(void);
+extern "C" void MRotateActor__set_repeat(void);
+extern "C" void MRotateActor__get_flip(void);
 
 extern "C" void func_002CD2F0(Obj *arg0) {
     Str s;
@@ -93,8 +93,8 @@ extern "C" void func_002CD2F0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_001FF0F8());
-    func_00306780(arg0, D_00839E70, func_002CCB78);
-    func_002F36E0(arg0, D_00839E68, func_002CCBE8);
+    func_00306780(arg0, D_00839E70, MRotateActor__global_00839E70);
+    func_002F36E0(arg0, D_00839E68, MRotateActor__global_00839E68);
     {
         Str *ps = &s;
         const char *src = D_0069C908;
@@ -152,7 +152,7 @@ extern "C" void func_002CD2F0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002CCCF0, func_002CCCF0);
+        func_002F3860(arg0, &s, MRotateActor__get_destination, MRotateActor__get_destination);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -174,7 +174,7 @@ extern "C" void func_002CD2F0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002CCDD8, func_002CCDD8);
+        func_002F3860(arg0, &s, MRotateActor__get_velocity, MRotateActor__get_velocity);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -196,7 +196,7 @@ extern "C" void func_002CD2F0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002CCED0, func_002CCED0);
+        func_002F3860(arg0, &s, MRotateActor__get_ratio, MRotateActor__get_ratio);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -218,7 +218,7 @@ extern "C" void func_002CD2F0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_002CCFC8);
+        func_002F3860(arg0, &s, 0, MRotateActor__set_out);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -240,7 +240,7 @@ extern "C" void func_002CD2F0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_002CD050);
+        func_002F3860(arg0, &s, 0, MRotateActor__set_cw);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -262,7 +262,7 @@ extern "C" void func_002CD2F0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002CD0C8, func_002CD168);
+        func_002F3860(arg0, &s, MRotateActor__get_repeat, MRotateActor__set_repeat);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -284,7 +284,7 @@ extern "C" void func_002CD2F0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002CD1D8, func_002CD1D8);
+        func_002F3860(arg0, &s, MRotateActor__get_flip, MRotateActor__get_flip);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

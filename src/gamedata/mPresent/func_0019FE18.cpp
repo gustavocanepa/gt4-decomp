@@ -36,12 +36,6 @@ extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_00692768[];
-extern char D_00692778[];
-extern char D_00692788[];
-extern char D_00692798[];
-extern char D_006927A8[];
-extern char D_006927B8[];
 extern "C" void MPresent__getByRace(void);
 extern "C" void MPresent__setByRace(void);
 extern "C" void MPresent__getByTime(void);
@@ -52,7 +46,7 @@ extern "C" void func_0019FE18(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00692768;
+        const char *src = "MPresent";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -78,7 +72,7 @@ extern "C" void func_0019FE18(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00692778;
+        const char *src = "getByRace";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -100,7 +94,7 @@ extern "C" void func_0019FE18(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692788;
+        const char *src = "setByRace";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -122,7 +116,7 @@ extern "C" void func_0019FE18(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692798;
+        const char *src = "getByTime";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -144,7 +138,7 @@ extern "C" void func_0019FE18(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006927A8;
+        const char *src = "setByTime";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -166,7 +160,7 @@ extern "C" void func_0019FE18(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006927B8;
+        const char *src = "dump";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

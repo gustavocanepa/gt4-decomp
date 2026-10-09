@@ -38,53 +38,22 @@ extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
-extern char D_00690D78[];
-extern char D_00690D88[];
-extern char D_00690D90[];
-extern char D_00690DA0[];
-extern char D_00690DA8[];
-extern char D_00690DB0[];
-extern char D_00690DC0[];
-extern char D_00690DC8[];
-extern char D_00690DD0[];
-extern char D_00690DE0[];
-extern char D_00690DF0[];
-extern char D_00690E00[];
-extern char D_00690E10[];
-extern char D_00690E20[];
-extern char D_00690E28[];
-extern char D_00690E30[];
-extern char D_00690E38[];
-extern char D_00690E48[];
-extern char D_00690E58[];
-extern char D_00690E60[];
-extern char D_00690E70[];
-extern char D_00690E78[];
-extern char D_00690E80[];
-extern char D_00690E90[];
-extern char D_00690E98[];
-extern char D_00690EA0[];
-extern char D_00690EB0[];
-extern char D_00690EC0[];
-extern char D_00690ED0[];
-extern char D_00690EE0[];
-extern char D_00690EF0[];
-extern "C" void func_00174310(void);
-extern "C" void func_001743B0(void);
-extern "C" void func_00174500(void);
-extern "C" void func_00174650(void);
-extern "C" void func_00174768(void);
-extern "C" void func_001749F0(void);
-extern "C" void func_00174C78(void);
-extern "C" void func_00174E20(void);
-extern "C" void func_00176A50(void);
-extern "C" void func_00176B40(void);
-extern "C" void func_00176C30(void);
-extern "C" void func_00176DC0(void);
-extern "C" void func_00176958(void);
-extern "C" void func_001769F0(void);
-extern "C" void func_001773E8(void);
-extern "C" void func_001774B8(void);
+extern "C" void MMemoryCardFile__get_size(void);
+extern "C" void MMemoryCardFile__get_objectName(void);
+extern "C" void MMemoryCardFile__get_title(void);
+extern "C" void MMemoryCardFile__set_title(void);
+extern "C" void MMemoryCardFile__get_carName(void);
+extern "C" void MMemoryCardFile__get_courseName(void);
+extern "C" void MMemoryCardFile__get_time(void);
+extern "C" void MMemoryCardFile__get_date(void);
+extern "C" void MMemoryCardFile__get_portrait(void);
+extern "C" void MMemoryCardFile__get_spectatorMode(void);
+extern "C" void MMemoryCardFile__get_racemode(void);
+extern "C" void MMemoryCardFile__get_racesubmode(void);
+extern "C" void MMemoryCardFile__get_dispstep(void);
+extern "C" void MMemoryCardFile__set_dispstep(void);
+extern "C" void MMemoryCardFile__get_list(void);
+extern "C" void MMemoryCardFile__set_list(void);
 extern "C" void MMemoryCardFile__save(void);
 extern "C" void MMemoryCardFile__saveNew(void);
 extern "C" void MMemoryCardFile__saveDnas(void);
@@ -107,7 +76,7 @@ extern "C" void func_00177578(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00690D78;
+        const char *src = "MMemoryCardFile";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -133,7 +102,7 @@ extern "C" void func_00177578(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00690D88;
+        const char *src = "size";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -144,7 +113,7 @@ extern "C" void func_00177578(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00174310, 0);
+        func_002F3860(arg0, &s, MMemoryCardFile__get_size, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -155,7 +124,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690D90;
+        const char *src = "objectName";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -166,7 +135,7 @@ extern "C" void func_00177578(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001743B0, 0);
+        func_002F3860(arg0, &s, MMemoryCardFile__get_objectName, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -177,7 +146,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690DA0;
+        const char *src = "title";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -188,7 +157,7 @@ extern "C" void func_00177578(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00174500, func_00174650);
+        func_002F3860(arg0, &s, MMemoryCardFile__get_title, MMemoryCardFile__set_title);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -199,7 +168,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690DA8;
+        const char *src = "carName";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -210,7 +179,7 @@ extern "C" void func_00177578(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00174768, 0);
+        func_002F3860(arg0, &s, MMemoryCardFile__get_carName, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -221,7 +190,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690DB0;
+        const char *src = "courseName";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -232,7 +201,7 @@ extern "C" void func_00177578(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001749F0, 0);
+        func_002F3860(arg0, &s, MMemoryCardFile__get_courseName, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -243,7 +212,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690DC0;
+        const char *src = "time";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -254,7 +223,7 @@ extern "C" void func_00177578(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00174C78, 0);
+        func_002F3860(arg0, &s, MMemoryCardFile__get_time, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -265,7 +234,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690DC8;
+        const char *src = "date";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -276,7 +245,7 @@ extern "C" void func_00177578(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00174E20, 0);
+        func_002F3860(arg0, &s, MMemoryCardFile__get_date, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -287,7 +256,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690DD0;
+        const char *src = "portrait";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -298,7 +267,7 @@ extern "C" void func_00177578(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00176A50, 0);
+        func_002F3860(arg0, &s, MMemoryCardFile__get_portrait, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -309,7 +278,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690DE0;
+        const char *src = "spectatorMode";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -320,7 +289,7 @@ extern "C" void func_00177578(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00176B40, 0);
+        func_002F3860(arg0, &s, MMemoryCardFile__get_spectatorMode, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -331,7 +300,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690DF0;
+        const char *src = "racemode";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -342,7 +311,7 @@ extern "C" void func_00177578(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00176C30, 0);
+        func_002F3860(arg0, &s, MMemoryCardFile__get_racemode, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -353,7 +322,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E00;
+        const char *src = "racesubmode";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -364,7 +333,7 @@ extern "C" void func_00177578(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00176DC0, 0);
+        func_002F3860(arg0, &s, MMemoryCardFile__get_racesubmode, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -375,7 +344,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E10;
+        const char *src = "dispstep";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -386,7 +355,7 @@ extern "C" void func_00177578(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00176958, func_001769F0);
+        func_002F3860(arg0, &s, MMemoryCardFile__get_dispstep, MMemoryCardFile__set_dispstep);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -397,7 +366,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E20;
+        const char *src = "list";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -408,7 +377,7 @@ extern "C" void func_00177578(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001773E8, func_001774B8);
+        func_002F3860(arg0, &s, MMemoryCardFile__get_list, MMemoryCardFile__set_list);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -419,7 +388,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E28;
+        const char *src = "save";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -441,7 +410,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E30;
+        const char *src = "saveNew";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -463,7 +432,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E38;
+        const char *src = "saveDnas";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -485,7 +454,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E48;
+        const char *src = "writeInfo";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -507,7 +476,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E58;
+        const char *src = "load";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -529,7 +498,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E60;
+        const char *src = "loadInstance";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -551,7 +520,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E70;
+        const char *src = "remove";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -573,7 +542,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E78;
+        const char *src = "format";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -595,7 +564,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E80;
+        const char *src = "unformat";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -617,7 +586,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E90;
+        const char *src = "dump";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -639,7 +608,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690E98;
+        const char *src = "isExist";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -661,7 +630,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690EA0;
+        const char *src = "setNewFile";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -683,7 +652,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690EB0;
+        const char *src = "readSize";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -705,7 +674,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690EC0;
+        const char *src = "dataFileSize";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -727,7 +696,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690ED0;
+        const char *src = "getIconTexture";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -749,7 +718,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690EE0;
+        const char *src = "isInfoValid";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -771,7 +740,7 @@ extern "C" void func_00177578(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690EF0;
+        const char *src = "isIconValid";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

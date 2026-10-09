@@ -57,6 +57,8 @@ def main():
     for u in report["units"]:
         m = u["measures"]
         funcs = u.get("functions") or []
+        if not funcs:  # data-only unit (data/unattributed)
+            continue
         addrs = [int(f["metadata"]["virtual_address"]) for f in funcs if f.get("metadata", {}).get("virtual_address")]
         start = min(addrs) if addrs else 0
         end = max(addrs) if addrs else 0

@@ -61,12 +61,12 @@ extern char D_008403E8[];
 extern char D_008403C0[];
 extern char D_008403D0[];
 extern char D_00840490[];
-extern "C" void func_00313A18(void);
-extern "C" void func_00313B30(void);
-extern "C" void func_00313C30(void);
-extern "C" void func_00313CA0(void);
-extern "C" void func_00313D48(void);
-extern "C" void func_003130E0(void);
+extern "C" void string__global_00840460(void);
+extern "C" void string__global_00840458(void);
+extern "C" void string__get_value(void);
+extern "C" void string__set_value(void);
+extern "C" void string__get_size(void);
+extern "C" void string__global_00840490(void);
 extern "C" void string__at(void);
 extern "C" void string__split(void);
 extern "C" void string__substr(void);
@@ -103,8 +103,8 @@ extern "C" void func_00313FF0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00840460, func_00313A18);
-    func_002F36E0(arg0, D_00840458, func_00313B30);
+    func_00306780(arg0, D_00840460, string__global_00840460);
+    func_002F36E0(arg0, D_00840458, string__global_00840458);
     {
         Str *ps = &s;
         const char *src = D_0069E150;
@@ -118,7 +118,7 @@ extern "C" void func_00313FF0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00313C30, func_00313CA0);
+        func_002F3860(arg0, &s, string__get_value, string__set_value);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -140,7 +140,7 @@ extern "C" void func_00313FF0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00313D48, 0);
+        func_002F3860(arg0, &s, string__get_size, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -157,7 +157,7 @@ extern "C" void func_00313FF0(Obj *arg0) {
     func_002F36E0(arg0, D_008403E8, 0);
     func_002F36E0(arg0, D_008403C0, 0);
     func_002F36E0(arg0, D_008403D0, 0);
-    func_002F36E0(arg0, D_00840490, func_003130E0);
+    func_002F36E0(arg0, D_00840490, string__global_00840490);
     {
         Str *ps = &s;
         const char *src = D_0069E160;

@@ -36,21 +36,17 @@ extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_006998D0[];
-extern char D_006998E0[];
-extern char D_006998E8[];
-extern char D_006998F0[];
 extern "C" void MWatcher__append(void);
 extern "C" void MWatcher__remove(void);
-extern "C" void func_00254300(void);
-extern "C" void func_00254398(void);
+extern "C" void MWatcher__get_interval(void);
+extern "C" void MWatcher__set_interval(void);
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
 
 extern "C" void func_00254410(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_006998D0;
+        const char *src = "MWatcher";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -76,7 +72,7 @@ extern "C" void func_00254410(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_006998E0;
+        const char *src = "append";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -98,7 +94,7 @@ extern "C" void func_00254410(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006998E8;
+        const char *src = "remove";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -120,7 +116,7 @@ extern "C" void func_00254410(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006998F0;
+        const char *src = "interval";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -131,7 +127,7 @@ extern "C" void func_00254410(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00254300, func_00254398);
+        func_002F3860(arg0, &s, MWatcher__get_interval, MWatcher__set_interval);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

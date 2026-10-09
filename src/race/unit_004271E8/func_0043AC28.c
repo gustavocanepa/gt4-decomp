@@ -85,9 +85,8 @@ typedef s64 M2C_UNK64;
 M2C_UNK func_00329CB0(void *, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK func_004365B8(s32);                         /* extern */
 
-extern char D_006A6308[];
 void func_0043AC28(s32 arg0) {
     s8 sp[0x10];
     func_004365B8(arg0 + 0x38CB0);
-    func_00329CB0(sp, (s32)D_006A6308, 0, 0);
+    func_00329CB0(sp, (s32)"afterGameLoadHook", 0, 0);
 }

@@ -48,7 +48,7 @@ extern char D_0069B390[];
 extern char D_0069B3A0[];
 extern char D_0069B3B0[];
 extern char D_008360E0[];
-extern "C" void func_00296A20(void);
+extern "C" void MFrameImageFace__global_008360E0(void);
 extern "C" void MFrameImageFace__getTImagePath(void);
 extern "C" void MFrameImageFace__getBImagePath(void);
 extern "C" void MFrameImageFace__getLImagePath(void);
@@ -86,7 +86,7 @@ extern "C" void func_00296A90(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_002A0EC8());
-    func_00306780(arg0, D_008360E0, func_00296A20);
+    func_00306780(arg0, D_008360E0, MFrameImageFace__global_008360E0);
     {
         Str *ps = &s;
         const char *src = D_0069B340;

@@ -61,40 +61,40 @@ extern char D_0068FCC8[];
 extern char D_0068FCE0[];
 extern char D_0068FCF8[];
 extern char D_00822BC0[];
-extern "C" void func_00151C18(void);
-extern "C" void func_00151C88(void);
-extern "C" void func_00151D20(void);
-extern "C" void func_00151D90(void);
-extern "C" void func_00151E28(void);
-extern "C" void func_00151E98(void);
-extern "C" void func_00151F30(void);
-extern "C" void func_00151FA0(void);
-extern "C" void func_00152038(void);
-extern "C" void func_001520A8(void);
-extern "C" void func_00152140(void);
-extern "C" void func_001521B0(void);
-extern "C" void func_00152248(void);
-extern "C" void func_001522B8(void);
-extern "C" void func_00152350(void);
+extern "C" void MCarModel__global_00822BC0(void);
+extern "C" void MCarModel__get_motion(void);
+extern "C" void MCarModel__set_motion(void);
+extern "C" void MCarModel__get_tx(void);
+extern "C" void MCarModel__set_tx(void);
+extern "C" void MCarModel__get_ty(void);
+extern "C" void MCarModel__set_ty(void);
+extern "C" void MCarModel__get_tz(void);
+extern "C" void MCarModel__set_tz(void);
+extern "C" void MCarModel__get_rx(void);
+extern "C" void MCarModel__set_rx(void);
+extern "C" void MCarModel__get_ry(void);
+extern "C" void MCarModel__set_ry(void);
+extern "C" void MCarModel__get_rz(void);
+extern "C" void MCarModel__set_rz(void);
 extern "C" void MCarModel__warp(void);
-extern "C" void func_001523F0(void);
-extern "C" void func_00152488(void);
-extern "C" void func_001524F0(void);
-extern "C" void func_00152588(void);
-extern "C" void func_00152870(void);
-extern "C" void func_00152A40(void);
-extern "C" void func_001529D8(void);
-extern "C" void func_00152B48(void);
-extern "C" void func_00152AD8(void);
-extern "C" void func_00152BE0(void);
+extern "C" void MCarModel__get_posInterpolateSpeed(void);
+extern "C" void MCarModel__set_posInterpolateSpeed(void);
+extern "C" void MCarModel__get_rotInterpolateSpeed(void);
+extern "C" void MCarModel__set_rotInterpolateSpeed(void);
+extern "C" void MCarModel__set_fadein(void);
+extern "C" void MCarModel__get_alpha(void);
+extern "C" void MCarModel__set_alpha(void);
+extern "C" void MCarModel__get_alphaInterpolateSpeed(void);
+extern "C" void MCarModel__set_alphaInterpolateSpeed(void);
+extern "C" void MCarModel__set_transparentRatio(void);
 extern "C" void MCarModel__playModelMotion(void);
 extern "C" void MCarModel__stopModelMotion(void);
 extern "C" void MCarModel__setModelMotionLoop(void);
 extern "C" void MCarModel__isPlayingModelMotion(void);
-extern "C" void func_001527D8(void);
-extern "C" void func_00152760(void);
-extern "C" void func_00152940(void);
-extern "C" void func_001528D8(void);
+extern "C" void MCarModel__get_additionalModelScale(void);
+extern "C" void MCarModel__set_additionalModelScale(void);
+extern "C" void MCarModel__get_independent(void);
+extern "C" void MCarModel__set_independent(void);
 
 extern "C" void func_00152C50(Obj *arg0) {
     Str s;
@@ -124,7 +124,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00822BC0, func_00151C18);
+    func_00306780(arg0, D_00822BC0, MCarModel__global_00822BC0);
     {
         Str *ps = &s;
         const char *src = D_0068FBE0;
@@ -138,7 +138,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00151C88, func_00151D20);
+        func_002F3860(arg0, &s, MCarModel__get_motion, MCarModel__set_motion);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -160,7 +160,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00151D90, func_00151E28);
+        func_002F3860(arg0, &s, MCarModel__get_tx, MCarModel__set_tx);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -182,7 +182,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00151E98, func_00151F30);
+        func_002F3860(arg0, &s, MCarModel__get_ty, MCarModel__set_ty);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -204,7 +204,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00151FA0, func_00152038);
+        func_002F3860(arg0, &s, MCarModel__get_tz, MCarModel__set_tz);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -226,7 +226,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001520A8, func_00152140);
+        func_002F3860(arg0, &s, MCarModel__get_rx, MCarModel__set_rx);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -248,7 +248,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001521B0, func_00152248);
+        func_002F3860(arg0, &s, MCarModel__get_ry, MCarModel__set_ry);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -270,7 +270,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001522B8, func_00152350);
+        func_002F3860(arg0, &s, MCarModel__get_rz, MCarModel__set_rz);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -314,7 +314,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001523F0, func_00152488);
+        func_002F3860(arg0, &s, MCarModel__get_posInterpolateSpeed, MCarModel__set_posInterpolateSpeed);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -336,7 +336,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001524F0, func_00152588);
+        func_002F3860(arg0, &s, MCarModel__get_rotInterpolateSpeed, MCarModel__set_rotInterpolateSpeed);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -358,7 +358,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_00152870);
+        func_002F3860(arg0, &s, 0, MCarModel__set_fadein);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -380,7 +380,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00152A40, func_001529D8);
+        func_002F3860(arg0, &s, MCarModel__get_alpha, MCarModel__set_alpha);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -402,7 +402,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00152B48, func_00152AD8);
+        func_002F3860(arg0, &s, MCarModel__get_alphaInterpolateSpeed, MCarModel__set_alphaInterpolateSpeed);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -424,7 +424,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_00152BE0);
+        func_002F3860(arg0, &s, 0, MCarModel__set_transparentRatio);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -534,7 +534,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001527D8, func_00152760);
+        func_002F3860(arg0, &s, MCarModel__get_additionalModelScale, MCarModel__set_additionalModelScale);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -556,7 +556,7 @@ extern "C" void func_00152C50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00152940, func_001528D8);
+        func_002F3860(arg0, &s, MCarModel__get_independent, MCarModel__set_independent);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

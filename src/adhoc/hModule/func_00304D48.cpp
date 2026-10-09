@@ -49,14 +49,14 @@ extern char D_0069DC30[];
 extern char D_0069DC40[];
 extern char D_0083F010[];
 extern char D_0083F008[];
-extern "C" void func_00304A08(void);
-extern "C" void func_00304A80(void);
+extern "C" void Module__global_0083F010(void);
+extern "C" void Module__global_0083F008(void);
 extern "C" void Module__load(void);
 extern "C" void Module__defined(void);
 extern "C" void Module__defineStatic(void);
 extern "C" void Module__removeStatic(void);
 extern "C" void Module__clearStatic(void);
-extern "C" void func_00304850(void);
+extern "C" void Module__get_name(void);
 
 extern "C" void func_00304D48(Obj *arg0) {
     Str s;
@@ -86,8 +86,8 @@ extern "C" void func_00304D48(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_0083F010, func_00304A08);
-    func_002F36E0(arg0, D_0083F008, func_00304A80);
+    func_00306780(arg0, D_0083F010, Module__global_0083F010);
+    func_002F36E0(arg0, D_0083F008, Module__global_0083F008);
     {
         Str *ps = &s;
         const char *src = D_0069DC00;
@@ -211,7 +211,7 @@ extern "C" void func_00304D48(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00304850, func_00304850);
+        func_002F3860(arg0, &s, Module__get_name, Module__get_name);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

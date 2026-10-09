@@ -63,7 +63,7 @@ extern "C" void MCourseRecordUnit__insertEntry(void);
 extern "C" void MCourseRecordUnit__insertEntryMaxSpeed(void);
 extern "C" void MCourseRecordUnit__deleteEntry(void);
 extern "C" void MCourseRecordUnit__deleteEntryMaxSpeed(void);
-extern "C" void func_0015BBE0(void);
+extern "C" void MCourseRecordUnit__get_best_score(void);
 extern "C" void MCourseRecordUnit__updateBestScore(void);
 
 extern "C" void func_0015BCF0(Obj *arg0) {
@@ -349,7 +349,7 @@ extern "C" void func_0015BCF0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0015BBE0, 0);
+        func_002F3860(arg0, &s, MCourseRecordUnit__get_best_score, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

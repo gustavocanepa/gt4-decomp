@@ -84,8 +84,7 @@ typedef s64 M2C_UNK64;
 
 M2C_UNK func_0057DA20(s32, M2C_UNK, s32, s32);      /* extern */
 
-extern char D_006C2450[];
 s32 func_005123D8(s32 arg0, s32 arg1, M2C_UNK arg2, s32 arg3) {
-    func_0057DA20(arg3, (s32)D_006C2450, arg0, arg1);
+    func_0057DA20(arg3, (s32)"%s.%d", arg0, arg1);
     return 0;
 }

@@ -37,7 +37,7 @@ extern "C" int func_00255260(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 
 extern char D_00821BF0[];
-extern "C" void func_0012B678(void);
+extern "C" void MSceneViewFace__global_00821BF0(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 
 extern "C" void func_0012B6E8(Obj *arg0) {
@@ -65,5 +65,5 @@ extern "C" void func_0012B6E8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_00821BF0, func_0012B678);
+    func_00306780(arg0, D_00821BF0, MSceneViewFace__global_00821BF0);
 }

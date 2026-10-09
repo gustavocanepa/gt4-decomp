@@ -82,13 +82,12 @@ typedef s64 M2C_UNK64;
 
 #endif
 
-extern char D_006C33D0[];
 s32 func_0052E4A8(s32 arg0) {
     s32 var_v0;
 
     var_v0 = 0x17;
     if (arg0 != 0) {
-        func_0057DA20(arg0, (s32)D_006C33D0, 2, 8, 0x8C);
+        func_0057DA20(arg0, (s32)"%d.%02d.%04d", 2, 8, 0x8C);
         var_v0 = 0;
     }
     return var_v0;

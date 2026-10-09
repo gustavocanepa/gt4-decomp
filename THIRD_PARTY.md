@@ -10,6 +10,7 @@ where it is expected) and the files under `src/` are derived from it mechanicall
 | library | version | license | where in the executable | source |
 |---|---|---|---|---|
 | Expat (James Clark's XML parser) | 1.95.7 (2003-10-20) | MIT (see below) | 0x4ce828-0x4e6bd8, 323 functions, 98.5 KB | https://github.com/libexpat/libexpat/tree/R_1_95_7/expat |
+| newlib (Cygnus/Red Hat embedded C library) | 1.9.0 (2001-03; the PS2 toolchain's libc) | BSD-style per file, COPYING.NEWLIB (see below) | libc and libm in the library region (string, stdio, stdlib, ctype, reent around 0x5a2000-0x5b7000) | https://sourceware.org/pub/newlib/newlib-1.9.0.tar.gz |
 | SGI STL headers (libstdc++ v2 of gcc 2.96, snapshot 2000-10-03) | stl_*.h, type_traits.h | HP/SGI permissive notice (see below) | template instantiations in the library region (0x5d5000-0x60f000: rb-tree members of `map<basic_string, T>`) | gcc-20001003/libstdc++/stl/ |
 
 ## Expat 1.95.7
@@ -38,6 +39,37 @@ and `xmltok_ns.c` twice) compiled as C with `-O2 -G0 -fno-strict-aliasing`, `XML
 `expat_1.95.7` is in the executable. 321 of its 323 functions compile to the original bytes from the
 unmodified source (`python tools/libmatch.py scan expat`).
 
+## newlib 1.9.0
+
+The game's C library is newlib, built with `-O2 -G0 -fno-strict-aliasing` (ee-gcc 2.96, 64-bit
+`long`): `config/libs/newlib.toml` describes the staged source tree and `python tools/libmatch.py
+scan newlib` finds its functions. 32 compile to the original bytes so far (string, stdio, stdlib:
+fclose/fflush/fread/fwrite/fseek/__sfvwrite, strcasecmp/strstr/strtok_r/strtoul, bsearch, atoi...);
+the small `_r` wrappers look alike and scan to the same addresses, so ambiguous names were dropped
+from build/libmatch/newlib.json by hand before `emit`. Each file of newlib carries its own notice; the emitted sources keep
+the first comment of their file, and a file without a notice of its own is covered by section (9) of
+newlib's COPYING.NEWLIB:
+
+Copyright (c) 1994, 1997 Cygnus Solutions. All rights reserved.
+
+Redistribution and use in source and binary forms are permitted provided that the above copyright
+notice and this paragraph are duplicated in all such forms and that any documentation, advertising
+materials, and other materials related to such distribution and use acknowledge that the software
+was developed at Cygnus Solutions. Cygnus Solutions may not be used to endorse or promote products
+derived from this software without specific prior written permission. THIS SOFTWARE IS PROVIDED
+``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+The other notices that occur in the matched files are the University of California's (BSD, the
+stdio and stdlib files from 4.4BSD: "Copyright (c) 1990 The Regents of the University of
+California. All rights reserved." with the redistribution paragraph above, naming the University of
+California, Berkeley), David M. Gay's for dtoa/mprec/strtod ("Copyright (c) 1991 by AT&T", permission
+to use, copy, modify and distribute provided the entire notice is included) and Sun's for libm
+("Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved. Developed at SunPro, a Sun
+Microsystems, Inc. business. Permission to use, copy, modify, and distribute this software is freely
+granted, provided that this notice is preserved."). Files touched by DJ Delorie (`mktemp.c`,
+`getenv*.c`, `putenv*.c`, `setenv*.c`), whose terms are in a separate `copying.dj`, are left out.
+
 ## Identified but not redistributable (no code added)
 
 Everything else that was identified in the "network stack" cluster (0x494578-0x54db98) and the
@@ -59,11 +91,9 @@ holds a license to compare against:
   (unit_0046A050: their own inflate and JPEG decoder, not zlib/libjpeg), `stdio_vprintf.cxx`
   (`PDISTD::PrintFormatTargetBase`).
 - **Logitech `liblgdev` 1.11.036** (built 2005-01-27; steering wheels), proprietary.
-- **Sony SDK** (`libcdvd`, `sceMc`, `libdbc`, `sceSif*`) and the C library at 0x5bf000 and up, whose
-  `vfprintf` carries the BSD/newlib string "bug in vfprintf: bad base"; most of it has the 16-byte
-  register-save prologue of ee-gcc 2.9 (knowledge/ee-gcc-2.96.md, "A second compiler"). If the
-  libc is newlib (BSD-licensed), it is the next candidate for libmatch.py once a source can choose
-  the 2.9 compiler.
+- **Sony SDK** (`libcdvd`, `sceMc`, `libdbc`, `sceSif*`, `libkernl`'s `SceStdio*` layer) at
+  0x5bf000 and up; most of it has the 16-byte register-save prologue of ee-gcc 2.9
+  (knowledge/ee-gcc-2.96.md, "A second compiler"). The C library itself is newlib (above).
 
 ## SGI STL headers (include/stl/)
 

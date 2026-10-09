@@ -300,7 +300,7 @@
 #define memcmp D_0057F188
 #define memcpy D_005A4724
 #define memmove D_005A47D4
-#define memset D_005A48D8
+#define func_005A48D8 D_005A48D8
 #define moveToFreeBindingList func_004CEC70
 #define namePages D_006BB600
 #define namingBitmap D_006BB000
@@ -434,7 +434,7 @@ typedef SHIM_PTRDIFF_T ptrdiff_t;
 
 void *memcpy(void *, const void *, size_t);
 void *memmove(void *, const void *, size_t);
-void *memset(void *, int, size_t);
+void *func_005A48D8(void *, int, size_t);
 int memcmp(const void *, const void *, size_t);
 size_t strlen(const char *);
 char *strcpy(char *, const char *);

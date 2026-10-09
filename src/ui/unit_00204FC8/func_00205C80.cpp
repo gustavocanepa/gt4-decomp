@@ -57,11 +57,11 @@ extern char D_00697438[];
 extern char D_00697448[];
 extern char D_00697458[];
 extern char D_0082A8D8[];
-extern "C" void func_002052C0(void);
-extern "C" void func_00205020(void);
-extern "C" void func_002050C8(void);
-extern "C" void func_00205170(void);
-extern "C" void func_00205218(void);
+extern "C" void MComposite__global_0082A8D8(void);
+extern "C" void MComposite__get_first(void);
+extern "C" void MComposite__get_last(void);
+extern "C" void MComposite__get_first_window(void);
+extern "C" void MComposite__get_last_window(void);
 extern "C" void MComposite__clearWindow(void);
 extern "C" void MComposite__clearChildren(void);
 extern "C" void MComposite__insertChild(void);
@@ -103,7 +103,7 @@ extern "C" void func_00205C80(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_0082A8D8, func_002052C0);
+    func_00306780(arg0, D_0082A8D8, MComposite__global_0082A8D8);
     {
         Str *ps = &s;
         const char *src = D_00697378;
@@ -117,7 +117,7 @@ extern "C" void func_00205C80(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00205020, 0);
+        func_002F3860(arg0, &s, MComposite__get_first, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -139,7 +139,7 @@ extern "C" void func_00205C80(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002050C8, 0);
+        func_002F3860(arg0, &s, MComposite__get_last, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -161,7 +161,7 @@ extern "C" void func_00205C80(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00205170, 0);
+        func_002F3860(arg0, &s, MComposite__get_first_window, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -183,7 +183,7 @@ extern "C" void func_00205C80(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00205218, 0);
+        func_002F3860(arg0, &s, MComposite__get_last_window, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

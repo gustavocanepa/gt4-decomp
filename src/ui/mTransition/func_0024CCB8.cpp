@@ -36,13 +36,6 @@ extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_00699548[];
-extern char D_00699558[];
-extern char D_00699560[];
-extern char D_00699568[];
-extern char D_00699578[];
-extern char D_00699580[];
-extern char D_00699590[];
 extern "C" void MTransition__panOut(void);
 extern "C" void MTransition__panIn(void);
 extern "C" void MTransition__panOutIn(void);
@@ -54,7 +47,7 @@ extern "C" void func_0024CCB8(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00699548;
+        const char *src = "MTransition";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -80,7 +73,7 @@ extern "C" void func_0024CCB8(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00699558;
+        const char *src = "panOut";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -102,7 +95,7 @@ extern "C" void func_0024CCB8(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699560;
+        const char *src = "panIn";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -124,7 +117,7 @@ extern "C" void func_0024CCB8(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699568;
+        const char *src = "panOutIn";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -146,7 +139,7 @@ extern "C" void func_0024CCB8(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699578;
+        const char *src = "syncOut";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -168,7 +161,7 @@ extern "C" void func_0024CCB8(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699580;
+        const char *src = "syncWait";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -190,7 +183,7 @@ extern "C" void func_0024CCB8(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00699590;
+        const char *src = "syncIn";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

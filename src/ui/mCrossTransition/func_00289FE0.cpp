@@ -47,13 +47,13 @@ extern char D_0069AEE0[];
 extern char D_0069AEF0[];
 extern char D_00834820[];
 extern char D_00834818[];
-extern "C" void func_00289958(void);
-extern "C" void func_002899C8(void);
-extern "C" void func_002899D0(void);
-extern "C" void func_00289C28(void);
-extern "C" void func_00289D28(void);
-extern "C" void func_00289E10(void);
-extern "C" void func_00289EF8(void);
+extern "C" void MCrossTransition__global_00834820(void);
+extern "C" void MCrossTransition__global_00834818(void);
+extern "C" void MCrossTransition__get_type(void);
+extern "C" void MCrossTransition__get_period(void);
+extern "C" void MCrossTransition__get_magnify_ratio(void);
+extern "C" void MCrossTransition__get_magnify_diff(void);
+extern "C" void MCrossTransition__get_with_black(void);
 
 extern "C" void func_00289FE0(Obj *arg0) {
     Str s;
@@ -83,8 +83,8 @@ extern "C" void func_00289FE0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_0024C9B0());
-    func_00306780(arg0, D_00834820, func_00289958);
-    func_002F36E0(arg0, D_00834818, func_002899C8);
+    func_00306780(arg0, D_00834820, MCrossTransition__global_00834820);
+    func_002F36E0(arg0, D_00834818, MCrossTransition__global_00834818);
     {
         Str *ps = &s;
         const char *src = D_0069AEC0;
@@ -98,7 +98,7 @@ extern "C" void func_00289FE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002899D0, func_002899D0);
+        func_002F3860(arg0, &s, MCrossTransition__get_type, MCrossTransition__get_type);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -120,7 +120,7 @@ extern "C" void func_00289FE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00289C28, func_00289C28);
+        func_002F3860(arg0, &s, MCrossTransition__get_period, MCrossTransition__get_period);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -142,7 +142,7 @@ extern "C" void func_00289FE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00289D28, func_00289D28);
+        func_002F3860(arg0, &s, MCrossTransition__get_magnify_ratio, MCrossTransition__get_magnify_ratio);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -164,7 +164,7 @@ extern "C" void func_00289FE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00289E10, func_00289E10);
+        func_002F3860(arg0, &s, MCrossTransition__get_magnify_diff, MCrossTransition__get_magnify_diff);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -186,7 +186,7 @@ extern "C" void func_00289FE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00289EF8, func_00289EF8);
+        func_002F3860(arg0, &s, MCrossTransition__get_with_black, MCrossTransition__get_with_black);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

@@ -3,7 +3,6 @@ typedef unsigned int u32;
 extern "C" void hObject__tf();
 extern "C" void func_005BFB68(void *a0, void *a1, void *a2);
 
-extern char D_00693170[];
 extern int D_0088EB70;
 
 extern int D_0088DD40;
@@ -11,7 +10,7 @@ extern int D_0088DD40;
 extern "C" void *mUnit__tf(void) {
     if (D_0088DD40 == 0) {
         hObject__tf();
-        func_005BFB68(&D_0088DD40, D_00693170, &D_0088EB70);
+        func_005BFB68(&D_0088DD40, ((char *)"5mUnit"), &D_0088EB70);
     }
     return &D_0088DD40;
 }

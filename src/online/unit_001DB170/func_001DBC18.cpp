@@ -40,7 +40,7 @@ extern char D_00695948[];
 extern char D_00695958[];
 extern char D_00695968[];
 extern char D_00829460[];
-extern "C" void func_001DB1C8(void);
+extern "C" void MDnasInst__global_00829460(void);
 extern "C" void MDnasInst__Initialize(void);
 extern "C" void MDnasInst__Personalize(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
@@ -74,7 +74,7 @@ extern "C" void func_001DBC18(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00829460, func_001DB1C8);
+    func_00306780(arg0, D_00829460, MDnasInst__global_00829460);
     {
         Str *ps = &s;
         const char *src = D_00695958;

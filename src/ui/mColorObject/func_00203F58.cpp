@@ -48,17 +48,17 @@ extern char D_00697318[];
 extern char D_00697320[];
 extern char D_0082A698[];
 extern char D_0082A690[];
-extern "C" void func_00203800(void);
-extern "C" void func_00203870(void);
+extern "C" void MColorObject__global_0082A698(void);
+extern "C" void MColorObject__global_0082A690(void);
 extern "C" void MColorObject__interpolate(void);
-extern "C" void func_00203B58(void);
-extern "C" void func_00203BF0(void);
-extern "C" void func_00203C58(void);
-extern "C" void func_00203CF0(void);
-extern "C" void func_00203D58(void);
-extern "C" void func_00203DF0(void);
-extern "C" void func_00203E58(void);
-extern "C" void func_00203EF0(void);
+extern "C" void MColorObject__get_r(void);
+extern "C" void MColorObject__set_r(void);
+extern "C" void MColorObject__get_g(void);
+extern "C" void MColorObject__set_g(void);
+extern "C" void MColorObject__get_b(void);
+extern "C" void MColorObject__set_b(void);
+extern "C" void MColorObject__get_a(void);
+extern "C" void MColorObject__set_a(void);
 
 extern "C" void func_00203F58(Obj *arg0) {
     Str s;
@@ -88,8 +88,8 @@ extern "C" void func_00203F58(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_0082A698, func_00203800);
-    func_002F36E0(arg0, D_0082A690, func_00203870);
+    func_00306780(arg0, D_0082A698, MColorObject__global_0082A698);
+    func_002F36E0(arg0, D_0082A690, MColorObject__global_0082A690);
     {
         Str *ps = &s;
         const char *src = D_006972F8;
@@ -125,7 +125,7 @@ extern "C" void func_00203F58(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00203B58, func_00203BF0);
+        func_002F3860(arg0, &s, MColorObject__get_r, MColorObject__set_r);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -147,7 +147,7 @@ extern "C" void func_00203F58(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00203C58, func_00203CF0);
+        func_002F3860(arg0, &s, MColorObject__get_g, MColorObject__set_g);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -169,7 +169,7 @@ extern "C" void func_00203F58(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00203D58, func_00203DF0);
+        func_002F3860(arg0, &s, MColorObject__get_b, MColorObject__set_b);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -191,7 +191,7 @@ extern "C" void func_00203F58(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00203E58, func_00203EF0);
+        func_002F3860(arg0, &s, MColorObject__get_a, MColorObject__set_a);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

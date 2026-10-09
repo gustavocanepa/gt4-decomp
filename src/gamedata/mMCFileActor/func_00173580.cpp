@@ -41,8 +41,8 @@ extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern char D_00690CD0[];
 extern char D_00824000[];
 extern char D_00823FF8[];
-extern "C" void func_00173468(void);
-extern "C" void func_001734D8(void);
+extern "C" void MMCFileActor__global_00824000(void);
+extern "C" void MMCFileActor__global_00823FF8(void);
 
 extern "C" void func_00173580(Obj *arg0) {
     Str s;
@@ -69,6 +69,6 @@ extern "C" void func_00173580(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_0020B4E8());
-    func_00306780(arg0, D_00824000, func_00173468);
-    func_002F36E0(arg0, D_00823FF8, func_001734D8);
+    func_00306780(arg0, D_00824000, MMCFileActor__global_00824000);
+    func_002F36E0(arg0, D_00823FF8, MMCFileActor__global_00823FF8);
 }

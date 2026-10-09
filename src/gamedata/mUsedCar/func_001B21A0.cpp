@@ -38,19 +38,15 @@ extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
-extern char D_00693210[];
-extern char D_00693220[];
-extern char D_00693228[];
-extern char D_00693230[];
 extern "C" void MUsedCar__get(void);
 extern "C" void MUsedCar__set(void);
-extern "C" void func_001B20B8(void);
+extern "C" void MUsedCar__get_week(void);
 
 extern "C" void func_001B21A0(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00693210;
+        const char *src = "MUsedCar";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -76,7 +72,7 @@ extern "C" void func_001B21A0(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00693220;
+        const char *src = "get";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -98,7 +94,7 @@ extern "C" void func_001B21A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693228;
+        const char *src = "set";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -120,7 +116,7 @@ extern "C" void func_001B21A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693230;
+        const char *src = "week";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -131,7 +127,7 @@ extern "C" void func_001B21A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001B20B8, func_001B20B8);
+        func_002F3860(arg0, &s, MUsedCar__get_week, MUsedCar__get_week);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

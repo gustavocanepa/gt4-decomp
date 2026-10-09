@@ -44,12 +44,12 @@ extern char D_0069D148[];
 extern char D_0069D158[];
 extern char D_0083B7D0[];
 extern char D_0083B7C8[];
-extern "C" void func_002E3DE0(void);
-extern "C" void func_002E3E50(void);
-extern "C" void func_002E3EB0(void);
-extern "C" void func_002E3F48(void);
-extern "C" void func_002E3FB8(void);
-extern "C" void func_002E4050(void);
+extern "C" void MTextActor__global_0083B7D0(void);
+extern "C" void MTextActor__global_0083B7C8(void);
+extern "C" void MTextActor__get_start_point(void);
+extern "C" void MTextActor__set_start_point(void);
+extern "C" void MTextActor__get_end_point(void);
+extern "C" void MTextActor__set_end_point(void);
 
 extern "C" void func_002E40C0(Obj *arg0) {
     Str s;
@@ -79,8 +79,8 @@ extern "C" void func_002E40C0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_001FF0F8());
-    func_00306780(arg0, D_0083B7D0, func_002E3DE0);
-    func_002F36E0(arg0, D_0083B7C8, func_002E3E50);
+    func_00306780(arg0, D_0083B7D0, MTextActor__global_0083B7D0);
+    func_002F36E0(arg0, D_0083B7C8, MTextActor__global_0083B7C8);
     {
         Str *ps = &s;
         const char *src = D_0069D148;
@@ -94,7 +94,7 @@ extern "C" void func_002E40C0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002E3EB0, func_002E3F48);
+        func_002F3860(arg0, &s, MTextActor__get_start_point, MTextActor__set_start_point);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -116,7 +116,7 @@ extern "C" void func_002E40C0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002E3FB8, func_002E4050);
+        func_002F3860(arg0, &s, MTextActor__get_end_point, MTextActor__set_end_point);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

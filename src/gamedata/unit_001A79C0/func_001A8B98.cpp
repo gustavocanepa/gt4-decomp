@@ -60,7 +60,7 @@ extern char D_00692D30[];
 extern char D_00692D40[];
 extern char D_00692D58[];
 extern char D_00825F80[];
-extern "C" void func_001A7A28(void);
+extern "C" void MRunViewer__global_00825F80(void);
 extern "C" void MRunViewer__getEntryCarCode(void);
 extern "C" void MRunViewer__setEntryCarCode(void);
 extern "C" void MRunViewer__getEntryCarColorIndex(void);
@@ -109,7 +109,7 @@ extern "C" void func_001A8B98(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00825F80, func_001A7A28);
+    func_00306780(arg0, D_00825F80, MRunViewer__global_00825F80);
     {
         Str *ps = &s;
         const char *src = D_00692C20;

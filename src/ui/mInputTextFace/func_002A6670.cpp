@@ -47,14 +47,14 @@ extern char D_0069BA48[];
 extern char D_0069BA50[];
 extern char D_0069BA58[];
 extern char D_008370E0[];
-extern "C" void func_002A6260(void);
+extern "C" void MInputTextFace__global_008370E0(void);
 extern "C" void MInputTextFace__putString(void);
 extern "C" void MInputTextFace__backspace(void);
 extern "C" void MInputTextFace__delete(void);
 extern "C" void MInputTextFace__left(void);
 extern "C" void MInputTextFace__right(void);
-extern "C" void func_002A6378(void);
-extern "C" void func_002A6460(void);
+extern "C" void MInputTextFace__get_value(void);
+extern "C" void MInputTextFace__set_value(void);
 
 extern "C" void func_002A6670(Obj *arg0) {
     Str s;
@@ -84,7 +84,7 @@ extern "C" void func_002A6670(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_008370E0, func_002A6260);
+    func_00306780(arg0, D_008370E0, MInputTextFace__global_008370E0);
     {
         Str *ps = &s;
         const char *src = D_0069BA20;
@@ -208,7 +208,7 @@ extern "C" void func_002A6670(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002A6378, func_002A6460);
+        func_002F3860(arg0, &s, MInputTextFace__get_value, MInputTextFace__set_value);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

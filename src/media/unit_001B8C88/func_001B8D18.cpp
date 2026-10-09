@@ -44,11 +44,11 @@ extern char D_006937D8[];
 extern char D_006937E8[];
 extern char D_008273C0[];
 extern char D_008273B8[];
-extern "C" void func_005CF298(void);
-extern "C" void func_0032AED0(void);
-extern "C" void func_005CF308(void);
-extern "C" void func_005CF330(void);
-extern "C" void func_005CF358(void);
+extern "C" void MEyetoyFace__global_008273C0(void);
+extern "C" void MLoggerControl__global_008212E8(void);
+extern "C" void MEyetoyFace__get_device(void);
+extern "C" void MEyetoyFace__set_processor(void);
+extern "C" void MEyetoyFace__set_mirror(void);
 
 extern "C" void func_001B8D18(Obj *arg0) {
     Str s;
@@ -78,8 +78,8 @@ extern "C" void func_001B8D18(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_008273C0, func_005CF298);
-    func_00306780(arg0, D_008273B8, func_0032AED0);
+    func_00306780(arg0, D_008273C0, MEyetoyFace__global_008273C0);
+    func_00306780(arg0, D_008273B8, MLoggerControl__global_008212E8);
     {
         Str *ps = &s;
         const char *src = D_006937D0;
@@ -93,7 +93,7 @@ extern "C" void func_001B8D18(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CF308, 0);
+        func_002F3860(arg0, &s, MEyetoyFace__get_device, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -115,7 +115,7 @@ extern "C" void func_001B8D18(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CF330);
+        func_002F3860(arg0, &s, 0, MEyetoyFace__set_processor);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -137,7 +137,7 @@ extern "C" void func_001B8D18(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CF358);
+        func_002F3860(arg0, &s, 0, MEyetoyFace__set_mirror);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

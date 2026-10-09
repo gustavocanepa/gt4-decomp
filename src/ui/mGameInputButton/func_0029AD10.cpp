@@ -37,15 +37,13 @@ extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
-extern char D_0069B4F0[];
-extern char D_0069B508[];
-extern "C" void func_0029AEC0(void);
+extern "C" void MGameInputButton__get_buttons(void);
 
 extern "C" void func_0029AD10(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_0069B4F0;
+        const char *src = "MGameInputButton";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -71,7 +69,7 @@ extern "C" void func_0029AD10(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_0069B508;
+        const char *src = "buttons";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -82,7 +80,7 @@ extern "C" void func_0029AD10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0029AEC0, 0);
+        func_002F3860(arg0, &s, MGameInputButton__get_buttons, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

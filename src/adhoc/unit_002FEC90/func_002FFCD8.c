@@ -86,7 +86,6 @@ void func_002FFAF0(s32, s32);                    /* extern */
 M2C_UNK func_002FFB18(s32, s32);                    /* extern */
 M2C_UNK func_005DB110(M2C_UNK, M2C_UNK);            /* extern */
 
-extern char D_0069DA50[];
 s32 func_002FFCD8(s32 arg0, void **arg1) {
     s8 var_a1;
     u32 var_s0;
@@ -96,7 +95,7 @@ s32 func_002FFCD8(s32 arg0, void **arg1) {
     var_s1 = M2C_FIELD(*arg1, u32 *, -0x10);
     if (var_s1 > 0xFFFFU) {
         var_s1 = 0xFFFF;
-        func_005DB110((s32)D_0069DA50, 0xFFFF);
+        func_005DB110((s32)"WARNING: It is a too long string. truncate at %d character\012", 0xFFFF);
     }
     func_002FFB18(arg0, var_s1 & 0xFFFF);
     var_s0 = 0;

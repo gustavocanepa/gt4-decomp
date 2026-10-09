@@ -37,17 +37,14 @@ extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
-extern char D_0069B098[];
-extern char D_0069B0A0[];
-extern char D_0069B0A8[];
-extern "C" void func_0028E4A8(void);
-extern "C" void func_0028E550(void);
+extern "C" void MEvent__get_context(void);
+extern "C" void MEvent__get_widget(void);
 
 extern "C" void func_0028E5F8(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_0069B098;
+        const char *src = "MEvent";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -73,7 +70,7 @@ extern "C" void func_0028E5F8(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_0069B0A0;
+        const char *src = "context";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -84,7 +81,7 @@ extern "C" void func_0028E5F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0028E4A8, 0);
+        func_002F3860(arg0, &s, MEvent__get_context, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -95,7 +92,7 @@ extern "C" void func_0028E5F8(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0069B0A8;
+        const char *src = "widget";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -106,7 +103,7 @@ extern "C" void func_0028E5F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0028E550, 0);
+        func_002F3860(arg0, &s, MEvent__get_widget, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

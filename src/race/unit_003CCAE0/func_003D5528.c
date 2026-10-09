@@ -85,8 +85,6 @@ typedef s64 M2C_UNK64;
 M2C_UNK func_003D54A0();                            /* extern */
 void *func_004548A8(s32, M2C_UNK, M2C_UNK);         /* extern */
 
-extern char D_006A3210[];
-extern char D_006A3218[];
 void func_003D5528(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     void *temp_v0;
     void *temp_v0_2;
@@ -95,11 +93,11 @@ void func_003D5528(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     M2C_FIELD(arg0, s32 *, 0x12C8) = arg2;
     M2C_FIELD(arg0, s32 *, 0x12CC) = arg3;
     M2C_FIELD(arg0, s32 *, 0x12D0) = arg1;
-    temp_v0 = func_004548A8(arg2, (s32)D_006A3210, 0);
+    temp_v0 = func_004548A8(arg2, (s32)"BC_WALK", 0);
     if (temp_v0 != NULL) {
         M2C_FIELD(arg0, s32 *, 0x12C0) = (s32) M2C_FIELD(temp_v0, s32 *, 4);
     }
-    temp_v0_2 = func_004548A8(M2C_FIELD(arg0, s32 *, 0x12C8), (s32)D_006A3218, 0);
+    temp_v0_2 = func_004548A8(M2C_FIELD(arg0, s32 *, 0x12C8), (s32)"BC_SQUAT", 0);
     if (temp_v0_2 != NULL) {
         M2C_FIELD(arg0, s32 *, 0x12C4) = (s32) M2C_FIELD(temp_v0_2, s32 *, 4);
     }

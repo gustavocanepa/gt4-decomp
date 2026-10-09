@@ -37,7 +37,7 @@ extern "C" int func_00204ED8(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 
 extern char D_0083A2F0[];
-extern "C" void func_002CF7F8(void);
+extern "C" void MScrollBox__global_0083A2F0(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 
 extern "C" void func_002CF6E0(Obj *arg0) {
@@ -65,5 +65,5 @@ extern "C" void func_002CF6E0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00204ED8());
-    func_00306780(arg0, D_0083A2F0, func_002CF7F8);
+    func_00306780(arg0, D_0083A2F0, MScrollBox__global_0083A2F0);
 }

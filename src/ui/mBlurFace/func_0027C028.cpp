@@ -40,11 +40,11 @@ extern char D_0069A820[];
 extern char D_0069A830[];
 extern char D_0069A838[];
 extern char D_00832D20[];
-extern "C" void func_0027BDA8(void);
-extern "C" void func_0027BE18(void);
-extern "C" void func_0027BEB0(void);
-extern "C" void func_0027BF20(void);
-extern "C" void func_0027BFB8(void);
+extern "C" void MBlurFace__global_00832D20(void);
+extern "C" void MBlurFace__get_scale(void);
+extern "C" void MBlurFace__set_scale(void);
+extern "C" void MBlurFace__get_scale_target(void);
+extern "C" void MBlurFace__set_scale_target(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
 
@@ -76,7 +76,7 @@ extern "C" void func_0027C028(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_00832D20, func_0027BDA8);
+    func_00306780(arg0, D_00832D20, MBlurFace__global_00832D20);
     {
         Str *ps = &s;
         const char *src = D_0069A830;
@@ -90,7 +90,7 @@ extern "C" void func_0027C028(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0027BE18, func_0027BEB0);
+        func_002F3860(arg0, &s, MBlurFace__get_scale, MBlurFace__set_scale);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -112,7 +112,7 @@ extern "C" void func_0027C028(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0027BF20, func_0027BFB8);
+        func_002F3860(arg0, &s, MBlurFace__get_scale_target, MBlurFace__set_scale_target);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

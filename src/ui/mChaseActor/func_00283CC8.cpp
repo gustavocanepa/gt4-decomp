@@ -48,13 +48,13 @@ extern char D_0069AB98[];
 extern char D_0069ABB0[];
 extern char D_00833F20[];
 extern char D_00833F18[];
-extern "C" void func_00283890(void);
-extern "C" void func_00283900(void);
+extern "C" void MChaseActor__global_00833F20(void);
+extern "C" void MChaseActor__global_00833F18(void);
 extern "C" void MChaseActor__doStart(void);
 extern "C" void MChaseActor__doStop(void);
-extern "C" void func_00283A00(void);
-extern "C" void func_00283AF8(void);
-extern "C" void func_00283BE0(void);
+extern "C" void MChaseActor__get_period(void);
+extern "C" void MChaseActor__get_floating_range_x(void);
+extern "C" void MChaseActor__get_floating_range_y(void);
 
 extern "C" void func_00283CC8(Obj *arg0) {
     Str s;
@@ -84,8 +84,8 @@ extern "C" void func_00283CC8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_001FF0F8());
-    func_00306780(arg0, D_00833F20, func_00283890);
-    func_002F36E0(arg0, D_00833F18, func_00283900);
+    func_00306780(arg0, D_00833F20, MChaseActor__global_00833F20);
+    func_002F36E0(arg0, D_00833F18, MChaseActor__global_00833F18);
     {
         Str *ps = &s;
         const char *src = D_0069AB80;
@@ -143,7 +143,7 @@ extern "C" void func_00283CC8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00283A00, func_00283A00);
+        func_002F3860(arg0, &s, MChaseActor__get_period, MChaseActor__get_period);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -165,7 +165,7 @@ extern "C" void func_00283CC8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00283AF8, func_00283AF8);
+        func_002F3860(arg0, &s, MChaseActor__get_floating_range_x, MChaseActor__get_floating_range_x);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -187,7 +187,7 @@ extern "C" void func_00283CC8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00283BE0, func_00283BE0);
+        func_002F3860(arg0, &s, MChaseActor__get_floating_range_y, MChaseActor__get_floating_range_y);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

@@ -5,7 +5,7 @@ in Polyphony's **Adhoc** language, and the executable (`CORE.GT4`) provides the 
 native methods the scripts call. This page describes the C++ side as recovered so far and maps it to the community's
 documentation of the language and file formats.
 
-Sources: `config/adhoc_methods.txt` (1,061 native methods and functions in 113 script classes, with callback addresses; attributes are not listed),
+Sources: `config/adhoc_methods.txt` (2,461 rows in 164 classes and groups: methods, attributes as get_X/set_X and global-symbol registrations, with callback addresses),
 `config/classes.json` / `config/symbol_addrs.txt` (RTTI), matched registration code in `src/`, `tools/registration.py`
 and gt4.md. Community: [Gran Turismo Modding Hub](https://nenkai.github.io/gt-modding-hub/) (Adhoc explained, `.adc` format,
 GT4 build list, GT4 volume and file structure), Nenkai's
@@ -142,11 +142,38 @@ String helpers in the template (all in `knowledge/runtime-types.md`): `func_005C
 
 ## 5. The native classes
 
-`config/adhoc_methods.txt` lists 1,061 methods and static functions (the one-callback registrations) in 113 script classes; 419 of those callbacks already
-have a matched source. **Attributes (properties registered through `func_002F3860`) and global-symbol registrations are not in that list**, so the real
-number of script-visible members is considerably larger (a count over the matched registration functions suggests roughly 1.5 to 2 times). Largest: `MNetwork` 163 (66 matched), `MCarGarage` 83 (56),
-`MGame` 47 (15), a 46-method continuation `func_0014EF00` (14), `MCarData` 29 (4), `MMemoryCardManager` 25 (15), `MRenderContext` 24 (8),
-`MPhotoRenderFace` 23 (9), `MCalendar` 21 (0), `MSystem` 21 (13), `MRaceData` 19 (12), `MRunViewer` 19 (6), `MNetConf` 18 (1), `MListBox` 18 (11).
+`config/adhoc_methods.txt` (`tools/registration.py names`, rebuilt from splat's listing of every registration function, matched or not) has 2,461
+rows: 1,067 methods and static functions (one callback: `002F3818` / `003068A8`), 1,222 attribute callbacks for 706 attributes (`get_X` = cb1,
+`set_X` = cb2 of `002F3860`; a null callback gives no row) and 172 registrations on a global symbol object (`global_ADDR`, `00306780` / `002F36E0`; the
+symbol's name is interned at static-initialisation time, so only its address is known). Largest: `MOption` 266, `MNetwork` 180, `MGame` 157,
+`MCarGarage` 150 (with its continuation `func_0014EF00`), `MQuickWork` 89, `MWidget` 79. `MMusic play` is really registered twice (0x2C33D0, then
+0x2C3660); tools/symbols.py names the second `MMusic__play_002C3660`. One address may carry several names (a method and the attribute that uses the same
+callback, e.g. `MCarFace getImagePath` = `get_image_path` = 0x138550); the first row listed is the canonical name.
+
+**Pairing rule (the bug of the first list).** A registration loads its callback either before the `jal` or in the `jal`'s delay slot (after it in
+the listing). The first generator (commit 306dccef) took "the last callback seen before the jal", so a callback in the delay slot went to the *next*
+name: 19 of its 1,061 rows were shifted, always next to a global or attribute registration (`MCarFace getImagePath` 0x138198 was really the callback of
+`global_008224F8`; the real pairs are getImagePath 0x138550, setImagePath 0x138638, setColorIndex 0x138EE0, matching attribute `image_path` =
+0x138550/0x138638 and `car_color` setter 0x138EE0; likewise MImageFace, MRootWindow, MMemoryCardManager `test`, MCarGarage `setCarCode`, and
+get/set swaps in MColorFace, MColorWindow, MFlashFace, MWidget `getActor`/`setActor`). `parse()` reads the delay slot; the asm of every pair was
+checked against the judge (matched sources resolve their callback names, so a wrong pair fails `match.py check`). Sources that used the shifted
+names were renamed to keep their addresses. Never merge an older list back in.
+
+Continuations are listed under the caller's class (`func_0014EF00` -> `MCarGarage`, `func_00191C20` -> `MOption`: controller key/analog
+configuration). Script modules that are not built from the template (`func_00306E00` creates the module, natives are registered on a local object;
+`parse_loose`) stay under their function's name, and tools/symbols.py names them `adhoc__method`:
+
+| group | module string | natives |
+|---|---|---|
+| `func_002F1CB0` | `__builtin__` (also links every class getter and the modules below) | nilp |
+| `func_00302110` | `Math` | sin, cos |
+| `func_0030E100` | `Path` | GetRelative, GetAbsolute, GetBaseName, GetDirName, GetCurrentDir, IsAbsolute |
+| `func_00317C80` | `Time` | GetMicroSecond |
+| `func_00316EA8` | (unnamed) | exit, MemoryBlockDump |
+| `func_0026DC30` | (font) | LoadKanjiFont, UnloadKanjiFont |
+
+`func_002EE208` (class named by a global symbol; Array: unshift, shift, pack, push, pop, join, bsearch, move, sort, erase, attribute `size`) and
+`func_00309D00` (Object: toString, toFloat, toInt, dump, getDeepCopy, ...) have no class string either and are listed under their function names.
 
 Script class `MFoo` is C++ class `mFoo` (96 of the 113 names; see [classes.md](classes.md) for per-class natives, sizes and parents). Classes by role:
 
@@ -158,23 +185,6 @@ Script class `MFoo` is C++ class `mFoo` (96 of the 113 names; see [classes.md](c
 | UI | `MWidget`, `MComposite`, `MRootWindow`, `MListBox`, `MSelectBox`, `MSelectBar`, `MScaleBar`, `MSliderBar`, `MTextFace`, `MImageFace`, `MModelFace`, `MCarFace`, `MMovieFace`, `MFlashFace`, `MPhotoRenderFace`, `MSlideShowFace`, actors (`MMoveActor`...), `MTransition`, `MProject`, `MManager`, `MRenderContext`, `MUpdateContext` |
 | platform / system | `MSystem`, `MLocale`, `MUnit`, `MUtility`, `MRandom`, `MSound`, `MMusic`, `MEyetoy`, `MGamePort`, `MGpb`, `MXml`, `MDomNode`, `MShell`, `MPipe`, `MWatcher`, `MTransform`, `MColorObject` |
 | language library | `Module`, `Numeric`, `string`, `Thread`, `ThreadGroup`, `IO`, `FileIO` |
-
-### Registration functions whose class string is not in the list
-
-Ten groups in `adhoc_methods.txt` are named `func_<address>` because the registration function has no class block. By their method names (**inferred**):
-
-| group | methods | probably |
-|---|---|---|
-| `func_002EE208` | unshift, shift, pack, push, pop, join, bsearch, move, sort, erase | the Array class (`hArray`) |
-| `func_002F1CB0` | nilp | Nil (`hNil`) |
-| `func_00302110` | sin, cos | a math module |
-| `func_00309D00` | toString, toFloat, toInt, dump, getDeepCopy | the base Object class (`hObject`) |
-| `func_0030E100` | GetRelative, GetAbsolute, GetBaseName, GetDirName, GetCurrentDir, IsAbsolute | a path utility module |
-| `func_00316EA8` | exit, MemoryBlockDump | global system functions |
-| `func_00317C80` | GetMicroSecond | a time module |
-| `func_0026DC30` | LoadKanjiFont, UnloadKanjiFont | font functions |
-| `func_0014EF00` | gear ratio/engine curve/brake controller/drive train settings | continuation of the `MCarGarage` registration (adjacent address; 83 + 46 natives) |
-| `func_00191C20` | clear/unset/set/get/search analog and button configuration | controller key/analog configuration; class unknown |
 
 ## 6. Gaps
 

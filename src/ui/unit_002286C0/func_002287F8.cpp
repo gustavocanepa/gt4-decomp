@@ -41,8 +41,8 @@ extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern char D_006983C8[];
 extern char D_006983D8[];
 extern char D_0082DFA8[];
-extern "C" void func_00228718(void);
-extern "C" void func_00228788(void);
+extern "C" void MProgress__global_0082DFA8(void);
+extern "C" void MProgress__set_value(void);
 
 extern "C" void func_002287F8(Obj *arg0) {
     Str s;
@@ -72,7 +72,7 @@ extern "C" void func_002287F8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_0082DFA8, func_00228718);
+    func_00306780(arg0, D_0082DFA8, MProgress__global_0082DFA8);
     {
         Str *ps = &s;
         const char *src = D_006983D8;
@@ -86,7 +86,7 @@ extern "C" void func_002287F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_00228788);
+        func_002F3860(arg0, &s, 0, MProgress__set_value);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

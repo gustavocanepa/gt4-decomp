@@ -45,10 +45,10 @@ extern char D_0069B670[];
 extern char D_0069B680[];
 extern char D_0069B688[];
 extern char D_008367A8[];
-extern "C" void func_005E6160(void);
-extern "C" void func_0029EB58(void);
-extern "C" void func_0029ED48(void);
-extern "C" void func_0029EE30(void);
+extern "C" void MGraphFace__global_008367A8(void);
+extern "C" void MGraphFace__get_type(void);
+extern "C" void MGraphFace__get_line_width(void);
+extern "C" void MGraphFace__get_points(void);
 extern "C" void MGraphFace__changePoints(void);
 
 extern "C" void func_0029F360(Obj *arg0) {
@@ -79,7 +79,7 @@ extern "C" void func_0029F360(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00284CC0());
-    func_00306780(arg0, D_008367A8, func_005E6160);
+    func_00306780(arg0, D_008367A8, MGraphFace__global_008367A8);
     {
         Str *ps = &s;
         const char *src = D_0069B668;
@@ -93,7 +93,7 @@ extern "C" void func_0029F360(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0029EB58, func_0029EB58);
+        func_002F3860(arg0, &s, MGraphFace__get_type, MGraphFace__get_type);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -115,7 +115,7 @@ extern "C" void func_0029F360(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0029ED48, func_0029ED48);
+        func_002F3860(arg0, &s, MGraphFace__get_line_width, MGraphFace__get_line_width);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -137,7 +137,7 @@ extern "C" void func_0029F360(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0029EE30, func_0029EE30);
+        func_002F3860(arg0, &s, MGraphFace__get_points, MGraphFace__get_points);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

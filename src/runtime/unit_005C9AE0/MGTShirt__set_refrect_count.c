@@ -1,0 +1,10 @@
+/* compiler: ee-gcc2.96-nsa-nosib-rf */
+
+typedef struct { short delta; short index; int pfn; } Pmf;
+
+extern Pmf D_00693A08;
+extern void func_005CFCD8(int a0, int a1, int a2, int a3, Pmf m);
+
+void MGTShirt__set_refrect_count(int a0, int a1, int a2, int a3) {
+    func_005CFCD8(a0, a1, a2, a3, D_00693A08);
+}

@@ -41,7 +41,7 @@ extern char D_00698420[];
 extern char D_00698430[];
 extern char D_00698448[];
 extern char D_0082E1E8[];
-extern "C" void func_00229598(void);
+extern "C" void MProject__global_0082E1E8(void);
 extern "C" void MProject__findPage(void);
 extern "C" void MProject__exportRootWindow(void);
 extern "C" void MProject__getDir(void);
@@ -76,7 +76,7 @@ extern "C" void func_00229830(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00204ED8());
-    func_00306780(arg0, D_0082E1E8, func_00229598);
+    func_00306780(arg0, D_0082E1E8, MProject__global_0082E1E8);
     {
         Str *ps = &s;
         const char *src = D_00698420;

@@ -70,7 +70,7 @@ extern char D_006925A8[];
 extern char D_006925B8[];
 extern char D_006925C8[];
 extern char D_00825200[];
-extern "C" void func_00197BD8(void);
+extern "C" void MPhotoRenderFace__global_00825200(void);
 extern "C" void MPhotoRenderFace__printout(void);
 extern "C" void MPhotoRenderFace__cleaning(void);
 extern "C" void MPhotoRenderFace__nozzleCheck(void);
@@ -93,12 +93,12 @@ extern "C" void MPhotoRenderFace__setHighQuality(void);
 extern "C" void MPhotoRenderFace__setCopy(void);
 extern "C" void MPhotoRenderFace__outUSBStorage(void);
 extern "C" void MPhotoRenderFace__allocateImageBuffer(void);
-extern "C" void func_00198F20(void);
-extern "C" void func_00199008(void);
-extern "C" void func_001990F0(void);
-extern "C" void func_00198D38(void);
-extern "C" void func_00198DE0(void);
-extern "C" void func_00198E88(void);
+extern "C" void MPhotoRenderFace__get_ofs_x(void);
+extern "C" void MPhotoRenderFace__get_ofs_y(void);
+extern "C" void MPhotoRenderFace__get_imageScale(void);
+extern "C" void MPhotoRenderFace__get_imageWidth(void);
+extern "C" void MPhotoRenderFace__get_imageHeight(void);
+extern "C" void MPhotoRenderFace__get_portrait(void);
 extern "C" void MPhotoRenderFace__setPhotoFile(void);
 
 extern "C" void func_001991D8(Obj *arg0) {
@@ -129,7 +129,7 @@ extern "C" void func_001991D8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_00825200, func_00197BD8);
+    func_00306780(arg0, D_00825200, MPhotoRenderFace__global_00825200);
     {
         Str *ps = &s;
         const char *src = D_00692408;
@@ -627,7 +627,7 @@ extern "C" void func_001991D8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00198F20, func_00198F20);
+        func_002F3860(arg0, &s, MPhotoRenderFace__get_ofs_x, MPhotoRenderFace__get_ofs_x);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -649,7 +649,7 @@ extern "C" void func_001991D8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00199008, func_00199008);
+        func_002F3860(arg0, &s, MPhotoRenderFace__get_ofs_y, MPhotoRenderFace__get_ofs_y);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -671,7 +671,7 @@ extern "C" void func_001991D8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001990F0, func_001990F0);
+        func_002F3860(arg0, &s, MPhotoRenderFace__get_imageScale, MPhotoRenderFace__get_imageScale);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -693,7 +693,7 @@ extern "C" void func_001991D8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00198D38, 0);
+        func_002F3860(arg0, &s, MPhotoRenderFace__get_imageWidth, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -715,7 +715,7 @@ extern "C" void func_001991D8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00198DE0, 0);
+        func_002F3860(arg0, &s, MPhotoRenderFace__get_imageHeight, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -737,7 +737,7 @@ extern "C" void func_001991D8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00198E88, 0);
+        func_002F3860(arg0, &s, MPhotoRenderFace__get_portrait, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

@@ -41,7 +41,7 @@ extern char D_0069E7F0[];
 extern char D_0069E800[];
 extern char D_0069E808[];
 extern char D_008411E0[];
-extern "C" void func_00322B30(void);
+extern "C" void ThreadGroup__global_008411E0(void);
 extern "C" void ThreadGroup__getCurrent(void);
 extern "C" void ThreadGroup__append(void);
 extern "C" void ThreadGroup__run(void);
@@ -76,7 +76,7 @@ extern "C" void func_00322BA0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_008411E0, func_00322B30);
+    func_00306780(arg0, D_008411E0, ThreadGroup__global_008411E0);
     {
         Str *ps = &s;
         const char *src = D_0069E7F0;

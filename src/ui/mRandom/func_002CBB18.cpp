@@ -41,8 +41,8 @@ extern char D_0069C878[];
 extern char D_0069C888[];
 extern char D_00839C30[];
 extern char D_00839C28[];
-extern "C" void func_005E9D10(void);
-extern "C" void func_002CB880(void);
+extern "C" void MRandom__global_00839C30(void);
+extern "C" void MRandom__global_00839C28(void);
 extern "C" void MRandom__GetValue(void);
 extern "C" void MRandom__getValue(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
@@ -78,8 +78,8 @@ extern "C" void func_002CBB18(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00839C30, func_005E9D10);
-    func_002F36E0(arg0, D_00839C28, func_002CB880);
+    func_00306780(arg0, D_00839C30, MRandom__global_00839C30);
+    func_002F36E0(arg0, D_00839C28, MRandom__global_00839C28);
     {
         Str *ps = &s;
         const char *src = D_0069C878;

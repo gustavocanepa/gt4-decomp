@@ -40,7 +40,7 @@ extern char D_0069D7F0[];
 extern char D_0069D7F8[];
 extern char D_0069D800[];
 extern char D_0083D510[];
-extern "C" void func_002F6878(void);
+extern "C" void FileIO__global_0083D510(void);
 extern "C" void FileIO__open(void);
 extern "C" void FileIO__close(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
@@ -74,7 +74,7 @@ extern "C" void func_002F6AA8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_002FEC58());
-    func_00306780(arg0, D_0083D510, func_002F6878);
+    func_00306780(arg0, D_0083D510, FileIO__global_0083D510);
     {
         Str *ps = &s;
         const char *src = D_0069D7F8;

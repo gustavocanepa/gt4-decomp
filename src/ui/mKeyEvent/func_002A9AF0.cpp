@@ -43,10 +43,10 @@ extern char D_0069BB88[];
 extern char D_0069BB90[];
 extern char D_0069BB98[];
 extern char D_00837318[];
-extern "C" void func_002A99B8(void);
-extern "C" void func_002A9740(void);
-extern "C" void func_002A9830(void);
-extern "C" void func_002A9920(void);
+extern "C" void MKeyEvent__global_00837318(void);
+extern "C" void MKeyEvent__get_keysym(void);
+extern "C" void MKeyEvent__get_state(void);
+extern "C" void MKeyEvent__get_port(void);
 
 extern "C" void func_002A9AF0(Obj *arg0) {
     Str s;
@@ -76,7 +76,7 @@ extern "C" void func_002A9AF0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_0026B9A8());
-    func_002F36E0(arg0, D_00837318, func_002A99B8);
+    func_002F36E0(arg0, D_00837318, MKeyEvent__global_00837318);
     {
         Str *ps = &s;
         const char *src = D_0069BB88;
@@ -90,7 +90,7 @@ extern "C" void func_002A9AF0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002A9740, func_002A9740);
+        func_002F3860(arg0, &s, MKeyEvent__get_keysym, MKeyEvent__get_keysym);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -112,7 +112,7 @@ extern "C" void func_002A9AF0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002A9830, func_002A9830);
+        func_002F3860(arg0, &s, MKeyEvent__get_state, MKeyEvent__get_state);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -134,7 +134,7 @@ extern "C" void func_002A9AF0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002A9920, 0);
+        func_002F3860(arg0, &s, MKeyEvent__get_port, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

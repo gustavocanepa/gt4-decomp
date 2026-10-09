@@ -172,9 +172,16 @@ def compile_fix(addr, body, errors):
         f = re.match(r"too (?:few|many) arguments to function `(\w+)'", msg)
         if f:
             for i, line in enumerate(lines):
-                if re.match(r"^[^(]*\b%s\(" % f.group(1), line) and line.rstrip().endswith(("*/", ";")):
+                # the prototype only (a declaration at column 0), never a call site
+                if re.match(r"^\w[\w ]*?\**\s*\b%s\([^()]*\);" % f.group(1), line):
                     lines[i] = re.sub(r"\b(%s)\([^)]*\)" % f.group(1), r"\1()", line, count=1)
                     changed = True
+            continue
+        if re.match(r"invalid operands to binary [-+]$", msg) and 0 <= n < len(lines):
+            new = _byte_arithmetic(lines[n], msg[-1])
+            if new:
+                lines[n] = new
+                changed = True
             continue
         void = "void value not ignored" in msg or "invalid use of void expression" in msg
         if void and 0 <= n < len(lines):
@@ -191,19 +198,114 @@ def compile_fix(addr, body, errors):
             lhs = re.match(r"\s*(\w+) = \*\(", lines[n])
             kind = "s32"
             if lhs:
-                d = re.search(r"^\s+([\w ]+?) \**%s;" % lhs.group(1), body, re.M)
-                kind = d.group(1) if d else kind
-            new = re.sub(r"(?<![\w)\]])\*\((?!\w+ \*\))", f"*({kind} *)(", lines[n])
+                d = re.search(r"^\s+([\w ]+? \**)%s;" % lhs.group(1), body, re.M)
+                kind = d.group(1).strip() if d else kind
+                kind = "s32" if kind == "void" else kind
+            # m2c's own `*(void *)x`: the access through a pointer of the assigned type
+            new = re.sub(r"(?<![\w)\]])\*\(void \*\)", f"*({kind} *)", lines[n])
+            new = re.sub(r"(?<![\w)\]])\*\((?!\w+ \*\))", f"*({kind} *)(", new)
             new = re.sub(r"(?<![\w)\]])\*(?=[a-z_]\w*\b)", f"*({kind} *)", new)
             if new != lines[n]:
                 lines[n] = new
                 changed = True
     out = "\n".join(lines)
+    # the head in the edited text: earlier edits (void -> M2C_UNK prototypes) moved it
+    head = re.search(r"^\w[^\n]*\bfunc_%08X\([^)]*\)\s*\{$" % addr, out, re.M)
     if declared and head:
-        at = head.end() + 1 + (out[:head.end()].count("\n") - body[:head.end()].count("\n"))
+        at = head.end() + 1
         out = out[:at] + "".join(f"    s32 {d};\n" for d in declared) + out[at:]
         changed = True
     return out if changed else None
+
+
+def _operand(text, i, step):
+    """End (step -1, scanning left from i) or start (step 1, right from i) of the postfix
+    expression next to a binary operator: a name, a parenthesised group, calls, `[]`, `->`, `.`
+    (rightwards also prefix `*`/`&`/`-` and casts such as `(u8 *)`). None when there is none."""
+    pairs = {")": "(", "]": "["} if step < 0 else {"(": ")", "[": "]"}
+
+    def group(j):  # j at a bracket: the index just past its partner
+        depth = 0
+        while 0 <= j < len(text):
+            if text[j] in pairs:
+                depth += 1
+            elif text[j] in pairs.values():
+                depth -= 1
+                if depth == 0:
+                    return j + step
+            j += step
+        return None
+
+    def name(j):
+        while 0 <= j < len(text) and (text[j].isalnum() or text[j] == "_"):
+            j += step
+        return j
+
+    j = i
+    if step > 0:
+        while j < len(text):
+            if text[j] in "*&-" and text[j + 1:j + 2] not in ("", " ", "="):
+                j += 1
+                continue
+            cast = re.match(r"\((?:const |unsigned |signed |struct )*\w+ ?\**\) ?", text[j:])
+            if cast and re.match(r"[\w(*&]", text[j + cast.end():j + cast.end() + 1]):
+                j += cast.end()
+                continue
+            break
+        start, ok = j, False
+        while j < len(text):
+            if text[j] in "([":
+                j = group(j)
+                if j is None:
+                    return None
+            elif text[j].isalnum() or text[j] == "_":
+                j = name(j)
+            elif text.startswith("->", j) or text[j] == ".":
+                j += 2 if text[j] == "-" else 1
+                continue
+            else:
+                break
+            ok = True
+        return j if ok and j > start else None
+    ok = False
+    while j >= 0:
+        if text[j] in ")]":
+            j = group(j)
+            if j is None:
+                return None
+        elif text[j].isalnum() or text[j] == "_":
+            j = name(j)
+        else:
+            break
+        ok = True
+        if text[j - 1:j + 1] == "->":
+            j -= 2
+        elif j >= 0 and text[j] == ".":
+            j -= 1
+        elif j >= 0 and (text[j].isalnum() or text[j] == "_" or text[j] in ")]"):
+            continue  # a call's name before its argument list, or an index before `[`
+        else:
+            break
+    return j + 1 if ok else None
+
+
+def _byte_arithmetic(line, op):
+    """`a - b` (or `a + b`) that ee-gcc rejects (an integer minus a pointer, two pointers of
+    different types, a pointer plus a pointer) made plain 32-bit arithmetic, as the original's
+    subu/addu is: `(s32) a - (s32) b`. One operator per call, the first whose operands are not
+    both cast already and whose right side is not a literal (a pointer plus a constant is valid)."""
+    for m in re.finditer(r" \%s " % op, line):
+        r0 = m.end()
+        if re.match(r"(?:0x[0-9A-Fa-f]+|\d+)\b(?![\w(\[])", line[r0:]):
+            continue
+        l0, r1 = _operand(line, m.start() - 1, -1), _operand(line, r0, 1)
+        if l0 is None or r1 is None:
+            continue
+        left, right = line[l0:m.start()], line[r0:r1]
+        if line[:l0].endswith("(s32) ") and right.startswith("(s32) "):
+            continue
+        return (line[:l0] + "(s32) " + left + m.group(0) + "(s32) (" + right + ")" + line[r1:])
+    return None
 
 
 def differs_by(res):

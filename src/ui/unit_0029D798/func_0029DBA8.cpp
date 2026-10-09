@@ -45,8 +45,8 @@ extern char D_0069B618[];
 extern char D_0069B620[];
 extern char D_00836568[];
 extern char D_00836560[];
-extern "C" void func_0029D858(void);
-extern "C" void MGpb__load(void);
+extern "C" void MGpb__global_00836568(void);
+extern "C" void MGpb__global_00836560(void);
 extern "C" void MGpb__unload(void);
 extern "C" void MGpb__get(void);
 
@@ -78,8 +78,8 @@ extern "C" void func_0029DBA8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00836568, func_0029D858);
-    func_002F36E0(arg0, D_00836560, MGpb__load);
+    func_00306780(arg0, D_00836568, MGpb__global_00836568);
+    func_002F36E0(arg0, D_00836560, MGpb__global_00836560);
     {
         Str *ps = &s;
         const char *src = D_0069B610;
@@ -93,7 +93,7 @@ extern "C" void func_0029DBA8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MGpb__load);
+        func_002F3818(arg0, &s, MGpb__global_00836560);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

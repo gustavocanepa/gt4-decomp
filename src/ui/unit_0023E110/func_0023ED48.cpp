@@ -56,7 +56,7 @@ extern char D_00698ED8[];
 extern char D_00698E20[];
 extern char D_00698EE8[];
 extern char D_0082F208[];
-extern "C" void func_0023E110(void);
+extern "C" void MSound__global_0082F208(void);
 extern "C" void MSound__load(void);
 extern "C" void MSound__unload(void);
 extern "C" void MSound__play(void);
@@ -70,8 +70,8 @@ extern "C" void MSound__startStreamEx(void);
 extern "C" void MSound__stopStream(void);
 extern "C" void MSound__pauseStream(void);
 extern "C" void MSound__isPlayingStream(void);
-extern "C" void func_0023EC58(void);
-extern "C" void func_0023ECD0(void);
+extern "C" void MSound__get_midi(void);
+extern "C" void MSound__get_stream(void);
 
 extern "C" void func_0023ED48(Obj *arg0) {
     Str s;
@@ -101,7 +101,7 @@ extern "C" void func_0023ED48(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_0082F208, func_0023E110);
+    func_00306780(arg0, D_0082F208, MSound__global_0082F208);
     {
         Str *ps = &s;
         const char *src = D_00698E30;
@@ -401,7 +401,7 @@ extern "C" void func_0023ED48(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0023EC58, 0);
+        func_002F3860(arg0, &s, MSound__get_midi, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -423,7 +423,7 @@ extern "C" void func_0023ED48(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0023ECD0, 0);
+        func_002F3860(arg0, &s, MSound__get_stream, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

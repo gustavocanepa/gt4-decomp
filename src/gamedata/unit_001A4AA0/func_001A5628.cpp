@@ -38,29 +38,20 @@ extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
-extern char D_00692AA0[];
-extern char D_00692AB0[];
-extern char D_00692AB8[];
-extern char D_00692AC0[];
-extern char D_00692AD0[];
-extern char D_00692AE0[];
-extern char D_00692AF0[];
-extern char D_00692AF8[];
-extern char D_00692B08[];
-extern "C" void func_001A4B08(void);
-extern "C" void func_001A4D00(void);
-extern "C" void func_001A4F18(void);
-extern "C" void func_001A5130(void);
+extern "C" void MRaceRecordUnit__get_type(void);
+extern "C" void MRaceRecordUnit__get_result(void);
+extern "C" void MRaceRecordUnit__get_present_result(void);
+extern "C" void MRaceRecordUnit__get_spot_result(void);
 extern "C" void MRaceRecordUnit__refreshResult(void);
 extern "C" void MRaceRecordUnit__update(void);
-extern "C" void func_001A5518(void);
+extern "C" void MRaceRecordUnit__get_best_score(void);
 extern "C" void MRaceRecordUnit__updateBestScore(void);
 
 extern "C" void func_001A5628(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00692AA0;
+        const char *src = "MRaceRecordUnit";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -86,7 +77,7 @@ extern "C" void func_001A5628(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00692AB0;
+        const char *src = "type";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -97,7 +88,7 @@ extern "C" void func_001A5628(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001A4B08, func_001A4B08);
+        func_002F3860(arg0, &s, MRaceRecordUnit__get_type, MRaceRecordUnit__get_type);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -108,7 +99,7 @@ extern "C" void func_001A5628(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692AB8;
+        const char *src = "result";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -119,7 +110,7 @@ extern "C" void func_001A5628(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001A4D00, func_001A4D00);
+        func_002F3860(arg0, &s, MRaceRecordUnit__get_result, MRaceRecordUnit__get_result);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -130,7 +121,7 @@ extern "C" void func_001A5628(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692AC0;
+        const char *src = "present_result";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -141,7 +132,7 @@ extern "C" void func_001A5628(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001A4F18, func_001A4F18);
+        func_002F3860(arg0, &s, MRaceRecordUnit__get_present_result, MRaceRecordUnit__get_present_result);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -152,7 +143,7 @@ extern "C" void func_001A5628(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692AD0;
+        const char *src = "spot_result";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -163,7 +154,7 @@ extern "C" void func_001A5628(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001A5130, func_001A5130);
+        func_002F3860(arg0, &s, MRaceRecordUnit__get_spot_result, MRaceRecordUnit__get_spot_result);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -174,7 +165,7 @@ extern "C" void func_001A5628(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692AE0;
+        const char *src = "refreshResult";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -196,7 +187,7 @@ extern "C" void func_001A5628(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692AF0;
+        const char *src = "update";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -218,7 +209,7 @@ extern "C" void func_001A5628(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692AF8;
+        const char *src = "best_score";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -229,7 +220,7 @@ extern "C" void func_001A5628(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001A5518, 0);
+        func_002F3860(arg0, &s, MRaceRecordUnit__get_best_score, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -240,7 +231,7 @@ extern "C" void func_001A5628(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692B08;
+        const char *src = "updateBestScore";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

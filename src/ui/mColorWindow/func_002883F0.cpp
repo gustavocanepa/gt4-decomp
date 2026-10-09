@@ -43,9 +43,9 @@ extern char D_0069ADB0[];
 extern char D_0069ADC0[];
 extern char D_0069ADD0[];
 extern char D_008345E0[];
-extern "C" void func_005E5490(void);
-extern "C" void MColorWindow__setAlpha(void);
-extern "C" void MColorWindow__getAlpha(void);
+extern "C" void MColorWindow__global_008345E0(void);
+extern "C" void MColorWindow__get_alpha(void);
+extern "C" void MColorWindow__set_alpha(void);
 extern "C" void MColorWindow__getColor(void);
 extern "C" void MColorWindow__setColor(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
@@ -80,7 +80,7 @@ extern "C" void func_002883F0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00204ED8());
-    func_00306780(arg0, D_008345E0, func_005E5490);
+    func_00306780(arg0, D_008345E0, MColorWindow__global_008345E0);
     {
         Str *ps = &s;
         const char *src = D_0069AD98;
@@ -94,7 +94,7 @@ extern "C" void func_002883F0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, MColorWindow__setAlpha, MColorWindow__getAlpha);
+        func_002F3860(arg0, &s, MColorWindow__get_alpha, MColorWindow__set_alpha);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -116,7 +116,7 @@ extern "C" void func_002883F0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MColorWindow__setAlpha);
+        func_002F3818(arg0, &s, MColorWindow__get_alpha);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -138,7 +138,7 @@ extern "C" void func_002883F0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MColorWindow__getAlpha);
+        func_002F3818(arg0, &s, MColorWindow__set_alpha);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

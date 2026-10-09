@@ -49,18 +49,18 @@ extern char D_00690180[];
 extern char D_00690198[];
 extern char D_006901B0[];
 extern "C" void MDemonstration__initialize(void);
-extern "C" void func_0015DC40(void);
-extern "C" void func_0015DD80(void);
-extern "C" void func_0015DDF8(void);
-extern "C" void func_0015DF38(void);
-extern "C" void func_0015DFB0(void);
-extern "C" void func_0015E0F0(void);
-extern "C" void func_0015E168(void);
-extern "C" void func_0015E200(void);
-extern "C" void func_0015E270(void);
-extern "C" void func_0015E308(void);
-extern "C" void func_0015E378(void);
-extern "C" void func_0015E418(void);
+extern "C" void MDemonstration__get_type(void);
+extern "C" void MDemonstration__set_type(void);
+extern "C" void MDemonstration__get_name(void);
+extern "C" void MDemonstration__set_name(void);
+extern "C" void MDemonstration__get_arg(void);
+extern "C" void MDemonstration__set_arg(void);
+extern "C" void MDemonstration__get_repeat_time(void);
+extern "C" void MDemonstration__set_repeat_time(void);
+extern "C" void MDemonstration__get_skip_time(void);
+extern "C" void MDemonstration__set_skip_time(void);
+extern "C" void MDemonstration__get_restart_from_beginning(void);
+extern "C" void MDemonstration__set_restart_from_beginning(void);
 extern "C" void MDemonstration__resetPlayListCounter(void);
 extern "C" void MDemonstration__resetMovieCount(void);
 
@@ -127,7 +127,7 @@ extern "C" void func_0015E4F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0015DC40, func_0015DD80);
+        func_002F3860(arg0, &s, MDemonstration__get_type, MDemonstration__set_type);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -149,7 +149,7 @@ extern "C" void func_0015E4F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0015DDF8, func_0015DF38);
+        func_002F3860(arg0, &s, MDemonstration__get_name, MDemonstration__set_name);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -171,7 +171,7 @@ extern "C" void func_0015E4F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0015DFB0, func_0015E0F0);
+        func_002F3860(arg0, &s, MDemonstration__get_arg, MDemonstration__set_arg);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -193,7 +193,7 @@ extern "C" void func_0015E4F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0015E168, func_0015E200);
+        func_002F3860(arg0, &s, MDemonstration__get_repeat_time, MDemonstration__set_repeat_time);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -215,7 +215,7 @@ extern "C" void func_0015E4F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0015E270, func_0015E308);
+        func_002F3860(arg0, &s, MDemonstration__get_skip_time, MDemonstration__set_skip_time);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -237,7 +237,7 @@ extern "C" void func_0015E4F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0015E378, func_0015E418);
+        func_002F3860(arg0, &s, MDemonstration__get_restart_from_beginning, MDemonstration__set_restart_from_beginning);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

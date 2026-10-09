@@ -36,9 +36,6 @@ extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_0069DD78[];
-extern char D_0069DD80[];
-extern char D_0069DD88[];
 extern "C" void Numeric__toFloat(void);
 extern "C" void Numeric__toInt(void);
 
@@ -46,7 +43,7 @@ extern "C" void func_00308888(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_0069DD78;
+        const char *src = "Numeric";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -72,7 +69,7 @@ extern "C" void func_00308888(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_0069DD80;
+        const char *src = "toFloat";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -94,7 +91,7 @@ extern "C" void func_00308888(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0069DD88;
+        const char *src = "toInt";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

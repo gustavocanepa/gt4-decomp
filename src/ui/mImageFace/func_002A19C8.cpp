@@ -53,21 +53,21 @@ extern char D_0069B7C0[];
 extern char D_0069B7D0[];
 extern char D_0069B7E0[];
 extern char D_00836C30[];
+extern "C" void MImageFace__global_00836C30(void);
 extern "C" void MImageFace__getImagePath(void);
 extern "C" void MImageFace__setImagePath(void);
-extern "C" void func_002A1288(void);
 extern "C" void MImageFace__adjustSize(void);
-extern "C" void func_002A1338(void);
-extern "C" void func_002A1410(void);
-extern "C" void func_002A14A8(void);
-extern "C" void func_002A1518(void);
-extern "C" void func_002A15B8(void);
-extern "C" void func_002A1630(void);
-extern "C" void func_002A16D0(void);
-extern "C" void func_002A1748(void);
-extern "C" void func_002A17E8(void);
-extern "C" void func_002A1888(void);
-extern "C" void func_002A1928(void);
+extern "C" void MImageFace__set_image_chunk(void);
+extern "C" void MImageFace__get_cache(void);
+extern "C" void MImageFace__set_cache(void);
+extern "C" void MImageFace__get_from_disk(void);
+extern "C" void MImageFace__set_from_disk(void);
+extern "C" void MImageFace__get_block(void);
+extern "C" void MImageFace__set_block(void);
+extern "C" void MImageFace__set_texcoord_top(void);
+extern "C" void MImageFace__set_texcoord_bottom(void);
+extern "C" void MImageFace__set_texcoord_left(void);
+extern "C" void MImageFace__set_texcoord_right(void);
 
 extern "C" void func_002A19C8(Obj *arg0) {
     Str s;
@@ -97,7 +97,7 @@ extern "C" void func_002A19C8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00284CC0());
-    func_00306780(arg0, D_00836C30, MImageFace__getImagePath);
+    func_00306780(arg0, D_00836C30, MImageFace__global_00836C30);
     {
         Str *ps = &s;
         const char *src = D_0069B740;
@@ -111,7 +111,7 @@ extern "C" void func_002A19C8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MImageFace__setImagePath);
+        func_002F3818(arg0, &s, MImageFace__getImagePath);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -133,7 +133,7 @@ extern "C" void func_002A19C8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, func_002A1288);
+        func_002F3818(arg0, &s, MImageFace__setImagePath);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -177,7 +177,7 @@ extern "C" void func_002A19C8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, MImageFace__setImagePath, func_002A1288);
+        func_002F3860(arg0, &s, MImageFace__getImagePath, MImageFace__setImagePath);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -199,7 +199,7 @@ extern "C" void func_002A19C8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_002A1338);
+        func_002F3860(arg0, &s, 0, MImageFace__set_image_chunk);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -221,7 +221,7 @@ extern "C" void func_002A19C8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002A1410, func_002A14A8);
+        func_002F3860(arg0, &s, MImageFace__get_cache, MImageFace__set_cache);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -243,7 +243,7 @@ extern "C" void func_002A19C8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002A1518, func_002A15B8);
+        func_002F3860(arg0, &s, MImageFace__get_from_disk, MImageFace__set_from_disk);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -265,7 +265,7 @@ extern "C" void func_002A19C8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002A1630, func_002A16D0);
+        func_002F3860(arg0, &s, MImageFace__get_block, MImageFace__set_block);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -287,7 +287,7 @@ extern "C" void func_002A19C8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_002A1748);
+        func_002F3860(arg0, &s, 0, MImageFace__set_texcoord_top);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -309,7 +309,7 @@ extern "C" void func_002A19C8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_002A17E8);
+        func_002F3860(arg0, &s, 0, MImageFace__set_texcoord_bottom);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -331,7 +331,7 @@ extern "C" void func_002A19C8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_002A1888);
+        func_002F3860(arg0, &s, 0, MImageFace__set_texcoord_left);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -353,7 +353,7 @@ extern "C" void func_002A19C8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_002A1928);
+        func_002F3860(arg0, &s, 0, MImageFace__set_texcoord_right);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

@@ -43,13 +43,13 @@ extern char D_00693A80[];
 extern char D_00693A88[];
 extern char D_00693A98[];
 extern char D_00827A80[];
-extern "C" void func_005D0298(void);
-extern "C" void func_005D0308(void);
-extern "C" void func_005D0330(void);
-extern "C" void func_005D0358(void);
-extern "C" void func_005D0380(void);
-extern "C" void func_005D03A8(void);
-extern "C" void func_005D03D0(void);
+extern "C" void MLoggerFace__global_00827A80(void);
+extern "C" void MLoggerFace__get_control(void);
+extern "C" void MLoggerFace__set_control(void);
+extern "C" void MLoggerFace__get_progress(void);
+extern "C" void MLoggerFace__set_progress(void);
+extern "C" void MLoggerFace__get_grab(void);
+extern "C" void MLoggerFace__set_grab(void);
 
 extern "C" void func_001BBC50(Obj *arg0) {
     Str s;
@@ -79,7 +79,7 @@ extern "C" void func_001BBC50(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_00827A80, func_005D0298);
+    func_00306780(arg0, D_00827A80, MLoggerFace__global_00827A80);
     {
         Str *ps = &s;
         const char *src = D_00693A80;
@@ -93,7 +93,7 @@ extern "C" void func_001BBC50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005D0308, func_005D0330);
+        func_002F3860(arg0, &s, MLoggerFace__get_control, MLoggerFace__set_control);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -115,7 +115,7 @@ extern "C" void func_001BBC50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005D0358, func_005D0380);
+        func_002F3860(arg0, &s, MLoggerFace__get_progress, MLoggerFace__set_progress);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -137,7 +137,7 @@ extern "C" void func_001BBC50(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005D03A8, func_005D03D0);
+        func_002F3860(arg0, &s, MLoggerFace__get_grab, MLoggerFace__set_grab);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
