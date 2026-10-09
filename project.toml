@@ -52,3 +52,17 @@ archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-
 # Facts given to the model with every function: the compiler's habits (shared by every game built
 # with it) and this game's own idioms.
 knowledge = ["knowledge/ee-gcc-2.96.md", "knowledge/gt4.md"]
+
+# Library code built with -fno-strict-aliasing AND without sibling calls: functions whose last
+# call is a jal followed by the epilogue where a `j` would be possible (found on 0x0055a2b8, a
+# struct copy between lock/unlock calls). Same archive as the main compiler, unpacked again.
+[compilers."ee-gcc2.96-nsa-nosib"]
+dir = "~/.local/share/gt4/compilers/ee-gcc2.96-nsa-nosib"
+command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-strict-aliasing -fno-optimize-sibling-calls"
+archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
+
+# The game's flags without sibling calls, for translation units whose tail calls are jal + epilogue.
+[compilers."ee-gcc2.96-nosib"]
+dir = "~/.local/share/gt4/compilers/ee-gcc2.96-nosib"
+command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-optimize-sibling-calls"
+archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
