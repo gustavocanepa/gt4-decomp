@@ -4,6 +4,7 @@
     cpu_pipeline.py [--permute-minutes 120] [--skip-m2c]
 
 1. cpu_solve.py --retry      m2c drafts (patched m2c, rule-based variants), failures retried
+   near_fix.py               near misses fixed by rules read from the diff (floats, addresses)
 2. trivial.py                two-instruction functions from templates
 3. registration.py solve     script-engine class registrations from the template
 4. dedup_all.py              every match copied to its identical functions
@@ -44,6 +45,7 @@ def main():
     a = ap.parse_args()
     if not a.skip_m2c:
         step("m2c drafts (retrying earlier failures)", ["cpu_solve.py", "--retry", "--jobs", "3"])
+    step("rules from the judge's diff", ["near_fix.py", "--jobs", "2"])
     step("templates: two-instruction functions", ["trivial.py", "--jobs", "2"])
     step("templates: class registrations", ["registration.py", "solve"])
     step("copies", ["dedup_all.py", "--jobs", "2"])

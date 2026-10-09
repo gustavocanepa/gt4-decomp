@@ -49,12 +49,17 @@ real addresses. Run the build before every commit: a function only counts once i
 | `dedup_all.py` | propagates every matched function to all its copies |
 | `report.py`, `publish_progress.py` | objdiff-format progress report; pushed alone to the `progress` branch, whose workflow uploads it for decomp.dev |
 | `rtti.py` | classes from gcc 2.96 RTTI: names, bases, vtables, virtual methods, constructors -> `config/symbol_addrs.txt` |
-| `registration.py` | the script engine's class-registration functions: names for 1,061 native methods (`config/adhoc_methods.txt`) and the functions themselves from a template |
+| `registration.py` | the script engine's class-registration functions: names for the native methods (`config/adhoc_methods.txt`) and the functions themselves from a template; `try ADDR` / `solve -jN`. Handles the parent getter per class, one- and two-callback registrars (null or repeated callbacks included) and global-object registrations (135 functions, 101 of them solved by the tool, 4 left) |
+| `families.py` | families of similar functions (identical masked words, or MinHash similarity of 4-gram shingles) ranked by unmatched bytes, with matched members counted -> `build/families.json`; `show ID` lists a family |
+| `siblings.py` | unmatched functions that differ from a matched family member only in immediates and addresses: the matched source with those values substituted, kept on MATCH; `scan -jN` / `try MATCHED UNMATCHED` |
+| `coverage.py` | matched bytes by subsystem and by translation unit (from `progress/report.json`): the table behind `knowledge/coverage-map.md` |
 | `cpu_solve.py` | CPU only: m2c's draft (`--valid-syntax`) compiled and judged as is for every unmatched function; near misses kept for the permuter |
 | `patches/m2c-unused-params.patch` | fix for m2c (GPL-3.0, apply to tools/ext/m2c): in `--valid-syntax`, unused leading argument registers become placeholder parameters (m2c's own 431 tests pass) |
+| `near_fix.py` | CPU only: near misses fixed by rules read from the judge's diff (exact hex float literals, global addresses written as numbers, commutative operand order) |
+| `local_llm.py` | Local GPU (Ollama): a local coding model rewrites near misses from the assembly, the draft and the diff; `--bench` compares models on a fixed set |
 | `permute_cpu.py` | CPU only: decomp-permuter on those near misses, closest first |
 | `trivial.py` | solves two-instruction functions from templates, no model |
-| `static_init.py` | static-initialization functions (gcc's `__static_initialization_and_destruction_0`): `try ADDR` / `solve` write one `if (prio == 0xFFFF && init == 1) ctor(&D_x, n);` per store and call read from the assembly, kept only when the judge accepts it (244 functions, 416 KB, no model) |
+| `static_init.py` | static-initialization functions (gcc's `__static_initialization_and_destruction_0`): `try ADDR` / `solve` write one `if (prio == 0xFFFF && init == 1) ctor(&D_x, n);` per store and call read from the assembly, kept only when the judge accepts it (244 functions, 416 KB, no model); the 65 left differ only in one delay-slot decision of the original compiler (see knowledge/gt4.md) |
 | `units.py` | proposes translation units from each class's cluster of functions -> `config/units.txt` |
 | `asm_policy.py` | rejects assembly posing as C (file-scope asm, `.word`, multi-instruction blocks) |
 | `agent_step.py` | the queue driven by AI agents or people: `fill`, `claim`, `prompt`, `try`, `giveup` |

@@ -16,6 +16,7 @@ import csv
 import json
 import os
 import re
+import struct
 import subprocess
 import sys
 import time
@@ -37,10 +38,23 @@ PRELUDE = ("typedef signed char s8; typedef unsigned char u8; typedef short s16;
            "#define NULL 0\n"
            "void *memcpy(void *, const void *, unsigned int);\n" + MACROS + "\n")
 
+FLOAT = re.compile(r"(?<![\w.])(\d+\.\d*(?:[eE][-+]?\d+)?|\d+[eE][-+]?\d+)(f?)(?![\w.])")
 
-def draft(addr, extra=()):
-    asm = os.path.join(OUT, f"{addr:08x}{'_'.join(x.strip('-') for x in extra)}.s")
-    open(asm, "w", newline="\n").write(match.gnu_asm(addr))
+
+def exact_floats(body):
+    """Every float literal as a hex float, which ee-gcc 2.96 reads without rounding."""
+    def hexed(m):
+        value = float(m.group(1))
+        if m.group(2):
+            value = struct.unpack("<f", struct.pack("<f", value))[0]
+        return value.hex() + m.group(2)
+    return FLOAT.sub(hexed, body)
+
+
+def draft(addr, extra=(), ee=True):
+    """m2c's draft; ee=False feeds it rabbitizer's o32 register names instead of the EE's."""
+    asm = os.path.join(OUT, f"{addr:08x}{'_'.join(x.strip('-') for x in extra)}{'' if ee else 'o32'}.s")
+    open(asm, "w", newline="\n").write(match.m2c_asm(addr) if ee else match.gnu_asm(addr))
     res = subprocess.run([sys.executable, M2C, "-t", "mipsee-gcc-c", "--valid-syntax", *extra, asm],
                          capture_output=True, text=True, timeout=120)
     os.remove(asm)
@@ -98,7 +112,7 @@ def missing_params(body, addr):
     return body[:m.start(2)] + full + body[m.end(2):]
 
 
-def variants(addr, body):
+def variants(addr, body, ee=True):
     """m2c's draft, then the same draft corrected with rules learned on this game."""
     yield "m2c", body
     p = missing_params(body, addr)
@@ -109,7 +123,7 @@ def variants(addr, body):
     if t:
         yield "m2c+tailcall", t
     try:
-        v = draft(addr, ["--void"])
+        v = draft(addr, ["--void"], ee)
     except subprocess.TimeoutExpired:
         v = None
     if v and "M2C_ERROR" not in v and v != body:
@@ -121,31 +135,125 @@ def judge(addr, path):
                           capture_output=True, text=True)
 
 
-def attempt(addr):
-    try:
-        body = draft(addr)
-    except subprocess.TimeoutExpired:
-        return {"addr": f"{addr:08x}", "result": "m2c timeout"}
-    if not body or "M2C_ERROR" in body:
-        return {"addr": f"{addr:08x}", "result": "m2c could not decompile it"}
+def compile_fix(addr, body, errors):
+    """m2c's draft corrected from ee-gcc's own error messages; None when no rule applies.
+
+    Grouping the drafts that did not compile showed four causes behind almost all of them:
+    stack slots m2c reads but never declares (`sp0`), a callee called with fewer arguments than
+    m2c's guessed prototype (the original reuses an argument register already set), the result
+    of a callee m2c declared void, and `*` applied to an integer expression."""
+    lines = body.split("\n")
+    skip = PRELUDE.count("\n")
+    changed = False
+    head = re.search(r"^\w[^\n]*\bfunc_%08X\([^)]*\)\s*\{$" % addr, body, re.M)
+    declared = []
+    for m in re.finditer(r"^[^\n]*?:(\d+): (.*)$", errors, re.M):
+        n, msg = int(m.group(1)) - skip - 1, m.group(2)
+        u = re.match(r"`(\w+)' undeclared", msg)
+        if u and re.fullmatch(r"(unk)?sp\w*", u.group(1)) and u.group(1) not in declared:
+            declared.append(u.group(1))
+            continue
+        f = re.match(r"too (?:few|many) arguments to function `(\w+)'", msg)
+        if f:
+            for i, line in enumerate(lines):
+                if re.match(r"^[^(]*\b%s\(" % f.group(1), line) and line.rstrip().endswith(("*/", ";")):
+                    lines[i] = re.sub(r"\b(%s)\([^)]*\)" % f.group(1), r"\1()", line, count=1)
+                    changed = True
+            continue
+        void = "void value not ignored" in msg or "invalid use of void expression" in msg
+        if void and 0 <= n < len(lines):
+            fixed_callee = False
+            for callee in set(re.findall(r"\b(func_[0-9A-F]{8})\(", lines[n])):
+                for i, line in enumerate(lines):
+                    if re.match(r"^void %s\(" % callee, line):
+                        lines[i] = "M2C_UNK" + line[4:]
+                        changed = fixed_callee = True
+            if fixed_callee:
+                continue
+        # `*` on an integer or on a void pointer: read through a pointer of the assigned type
+        if (void or "invalid type argument of `unary *'" in msg) and 0 <= n < len(lines):
+            lhs = re.match(r"\s*(\w+) = \*\(", lines[n])
+            kind = "s32"
+            if lhs:
+                d = re.search(r"^\s+([\w ]+?) \**%s;" % lhs.group(1), body, re.M)
+                kind = d.group(1) if d else kind
+            new = re.sub(r"(?<![\w)\]])\*\((?!\w+ \*\))", f"*({kind} *)(", lines[n])
+            new = re.sub(r"(?<![\w)\]])\*(?=[a-z_]\w*\b)", f"*({kind} *)", new)
+            if new != lines[n]:
+                lines[n] = new
+                changed = True
+    out = "\n".join(lines)
+    if declared and head:
+        at = head.end() + 1 + (out[:head.end()].count("\n") - body[:head.end()].count("\n"))
+        out = out[:at] + "".join(f"    s32 {d};\n" for d in declared) + out[at:]
+        changed = True
+    return out if changed else None
+
+
+def differs_by(res):
+    """(0 for a match, else the number of differing instructions, 10**6 if it did not compile)."""
+    if res.returncode == 0 and "could not be checked" not in res.stdout:
+        return 0
+    m = re.search(r"(\d+) of (\d+) instructions differ", res.stdout)
+    return int(m.group(1)) if m else 10 ** 6
+
+
+def prepared(addr, body, path):
+    """m2c's draft made compilable: local buffer for `sp`, exact floats, compiler errors fixed."""
     # m2c names the address of a stack local `sp` when it cannot name the local itself: give it
     # a local buffer so the draft compiles (the judge or the permuter takes it from there).
     if re.search(r"\bsp\b", body.split("{", 1)[-1]):
         body = re.sub(r"(^\w[^\n]*\bfunc_%08X\([^)]*\)\s*\{\n)" % addr,
                       lambda m: m.group(1) + "    s8 sp[0x10];\n", body, count=1, flags=re.M)
-    path = os.path.join(OUT, f"{addr:08x}.c")
-    first = None
-    for how, text in variants(addr, body):
-        open(path, "w", newline="\n").write(PRELUDE + text)
+    body = exact_floats(body)
+    for _ in range(4):  # ee-gcc's error messages, fixed by rule until it compiles
+        open(path, "w", newline="\n").write(PRELUDE + body)
         res = judge(addr, path)
-        if res.returncode == 0 and "could not be checked" not in res.stdout:
+        out = res.stdout + res.stderr
+        fixed = compile_fix(addr, body, out) if "compile failed" in out else None
+        if not fixed:
             break
-        first = first or (how, text, res)
-    else:
-        # keep the first variant's draft and verdict for the permuter and the report
-        how, text, res = first
-        open(path, "w", newline="\n").write(PRELUDE + text)
-    if res.returncode == 0 and "could not be checked" not in res.stdout:
+        body = fixed
+    return body
+
+
+def attempt(addr):
+    path = os.path.join(OUT, f"{addr:08x}.c")
+    # EE register names are right for arguments 5-8, but where $8-$11 are only temporaries the
+    # o32 names sometimes give m2c a closer draft: try both when they differ, keep the closest.
+    namings = [True] + ([False] if match.m2c_asm(addr) != match.gnu_asm(addr) else [])
+    best = None  # (differing instructions, text, verdict)
+    # the draft kept by an earlier run competes too, so a retry never makes a function farther
+    if os.path.exists(path):
+        old = open(path).read()
+        old = old[len(PRELUDE):] if old.startswith(PRELUDE) else None
+        if old:
+            res = judge(addr, path)
+            best = (differs_by(res), old, res)
+    gave_up = True
+    for ee in namings:
+        try:
+            body = draft(addr, ee=ee)
+        except subprocess.TimeoutExpired:
+            continue
+        if not body or "M2C_ERROR" in body:
+            continue
+        gave_up = False
+        for how, text in variants(addr, prepared(addr, body, path), ee):
+            open(path, "w", newline="\n").write(PRELUDE + text)
+            res = judge(addr, path)
+            if best is None or differs_by(res) < best[0]:
+                best = (differs_by(res), text, res)
+            if best[0] == 0:
+                break
+        if best and best[0] == 0:
+            break
+    if gave_up and best is None:
+        return {"addr": f"{addr:08x}", "result": "m2c could not decompile it"}
+    score, text, res = best
+    # keep the closest draft and its verdict for near_fix, the permuter and the report
+    open(path, "w", newline="\n").write(PRELUDE + text)
+    if score == 0:
         dest = os.path.join(ROOT, "src", f"func_{addr:08X}.c")
         if not any(os.path.exists(os.path.join(ROOT, "src", f"func_{addr:08X}.{e}")) for e in ("c", "cpp")):
             open(dest, "w", newline="\n").write(open(path).read())
@@ -174,7 +282,7 @@ def main():
                 r = json.loads(l)
                 latest[r["addr"]] = r["result"]
         # --retry: try the failures again (after the variants got better)
-        tried = {a for a, res in latest.items() if not (a_retry and res in ("differs", "does not compile"))}
+        tried = {a for a, res in latest.items() if not (a_retry and res in ("differs", "does not compile", "m2c could not decompile it"))}
     done = autoloop.done_addrs()
     asm_only = inventory.asm_functions()
     text_addr, text = match.load_text()

@@ -247,6 +247,16 @@ def gnu_asm(addr, count=None):
     return "\n".join(lines) + "\n"
 
 
+EE_NAMES = {f"t{i}": f"a{i + 4}" if i < 4 else f"t{i - 4}" for i in range(8)}
+
+
+def m2c_asm(addr, count=None):
+    """gnu_asm with the EE's register names for m2c's mipsee target: rabbitizer prints o32 names,
+    where $8-$11 are $t0-$t3, but on the EE they are the argument registers $a4-$a7 (and $12-$15
+    are $t0-$t3). Fed o32 names, m2c lost arguments 5-8 ("Read from unset register $t0")."""
+    return re.sub(r"\$(t[0-7])\b", lambda m: "$" + EE_NAMES[m.group(1)], gnu_asm(addr, count))
+
+
 def cmd_asm(addr):
     text_addr, text = load_text()
     words = trim_padding(words_at(text_addr, text, addr, function_span(addr)))

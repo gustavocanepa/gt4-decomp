@@ -201,7 +201,7 @@ def m2c_draft(addr):
     os.makedirs(AUTO, exist_ok=True)
     path = os.path.join(AUTO, f"{addr:08x}.s")
     with open(path, "w") as f:
-        f.write(match.gnu_asm(addr))
+        f.write(match.m2c_asm(addr))
     res = subprocess.run([sys.executable, M2C, "-t", project.CONFIG["cpu"]["m2c_target"], path], capture_output=True, text=True)
     return (res.stdout or res.stderr).strip()[:6000]
 
