@@ -1,0 +1,112 @@
+typedef int s32;
+typedef short s16;
+typedef unsigned short u16;
+typedef signed char s8;
+typedef unsigned char u8;
+typedef long s64;
+typedef float f32;
+
+struct Rep {
+    s32 len;
+    s32 cap;
+    s32 ref;
+    s32 sel;
+};
+
+struct Str {
+    char *p;
+    char pad[0xC];
+};
+
+struct S00659988 {
+    const char *name;
+};
+
+extern "C" s32 func_004452C0(void *, u8, u8, u8, u8);
+
+extern "C" void func_00441EE0(s32 *arg0, void *arg1, s32 arg2) {
+    u8 v_s3;
+    s32 t1;
+    s32 t2;
+    s32 t3;
+    s32 t4;
+    s32 t5;
+    s32 t6;
+    s32 t7;
+    s32 t8;
+    s32 t9;
+    s32 t10;
+    *(s8 *)((char *)arg1 + 0x92) = (s8)*(u8 *)((char *)arg2 + 0x2d);
+    *(s8 *)((char *)arg1 + 0x93) = (s8)*(u8 *)((char *)arg2 + 0x2e);
+    *(s8 *)((char *)arg1 + 0x94) = (s8)*(u8 *)((char *)arg2 + 0x31);
+    *(s8 *)((char *)arg1 + 0x95) = (s8)*(u8 *)((char *)arg2 + 0x32);
+    *(s8 *)((char *)arg1 + 0x5a) = (s8)*(u8 *)((char *)arg2 + 0x3c);
+    *(s8 *)((char *)arg1 + 0x72) = (s8)*(u8 *)((char *)arg2 + 0x3d);
+    *(s8 *)((char *)arg1 + 0x1d0) = (s8)*(u8 *)((char *)arg2 + 0x17);
+    *(s8 *)((char *)arg1 + 0x1d1) = (s8)*(u8 *)((char *)arg2 + 0x18);
+    *(s8 *)((char *)arg1 + 0x1d2) = (s8)*(u8 *)((char *)arg2 + 0x19);
+    *(s8 *)((char *)arg1 + 0x1d3) = (s8)*(u8 *)((char *)arg2 + 0x1a);
+    *(s8 *)((char *)arg1 + 0x1d8) = (s8)*(u8 *)((char *)arg2 + 0x1b);
+    *(s8 *)((char *)arg1 + 0x1d9) = (s8)*(u8 *)((char *)arg2 + 0x1c);
+    *(s8 *)((char *)arg1 + 0x1da) = (s8)*(u8 *)((char *)arg2 + 0x1d);
+    *(s8 *)((char *)arg1 + 0x1db) = (s8)*(u8 *)((char *)arg2 + 0x1e);
+    *(s8 *)((char *)arg1 + 0x1d4) = (s8)*(u8 *)((char *)arg2 + 0x1f);
+    *(s8 *)((char *)arg1 + 0x1d5) = (s8)*(u8 *)((char *)arg2 + 0x20);
+    *(s8 *)((char *)arg1 + 0x1d6) = (s8)*(u8 *)((char *)arg2 + 0x21);
+    *(s8 *)((char *)arg1 + 0x1d7) = (s8)*(u8 *)((char *)arg2 + 0x22);
+    *(s8 *)((char *)arg1 + 0x1dc) = (s8)*(u8 *)((char *)arg2 + 0x23);
+    *(s8 *)((char *)arg1 + 0x1dd) = (s8)*(u8 *)((char *)arg2 + 0x24);
+    *(s8 *)((char *)arg1 + 0x1de) = (s8)*(u8 *)((char *)arg2 + 0x25);
+    *(s8 *)((char *)arg1 + 0x1df) = (s8)*(u8 *)((char *)arg2 + 0x26);
+    *(s8 *)((char *)arg1 + 0x90) = (s8)*(u8 *)((char *)arg2 + 0x15);
+    *(s8 *)((char *)arg1 + 0x91) = (s8)*(u8 *)((char *)arg2 + 0x16);
+    *(s8 *)((char *)arg1 + 0x5b) = (s8)*(u8 *)((char *)arg2 + 0x64);
+    *(s8 *)((char *)arg1 + 0x73) = (s8)*(u8 *)((char *)arg2 + 0x65);
+    *(s8 *)((char *)arg1 + 0x5c) = (s8)*(u8 *)((char *)arg2 + 0x40);
+    *(s8 *)((char *)arg1 + 0x5e) = (s8)*(u8 *)((char *)arg2 + 0x42);
+    *(s8 *)((char *)arg1 + 0x60) = (s8)*(u8 *)((char *)arg2 + 0x44);
+    *(s8 *)((char *)arg1 + 0x62) = (s8)*(u8 *)((char *)arg2 + 0x46);
+    *(s8 *)((char *)arg1 + 0x74) = (s8)*(u8 *)((char *)arg2 + 0x41);
+    *(s8 *)((char *)arg1 + 0x76) = (s8)*(u8 *)((char *)arg2 + 0x43);
+    *(s8 *)((char *)arg1 + 0x78) = (s8)*(u8 *)((char *)arg2 + 0x45);
+    *(s8 *)((char *)arg1 + 0x7a) = (s8)*(u8 *)((char *)arg2 + 0x47);
+    *(s16 *)((char *)arg1 + 0x66) = (s16)*(u8 *)((char *)arg2 + 0x2f);
+    *(s16 *)((char *)arg1 + 0x7e) = (s16)*(u8 *)((char *)arg2 + 0x30);
+    *(s8 *)((char *)arg1 + 0x65) = (s8)*(u8 *)((char *)arg2 + 0x3e);
+    *(s8 *)((char *)arg1 + 0x7d) = (s8)*(u8 *)((char *)arg2 + 0x3f);
+    *(s16 *)((char *)arg1 + 0x9a) = (s16)*(u16 *)((char *)arg0 + 0x13c);
+    *(s16 *)((char *)arg1 + 0x9c) = (s16)*(u16 *)((char *)arg0 + 0x13e);
+    *(s8 *)((char *)arg1 + 0x88) = (s8)*(u8 *)((char *)arg0 + 0x139);
+    *(s8 *)((char *)arg1 + 0x89) = (s8)*(u8 *)((char *)arg0 + 0x13a);
+    *(s8 *)((char *)arg1 + 0x8e) = (s8)*(u8 *)((char *)arg0 + 0x140);
+    *(s8 *)((char *)arg1 + 0x8f) = (s8)*(u8 *)((char *)arg0 + 0x141);
+    *(s8 *)((char *)arg1 + 0x58) = (s8)*(u8 *)((char *)arg0 + 0x142);
+    *(s8 *)((char *)arg1 + 0x70) = (s8)*(u8 *)((char *)arg0 + 0x143);
+    *(s8 *)((char *)arg1 + 0x8c) = (s8)*(u8 *)((char *)arg0 + 0x144);
+    *(s8 *)((char *)arg1 + 0x8d) = (s8)*(u8 *)((char *)arg0 + 0x145);
+    v_s3 = *(u8 *)((char *)arg2 + 0x48);
+    t1 = func_004452C0(arg0, *(u8 *)((char *)arg2 + 0x49), *(u8 *)((char *)arg2 + 0x4a), v_s3, *(u8 *)((char *)arg0 + 0x146));
+    *(s8 *)((char *)arg1 + 0x5d) = (s8)t1;
+    t2 = func_004452C0(arg0, *(u8 *)((char *)arg2 + 0x4c), *(u8 *)((char *)arg2 + 0x4d), v_s3, *(u8 *)((char *)arg0 + 0x147));
+    *(s8 *)((char *)arg1 + 0x5f) = (s8)t2;
+    v_s3 = *(u8 *)((char *)arg2 + 0x4f);
+    t3 = func_004452C0(arg0, *(u8 *)((char *)arg2 + 0x50), *(u8 *)((char *)arg2 + 0x51), v_s3, *(u8 *)((char *)arg0 + 0x146));
+    *(s8 *)((char *)arg1 + 0x61) = (s8)t3;
+    t4 = func_004452C0(arg0, *(u8 *)((char *)arg2 + 0x53), *(u8 *)((char *)arg2 + 0x54), v_s3, *(u8 *)((char *)arg0 + 0x147));
+    *(s8 *)((char *)arg1 + 0x63) = (s8)t4;
+    v_s3 = *(u8 *)((char *)arg2 + 0x56);
+    t5 = func_004452C0(arg0, *(u8 *)((char *)arg2 + 0x57), *(u8 *)((char *)arg2 + 0x58), v_s3, *(u8 *)((char *)arg0 + 0x14a));
+    *(s8 *)((char *)arg1 + 0x75) = (s8)t5;
+    t6 = func_004452C0(arg0, *(u8 *)((char *)arg2 + 0x5a), *(u8 *)((char *)arg2 + 0x5b), v_s3, *(u8 *)((char *)arg0 + 0x14b));
+    *(s8 *)((char *)arg1 + 0x77) = (s8)t6;
+    v_s3 = *(u8 *)((char *)arg2 + 0x5d);
+    t7 = func_004452C0(arg0, *(u8 *)((char *)arg2 + 0x5e), *(u8 *)((char *)arg2 + 0x5f), v_s3, *(u8 *)((char *)arg0 + 0x14c));
+    *(s8 *)((char *)arg1 + 0x79) = (s8)t7;
+    t8 = func_004452C0(arg0, *(u8 *)((char *)arg2 + 0x61), *(u8 *)((char *)arg2 + 0x62), v_s3, *(u8 *)((char *)arg0 + 0x14d));
+    *(s8 *)((char *)arg1 + 0x7b) = (s8)t8;
+    t9 = func_004452C0(arg0, *(u8 *)((char *)arg2 + 0x67), *(u8 *)((char *)arg2 + 0x68), *(u8 *)((char *)arg2 + 0x66), *(u8 *)((char *)arg0 + 0x14e));
+    *(s8 *)((char *)arg1 + 0x59) = (s8)t9;
+    t10 = func_004452C0(arg0, *(u8 *)((char *)arg2 + 0x6b), *(u8 *)((char *)arg2 + 0x6c), *(u8 *)((char *)arg2 + 0x6a), *(u8 *)((char *)arg0 + 0x14f));
+    *(s8 *)((char *)arg1 + 0x71) = (s8)t10;
+    *(s8 *)((char *)arg1 + 0xa8) = (s8)*(u8 *)((char *)arg2 + 0x6e);
+}

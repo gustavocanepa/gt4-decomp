@@ -180,15 +180,25 @@ def main():
             starts.add(int(row["address"], 16))
     starts = sorted(s for s in starts if text_addr <= s < text_addr + text_size)
 
-    # 1. Compile every source on the Linux side, four at a time.
+    # 1. Compile every source on the Linux side, four at a time; a source whose first line names
+    # another compiler (project.source_compiler) is compiled with that one.
     print(f"compiling {len(sources)} functions...", flush=True)
+    by_compiler = {}
+    for path in sources.values():
+        by_compiler.setdefault(project.source_compiler(path), []).append(os.path.basename(path))
+    loops = []
+    for name, files in by_compiler.items():
+        listing = os.path.join(OUT, f"sources_{name or 'default'}.txt")
+        open(listing, "w", newline="\n").write("\n".join(sorted(files)) + "\n")
+        loops.append(f"""
+for f in $(cat {to_wsl(listing)}); do o="../obj/${{f%.*}}.o"; [ "$o" -nt "$f" ] || echo "$f"; done > ../todo.txt
+cat ../todo.txt | xargs -r -P{a.jobs} -I{{}} bash -c 'f={{}}; o="../obj/${{f%.*}}"; {project.compiler_command(name)} "$f" -o "$o.raw" 2>"$o.err" && mips-linux-gnu-objcopy {STRIP} --wildcard -G "${{f%.*}}*" "$o.raw" "$o.o"; rm -f "$o.raw"; true'
+""")
     wsl(f"""
 d="{WSL_DIR}"; mkdir -p "$d/src" "$d/obj"
 cp -u {to_wsl(os.path.join(ROOT, 'src'))}/func_* "$d/src/"
 cd "$d/src"
-for f in func_*; do o="../obj/${{f%.*}}.o"; [ "$o" -nt "$f" ] || echo "$f"; done > ../todo.txt
-cat ../todo.txt | xargs -r -P{a.jobs} -I{{}} bash -c 'f={{}}; o="../obj/${{f%.*}}"; {project.compiler_command()} "$f" -o "$o.raw" 2>"$o.err" && mips-linux-gnu-objcopy {STRIP} --wildcard -G "${{f%.*}}*" "$o.raw" "$o.o"; rm -f "$o.raw"; true'
-""")
+""" + "".join(loops))
     info = wsl(f"""
 cd "{WSL_DIR}/obj"
 for o in func_*.o; do

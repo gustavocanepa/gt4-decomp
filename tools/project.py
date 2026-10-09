@@ -1,6 +1,7 @@
 """Read project.toml: the per-game settings every tool uses."""
 import importlib.util
 import os
+import re
 import tomllib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,12 +25,36 @@ def load_image():
     return _cache["image"]
 
 
-def compiler_command():
-    """The compile command for Linux/WSL, with $HOME in place of ~."""
-    c = CONFIG["compiler"]
+COMPILER_MARKER = re.compile(r"^/\* compiler: ([\w.+-]+) \*/\s*$")
+
+
+def compilers():
+    """{name: config} of the alternative compilers ([compilers.NAME] tables); the project's own
+    compiler is not among them (it needs no marker)."""
+    return CONFIG.get("compilers", {})
+
+
+def source_compiler(path):
+    """The compiler a source asks for on its first line (`/* compiler: NAME */`), or None for the
+    project's compiler."""
+    try:
+        with open(path, encoding="utf-8", errors="replace") as f:
+            m = COMPILER_MARKER.match(f.readline())
+    except OSError:
+        return None
+    if m and m.group(1) not in compilers():
+        raise SystemExit(f"{path}: unknown compiler {m.group(1)!r} (see [compilers] in project.toml)")
+    return m.group(1) if m else None
+
+
+def compiler_command(name=None):
+    """The compile command for Linux/WSL, with $HOME in place of ~: the project's compiler, or the
+    alternative called name (see compilers())."""
+    c = CONFIG["compiler"] if name is None else compilers()[name]
     directory = c["dir"].replace("~", "$HOME", 1)
-    # GT4_COMPILER_COMMAND overrides the command (for experiments with flags).
-    return os.environ.get("GT4_COMPILER_COMMAND", c["command"]).replace("{dir}", directory)
+    # GT4_COMPILER_COMMAND overrides the project compiler's command (for experiments with flags).
+    command = c["command"] if name else os.environ.get("GT4_COMPILER_COMMAND", c["command"])
+    return command.replace("{dir}", directory)
 
 
 def knowledge():

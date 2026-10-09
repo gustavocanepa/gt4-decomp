@@ -323,7 +323,7 @@ Several rules were learned from the Digital Devil Saga decompilation's documenta
 - **`lui/addiu` versus `lui/ori` with the same low half** means the original takes the address of a global (a `%lo` relocation goes through `addiu`), where the C has a plain integer constant. Use the symbol `D_ADDR` instead of the number (tools/near_fix.py does it from the diff).
 - **Arguments 5-8 travel in $8-$11.** The EE ABI passes up to eight integer arguments in registers: `$a0-$a3` and then `$8-$11`, which the EABI/n32 names call `$a4-$a7` (and `$12-$15` are `$t0-$t3`). rabbitizer prints o32 names (`$t0` for `$8`); m2c's mipsee target reads `$t0` as `$12`, so it lost arguments 5-8 ("Read from unset register $t0") and called functions with too few arguments. `match.m2c_asm()` renames the registers before m2c sees them.
 - **Drafts that do not compile** almost always fail for one of four reasons, all fixed from the compiler's own messages by `cpu_solve.compile_fix()`: an undeclared stack slot (`sp0`), too few arguments for m2c's guessed prototype (declare the callee unprototyped, `f()`), the result of a callee declared `void` (declare it `M2C_UNK`), `*` on an integer or `void *` (cast to the assigned variable's type).
-- **A second compiler: ee-gcc 2.9 (990721/991111).** The ~270 functions whose prologue saves callee-saved registers 16 bytes apart (`autoloop.other_compiler`, 80 KB, 0x3ac140-0x5b9af0) were built by ee-gcc 2.9: of decomp.me's EE compilers only the 2.9 releases space the saves 16 bytes apart (2.96 and 3.2 use 8), and on those functions 2.9 drafts are the closest (tools/compiler_probe.py --foreign). Matching them needs a per-source compiler choice in match.py/build.py (not done yet). The library region (>= 0x5547e8) is otherwise NOT another compiler: no candidate release or flag set (-O1/-O3/-Os/-G8/-fno-schedule-insns2/-fno-strict-aliasing) does better than ours, no function uses `$gp` (so -G0 everywhere), and its near misses are the usual draft problems.
+- **A second compiler: ee-gcc 2.9 (990721/991111).** The ~270 functions whose prologue saves callee-saved registers 16 bytes apart (`autoloop.other_compiler`, 80 KB, 0x3ac140-0x5b9af0) were built by ee-gcc 2.9: of decomp.me's EE compilers only the 2.9 releases space the saves 16 bytes apart (2.96 and 3.2 use 8), and on those functions 2.9 drafts are the closest (tools/compiler_probe.py --foreign). A source chooses it with `/* compiler: ee-gcc2.9-991111 */` on its first line (project.toml `[compilers]`; match.py, build.py and the CI honour it; tools/other_compiler.py runs the draft pipeline with it: 10 of 270 matched as drafts, the rest are ordinary draft problems, and the four 2.9 releases with -O1/-O2/-O3/-Os, -G0/-G8, -fno-gcse, -fschedule-insns, -fno-schedule-insns2, -fno-strict-aliasing all give the same code on the closest ones). The library region (>= 0x5547e8) is otherwise NOT another compiler: no candidate release or flag set (-O1/-O3/-Os/-G8/-fno-schedule-insns2/-fno-strict-aliasing) does better than ours, no function uses `$gp` (so -G0 everywhere), and its near misses are the usual draft problems.
 ## What m2c's drafts get wrong, counted (tools/fragments.py edits)
 
 739 near misses (m2c's draft at most 12 instructions off) later matched by a person, a model, the permuter or a rule, each compared with its matched source. The edit kinds, most frequent first, with the judge-diff atoms (`orig>mine` opcodes, `op:reg`/`op:imm`/`op:order` for one operand kind) that announce them:
@@ -337,3 +337,35 @@ Several rules were learned from the Digital Devil Saga decompilation's documenta
 - **Temporaries removed (20), `if` arms swapped (8), loop form (4), ternaries (3), statement order (1)** are rare at this distance: the structural edits a near miss needs are almost always types, addresses and tail calls, not control flow.
 
 - **Address low halves compare as 16 bits.** In the judge's diff the original's `addiu` shows a negative immediate (-0x6570) where our `ori` shows 0x9A90 for the same address; near_fix.py compares them as 16-bit values (it missed every address with a low half >= 0x8000 before).
+- **m2c with a type context (tools/types_db.py).** Without prototypes m2c guesses every callee from the registers it sees set, so a callee whose arguments the caller computes in `$a0`-`$a3` through `addiu` becomes `f()` with no arguments and the draft loses every `addiu`/`move` feeding it (`func_00396808`: 22 differing instructions, 5 with the real prototype `void func_003979E0(void **, s32)`); a context of known prototypes (`--context`) restores the calls, and the `s32` vs `void *` parameter types it carries fix the `addiu` offsets scaled by the pointee. Measured on 400 failed drafts: 12% get closer, none gets farther, 1 in 75 of the queue matches outright (small functions only). Field layouts of the classes (`struct X { ... }` from the instructions' load/store widths) add nothing measurable beyond the prototypes: m2c already reads the width from the instruction, and what the near misses still lack is statement structure, not field types.
+- **A callee's return type in the context decides `$v0`/`$v1` and the tail.** A context prototype returning `void` for a function whose result the original kept (or the reverse) moves the next temporary between `$v0` and `$v1` and turns `return f()` back into `jal` + epilogue: the database keeps the definition's return type and, when matched callers declared more parameters than the definition reads, the longest parameter list (a matched caller had to set every register the real prototype asked for).
+
+## Library code compiled from its public source (tools/libmatch.py, expat 1.95.7)
+- **A callee defined earlier in the same file changes the caller's code.** With exceptions off
+  (C, or `-fno-exceptions`) `rest_of_compilation` marks every function it has compiled
+  `TREE_NOTHROW` "for the benefit of other functions later in this translation unit"; calls to
+  those get a `REG_EH_REGION 0` note, and reorg's liveness scan (`resource.c:
+  find_dead_or_set_registers`) stops at every call *without* it. So a call to a function defined
+  above in the file lets reorg move more into delay slots (`beql` with the thread's first
+  instruction in the slot, duplicated tail blocks), a call to a declared-only one does not. This
+  is the "delay-slot decision" behind the parked static-init functions and the `bne`/`bnel` note
+  above. Compiling one function per file loses it: an empty definition of each earlier callee
+  (`__attribute__((section(".libmatch.stubtab"))) static T f(args) { }`) restores the mark, but
+  the calls then bind to the stub, so such sources only serve the judge until build.py resolves
+  them (weak stubs plus `func_X = ADDR;` assignments instead of `PROVIDE` would do it).
+- **Expat was built with `-fno-strict-aliasing`**: 272 of its 323 functions match with the
+  project flags, 321 with `-fno-strict-aliasing` added (loads of one type no longer move above
+  stores of another: `toAscii`, `copyEntityTable`, `cdataSectionProcessor`...). The other flags
+  are the project's; `size_t` is 32-bit (64-bit `size_t` loses 22 functions). The sources that
+  need the flag name the `ee-gcc2.96-no-strict-aliasing` entry of project.toml on their first
+  line (35 of the 236 expat sources in src/).
+- **gas 2.10-ee mis-expands the table-jump macro** `lw $3,$Ln($2)` (what gcc emits for a
+  `switch` jump table) into `lw $3,%hi($Ln)($3)` instead of `lui` when the macro directly follows a
+  `.set noreorder` branch-likely block in a small file; the same code assembled as part of the
+  whole file is right. Nine expat functions with jump tables fail the judge on that one word
+  (`appendAttributeValue`, `*_scanPi`, `*_cdataSectionTok`, `*_scanEndTag`,
+  `*_nameMatchesAscii`); objects with jump tables are not linked by build.py anyway (`.rodata`
+  with relocations).
+- Functions only reached through a pointer (`charRefNumber`, the `xmlrole.c` state functions)
+  are missing from build/functions.csv and sit glued to the function before them; a source may
+  define both in order (the judge compares the whole object from its first function).

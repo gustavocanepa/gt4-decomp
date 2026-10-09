@@ -26,7 +26,7 @@ is. Matched functions are mostly small: 50.9% of functions but 21.3% of bytes.
 
 | unit | range | functions done/total | bytes done/total | what it is (strings, shape) |
 |---|---|---|---|---|
-| unit_00494578 | 0x494578-0x54db98 | 837 / 3,689 | 39 / 755 KB (5%) | network stack: XML parser (xmlns, CDATA, ENTITY), GameSpy (gsSHA alphabet), SCEA online; C code, 55% of functions <= 128 B; gt4.md's "GameSpy lock guard" 004f47f0 is here |
+| unit_00494578 | 0x494578-0x54db98 | 837 / 3,689 | 39 / 755 KB (5%) | network stack, identified in THIRD_PARTY.md: expat 1.95.7 at 0x4ce828-0x4e6bd8 (MIT; 321 of 323 functions match from source with tools/libmatch.py, 236 in src/; doProlog and 3 others wait for nothrow stubs, 9 on a gas quirk), Polyphony's pdistd-http and netcnf (0x4e6bd8-0x4ee7c8), and SCE-RT/Medius 2.8 (Sony Online, not GameSpy: 0x4f10d0-0x5455xx, proprietary: Medius client, MGCL, dme, rt_udp, rt_upnp, rt_crypt with SHA-1/MD5, libnetb); C code, 55% of functions <= 128 B |
 | unit_0046A050 | 0x46a050-0x4944b0 | 309 / 1,033 | 17 / 173 KB (10%) | image/format code: JFIF, Deflated/Inflator (zlib-style C++), replay "getDate", units |
 | unit_004271E8 | 0x4271e8-0x44d3f0 | 677 / 1,452 | 33 / 155 KB (21%) | race front end glue: camera, skinning, snapshot paths, RaceBasic; 79% tiny functions (accessors) |
 | unit_00101400 | 0x101400-0x124178 | 262 / 584 | 40 / 142 KB (28%) | game-mode menus (labomode, race-end, option), script callbacks |
@@ -46,12 +46,12 @@ flags, and should match once drafted as C (m2c already matches short C functions
 
 ## Where the next tools should aim
 
-1. Families with a matched member (tools/families.py, then tools/siblings.py for the
-   immediate-only ones): MListBox/MCarGarage/MCarData getter families (ids 1-5, 13, 19: 300
-   functions, 80 KB, 150-500 B each). The siblings differ in registers as well as constants, so
-   the next step is a template with the struct layout as the variable, not text substitution.
-2. The 10 mSceneViewFace event virtuals (family 9: 6 KB) and similar `m*Face` virtual runs:
-   one solved member each, differing in a flag bit and an event-name string.
+1. DONE (tools/accessors.py, 491 functions, ~100 KB): the accessor families and every other
+   straight-line handle/getter function in the inventory, generated from the assembly. What is
+   left of them has real control flow (`branch at` in `scan`'s reasons) or float/other shapes.
+2. PARKED: the 8 remaining mSceneViewFace event virtuals are individual hand variants (gt4.md);
+   the ee-gcc 2.9 functions (tools/other_compiler.py) now compile with their compiler, 10 matched,
+   208 near-miss drafts in build/auto/other/ wait for the permuter and fragments passes.
 3. Static-init leftovers (65 functions, 22 KB): only if the delay-slot decision becomes
    predictable (reorg.c in the ee-gcc source would settle it); otherwise leave them.
 4. The physics and dynamics clusters (unit_0034E9A0, unit_00415E90, unit_003F7150: 280 KB,

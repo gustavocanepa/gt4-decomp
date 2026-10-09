@@ -23,6 +23,22 @@ command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions"
 # The language model output is compiled as this language (file extension).
 extension = "cpp"
 
+# Other compilers a source may ask for with a marker on its first line, `/* compiler: NAME */`
+# (tools/project.py source_compiler): match.py, build.py and the CI compile that source with NAME's
+# command. ~270 functions (0x3ac140-0x5b9af0, Sony SDK code) were built by ee-gcc 2.9, which saves
+# callee-saved registers 16 bytes apart (knowledge/ee-gcc-2.96.md). `archive` is where the CI gets it.
+[compilers."ee-gcc2.9-991111"]
+dir = "~/.local/share/gt4/compilers/ee-gcc2.9-991111"
+command = "{dir}/bin/ee-gcc -c -O2 -G0 -fno-exceptions"
+archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.9-991111.tar.xz"
+
+# The project's compiler without strict aliasing: how the game's expat was built (THIRD_PARTY.md,
+# tools/libmatch.py). Same archive as the main compiler, unpacked a second time under this name.
+[compilers."ee-gcc2.96-no-strict-aliasing"]
+dir = "~/.local/share/gt4/compilers/ee-gcc2.96-no-strict-aliasing"
+command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-strict-aliasing"
+archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
+
 [model]
 # Facts given to the model with every function: the compiler's habits (shared by every game built
 # with it) and this game's own idioms.

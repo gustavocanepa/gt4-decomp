@@ -116,7 +116,7 @@ def compile_c(src):
     os.makedirs(os.path.join(ROOT, "build", "obj"), exist_ok=True)
     obj = os.path.join(ROOT, "build", "obj", f"match_{os.getpid()}_{uuid.uuid4().hex}.o")
     rel = lambda p: os.path.relpath(os.path.abspath(p), ROOT).replace("\\", "/")
-    args = ["bash", "tools/cc_wsl.sh", rel(src), rel(obj), project.compiler_command()]
+    args = ["bash", "tools/cc_wsl.sh", rel(src), rel(obj), project.compiler_command(project.source_compiler(src))]
     if os.name == "nt":
         cmd = ["wsl", "-d", "Ubuntu", "--cd", "/mnt/" + ROOT[0].lower() + ROOT[2:].replace("\\", "/"), "--"] + args
     else:
