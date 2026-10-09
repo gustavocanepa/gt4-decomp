@@ -25,6 +25,7 @@ import asm_policy
 import autoloop
 import inventory
 import match
+import project
 
 ROOT = match.ROOT
 AUTO = autoloop.AUTO
@@ -179,7 +180,7 @@ def cmd_giveup(addr, attempts):
 
 
 def cmd_stats():
-    n = len([x for x in os.listdir(os.path.join(ROOT, "src")) if x.startswith("func_")])
+    n = len(project.sources(refresh=True))
     rows = [json.loads(l) for l in open(autoloop.LOG) if l.strip()]
     agent = [r for r in rows if r.get("effort") == "agent" or r.get("levels") == ["agent"]]
     total = inventory.targets()

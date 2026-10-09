@@ -20,6 +20,8 @@ import sys
 from collections import defaultdict
 
 import match
+import symbols
+import project
 
 ROOT = match.ROOT
 GROUPS = os.path.join(ROOT, "build", "groups.json")
@@ -86,7 +88,7 @@ def callee_names(addr):
 
 
 def apply(addr):
-    src = next((n for n in os.listdir(os.path.join(ROOT, "src")) if n.startswith(f"func_{addr:08X}.")), None)
+    src = project.source_for(addr)
     if not src:
         sys.exit(f"no source for 0x{addr:08x} in src/")
     groups = json.load(open(GROUPS))["groups"]
@@ -94,12 +96,13 @@ def apply(addr):
     if not group:
         print("no copies of this function")
         return
-    source = open(os.path.join(ROOT, "src", src), encoding="utf-8").read()
+    # Reasoned about with generic names (func_/D_ADDR); the copy gets its real names back at the end.
+    source = symbols.generic_text(open(src, encoding="utf-8").read())
     ext = src.rsplit(".", 1)[1]
     mine = callee_names(addr)
     for other in group:
         o = int(other, 16)
-        if o == addr or any(n.startswith(f"func_{o:08X}.") for n in os.listdir(os.path.join(ROOT, "src"))):
+        if o == addr or project.source_for(o):
             continue
         theirs = callee_names(o)
         text = source.replace(f"func_{addr:08X}", f"func_{o:08X}")
@@ -119,6 +122,8 @@ def apply(addr):
                 open(path, "w", encoding="utf-8").write(match.apply_renames(text, renames))
                 res = check()
         if res.returncode == 0:
+            text = symbols.rename_text(open(path, encoding="utf-8").read())
+            open(path, "w", encoding="utf-8", newline="\n").write(text)
             os.replace(path, os.path.join(ROOT, "src", f"func_{o:08X}.{ext}"))
             print(f"0x{o:08x}: MATCH (copy of 0x{addr:08x})")
         else:

@@ -2,10 +2,12 @@
 """Full build: link every matched function at its original address into one ELF and compare the
 result with the original executable, byte for byte.
 
-    build.py [--jobs 4] [--keep-going]
+    build.py [--jobs 4] [--keep-going] [--limit N] [--compile-only]
 
-Every src/func_ADDR.* is compiled with the game's compiler and linked, with the real addresses of
-everything it references, into a single ELF. Code that is not decompiled yet is taken from your own
+Every function source under src/ (project.sources: flat src/func_ADDR.* or organized by
+tools/layout.py) is compiled with the game's compiler and linked, with the real addresses of
+everything it references (tools/symbols.py: func_/D_ names and the real names alike), into a
+single ELF. Code that is not decompiled yet is taken from your own
 executable (`.incbin` of the original bytes, never committed), so the image is complete from day
 one and shrinks to pure source as functions are matched. The build passes when both loaded segments
 hash the same as the original's.
@@ -30,12 +32,13 @@ import sys
 
 import match
 import project
+import symbols
 
 ROOT = match.ROOT
 OUT = os.path.join(ROOT, "build", "full")
 WSL_DIR = "$HOME/.local/share/gt4/full"
 ELF = os.path.join(ROOT, "orig", "SCUS-97328", "CORE.GT4.elf")
-SYMBOL = re.compile(r"^(?:func|D|jtbl|sub|data)_([0-9A-Fa-f]{8})(?:__.*)?$")  # C++ mangling allowed
+SYMBOL = symbols.GENERIC  # the generic names; symbols.address_of resolves the real names too
 # Sections a compiled function may bring along without changing the image.
 HARMLESS = {".text", ".reginfo", ".mdebug", ".mdebug.eabi64", ".comment", ".pdr", ".gnu.attributes",
             ".note.GNU-stack", ".eh_frame", ".gcc_except_table"}
@@ -159,6 +162,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--jobs", type=int, default=4)
     ap.add_argument("--keep-going", action="store_true", help="exit 0 even if the image differs")
+    ap.add_argument("--limit", type=int, default=0,
+                    help="compile at most N stale sources this run (a mass change in slices)")
+    ap.add_argument("--compile-only", action="store_true", help="stop after the compile step")
     ap.add_argument("--incbin", action="store_true",
                     help="fill undecompiled code with raw bytes even if splat's assembly is there")
     a = ap.parse_args()
@@ -169,11 +175,7 @@ def main():
     open(os.path.join(OUT, "text.bin"), "wb").write(elf[text_off:text_off + text_size])
     open(os.path.join(OUT, "data.bin"), "wb").write(elf[data_off:data_off + data_size])
 
-    sources = {}
-    for path in glob.glob(os.path.join(ROOT, "src", "func_*.*")):
-        m = re.match(r"func_([0-9A-Fa-f]{8})\.(c|cpp)$", os.path.basename(path))
-        if m:
-            sources[int(m.group(1), 16)] = path
+    sources = project.sources(refresh=True)  # {address: path}
     starts = set(sources)
     with open(match.FUNCTIONS) as f:
         for row in csv.DictReader(f):
@@ -181,24 +183,31 @@ def main():
     starts = sorted(s for s in starts if text_addr <= s < text_addr + text_size)
 
     # 1. Compile every source on the Linux side, four at a time; a source whose first line names
-    # another compiler (project.source_compiler) is compiled with that one.
+    # another compiler (project.source_compiler) is compiled with that one. Objects are named by
+    # address (obj/func_ADDR.o) whatever the source is called; only the function's own symbols
+    # stay global (its file name and its address), so two objects never define the same name.
     print(f"compiling {len(sources)} functions...", flush=True)
     by_compiler = {}
-    for path in sources.values():
-        by_compiler.setdefault(project.source_compiler(path), []).append(os.path.basename(path))
+    for addr, path in sources.items():
+        rel = os.path.relpath(path, project.SRC).replace(os.sep, "/")
+        stem = os.path.splitext(os.path.basename(path))[0]
+        by_compiler.setdefault(project.source_compiler(path), []).append(f"{rel} func_{addr:08X} {stem}")
     loops = []
-    for name, files in by_compiler.items():
+    for name, lines in by_compiler.items():
         listing = os.path.join(OUT, f"sources_{name or 'default'}.txt")
-        open(listing, "w", newline="\n").write("\n".join(sorted(files)) + "\n")
+        open(listing, "w", newline="\n").write("\n".join(sorted(lines)) + "\n")
         loops.append(f"""
-for f in $(cat {to_wsl(listing)}); do o="../obj/${{f%.*}}.o"; [ "$o" -nt "$f" ] || echo "$f"; done > ../todo.txt
-cat ../todo.txt | xargs -r -P{a.jobs} -I{{}} bash -c 'f={{}}; o="../obj/${{f%.*}}"; {project.compiler_command(name)} "$f" -o "$o.raw" 2>"$o.err" && mips-linux-gnu-objcopy {STRIP} --wildcard -G "${{f%.*}}*" "$o.raw" "$o.o"; rm -f "$o.raw"; true'
+while read -r f o stem; do [ "../obj/$o.o" -nt "$f" ] || echo "$f $o $stem"; done < {to_wsl(listing)} > ../todo_all.txt
+head -n {a.limit if a.limit else 1000000} ../todo_all.txt > ../todo.txt; echo "stale: $(wc -l < ../todo_all.txt), compiling: $(wc -l < ../todo.txt)"
+cat ../todo.txt | xargs -r -P{a.jobs} -L1 bash -c 'f="$0"; o="../obj/$1"; {project.compiler_command(name)} "$f" -o "$o.raw" 2>"$o.err" && mips-linux-gnu-objcopy {STRIP} --wildcard -G "$2*" -G "$1*" "$o.raw" "$o.o"; rm -f "$o.raw"; true'
 """)
-    wsl(f"""
+    print(wsl(f"""
 d="{WSL_DIR}"; mkdir -p "$d/src" "$d/obj"
-cp -u {to_wsl(os.path.join(ROOT, 'src'))}/func_* "$d/src/"
+cp -rup {to_wsl(project.SRC)}/. "$d/src/"
 cd "$d/src"
-""" + "".join(loops))
+""" + "".join(loops)).strip(), flush=True)
+    if a.compile_only:
+        return
     info = wsl(f"""
 cd "{WSL_DIR}/obj"
 for o in func_*.o; do
@@ -243,7 +252,7 @@ done
             continue
         extra = {k: v for k, v in p["sections"].items()
                  if v and k not in HARMLESS and not k.startswith(".rel") and not k.endswith("tab")}
-        bad_syms = [s for s in p["undefined"] if not SYMBOL.match(s)]
+        bad_syms = [s for s in p["undefined"] if symbols.address_of(s) is None]
         if set(extra) == {".rodata"} and not p["sections"].get(".rel.rodata"):
             rodata_candidates.append(addr)
         if extra and addr not in rodata_candidates:
@@ -327,9 +336,10 @@ done
         for line in body:
             referenced.update(m.group(0) for m in SPLAT_SYMBOL.finditer(line))
     for s in sorted(referenced):  # PROVIDE never overrides a real definition
-        m = SYMBOL.match(s)
-        if m:
-            syms.append(f"PROVIDE({s} = 0x{m.group(1)});")
+        addr = symbols.address_of(s)
+        if addr is not None:
+            quoted = f'"{s}"' if re.search(r"[^\w]", s) else s
+            syms.append(f"PROVIDE({quoted} = 0x{addr:08x});")
     for extra in ("undefined_syms_auto.txt", "undefined_funcs_auto.txt"):
         path = os.path.join(ROOT, "build", "splat", extra)
         if splat_funcs and os.path.exists(path):
@@ -395,11 +405,14 @@ cp gt4.elf built_text.bin built_data.bin {to_wsl(OUT)}/
     sha = lambda b: hashlib.sha1(b).hexdigest()
 
     linked_bytes = sum(objects[a] for a in objects if status[a] == "linked")
+    data_sizes = {f"{a:08x}": parsed[a]["sections"][".rodata"] for a, _ in data_plan if status[a] == "linked"}
     report = {"text_sha1": sha(built_text), "text_matches": text_ok, "data_matches": data_ok,
               "functions": {f"{a:08x}": s for a, s in sorted(status.items())},
               "linked_functions": sum(s == "linked" for s in status.values()),
               "linked_code_bytes": linked_bytes, "code_bytes": text_size,
-              "sizes": {f"{a:08x}": s for a, s in sorted(objects.items())}}
+              "sizes": {f"{a:08x}": s for a, s in sorted(objects.items())},
+              "data_bytes": data_size, "data_from_source": sum(data_sizes.values()),
+              "data_sizes": {k: v for k, v in sorted(data_sizes.items())}}
     json.dump(report, open(os.path.join(OUT, "report.json"), "w"), indent=1)
 
     counts = {}
@@ -407,7 +420,8 @@ cp gt4.elf built_text.bin built_data.bin {to_wsl(OUT)}/
         key = s.split(":")[0].split(" (")[0]
         counts[key] = counts.get(key, 0) + 1
     print(f".text {'OK' if text_ok else 'DIFFERS'}  sha1 {sha(built_text)} (original {sha(orig_text)})")
-    print(f".data {'OK' if data_ok else 'DIFFERS'} ({placed_rodata} functions' constants placed from source)")
+    print(f".data {'OK' if data_ok else 'DIFFERS'} ({placed_rodata} functions' constants placed from source, "
+          f"{sum(data_sizes.values())} bytes)")
     for k, v in sorted(counts.items(), key=lambda kv: -kv[1]):
         print(f"  {v:5d}  {k}")
     print(f"code from source: {linked_bytes} of {text_size} bytes ({linked_bytes / text_size:.2%}); "

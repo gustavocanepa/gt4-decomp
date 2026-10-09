@@ -28,6 +28,7 @@ import urllib.request
 import autoloop
 import cpu_solve
 import match
+import project
 
 ROOT = match.ROOT
 OUT = os.path.join(ROOT, "build", "auto", "local")
@@ -96,7 +97,7 @@ def candidates(max_bytes):
 
 def found(addr, path, n):
     dest = os.path.join(ROOT, "src", f"func_{addr:08X}.c")
-    if not any(os.path.exists(os.path.join(ROOT, "src", f"func_{addr:08X}.{e}")) for e in ("c", "cpp")):
+    if not project.source_for(addr):
         open(dest, "w", newline="\n").write(open(path).read())
     return {"addr": f"{addr:08x}", "result": "match", "round": n}
 

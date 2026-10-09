@@ -1,0 +1,14 @@
+# Subsystems of the executable (knowledge/architecture.md, "Map by address"): start address and
+# the folder under src/ that holds its units (tools/layout.py). A unit (config/units.txt) belongs
+# to the subsystem its first function falls in.
+00100000 startup     start-up, static initialisation, game-mode menu glue
+00124208 gamedata    native game-data classes (m* data model, save/memory card, options)
+001B6890 media       EyeToy, logger, photo view
+001D6FB0 online      online glue (mHttp, mDnas, mNetwork)
+001FC4D8 ui          UI framework (widgets, faces, events, actors)
+002EA548 adhoc       Adhoc script VM
+0032F028 race        race: sessions, HUD, dynamics, cars, driver models
+0044D410 engine      camera, car-data base, settings, engine sound, AI line
+00494500 network     network C stack (XML, transport, online services)
+0054DBB8 libstream   streams, sockets, libc
+00596FA0 runtime     STL, libstdc++, Sony SDK, RTTI

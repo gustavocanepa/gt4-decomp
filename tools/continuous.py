@@ -26,7 +26,9 @@ def run(cmd, **kw):
 
 
 def matched_count():
-    return len([n for n in os.listdir(os.path.join(ROOT, "src")) if n.startswith("func_")])
+    sys.path.insert(0, TOOLS)
+    import project
+    return len(project.sources(refresh=True))
 
 
 def batch_stats(name):

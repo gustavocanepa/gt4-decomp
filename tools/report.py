@@ -14,6 +14,7 @@ import os
 
 import inventory
 import match
+import project
 
 ROOT = match.ROOT
 OUT = os.path.join(ROOT, "progress", "report.json")
@@ -23,16 +24,19 @@ def measures(funcs, total_data=0):
     total = sum(f["size"] for f in funcs)
     matched = sum(f["size"] for f in funcs if f["matched"])
     complete = sum(f["size"] for f in funcs if f["complete"])
+    # Data from source: the constants (.rodata) of the linked functions, placed at their original
+    # addresses by tools/build.py and byte-compared there (build/full/report.json data_sizes).
+    data = sum(f.get("data", 0) for f in funcs if f["complete"])
     n = len(funcs)
     nm = sum(f["matched"] for f in funcs)
     pct = lambda a, b: round(100.0 * a / b, 4) if b else 0.0
     return {
         "fuzzy_match_percent": round(sum(f["size"] * f.get("fuzzy", 100.0 if f["matched"] else 0.0) for f in funcs) / total, 4) if total else 0.0,
         "total_code": str(total), "matched_code": str(matched), "matched_code_percent": pct(matched, total),
-        "total_data": str(total_data), "matched_data": "0", "matched_data_percent": 0.0,
+        "total_data": str(total_data), "matched_data": str(data), "matched_data_percent": pct(data, total_data),
         "total_functions": n, "matched_functions": nm, "matched_functions_percent": pct(nm, n),
         "complete_code": str(complete), "complete_code_percent": pct(complete, total),
-        "complete_data": "0", "complete_data_percent": 0.0,
+        "complete_data": str(data), "complete_data_percent": pct(data, total_data),
         "total_units": 1, "complete_units": 0,
     }
 
@@ -59,8 +63,9 @@ def main():
     build = json.load(open(os.path.join(ROOT, "build", "full", "report.json")))
     status = build["functions"]
     sizes = build.get("sizes", {})
+    data_sizes = build.get("data_sizes", {})
     asm = inventory.asm_functions()
-    done = {n[5:13].lower() for n in os.listdir(os.path.join(ROOT, "src")) if n.startswith("func_")}
+    done = {f"{a:08x}" for a in project.sources(refresh=True)}
     rows = list(csv.DictReader(open(match.FUNCTIONS)))
     text_addr, text = match.load_text()
     partial_path = os.path.join(ROOT, "build", "auto", "partial.json")
@@ -75,8 +80,9 @@ def main():
         size = int(sizes.get(key, 4 * len(words)))
         funcs.append({"addr": addr, "size": size, "matched": key in done,
                       "complete": status.get(key) == "linked" or status.get(key, "").startswith("linked as part"),
-                      "fuzzy": 100.0 if key in done else partial.get(key, 0.0)})
-    data_size = 0xBE37C
+                      "fuzzy": 100.0 if key in done else partial.get(key, 0.0),
+                      "data": int(data_sizes.get(key, 0))})
+    data_size = int(build.get("data_bytes", 0xBE37C))
     m = measures(funcs, data_size)
 
     # Units: config/units.txt (tools/units.py), else one unit for all the code.
@@ -96,12 +102,14 @@ def main():
         fs = grouped.get(uname, [])
         if not fs:
             continue
-        um = measures(fs)
+        um = measures(fs, data_size)
         um["total_units"], um["complete_units"] = 1, int(all(f["complete"] for f in fs))
         units.append({
             "name": uname,
             "measures": um,
-            "sections": [{"name": ".text", "size": um["total_code"], "fuzzy_match_percent": um["fuzzy_match_percent"]}],
+            "sections": [{"name": ".text", "size": um["total_code"], "fuzzy_match_percent": um["fuzzy_match_percent"]}]
+                        + ([{"name": ".rodata", "size": um["matched_data"], "fuzzy_match_percent": 100.0}]
+                           if int(um["matched_data"]) else []),
             "functions": [{"name": names.get(f["addr"], f"func_{f['addr']:08X}"), "size": str(f["size"]),
                            "fuzzy_match_percent": f["fuzzy"],
                            "metadata": {"virtual_address": str(f["addr"])}} for f in fs],

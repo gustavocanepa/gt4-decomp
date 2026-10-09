@@ -27,7 +27,9 @@ executable that runs them. Format documentation comes from the
   16,311 functions are linked from C/C++ source at their original addresses, and the rest is
   assembled from splat's disassembly of your own executable. 155 more match on their own and
   carry their own constants (`.rodata`), placed at their original addresses from source.
-  Matched functions are in [`src/`](src/);
+  Matched functions are in [`src/`](src/), one file per function, organised as
+  `src/<subsystem>/<unit or class>/` and named after the script-engine or RTTI name when one is
+  known (`func_ADDR` otherwise; `config/symbol_addrs.txt` maps names to addresses);
   36 functions that were hand-written assembly in the original are listed in
   [`config/asm_functions.txt`](config/asm_functions.txt) and not counted.
   Most were produced by AI agents (Claude) driving the tools in [`tools/`](tools/), each one verified

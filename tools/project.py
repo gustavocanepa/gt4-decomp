@@ -63,3 +63,72 @@ def knowledge():
     if isinstance(files, str):
         files = [files]
     return "\n\n".join(open(path(f), encoding="utf-8").read().strip() for f in files if os.path.exists(path(f)))
+
+
+# ---------------------------------------------------------------- sources
+
+SRC = os.path.join(ROOT, "src")
+SOURCE_EXTS = (".c", ".cpp")
+_sources = {}
+
+
+def source_address(path):
+    """The address of the function a source file is for (from its file name: func_ADDR or a name
+    of tools/symbols.py), or None for a file that is not a function's source."""
+    import symbols
+    stem, ext = os.path.splitext(os.path.basename(path))
+    if ext not in SOURCE_EXTS:
+        return None
+    m = re.fullmatch(r"func_([0-9A-Fa-f]{8})", stem)
+    if m:
+        return int(m.group(1), 16)
+    # A real name exactly (aliases included: func_ADDR__method is a script function listed under
+    # its registration function), or Name_ADDR when two names differ only by case
+    # (tools/layout.py); any other func_ADDR__suffix file is a note or a variant, not a source.
+    if stem in symbols._load().names:
+        addr, kind = symbols._load().names[stem]
+        return addr if kind == "func" else None
+    if symbols.GENERIC.match(stem):
+        return None
+    m = re.fullmatch(r"(.+)_([0-9A-Fa-f]{8})", stem)
+    if m and symbols.kind_of(m.group(1)) == "func" and symbols.address_of(m.group(1)) == int(m.group(2), 16):
+        return int(m.group(2), 16)
+    if symbols.kind_of(stem) != "func":
+        return None
+    return symbols.address_of(stem)
+
+
+def sources(refresh=False):
+    """{address: path} of every function source under src/ (flat or organized, tools/layout.py).
+    The scan is cached per process; refresh=True scans again."""
+    if refresh or "map" not in _sources:
+        out = {}
+        for dirpath, _, files in os.walk(SRC):
+            for name in files:
+                p = os.path.join(dirpath, name)
+                addr = source_address(p)
+                if addr is not None:
+                    out[addr] = p
+        _sources["map"] = out
+    return _sources["map"]
+
+
+def source_for(addr):
+    """The path of the source of the function at addr, or None. Looks at the places a source can
+    be (flat src/func_ADDR.*, then its planned path) before falling back to a scan, so a file
+    written by another process a moment ago is found; a scan (cached) covers anything else."""
+    import layout
+    for ext in SOURCE_EXTS:
+        p = os.path.join(SRC, f"func_{addr:08X}{ext}")
+        if os.path.exists(p):
+            return p
+        p = os.path.join(ROOT, layout.path_for(addr, ext).replace("/", os.sep))
+        if os.path.exists(p):
+            return p
+    p = sources().get(addr)
+    return p if p and os.path.exists(p) else None
+
+
+def done_addresses():
+    """Addresses that have a source (one scan)."""
+    return set(sources(refresh=True))

@@ -1,9 +1,0 @@
-struct Derived { int base0; void *vtbl; };
-extern "C" struct Derived *func_0030A678(struct Derived *self);
-extern "C" char D_0065A2B0[];
-extern "C" struct Derived *func_00127E30(struct Derived *self)
-{
-    struct Derived *r = func_0030A678(self);
-    self->vtbl = D_0065A2B0;
-    return r;
-}

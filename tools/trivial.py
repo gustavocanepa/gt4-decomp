@@ -20,6 +20,7 @@ import rabbitizer
 
 import autoloop
 import match
+import project
 
 ROOT = match.ROOT
 LOADS = {"lw": "s32", "lh": "s16", "lhu": "u16", "lb": "s8", "lbu": "u8", "ld": "s64", "lwu": "u32"}
@@ -78,7 +79,7 @@ def solve(addr):
                              capture_output=True, text=True)
         if res.returncode == 0 and "could not be checked" not in res.stdout:
             dest = os.path.join(ROOT, "src", f"func_{addr:08X}.cpp")
-            if not os.path.exists(dest):
+            if not project.source_for(addr):
                 open(dest, "w", newline="\n").write(src)
             return addr, src
     return addr, None

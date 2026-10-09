@@ -1,0 +1,17 @@
+# Expat 1.95.7 (James Clark's XML parser), MIT license: the XML parser at 0x4ce828-0x4e6bd8.
+# Source: https://github.com/libexpat/libexpat/tree/R_1_95_7/expat/lib (released 2003-10-20;
+# the executable carries the string "expat_1.95.7"). Downloaded to ../gt4-thirdparty, outside the
+# repository: only the per-function sources libmatch.py writes are committed (THIRD_PARTY.md).
+version = "1.95.7"
+license = "MIT"
+url = "https://github.com/libexpat/libexpat/tree/R_1_95_7/expat"
+source = "../gt4-thirdparty/expat-1.95.7/lib"
+files = ["xmlparse.c", "xmlrole.c", "xmltok.c"]
+# XMLCALL= silences expat.h's __attribute__((cdecl)); the rest is the usual Unix configuration
+# (configure's expat_config.h), which the matches confirm. size_t is 32-bit (include/shim).
+defines = ["XMLCALL=", "BYTEORDER=1234", "HAVE_MEMMOVE", "XML_NS", "XML_DTD", "XML_CONTEXT_BYTES=1024"]
+# The game's expat was built without strict aliasing: 272 functions match with the project's
+# flags, 321 with -fno-strict-aliasing: emit names this [compilers] entry of project.toml on the
+# first line of the sources that need it (`/* compiler: ... */`, read by match.py and build.py).
+compiler = "ee-gcc2.96-no-strict-aliasing"
+range = ["0x4ce828", "0x4e6bd8"]

@@ -18,6 +18,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 import fix_extern
 import match
+import project
 
 ROOT = match.ROOT
 
@@ -29,7 +30,7 @@ def check(addr, path):
 
 
 def repair(addr):
-    path = next(iter(glob.glob(os.path.join(ROOT, "src", f"func_{addr:08X}.*"))), None)
+    path = project.source_for(addr)
     if not path:
         return addr, "gone"
     original = open(path, encoding="utf-8").read()

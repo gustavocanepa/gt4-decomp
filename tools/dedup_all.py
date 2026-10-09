@@ -12,6 +12,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor
 
 import match
+import project
 
 ROOT = match.ROOT
 
@@ -20,7 +21,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--jobs", type=int, default=3)
     a = ap.parse_args()
-    done = {n[5:13].lower() for n in os.listdir(os.path.join(ROOT, "src")) if n.startswith("func_")}
+    done = {f"{a:08x}" for a in project.sources(refresh=True)}
     groups = json.load(open(os.path.join(ROOT, "build", "groups.json")))["groups"]
     work = []
     for g in groups:

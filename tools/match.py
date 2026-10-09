@@ -6,10 +6,11 @@
     match.py check ADDR file.c    compile file.c with the project's compiler (WSL) and compare the
                                   function it defines with the original at ADDR
 
-Relocations are resolved as the linker would: a symbol named func_ADDR / D_ADDR (C++ mangling
-allowed) sits at ADDR, so call targets and %hi/%lo of globals are compared exactly. Only references
-to symbols without an address in their name (e.g. the object's own .rodata) fall back to comparing
-opcode and registers; tools/build.py then settles those in the full link.
+Relocations are resolved as the linker would: every symbol the project knows (tools/symbols.py:
+func_ADDR / D_ADDR, the names of config/symbol_addrs.txt and config/adhoc_methods.txt, C++
+mangling allowed) sits at its address, so call targets and %hi/%lo of globals are compared exactly.
+Only references to symbols without a known address (e.g. the object's own .rodata) fall back to
+comparing opcode and registers; tools/build.py then settles those in the full link.
 Exit status 0 means the function matches.
 """
 import csv
@@ -24,6 +25,7 @@ import uuid
 import rabbitizer
 
 import project
+import symbols
 
 ROOT = project.ROOT
 CORE = project.path(project.CONFIG["game"]["executable"])
@@ -137,7 +139,7 @@ def same_ignoring_reloc(a, b, rtype):
     return a == b
 
 
-SYMBOL_ADDRESS = re.compile(r"^(?:func|D|jtbl|sub|data)_([0-9A-Fa-f]{8})(?:__.*)?$")
+SYMBOL_ADDRESS = symbols.GENERIC  # the generic names; symbols.address_of knows the real ones too
 
 
 def link_words(words, srelocs, foff, addr):
@@ -151,8 +153,7 @@ def link_words(words, srelocs, foff, addr):
         _, sym, value, in_text = rel
         if in_text:
             return base + value
-        m = SYMBOL_ADDRESS.match(sym)
-        return int(m.group(1), 16) if m else None
+        return symbols.address_of(sym)
 
     offsets = sorted(o for o in srelocs if foff <= o < foff + 4 * len(words))
     for n, off in enumerate(offsets):
@@ -211,10 +212,11 @@ def suggest_renames(addr, src):
             deltas.setdefault(sym, set()).add(pending_hi[sym] + sext(m) - sext(t))
     out = {}
     for sym, d in deltas.items():
-        m = re.match(r"^(func|D|jtbl|sub|data)_([0-9A-Fa-f]{8})", sym)
-        if len(d) != 1 or not m or d == {0}:
+        token, addr = symbols.source_token(sym), symbols.address_of(sym)
+        if len(d) != 1 or token is None or d == {0}:
             continue
-        out[m.group(0)] = f"{m.group(1)}_{int(m.group(2), 16) - d.pop():08X}"
+        kind = "D" if symbols.kind_of(sym) == "data" else "func"
+        out[token] = f"{kind}_{addr - d.pop():08X}"
     return out
 
 

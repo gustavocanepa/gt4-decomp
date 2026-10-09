@@ -17,6 +17,7 @@ import sys
 
 import build
 import match
+import project
 
 ROOT = match.ROOT
 OUT = build.OUT
@@ -82,8 +83,7 @@ def main():
     fixed = unfixable = 0
     for addr in targets:
         name = f"func_{addr:08X}"
-        src = next((os.path.join(ROOT, "src", name + ext) for ext in (".cpp", ".c")
-                    if os.path.exists(os.path.join(ROOT, "src", name + ext))), None)
+        src = project.source_for(addr)
         if not src or name not in relocs:
             continue
         renames, problems = {}, []

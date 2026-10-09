@@ -22,6 +22,7 @@ import sys
 
 import build
 import match
+import project
 
 ROOT = match.ROOT
 REGISTRARS = ("func_002F3818", "func_003068A8")      # (obj, &string, callback)
@@ -333,7 +334,7 @@ def cmd_try():
 def cmd_solve():
     from concurrent.futures import ThreadPoolExecutor
     jobs = next((int(a[2:]) for a in sys.argv[2:] if a.startswith("-j")), 2)
-    done = {int(n[5:13], 16) for n in os.listdir(os.path.join(ROOT, "src")) if n.startswith("func_")}
+    done = set(project.sources(refresh=True))
     cands = {a: p for a, p in candidates().items() if a not in done}
     print(f"{len(cands)} unmatched registration functions", flush=True)
     ok = 0

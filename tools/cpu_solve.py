@@ -6,8 +6,11 @@ compiler), m2c writes compilable C (`--valid-syntax`), which is compiled as C an
 goes to src/func_ADDR.c; a near miss (few differing instructions) is kept for the permuter
 (tools/permute_cpu.py); the rest is listed for the language models. No model is called.
 
-    cpu_solve.py [--jobs 3] [--max-bytes 2048] [--limit N]
+    cpu_solve.py [--jobs 3] [--max-bytes 2048] [--limit N] [--context types]
 
+--context adds drafts made with the type database (tools/types_db.py build first): m2c then
+calls known functions with their real prototypes and reads class fields with their real
+widths; the closest draft of all still wins.
 Results: build/auto/cpu/results.jsonl (one line per function: matched, or the share that differs).
 Resumable: functions already in results.jsonl are skipped.
 """
@@ -25,6 +28,8 @@ from concurrent.futures import ThreadPoolExecutor
 import autoloop
 import inventory
 import match
+import project
+import types_db
 
 ROOT = match.ROOT
 OUT = os.path.join(ROOT, "build", "auto", "cpu")
@@ -51,19 +56,26 @@ def exact_floats(body):
     return FLOAT.sub(hexed, body)
 
 
-def draft(addr, extra=(), ee=True):
-    """m2c's draft; ee=False feeds it rabbitizer's o32 register names instead of the EE's."""
-    asm = os.path.join(OUT, f"{addr:08x}{'_'.join(x.strip('-') for x in extra)}{'' if ee else 'o32'}.s")
+def draft(addr, extra=(), ee=True, context=None, out=OUT):
+    """m2c's draft; ee=False feeds it rabbitizer's o32 register names instead of the EE's;
+    context is a C file of known prototypes/globals/structs (tools/types_db.py)."""
+    asm = os.path.join(out, f"{addr:08x}{'_'.join(x.strip('-') for x in extra)}{'' if ee else 'o32'}"
+                            f"{'ctx' if context else ''}.s")
     open(asm, "w", newline="\n").write(match.m2c_asm(addr) if ee else match.gnu_asm(addr))
-    res = subprocess.run([sys.executable, M2C, "-t", "mipsee-gcc-c", "--valid-syntax", *extra, asm],
+    ctx = ["--context", context, "--no-cache"] if context else []
+    res = subprocess.run([sys.executable, M2C, "-t", "mipsee-gcc-c", "--valid-syntax", *ctx, *extra, asm],
                          capture_output=True, text=True, timeout=120)
     os.remove(asm)
     return res.stdout if res.returncode == 0 else None
 
 
+CONTEXT = None  # set by --context: the mode every attempt() of this run adds
+CONTEXT_ONLY = False  # set by --context-only: a function with a kept draft gets only context drafts
+
+
 def solve(addr):
     try:
-        return attempt(addr)
+        return attempt(addr, CONTEXT, plain=not CONTEXT_ONLY)
     except BaseException as e:  # one bad function must not stop the run
         return {"addr": f"{addr:08x}", "result": f"error: {str(e)[:80]}"}
 
@@ -112,22 +124,26 @@ def missing_params(body, addr):
     return body[:m.start(2)] + full + body[m.end(2):]
 
 
-def variants(addr, body, ee=True):
-    """m2c's draft, then the same draft corrected with rules learned on this game."""
-    yield "m2c", body
+def variants(addr, body, ee=True, context=None, mode=None, out=OUT):
+    """m2c's draft, then the same draft corrected with rules learned on this game.
+    With a context (file and its mode), every variant carries the declarations it compiles with."""
+    tag = f"+{mode}" if mode else ""
+    yield "m2c" + tag, body
     p = missing_params(body, addr)
     if p:
         body = p
-        yield "m2c+params", body
+        yield "m2c+params" + tag, body
     t = tail_call(body, addr)
     if t:
-        yield "m2c+tailcall", t
+        yield "m2c+tailcall" + tag, t
     try:
-        v = draft(addr, ["--void"], ee)
+        v = draft(addr, ["--void"], ee, context, out)
     except subprocess.TimeoutExpired:
         v = None
     if v and "M2C_ERROR" not in v and v != body:
-        yield "m2c --void", v
+        if context:
+            v = types_db.context_for(v, addr, mode) + v
+        yield "m2c --void" + tag, v
 
 
 def judge(addr, path):
@@ -217,52 +233,73 @@ def prepared(addr, body, path):
     return body
 
 
-def attempt(addr):
-    path = os.path.join(OUT, f"{addr:08x}.c")
+def attempt(addr, context=None, out=OUT, plain=True):
+    """The closest of m2c's drafts for one function, written to out/ADDR.c (src/ on a match).
+    context: None, or 'protos'/'types' to add drafts made with the type database's context
+    (tools/types_db.py: known prototypes, or prototypes plus globals and class layouts).
+    plain=False skips the drafts without context when an earlier run's draft is kept (a retry
+    that only adds the context drafts)."""
+    path = os.path.join(out, f"{addr:08x}.c")
     # EE register names are right for arguments 5-8, but where $8-$11 are only temporaries the
     # o32 names sometimes give m2c a closer draft: try both when they differ, keep the closest.
     namings = [True] + ([False] if match.m2c_asm(addr) != match.gnu_asm(addr) else [])
-    best = None  # (differing instructions, text, verdict)
+    best = None  # (differing instructions, text, verdict, how)
     # the draft kept by an earlier run competes too, so a retry never makes a function farther
     if os.path.exists(path):
         old = open(path).read()
         old = old[len(PRELUDE):] if old.startswith(PRELUDE) else None
         if old:
             res = judge(addr, path)
-            best = (differs_by(res), old, res)
+            best = (differs_by(res), old, res, "kept")
     gave_up = True
     for ee in namings:
         try:
-            body = draft(addr, ee=ee)
+            body = draft(addr, ee=ee, out=out)
         except subprocess.TimeoutExpired:
             continue
         if not body or "M2C_ERROR" in body:
             continue
         gave_up = False
-        for how, text in variants(addr, prepared(addr, body, path), ee):
-            open(path, "w", newline="\n").write(PRELUDE + text)
-            res = judge(addr, path)
-            if best is None or differs_by(res) < best[0]:
-                best = (differs_by(res), text, res)
-            if best[0] == 0:
+        rounds = [(prepared(addr, body, path), None)] if plain or best is None else []
+        if context:
+            ctx = types_db.m2c_context(addr, context, out, body)
+            try:
+                cbody = draft(addr, ee=ee, context=ctx, out=out) if ctx else None
+            except subprocess.TimeoutExpired:
+                cbody = None
+            if cbody and "M2C_ERROR" not in cbody:
+                cbody = types_db.context_for(cbody, addr, context) + cbody
+                rounds.append((prepared(addr, cbody, path), ctx))
+        for text0, ctx in rounds:
+            for how, text in variants(addr, text0, ee, ctx, context if ctx else None, out):
+                open(path, "w", newline="\n").write(PRELUDE + text)
+                res = judge(addr, path)
+                if best is None or differs_by(res) < best[0]:
+                    best = (differs_by(res), text, res, how)
+                if best[0] == 0:
+                    break
+            if best and best[0] == 0:
                 break
         if best and best[0] == 0:
             break
     if gave_up and best is None:
-        return {"addr": f"{addr:08x}", "result": "m2c could not decompile it"}
-    score, text, res = best
+        return dict({"addr": f"{addr:08x}", "result": "m2c could not decompile it"}, **({"ctx": context} if context else {}))
+    score, text, res, how = best
     # keep the closest draft and its verdict for near_fix, the permuter and the report
     open(path, "w", newline="\n").write(PRELUDE + text)
+    row = {"addr": f"{addr:08x}", "how": how}
+    if context:
+        row["ctx"] = context  # so a chunked --retry --context-only run skips what it already tried
     if score == 0:
         dest = os.path.join(ROOT, "src", f"func_{addr:08X}.c")
-        if not any(os.path.exists(os.path.join(ROOT, "src", f"func_{addr:08X}.{e}")) for e in ("c", "cpp")):
+        if not project.source_for(addr):
             open(dest, "w", newline="\n").write(open(path).read())
-        return {"addr": f"{addr:08x}", "result": "match"}
+        return dict(row, result="match")
     m = re.search(r"(\d+) of (\d+) instructions differ \(original (\d+), mine (\d+)\)", res.stdout)
     if m:
-        return {"addr": f"{addr:08x}", "result": "differs", "differ": int(m.group(1)), "of": int(m.group(2)),
-                "same_length": m.group(3) == m.group(4)}
-    return {"addr": f"{addr:08x}", "result": "does not compile"}
+        return dict(row, result="differs", differ=int(m.group(1)), of=int(m.group(2)),
+                    same_length=m.group(3) == m.group(4))
+    return dict(row, result="does not compile")
 
 
 def main():
@@ -271,18 +308,32 @@ def main():
     ap.add_argument("--max-bytes", type=int, default=2048)
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--retry", action="store_true", help="try earlier failures again")
+    ap.add_argument("--skip-last", type=int, default=0,
+                    help="with --retry: skip the functions of the last N result lines (an interrupted retry)")
+    ap.add_argument("--shard", default="0/1", help="K/N: only every N-th function, starting at K")
+    ap.add_argument("--context", choices=["protos", "types"],
+                    help="also draft with tools/types_db.py's context (known prototypes, or everything)")
+    ap.add_argument("--context-only", action="store_true",
+                    help="with --context --retry: keep the earlier draft, add only the context drafts "
+                         "(half the work); functions whose last result already used this context are skipped")
     a = ap.parse_args()
     a_retry = a.retry
+    global CONTEXT, CONTEXT_ONLY
+    CONTEXT, CONTEXT_ONLY = a.context, a.context_only
     os.makedirs(OUT, exist_ok=True)
     tried = set()
     if os.path.exists(RESULTS):
         latest = {}
-        for l in open(RESULTS):
-            if l.strip():
-                r = json.loads(l)
-                latest[r["addr"]] = r["result"]
-        # --retry: try the failures again (after the variants got better)
-        tried = {a for a, res in latest.items() if not (a_retry and res in ("differs", "does not compile", "m2c could not decompile it"))}
+        lines = [json.loads(l) for l in open(RESULTS) if l.strip()]
+        lines = [r for r in lines if isinstance(r, dict) and "addr" in r]  # a stray line of an interleaved write
+        for r in lines:
+            latest[r["addr"]] = r
+        recent = {r["addr"] for r in lines[len(lines) - a.skip_last:]} if a.skip_last else set()
+        # --retry: try the failures again (after the variants got better); with --context-only a
+        # failure already retried with this context counts as tried (chunked runs resume)
+        tried = {k for k, r in latest.items()
+                 if not (a_retry and r["result"] in ("differs", "does not compile", "m2c could not decompile it"))
+                 or (a.context_only and r.get("ctx") == a.context)} | recent
     done = autoloop.done_addrs()
     asm_only = inventory.asm_functions()
     text_addr, text = match.load_text()
@@ -296,15 +347,18 @@ def main():
             continue
         todo.append((len(words), addr))
     todo = [x for _, x in sorted(todo)]
+    k, n = map(int, a.shard.split("/"))
+    todo = todo[k::n]
     if a.limit:
         todo = todo[:a.limit]
     print(f"{len(todo)} functions to try with m2c alone", flush=True)
     counts = {}
     t0 = time.time()
-    with ThreadPoolExecutor(a.jobs) as pool, open(RESULTS, "a") as log:
+    # one unbuffered O_APPEND write per line, so parallel shards (--shard) never interleave lines
+    log = os.open(RESULTS, os.O_WRONLY | os.O_APPEND | os.O_CREAT)
+    with ThreadPoolExecutor(a.jobs) as pool:
         for i, r in enumerate(pool.map(solve, todo), 1):
-            log.write(json.dumps(r) + "\n")
-            log.flush()
+            os.write(log, (json.dumps(r) + "\n").encode())
             counts[r["result"]] = counts.get(r["result"], 0) + 1
             if r["result"] == "match":
                 with open(autoloop.LOG, "a") as f:

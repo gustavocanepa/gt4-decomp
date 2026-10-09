@@ -27,6 +27,7 @@ from concurrent.futures import ThreadPoolExecutor
 import rabbitizer
 
 import match
+import symbols
 import project
 
 ROOT = match.ROOT
@@ -81,11 +82,7 @@ def other_compiler(words):
 
 
 def done_addrs():
-    out = set()
-    for name in os.listdir(os.path.join(ROOT, "src")):
-        m = re.match(r"func_([0-9A-F]{8})\.", name)
-        if m:
-            out.add(int(m.group(1), 16))
+    out = set(project.sources(refresh=True))
     # Functions written in assembly in the original are not decompilation targets.
     asm_list = os.path.join(ROOT, "config", "asm_functions.txt")
     if os.path.exists(asm_list):
@@ -259,21 +256,20 @@ def similar_examples(addr, count=4):
     target = mnemonics(addr)
     grams = set(zip(target, target[1:]))
     scored = []
-    for name in os.listdir(os.path.join(ROOT, "src")):
-        m = re.match(r"func_([0-9A-F]{8})\.(c|cpp)$", name)
-        if not m or int(m.group(1), 16) == addr:
+    for a, path in project.sources().items():
+        if a == addr:
             continue
-        other = mnemonics(int(m.group(1), 16))
+        other = mnemonics(a)
         og = set(zip(other, other[1:]))
         if not og:
             continue
         score = len(grams & og) / len(grams | og) - abs(len(other) - len(target)) / (4 * max(len(target), 1))
-        scored.append((score, int(m.group(1), 16), name))
+        scored.append((score, a, path))
     scored.sort(reverse=True)
     picked, seen = [], set()
-    for score, a, name in scored:
-        source = open(os.path.join(ROOT, "src", name), encoding="utf-8").read()
-        body = re.sub(r"func_[0-9A-F]{8}|D_[0-9A-F]{8}", "", source)
+    for score, a, path in scored:
+        source = open(path, encoding="utf-8").read()
+        body = re.sub(r"func_[0-9A-F]{8}|D_[0-9A-F]{8}", "", symbols.generic_text(source))
         if body in seen:  # copies of one function teach nothing new
             continue
         seen.add(body)
@@ -317,9 +313,9 @@ def callee_context(addr):
         name = rtti_name(target)
         if name:
             line += f" ({name})"
-        src = next((n for n in os.listdir(os.path.join(ROOT, "src")) if n.startswith(f"func_{target:08X}.")), None)
+        src = project.source_for(target)
         if src:
-            text = open(os.path.join(ROOT, "src", src), encoding="utf-8").read()
+            text = symbols.generic_text(open(src, encoding="utf-8").read())
             m = re.search(r"^[^;{}\n]*\bfunc_%08X\b[^;{]*\)" % target, text, re.M)
             if m:
                 line += f": solved, defined as `{m.group(0).strip()}`"

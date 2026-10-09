@@ -3,6 +3,7 @@ name: check
 # What can be checked without the game: every source is real C/C++ (no assembly posing as C) and
 # compiles with the original compiler. Matching itself needs your own executable: run
 # `python tools/build.py` locally, which links everything and compares SHA-1 with the original.
+# Sources live under src/<subsystem>/<unit>/ (tools/layout.py), new matches may still sit flat in src/.
 
 on:
   push:
@@ -17,7 +18,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: No assembly posing as C
-        run: python tools/asm_policy.py src/*
+        run: find src -type f \( -name '*.c' -o -name '*.cpp' \) -print0 | xargs -0 python tools/asm_policy.py
+      - name: Sources are where tools/layout.py puts them, with their real names
+        run: python tools/organize.py --check
       - name: Compiler (ee-gcc 2.96, decomp.me build)
         run: |
           sudo dpkg --add-architecture i386
@@ -28,7 +31,8 @@ jobs:
             | tar -xJ -C ~/.local/share/gt4/ee-gcc2.96
       - name: Other compilers named by sources (project.toml [compilers], decomp.me builds)
         run: |
-          for name in $(head -qn1 src/func_* | sed -n 's|^/\* compiler: \([^ ]*\) \*/.*|\1|p' | sort -u); do
+          find src -type f \( -name '*.c' -o -name '*.cpp' \) > /tmp/sources.txt
+          for name in $(xargs -a /tmp/sources.txt head -qn1 | sed -n 's|^/\* compiler: \([^ ]*\) \*/.*|\1|p' | sort -u); do
             url=$(python3 -c "import tomllib,sys; print(tomllib.load(open('project.toml','rb'))['compilers'][sys.argv[1]]['archive'])" "$name")
             mkdir -p ~/.local/share/gt4/compilers/"$name"
             curl -sL "$url" | tar -xJ -C ~/.local/share/gt4/compilers/"$name"
@@ -45,15 +49,17 @@ jobs:
           EOF
           mkdir -p /tmp/obj
           fail=0
-          for f in src/func_*; do
+          n=0
+          while read -r f; do
             name=$(head -n1 "$f" | sed -n 's|^/\* compiler: \([^ ]*\) \*/.*|\1|p')
             cmd="$default"
             if [ -n "$name" ]; then
               cmd=$(grep "^$name " /tmp/commands.txt | cut -d' ' -f2-)
               [ -n "$cmd" ] || { echo "::error file=$f::unknown compiler $name"; fail=1; continue; }
             fi
-            $cmd "$f" -o "/tmp/obj/$(basename "${f%.*}").o" \
+            n=$((n + 1))
+            $cmd "$f" -o "/tmp/obj/$n.o" \
               || { echo "::error file=$f::does not compile"; fail=1; }
-          done
+          done < /tmp/sources.txt
           echo "$(ls /tmp/obj | wc -l) sources compiled"
           exit $fail

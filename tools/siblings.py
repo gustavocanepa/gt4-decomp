@@ -24,6 +24,8 @@ import rabbitizer
 
 import autoloop
 import match
+import symbols
+import project
 import registration
 
 ROOT = match.ROOT
@@ -202,11 +204,7 @@ def judge(addr, text):
 
 
 def source_path(addr):
-    for ext in ("cpp", "c"):
-        p = os.path.join(ROOT, "src", f"func_{addr:08X}.{ext}")
-        if os.path.exists(p):
-            return p
-    return None
+    return project.source_for(addr)
 
 
 def attempt(m, u, words, funcs):
@@ -215,7 +213,7 @@ def attempt(m, u, words, funcs):
     if subs is None:
         return None, "shapes differ", None
     sp = source_path(m)
-    src = open(sp).read()
+    src = symbols.generic_text(open(sp).read())  # substitutions reason about func_/D_ADDR names
     text = substitute(src, subs, funcs)
     if text is None:
         return None, "old value not in source", None

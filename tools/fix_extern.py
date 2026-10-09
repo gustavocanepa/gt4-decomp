@@ -13,6 +13,7 @@ import re
 import sys
 
 import match
+import project
 
 DECL = re.compile(r"^(?!\s*(?:extern|typedef|return)\b)(\s*)(?:static\s+)?([A-Za-z_][\w\s\*]*?\b(D_[0-9A-Fa-f]{8})\s*(?:\[[^\]]*\])*\s*;.*)$")
 
@@ -31,7 +32,7 @@ def fix(text):
 
 
 def main():
-    files = sys.argv[1:] or glob.glob(os.path.join(match.ROOT, "src", "func_*.*"))
+    files = sys.argv[1:] or sorted(project.sources(refresh=True).values())
     changed = 0
     for path in files:
         text = open(path, encoding="utf-8").read()
