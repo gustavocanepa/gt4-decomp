@@ -54,6 +54,7 @@ real addresses. Run the build before every commit: a function only counts once i
 | `patches/m2c-unused-params.patch` | fix for m2c (GPL-3.0, apply to tools/ext/m2c): in `--valid-syntax`, unused leading argument registers become placeholder parameters (m2c's own 431 tests pass) |
 | `permute_cpu.py` | CPU only: decomp-permuter on those near misses, closest first |
 | `trivial.py` | solves two-instruction functions from templates, no model |
+| `static_init.py` | static-initialization functions (gcc's `__static_initialization_and_destruction_0`): `try ADDR` / `solve` write one `if (prio == 0xFFFF && init == 1) ctor(&D_x, n);` per store and call read from the assembly, kept only when the judge accepts it (244 functions, 416 KB, no model) |
 | `units.py` | proposes translation units from each class's cluster of functions -> `config/units.txt` |
 | `asm_policy.py` | rejects assembly posing as C (file-scope asm, `.word`, multi-instruction blocks) |
 | `agent_step.py` | the queue driven by AI agents or people: `fill`, `claim`, `prompt`, `try`, `giveup` |
