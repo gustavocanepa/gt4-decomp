@@ -47,10 +47,14 @@ def load_text():
 
 
 def function_span(addr):
+    global _spans
     if not _spans:
+        # filled into a local first: another thread must never see a half-loaded table
+        spans = {}
         with open(FUNCTIONS) as f:
             for row in csv.DictReader(f):
-                _spans[int(row["address"], 16)] = int(row["max_size"])
+                spans[int(row["address"], 16)] = int(row["max_size"])
+        _spans = spans
     if addr not in _spans:
         raise SystemExit(f"0x{addr:08x} is not a known function start")
     return _spans[addr]

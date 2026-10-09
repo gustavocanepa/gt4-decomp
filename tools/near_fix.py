@@ -51,8 +51,10 @@ def addresses(body, diffs):
     """Literals whose low half the original adds with addiu (a %lo relocation) become D_ADDR."""
     lows = set()
     for left, right in diffs:
-        if left[:1] == ["addiu"] and right[:1] == ["ori"] and left[-1] == right[-1]:
-            lows.add(int(left[-1], 16) & 0xFFFF)
+        # the same low half, compared as 16 bits: addiu shows -0x6570 where ori shows 0x9A90
+        if left[:1] == ["addiu"] and right[:1] == ["ori"] and \
+                int(left[-1], 16) & 0xFFFF == int(right[-1], 16) & 0xFFFF:
+            lows.add(int(right[-1], 16) & 0xFFFF)
     if not lows:
         return None
     names = []

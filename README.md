@@ -18,10 +18,13 @@ executable that runs them. Format documentation comes from the
 - The compiler is identified: Sony's ee-gcc 2.96 build `001003-1`, `-O2 -G0`; game code is C++.
 - A first pilot matched 13 of 20 randomly picked functions by hand; see [PILOT.md](PILOT.md).
 - 14% of the functions are exact copies of another; one match settles a whole group.
+- **Progress (October 2026): 16,685 of 31,128 functions match (53.6%), 27.4% of the code bytes.**
+  The live numbers are on the `progress` branch (objdiff report format).
 - **The full build reproduces the original executable** (both loaded segments, SHA-1 checked):
-  3,112 functions are linked from C++ source at their original addresses, and nearly all the
-  rest (97.7% of the code) is assembled from splat's disassembly of your own executable. 156 more match on their own but carry their own constants
-  (`.rodata`) and wait for their translation unit. Matched functions are in [`src/`](src/);
+  16,311 functions are linked from C/C++ source at their original addresses, and the rest is
+  assembled from splat's disassembly of your own executable. 155 more match on their own and
+  carry their own constants (`.rodata`), placed at their original addresses from source.
+  Matched functions are in [`src/`](src/);
   36 functions that were hand-written assembly in the original are listed in
   [`config/asm_functions.txt`](config/asm_functions.txt) and not counted.
   Most were produced by AI agents (Claude) driving the tools in [`tools/`](tools/), each one verified
