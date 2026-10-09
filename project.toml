@@ -39,6 +39,15 @@ dir = "~/.local/share/gt4/compilers/ee-gcc2.96-no-strict-aliasing"
 command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-strict-aliasing"
 archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
 
+# The project's compiler with the SGI STL headers (include/stl, gcc 2000-10-03's libstdc++ v2, see
+# THIRD_PARTY.md) and the C-library stand-ins (include/shim) on the include path, and no implicit
+# template instantiation: the object holds only the member the source instantiates explicitly
+# (tools/stl.py). Same archive as the main compiler, unpacked a second time under this name.
+[compilers."ee-gcc2.96-stl"]
+dir = "~/.local/share/gt4/compilers/ee-gcc2.96-stl"
+command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-strict-aliasing -fno-implicit-templates -Iinclude/stl -Iinclude/shim"
+archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
+
 [model]
 # Facts given to the model with every function: the compiler's habits (shared by every game built
 # with it) and this game's own idioms.

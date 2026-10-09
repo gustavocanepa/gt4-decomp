@@ -10,6 +10,7 @@ where it is expected) and the files under `src/` are derived from it mechanicall
 | library | version | license | where in the executable | source |
 |---|---|---|---|---|
 | Expat (James Clark's XML parser) | 1.95.7 (2003-10-20) | MIT (see below) | 0x4ce828-0x4e6bd8, 323 functions, 98.5 KB | https://github.com/libexpat/libexpat/tree/R_1_95_7/expat |
+| SGI STL headers (libstdc++ v2 of gcc 2.96, snapshot 2000-10-03) | stl_*.h, type_traits.h | HP/SGI permissive notice (see below) | template instantiations in the library region (0x5d5000-0x60f000: rb-tree members of `map<basic_string, T>`) | gcc-20001003/libstdc++/stl/ |
 
 ## Expat 1.95.7
 
@@ -63,3 +64,22 @@ holds a license to compare against:
   register-save prologue of ee-gcc 2.9 (knowledge/ee-gcc-2.96.md, "A second compiler"). If the
   libc is newlib (BSD-licensed), it is the next candidate for libmatch.py once a source can choose
   the 2.9 compiler.
+
+## SGI STL headers (include/stl/)
+
+The 32 headers under `include/stl/` are copied verbatim from `libstdc++/stl/` of the gcc snapshot of
+2000-10-03 (the compiler the game was built with ships them as its C++ library). They are not
+matched functions themselves: `tools/stl.py` instantiates them (`/* compiler: ee-gcc2.96-stl */`
+puts them on the include path) for the game's element types, and the instantiations go under
+`src/` as usual. `include/shim/` holds the project's own stand-ins for the C headers they include.
+Every header carries its notice:
+
+Copyright (c) 1994 Hewlett-Packard Company; Copyright (c) 1996-1999 Silicon Graphics Computer
+Systems, Inc.
+
+Permission to use, copy, modify, distribute and sell this software and its documentation for any
+purpose is hereby granted without fee, provided that the above copyright notice appear in all
+copies and that both that copyright notice and this permission notice appear in supporting
+documentation. Hewlett-Packard Company and Silicon Graphics make no representations about the
+suitability of this software for any purpose. It is provided "as is" without express or implied
+warranty.

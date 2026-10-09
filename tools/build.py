@@ -204,6 +204,7 @@ cat ../todo.txt | xargs -r -P{a.jobs} -L1 bash -c 'f="$0"; o="../obj/$1"; {proje
     print(wsl(f"""
 d="{WSL_DIR}"; mkdir -p "$d/src" "$d/obj"
 cp -rup {to_wsl(project.SRC)}/. "$d/src/"
+cp -rup {to_wsl(os.path.join(ROOT, "include"))} "$d/src/"
 cd "$d/src"
 """ + "".join(loops)).strip(), flush=True)
     if a.compile_only:
@@ -226,7 +227,9 @@ done
             parsed[cur] = {"sections": {}, "undefined": []}
         elif line.startswith("S ") and cur is not None:
             _, name, size = line.split()
-            parsed[cur]["sections"][name] = int(size, 16)
+            if name.startswith(".gnu.linkonce.t."):  # a template instantiation (tools/stl.py) is code
+                name = ".text"
+            parsed[cur]["sections"][name] = parsed[cur]["sections"].get(name, 0) + int(size, 16)
         elif line.startswith("U ") and cur is not None:
             parsed[cur]["undefined"].append(line.split()[1])
     undefined = set()
@@ -352,7 +355,7 @@ done
         if kind == "gap":
             body.append(f"    gaps.o(.text.g{addr:08x})")
         else:
-            body.append(f"    obj/func_{addr:08X}.o(.text)")
+            body.append(f"    obj/func_{addr:08X}.o(.text .gnu.linkonce.t.*)")
     ld = ("\n".join(syms) + "\nSECTIONS\n{\n"
           f"  .text 0x{text_addr:x} : SUBALIGN(4)\n  {{\n" + "\n".join(body) + "\n  }\n"
           f"  .data 0x{data_addr:x} : SUBALIGN(1)\n  {{\n" + "\n".join(data_body) + "\n  }\n"

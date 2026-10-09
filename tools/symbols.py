@@ -30,6 +30,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SYMBOL_ADDRS = os.path.join(ROOT, "config", "symbol_addrs.txt")
 ADHOC = os.path.join(ROOT, "config", "adhoc_methods.txt")
+STL = os.path.join(ROOT, "config", "stl_symbols.txt")  # tools/stl.py: mangled names of STL instantiations
 CLASSES = os.path.join(ROOT, "config", "classes.json")
 
 # func_ADDR / D_ADDR / jtbl_ADDR, with an optional C++ mangling suffix (func_00100230__Fv).
@@ -62,14 +63,18 @@ def _load():
         for cname, c in json.load(open(CLASSES)).items():
             bases[cname] = list(c.get("bases", []))
     rtti = {}
-    if os.path.exists(SYMBOL_ADDRS):
-        for line in open(SYMBOL_ADDRS):
+    for path in (SYMBOL_ADDRS, STL):
+        if not os.path.exists(path):
+            continue
+        for line in open(path):
             m = re.match(r"\s*([A-Za-z_]\w*)\s*=\s*0x([0-9A-Fa-f]+)\s*;.*type:(func|data)", line)
             if m:
                 addr, kind = int(m.group(2), 16), m.group(3)
                 t.names[m.group(1)] = (addr, kind)
-                t.by_addr.setdefault(addr, []).append(m.group(1))
                 t.kinds[addr] = kind
+                if path == STL:  # mangled template names resolve, but never name an address (or a file)
+                    continue
+                t.by_addr.setdefault(addr, []).append(m.group(1))
                 rtti.setdefault(addr, []).append(m.group(1))
     if os.path.exists(ADHOC):
         for line in open(ADHOC):

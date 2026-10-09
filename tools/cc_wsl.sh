@@ -8,6 +8,8 @@ in="$1"; out="$2"; shift 2
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
 cp "$in" "$work/"
+# The project's headers (include/stl, include/shim) next to the source, for commands that say -Iinclude/...
+cp -r "$(dirname "$0")/../include" "$work/include"
 src="$(basename "$in")"
 (cd "$work" && eval "$*" "\"$src\"" -o out.o)
 cp "$work/out.o" "$out"

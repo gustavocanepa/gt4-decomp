@@ -91,6 +91,8 @@ def read_object(path, want_symbols=False):
 
     names = [name(s[0], strtab_off) for s in secs]
     text_idx = names.index(".text")
+    if secs[text_idx][5] == 0:  # a template instantiation: gcc 2.96 puts it in .gnu.linkonce.t.NAME
+        text_idx = next((i for i, n in enumerate(names) if n.startswith(".gnu.linkonce.t.")), text_idx)
     text = d[secs[text_idx][4]:secs[text_idx][4] + secs[text_idx][5]]
     funcs = []
     symbols = []
