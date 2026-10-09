@@ -62,34 +62,34 @@ extern char D_0068EDF0[];
 extern char D_0068EE00[];
 extern char D_0068EE08[];
 extern char D_008224F8[];
+extern "C" void MCarFace__global_008224F8(void);
 extern "C" void MCarFace__getImagePath(void);
 extern "C" void MCarFace__setImagePath(void);
 extern "C" void MCarFace__setColorIndex(void);
-extern "C" void func_00138EE0(void);
 extern "C" void MCarFace__syncLoading(void);
 extern "C" void MCarFace__loadModelSet(void);
 extern "C" void MCarFace__loadModelMotion(void);
 extern "C" void MCarFace__loadModelOptionMotion(void);
-extern "C" void func_00138208(void);
-extern "C" void func_00138340(void);
-extern "C" void func_001383F0(void);
-extern "C" void func_001384A0(void);
-extern "C" void func_00138E48(void);
-extern "C" void func_001386E0(void);
-extern "C" void func_00138780(void);
-extern "C" void func_001387F8(void);
-extern "C" void func_00138890(void);
-extern "C" void func_001388F0(void);
-extern "C" void func_00138990(void);
-extern "C" void func_00138A00(void);
-extern "C" void func_00138B38(void);
-extern "C" void func_00138BA8(void);
-extern "C" void func_00138C40(void);
-extern "C" void func_00138D48(void);
-extern "C" void func_00138DE0(void);
-extern "C" void func_00139280(void);
-extern "C" void func_001392F8(void);
-extern "C" void func_00139390(void);
+extern "C" void MCarFace__get_car_code(void);
+extern "C" void MCarFace__set_car_code(void);
+extern "C" void MCarFace__set_wheel(void);
+extern "C" void MCarFace__set_wing(void);
+extern "C" void MCarFace__get_car_color(void);
+extern "C" void MCarFace__get_perfect_dark(void);
+extern "C" void MCarFace__set_perfect_dark(void);
+extern "C" void MCarFace__get_quality_level(void);
+extern "C" void MCarFace__set_quality_level(void);
+extern "C" void MCarFace__get_mirror(void);
+extern "C" void MCarFace__set_mirror(void);
+extern "C" void MCarFace__get_action_type(void);
+extern "C" void MCarFace__set_action_type(void);
+extern "C" void MCarFace__get_car_model(void);
+extern "C" void MCarFace__set_car_model(void);
+extern "C" void MCarFace__get_car_data(void);
+extern "C" void MCarFace__set_car_garage(void);
+extern "C" void MCarFace__get_stream(void);
+extern "C" void MCarFace__get_debug_display(void);
+extern "C" void MCarFace__set_debug_display(void);
 
 extern "C" void func_00139408(Obj *arg0) {
     Str s;
@@ -119,7 +119,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_008224F8, MCarFace__getImagePath);
+    func_00306780(arg0, D_008224F8, MCarFace__global_008224F8);
     {
         Str *ps = &s;
         const char *src = D_0068ECE0;
@@ -133,7 +133,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MCarFace__setImagePath);
+        func_002F3818(arg0, &s, MCarFace__getImagePath);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -155,7 +155,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MCarFace__setColorIndex);
+        func_002F3818(arg0, &s, MCarFace__setImagePath);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -177,7 +177,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, func_00138EE0);
+        func_002F3818(arg0, &s, MCarFace__setColorIndex);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -287,7 +287,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00138208, func_00138340);
+        func_002F3860(arg0, &s, MCarFace__get_car_code, MCarFace__set_car_code);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -309,7 +309,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_001383F0);
+        func_002F3860(arg0, &s, 0, MCarFace__set_wheel);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -331,7 +331,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_001384A0);
+        func_002F3860(arg0, &s, 0, MCarFace__set_wing);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -353,7 +353,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00138E48, func_00138EE0);
+        func_002F3860(arg0, &s, MCarFace__get_car_color, MCarFace__setColorIndex);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -375,7 +375,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, MCarFace__setImagePath, MCarFace__setColorIndex);
+        func_002F3860(arg0, &s, MCarFace__getImagePath, MCarFace__setImagePath);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -397,7 +397,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001386E0, func_00138780);
+        func_002F3860(arg0, &s, MCarFace__get_perfect_dark, MCarFace__set_perfect_dark);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -419,7 +419,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001387F8, func_00138890);
+        func_002F3860(arg0, &s, MCarFace__get_quality_level, MCarFace__set_quality_level);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -441,7 +441,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001388F0, func_00138990);
+        func_002F3860(arg0, &s, MCarFace__get_mirror, MCarFace__set_mirror);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -463,7 +463,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00138A00, func_00138B38);
+        func_002F3860(arg0, &s, MCarFace__get_action_type, MCarFace__set_action_type);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -485,7 +485,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00138BA8, func_00138C40);
+        func_002F3860(arg0, &s, MCarFace__get_car_model, MCarFace__set_car_model);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -507,7 +507,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00138D48, 0);
+        func_002F3860(arg0, &s, MCarFace__get_car_data, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -529,7 +529,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00138D48, func_00138DE0);
+        func_002F3860(arg0, &s, MCarFace__get_car_data, MCarFace__set_car_garage);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -551,7 +551,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00139280, 0);
+        func_002F3860(arg0, &s, MCarFace__get_stream, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -573,7 +573,7 @@ extern "C" void func_00139408(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001392F8, func_00139390);
+        func_002F3860(arg0, &s, MCarFace__get_debug_display, MCarFace__set_debug_display);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

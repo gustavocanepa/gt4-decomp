@@ -1,4 +1,5 @@
-"""Deleting destructors of the game's classes written from the assembly, no model.
+"""Destructors and constructors of the game's classes (`X__structor_N`) written from the assembly,
+no model.
 
 gcc 2.96 (old ABI) gives every class with a virtual destructor one function `X::~X(this, flag)`
 in vtable slot 0 of shape
@@ -9,15 +10,21 @@ in vtable slot 0 of shape
     Base__structor_N(this, 0);                   // the base class destructor
     if (flag & 1) return func_00326798(this, sizeof(X), 4, "RefCounter");   // operator delete
 
+and constructors `r = Base__structor_N(this); this->vtbl = &X__vtable; members...; return r;`.
+
 The tool runs a small symbolic executor over the original instructions: registers hold expressions
-(this, flag, constants, this+off, loads, call results), stores and calls become statements in the
-original's instruction order, forward branches become `if (cond) { ... }` (nested, delay slots run
-before the branch, registers merged at the join), a `j` is a tail call `return f(...)`. Loads still
-held in a callee-saved register across a call or a store become a local (`void *p0 = ...;`), call
-results that are used later become `void *r0 = f(...);`. Prototypes are written from the use
-(pointer or s32 arguments, void or pointer result). Data addresses print as their symbol (`&X__vtable`) or, when
-the image holds a printable C string there, as the string literal. Anything else (stack locals,
-loops, branch-likely, float code, ALU arithmetic) gives up with a reason.
+(this, arguments, float arguments, constants, this+off, loads, call results, ALU results), stores
+and calls become statements in the original's instruction order, forward branches become
+`if (cond) { ... } [else { ... }]` (nested, delay slots run after the condition is read,
+branch-likely slots are a copy of the join's first instruction, registers merged at the join),
+backward branches become `while`/`do-while` loops (loop variables become locals), a `j` is a tail
+call, a `jalr` through an old-ABI vtable entry an inline vcall helper. Loads still held in a
+callee-saved register across a call or a store become a local (`void *p0 = ...;`), call results
+used later `void *r0 = f(...);`. Prototypes are written from the use. Data addresses print as their
+symbol (`&X__vtable`) or, when the image holds a printable C string there, as the string literal.
+Idioms (inlined basic_string release, member helpers) and source variants are listed in VARIANTS
+and TOOLS.md; after the variants, the order of independent store runs is searched. Stack locals,
+unknown opcodes and irregular control flow give up with a reason.
 
     dtors.py try ADDR [--show]    one function: source and verdict
     dtors.py scan [--names]       every unmatched vtable slot-0 method of config/classes.json, plus
@@ -1207,6 +1214,11 @@ def solve(addr):
             best = (score, src, out, knobs)
     if best is None:
         return False, "", ""
+    if addr >= 0x5547E8:                           # Sony's library region: its own compiler first
+        src = "/* compiler: ee-gcc2.96-no-strict-aliasing */\n" + best[1]
+        ok, out = judge(addr, src)
+        if ok:
+            return ok, src, out
     # then the order of independent stores, run by run (greedy): all orders of up to 4 stores,
     # single moves for longer runs
     knobs = best[3]

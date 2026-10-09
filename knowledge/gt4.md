@@ -176,3 +176,27 @@ Known facts about Gran Turismo 4's code (learned while matching; add new ones as
   ours are scheduled above it (inline `this + off` at the call recomputes them: worse). C++ is worse
   (57). func_00361008 (532 B, two float loops over u8 arrays, indexed `x[n - i]` / `x[n + i]`): the
   original derives both destination pointers from one `d + n*4` with a register copy; not found.
+
+## Network: pdistd-http, PDI_NETCNF and the Medius wrappers (2026-10-09)
+- pdistd-http and netcnf (0x4e6bd8-0x4f10d0) are C++ built like the libraries: `ee-gcc2.96-no-strict-aliasing`
+  where stores through `conn->data` reload the pointer every time (func_004ED588); strings are the
+  second basic_string instantiation (nilRep D_00659E20, clone func_005D2B58, replace func_005D2C20,
+  operator delete func_00575DA0), header maps are SGI `_Rb_tree::clear()` inline (func_004EA2B8).
+- A deleting destructor whose `if (flag & 1) delete` branch is a non-likely `beqz` with the epilogue's
+  `ld $s0` stolen into its slot only comes from a real C++ destructor (g++ adds the delete tail):
+  name the base class after its destructor's address (`struct func_00578090 { ~func_00578090(); }`
+  gives `_$_13func_00578090`, which resolves). func_004ED0C0. `new T` calls `__builtin_new`
+  (0x5C1498, now in config/stl_symbols.txt), `delete p` of a polymorphic object is the vtable call.
+- Strings copied from literals with `ld`/`sd` (not `ldl`/`ldr`) mean an 8-aligned destination type:
+  `struct {...} __attribute__((aligned(8)))` with `strcpy(s->field, "lit")` (func_004EE7C8, 004ED588).
+- `ee-gcc2.96-hilo` (tools/hilo_as.py): the project's gas gives an indexed-global macro's `lui` the
+  wrong opcode (`lw rX, 0(rX)` with R_MIPS_HI16) after a `.p2align 3,,7`; the marker writes the
+  expansion out. Diff symptom: `! lui $a1, 0x62 | lw $a1, 0x62($a1)`. func_001F6C58.
+- Return types again: most near misses here were `$v0`/`$v1` swaps fixed by a callee's void/int
+  return (func_004EF570, 004ED980, 004F01E8, 004E7460), or a function declared `int` without a
+  return statement (func_004EE7C8).
+- Medius wrappers (0x1f0000-0x1f8000): `while (!medius_call(D_00645570, ...)) func_00215298(1);
+  return func_001F1368(ctx);`, `if (!func_001F1368(ctx)) return 0;` (the 0 comes back in $v0),
+  request structs on the stack initialised field by field before the strncpy calls. Open: unexplained
+  stack-slot sharing between a string and a later handle (MNetwork__set_language, disconnect,
+  func_001F11E8), the beqz/beql delay-slot choice of func_001F0E98 and func_004EE3D8.

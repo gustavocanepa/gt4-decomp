@@ -77,9 +77,9 @@ extern char D_00691180[];
 extern char D_00691190[];
 extern char D_00824480[];
 extern char D_00824478[];
-extern "C" void func_00179500(void);
+extern "C" void MMemoryCardManager__global_00824480(void);
+extern "C" void MMemoryCardManager__global_00824478(void);
 extern "C" void MMemoryCardManager__test(void);
-extern "C" void MMemoryCardManager__save(void);
 extern "C" void MMemoryCardManager__isConnect(void);
 extern "C" void MMemoryCardManager__isFormat(void);
 extern "C" void MMemoryCardManager__isChanged(void);
@@ -98,14 +98,14 @@ extern "C" void MMemoryCardManager__isExistGT4pData(void);
 extern "C" void MMemoryCardManager__inheritGT4pData(void);
 extern "C" void MMemoryCardManager__isExistGT3Data(void);
 extern "C" void MMemoryCardManager__inheritGT3Data(void);
-extern "C" void func_00179B40(void);
-extern "C" void func_00179BF0(void);
-extern "C" void func_00179C90(void);
-extern "C" void func_00179D30(void);
-extern "C" void func_0017A038(void);
-extern "C" void func_0017A0B0(void);
-extern "C" void func_0017A130(void);
-extern "C" void func_0017A1C8(void);
+extern "C" void MMemoryCardManager__get_free(void);
+extern "C" void MMemoryCardManager__get_realFree(void);
+extern "C" void MMemoryCardManager__get_count(void);
+extern "C" void MMemoryCardManager__set_cursorPos(void);
+extern "C" void MMemoryCardManager__get_progress(void);
+extern "C" void MMemoryCardManager__set_list(void);
+extern "C" void MMemoryCardManager__get_autoloadPlayList(void);
+extern "C" void MMemoryCardManager__get_autoloadPlayListResult(void);
 extern "C" void MMemoryCardManager__getPrintList(void);
 extern "C" void MMemoryCardManager__setExistValidGameData(void);
 extern "C" void MMemoryCardManager__getExistValidGameData(void);
@@ -140,8 +140,8 @@ extern "C" void func_0017AC20(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00824480, func_00179500);
-    func_002F36E0(arg0, D_00824478, MMemoryCardManager__test);
+    func_00306780(arg0, D_00824480, MMemoryCardManager__global_00824480);
+    func_002F36E0(arg0, D_00824478, MMemoryCardManager__global_00824478);
     {
         Str *ps = &s;
         const char *src = D_00690FA8;
@@ -155,7 +155,7 @@ extern "C" void func_0017AC20(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MMemoryCardManager__save);
+        func_002F3818(arg0, &s, MMemoryCardManager__test);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -177,7 +177,7 @@ extern "C" void func_0017AC20(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MMemoryCardManager__save);
+        func_002F3818(arg0, &s, MMemoryCardManager__test);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -595,7 +595,7 @@ extern "C" void func_0017AC20(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00179B40, 0);
+        func_002F3860(arg0, &s, MMemoryCardManager__get_free, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -617,7 +617,7 @@ extern "C" void func_0017AC20(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00179BF0, 0);
+        func_002F3860(arg0, &s, MMemoryCardManager__get_realFree, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -639,7 +639,7 @@ extern "C" void func_0017AC20(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00179C90, 0);
+        func_002F3860(arg0, &s, MMemoryCardManager__get_count, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -661,7 +661,7 @@ extern "C" void func_0017AC20(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_00179D30);
+        func_002F3860(arg0, &s, 0, MMemoryCardManager__set_cursorPos);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -683,7 +683,7 @@ extern "C" void func_0017AC20(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0017A038, 0);
+        func_002F3860(arg0, &s, MMemoryCardManager__get_progress, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -705,7 +705,7 @@ extern "C" void func_0017AC20(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_0017A0B0);
+        func_002F3860(arg0, &s, 0, MMemoryCardManager__set_list);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -727,7 +727,7 @@ extern "C" void func_0017AC20(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0017A130, 0);
+        func_002F3860(arg0, &s, MMemoryCardManager__get_autoloadPlayList, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -749,7 +749,7 @@ extern "C" void func_0017AC20(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0017A1C8, 0);
+        func_002F3860(arg0, &s, MMemoryCardManager__get_autoloadPlayListResult, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

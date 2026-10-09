@@ -54,10 +54,10 @@ extern char D_00698960[];
 extern char D_00698970[];
 extern char D_0082E698[];
 extern char D_0082E690[];
-extern "C" void func_00233150(void);
+extern "C" void MRootWindow__global_0082E698(void);
+extern "C" void MRootWindow__global_0082E690(void);
 extern "C" void MRootWindow__setFocus(void);
 extern "C" void MRootWindow__getFocusedWidget(void);
-extern "C" void MRootWindow__setFocusWidget(void);
 extern "C" void MRootWindow__buildDefaultList(void);
 extern "C" void MRootWindow__fadein(void);
 extern "C" void MRootWindow__fadeout(void);
@@ -93,8 +93,8 @@ extern "C" void func_00233498(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_0028F690());
-    func_00306780(arg0, D_0082E698, func_00233150);
-    func_002F36E0(arg0, D_0082E690, MRootWindow__setFocus);
+    func_00306780(arg0, D_0082E698, MRootWindow__global_0082E698);
+    func_002F36E0(arg0, D_0082E690, MRootWindow__global_0082E690);
     {
         Str *ps = &s;
         const char *src = D_006988D0;
@@ -108,7 +108,7 @@ extern "C" void func_00233498(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MRootWindow__getFocusedWidget);
+        func_002F3818(arg0, &s, MRootWindow__setFocus);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -130,7 +130,7 @@ extern "C" void func_00233498(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MRootWindow__setFocusWidget);
+        func_002F3818(arg0, &s, MRootWindow__getFocusedWidget);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -152,7 +152,7 @@ extern "C" void func_00233498(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, MRootWindow__setFocusWidget, MRootWindow__getFocusedWidget);
+        func_002F3860(arg0, &s, MRootWindow__getFocusedWidget, MRootWindow__setFocus);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -174,7 +174,7 @@ extern "C" void func_00233498(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MRootWindow__setFocusWidget);
+        func_002F3818(arg0, &s, MRootWindow__getFocusedWidget);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -196,7 +196,7 @@ extern "C" void func_00233498(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MRootWindow__getFocusedWidget);
+        func_002F3818(arg0, &s, MRootWindow__setFocus);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
