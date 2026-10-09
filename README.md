@@ -22,12 +22,16 @@ executable that runs them. Format documentation comes from the
 - A first pilot matched 13 of 20 randomly picked functions by hand; see [PILOT.md](PILOT.md).
 - 14% of the functions are exact copies of another; one match settles a whole group.
 <!-- progress:start -->
-- **Progress (October 2026): 16,685 of 31,128 functions match (53.6%), 27.4% of the code bytes.**
-  The live numbers are on the `progress` branch (objdiff report format).
+- **Progress (October 2026, commit `57663b025b8c`): 19,334 of 30,963 functions match (62.4%), 37.0% of the code bytes.**
+  The live numbers are on the `progress` branch (objdiff report format); this paragraph is written by
+  `tools/update_readme.py` from `progress/report.json`, never by hand.
 - **The full build reproduces the original executable** (both loaded segments, SHA-1 checked):
-  16,311 functions are linked from C/C++ source at their original addresses, and the rest is
-  assembled from splat's disassembly of your own executable. 155 more match on their own and
-  carry their own constants (`.rodata`), placed at their original addresses from source.
+  19,012 functions, 35.4% of the code bytes, are linked from C/C++
+  source at their original addresses, and the rest is assembled from splat's disassembly of your own
+  executable. 26,754 of 2,664,152 data bytes (1.00%; `.data` plus `.bss`)
+  are the constants of 1,078 functions, placed from source at their original addresses.
+  201 functions that were hand-written assembly in the original are listed in
+  [`config/asm_functions.txt`](config/asm_functions.txt) and not counted.
 <!-- progress:end -->
 - Matched functions are in [`src/`](src/), one file per function, organised as
   `src/<subsystem>/<unit or class>/` and named after the script-engine or RTTI name when one is
