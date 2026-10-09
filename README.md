@@ -22,11 +22,11 @@ executable that runs them. Format documentation comes from the
 - A first pilot matched 13 of 20 randomly picked functions by hand; see [PILOT.md](PILOT.md).
 - 14% of the functions are exact copies of another; one match settles a whole group.
 <!-- progress:start -->
-- **Progress (October 2026, commit `57663b025b8c`): 19,334 of 30,963 functions match (62.4%), 37.0% of the code bytes.**
+- **Progress (October 2026, commit `a3b091a6935d`): 19,416 of 30,963 functions match (62.7%), 37.1% of the code bytes.**
   The live numbers are on the `progress` branch (objdiff report format); this paragraph is written by
   `tools/update_readme.py` from `progress/report.json`, never by hand.
 - **The full build reproduces the original executable** (both loaded segments, SHA-1 checked):
-  19,012 functions, 35.4% of the code bytes, are linked from C/C++
+  19,094 functions, 35.5% of the code bytes, are linked from C/C++
   source at their original addresses, and the rest is assembled from splat's disassembly of your own
   executable. 26,754 of 2,664,152 data bytes (1.00%; `.data` plus `.bss`)
   are the constants of 1,078 functions, placed from source at their original addresses.
