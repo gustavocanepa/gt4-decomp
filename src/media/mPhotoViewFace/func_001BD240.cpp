@@ -37,7 +37,7 @@ extern "C" int func_00255260(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 
 extern char D_00827CC0[];
-extern "C" void func_001BD1D0(void);
+extern "C" void MPhotoViewFace__global_00827CC0(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 
 extern "C" void func_001BD240(Obj *arg0) {
@@ -65,5 +65,5 @@ extern "C" void func_001BD240(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_00827CC0, func_001BD1D0);
+    func_00306780(arg0, D_00827CC0, MPhotoViewFace__global_00827CC0);
 }

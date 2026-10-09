@@ -46,6 +46,33 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   `addu` operand order or constant placement; mirror the retail operand order.
 - `table->arr[i].a` and `table->arr[i].b` (array embedded in a struct) give two address registers
   plus a `daddu` copy; `T *arr` member (`p->arr[i].a`) gives one. Pick the struct layout accordingly.
+- Byte-array member indexed by a variable: `addu $v0, $idx, $base` (index first) is `p->b[i]` with
+  `u8 b[]` declared in the struct; m2c's `*(u8 *)(p + i + 0x14)` gives base first. Five 64-127 B
+  misses on func_00359510's table matched this way (func_00364D20, 00344C88, 00365248, siblings).
+- **Indexed address whose sum lands in the base's register** (`addu $a0, $a0, $v0` / `addu $v1, $v1, $v0`
+  with the index product second, where mine has `addu $v0, $v0, $a0`): the original computed the
+  element address in its own statement: `E *e = p->arr + i; e->x = v;` or `s8 *e = base + i * 0xEC;`
+  then `*(f32 *)(e + off)`. Inline `p->arr[i].x` / `M2C_FIELD(base + i*size, ...)` never matches.
+  11 functions (func_004082F0, func_003F3A28, func_00344DA8 family, func_001D33B0).
+- m2c lists stores in their scheduled order; the source wrote them in field order. A run of stores
+  after a call (constructor bodies: base ctor, vtable pointer, then members) matches when written
+  vtable first and then by ascending offset (12 functions, e.g. func_001C74B8, func_001FD2A8);
+  if not, permute the run (build/auto/small64/perm.py tries every order).
+- m2c drops a constant offset kept in a saved register: retail `addiu $s0, $a0, 0x2C` in the prologue
+  and loads/stores at `0($s0)` while the draft reads `M2C_FIELD(arg0, s32 *, 0)`: write
+  `s32 *h = (s32 *)(arg0 + 0x2C);` and use `*h` (handle setters/getters around func_00328660 and
+  func_003284E8, 11 functions; func_003BE128).
+- Factory registration `p = func_00326750(size, 4, D_x); ctor(p[, arg1]); sp[0] = p; reg(arg0, sp);`:
+  m2c shows `reg(arg0, sp, p)`; the call takes two arguments and p goes through the stack struct
+  (23 functions in one pass with build/auto/small64/factory.py).
+- m2c's falling-pointer fill loops (`*p = K; p -= 4;` on an `s32 *`, scaled wrongly) are
+  `for (i = N; i >= 0; i--) a[i] = K;`; when the constant's `lui/ori` must precede the counter,
+  hold it in a local assigned earlier (func_003BB9A0).
+- A function ending in a plain void call compiled as C gets `j` (sibling call); retail `jal` +
+  epilogue there means C++ (func_003D8A60, func_00107328: same body as .cpp matched).
+- m2c splits a stack struct's first word into a separate `sp0` local (`daddu $a0, $s0` where retail
+  has `lw $a0, 0($sp)`, or `daddu $t0, $v0` where retail stores `sw $v0, 0($sp)`): declare one
+  `s32 sp[4]` and use `sp[0]` (func_00229F88, func_00306980).
 - Callee-saved register count too high: you cache a pointer/field across a call that the original
   reloaded after the call. Reload it (write the field access again) instead of keeping a local.
 - Callee-saved register count too low: the original kept a value live across the call (a local
@@ -62,6 +89,10 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   and lets the compiler emit `addiu -1; sltiu 2`.
 
 ## Statement order and scheduling
+- m2c lists its temporaries in its own order, not the original's: when the first differing lines
+  are loads from another base register (`lw $v0, 0($s4); lw $v1, 4($s4)` before mine's
+  `lw $s1, 8($s2)`), move the statement computing from that base first (a `size()` of the source
+  before the destination's begin/end: func_00335248, 17 -> 6 differ with the address fix).
 - Independent stores are scheduled, not emitted in source order: among equal-priority stores the
   one that is the last use of a register tends to go first; try moving the last-use statement.
 - A store fed by a constant needing `lui/ori` (or `lui/mtc1`) is issued early regardless of source
@@ -86,8 +117,17 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - `(w + 8) * 16` is folded to `w*16 + 128`; keep `t = w + 8` as its own local if retail adds first.
 - When the code depends on unrelated declarations (same function, different code after editing
   externs), the compiler hashed symbol addresses during CSE; try the other natural form or park it.
+- A compare computed before a store and tested after it (`sltiu $v1, old, 1` before `sw new`, then
+  `beql $v1`) needs the flag as its own local before the update: `int first = p->n == 0; p->n++;`
+  (or `int last = --p->n == 0;`); testing `old == 0` after the store folds the compare into the branch.
+- Interrupt control (`ei`, Sony's EI()) is a single-instruction intrinsic: `__asm__ volatile("ei");`
+  (allowed by tools/asm_policy.py); DIntr() is func_005B72A8 (handle retain/release 003285A8/003285F8).
 
 ## Branches, conditions and branch-likely
+- **Byte tests in `$v1` instead of `$v0`** across a whole draft (`lbu $v1; beql $v1, $zero`) while
+  the original tests in `$v0`: the draft is compiled as C, the game as C++. The same body as .cpp
+  (`char *` instead of `void *` arithmetic, extern "C") takes `$v0` (func_003A78B8: 31 -> 25 differ,
+  all byte tests fixed). Game code near misses with that pattern: switch to C++ first.
 - `slt; xori 1` = expression `return x >= 2;` / `!(x < 2)`; `slt; sltiu 1` = early returns
   `if (x < 2) return 0; return 1;` (probe).
 - `srl $v0, x, 31` = `return x < 0;`; retail `slti x, 0` instead comes from
@@ -102,6 +142,13 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - `li A; li B; movz/movn` = `x = c ? A : B;` or `x = B; if (c) x = A;` (same code, probe). If the
   `movz`/`movn` choice or the `li` order is reversed, flip the condition (`c == 0` vs `c != 0`).
 - `move; movz` with two registers = `return c ? a : b;` (probe).
+- A rotated loop (entry test `beqz n`, body, test at the bottom, strength-reduced pointer) that a
+  `for` refuses to give (g++ leaves `b` to a top test): write `j = 0; if (j < info->n) do { ... j++; }
+  while (j < info->n);` (func_00353218). Index into 0xEC-byte records through a block-local pointer
+  `u8 *w = p + OFF + j * 0xEC;` to get base-first `addu $v0, $s1, $v0` (func_00352C90).
+- `sltu $v1, $zero, b; xori $v0, a, 0x0; movn flag, $v1, $v0` = `if (a && b) flag = true;` (bool
+  flag, int/bool a, b set 0/1 earlier); `if (a) flag = b;` or `flag = a && b;` drop the `sltu`/`xori`
+  (func_00352C90).
 - A ternary or `if` whose arm reads memory (`p->x < 0 ? -p->x : p->x`) is never turned into
   `movn`; it stays a branch-likely with the arm in the slot. A local temporary instead gives `movn`.
 - `bc1tl/bc1fl` with `neg.s` in the slot = `a < 0.0f ? -a : a` (probe).
@@ -188,6 +235,30 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   merely falls into the shared epilogue gets `jal`.
 - Arguments 5-8 go in `$t0-$t3` (not on the stack); a 7-argument call just loads `$t0-$t2`. Write the
   full prototype.
+- **m2c drops a passed-through `this`.** Mine sets `daddu $a0, $sX` before a `jal` where the original
+  leaves `$a0` alone (the incoming arg0, saved to `$s0` and then advanced): the callee is a method
+  called on the caller's own `this` and m2c, seeing no write to `$a0`, left the argument out.
+  Prepend `arg0` to that call (func_004404B8, 528 B, 11 differ -> MATCH; near_fix.py rule).
+  The same holds for any leading run of arguments: `daddu $a2, $zero, $zero` in the original where
+  mine has `$a0` = the caller passes its own `arg0, arg1` on and adds a third (mScrollBox__virtual_70:
+  m2c's `func_002638E0(0)` is `func_002638E0(arg0, arg1, 0)`; near_fix.py tries k = 1..3).
+- Two virtual calls through the same member pointer (`this->p->vf1(); this->p->vf2();`): the
+  original reloads `this->p` after the first call; m2c hoists both loads into temporaries before
+  it, which CSE then merges. Write the member access inside each call (mScrollBox__virtual_70,
+  29 -> MATCH, with the vtable entry held in a statement-expression local).
+- **Float argument place.** Floats go in `$f12+` whatever their place in the list, so m2c puts them
+  last; but arguments are evaluated right to left, so the place shows in the order of the last
+  register moves before the `jal`: original `mov.s $f12` before `daddu $t2` while mine has the
+  reverse = the float comes before that integer argument. Try each place (near_fix.py rule;
+  func_00335248: 4 -> 2 differ). Read the callee's prologue to see which registers it really uses.
+  Several floats usually travel together: func_0040F850(int, f, f, f, f, int x 17) (m2c put the
+  four floats after the 8th integer); moving the block right after argument 0 matched func_00410880
+  and its two siblings (3 x 752 B). near_fix.py tries the block positions before single moves.
+- **A temporary in `$v1` where the original has `$v0`** right after a call whose result is unused
+  (`li $v0, 1; sw $v0, 0x164($s5)` after `jal`): the callee is declared returning `int` (m2c's
+  `M2C_UNK`) but is `void`. A call with a value sets `$v0` there, and local-alloc then skips `$v0`
+  for the next temporary. Declare the callee `void` (func_00335248, 624 B: 2 differ -> MATCH, where
+  a 4-minute permuter run had failed; near_fix.py rule `void_returns`, chained after the other rules).
 - A single argument-register load in the `jal` delay slot is normal; out-of-range offsets (needing
   `lui`) cannot go there, so the slot stays `nop` or takes another instruction.
 - `jal operator_new; li $a0, SIZE` = `new T` (allocation size in the delay slot); in our C style:
@@ -257,6 +328,15 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   int->float conversion similarly adds a correction branch.
 - `jal dpadd/dpsub/dpmul/dpdiv/dpcmp` etc. = `double` arithmetic (soft float, values in GPRs);
   float->double conversion calls appear for `double` locals or float args to variadic functions.
+- **`addu base, idx` vs `addu idx, base` for an indexed field (race/physics, measured 2026-10-09).**
+  Byte arithmetic `M2C_FIELD(p + i * 4, s32 *, 0xC)` (or `((s32 *)p)[i + 3]`) always adds the
+  scaled index first (`addu $v0, $v0, $s0`); a struct member array `p->tbl[i]` adds the base first
+  (`addu $v0, $s0, $v0`). Swapping the `+` cannot fix it; declare the array (or near_fix.py's
+  `M2C_ARRAY(p, s32, 0xC, i)`, an anonymous struct cast). Open: an array of 0xEC-byte structs
+  indexed beside a float array (func_00344DA8, `addu $a0, $a0, $v0`) still comes out index-first.
+- **m2c's float-pointer loop strides are scaled twice.** `f32 *p; ... p += 0xEC;` (m2c prints the
+  byte stride) gives `addiu 0x3B0`; declare the walking pointer `s8 *` and store through
+  `*(f32 *)p` (func_0036A490).
 - `neg.s` = `-a`; `abs.s` = `__builtin_fabsf(a)` (probe); the ternary `a < 0 ? -a : a` gives a
   branch-likely instead (see Branches).
 - Reuse one `f32` local for a value used before and after a call to keep it in one `$f20+` home;
@@ -281,6 +361,13 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 ## Structs and copies
 - `ldl/ldr` + `sdl/sdr` pairs (unaligned 64-bit) = `*dst = *src;` of a struct with 4-byte alignment
   (probe: 8 and 16 bytes; all loads before stores in each group). `ld/sd` = 8-byte aligned struct.
+- Order of the halves: gcc emits `uld/usd/ulw/usw` (struct passed by value, e.g. an 8-byte
+  pointer-to-member in $t0) and every GNU ee-as we have expands them left half first (`ldl; ldr`).
+  `ldr; ldl` (right first, 284 library functions incl. the 0x5c2b60.. PMF thunks) came from an
+  assembler expanding those macros right first: marker `/* compiler: ee-gcc2.96-nsa-nosib-rf */`
+  (tools/cc_rf.sh + rf_as.py; func_005C2B60 matches as `f(a0, a1, a2, a3, D_pmf)` with a by-value
+  `struct { short delta; short index; int pfn; }`). Detect it by an `xxr X` followed by `xxl X` of
+  the same kind (`ldr X; sdl X` is just a left-first load then store); blockcopy.py routes them.
 - Long copies (0x40 bytes and more) become an aligned/unaligned dual loop; `memcpy(d, s, LITERAL)` is
   also inlined (tail word `lwl/lwr` when alignment is unknown); a variable size calls `memcpy`.
 - `jal memset` on a stack buffer followed by a copy = a local aggregate initializer
@@ -324,6 +411,7 @@ Several rules were learned from the Digital Devil Saga decompilation's documenta
 - **Arguments 5-8 travel in $8-$11.** The EE ABI passes up to eight integer arguments in registers: `$a0-$a3` and then `$8-$11`, which the EABI/n32 names call `$a4-$a7` (and `$12-$15` are `$t0-$t3`). rabbitizer prints o32 names (`$t0` for `$8`); m2c's mipsee target reads `$t0` as `$12`, so it lost arguments 5-8 ("Read from unset register $t0") and called functions with too few arguments. `match.m2c_asm()` renames the registers before m2c sees them.
 - **Drafts that do not compile** almost always fail for one of four reasons, all fixed from the compiler's own messages by `cpu_solve.compile_fix()`: an undeclared stack slot (`sp0`), too few arguments for m2c's guessed prototype (declare the callee unprototyped, `f()`), the result of a callee declared `void` (declare it `M2C_UNK`), `*` on an integer or `void *` (cast to the assigned variable's type).
 - **A second compiler: ee-gcc 2.9 (990721/991111).** The ~270 functions whose prologue saves callee-saved registers 16 bytes apart (`autoloop.other_compiler`, 80 KB, 0x3ac140-0x5b9af0) were built by ee-gcc 2.9: of decomp.me's EE compilers only the 2.9 releases space the saves 16 bytes apart (2.96 and 3.2 use 8), and on those functions 2.9 drafts are the closest (tools/compiler_probe.py --foreign). A source chooses it with `/* compiler: ee-gcc2.9-991111 */` on its first line (project.toml `[compilers]`; match.py, build.py and the CI honour it; tools/other_compiler.py runs the draft pipeline with it: 10 of 270 matched as drafts, the rest are ordinary draft problems, and the four 2.9 releases with -O1/-O2/-O3/-Os, -G0/-G8, -fno-gcse, -fschedule-insns, -fno-schedule-insns2, -fno-strict-aliasing all give the same code on the closest ones). The library region (>= 0x5547e8) is otherwise NOT another compiler: no candidate release or flag set (-O1/-O3/-Os/-G8/-fno-schedule-insns2/-fno-strict-aliasing) does better than ours, no function uses `$gp` (so -G0 everywhere), and its near misses are the usual draft problems.
+  - **Its near misses (2026-10-09, 10 matched from the closest drafts; rules in other_compiler.py `climb`):** (1) never leave a literal address: `*(T *)0x657A80` must be `extern T D_00657A80;` and a code address argument the function (`name_addresses`), because 2.9 schedules a literal's `lui` elsewhere even when the diff shows no addiu/ori pair; (2) the arms of `if/else` come out in source order, the else arm being the branch target, so a `bnel`/`beqz` polarity diff is fixed by swapping the arms (`swapped_arms`); (3) the return type of a callee whose result is unused (void vs int) picks `$v0`/`$v1` for the next value (`near_fix.void_returns`, both directions); (4) loads hoisted above `void *`-typed stores: type the stored fields as the pointers they are; (5) a counted loop m2c writes as a do-while with a falling counter is a `for (i = 0; i < N; i++)`; (6) a global struct accessed as `lui; addiu; lw 0x28(base)` (not `%lo(D+0x28)`) is a local `base = D_X;` assigned after the first call. Sibling calls (`j f`) do occur in 2.9 code. A `sq`/`lq` save of `$s0` (func_00588BA8) is still unexplained.
 ## What m2c's drafts get wrong, counted (tools/fragments.py edits)
 
 739 near misses (m2c's draft at most 12 instructions off) later matched by a person, a model, the permuter or a rule, each compared with its matched source. The edit kinds, most frequent first, with the judge-diff atoms (`orig>mine` opcodes, `op:reg`/`op:imm`/`op:order` for one operand kind) that announce them:
@@ -355,6 +443,17 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
   (`__attribute__((section(".libmatch.stubtab"))) static T f(args) { }`) restores the mark, but
   the calls then bind to the stub, so such sources only serve the judge until build.py resolves
   them (weak stubs plus `func_X = ADDR;` assignments instead of `PROVIDE` would do it).
+- **In C++ `throw()` on the declaration gives the same mark without a stub.** g++ 2.96
+  `build_call` (cp/call.c) sets `TREE_NOTHROW` on the callee when its type is `TYPE_NOTHROW_P`, so
+  `extern "C" void f(void *) throw();` makes reorg treat calls to f like calls to a function defined
+  above. Symptom in game code: mine has `beql` where the original has `beqz` with an epilogue `ld`
+  in the slot, or a `nop` slot before a `jal` where the original hoists the argument load
+  (`lw $a0, 0($sp)`). Add `throw()` to the callees (those at lower addresses in the same unit are the
+  ones the original defined above): RaceSimplePanel__virtual_05 (func_003A78B8, 512 B), 25 differ
+  -> MATCH. C sources have no equivalent; compile game code as C++ when it is C++.
+  C library functions are nothrow in C++ too (glibc-style headers declare them `__THROW`):
+  func_00575DA0 (free) needs `throw()` even at a higher address (func_004E70F0, a library
+  destructor, 35 -> 11 differ; the last 11 were the sibling call, fixed by `return f(self);`).
 - **Expat was built with `-fno-strict-aliasing`**: 272 of its 323 functions match with the
   project flags, 321 with `-fno-strict-aliasing` added (loads of one type no longer move above
   stores of another: `toAscii`, `copyEntityTable`, `cdataSectionProcessor`...). The other flags
@@ -371,3 +470,11 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
 - Functions only reached through a pointer (`charRefNumber`, the `xmlrole.c` state functions)
   are missing from build/functions.csv and sit glued to the function before them; a source may
   define both in order (the judge compares the whole object from its first function).
+- **A `beqz` whose delay slot holds the target's first instruction (not the fall-through's) wants a
+  taken-prediction.** reorg's `fill_eager_delay_slots` tries the fall-through first unless
+  `mostly_true_jump` says taken, and `estimate_probability` gives every `x == 0` jump 40%
+  (`REG_BR_PROB` 3999 -> "not taken"). `if (__builtin_expect(p, 0)) { ... }` (p the tested value
+  itself, not `p != 0`) makes the skip jump very likely and reorg steals from the target:
+  mSceneViewFace__virtual_78/79 (856 B each), 9 differ -> MATCH. `__builtin_expect(p != 0, ...)`
+  changes the code instead (an `sltu`). The symptom also leaves a `nop` before the next loop
+  label (`.p2align 3` padding shifts by one instruction).

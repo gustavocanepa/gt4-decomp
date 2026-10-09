@@ -55,25 +55,25 @@ extern char D_00692330[];
 extern char D_00692338[];
 extern char D_00692348[];
 extern char D_00824FC0[];
-extern "C" void func_00196530(void);
-extern "C" void func_00195F18(void);
-extern "C" void func_00196008(void);
-extern "C" void func_00195C90(void);
+extern "C" void MPhotoMapWindow__global_00824FC0(void);
+extern "C" void MPhotoMapWindow__get_wheel_angle(void);
+extern "C" void MPhotoMapWindow__get_lightness(void);
+extern "C" void MPhotoMapWindow__get_color_filter(void);
 extern "C" void MPhotoMapWindow__setBaseLen(void);
-extern "C" void func_00196160(void);
-extern "C" void func_00196250(void);
-extern "C" void func_00196340(void);
+extern "C" void MPhotoMapWindow__get_brightness(void);
+extern "C" void MPhotoMapWindow__get_contrast(void);
+extern "C" void MPhotoMapWindow__get_whiteBalance(void);
 extern "C" void MPhotoMapWindow__doFocus(void);
-extern "C" void func_001957E8(void);
-extern "C" void func_00195920(void);
-extern "C" void func_00195990(void);
-extern "C" void func_00195A38(void);
-extern "C" void func_00195AA0(void);
-extern "C" void func_00195B90(void);
-extern "C" void func_00195C28(void);
+extern "C" void MPhotoMapWindow__get_operate_mode(void);
+extern "C" void MPhotoMapWindow__set_operate_mode(void);
+extern "C" void MPhotoMapWindow__get_view_angle(void);
+extern "C" void MPhotoMapWindow__set_view_angle(void);
+extern "C" void MPhotoMapWindow__get_aperture(void);
+extern "C" void MPhotoMapWindow__get_stand(void);
+extern "C" void MPhotoMapWindow__set_stand(void);
 extern "C" void MPhotoMapWindow__getAperture(void);
-extern "C" void func_005CD3A0(void);
-extern "C" void func_005CD3C8(void);
+extern "C" void MPhotoMapWindow__get_can_shoot(void);
+extern "C" void MPhotoMapWindow__set_can_shoot(void);
 
 extern "C" void func_001965A0(Obj *arg0) {
     Str s;
@@ -103,7 +103,7 @@ extern "C" void func_001965A0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00200BD0());
-    func_00306780(arg0, D_00824FC0, func_00196530);
+    func_00306780(arg0, D_00824FC0, MPhotoMapWindow__global_00824FC0);
     {
         Str *ps = &s;
         const char *src = D_00692288;
@@ -117,7 +117,7 @@ extern "C" void func_001965A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00195F18, func_00195F18);
+        func_002F3860(arg0, &s, MPhotoMapWindow__get_wheel_angle, MPhotoMapWindow__get_wheel_angle);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -139,7 +139,7 @@ extern "C" void func_001965A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00196008, func_00196008);
+        func_002F3860(arg0, &s, MPhotoMapWindow__get_lightness, MPhotoMapWindow__get_lightness);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -161,7 +161,7 @@ extern "C" void func_001965A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00195C90, func_00195C90);
+        func_002F3860(arg0, &s, MPhotoMapWindow__get_color_filter, MPhotoMapWindow__get_color_filter);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -205,7 +205,7 @@ extern "C" void func_001965A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00196160, func_00196160);
+        func_002F3860(arg0, &s, MPhotoMapWindow__get_brightness, MPhotoMapWindow__get_brightness);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -227,7 +227,7 @@ extern "C" void func_001965A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00196250, func_00196250);
+        func_002F3860(arg0, &s, MPhotoMapWindow__get_contrast, MPhotoMapWindow__get_contrast);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -249,7 +249,7 @@ extern "C" void func_001965A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00196340, func_00196340);
+        func_002F3860(arg0, &s, MPhotoMapWindow__get_whiteBalance, MPhotoMapWindow__get_whiteBalance);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -293,7 +293,7 @@ extern "C" void func_001965A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001957E8, func_00195920);
+        func_002F3860(arg0, &s, MPhotoMapWindow__get_operate_mode, MPhotoMapWindow__set_operate_mode);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -315,7 +315,7 @@ extern "C" void func_001965A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00195990, func_00195A38);
+        func_002F3860(arg0, &s, MPhotoMapWindow__get_view_angle, MPhotoMapWindow__set_view_angle);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -337,7 +337,7 @@ extern "C" void func_001965A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00195AA0, func_00195AA0);
+        func_002F3860(arg0, &s, MPhotoMapWindow__get_aperture, MPhotoMapWindow__get_aperture);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -359,7 +359,7 @@ extern "C" void func_001965A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00195B90, func_00195C28);
+        func_002F3860(arg0, &s, MPhotoMapWindow__get_stand, MPhotoMapWindow__set_stand);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -403,7 +403,7 @@ extern "C" void func_001965A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CD3A0, func_005CD3C8);
+        func_002F3860(arg0, &s, MPhotoMapWindow__get_can_shoot, MPhotoMapWindow__set_can_shoot);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

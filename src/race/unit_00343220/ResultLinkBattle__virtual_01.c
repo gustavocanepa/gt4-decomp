@@ -85,13 +85,12 @@ typedef s64 M2C_UNK64;
 s32 func_0032A790(M2C_UNK, M2C_UNK);                /* extern */
 M2C_UNK ResultArcade__virtual_01();                            /* extern */
 
-extern char D_0069F490[];
 void ResultLinkBattle__virtual_01(void *arg0) {
     f32 temp_f0;
 
     ResultArcade__virtual_01();
     M2C_FIELD(arg0, s32 *, 0x504) = 0;
-    temp_f0 = (f32) func_0032A790((s32)D_0069F490, 0x14);
+    temp_f0 = (f32) func_0032A790((s32)"RaceResultStartDelayForLoser", 0x14);
     M2C_FIELD(arg0, s32 *, 0x508) = 1;
     M2C_FIELD(arg0, f32 *, 0x500) = temp_f0;
 }

@@ -36,19 +36,6 @@ extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_003068A8(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_00693050[];
-extern char D_00693058[];
-extern char D_00693070[];
-extern char D_00693088[];
-extern char D_006930A0[];
-extern char D_006930B8[];
-extern char D_006930D0[];
-extern char D_006930E8[];
-extern char D_00693100[];
-extern char D_00693118[];
-extern char D_00693128[];
-extern char D_00693140[];
-extern char D_00693150[];
 extern "C" void MUnit__GetCourseLengthString(void);
 extern "C" void MUnit__GetCourseHeightString(void);
 extern "C" void MUnit__GetVelocityString(void);
@@ -66,7 +53,7 @@ extern "C" void func_001AFA40(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00693050;
+        const char *src = "MUnit";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -92,7 +79,7 @@ extern "C" void func_001AFA40(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00693058;
+        const char *src = "GetCourseLengthString";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -114,7 +101,7 @@ extern "C" void func_001AFA40(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693070;
+        const char *src = "GetCourseHeightString";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -136,7 +123,7 @@ extern "C" void func_001AFA40(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693088;
+        const char *src = "GetVelocityString";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -158,7 +145,7 @@ extern "C" void func_001AFA40(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006930A0;
+        const char *src = "SetUnitSystemByLanguage";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -180,7 +167,7 @@ extern "C" void func_001AFA40(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006930B8;
+        const char *src = "IsCalendarTypeDayFirst";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -202,7 +189,7 @@ extern "C" void func_001AFA40(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006930D0;
+        const char *src = "GetVelocityForDisplay";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -224,7 +211,7 @@ extern "C" void func_001AFA40(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006930E8;
+        const char *src = "GetUnitOfVelocity";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -246,7 +233,7 @@ extern "C" void func_001AFA40(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693100;
+        const char *src = "GetPowerForDisplay";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -268,7 +255,7 @@ extern "C" void func_001AFA40(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693118;
+        const char *src = "GetUnitOfPower";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -290,7 +277,7 @@ extern "C" void func_001AFA40(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693128;
+        const char *src = "GetTorqueForDisplay";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -312,7 +299,7 @@ extern "C" void func_001AFA40(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693140;
+        const char *src = "GetUnitOfTorque";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -334,7 +321,7 @@ extern "C" void func_001AFA40(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693150;
+        const char *src = "GetUnitOfMass";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

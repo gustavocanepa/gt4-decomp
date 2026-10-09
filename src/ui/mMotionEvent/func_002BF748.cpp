@@ -40,8 +40,8 @@ extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*a
 extern char D_0069C3F0[];
 extern char D_0069C400[];
 extern char D_0069C408[];
-extern "C" void func_002BF618(void);
-extern "C" void func_002BF6B0(void);
+extern "C" void MMotionEvent__get_x(void);
+extern "C" void MMotionEvent__get_y(void);
 
 extern "C" void func_002BF748(Obj *arg0) {
     Str s;
@@ -84,7 +84,7 @@ extern "C" void func_002BF748(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002BF618, 0);
+        func_002F3860(arg0, &s, MMotionEvent__get_x, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -106,7 +106,7 @@ extern "C" void func_002BF748(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002BF6B0, 0);
+        func_002F3860(arg0, &s, MMotionEvent__get_y, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

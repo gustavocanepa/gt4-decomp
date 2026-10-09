@@ -38,44 +38,6 @@ extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
-extern char D_00698520[];
-extern char D_00698530[];
-extern char D_00698540[];
-extern char D_00698550[];
-extern char D_00698560[];
-extern char D_00698570[];
-extern char D_00698578[];
-extern char D_00698580[];
-extern char D_00698590[];
-extern char D_006985A0[];
-extern char D_006985A8[];
-extern char D_006985B8[];
-extern char D_006985C8[];
-extern char D_006985D8[];
-extern char D_006985E8[];
-extern char D_006985F8[];
-extern char D_00698608[];
-extern char D_00698618[];
-extern char D_00698630[];
-extern char D_00698640[];
-extern char D_00698650[];
-extern char D_00698660[];
-extern char D_00698670[];
-extern char D_00698688[];
-extern char D_006986A0[];
-extern char D_006986B8[];
-extern char D_006986C0[];
-extern char D_006986D0[];
-extern char D_006986D8[];
-extern char D_006986E0[];
-extern char D_006986F0[];
-extern char D_00698708[];
-extern char D_00698710[];
-extern char D_00698718[];
-extern char D_00698728[];
-extern char D_00698740[];
-extern char D_00698750[];
-extern char D_00698760[];
 extern "C" void MRenderContext__startPage(void);
 extern "C" void MRenderContext__closePage(void);
 extern "C" void MRenderContext__getCurrentPage(void);
@@ -100,25 +62,25 @@ extern "C" void MRenderContext__closeOSKeyboard(void);
 extern "C" void MRenderContext__getCursorProject(void);
 extern "C" void MRenderContext__getPrelightWidget(void);
 extern "C" void MRenderContext__setMousePositionOnFocus(void);
-extern "C" void func_0022B768(void);
-extern "C" void func_0022B860(void);
-extern "C" void func_0022C158(void);
-extern "C" void func_0022C918(void);
-extern "C" void func_0022CA10(void);
-extern "C" void func_0022CB10(void);
-extern "C" void func_0022C250(void);
-extern "C" void func_0022C730(void);
-extern "C" void func_0022C450(void);
-extern "C" void func_0022C550(void);
-extern "C" void func_0022C648(void);
-extern "C" void func_0022C350(void);
-extern "C" void func_0022C8B0(void);
+extern "C" void MRenderContext__get_enable(void);
+extern "C" void MRenderContext__get_event_mask(void);
+extern "C" void MRenderContext__get_clear(void);
+extern "C" void MRenderContext__get_pause(void);
+extern "C" void MRenderContext__get_transition(void);
+extern "C" void MRenderContext__get_time_after_last_input(void);
+extern "C" void MRenderContext__get_opacity(void);
+extern "C" void MRenderContext__get_cursor(void);
+extern "C" void MRenderContext__get_cursor_visible(void);
+extern "C" void MRenderContext__get_cursor_speed_ratio(void);
+extern "C" void MRenderContext__get_follow_mode(void);
+extern "C" void MRenderContext__get_grab_widget(void);
+extern "C" void MRenderContext__set_popup_widget(void);
 
 extern "C" void func_0022D228(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00698520;
+        const char *src = "MRenderContext";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -144,7 +106,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00698530;
+        const char *src = "startPage";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -166,7 +128,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698540;
+        const char *src = "closePage";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -188,7 +150,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698550;
+        const char *src = "getCurrentPage";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -210,7 +172,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698560;
+        const char *src = "pushPage";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -232,7 +194,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698570;
+        const char *src = "finish";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -254,7 +216,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698578;
+        const char *src = "loadGpb";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -276,7 +238,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698580;
+        const char *src = "unloadGpb";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -298,7 +260,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698590;
+        const char *src = "existGpbBinary";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -320,7 +282,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006985A0;
+        const char *src = "sync";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -342,7 +304,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006985A8;
+        const char *src = "pushEvent";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -364,7 +326,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006985B8;
+        const char *src = "flushKeyEvent";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -386,7 +348,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006985C8;
+        const char *src = "filterEvent";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -408,7 +370,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006985D8;
+        const char *src = "flushEvent";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -430,7 +392,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006985E8;
+        const char *src = "captureScreen";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -452,7 +414,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006985F8;
+        const char *src = "releaseScreen";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -474,7 +436,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698608;
+        const char *src = "shotScreen";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -496,7 +458,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698618;
+        const char *src = "getUpdateContext";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -518,7 +480,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698630;
+        const char *src = "translate";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -540,7 +502,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698640;
+        const char *src = "getCommonPage";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -562,7 +524,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698650;
+        const char *src = "openOSKeyboard";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -584,7 +546,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698660;
+        const char *src = "closeOSKeyboard";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -606,7 +568,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698670;
+        const char *src = "getCursorProject";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -628,7 +590,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698688;
+        const char *src = "getPrelightWidget";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -650,7 +612,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006986A0;
+        const char *src = "setMousePositionOnFocus";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -672,7 +634,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006986B8;
+        const char *src = "enable";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -683,7 +645,7 @@ extern "C" void func_0022D228(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0022B768, func_0022B768);
+        func_002F3860(arg0, &s, MRenderContext__get_enable, MRenderContext__get_enable);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -694,7 +656,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006986C0;
+        const char *src = "event_mask";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -705,7 +667,7 @@ extern "C" void func_0022D228(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0022B860, func_0022B860);
+        func_002F3860(arg0, &s, MRenderContext__get_event_mask, MRenderContext__get_event_mask);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -716,7 +678,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006986D0;
+        const char *src = "clear";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -727,7 +689,7 @@ extern "C" void func_0022D228(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0022C158, func_0022C158);
+        func_002F3860(arg0, &s, MRenderContext__get_clear, MRenderContext__get_clear);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -738,7 +700,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006986D8;
+        const char *src = "pause";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -749,7 +711,7 @@ extern "C" void func_0022D228(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0022C918, func_0022C918);
+        func_002F3860(arg0, &s, MRenderContext__get_pause, MRenderContext__get_pause);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -760,7 +722,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006986E0;
+        const char *src = "transition";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -771,7 +733,7 @@ extern "C" void func_0022D228(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0022CA10, func_0022CA10);
+        func_002F3860(arg0, &s, MRenderContext__get_transition, MRenderContext__get_transition);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -782,7 +744,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006986F0;
+        const char *src = "time_after_last_input";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -793,7 +755,7 @@ extern "C" void func_0022D228(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0022CB10, func_0022CB10);
+        func_002F3860(arg0, &s, MRenderContext__get_time_after_last_input, MRenderContext__get_time_after_last_input);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -804,7 +766,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698708;
+        const char *src = "opacity";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -815,7 +777,7 @@ extern "C" void func_0022D228(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0022C250, func_0022C250);
+        func_002F3860(arg0, &s, MRenderContext__get_opacity, MRenderContext__get_opacity);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -826,7 +788,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698710;
+        const char *src = "cursor";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -837,7 +799,7 @@ extern "C" void func_0022D228(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0022C730, func_0022C730);
+        func_002F3860(arg0, &s, MRenderContext__get_cursor, MRenderContext__get_cursor);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -848,7 +810,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698718;
+        const char *src = "cursor_visible";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -859,7 +821,7 @@ extern "C" void func_0022D228(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0022C450, func_0022C450);
+        func_002F3860(arg0, &s, MRenderContext__get_cursor_visible, MRenderContext__get_cursor_visible);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -870,7 +832,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698728;
+        const char *src = "cursor_speed_ratio";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -881,7 +843,7 @@ extern "C" void func_0022D228(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0022C550, func_0022C550);
+        func_002F3860(arg0, &s, MRenderContext__get_cursor_speed_ratio, MRenderContext__get_cursor_speed_ratio);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -892,7 +854,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698740;
+        const char *src = "follow_mode";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -903,7 +865,7 @@ extern "C" void func_0022D228(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0022C648, func_0022C648);
+        func_002F3860(arg0, &s, MRenderContext__get_follow_mode, MRenderContext__get_follow_mode);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -914,7 +876,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698750;
+        const char *src = "grab_widget";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -925,7 +887,7 @@ extern "C" void func_0022D228(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0022C350, func_0022C350);
+        func_002F3860(arg0, &s, MRenderContext__get_grab_widget, MRenderContext__get_grab_widget);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -936,7 +898,7 @@ extern "C" void func_0022D228(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698760;
+        const char *src = "popup_widget";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -947,7 +909,7 @@ extern "C" void func_0022D228(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_0022C8B0);
+        func_002F3860(arg0, &s, 0, MRenderContext__set_popup_widget);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

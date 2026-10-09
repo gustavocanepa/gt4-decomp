@@ -87,12 +87,11 @@ M2C_UNK hADHOC__structor_0(s32);                         /* extern */
 s32 func_00326750(M2C_UNK, M2C_UNK, M2C_UNK);       /* extern */
 M2C_UNK func_003285A8(s32);                         /* extern */
 
-extern char D_0069EBF0[];
 s32 func_00327A10(s32 *arg0) {
     s32 temp_v0;
 
     if (*arg0 == 0) {
-        temp_v0 = func_00326750(0x78, 4, (s32)D_0069EBF0);
+        temp_v0 = func_00326750(0x78, 4, (s32)"RefCounter");
         hADHOC__structor_0(temp_v0);
         *arg0 = temp_v0;
         func_003285A8(temp_v0);

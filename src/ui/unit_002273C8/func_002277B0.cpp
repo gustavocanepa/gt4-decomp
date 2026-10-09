@@ -44,7 +44,7 @@ extern char D_00698338[];
 extern char D_00698340[];
 extern char D_00698348[];
 extern char D_0082DD68[];
-extern "C" void func_00227420(void);
+extern "C" void MPipe__global_0082DD68(void);
 extern "C" void MPipe__size(void);
 extern "C" void MPipe__put(void);
 extern "C" void MPipe__get(void);
@@ -78,7 +78,7 @@ extern "C" void func_002277B0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_0082DD68, func_00227420);
+    func_00306780(arg0, D_0082DD68, MPipe__global_0082DD68);
     {
         Str *ps = &s;
         const char *src = D_00698330;

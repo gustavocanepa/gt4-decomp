@@ -41,9 +41,9 @@ extern char D_0069B520[];
 extern char D_0069B530[];
 extern char D_0069B538[];
 extern char D_0069B540[];
-extern "C" void func_0029B628(void);
-extern "C" void func_0029B6D0(void);
-extern "C" void func_0029B780(void);
+extern "C" void MGameInputData__get_analog(void);
+extern "C" void MGameInputData__get_button(void);
+extern "C" void MGameInputData__get_name(void);
 
 extern "C" void func_0029B318(Obj *arg0) {
     Str s;
@@ -86,7 +86,7 @@ extern "C" void func_0029B318(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0029B628, 0);
+        func_002F3860(arg0, &s, MGameInputData__get_analog, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -108,7 +108,7 @@ extern "C" void func_0029B318(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0029B6D0, 0);
+        func_002F3860(arg0, &s, MGameInputData__get_button, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -130,7 +130,7 @@ extern "C" void func_0029B318(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0029B780, 0);
+        func_002F3860(arg0, &s, MGameInputData__get_name, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

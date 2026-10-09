@@ -50,8 +50,8 @@ extern char D_0069B020[];
 extern char D_0069B028[];
 extern char D_0069B030[];
 extern char D_00834CA0[];
-extern "C" void func_0028C040(void);
-extern "C" void func_0028C0B0(void);
+extern "C" void MDnas__global_00834CA0(void);
+extern "C" void MDnas__set_errtest(void);
 extern "C" void MDnas__Initialize(void);
 extern "C" void MDnas__ShutDown(void);
 extern "C" void MDnas__RequestAuthorization(void);
@@ -89,7 +89,7 @@ extern "C" void func_0028C860(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00834CA0, func_0028C040);
+    func_00306780(arg0, D_00834CA0, MDnas__global_00834CA0);
     {
         Str *ps = &s;
         const char *src = D_0069AFC8;
@@ -103,7 +103,7 @@ extern "C" void func_0028C860(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_0028C0B0);
+        func_002F3860(arg0, &s, 0, MDnas__set_errtest);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

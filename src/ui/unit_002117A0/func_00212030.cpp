@@ -50,12 +50,12 @@ extern char D_00697A20[];
 extern char D_00697A30[];
 extern char D_00697A48[];
 extern char D_0082B448[];
-extern "C" void func_00211FC0(void);
+extern "C" void MManager__global_0082B448(void);
 extern "C" void MManager__registerClass(void);
 extern "C" void MManager__registerPrototype(void);
 extern "C" void MManager__registerPrototypes(void);
 extern "C" void MManager__getPrototype(void);
-extern "C" void MManager__loadPrototype(void);
+extern "C" void MManager__loadWidget(void);
 extern "C" void MManager__loadProject(void);
 extern "C" void MManager__unloadProject(void);
 extern "C" void MManager__getUpdateContext(void);
@@ -89,7 +89,7 @@ extern "C" void func_00212030(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_0082B448, func_00211FC0);
+    func_00306780(arg0, D_0082B448, MManager__global_0082B448);
     {
         Str *ps = &s;
         const char *src = D_006979A0;
@@ -191,7 +191,7 @@ extern "C" void func_00212030(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MManager__loadPrototype);
+        func_002F3818(arg0, &s, MManager__loadWidget);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -213,7 +213,7 @@ extern "C" void func_00212030(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MManager__loadPrototype);
+        func_002F3818(arg0, &s, MManager__loadWidget);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

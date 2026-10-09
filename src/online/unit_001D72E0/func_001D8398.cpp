@@ -62,7 +62,7 @@ extern char D_00695898[];
 extern char D_006958A8[];
 extern char D_006958B8[];
 extern char D_00829220[];
-extern "C" void func_001D7338(void);
+extern "C" void MHttp__global_00829220(void);
 extern "C" void MHttp__GET(void);
 extern "C" void MHttp__POST(void);
 extern "C" void MHttp__SVOLOGIN(void);
@@ -77,14 +77,14 @@ extern "C" void MHttp__abort(void);
 extern "C" void MHttp__setProxyByNetConf(void);
 extern "C" void MHttp__getXml(void);
 extern "C" void MHttp__postXml(void);
-extern "C" void func_001D73A8(void);
-extern "C" void func_001D7418(void);
-extern "C" void func_001D7968(void);
-extern "C" void func_001D7A00(void);
-extern "C" void func_001D7A68(void);
-extern "C" void func_001D7F80(void);
-extern "C" void func_001D8018(void);
-extern "C" void func_001D80B0(void);
+extern "C" void MHttp__set_block(void);
+extern "C" void MHttp__set_keep_alive(void);
+extern "C" void MHttp__get_timeout(void);
+extern "C" void MHttp__set_timeout(void);
+extern "C" void MHttp__set_proxy(void);
+extern "C" void MHttp__get_entitySize(void);
+extern "C" void MHttp__get_contentLength(void);
+extern "C" void MHttp__get_error_code(void);
 
 extern "C" void func_001D8398(Obj *arg0) {
     Str s;
@@ -114,7 +114,7 @@ extern "C" void func_001D8398(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00829220, func_001D7338);
+    func_00306780(arg0, D_00829220, MHttp__global_00829220);
     {
         Str *ps = &s;
         const char *src = D_006957B8;
@@ -436,7 +436,7 @@ extern "C" void func_001D8398(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_001D73A8);
+        func_002F3860(arg0, &s, 0, MHttp__set_block);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -458,7 +458,7 @@ extern "C" void func_001D8398(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_001D7418);
+        func_002F3860(arg0, &s, 0, MHttp__set_keep_alive);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -480,7 +480,7 @@ extern "C" void func_001D8398(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001D7968, func_001D7A00);
+        func_002F3860(arg0, &s, MHttp__get_timeout, MHttp__set_timeout);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -502,7 +502,7 @@ extern "C" void func_001D8398(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_001D7A68);
+        func_002F3860(arg0, &s, 0, MHttp__set_proxy);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -524,7 +524,7 @@ extern "C" void func_001D8398(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001D7F80, 0);
+        func_002F3860(arg0, &s, MHttp__get_entitySize, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -546,7 +546,7 @@ extern "C" void func_001D8398(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001D8018, 0);
+        func_002F3860(arg0, &s, MHttp__get_contentLength, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -568,7 +568,7 @@ extern "C" void func_001D8398(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001D80B0, 0);
+        func_002F3860(arg0, &s, MHttp__get_error_code, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

@@ -36,14 +36,6 @@ extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_00690BE8[];
-extern char D_00690C00[];
-extern char D_00690C10[];
-extern char D_00690C20[];
-extern char D_00690C28[];
-extern char D_00690C38[];
-extern char D_00690C48[];
-extern char D_00690C58[];
 extern "C" void MLicenseRecordUnit__getRankNum(void);
 extern "C" void MLicenseRecordUnit__getBestTime(void);
 extern "C" void MLicenseRecordUnit__getDate(void);
@@ -56,7 +48,7 @@ extern "C" void func_00171EC8(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00690BE8;
+        const char *src = "MLicenseRecordUnit";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -82,7 +74,7 @@ extern "C" void func_00171EC8(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00690C00;
+        const char *src = "getRankNum";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -104,7 +96,7 @@ extern "C" void func_00171EC8(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690C10;
+        const char *src = "getBestTime";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -126,7 +118,7 @@ extern "C" void func_00171EC8(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690C20;
+        const char *src = "getDate";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -148,7 +140,7 @@ extern "C" void func_00171EC8(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690C28;
+        const char *src = "getResult";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -170,7 +162,7 @@ extern "C" void func_00171EC8(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690C38;
+        const char *src = "getPassCode";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -192,7 +184,7 @@ extern "C" void func_00171EC8(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690C48;
+        const char *src = "insertEntry";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -214,7 +206,7 @@ extern "C" void func_00171EC8(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00690C58;
+        const char *src = "deleteEntry";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

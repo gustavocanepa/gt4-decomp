@@ -92,15 +92,15 @@ extern char D_0068E218[];
 extern char D_0068E228[];
 extern char D_0068E238[];
 extern char D_00821530[];
-extern "C" void func_005C34E0(void);
-extern "C" void func_00124338(void);
-extern "C" void func_00124508(void);
-extern "C" void func_00124640(void);
-extern "C" void func_001246D8(void);
-extern "C" void func_00124818(void);
-extern "C" void func_00124998(void);
-extern "C" void func_00124B18(void);
-extern "C" void func_001243D0(void);
+extern "C" void MQuickWork__global_00821530(void);
+extern "C" void MQuickWork__set_selectedCommand(void);
+extern "C" void MQuickWork__get_raceLabel(void);
+extern "C" void MQuickWork__set_raceLabel(void);
+extern "C" void MQuickWork__get_licenseCarName(void);
+extern "C" void MQuickWork__get_goldTime(void);
+extern "C" void MQuickWork__get_silverTime(void);
+extern "C" void MQuickWork__get_bronzeTime(void);
+extern "C" void MQuickWork__get_courseLabel(void);
 extern "C" void MQuickWork__getGridCarName(void);
 extern "C" void MQuickWork__getColorChipInfo(void);
 extern "C" void MQuickWork__getPower(void);
@@ -109,78 +109,78 @@ extern "C" void MQuickWork__getTireType(void);
 extern "C" void MQuickWork__getCatPs(void);
 extern "C" void MQuickWork__getCatTq(void);
 extern "C" void MQuickWork__getGridTime(void);
-extern "C" void func_005C3550(void);
-extern "C" void func_005C3578(void);
-extern "C" void func_005C35A0(void);
-extern "C" void func_005C35C8(void);
-extern "C" void func_005C35F0(void);
-extern "C" void func_005C3618(void);
-extern "C" void func_005C3640(void);
-extern "C" void func_005C3668(void);
-extern "C" void func_005C3690(void);
-extern "C" void func_005C36B8(void);
-extern "C" void func_005C36E0(void);
-extern "C" void func_005C3708(void);
-extern "C" void func_005C3730(void);
-extern "C" void func_005C3758(void);
-extern "C" void func_005C3780(void);
-extern "C" void func_005C37A8(void);
-extern "C" void func_005C37D0(void);
-extern "C" void func_005C37F8(void);
-extern "C" void func_005C3820(void);
-extern "C" void func_005C3848(void);
-extern "C" void func_005C3870(void);
-extern "C" void func_005C3898(void);
-extern "C" void func_005C38C0(void);
-extern "C" void func_005C38E8(void);
-extern "C" void func_005C3910(void);
-extern "C" void func_005C3938(void);
-extern "C" void func_005C3960(void);
-extern "C" void func_005C3988(void);
-extern "C" void func_005C39B0(void);
-extern "C" void func_005C39D8(void);
-extern "C" void func_005C3A00(void);
-extern "C" void func_005C3A28(void);
-extern "C" void func_005C3A50(void);
-extern "C" void func_005C3A78(void);
-extern "C" void func_005C3AA0(void);
-extern "C" void func_005C3AC8(void);
-extern "C" void func_005C3AF0(void);
-extern "C" void func_005C3B18(void);
-extern "C" void func_005C3B40(void);
-extern "C" void func_005C3B68(void);
-extern "C" void func_005C3B90(void);
-extern "C" void func_005C3BB8(void);
-extern "C" void func_005C3BE0(void);
-extern "C" void func_005C3C08(void);
-extern "C" void func_005C3C30(void);
-extern "C" void func_005C3C58(void);
-extern "C" void func_005C3C80(void);
-extern "C" void func_005C3CA8(void);
-extern "C" void func_005C3CD0(void);
-extern "C" void func_005C3CF8(void);
-extern "C" void func_005C3D20(void);
-extern "C" void func_005C3D48(void);
-extern "C" void func_005C3D70(void);
-extern "C" void func_005C3D98(void);
-extern "C" void func_005C3DC0(void);
-extern "C" void func_005C3DE8(void);
-extern "C" void func_005C3E10(void);
-extern "C" void func_005C3E38(void);
-extern "C" void func_005C3E60(void);
-extern "C" void func_005C3E88(void);
-extern "C" void func_005C3EB0(void);
-extern "C" void func_005C3ED8(void);
-extern "C" void func_005C3F00(void);
-extern "C" void func_005C3F28(void);
-extern "C" void func_005C3F50(void);
-extern "C" void func_005C3F78(void);
-extern "C" void func_005C3FA0(void);
-extern "C" void func_005C3FC8(void);
-extern "C" void func_005C3FF0(void);
-extern "C" void func_005C4018(void);
-extern "C" void func_005C4040(void);
-extern "C" void func_005C4068(void);
+extern "C" void MQuickWork__get_playerGridNumber(void);
+extern "C" void MQuickWork__set_playerGridNumber(void);
+extern "C" void MQuickWork__get_prize(void);
+extern "C" void MQuickWork__set_prize(void);
+extern "C" void MQuickWork__get_PsValue(void);
+extern "C" void MQuickWork__set_PsValue(void);
+extern "C" void MQuickWork__get_TorqueValue(void);
+extern "C" void MQuickWork__set_TorqueValue(void);
+extern "C" void MQuickWork__get_driveTrainType(void);
+extern "C" void MQuickWork__set_driveTrainType(void);
+extern "C" void MQuickWork__get_carCategory(void);
+extern "C" void MQuickWork__set_carCategory(void);
+extern "C" void MQuickWork__get_carYear(void);
+extern "C" void MQuickWork__set_carYear(void);
+extern "C" void MQuickWork__get_canReplay(void);
+extern "C" void MQuickWork__set_canReplay(void);
+extern "C" void MQuickWork__get_numberOfEntries(void);
+extern "C" void MQuickWork__set_numberOfEntries(void);
+extern "C" void MQuickWork__get_canLoadGhost(void);
+extern "C" void MQuickWork__set_canLoadGhost(void);
+extern "C" void MQuickWork__get_canSaveGhost(void);
+extern "C" void MQuickWork__set_canSaveGhost(void);
+extern "C" void MQuickWork__get_cursorPosition(void);
+extern "C" void MQuickWork__set_cursorPosition(void);
+extern "C" void MQuickWork__get_QuickTuneWeightLevel(void);
+extern "C" void MQuickWork__set_QuickTuneWeightLevel(void);
+extern "C" void MQuickWork__get_QuickTunePowerLevel(void);
+extern "C" void MQuickWork__set_QuickTunePowerLevel(void);
+extern "C" void MQuickWork__get_QuickTuneFrontTireType(void);
+extern "C" void MQuickWork__set_QuickTuneFrontTireType(void);
+extern "C" void MQuickWork__get_QuickTuneRearTireType(void);
+extern "C" void MQuickWork__set_QuickTuneRearTireType(void);
+extern "C" void MQuickWork__get_QuickTuneGearMaxSpeed(void);
+extern "C" void MQuickWork__set_QuickTuneGearMaxSpeed(void);
+extern "C" void MQuickWork__get_QuickTuneGearMaxSpeedMin(void);
+extern "C" void MQuickWork__set_QuickTuneGearMaxSpeedMin(void);
+extern "C" void MQuickWork__get_QuickTuneGearMaxSpeedMax(void);
+extern "C" void MQuickWork__set_QuickTuneGearMaxSpeedMax(void);
+extern "C" void MQuickWork__get_QuickTuneTransmission(void);
+extern "C" void MQuickWork__set_QuickTuneTransmission(void);
+extern "C" void MQuickWork__get_IsSessionFinished(void);
+extern "C" void MQuickWork__set_IsSessionFinished(void);
+extern "C" void MQuickWork__get_IsQuickTuned(void);
+extern "C" void MQuickWork__set_IsQuickTuned(void);
+extern "C" void MQuickWork__get_BestTime(void);
+extern "C" void MQuickWork__set_BestTime(void);
+extern "C" void MQuickWork__get_BestMaxSpeed(void);
+extern "C" void MQuickWork__set_BestMaxSpeed(void);
+extern "C" void MQuickWork__get_IsDryCourse(void);
+extern "C" void MQuickWork__set_IsDryCourse(void);
+extern "C" void MQuickWork__get_IsASpec(void);
+extern "C" void MQuickWork__set_IsASpec(void);
+extern "C" void MQuickWork__get_IsBSpec(void);
+extern "C" void MQuickWork__set_IsBSpec(void);
+extern "C" void MQuickWork__get_CanLogger(void);
+extern "C" void MQuickWork__set_CanLogger(void);
+extern "C" void MQuickWork__get_DisableLogger(void);
+extern "C" void MQuickWork__set_DisableLogger(void);
+extern "C" void MQuickWork__get_QuickTuneDrivingAssist(void);
+extern "C" void MQuickWork__set_QuickTuneDrivingAssist(void);
+extern "C" void MQuickWork__get_SessionNumber(void);
+extern "C" void MQuickWork__set_SessionNumber(void);
+extern "C" void MQuickWork__get_IsFinalSession(void);
+extern "C" void MQuickWork__set_IsFinalSession(void);
+extern "C" void MQuickWork__get_GrandPrize(void);
+extern "C" void MQuickWork__set_GrandPrize(void);
+extern "C" void MQuickWork__get_SeriesRank(void);
+extern "C" void MQuickWork__set_SeriesRank(void);
+extern "C" void MQuickWork__get_CourseLength(void);
+extern "C" void MQuickWork__set_CourseLength(void);
+extern "C" void MQuickWork__get_Laps(void);
+extern "C" void MQuickWork__set_Laps(void);
 
 extern "C" void func_001255F8(Obj *arg0) {
     Str s;
@@ -210,7 +210,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00821530, func_005C34E0);
+    func_00306780(arg0, D_00821530, MQuickWork__global_00821530);
     {
         Str *ps = &s;
         const char *src = D_0068DED0;
@@ -224,7 +224,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_00124338);
+        func_002F3860(arg0, &s, 0, MQuickWork__set_selectedCommand);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -246,7 +246,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00124508, func_00124640);
+        func_002F3860(arg0, &s, MQuickWork__get_raceLabel, MQuickWork__set_raceLabel);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -268,7 +268,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001246D8, 0);
+        func_002F3860(arg0, &s, MQuickWork__get_licenseCarName, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -290,7 +290,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00124818, 0);
+        func_002F3860(arg0, &s, MQuickWork__get_goldTime, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -312,7 +312,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00124998, 0);
+        func_002F3860(arg0, &s, MQuickWork__get_silverTime, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -334,7 +334,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00124B18, 0);
+        func_002F3860(arg0, &s, MQuickWork__get_bronzeTime, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -356,7 +356,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001243D0, 0);
+        func_002F3860(arg0, &s, MQuickWork__get_courseLabel, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -554,7 +554,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3550, func_005C3578);
+        func_002F3860(arg0, &s, MQuickWork__get_playerGridNumber, MQuickWork__set_playerGridNumber);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -576,7 +576,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C35A0, func_005C35C8);
+        func_002F3860(arg0, &s, MQuickWork__get_prize, MQuickWork__set_prize);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -598,7 +598,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C35F0, func_005C3618);
+        func_002F3860(arg0, &s, MQuickWork__get_PsValue, MQuickWork__set_PsValue);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -620,7 +620,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3640, func_005C3668);
+        func_002F3860(arg0, &s, MQuickWork__get_TorqueValue, MQuickWork__set_TorqueValue);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -642,7 +642,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3690, func_005C36B8);
+        func_002F3860(arg0, &s, MQuickWork__get_driveTrainType, MQuickWork__set_driveTrainType);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -664,7 +664,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C36E0, func_005C3708);
+        func_002F3860(arg0, &s, MQuickWork__get_carCategory, MQuickWork__set_carCategory);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -686,7 +686,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3730, func_005C3758);
+        func_002F3860(arg0, &s, MQuickWork__get_carYear, MQuickWork__set_carYear);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -708,7 +708,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3780, func_005C37A8);
+        func_002F3860(arg0, &s, MQuickWork__get_canReplay, MQuickWork__set_canReplay);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -730,7 +730,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C37D0, func_005C37F8);
+        func_002F3860(arg0, &s, MQuickWork__get_numberOfEntries, MQuickWork__set_numberOfEntries);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -752,7 +752,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3820, func_005C3848);
+        func_002F3860(arg0, &s, MQuickWork__get_canLoadGhost, MQuickWork__set_canLoadGhost);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -774,7 +774,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3870, func_005C3898);
+        func_002F3860(arg0, &s, MQuickWork__get_canSaveGhost, MQuickWork__set_canSaveGhost);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -796,7 +796,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C38C0, func_005C38E8);
+        func_002F3860(arg0, &s, MQuickWork__get_cursorPosition, MQuickWork__set_cursorPosition);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -818,7 +818,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3910, func_005C3938);
+        func_002F3860(arg0, &s, MQuickWork__get_QuickTuneWeightLevel, MQuickWork__set_QuickTuneWeightLevel);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -840,7 +840,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3960, func_005C3988);
+        func_002F3860(arg0, &s, MQuickWork__get_QuickTunePowerLevel, MQuickWork__set_QuickTunePowerLevel);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -862,7 +862,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C39B0, func_005C39D8);
+        func_002F3860(arg0, &s, MQuickWork__get_QuickTuneFrontTireType, MQuickWork__set_QuickTuneFrontTireType);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -884,7 +884,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3A00, func_005C3A28);
+        func_002F3860(arg0, &s, MQuickWork__get_QuickTuneRearTireType, MQuickWork__set_QuickTuneRearTireType);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -906,7 +906,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3A50, func_005C3A78);
+        func_002F3860(arg0, &s, MQuickWork__get_QuickTuneGearMaxSpeed, MQuickWork__set_QuickTuneGearMaxSpeed);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -928,7 +928,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3AA0, func_005C3AC8);
+        func_002F3860(arg0, &s, MQuickWork__get_QuickTuneGearMaxSpeedMin, MQuickWork__set_QuickTuneGearMaxSpeedMin);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -950,7 +950,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3AF0, func_005C3B18);
+        func_002F3860(arg0, &s, MQuickWork__get_QuickTuneGearMaxSpeedMax, MQuickWork__set_QuickTuneGearMaxSpeedMax);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -972,7 +972,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3B40, func_005C3B68);
+        func_002F3860(arg0, &s, MQuickWork__get_QuickTuneTransmission, MQuickWork__set_QuickTuneTransmission);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -994,7 +994,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3B90, func_005C3BB8);
+        func_002F3860(arg0, &s, MQuickWork__get_IsSessionFinished, MQuickWork__set_IsSessionFinished);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1016,7 +1016,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3BE0, func_005C3C08);
+        func_002F3860(arg0, &s, MQuickWork__get_IsQuickTuned, MQuickWork__set_IsQuickTuned);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1038,7 +1038,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3C30, func_005C3C58);
+        func_002F3860(arg0, &s, MQuickWork__get_BestTime, MQuickWork__set_BestTime);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1060,7 +1060,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3C80, func_005C3CA8);
+        func_002F3860(arg0, &s, MQuickWork__get_BestMaxSpeed, MQuickWork__set_BestMaxSpeed);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1082,7 +1082,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3CD0, func_005C3CF8);
+        func_002F3860(arg0, &s, MQuickWork__get_IsDryCourse, MQuickWork__set_IsDryCourse);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1104,7 +1104,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3D20, func_005C3D48);
+        func_002F3860(arg0, &s, MQuickWork__get_IsASpec, MQuickWork__set_IsASpec);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1126,7 +1126,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3D70, func_005C3D98);
+        func_002F3860(arg0, &s, MQuickWork__get_IsBSpec, MQuickWork__set_IsBSpec);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1148,7 +1148,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3DC0, func_005C3DE8);
+        func_002F3860(arg0, &s, MQuickWork__get_CanLogger, MQuickWork__set_CanLogger);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1170,7 +1170,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3E10, func_005C3E38);
+        func_002F3860(arg0, &s, MQuickWork__get_DisableLogger, MQuickWork__set_DisableLogger);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1192,7 +1192,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3E60, func_005C3E88);
+        func_002F3860(arg0, &s, MQuickWork__get_QuickTuneDrivingAssist, MQuickWork__set_QuickTuneDrivingAssist);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1214,7 +1214,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3EB0, func_005C3ED8);
+        func_002F3860(arg0, &s, MQuickWork__get_SessionNumber, MQuickWork__set_SessionNumber);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1236,7 +1236,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3F00, func_005C3F28);
+        func_002F3860(arg0, &s, MQuickWork__get_IsFinalSession, MQuickWork__set_IsFinalSession);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1258,7 +1258,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3F50, func_005C3F78);
+        func_002F3860(arg0, &s, MQuickWork__get_GrandPrize, MQuickWork__set_GrandPrize);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1280,7 +1280,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3FA0, func_005C3FC8);
+        func_002F3860(arg0, &s, MQuickWork__get_SeriesRank, MQuickWork__set_SeriesRank);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1302,7 +1302,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C3FF0, func_005C4018);
+        func_002F3860(arg0, &s, MQuickWork__get_CourseLength, MQuickWork__set_CourseLength);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1324,7 +1324,7 @@ extern "C" void func_001255F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C4040, func_005C4068);
+        func_002F3860(arg0, &s, MQuickWork__get_Laps, MQuickWork__set_Laps);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

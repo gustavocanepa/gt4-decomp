@@ -40,7 +40,7 @@ extern char D_0069CAE8[];
 extern char D_0069CAF8[];
 extern char D_0069CB08[];
 extern char D_0083A530[];
-extern "C" void func_002D2878(void);
+extern "C" void MScrollWindow__global_0083A530(void);
 extern "C" void MScrollWindow__updateGeometry(void);
 extern "C" void MScrollWindow__warp(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
@@ -74,7 +74,7 @@ extern "C" void func_002D2988(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00204ED8());
-    func_00306780(arg0, D_0083A530, func_002D2878);
+    func_00306780(arg0, D_0083A530, MScrollWindow__global_0083A530);
     {
         Str *ps = &s;
         const char *src = D_0069CAF8;

@@ -54,7 +54,11 @@ def compiler_command(name=None):
     directory = c["dir"].replace("~", "$HOME", 1)
     # GT4_COMPILER_COMMAND overrides the project compiler's command (for experiments with flags).
     command = c["command"] if name else os.environ.get("GT4_COMPILER_COMMAND", c["command"])
-    return command.replace("{dir}", directory)
+    # {tools}: this repository's tools/ directory as Linux/WSL sees it (wrappers such as cc_rf.sh)
+    tools = os.path.dirname(os.path.abspath(__file__))
+    if os.name == "nt":
+        tools = "/mnt/" + tools[0].lower() + tools[2:].replace("\\", "/")
+    return command.replace("{dir}", directory).replace("{tools}", tools)
 
 
 def knowledge():

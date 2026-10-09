@@ -377,8 +377,13 @@ def flatten(cfg, name, depth=0):
         return None
     text = strip_comments(open(path, encoding="utf-8", errors="replace").read(), keep_first=base == cfg["source"])
     out = []
+    in_header = False  # inside the kept first comment (newlib's documentation shows `#include`s)
     for i, line in enumerate(text.split("\n")):
-        m = INCLUDE.match(line)
+        m = None if in_header else INCLUDE.match(line)
+        if "/*" in line and "*/" not in line[line.index("/*"):]:
+            in_header = True
+        elif in_header and "*/" in line:
+            in_header = False
         inner = None
         if m and depth < 8:
             inner = flatten(cfg, m.group(2), depth + 1)
@@ -410,6 +415,8 @@ class Definition:
 MACRO_DEF = re.compile(r"^\s*#\s*define\s+(\w+)\((\w+)\)\s*(.*)$")
 MACRO_UNDEF = re.compile(r"^\s*#\s*undef\s+(\w+)")
 EXTERN_C = re.compile(r'\s*extern\s+"C"\s*\{')
+# An old-style definition's head: `name (a, b)` followed by the parameter declarations (newlib).
+KNR_HEAD = re.compile(r"\b\w+\s*\(\s*(?:\w+\s*,\s*)*\w+\s*\)\s*(?:[^;{}=]+;\s*)+$")
 
 
 def expand_name(macros, text):
@@ -420,6 +427,10 @@ def expand_name(macros, text):
         param, body = macros[m.group(1)]
         parts = [p.strip() for p in body.split("##")]
         return "".join(m.group(2) if p == param else p for p in parts)
+    # newlib's `_DEFUN (name, (args), decls)` and `_DEFUN_VOID (name)`
+    m = re.search(r"\b_DEFUN(?:\s*\(\s*(\w+)\s*,|_VOID\s*\(\s*(\w+)\s*\))", text)
+    if m:
+        return m.group(1) or m.group(2)
     m = re.search(r"(\w+)\s*\(", text)
     return m.group(1) if m else None
 
@@ -519,7 +530,7 @@ def find_definitions(lines):
             if ch == "{":
                 if depth == 0 and pending is None:
                     head = "\n".join(l for l, _ in lines[stmt_start:i]) + "\n" + line[:col]
-                    if re.search(r"\)\s*$", head.strip()) and "=" not in head.split(")")[-1]:
+                    if (re.search(r"\)\s*$", head.strip()) and "=" not in head.split(")")[-1]) or KNR_HEAD.search(head.strip()):
                         kind, name = "func", expand_name(macros, head)
                     elif "=" in head:
                         # `T name[] =`, or the name wrapped in a macro: `T NS(encodings)[] =`
@@ -551,7 +562,8 @@ def find_definitions(lines):
             pending = None
             stmt_start = i + 1
         elif depth == 0 and pending is None and (";" in code or not stripped):
-            stmt_start = i + 1
+            if not (stripped and KNR_HEAD.search("\n".join(l for l, _ in lines[stmt_start:i + 1]).strip())):
+                stmt_start = i + 1
     return defs
 
 

@@ -3,7 +3,6 @@ typedef unsigned int u32;
 extern "C" void func_0060AC48();
 extern "C" void func_005BFB68(void *a0, void *a1, void *a2);
 
-extern char D_006B0290[];
 extern int D_0088FF38;
 
 extern int D_0089FFD0;
@@ -11,7 +10,7 @@ extern int D_0089FFD0;
 extern "C" void *func_0060B310(void) {
     if (D_0089FFD0 == 0) {
         func_0060AC48();
-        func_005BFB68(&D_0089FFD0, D_006B0290, &D_0088FF38);
+        func_005BFB68(&D_0089FFD0, ((char *)"Q26PDISTD13FileExpandPS2"), &D_0088FF38);
     }
     return &D_0089FFD0;
 }

@@ -41,8 +41,8 @@ extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern char D_00698C08[];
 extern char D_0082EB48[];
 extern char D_0082EB40[];
-extern "C" void func_0023A038(void);
-extern "C" void func_0023A178(void);
+extern "C" void MScriptEvent__global_0082EB48(void);
+extern "C" void MScriptEvent__global_0082EB40(void);
 
 extern "C" void func_0023A298(Obj *arg0) {
     Str s;
@@ -69,6 +69,6 @@ extern "C" void func_0023A298(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_0028E310());
-    func_00306780(arg0, D_0082EB48, func_0023A038);
-    func_002F36E0(arg0, D_0082EB40, func_0023A178);
+    func_00306780(arg0, D_0082EB48, MScriptEvent__global_0082EB48);
+    func_002F36E0(arg0, D_0082EB40, MScriptEvent__global_0082EB40);
 }

@@ -37,7 +37,7 @@ extern "C" int func_002E92C0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 
 extern char D_0083BC50[];
-extern "C" void func_002E6E40(void);
+extern "C" void MVBox__global_0083BC50(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 
 extern "C" void func_002E6EB0(Obj *arg0) {
@@ -65,5 +65,5 @@ extern "C" void func_002E6EB0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_002E92C0());
-    func_00306780(arg0, D_0083BC50, func_002E6E40);
+    func_00306780(arg0, D_0083BC50, MVBox__global_0083BC50);
 }

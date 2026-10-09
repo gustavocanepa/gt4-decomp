@@ -60,8 +60,8 @@ extern char D_0068DD00[];
 extern char D_0068DD10[];
 extern char D_008212F0[];
 extern char D_008212E8[];
-extern "C" void func_005C2AF0(void);
-extern "C" void func_0032AED0(void);
+extern "C" void MLoggerControl__global_008212F0(void);
+extern "C" void MLoggerControl__global_008212E8(void);
 extern "C" void MLoggerControl__analyze_start(void);
 extern "C" void MLoggerControl__analyze_stop(void);
 extern "C" void MLoggerControl__getCarName(void);
@@ -70,22 +70,22 @@ extern "C" void MLoggerControl__setTotalTime(void);
 extern "C" void MLoggerControl__setSpeedAverage(void);
 extern "C" void MLoggerControl__setSpeedCurrent(void);
 extern "C" void MLoggerControl__setCourseMap(void);
-extern "C" void func_005C2BB0(void);
-extern "C" void func_005C2BD8(void);
-extern "C" void func_005C2C00(void);
-extern "C" void func_005C2C28(void);
-extern "C" void func_005C2C50(void);
-extern "C" void func_005C2C78(void);
-extern "C" void func_005C2CA0(void);
-extern "C" void func_005C2CC8(void);
-extern "C" void func_005C2CF0(void);
-extern "C" void func_005C2D18(void);
-extern "C" void func_005C2D40(void);
-extern "C" void func_005C2D68(void);
-extern "C" void func_005C2D90(void);
-extern "C" void func_005C2DB8(void);
-extern "C" void func_005C2DE0(void);
-extern "C" void func_005C2E08(void);
+extern "C" void MLoggerControl__get_mode(void);
+extern "C" void MLoggerControl__set_mode(void);
+extern "C" void MLoggerControl__set_load_track(void);
+extern "C" void MLoggerControl__get_course_label(void);
+extern "C" void MLoggerControl__get_race_mode_label(void);
+extern "C" void MLoggerControl__get_race_mode_subnumber(void);
+extern "C" void MLoggerControl__get_display_accel(void);
+extern "C" void MLoggerControl__set_display_accel(void);
+extern "C" void MLoggerControl__get_display_brake(void);
+extern "C" void MLoggerControl__set_display_brake(void);
+extern "C" void MLoggerControl__get_display_speed(void);
+extern "C" void MLoggerControl__set_display_speed(void);
+extern "C" void MLoggerControl__get_display_TrackA(void);
+extern "C" void MLoggerControl__set_display_TrackA(void);
+extern "C" void MLoggerControl__get_display_TrackB(void);
+extern "C" void MLoggerControl__set_display_TrackB(void);
 
 extern "C" void func_0011F1E0(Obj *arg0) {
     Str s;
@@ -115,8 +115,8 @@ extern "C" void func_0011F1E0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_008212F0, func_005C2AF0);
-    func_00306780(arg0, D_008212E8, func_0032AED0);
+    func_00306780(arg0, D_008212F0, MLoggerControl__global_008212F0);
+    func_00306780(arg0, D_008212E8, MLoggerControl__global_008212E8);
     {
         Str *ps = &s;
         const char *src = D_0068DC00;
@@ -306,7 +306,7 @@ extern "C" void func_0011F1E0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C2BB0, func_005C2BD8);
+        func_002F3860(arg0, &s, MLoggerControl__get_mode, MLoggerControl__set_mode);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -328,7 +328,7 @@ extern "C" void func_0011F1E0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005C2C00);
+        func_002F3860(arg0, &s, 0, MLoggerControl__set_load_track);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -350,7 +350,7 @@ extern "C" void func_0011F1E0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C2C28, 0);
+        func_002F3860(arg0, &s, MLoggerControl__get_course_label, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -372,7 +372,7 @@ extern "C" void func_0011F1E0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C2C50, 0);
+        func_002F3860(arg0, &s, MLoggerControl__get_race_mode_label, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -394,7 +394,7 @@ extern "C" void func_0011F1E0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C2C78, 0);
+        func_002F3860(arg0, &s, MLoggerControl__get_race_mode_subnumber, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -416,7 +416,7 @@ extern "C" void func_0011F1E0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C2CA0, func_005C2CC8);
+        func_002F3860(arg0, &s, MLoggerControl__get_display_accel, MLoggerControl__set_display_accel);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -438,7 +438,7 @@ extern "C" void func_0011F1E0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C2CF0, func_005C2D18);
+        func_002F3860(arg0, &s, MLoggerControl__get_display_brake, MLoggerControl__set_display_brake);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -460,7 +460,7 @@ extern "C" void func_0011F1E0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C2D40, func_005C2D68);
+        func_002F3860(arg0, &s, MLoggerControl__get_display_speed, MLoggerControl__set_display_speed);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -482,7 +482,7 @@ extern "C" void func_0011F1E0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C2D90, func_005C2DB8);
+        func_002F3860(arg0, &s, MLoggerControl__get_display_TrackA, MLoggerControl__set_display_TrackA);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -504,7 +504,7 @@ extern "C" void func_0011F1E0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005C2DE0, func_005C2E08);
+        func_002F3860(arg0, &s, MLoggerControl__get_display_TrackB, MLoggerControl__set_display_TrackB);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

@@ -46,7 +46,7 @@ extern char D_006994F8[];
 extern char D_00699500[];
 extern char D_00699508[];
 extern char D_0082FF88[];
-extern "C" void func_0024B428(void);
+extern "C" void MTransform__global_0082FF88(void);
 extern "C" void MTransform__scale(void);
 extern "C" void MTransform__translate(void);
 extern "C" void MTransform__rotate(void);
@@ -82,7 +82,7 @@ extern "C" void func_0024B740(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_0082FF88, func_0024B428);
+    func_00306780(arg0, D_0082FF88, MTransform__global_0082FF88);
     {
         Str *ps = &s;
         const char *src = D_006994D8;

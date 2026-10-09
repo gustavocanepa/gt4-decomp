@@ -16,7 +16,6 @@ struct S004F87E8 {
 };
 
 extern S004F87E8 D_00645570;
-extern char D_006C0948[];
 
 extern "C" void func_004F0B08(S004F87E8 *arg0, Arg *arg1);
 extern "C" s32 func_004F0C38(S004F87E8 *arg0, const char *arg1);
@@ -34,7 +33,7 @@ extern "C" void func_004F7E38(Arg *arg, S004F87E8 *conn) {
         conn = &D_00645570;
     }
     Guard g(conn, arg);
-    if (func_004F0C38(conn, D_006C0948) != 0) {
+    if (func_004F0C38(conn, "ChatToggleFilterCallback") != 0) {
         return;
     }
     {

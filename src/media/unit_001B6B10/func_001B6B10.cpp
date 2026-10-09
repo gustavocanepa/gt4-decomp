@@ -74,40 +74,40 @@ extern char D_00693678[];
 extern char D_00693680[];
 extern char D_00827180[];
 extern char D_00827178[];
-extern "C" void func_005CE780(void);
-extern "C" void func_0032AED0(void);
+extern "C" void MEyetoy__global_00827180(void);
+extern "C" void MLoggerControl__global_008212E8(void);
 extern "C" void MEyetoy__initialize(void);
 extern "C" void MEyetoy__finalize(void);
 extern "C" void MEyetoy__start_camera(void);
 extern "C" void MEyetoy__stop_camera(void);
 extern "C" void MEyetoy__update_camera(void);
-extern "C" void func_005CE8B8(void);
-extern "C" void func_005CE8E0(void);
-extern "C" void func_005CE908(void);
-extern "C" void func_005CE930(void);
-extern "C" void func_005CE958(void);
-extern "C" void func_005CE980(void);
-extern "C" void func_005CE9A8(void);
-extern "C" void func_005CE9D0(void);
-extern "C" void func_005CE9F8(void);
-extern "C" void func_005CEA20(void);
-extern "C" void func_005CEA48(void);
-extern "C" void func_005CEA70(void);
-extern "C" void func_005CEA98(void);
-extern "C" void func_005CEAC0(void);
-extern "C" void func_005CEAE8(void);
-extern "C" void func_005CEB10(void);
-extern "C" void func_005CEB38(void);
-extern "C" void func_005CEB60(void);
-extern "C" void func_005CEB88(void);
-extern "C" void func_005CEBB0(void);
-extern "C" void func_005CEBD8(void);
-extern "C" void func_005CEC00(void);
-extern "C" void func_005CEC28(void);
-extern "C" void func_005CEC50(void);
-extern "C" void func_005CEC78(void);
-extern "C" void func_005CECA0(void);
-extern "C" void func_005CECC8(void);
+extern "C" void MEyetoy__get_connected(void);
+extern "C" void MEyetoy__get_captured(void);
+extern "C" void MEyetoy__get_width(void);
+extern "C" void MEyetoy__get_height(void);
+extern "C" void MEyetoy__set_resolution(void);
+extern "C" void MEyetoy__set_sampling_speed(void);
+extern "C" void MEyetoy__set_auto_brightness(void);
+extern "C" void MEyetoy__set_auto_exposure(void);
+extern "C" void MEyetoy__set_auto_gain(void);
+extern "C" void MEyetoy__set_audio_gain(void);
+extern "C" void MEyetoy__set_auto_white_balance(void);
+extern "C" void MEyetoy__set_back_light_comp(void);
+extern "C" void MEyetoy__set_brightness(void);
+extern "C" void MEyetoy__set_exposure(void);
+extern "C" void MEyetoy__set_gain(void);
+extern "C" void MEyetoy__set_jpen(void);
+extern "C" void MEyetoy__set_led_on(void);
+extern "C" void MEyetoy__set_led_off(void);
+extern "C" void MEyetoy__set_mirror(void);
+extern "C" void MEyetoy__set_nzc_luminance(void);
+extern "C" void MEyetoy__set_nzc_chrominance(void);
+extern "C" void MEyetoy__set_qs(void);
+extern "C" void MEyetoy__set_red_gain(void);
+extern "C" void MEyetoy__set_blue_gain(void);
+extern "C" void MEyetoy__set_saturation(void);
+extern "C" void MEyetoy__set_yuv(void);
+extern "C" void MEyetoy__get_frame_number(void);
 
 extern "C" void func_001B6B10(Obj *arg0) {
     Str s;
@@ -137,8 +137,8 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00827180, func_005CE780);
-    func_00306780(arg0, D_00827178, func_0032AED0);
+    func_00306780(arg0, D_00827180, MEyetoy__global_00827180);
+    func_00306780(arg0, D_00827178, MLoggerControl__global_008212E8);
     {
         Str *ps = &s;
         const char *src = D_006934D0;
@@ -262,7 +262,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CE8B8, 0);
+        func_002F3860(arg0, &s, MEyetoy__get_connected, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -284,7 +284,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CE8E0, 0);
+        func_002F3860(arg0, &s, MEyetoy__get_captured, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -306,7 +306,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CE908, 0);
+        func_002F3860(arg0, &s, MEyetoy__get_width, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -328,7 +328,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CE930, 0);
+        func_002F3860(arg0, &s, MEyetoy__get_height, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -350,7 +350,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CE958);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_resolution);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -372,7 +372,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CE980);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_sampling_speed);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -394,7 +394,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CE9A8);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_auto_brightness);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -416,7 +416,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CE9D0);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_auto_exposure);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -438,7 +438,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CE9F8);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_auto_gain);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -460,7 +460,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEA20);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_audio_gain);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -482,7 +482,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEA48);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_auto_white_balance);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -504,7 +504,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEA70);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_back_light_comp);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -526,7 +526,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEA98);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_brightness);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -548,7 +548,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEAC0);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_exposure);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -570,7 +570,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEAE8);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_gain);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -592,7 +592,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEB10);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_jpen);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -614,7 +614,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEB38);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_led_on);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -636,7 +636,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEB60);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_led_off);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -658,7 +658,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEB88);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_mirror);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -680,7 +680,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEBB0);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_nzc_luminance);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -702,7 +702,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEBD8);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_nzc_chrominance);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -724,7 +724,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEC00);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_qs);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -746,7 +746,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEC28);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_red_gain);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -768,7 +768,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEC50);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_blue_gain);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -790,7 +790,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CEC78);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_saturation);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -812,7 +812,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CECA0);
+        func_002F3860(arg0, &s, 0, MEyetoy__set_yuv);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -834,7 +834,7 @@ extern "C" void func_001B6B10(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CECC8, 0);
+        func_002F3860(arg0, &s, MEyetoy__get_frame_number, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

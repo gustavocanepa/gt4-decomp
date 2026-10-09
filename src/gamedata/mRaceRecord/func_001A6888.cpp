@@ -36,14 +36,6 @@ extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_00692B28[];
-extern char D_00692B38[];
-extern char D_00692B40[];
-extern char D_00692B58[];
-extern char D_00692B70[];
-extern char D_00692B88[];
-extern char D_00692B98[];
-extern char D_00692BB0[];
 extern "C" void MRaceRecord__getUnit(void);
 extern "C" void MRaceRecord__isLicensePerfect(void);
 extern "C" void MRaceRecord__isLicenseAllSilver(void);
@@ -56,7 +48,7 @@ extern "C" void func_001A6888(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00692B28;
+        const char *src = "MRaceRecord";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -82,7 +74,7 @@ extern "C" void func_001A6888(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00692B38;
+        const char *src = "getUnit";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -104,7 +96,7 @@ extern "C" void func_001A6888(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692B40;
+        const char *src = "isLicensePerfect";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -126,7 +118,7 @@ extern "C" void func_001A6888(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692B58;
+        const char *src = "isLicenseAllSilver";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -148,7 +140,7 @@ extern "C" void func_001A6888(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692B70;
+        const char *src = "isLicenseAllBronze";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -170,7 +162,7 @@ extern "C" void func_001A6888(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692B88;
+        const char *src = "isLicensePassed";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -192,7 +184,7 @@ extern "C" void func_001A6888(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692B98;
+        const char *src = "canTryLastLicense";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -214,7 +206,7 @@ extern "C" void func_001A6888(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00692BB0;
+        const char *src = "isMissionClear";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

@@ -20,13 +20,17 @@ ROOT = match.ROOT
 OUT = os.path.join(ROOT, "progress", "report.json")
 
 
-def measures(funcs, total_data=0):
+def measures(funcs, total_data=None, data=None):
+    """Measures of a unit. Its data is, unless given, what its own functions bring from source."""
     total = sum(f["size"] for f in funcs)
     matched = sum(f["size"] for f in funcs if f["matched"])
     complete = sum(f["size"] for f in funcs if f["complete"])
     # Data from source: the constants (.rodata) of the linked functions, placed at their original
     # addresses by tools/build.py and byte-compared there (build/full/report.json data_sizes).
-    data = sum(f.get("data", 0) for f in funcs if f["complete"])
+    if data is None:
+        data = sum(f.get("data", 0) for f in funcs if f["complete"])
+    if total_data is None:
+        total_data = data
     n = len(funcs)
     nm = sum(f["matched"] for f in funcs)
     pct = lambda a, b: round(100.0 * a / b, 4) if b else 0.0
@@ -39,6 +43,24 @@ def measures(funcs, total_data=0):
         "complete_data": str(data), "complete_data_percent": pct(data, total_data),
         "total_units": 1, "complete_units": 0,
     }
+
+
+def bss_range():
+    """(start, end) of .bss: the executable has no section for it (its .data segment's memory size
+    equals its file size), so the bounds come from the start-up code, which zeroes from _fbss
+    ($v0) to _end ($v1) with lui/addiu pairs a few instructions after the entry point."""
+    entry, _ = project.load_image()
+    text_addr, text = match.load_text()
+    high, value = {}, {}
+    for word in match.words_at(text_addr, text, entry, 0x200):
+        op, rs, rt, imm = word >> 26, (word >> 21) & 31, (word >> 16) & 31, word & 0xFFFF
+        if op == 0x0F and rt in (2, 3) and rt not in high:  # lui $v0 / $v1
+            high[rt] = imm << 16
+        elif op == 0x09 and rs == rt and rt in high and rt not in value:  # addiu $vN, $vN
+            value[rt] = (high[rt] + (imm - 0x10000 if imm & 0x8000 else imm)) & 0xFFFFFFFF
+        if len(value) == 2:
+            return value[2], value[3]
+    return 0, 0
 
 
 def load_names():
@@ -81,9 +103,15 @@ def main():
         funcs.append({"addr": addr, "size": size, "matched": key in done,
                       "complete": status.get(key) == "linked" or status.get(key, "").startswith("linked as part"),
                       "fuzzy": 100.0 if key in done else partial.get(key, 0.0),
-                      "data": int(data_sizes.get(key, 0))})
+                      "data": int(data_sizes.get(key, 0)) if build.get("data_matches") else 0})
+    # Total data as objdiff counts it (data and bss sections): the .data segment, which holds
+    # .data, .rodata and .sdata, plus .bss/.sbss. Only the constants placed by the build count
+    # as matched, and only while the built .data is identical to the original.
     data_size = int(build.get("data_bytes", 0xBE37C))
-    m = measures(funcs, data_size)
+    fbss, end = bss_range()
+    bss_size = max(0, end - fbss)
+    total_data = data_size + bss_size
+    m = measures(funcs, total_data)
 
     # Units: config/units.txt (tools/units.py), else one unit for all the code.
     units_path = os.path.join(ROOT, "config", "units.txt")
@@ -102,7 +130,7 @@ def main():
         fs = grouped.get(uname, [])
         if not fs:
             continue
-        um = measures(fs, data_size)
+        um = measures(fs)  # a unit's data: the constants its functions bring
         um["total_units"], um["complete_units"] = 1, int(all(f["complete"] for f in fs))
         units.append({
             "name": uname,
@@ -116,6 +144,20 @@ def main():
             "metadata": {"complete": all(f["complete"] for f in fs), "progress_categories": ["game"],
                          "auto_generated": True},
         })
+    # The rest of the data belongs to no unit yet (the units are ranges of code): one more unit
+    # holds it, so that the units add up to the whole.
+    rest = total_data - int(m["matched_data"])
+    if rest > 0:
+        um = measures([], rest, 0)
+        um["total_units"], um["complete_units"] = 1, 0
+        units.append({
+            "name": "data/unattributed",
+            "measures": um,
+            "sections": [{"name": ".data", "size": str(rest - bss_size), "fuzzy_match_percent": 0.0},
+                         {"name": ".bss", "size": str(bss_size), "fuzzy_match_percent": 0.0}],
+            "functions": [],
+            "metadata": {"complete": False, "progress_categories": ["game"], "auto_generated": True},
+        })
     m["total_units"] = len(units)
     m["complete_units"] = sum(u["metadata"]["complete"] for u in units)
     report = {"measures": m, "units": units, "version": 2,
@@ -124,7 +166,9 @@ def main():
     json.dump(report, open(OUT, "w"), indent=1)
     print(f"functions: {m['matched_functions']} / {m['total_functions']} matched "
           f"({m['matched_functions_percent']:.2f}%); code: {int(m['matched_code']):,} / {int(m['total_code']):,} bytes "
-          f"matched ({m['matched_code_percent']:.2f}%), {m['complete_code_percent']:.2f}% linked -> {OUT}")
+          f"matched ({m['matched_code_percent']:.2f}%), {m['complete_code_percent']:.2f}% linked; "
+          f"data: {int(m['matched_data']):,} / {int(m['total_data']):,} bytes from source "
+          f"({m['matched_data_percent']:.4f}%; .data {data_size:,} + .bss {bss_size:,}) -> {OUT}")
 
 
 if __name__ == "__main__":

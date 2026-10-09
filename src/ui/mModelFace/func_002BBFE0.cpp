@@ -56,7 +56,7 @@ extern char D_0069C2D8[];
 extern char D_0069C2E8[];
 extern char D_0069C2F8[];
 extern char D_00838C70[];
-extern "C" void func_002BB0D8(void);
+extern "C" void MModelFace__global_00838C70(void);
 extern "C" void MModelFace__getModelSetPath(void);
 extern "C" void MModelFace__setModelSetPath(void);
 extern "C" void MModelFace__getEnvImagePath(void);
@@ -64,12 +64,12 @@ extern "C" void MModelFace__setEnvImagePath(void);
 extern "C" void MModelFace__getModelMotionPath(void);
 extern "C" void MModelFace__setModelMotionPath(void);
 extern "C" void MModelFace__reset(void);
-extern "C" void func_002BB710(void);
-extern "C" void func_002BB9E8(void);
-extern "C" void func_002BBCC0(void);
+extern "C" void MModelFace__get_translate(void);
+extern "C" void MModelFace__get_rotate(void);
+extern "C" void MModelFace__get_rotate_v(void);
 extern "C" void MModelFace__stopRotate(void);
-extern "C" void func_005E8828(void);
-extern "C" void func_005E8850(void);
+extern "C" void MModelFace__get_target_mode(void);
+extern "C" void MModelFace__set_target_mode(void);
 
 extern "C" void func_002BBFE0(Obj *arg0) {
     Str s;
@@ -99,7 +99,7 @@ extern "C" void func_002BBFE0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_00838C70, func_002BB0D8);
+    func_00306780(arg0, D_00838C70, MModelFace__global_00838C70);
     {
         Str *ps = &s;
         const char *src = D_0069C218;
@@ -267,7 +267,7 @@ extern "C" void func_002BBFE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002BB710, func_002BB710);
+        func_002F3860(arg0, &s, MModelFace__get_translate, MModelFace__get_translate);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -289,7 +289,7 @@ extern "C" void func_002BBFE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002BB710, func_002BB710);
+        func_002F3860(arg0, &s, MModelFace__get_translate, MModelFace__get_translate);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -311,7 +311,7 @@ extern "C" void func_002BBFE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002BB9E8, func_002BB9E8);
+        func_002F3860(arg0, &s, MModelFace__get_rotate, MModelFace__get_rotate);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -333,7 +333,7 @@ extern "C" void func_002BBFE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002BB9E8, func_002BB9E8);
+        func_002F3860(arg0, &s, MModelFace__get_rotate, MModelFace__get_rotate);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -355,7 +355,7 @@ extern "C" void func_002BBFE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002BBCC0, func_002BBCC0);
+        func_002F3860(arg0, &s, MModelFace__get_rotate_v, MModelFace__get_rotate_v);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -377,7 +377,7 @@ extern "C" void func_002BBFE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002BBCC0, func_002BBCC0);
+        func_002F3860(arg0, &s, MModelFace__get_rotate_v, MModelFace__get_rotate_v);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -421,7 +421,7 @@ extern "C" void func_002BBFE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005E8828, func_005E8850);
+        func_002F3860(arg0, &s, MModelFace__get_target_mode, MModelFace__set_target_mode);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

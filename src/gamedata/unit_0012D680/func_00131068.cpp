@@ -36,36 +36,6 @@ extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_003068A8(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_0068E850[];
-extern char D_0068E860[];
-extern char D_0068E868[];
-extern char D_0068E878[];
-extern char D_0068E888[];
-extern char D_0068E8A0[];
-extern char D_0068E8B8[];
-extern char D_0068E8C8[];
-extern char D_0068E8D8[];
-extern char D_0068E8E8[];
-extern char D_0068E8F8[];
-extern char D_0068E908[];
-extern char D_0068E920[];
-extern char D_0068E938[];
-extern char D_0068E950[];
-extern char D_0068E960[];
-extern char D_0068E970[];
-extern char D_0068E980[];
-extern char D_0068E990[];
-extern char D_0068E9A0[];
-extern char D_0068E9B0[];
-extern char D_0068E9C0[];
-extern char D_0068E9D0[];
-extern char D_0068E9E0[];
-extern char D_0068E9F8[];
-extern char D_0068EA08[];
-extern char D_0068EA18[];
-extern char D_0068EA28[];
-extern char D_0068EA38[];
-extern char D_0068EA48[];
 extern "C" void MCarData__IsExist(void);
 extern "C" void MCarData__GetCarLabel(void);
 extern "C" void MCarData__GetCarLogoName(void);
@@ -100,7 +70,7 @@ extern "C" void func_00131068(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_0068E850;
+        const char *src = "MCarData";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -126,7 +96,7 @@ extern "C" void func_00131068(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_0068E860;
+        const char *src = "IsExist";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -148,7 +118,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E868;
+        const char *src = "GetCarLabel";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -170,7 +140,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E878;
+        const char *src = "GetCarLogoName";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -192,7 +162,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E888;
+        const char *src = "GetCarLabelCount";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -214,7 +184,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E8A0;
+        const char *src = "GetCarLabelByIndex";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -236,7 +206,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E8B8;
+        const char *src = "GetCarName";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -258,7 +228,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E8C8;
+        const char *src = "GetShortCarName";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -280,7 +250,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E8D8;
+        const char *src = "GetRaceCode";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -302,7 +272,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E8E8;
+        const char *src = "IsTireNormal";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -324,7 +294,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E8F8;
+        const char *src = "IsDirtRunnable";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -346,7 +316,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E908;
+        const char *src = "GetOpenModelType";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -368,7 +338,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E920;
+        const char *src = "GetCarNumericCode";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -390,7 +360,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E938;
+        const char *src = "GetCarNameByNumericCode";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -412,7 +382,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E950;
+        const char *src = "GetMaker";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -434,7 +404,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E960;
+        const char *src = "GetTuner";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -456,7 +426,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E970;
+        const char *src = "GetCountry";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -478,7 +448,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E980;
+        const char *src = "GetCategory";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -500,7 +470,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E990;
+        const char *src = "IsStrange";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -522,7 +492,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E9A0;
+        const char *src = "IsTestCar";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -544,7 +514,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E9B0;
+        const char *src = "ShiftCarCode";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -566,7 +536,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E9C0;
+        const char *src = "GetDirtCarCode";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -588,7 +558,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E9D0;
+        const char *src = "GetSnowCarCode";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -610,7 +580,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E9E0;
+        const char *src = "GetDescriptionID";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -632,7 +602,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068E9F8;
+        const char *src = "GetModelYear";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -654,7 +624,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068EA08;
+        const char *src = "GetPrice";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -676,7 +646,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068EA18;
+        const char *src = "GetSellPrice";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -698,7 +668,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068EA28;
+        const char *src = "NotForSell";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -720,7 +690,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068EA38;
+        const char *src = "RaceForbidden";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -742,7 +712,7 @@ extern "C" void func_00131068(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068EA48;
+        const char *src = "PickUpEnemyCars";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

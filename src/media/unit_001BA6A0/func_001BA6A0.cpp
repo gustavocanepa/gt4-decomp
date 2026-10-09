@@ -57,30 +57,30 @@ extern char D_00693978[];
 extern char D_00693988[];
 extern char D_00827840[];
 extern char D_00827838[];
-extern "C" void func_005CF760(void);
-extern "C" void func_0032AED0(void);
+extern "C" void MGTShirt__global_00827840(void);
+extern "C" void MLoggerControl__global_008212E8(void);
 extern "C" void MGTShirt__clear(void);
-extern "C" void func_005CF7F8(void);
-extern "C" void func_005CF820(void);
-extern "C" void func_005CF848(void);
-extern "C" void func_005CF870(void);
-extern "C" void func_005CF898(void);
-extern "C" void func_005CF8C0(void);
-extern "C" void func_005CF8E8(void);
-extern "C" void func_005CF910(void);
-extern "C" void func_005CF938(void);
-extern "C" void func_005CF960(void);
-extern "C" void func_005CF988(void);
-extern "C" void func_005CF9B0(void);
-extern "C" void func_005CF9D8(void);
-extern "C" void func_005CFA00(void);
-extern "C" void func_005CFA28(void);
-extern "C" void func_005CFA50(void);
-extern "C" void func_005CFA78(void);
-extern "C" void func_005CFAA0(void);
-extern "C" void func_005CFAC8(void);
-extern "C" void func_005CFAF0(void);
-extern "C" void func_005CFB18(void);
+extern "C" void MGTShirt__get_threshold(void);
+extern "C" void MGTShirt__set_threshold(void);
+extern "C" void MGTShirt__get_threshold_cr(void);
+extern "C" void MGTShirt__set_threshold_cr(void);
+extern "C" void MGTShirt__get_threshold_scan_base(void);
+extern "C" void MGTShirt__set_threshold_scan_base(void);
+extern "C" void MGTShirt__get_threshold_scan_step(void);
+extern "C" void MGTShirt__set_threshold_scan_step(void);
+extern "C" void MGTShirt__get_threshold_pattern_base(void);
+extern "C" void MGTShirt__set_threshold_pattern_base(void);
+extern "C" void MGTShirt__get_threshold_pattern_step(void);
+extern "C" void MGTShirt__set_threshold_pattern_step(void);
+extern "C" void MGTShirt__set_led_start_delay(void);
+extern "C" void MGTShirt__set_led_interval(void);
+extern "C" void MGTShirt__set_refrect_count(void);
+extern "C" void MGTShirt__set_focus(void);
+extern "C" void MGTShirt__get_recognizing(void);
+extern "C" void MGTShirt__set_recognizing(void);
+extern "C" void MGTShirt__get_found(void);
+extern "C" void MGTShirt__get_recognized(void);
+extern "C" void MGTShirt__set_debug(void);
 
 extern "C" void func_001BA6A0(Obj *arg0) {
     Str s;
@@ -110,8 +110,8 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_001B9970());
-    func_00306780(arg0, D_00827840, func_005CF760);
-    func_00306780(arg0, D_00827838, func_0032AED0);
+    func_00306780(arg0, D_00827840, MGTShirt__global_00827840);
+    func_00306780(arg0, D_00827838, MLoggerControl__global_008212E8);
     {
         Str *ps = &s;
         const char *src = D_006938A0;
@@ -147,7 +147,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CF7F8, func_005CF820);
+        func_002F3860(arg0, &s, MGTShirt__get_threshold, MGTShirt__set_threshold);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -169,7 +169,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CF848, func_005CF870);
+        func_002F3860(arg0, &s, MGTShirt__get_threshold_cr, MGTShirt__set_threshold_cr);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -191,7 +191,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CF898, func_005CF8C0);
+        func_002F3860(arg0, &s, MGTShirt__get_threshold_scan_base, MGTShirt__set_threshold_scan_base);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -213,7 +213,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CF8E8, func_005CF910);
+        func_002F3860(arg0, &s, MGTShirt__get_threshold_scan_step, MGTShirt__set_threshold_scan_step);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -235,7 +235,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CF938, func_005CF960);
+        func_002F3860(arg0, &s, MGTShirt__get_threshold_pattern_base, MGTShirt__set_threshold_pattern_base);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -257,7 +257,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CF988, func_005CF9B0);
+        func_002F3860(arg0, &s, MGTShirt__get_threshold_pattern_step, MGTShirt__set_threshold_pattern_step);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -279,7 +279,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CF9D8);
+        func_002F3860(arg0, &s, 0, MGTShirt__set_led_start_delay);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -301,7 +301,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CFA00);
+        func_002F3860(arg0, &s, 0, MGTShirt__set_led_interval);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -323,7 +323,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CFA28);
+        func_002F3860(arg0, &s, 0, MGTShirt__set_refrect_count);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -345,7 +345,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CFA50);
+        func_002F3860(arg0, &s, 0, MGTShirt__set_focus);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -367,7 +367,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CFA78, func_005CFAA0);
+        func_002F3860(arg0, &s, MGTShirt__get_recognizing, MGTShirt__set_recognizing);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -389,7 +389,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CFAC8, 0);
+        func_002F3860(arg0, &s, MGTShirt__get_found, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -411,7 +411,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005CFAF0, 0);
+        func_002F3860(arg0, &s, MGTShirt__get_recognized, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -433,7 +433,7 @@ extern "C" void func_001BA6A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_005CFB18);
+        func_002F3860(arg0, &s, 0, MGTShirt__set_debug);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

@@ -43,9 +43,9 @@ extern char D_0069BC38[];
 extern char D_0069BC48[];
 extern char D_00837560[];
 extern char D_00837558[];
-extern "C" void mKeyPressEvent__structor_3(void);
-extern "C" void func_002AAA50(void);
-extern "C" void func_002AA8E0(void);
+extern "C" void MKeyPressEvent__global_00837560(void);
+extern "C" void MKeyPressEvent__global_00837558(void);
+extern "C" void MKeyPressEvent__get_repeat(void);
 
 extern "C" void func_002AAAD0(Obj *arg0) {
     Str s;
@@ -75,8 +75,8 @@ extern "C" void func_002AAAD0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_002A95A8());
-    func_00306780(arg0, D_00837560, mKeyPressEvent__structor_3);
-    func_002F36E0(arg0, D_00837558, func_002AAA50);
+    func_00306780(arg0, D_00837560, MKeyPressEvent__global_00837560);
+    func_002F36E0(arg0, D_00837558, MKeyPressEvent__global_00837558);
     {
         Str *ps = &s;
         const char *src = D_0069BC48;
@@ -90,7 +90,7 @@ extern "C" void func_002AAAD0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002AA8E0, 0);
+        func_002F3860(arg0, &s, MKeyPressEvent__get_repeat, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

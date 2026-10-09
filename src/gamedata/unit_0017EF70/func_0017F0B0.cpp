@@ -36,9 +36,6 @@ extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_003068A8(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_00691568[];
-extern char D_00691580[];
-extern char D_00691590[];
 extern "C" void MMemorycardProgress__progress(void);
 extern "C" void MMemorycardProgress__setProgress(void);
 
@@ -46,7 +43,7 @@ extern "C" void func_0017F0B0(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00691568;
+        const char *src = "MMemorycardProgress";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -72,7 +69,7 @@ extern "C" void func_0017F0B0(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00691580;
+        const char *src = "progress";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -94,7 +91,7 @@ extern "C" void func_0017F0B0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00691590;
+        const char *src = "setProgress";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

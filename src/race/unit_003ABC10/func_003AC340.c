@@ -84,18 +84,13 @@ typedef s64 M2C_UNK64;
 
 s32 func_003A1E10(s32);                             /* extern */
 
-extern char D_006A1728[];
-extern char D_006A1738[];
-extern char D_006A1748[];
-extern char D_006A1750[];
-extern char D_006A1758[];
 void func_003AC340(void *arg0) {
     if (M2C_FIELD(arg0, s32 *, 0x18) == 0) {
         M2C_FIELD(arg0, s32 *, 0x18) = func_003A1E10(*(s32 *)(0x621520 + (M2C_FIELD(arg0, s32 *, 0x6C) * 4)));
-        M2C_FIELD(arg0, s32 *, 0x1C) = func_003A1E10((s32)D_006A1728);
-        M2C_FIELD(arg0, s32 *, 0x20) = func_003A1E10((s32)D_006A1738);
-        M2C_FIELD(arg0, s32 *, 0x24) = func_003A1E10((s32)D_006A1748);
-        M2C_FIELD(arg0, s32 *, 0x28) = func_003A1E10((s32)D_006A1750);
-        M2C_FIELD(arg0, s32 *, 0x2C) = func_003A1E10((s32)D_006A1758);
+        M2C_FIELD(arg0, s32 *, 0x1C) = func_003A1E10((s32)"mtr_accel");
+        M2C_FIELD(arg0, s32 *, 0x20) = func_003A1E10((s32)"mtr_brake");
+        M2C_FIELD(arg0, s32 *, 0x24) = func_003A1E10((s32)"mtr_asm");
+        M2C_FIELD(arg0, s32 *, 0x28) = func_003A1E10((s32)"mtr_tcs");
+        M2C_FIELD(arg0, s32 *, 0x2C) = func_003A1E10((s32)"mtr_grip");
     }
 }

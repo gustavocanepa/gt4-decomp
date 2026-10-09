@@ -41,7 +41,7 @@ extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern char D_00697E78[];
 extern char D_00697E88[];
 extern char D_0082D428[];
-extern "C" void func_0021CC70(void);
+extern "C" void MModelStream__global_0082D428(void);
 extern "C" void MModelStream__load(void);
 
 extern "C" void func_0021CD60(Obj *arg0) {
@@ -72,7 +72,7 @@ extern "C" void func_0021CD60(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_001FC550());
-    func_00306780(arg0, D_0082D428, func_0021CC70);
+    func_00306780(arg0, D_0082D428, MModelStream__global_0082D428);
     {
         Str *ps = &s;
         const char *src = D_00697E88;

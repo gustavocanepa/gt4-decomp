@@ -48,15 +48,15 @@ extern char D_00699290[];
 extern char D_00699298[];
 extern char D_006992A8[];
 extern char D_0082FD48[];
-extern "C" void func_00249050(void);
+extern "C" void MToolTipFace__global_0082FD48(void);
 extern "C" void MToolTipFace__attach(void);
 extern "C" void MToolTipFace__remove(void);
-extern "C" void func_002490C0(void);
-extern "C" void func_00249130(void);
-extern "C" void func_002491C8(void);
-extern "C" void func_00249378(void);
-extern "C" void func_00249410(void);
-extern "C" void func_00249480(void);
+extern "C" void MToolTipFace__set_key(void);
+extern "C" void MToolTipFace__get_value(void);
+extern "C" void MToolTipFace__set_value(void);
+extern "C" void MToolTipFace__get_lock(void);
+extern "C" void MToolTipFace__set_lock(void);
+extern "C" void MToolTipFace__get_action_type(void);
 extern "C" void MToolTipFace__resetAction(void);
 
 extern "C" void func_00249598(Obj *arg0) {
@@ -87,7 +87,7 @@ extern "C" void func_00249598(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_0082FD48, func_00249050);
+    func_00306780(arg0, D_0082FD48, MToolTipFace__global_0082FD48);
     {
         Str *ps = &s;
         const char *src = D_00699270;
@@ -145,7 +145,7 @@ extern "C" void func_00249598(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_002490C0);
+        func_002F3860(arg0, &s, 0, MToolTipFace__set_key);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -167,7 +167,7 @@ extern "C" void func_00249598(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00249130, func_002491C8);
+        func_002F3860(arg0, &s, MToolTipFace__get_value, MToolTipFace__set_value);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -189,7 +189,7 @@ extern "C" void func_00249598(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00249378, func_00249410);
+        func_002F3860(arg0, &s, MToolTipFace__get_lock, MToolTipFace__set_lock);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -211,7 +211,7 @@ extern "C" void func_00249598(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00249480, func_00249480);
+        func_002F3860(arg0, &s, MToolTipFace__get_action_type, MToolTipFace__get_action_type);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

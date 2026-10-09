@@ -86,13 +86,12 @@ M2C_UNK func_005A38B0(M2C_UNK, s32);                /* extern */
 M2C_UNK func_005A3948(s8 *, s32);                   /* extern */
 s8 *func_005A62C0(s32);                             /* extern */
 
-extern char D_006D0F88[];
 void func_005A49F8(void *arg0, s8 *arg1) {
     s8 *temp_v0;
 
     if ((arg1 != NULL) && (*arg1 != 0)) {
         func_005A3948(arg1, M2C_FIELD(arg0, s32 *, 0xC));
-        func_005A3948((s8 *)(s32)D_006D0F88, M2C_FIELD(arg0, s32 *, 0xC));
+        func_005A3948((s8 *)(s32)": ", M2C_FIELD(arg0, s32 *, 0xC));
     }
     temp_v0 = func_005A62C0(M2C_FIELD(arg0, s32 *, 0));
     if (temp_v0 != NULL) {

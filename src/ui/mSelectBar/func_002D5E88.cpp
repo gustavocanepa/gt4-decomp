@@ -50,9 +50,9 @@ extern char D_0069CC88[];
 extern char D_0069CCA0[];
 extern char D_0069CCA8[];
 extern char D_0083A9B0[];
-extern "C" void func_002D57E0(void);
-extern "C" void func_002D5850(void);
-extern "C" void func_002D58E8(void);
+extern "C" void MSelectBar__global_0083A9B0(void);
+extern "C" void MSelectBar__get_index(void);
+extern "C" void MSelectBar__set_index(void);
 extern "C" void MSelectBar__moveIndex(void);
 extern "C" void MSelectBar__incIndex(void);
 extern "C" void MSelectBar__decIndex(void);
@@ -90,7 +90,7 @@ extern "C" void func_002D5E88(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_002D4670());
-    func_00306780(arg0, D_0083A9B0, func_002D57E0);
+    func_00306780(arg0, D_0083A9B0, MSelectBar__global_0083A9B0);
     {
         Str *ps = &s;
         const char *src = D_0069CC30;
@@ -104,7 +104,7 @@ extern "C" void func_002D5E88(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002D5850, func_002D58E8);
+        func_002F3860(arg0, &s, MSelectBar__get_index, MSelectBar__set_index);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

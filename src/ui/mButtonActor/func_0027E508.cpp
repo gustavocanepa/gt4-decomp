@@ -38,10 +38,10 @@ extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 
 extern char D_008331A0[];
 extern char D_00833198[];
-extern "C" void func_0027E300(void);
-extern "C" void func_0027E370(void);
-extern "C" void func_0027E3F0(void);
-extern "C" void func_0027E490(void);
+extern "C" void MButtonActor__global_008331A0(void);
+extern "C" void MButtonActor__global_00833198(void);
+extern "C" void MButtonActor__get_period(void);
+extern "C" void MButtonActor__set_period(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern "C" void func_002F36E0(Obj *arg0, void *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
@@ -74,8 +74,8 @@ extern "C" void func_0027E508(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_001FF0F8());
-    func_00306780(arg0, D_008331A0, func_0027E300);
-    func_002F36E0(arg0, D_00833198, func_0027E370);
+    func_00306780(arg0, D_008331A0, MButtonActor__global_008331A0);
+    func_002F36E0(arg0, D_00833198, MButtonActor__global_00833198);
     {
         Str *ps = &s;
         const char *src = "period";
@@ -89,7 +89,7 @@ extern "C" void func_0027E508(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0027E3F0, func_0027E490);
+        func_002F3860(arg0, &s, MButtonActor__get_period, MButtonActor__set_period);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

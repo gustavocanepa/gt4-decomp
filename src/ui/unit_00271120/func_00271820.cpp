@@ -46,7 +46,7 @@ extern char D_0069A460[];
 extern char D_0069A468[];
 extern char D_0069A470[];
 extern char D_008318E0[];
-extern "C" void func_00271178(void);
+extern "C" void MComm__global_008318E0(void);
 extern "C" void MComm__gethostbyname(void);
 extern "C" void MComm__connect(void);
 extern "C" void MComm__send(void);
@@ -81,7 +81,7 @@ extern "C" void func_00271820(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_008318E0, func_00271178);
+    func_00306780(arg0, D_008318E0, MComm__global_008318E0);
     {
         Str *ps = &s;
         const char *src = D_0069A448;

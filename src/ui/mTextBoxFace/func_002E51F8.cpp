@@ -43,10 +43,10 @@ extern char D_0069D198[];
 extern char D_0069D1A8[];
 extern char D_0069D1B0[];
 extern char D_0083BA10[];
-extern "C" void func_002E5010(void);
+extern "C" void MTextBoxFace__global_0083BA10(void);
 extern "C" void MTextBoxFace__clear(void);
-extern "C" void func_002E50E0(void);
-extern "C" void func_002E5158(void);
+extern "C" void MTextBoxFace__get_pipe(void);
+extern "C" void MTextBoxFace__set_pipe(void);
 
 extern "C" void func_002E51F8(Obj *arg0) {
     Str s;
@@ -76,7 +76,7 @@ extern "C" void func_002E51F8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_002D4670());
-    func_00306780(arg0, D_0083BA10, func_002E5010);
+    func_00306780(arg0, D_0083BA10, MTextBoxFace__global_0083BA10);
     {
         Str *ps = &s;
         const char *src = D_0069D1A8;
@@ -112,7 +112,7 @@ extern "C" void func_002E51F8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002E50E0, func_002E5158);
+        func_002F3860(arg0, &s, MTextBoxFace__get_pipe, MTextBoxFace__set_pipe);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

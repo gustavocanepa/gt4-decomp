@@ -39,22 +39,9 @@ extern "C" int func_00309CC0(void);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
 extern "C" void func_003068A8(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_00698F20[];
-extern char D_00698F30[];
-extern char D_00698F40[];
-extern char D_00698F58[];
-extern char D_00698F60[];
-extern char D_00698F70[];
-extern char D_00698F80[];
-extern char D_00698F90[];
-extern char D_00698FA0[];
-extern char D_00698FB0[];
-extern char D_00698FB8[];
-extern char D_00698FC0[];
-extern char D_00698FC8[];
 extern "C" void MStorage__getStorage(void);
 extern "C" void MStorage__getAvailableStorage(void);
-extern "C" void func_00240808(void);
+extern "C" void MStorage__get_ID(void);
 extern "C" void MStorage__isRemovable(void);
 extern "C" void MStorage__isAvailable(void);
 extern "C" void MStorage__isFormatted(void);
@@ -69,7 +56,7 @@ extern "C" void func_002413A0(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00698F20;
+        const char *src = "MStorage";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -95,7 +82,7 @@ extern "C" void func_002413A0(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00698F30;
+        const char *src = "getStorage";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -117,7 +104,7 @@ extern "C" void func_002413A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698F40;
+        const char *src = "getAvailableStorage";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -139,7 +126,7 @@ extern "C" void func_002413A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698F58;
+        const char *src = "ID";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -150,7 +137,7 @@ extern "C" void func_002413A0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00240808, 0);
+        func_002F3860(arg0, &s, MStorage__get_ID, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -161,7 +148,7 @@ extern "C" void func_002413A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698F60;
+        const char *src = "isRemovable";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -183,7 +170,7 @@ extern "C" void func_002413A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698F70;
+        const char *src = "isAvailable";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -205,7 +192,7 @@ extern "C" void func_002413A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698F80;
+        const char *src = "isFormatted";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -227,7 +214,7 @@ extern "C" void func_002413A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698F90;
+        const char *src = "getFreeSize";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -249,7 +236,7 @@ extern "C" void func_002413A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698FA0;
+        const char *src = "doFormat";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -271,7 +258,7 @@ extern "C" void func_002413A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698FB0;
+        const char *src = "read";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -293,7 +280,7 @@ extern "C" void func_002413A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698FB8;
+        const char *src = "write";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -315,7 +302,7 @@ extern "C" void func_002413A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698FC0;
+        const char *src = "getDir";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -337,7 +324,7 @@ extern "C" void func_002413A0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00698FC8;
+        const char *src = "mkdir";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

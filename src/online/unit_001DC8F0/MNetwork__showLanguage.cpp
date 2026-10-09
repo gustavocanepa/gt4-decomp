@@ -35,7 +35,7 @@ struct Obj {
 extern char D_006959D8[];
 extern char D_006959E0[];
 
-extern "C" void func_001DD7B0(void *arg0);
+extern "C" void MNetwork__get_language(void *arg0);
 extern "C" void func_0023B478(void *arg0);
 extern "C" void func_0023CA78(void *arg0, const char *arg1, const char *arg2);
 extern "C" void func_0023B1D8(void *arg0, int arg1);
@@ -65,7 +65,7 @@ extern "C" void MNetwork__showLanguage(void **arg0) {
     Handle h;
     Str s;
     Str *ps;
-    func_001DD7B0(arg0);
+    MNetwork__get_language(arg0);
     func_0023B478(&h);
     {
         Obj *o = *(Obj **)arg0;

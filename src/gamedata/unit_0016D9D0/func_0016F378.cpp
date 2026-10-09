@@ -61,8 +61,8 @@ extern char D_00690B38[];
 extern char D_00690B40[];
 extern char D_00823B80[];
 extern char D_00823B78[];
-extern "C" void func_0016D9D0(void);
-extern "C" void func_0016DA50(void);
+extern "C" void MGarage__global_00823B80(void);
+extern "C" void MGarage__global_00823B78(void);
 extern "C" void MGarage__addCar(void);
 extern "C" void MGarage__addNewCar(void);
 extern "C" void MGarage__addUsedCar(void);
@@ -79,8 +79,8 @@ extern "C" void MGarage__isFull(void);
 extern "C" void MGarage__pickup(void);
 extern "C" void MGarage__pickupCountry(void);
 extern "C" void MGarage__pickupTuner(void);
-extern "C" void func_0016EDF8(void);
-extern "C" void func_0016E068(void);
+extern "C" void MGarage__get_count(void);
+extern "C" void MGarage__get_riding_car(void);
 
 extern "C" void func_0016F378(Obj *arg0) {
     Str s;
@@ -110,8 +110,8 @@ extern "C" void func_0016F378(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00823B80, func_0016D9D0);
-    func_002F36E0(arg0, D_00823B78, func_0016DA50);
+    func_00306780(arg0, D_00823B80, MGarage__global_00823B80);
+    func_002F36E0(arg0, D_00823B78, MGarage__global_00823B78);
     {
         Str *ps = &s;
         const char *src = D_00690A48;
@@ -477,7 +477,7 @@ extern "C" void func_0016F378(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0016EDF8, 0);
+        func_002F3860(arg0, &s, MGarage__get_count, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -499,7 +499,7 @@ extern "C" void func_0016F378(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0016E068, 0);
+        func_002F3860(arg0, &s, MGarage__get_riding_car, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

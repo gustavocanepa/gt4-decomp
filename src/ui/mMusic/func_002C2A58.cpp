@@ -50,7 +50,7 @@ extern char D_0069C538[];
 extern char D_0069C540[];
 extern char D_0069C548[];
 extern char D_00839330[];
-extern "C" void func_002C3228(void);
+extern "C" void MMusic__global_00839330(void);
 extern "C" void MMusic__load(void);
 extern "C" void MMusic__unload(void);
 extern "C" void MMusic__play(void);
@@ -58,12 +58,12 @@ extern "C" void MMusic__play_002C3660(void);
 extern "C" void MMusic__pause(void);
 extern "C" void MMusic__playex(void);
 extern "C" void MMusic__isPlaying(void);
-extern "C" void func_002C3798(void);
-extern "C" void func_002C3830(void);
-extern "C" void func_002C3890(void);
-extern "C" void func_002C3928(void);
-extern "C" void func_002C3990(void);
-extern "C" void func_002C3A28(void);
+extern "C" void MMusic__get_volume(void);
+extern "C" void MMusic__set_volume(void);
+extern "C" void MMusic__get_repeat(void);
+extern "C" void MMusic__set_repeat(void);
+extern "C" void MMusic__get_number(void);
+extern "C" void MMusic__set_number(void);
 
 extern "C" void func_002C2A58(Obj *arg0) {
     Str s;
@@ -93,7 +93,7 @@ extern "C" void func_002C2A58(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00839330, func_002C3228);
+    func_00306780(arg0, D_00839330, MMusic__global_00839330);
     {
         Str *ps = &s;
         const char *src = D_0069C500;
@@ -261,7 +261,7 @@ extern "C" void func_002C2A58(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002C3798, func_002C3830);
+        func_002F3860(arg0, &s, MMusic__get_volume, MMusic__set_volume);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -283,7 +283,7 @@ extern "C" void func_002C2A58(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002C3890, func_002C3928);
+        func_002F3860(arg0, &s, MMusic__get_repeat, MMusic__set_repeat);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -305,7 +305,7 @@ extern "C" void func_002C2A58(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002C3990, func_002C3A28);
+        func_002F3860(arg0, &s, MMusic__get_number, MMusic__set_number);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

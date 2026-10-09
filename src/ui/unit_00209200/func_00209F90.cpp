@@ -47,13 +47,13 @@ extern char D_00697500[];
 extern char D_00697508[];
 extern char D_00697510[];
 extern char D_0082AB18[];
-extern "C" void func_00209258(void);
+extern "C" void MDomNode__global_0082AB18(void);
 extern "C" void MDomNode__hasAttribute(void);
 extern "C" void MDomNode__getAttribute(void);
 extern "C" void MDomNode__getFirstNode(void);
-extern "C" void func_00209690(void);
-extern "C" void func_00209720(void);
-extern "C" void func_00209588(void);
+extern "C" void MDomNode__get_elems(void);
+extern "C" void MDomNode__get_attrs(void);
+extern "C" void MDomNode__get_value(void);
 
 extern "C" void func_00209F90(Obj *arg0) {
     Str s;
@@ -83,7 +83,7 @@ extern "C" void func_00209F90(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_002F36E0(arg0, D_0082AB18, func_00209258);
+    func_002F36E0(arg0, D_0082AB18, MDomNode__global_0082AB18);
     {
         Str *ps = &s;
         const char *src = D_006974D0;
@@ -163,7 +163,7 @@ extern "C" void func_00209F90(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00209690, 0);
+        func_002F3860(arg0, &s, MDomNode__get_elems, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -185,7 +185,7 @@ extern "C" void func_00209F90(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00209720, 0);
+        func_002F3860(arg0, &s, MDomNode__get_attrs, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -207,7 +207,7 @@ extern "C" void func_00209F90(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00209588, 0);
+        func_002F3860(arg0, &s, MDomNode__get_value, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

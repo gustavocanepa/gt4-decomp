@@ -43,9 +43,9 @@ extern char D_0069A348[];
 extern char D_0069A350[];
 extern char D_0069A358[];
 extern char D_00831220[];
-extern "C" void func_0026C638(void);
+extern "C" void MXml__global_00831220(void);
 extern "C" void MXml__parse(void);
-extern "C" void func_0026C798(void);
+extern "C" void MXml__get_result(void);
 
 extern "C" void func_0026C830(Obj *arg0) {
     Str s;
@@ -75,7 +75,7 @@ extern "C" void func_0026C830(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00831220, func_0026C638);
+    func_00306780(arg0, D_00831220, MXml__global_00831220);
     {
         Str *ps = &s;
         const char *src = D_0069A350;
@@ -111,7 +111,7 @@ extern "C" void func_0026C830(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0026C798, 0);
+        func_002F3860(arg0, &s, MXml__get_result, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

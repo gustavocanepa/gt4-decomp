@@ -86,9 +86,8 @@ M2C_UNK func_00574C30(M2C_UNK);                     /* extern */
 s32 func_00578618(s32);                             /* extern */
 s32 func_005AEDE0(s32, void *);                     /* extern */
 
-extern char D_006CC688[];
 M2C_UNK func_005788B8(void *arg0) {
     if (func_005AEDE0(func_00578618(M2C_FIELD(arg0, s32 *, 0x30)), arg0) == -1) {
-        func_00574C30((s32)D_006CC688);
+        func_00574C30((s32)"EE StartThread failed.");
     }
 }

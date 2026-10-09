@@ -36,15 +36,6 @@ extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
-extern char D_00693BF0[];
-extern char D_00693C00[];
-extern char D_00693C08[];
-extern char D_00693C10[];
-extern char D_00693C18[];
-extern char D_00693C20[];
-extern char D_00693C30[];
-extern char D_00693C38[];
-extern char D_00693C40[];
 extern "C" void MFavorite__clear(void);
 extern "C" void MFavorite__has(void);
 extern "C" void MFavorite__append(void);
@@ -58,7 +49,7 @@ extern "C" void func_001C0778(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_00693BF0;
+        const char *src = "MFavorite";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -84,7 +75,7 @@ extern "C" void func_001C0778(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_00693C00;
+        const char *src = "clear";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -106,7 +97,7 @@ extern "C" void func_001C0778(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693C08;
+        const char *src = "has";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -128,7 +119,7 @@ extern "C" void func_001C0778(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693C10;
+        const char *src = "append";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -150,7 +141,7 @@ extern "C" void func_001C0778(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693C18;
+        const char *src = "remove";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -172,7 +163,7 @@ extern "C" void func_001C0778(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693C20;
+        const char *src = "buildLabelList";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -194,7 +185,7 @@ extern "C" void func_001C0778(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693C30;
+        const char *src = "getSize";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -216,7 +207,7 @@ extern "C" void func_001C0778(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693C38;
+        const char *src = "isFull";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -238,7 +229,7 @@ extern "C" void func_001C0778(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_00693C40;
+        const char *src = "dump";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {

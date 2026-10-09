@@ -43,12 +43,12 @@ extern char D_0069C808[];
 extern char D_0069C818[];
 extern char D_0069C828[];
 extern char D_008399F0[];
-extern "C" void func_005E97D8(void);
-extern "C" void func_005E9848(void);
-extern "C" void func_005E9870(void);
-extern "C" void func_005E9898(void);
-extern "C" void func_005E98C0(void);
-extern "C" void func_0032AED8(void);
+extern "C" void MProgressFace__global_008399F0(void);
+extern "C" void MProgressFace__get_progress(void);
+extern "C" void MProgressFace__set_progress(void);
+extern "C" void MProgressFace__get_raw_mode(void);
+extern "C" void MProgressFace__set_raw_mode(void);
+extern "C" void MProgressFace__set_final_width(void);
 
 extern "C" void func_002CAA08(Obj *arg0) {
     Str s;
@@ -78,7 +78,7 @@ extern "C" void func_002CAA08(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_002A0EC8());
-    func_00306780(arg0, D_008399F0, func_005E97D8);
+    func_00306780(arg0, D_008399F0, MProgressFace__global_008399F0);
     {
         Str *ps = &s;
         const char *src = D_0069C808;
@@ -92,7 +92,7 @@ extern "C" void func_002CAA08(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005E9848, func_005E9870);
+        func_002F3860(arg0, &s, MProgressFace__get_progress, MProgressFace__set_progress);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -114,7 +114,7 @@ extern "C" void func_002CAA08(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_005E9898, func_005E98C0);
+        func_002F3860(arg0, &s, MProgressFace__get_raw_mode, MProgressFace__set_raw_mode);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -136,7 +136,7 @@ extern "C" void func_002CAA08(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, 0, func_0032AED8);
+        func_002F3860(arg0, &s, 0, MProgressFace__set_final_width);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

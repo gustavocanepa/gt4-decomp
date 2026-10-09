@@ -66,3 +66,10 @@ archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-
 dir = "~/.local/share/gt4/compilers/ee-gcc2.96-nosib"
 command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-optimize-sibling-calls"
 archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
+
+# Library code assembled by a tool that expands gcc's unaligned-access macros (uld/usd/ulw/usw)
+# right half first (ldr before ldl; GNU as does left first): gcc -S, tools/rf_as.py, then as.
+[compilers."ee-gcc2.96-nsa-nosib-rf"]
+dir = "~/.local/share/gt4/compilers/ee-gcc2.96-nsa-nosib"
+command = "bash {tools}/cc_rf.sh \"{dir}/bin/ee-gcc -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-strict-aliasing -fno-optimize-sibling-calls\""
+archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"

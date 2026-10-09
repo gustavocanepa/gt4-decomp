@@ -38,15 +38,8 @@ extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
-extern char D_0069D030[];
-extern char D_0069D040[];
-extern char D_0069D048[];
-extern char D_0069D050[];
-extern char D_0069D060[];
-extern char D_0069D068[];
-extern char D_0069D078[];
-extern "C" void func_002E0BA8(void);
-extern "C" void func_002E10C8(void);
+extern "C" void MStorageEntry__get_name(void);
+extern "C" void MStorageEntry__get_size(void);
 extern "C" void MStorageEntry__isDirectory(void);
 extern "C" void MStorageEntry__isFile(void);
 extern "C" void MStorageEntry__isSymLink(void);
@@ -55,7 +48,7 @@ extern "C" void func_002E11B0(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_0069D030;
+        const char *src = "MStorageEntry";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -81,7 +74,7 @@ extern "C" void func_002E11B0(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_0069D040;
+        const char *src = "name";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -92,7 +85,7 @@ extern "C" void func_002E11B0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002E0BA8, 0);
+        func_002F3860(arg0, &s, MStorageEntry__get_name, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -103,7 +96,7 @@ extern "C" void func_002E11B0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0069D048;
+        const char *src = "size";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -114,7 +107,7 @@ extern "C" void func_002E11B0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002E10C8, 0);
+        func_002F3860(arg0, &s, MStorageEntry__get_size, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -125,7 +118,7 @@ extern "C" void func_002E11B0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0069D050;
+        const char *src = "isDirectory";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -147,7 +140,7 @@ extern "C" void func_002E11B0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0069D060;
+        const char *src = "isFile";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -169,7 +162,7 @@ extern "C" void func_002E11B0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0069D068;
+        const char *src = "isSymLink";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -191,7 +184,7 @@ extern "C" void func_002E11B0(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0069D078;
+        const char *src = "getSize";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -202,7 +195,7 @@ extern "C" void func_002E11B0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, func_002E10C8);
+        func_002F3818(arg0, &s, MStorageEntry__get_size);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

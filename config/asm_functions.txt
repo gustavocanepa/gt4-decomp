@@ -40,6 +40,7 @@
 0057f260 strlen, hand-written with 128-bit MMI instructions (lq/pceqb/ppac5/plzcw); no C compiles to it
 00100228 kernel-call stub (syscall), SDK assembly macro
 00583b88 privileged-instruction stub (sync ei daddu), SDK assembly
+005a48d8 memset: newlib R5900 C with inline asm (pcpyh/pcpyld), built by an ee-gcc 2.9-era compiler (lui/ori -1, short-loop nops); the judge rejects inline asm
 005ad880 kernel-call stub (syscall), SDK assembly macro
 005ad890 kernel-call stub (syscall), SDK assembly macro
 005ad8a0 kernel-call stub (syscall), SDK assembly macro

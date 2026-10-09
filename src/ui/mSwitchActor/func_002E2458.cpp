@@ -47,13 +47,13 @@ extern char D_0069D0D0[];
 extern char D_0069D0D8[];
 extern char D_0083B4F0[];
 extern char D_0083B4E8[];
-extern "C" void func_002E21C0(void);
-extern "C" void func_002E2230(void);
+extern "C" void MSwitchActor__global_0083B4F0(void);
+extern "C" void MSwitchActor__global_0083B4E8(void);
 extern "C" void MSwitchActor__start(void);
 extern "C" void MSwitchActor__end(void);
 extern "C" void MSwitchActor__warp(void);
-extern "C" void func_002E22B0(void);
-extern "C" void func_002E2350(void);
+extern "C" void MSwitchActor__get_period(void);
+extern "C" void MSwitchActor__set_period(void);
 
 extern "C" void func_002E2458(Obj *arg0) {
     Str s;
@@ -83,8 +83,8 @@ extern "C" void func_002E2458(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_001FF0F8());
-    func_00306780(arg0, D_0083B4F0, func_002E21C0);
-    func_002F36E0(arg0, D_0083B4E8, func_002E2230);
+    func_00306780(arg0, D_0083B4F0, MSwitchActor__global_0083B4F0);
+    func_002F36E0(arg0, D_0083B4E8, MSwitchActor__global_0083B4E8);
     {
         Str *ps = &s;
         const char *src = D_0069D0C0;
@@ -164,7 +164,7 @@ extern "C" void func_002E2458(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002E22B0, func_002E2350);
+        func_002F3860(arg0, &s, MSwitchActor__get_period, MSwitchActor__set_period);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

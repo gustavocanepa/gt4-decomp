@@ -46,12 +46,6 @@ extern "C" void func_00200EC0(Obj *self, f32 v);
 extern "C" void func_00200ED0(Obj *self, f32 v);
 extern "C" void func_00200EE0(Obj *self, f32 v);
 
-extern char D_006971B8[];
-extern char D_006971C8[];
-extern char D_006971D8[];
-extern char D_006971E8[];
-extern char D_006971F8[];
-extern char D_00697200[];
 
 
 
@@ -94,7 +88,7 @@ extern "C" bool MfloatReader__structor_0(Obj *self, void *node) {
     {
         s32 ok;
         Reader *pr;
-        STR_BUILD(D_006971B8)
+        STR_BUILD("border_width")
         pr = &r1;
         pr->u.vtbl = &MfloatReader__vtable;
         pr->dst = &v.f;
@@ -111,7 +105,7 @@ extern "C" bool MfloatReader__structor_0(Obj *self, void *node) {
     {
         s32 ok;
         Reader *pr;
-        STR_BUILD(D_006971C8)
+        STR_BUILD("border_height")
         pr = &r2;
         pr->u.vtbl = &MfloatReader__vtable;
         pr->dst = &v.f;
@@ -129,7 +123,7 @@ extern "C" bool MfloatReader__structor_0(Obj *self, void *node) {
         s32 ok;
         Reader *pr;
         f32 *dst;
-        STR_BUILD(D_006971D8)
+        STR_BUILD("pad_left")
         dst = &self->padLeft;
         pr = &r3;
         pr->u.vtbl = &MfloatReader__vtable;
@@ -146,7 +140,7 @@ extern "C" bool MfloatReader__structor_0(Obj *self, void *node) {
         s32 ok;
         Reader *pr;
         f32 *dst;
-        STR_BUILD(D_006971E8)
+        STR_BUILD("pad_right")
         dst = &self->padRight;
         pr = &r3;
         pr->u.vtbl = &MfloatReader__vtable;
@@ -163,7 +157,7 @@ extern "C" bool MfloatReader__structor_0(Obj *self, void *node) {
         s32 ok;
         Reader *pr;
         f32 *dst;
-        STR_BUILD(D_006971F8)
+        STR_BUILD("pad_top")
         dst = &self->padTop;
         pr = &r3;
         pr->u.vtbl = &MfloatReader__vtable;
@@ -180,7 +174,7 @@ extern "C" bool MfloatReader__structor_0(Obj *self, void *node) {
         s32 ok;
         Reader *pr;
         f32 *dst;
-        STR_BUILD(D_00697200)
+        STR_BUILD("pad_bottom")
         dst = &self->padBottom;
         pr = &r3;
         pr->u.vtbl = &MfloatReader__vtable;

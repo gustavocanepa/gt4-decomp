@@ -41,8 +41,8 @@ extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern char D_0069AB08[];
 extern char D_00833CE0[];
 extern char D_00833CD8[];
-extern "C" void func_00282A98(void);
-extern "C" void func_00282B10(void);
+extern "C" void MCancelEvent__global_00833CE0(void);
+extern "C" void MCancelEvent__global_00833CD8(void);
 
 extern "C" void func_00282BA8(Obj *arg0) {
     Str s;
@@ -69,6 +69,6 @@ extern "C" void func_00282BA8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_0028E310());
-    func_00306780(arg0, D_00833CE0, func_00282A98);
-    func_002F36E0(arg0, D_00833CD8, func_00282B10);
+    func_00306780(arg0, D_00833CE0, MCancelEvent__global_00833CE0);
+    func_002F36E0(arg0, D_00833CD8, MCancelEvent__global_00833CD8);
 }

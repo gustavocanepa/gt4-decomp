@@ -41,7 +41,7 @@ extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern char D_0069BCD0[];
 extern char D_0069BCE0[];
 extern char D_008379E0[];
-extern "C" void func_002AC370(void);
+extern "C" void MKeyboardBox__global_008379E0(void);
 extern "C" void MKeyboardBox__bind(void);
 
 extern "C" void func_002AC1A8(Obj *arg0) {
@@ -72,7 +72,7 @@ extern "C" void func_002AC1A8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00204ED8());
-    func_00306780(arg0, D_008379E0, func_002AC370);
+    func_00306780(arg0, D_008379E0, MKeyboardBox__global_008379E0);
     {
         Str *ps = &s;
         const char *src = D_0069BCE0;

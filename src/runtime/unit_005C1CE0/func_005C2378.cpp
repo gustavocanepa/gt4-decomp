@@ -3,7 +3,6 @@ typedef unsigned int u32;
 extern "C" void func_005C2188();
 extern "C" void func_005BFB68(void *a0, void *a1, void *a2);
 
-extern char D_0068C028[];
 extern int D_0088D9D0;
 
 extern int D_0088DA20;
@@ -11,7 +10,7 @@ extern int D_0088DA20;
 extern "C" void *func_005C2378(void) {
     if (D_0088DA20 == 0) {
         func_005C2188();
-        func_005BFB68(&D_0088DA20, D_0068C028, &D_0088D9D0);
+        func_005BFB68(&D_0088DA20, ((char *)"Q212GranTurismo419LoadingConfigPS2Off"), &D_0088D9D0);
     }
     return &D_0088DA20;
 }

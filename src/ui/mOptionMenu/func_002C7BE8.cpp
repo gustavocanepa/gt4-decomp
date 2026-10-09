@@ -47,8 +47,8 @@ extern char D_0069C738[];
 extern char D_0069C740[];
 extern char D_0069C750[];
 extern char D_008397B0[];
-extern "C" void func_002C7680(void);
-extern "C" void func_002C76F0(void);
+extern "C" void MOptionMenu__global_008397B0(void);
+extern "C" void MOptionMenu__get_index(void);
 extern "C" void MOptionMenu__setIndex(void);
 extern "C" void MOptionMenu__getItem(void);
 extern "C" void MOptionMenu__Count(void);
@@ -83,7 +83,7 @@ extern "C" void func_002C7BE8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_0028F690());
-    func_00306780(arg0, D_008397B0, func_002C7680);
+    func_00306780(arg0, D_008397B0, MOptionMenu__global_008397B0);
     {
         Str *ps = &s;
         const char *src = D_0069C718;
@@ -97,7 +97,7 @@ extern "C" void func_002C7BE8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002C76F0, 0);
+        func_002F3860(arg0, &s, MOptionMenu__get_index, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

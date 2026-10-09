@@ -71,10 +71,10 @@ extern char D_0083DF90[];
 extern char D_0083DFA0[];
 extern char D_0083DF88[];
 extern char D_0083E028[];
-extern "C" void func_002FDA00(void);
-extern "C" void func_002FDA70(void);
-extern "C" void func_002FDAD8(void);
-extern "C" void func_002FDB30(void);
+extern "C" void int__global_0083E050(void);
+extern "C" void int__global_0083E048(void);
+extern "C" void int__get_value(void);
+extern "C" void int__set_value(void);
 
 extern "C" void func_002FDB98(Obj *arg0) {
     Str s;
@@ -104,8 +104,8 @@ extern "C" void func_002FDB98(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_0083E050, func_002FDA00);
-    func_002F36E0(arg0, D_0083E048, func_002FDA70);
+    func_00306780(arg0, D_0083E050, int__global_0083E050);
+    func_002F36E0(arg0, D_0083E048, int__global_0083E048);
     {
         Str *ps = &s;
         const char *src = D_0069D9F0;
@@ -119,7 +119,7 @@ extern "C" void func_002FDB98(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002FDAD8, func_002FDB30);
+        func_002F3860(arg0, &s, int__get_value, int__set_value);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

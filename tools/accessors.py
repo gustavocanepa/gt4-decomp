@@ -11,7 +11,9 @@ has to be guessed.
 What is recognised: a prologue/epilogue with up to four saved registers and 16-byte stack slots,
 one `if (argc ...)` split into a setter and a getter path (or a single path), loads/stores/ALU
 ops, direct calls with up to eight integer and four float arguments, the idioms above. Anything
-else (a loop, a second branch, an unknown opcode) gives up with a reason, counted by `scan`.
+else (a loop, a backward or unstructured branch, a jump register, an unknown opcode) gives up with
+a reason, counted by `scan`. Other forward branches become `if (cond) { ... } [else { ... }]`
+(do_if: nested, delay slots and branch-likely handled, registers merged at the join).
 
     accessors.py try ADDR [--show]       one function: source, verdict (and the diff)
     accessors.py scan [-jN] [--families 1,2,...] [--min-size N] [--max-size N] [--all|--inventory]
@@ -653,7 +655,10 @@ class Func:
             self.do_call(name, ints, floats, i)
             return i + 2
         if a.op in (0x04, 0x05, 0x06, 0x07, 0x14, 0x15, 0x16, 0x17) or (a.op == 1):
-            raise GiveUp(f"branch at {a.addr:#x}: {a}")
+            return self.do_if(i)
+        if i == self.epilogue_start - 1 and self.is_ret_move(i):
+            self.emit_return(a.rs)
+            return i + 1
         if a.op == 0 and a.fn in (8, 9):
             raise GiveUp(f"jump register at {a.addr:#x}")
         if a.op == 2:
@@ -904,22 +909,163 @@ class Func:
                 self.slots[off] = f"s{off // 16}"
 
     def run_region(self, start, end):
+        outer = self.region_end
+        self.region_end = end
         i = start
-        last = self.ins[end - 1] if end > start else None
-        if (end == self.epilogue_start and last is not None and last.op == 0 and last.fn == 0x2D
-                and last.rd == V0 and last.rt == ZERO and (end - 1) not in self.skip):
-            end -= 1
-        else:
-            last = None
         while i < end:
             i = self.step(i)
         if i != end:
             raise GiveUp(f"region overran at {self.ins[end].addr:#x}")
-        if last is not None:
-            v = self.get(last.rs)
-            self.flush_calls(keep={k for k, old in self.regs.items() if old is v})
-            self.ret_type = "void *" if v.typ == "ptr" else C_TYPES[v.typ]
-            self.emit(f"return {v.c()};")
+        self.region_end = outer
+        if end == self.epilogue_start and outer is None and self.ret_type != "void" and not self.dead:
+            # a path that reaches the epilogue without its own return: v0 as the branch left it
+            if V0 not in self.regs:
+                raise GiveUp("return value unknown on one path")
+            self.emit_return_val(self.regs[V0])
+
+    def is_ret_move(self, k):
+        a = self.ins[k]
+        return a.op == 0 and a.fn == 0x2D and a.rd == V0 and a.rt == ZERO and k not in self.skip
+
+    def emit_return(self, rs):
+        self.emit_return_val(self.get(rs))
+
+    def emit_return_val(self, v):
+        self.flush_calls(keep={k for k, old in self.regs.items() if old is v})
+        rt = "void *" if v.typ == "ptr" else C_TYPES[v.typ]
+        if self.ret_type not in ("void", rt):
+            raise GiveUp("return types differ between paths")
+        self.ret_type = rt
+        self.emit(f"return {v.c()};")
+        self.dead = True
+
+    # ---------------------------------------------------------------- one `if` (with or without else)
+    def state(self):
+        return (dict(self.regs), dict(self.fregs), set(self.written), list(self.fwritten), self.first_call,
+                self.dead)
+
+    def restore(self, st):
+        self.regs, self.fregs = dict(st[0]), dict(st[1])
+        self.written, self.fwritten = set(st[2]), list(st[3])
+        self.first_call, self.dead = st[4], st[5]
+
+    def merge(self, x, y):
+        """The join: a register keeps its value only when both paths agree (a dead path, one that
+        returned, does not count)."""
+        if x[5]:
+            return self.restore(y)
+        if y[5]:
+            return self.restore(x)
+        self.regs = {k: v for k, v in x[0].items() if k in y[0] and y[0][k].text == v.text and not v.call}
+        self.fregs = {k: v for k, v in x[1].items() if k in y[1] and y[1][k].text == v.text and not v.call}
+        self.written = x[2] & y[2] & set(self.regs)
+        self.fwritten = [r for r in x[3] if r in y[3] and r in self.fregs]
+        self.first_call = x[4] and y[4]
+        self.dead = False
+
+    def cond_text(self, a, x, y):
+        """The C condition under which the fall-through (the `then` arm) runs."""
+        op = a.op - 0x10 if a.op in (0x14, 0x15, 0x16, 0x17) else a.op
+        if op in (4, 5) and a.rt == ZERO:
+            if x.typ == "bool":
+                return x.text if op == 4 else f"!({x.text})"
+            return f"{x.c()} {'!=' if op == 4 else '=='} 0"
+        if op in (4, 5):
+            t = "ptr" if "ptr" in (x.typ, y.typ) else None
+            return f"{x.c(t)} {'!=' if op == 4 else '=='} {y.c(t)}"
+        if op == 6:
+            return f"{x.c('s32')} > 0"
+        if op == 7:
+            return f"{x.c('s32')} <= 0"
+        if op == 1 and a.rt in (0, 2):
+            return f"{x.c('s32')} >= 0"
+        if op == 1 and a.rt in (1, 3):
+            return f"{x.c('s32')} < 0"
+        raise GiveUp(f"branch kind at {a.addr:#x}: {a}")
+
+    def do_if(self, i):
+        """`if (cond) { block } [else { block }]` then the join: arms are regions (nested ifs recurse)."""
+        ins = self.ins
+        a = ins[i]
+        likely = a.op in (0x14, 0x15, 0x16, 0x17) or (a.op == 1 and a.rt in (2, 3))
+        if a.op in (4, 0x14) and a.rs == ZERO and a.rt == ZERO:
+            raise GiveUp(f"branch at {a.addr:#x}: {a}")
+        t = (a.target() - self.addr) // 4
+        end = self.region_end if self.region_end is not None else self.epilogue_start
+        if not (i + 2 <= t <= end):
+            raise GiveUp(f"branch at {a.addr:#x}: {a}")
+        x = self.get(a.rs)
+        y = self.get(a.rt) if a.op in (4, 5, 0x14, 0x15) else Val("0")
+        self.flush_calls(keep={k for k, v in self.regs.items() if v is x or v is y})
+        for k, v in list(self.regs.items()):
+            if (v is x or v is y) and v.call:
+                del self.regs[k]
+        else_first = None
+        if likely:
+            if t - 1 >= i + 2 and ins[t - 1].w == ins[i + 1].w:
+                t -= 1                       # the delay slot is a copy of the target's first insn
+            elif not ins[i + 1].is_nop():
+                else_first = i + 1           # executed only when taken: the else arm's first insn
+        else:
+            n0 = len(self.body)
+            self.exec_index(i + 1)
+            if len(self.body) > n0 and (x.call or y.call):
+                for v in [w for w in (x, y) if w.call]:
+                    tmp = self.temp(v.typ)
+                    self.body.insert(n0, (self.indent, f"{tmp} = {v.text};"))
+                    if v is x:
+                        x = Val(tmp, v.typ)
+                    else:
+                        y = Val(tmp, v.typ)
+        cond = self.cond_text(a, x, y)
+        # if/else: the then arm ends with `b join`
+        then_end, then_extra, else_rng, join = t, None, None, t
+        if t - 2 >= i + 2 and ins[t - 2].op == 4 and ins[t - 2].rs == ZERO and ins[t - 2].rt == ZERO:
+            jn = (ins[t - 2].target() - self.addr) // 4
+            if t < jn <= end:
+                then_end, join = t - 2, jn
+                d = t - 1
+                if not ins[d].is_nop():
+                    if jn - 1 >= t and ins[jn - 1].w == ins[d].w:
+                        join = jn - 1                    # delay slot = copy of the join's first insn
+                    else:
+                        then_extra = d
+                else_rng = (t, join)
+        if else_first is not None and else_rng is None:
+            else_rng = (t, t)
+        pre = self.state()
+        self.emit(f"if ({cond}) {{")
+        self.indent += 1
+        n_then = len(self.body)
+        self.run_region(i + 2, then_end)
+        if then_extra is not None:
+            if join == self.epilogue_start and self.is_ret_move(then_extra):
+                self.emit_return(ins[then_extra].rs)
+            elif not (ins[then_extra].op == 0x37 and ins[then_extra].rs == SP):
+                self.exec_index(then_extra)
+        if len(self.body) == n_then:
+            raise GiveUp(f"empty then arm at {a.addr:#x}")
+        self.indent -= 1
+        st_then = self.state()
+        st_else = pre
+        if else_rng is not None:
+            self.restore(pre)
+            self.emit("} else {")
+            self.indent += 1
+            n_else = len(self.body)
+            if else_first is not None:
+                self.exec_index(else_first)
+            self.run_region(*else_rng)
+            self.indent -= 1
+            if len(self.body) == n_else:
+                self.body[-1] = (self.indent, "}")       # nothing visible: no else
+            else:
+                self.emit("}")
+            st_else = self.state()
+        else:
+            self.emit("}")
+        self.merge(st_then, st_else)
+        return join
 
     def reset_regs(self, keep):
         """Entering the second arm: only the prologue's registers are known."""
@@ -928,6 +1074,7 @@ class Func:
         self.written = set(keep[1])
         self.fwritten = []
         self.first_call = keep[2]
+        self.dead = False
 
     def build(self):
         self.scan_frame()
@@ -937,6 +1084,8 @@ class Func:
         self.skip = set()
         self.deferred = {}
         self.big_sum_locals = set()
+        self.dead = False
+        self.region_end = None
         self.pre_scan()
         ins = self.ins
         # prologue up to the first branch (if any) on a2

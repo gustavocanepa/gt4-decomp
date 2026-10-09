@@ -37,19 +37,16 @@ extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" int func_00309CC0(void);
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
-extern char D_006970D0[];
-extern char D_006970D8[];
-extern char D_006970E8[];
-extern "C" void func_001FC5F8(void);
-extern "C" void func_001FC698(void);
-extern "C" void func_001FC708(void);
-extern "C" void func_001FC7A8(void);
+extern "C" void MStream__get_sync_mpeg(void);
+extern "C" void MStream__set_sync_mpeg(void);
+extern "C" void MStream__get_repeat(void);
+extern "C" void MStream__set_repeat(void);
 
 extern "C" void func_001FC818(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_006970D0;
+        const char *src = "MStream";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -75,7 +72,7 @@ extern "C" void func_001FC818(Obj *arg0) {
     func_002F3A30(arg0, func_00309CC0());
     {
         Str *ps = &s;
-        const char *src = D_006970D8;
+        const char *src = "sync_mpeg";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -86,7 +83,7 @@ extern "C" void func_001FC818(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001FC5F8, func_001FC698);
+        func_002F3860(arg0, &s, MStream__get_sync_mpeg, MStream__set_sync_mpeg);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -97,7 +94,7 @@ extern "C" void func_001FC818(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_006970E8;
+        const char *src = "repeat";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -108,7 +105,7 @@ extern "C" void func_001FC818(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_001FC708, func_001FC7A8);
+        func_002F3860(arg0, &s, MStream__get_repeat, MStream__set_repeat);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

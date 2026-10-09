@@ -82,10 +82,9 @@ typedef s64 M2C_UNK64;
 
 #endif
 
-extern char D_006C35B8[];
 s32 func_00531878(s32 arg0, void *arg1) {
     if ((arg0 != 0) && (arg1 != NULL)) {
-        func_0057DA20(arg0, (s32)D_006C35B8, M2C_FIELD(arg1, u8 *, 0), M2C_FIELD(arg1, u8 *, 1), M2C_FIELD(arg1, u8 *, 2), M2C_FIELD(arg1, u8 *, 3));
+        func_0057DA20(arg0, (s32)"%u.%u.%u.%u", M2C_FIELD(arg1, u8 *, 0), M2C_FIELD(arg1, u8 *, 1), M2C_FIELD(arg1, u8 *, 2), M2C_FIELD(arg1, u8 *, 3));
         return 0;
     }
     return 0xA;

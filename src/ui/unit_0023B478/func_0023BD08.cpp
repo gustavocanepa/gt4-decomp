@@ -45,8 +45,8 @@ extern char D_00698CC0[];
 extern char D_00698CD0[];
 extern char D_00698CD8[];
 extern char D_0082ED88[];
-extern "C" void func_0023B550(void);
-extern "C" void func_0023B5C0(void);
+extern "C" void MShell__global_0082ED88(void);
+extern "C" void MShell__get_pipe(void);
 extern "C" void MShell__putMessage(void);
 extern "C" void MShell__execute(void);
 extern "C" void MShell__getCandidates(void);
@@ -79,7 +79,7 @@ extern "C" void func_0023BD08(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_0082ED88, func_0023B550);
+    func_00306780(arg0, D_0082ED88, MShell__global_0082ED88);
     {
         Str *ps = &s;
         const char *src = D_00698CB8;
@@ -93,7 +93,7 @@ extern "C" void func_0023BD08(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0023B5C0, 0);
+        func_002F3860(arg0, &s, MShell__get_pipe, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

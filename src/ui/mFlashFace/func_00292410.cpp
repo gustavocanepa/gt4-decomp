@@ -50,18 +50,18 @@ extern char D_0069B238[];
 extern char D_0069B240[];
 extern char D_0069B248[];
 extern char D_00835A20[];
-extern "C" void func_00291C68(void);
-extern "C" void MFlashFace__setFlashPath(void);
-extern "C" void MFlashFace__getFlashPath(void);
-extern "C" void func_00291E70(void);
-extern "C" void func_00291F08(void);
-extern "C" void func_00291F70(void);
-extern "C" void func_00292008(void);
-extern "C" void func_00292070(void);
-extern "C" void func_00292108(void);
+extern "C" void MFlashFace__global_00835A20(void);
+extern "C" void MFlashFace__set_flash_path(void);
+extern "C" void MFlashFace__get_flash_path(void);
+extern "C" void MFlashFace__get_cache(void);
+extern "C" void MFlashFace__set_cache(void);
+extern "C" void MFlashFace__get_from_disk(void);
+extern "C" void MFlashFace__set_from_disk(void);
+extern "C" void MFlashFace__get_block(void);
+extern "C" void MFlashFace__set_block(void);
 extern "C" void MFlashFace__reset(void);
-extern "C" void func_00292208(void);
-extern "C" void func_00292310(void);
+extern "C" void MFlashFace__get_repeat(void);
+extern "C" void MFlashFace__get_pause(void);
 
 extern "C" void func_00292410(Obj *arg0) {
     Str s;
@@ -91,7 +91,7 @@ extern "C" void func_00292410(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_00835A20, func_00291C68);
+    func_00306780(arg0, D_00835A20, MFlashFace__global_00835A20);
     {
         Str *ps = &s;
         const char *src = D_0069B1E8;
@@ -105,7 +105,7 @@ extern "C" void func_00292410(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, MFlashFace__setFlashPath, MFlashFace__getFlashPath);
+        func_002F3860(arg0, &s, MFlashFace__set_flash_path, MFlashFace__get_flash_path);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -127,7 +127,7 @@ extern "C" void func_00292410(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MFlashFace__setFlashPath);
+        func_002F3818(arg0, &s, MFlashFace__set_flash_path);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -149,7 +149,7 @@ extern "C" void func_00292410(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3818(arg0, &s, MFlashFace__getFlashPath);
+        func_002F3818(arg0, &s, MFlashFace__get_flash_path);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -171,7 +171,7 @@ extern "C" void func_00292410(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00291E70, func_00291F08);
+        func_002F3860(arg0, &s, MFlashFace__get_cache, MFlashFace__set_cache);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -193,7 +193,7 @@ extern "C" void func_00292410(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00291F70, func_00292008);
+        func_002F3860(arg0, &s, MFlashFace__get_from_disk, MFlashFace__set_from_disk);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -215,7 +215,7 @@ extern "C" void func_00292410(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00292070, func_00292108);
+        func_002F3860(arg0, &s, MFlashFace__get_block, MFlashFace__set_block);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -259,7 +259,7 @@ extern "C" void func_00292410(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00292208, func_00292208);
+        func_002F3860(arg0, &s, MFlashFace__get_repeat, MFlashFace__get_repeat);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -281,7 +281,7 @@ extern "C" void func_00292410(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00292310, func_00292310);
+        func_002F3860(arg0, &s, MFlashFace__get_pause, MFlashFace__get_pause);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

@@ -40,11 +40,11 @@ extern char D_0069D220[];
 extern char D_0069D230[];
 extern char D_0069D240[];
 extern char D_0083BE90[];
-extern "C" void func_002E7A40(void);
-extern "C" void func_002E7AB0(void);
-extern "C" void func_002E7B28(void);
-extern "C" void func_002E7BC8(void);
-extern "C" void func_002E7C40(void);
+extern "C" void MVirtualFace__global_0083BE90(void);
+extern "C" void MVirtualFace__get_callback(void);
+extern "C" void MVirtualFace__set_callback(void);
+extern "C" void MVirtualFace__get_parameter(void);
+extern "C" void MVirtualFace__set_parameter(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
 
@@ -76,7 +76,7 @@ extern "C" void func_002E7CE0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_0083BE90, func_002E7A40);
+    func_00306780(arg0, D_0083BE90, MVirtualFace__global_0083BE90);
     {
         Str *ps = &s;
         const char *src = D_0069D230;
@@ -90,7 +90,7 @@ extern "C" void func_002E7CE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002E7AB0, func_002E7B28);
+        func_002F3860(arg0, &s, MVirtualFace__get_callback, MVirtualFace__set_callback);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -112,7 +112,7 @@ extern "C" void func_002E7CE0(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_002E7BC8, func_002E7C40);
+        func_002F3860(arg0, &s, MVirtualFace__get_parameter, MVirtualFace__set_parameter);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

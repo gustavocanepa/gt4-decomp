@@ -37,56 +37,6 @@ extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
-extern char D_0068F7A8[];
-extern char D_0068F7C0[];
-extern char D_0068F7D8[];
-extern char D_0068F7F0[];
-extern char D_0068F810[];
-extern char D_0068F830[];
-extern char D_0068F840[];
-extern char D_0068F850[];
-extern char D_0068F860[];
-extern char D_0068F870[];
-extern char D_0068F888[];
-extern char D_0068F8A0[];
-extern char D_0068F8B8[];
-extern char D_0068F8D0[];
-extern char D_0068F8E8[];
-extern char D_0068F900[];
-extern char D_0068F910[];
-extern char D_0068F920[];
-extern char D_0068F930[];
-extern char D_0068F948[];
-extern char D_0068F960[];
-extern char D_0068F978[];
-extern char D_0068F988[];
-extern char D_0068F998[];
-extern char D_0068F9A8[];
-extern char D_0068F9B8[];
-extern char D_0068F9C8[];
-extern char D_0068F9D8[];
-extern char D_0068F9E8[];
-extern char D_0068FA00[];
-extern char D_0068FA18[];
-extern char D_0068FA28[];
-extern char D_0068FA38[];
-extern char D_0068FA48[];
-extern char D_0068FA60[];
-extern char D_0068FA78[];
-extern char D_0068FA88[];
-extern char D_0068FA98[];
-extern char D_0068FAA0[];
-extern char D_0068FAB0[];
-extern char D_0068FAC0[];
-extern char D_0068FAD0[];
-extern char D_0068FAE0[];
-extern char D_0068FAF0[];
-extern char D_0068FAF8[];
-extern char D_0068FB08[];
-extern char D_0068FB18[];
-extern char D_0068FB28[];
-extern char D_0068FB38[];
-extern char D_0068FB48[];
 extern "C" void adhoc__buildGearRatioData(void);
 extern "C" void adhoc__buildEngineCurveData(void);
 extern "C" void adhoc__getBrakeControllerRange(void);
@@ -130,19 +80,19 @@ extern "C" void adhoc__getRevLimit(void);
 extern "C" void adhoc__getShiftLimit(void);
 extern "C" void adhoc__getRedLine(void);
 extern "C" void adhoc__getOilLifeRate(void);
-extern "C" void func_0014EA58(void);
+extern "C" void MCarGarage__get_oil(void);
 extern "C" void adhoc__replaceOil(void);
-extern "C" void func_0014EB80(void);
+extern "C" void MCarGarage__get_dirtiness(void);
 extern "C" void adhoc__getBodyLifeRate(void);
-extern "C" void func_0014ECF8(void);
+extern "C" void MCarGarage__get_bodyLife(void);
 extern "C" void adhoc__refreshBody(void);
-extern "C" void func_0014EE20(void);
+extern "C" void MCarGarage__get_odometer(void);
 
 extern "C" void func_0014EF00(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
-        const char *src = D_0068F7A8;
+        const char *src = "buildGearRatioData";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -164,7 +114,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F7C0;
+        const char *src = "buildEngineCurveData";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -186,7 +136,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F7D8;
+        const char *src = "getBrakeControllerRange";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -208,7 +158,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F7F0;
+        const char *src = "getBrakeControllerSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -230,7 +180,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F810;
+        const char *src = "setBrakeControllerSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -252,7 +202,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F830;
+        const char *src = "getGearRange";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -274,7 +224,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F840;
+        const char *src = "getGearSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -296,7 +246,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F850;
+        const char *src = "setGearSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -318,7 +268,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F860;
+        const char *src = "setGearAuto";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -340,7 +290,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F870;
+        const char *src = "getDriveTrainRange";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -362,7 +312,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F888;
+        const char *src = "getDriveTrainSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -384,7 +334,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F8A0;
+        const char *src = "setDriveTrainSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -406,7 +356,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F8B8;
+        const char *src = "getRacingModifyRange";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -428,7 +378,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F8D0;
+        const char *src = "getRacingModifySetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -450,7 +400,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F8E8;
+        const char *src = "setRacingModifySetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -472,7 +422,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F900;
+        const char *src = "getLSDRange";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -494,7 +444,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F910;
+        const char *src = "getLSDSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -516,7 +466,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F920;
+        const char *src = "setLSDSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -538,7 +488,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F930;
+        const char *src = "getSuspensionRange";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -560,7 +510,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F948;
+        const char *src = "getSuspensionSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -582,7 +532,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F960;
+        const char *src = "setSuspensionSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -604,7 +554,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F978;
+        const char *src = "getTCSCRange";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -626,7 +576,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F988;
+        const char *src = "getTCSCSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -648,7 +598,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F998;
+        const char *src = "setTCSCSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -670,7 +620,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F9A8;
+        const char *src = "getASCCRange";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -692,7 +642,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F9B8;
+        const char *src = "getASCCSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -714,7 +664,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F9C8;
+        const char *src = "setASCCSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -736,7 +686,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F9D8;
+        const char *src = "getBallastRange";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -758,7 +708,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068F9E8;
+        const char *src = "getBallastSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -780,7 +730,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FA00;
+        const char *src = "setBallastSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -802,7 +752,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FA18;
+        const char *src = "getNOSRange";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -824,7 +774,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FA28;
+        const char *src = "getNOSSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -846,7 +796,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FA38;
+        const char *src = "setNOSSetting";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -868,7 +818,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FA48;
+        const char *src = "haveTireCategoryWheel";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -890,7 +840,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FA60;
+        const char *src = "setTireCategoryWheel";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -912,7 +862,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FA78;
+        const char *src = "getCurrentWheel";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -934,7 +884,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FA88;
+        const char *src = "haveWing";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -956,7 +906,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FA98;
+        const char *src = "setWing";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -978,7 +928,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FAA0;
+        const char *src = "getCurrentWing";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -1000,7 +950,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FAB0;
+        const char *src = "getRevLimit";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -1022,7 +972,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FAC0;
+        const char *src = "getShiftLimit";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -1044,7 +994,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FAD0;
+        const char *src = "getRedLine";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -1066,7 +1016,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FAE0;
+        const char *src = "getOilLifeRate";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -1088,7 +1038,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FAF0;
+        const char *src = "oil";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -1099,7 +1049,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0014EA58, func_0014EA58);
+        func_002F3860(arg0, &s, MCarGarage__get_oil, MCarGarage__get_oil);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1110,7 +1060,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FAF8;
+        const char *src = "replaceOil";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -1132,7 +1082,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FB08;
+        const char *src = "dirtiness";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -1143,7 +1093,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0014EB80, func_0014EB80);
+        func_002F3860(arg0, &s, MCarGarage__get_dirtiness, MCarGarage__get_dirtiness);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1154,7 +1104,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FB18;
+        const char *src = "getBodyLifeRate";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -1176,7 +1126,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FB28;
+        const char *src = "bodyLife";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -1187,7 +1137,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0014ECF8, func_0014ECF8);
+        func_002F3860(arg0, &s, MCarGarage__get_bodyLife, MCarGarage__get_bodyLife);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -1198,7 +1148,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FB38;
+        const char *src = "refreshBody";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -1220,7 +1170,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
     }
     {
         Str *ps = &s;
-        const char *src = D_0068FB48;
+        const char *src = "odometer";
         Rep *r = &D_00659FA8;
         char *d;
         if (r->sel != 0) {
@@ -1231,7 +1181,7 @@ extern "C" void func_0014EF00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0014EE20, func_0014EE20);
+        func_002F3860(arg0, &s, MCarGarage__get_odometer, MCarGarage__get_odometer);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

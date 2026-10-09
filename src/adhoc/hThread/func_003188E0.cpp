@@ -41,8 +41,8 @@ extern char D_0069E268[];
 extern char D_0069E270[];
 extern char D_00840FA0[];
 extern char D_00840F98[];
-extern "C" void func_00318800(void);
-extern "C" void func_00318870(void);
+extern "C" void Thread__global_00840FA0(void);
+extern "C" void Thread__global_00840F98(void);
 extern "C" void Thread__start(void);
 extern "C" void Thread__stop(void);
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
@@ -78,8 +78,8 @@ extern "C" void func_003188E0(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00840FA0, func_00318800);
-    func_002F36E0(arg0, D_00840F98, func_00318870);
+    func_00306780(arg0, D_00840FA0, Thread__global_00840FA0);
+    func_002F36E0(arg0, D_00840F98, Thread__global_00840F98);
     {
         Str *ps = &s;
         const char *src = D_0069E268;

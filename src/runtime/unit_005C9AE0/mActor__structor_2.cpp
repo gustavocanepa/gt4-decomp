@@ -19,7 +19,6 @@ struct HString {
 };
 
 extern char mActor__vtable[];
-extern char D_00697158[];
 
 extern "C" struct S00659988 *func_005C11A8(void);
 extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
@@ -36,6 +35,6 @@ extern "C" void mActor__structor_2(struct HString *self, s32 flags) {
     }
     hObject__structor_2(self, 0);
     if (flags & 1) {
-        return func_00326798(self, 0x14, 4, D_00697158);
+        return func_00326798(self, 0x14, 4, "RefCounter");
     }
 }

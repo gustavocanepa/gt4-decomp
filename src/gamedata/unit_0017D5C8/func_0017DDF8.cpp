@@ -52,9 +52,9 @@ extern char D_00691528[];
 extern char D_00691530[];
 extern char D_008246C0[];
 extern char D_008246B8[];
-extern "C" void func_0017D5C8(void);
-extern "C" void func_0017D638(void);
-extern "C" void func_0017DB00(void);
+extern "C" void MMemoryCardPlayList__global_008246C0(void);
+extern "C" void MMemoryCardPlayList__global_008246B8(void);
+extern "C" void MMemoryCardPlayList__get_size(void);
 extern "C" void MMemoryCardPlayList__append(void);
 extern "C" void MMemoryCardPlayList__remove(void);
 extern "C" void MMemoryCardPlayList__search(void);
@@ -92,8 +92,8 @@ extern "C" void func_0017DDF8(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_008246C0, func_0017D5C8);
-    func_002F36E0(arg0, D_008246B8, func_0017D638);
+    func_00306780(arg0, D_008246C0, MMemoryCardPlayList__global_008246C0);
+    func_002F36E0(arg0, D_008246B8, MMemoryCardPlayList__global_008246B8);
     {
         Str *ps = &s;
         const char *src = D_006914E8;
@@ -107,7 +107,7 @@ extern "C" void func_0017DDF8(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0017DB00, 0);
+        func_002F3860(arg0, &s, MMemoryCardPlayList__get_size, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

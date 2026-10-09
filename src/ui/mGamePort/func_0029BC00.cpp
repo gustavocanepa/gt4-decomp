@@ -46,13 +46,13 @@ extern char D_0069B530[];
 extern char D_0069B538[];
 extern char D_0069B580[];
 extern char D_00836320[];
-extern "C" void func_0029C080(void);
+extern "C" void MGamePort__global_00836320(void);
 extern "C" void MGamePort__update(void);
-extern "C" void func_0029C120(void);
-extern "C" void func_0029C1B8(void);
-extern "C" void func_0029C218(void);
-extern "C" void func_0029C2C0(void);
-extern "C" void func_0029C370(void);
+extern "C" void MGamePort__get_port_name(void);
+extern "C" void MGamePort__set_port_name(void);
+extern "C" void MGamePort__get_analog(void);
+extern "C" void MGamePort__get_button(void);
+extern "C" void MGamePort__get_data(void);
 
 extern "C" void func_0029BC00(Obj *arg0) {
     Str s;
@@ -82,7 +82,7 @@ extern "C" void func_0029BC00(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00309CC0());
-    func_00306780(arg0, D_00836320, func_0029C080);
+    func_00306780(arg0, D_00836320, MGamePort__global_00836320);
     {
         Str *ps = &s;
         const char *src = D_0069B568;
@@ -118,7 +118,7 @@ extern "C" void func_0029BC00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0029C120, func_0029C1B8);
+        func_002F3860(arg0, &s, MGamePort__get_port_name, MGamePort__set_port_name);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -140,7 +140,7 @@ extern "C" void func_0029BC00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0029C218, 0);
+        func_002F3860(arg0, &s, MGamePort__get_analog, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -162,7 +162,7 @@ extern "C" void func_0029BC00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0029C2C0, 0);
+        func_002F3860(arg0, &s, MGamePort__get_button, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -184,7 +184,7 @@ extern "C" void func_0029BC00(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_0029C370, 0);
+        func_002F3860(arg0, &s, MGamePort__get_data, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {

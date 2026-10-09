@@ -45,11 +45,11 @@ extern char D_0068FED8[];
 extern char D_0068FEE8[];
 extern char D_0068FEF8[];
 extern char D_00823040[];
-extern "C" void func_00158150(void);
+extern "C" void MColorChipFace__global_00823040(void);
 extern "C" void MColorChipFace__setData(void);
 extern "C" void MColorChipFace__setColor(void);
-extern "C" void func_00158330(void);
-extern "C" void func_00158418(void);
+extern "C" void MColorChipFace__get_image_path0(void);
+extern "C" void MColorChipFace__get_image_path1(void);
 
 extern "C" void func_00158500(Obj *arg0) {
     Str s;
@@ -79,7 +79,7 @@ extern "C" void func_00158500(Obj *arg0) {
         }
     }
     func_002F3A30(arg0, func_00255260());
-    func_00306780(arg0, D_00823040, func_00158150);
+    func_00306780(arg0, D_00823040, MColorChipFace__global_00823040);
     {
         Str *ps = &s;
         const char *src = D_0068FED0;
@@ -137,7 +137,7 @@ extern "C" void func_00158500(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00158330, 0);
+        func_002F3860(arg0, &s, MColorChipFace__get_image_path0, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
@@ -159,7 +159,7 @@ extern "C" void func_00158500(Obj *arg0) {
         }
         ps->p = d;
         func_005C2630(ps, 0, -1, src, func_0057F260(src));
-        func_002F3860(arg0, &s, func_00158418, 0);
+        func_002F3860(arg0, &s, MColorChipFace__get_image_path1, 0);
         {
             Rep *q = (Rep *)(s.p - 0x10);
             if (--q->ref == 0) {
