@@ -12,6 +12,10 @@ Most of GT4's game logic lives in Adhoc scripts, which
 executable that runs them. Format documentation comes from the
 [Gran Turismo Modding Hub](https://nenkai.github.io/gt-modding-hub/).
 
+Sister project: the [Tourist Trophy decompilation](https://github.com/gustavocanepa/tt-decomp), built on
+GT4's code base with the same tools; functions identical in both games are matched once and copied
+to the other (`tools/crossgame.py`).
+
 **This repository contains no game data.** You need your own copy of the game.
 
 ## Status

@@ -299,6 +299,13 @@ def link_problem(addr, src):
 
 
 def cmd_check(addr, src):
+    # Inline assembly beyond single instructions (and raw words) is not decompiled code: such a
+    # source is refused before it is compiled, so no tool or agent can keep it as a match.
+    import asm_policy
+    bad = asm_policy.violations(open(src, encoding="utf-8", errors="replace").read())
+    if bad:
+        print(f"REFUSED by tools/asm_policy.py: {'; '.join(bad)}")
+        sys.exit(1)
     text_addr, text = load_text()
     target = trim_padding(words_at(text_addr, text, addr, function_span(addr)))
     obj = compile_c(src)

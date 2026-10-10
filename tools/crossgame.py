@@ -18,6 +18,7 @@ import csv
 import hashlib
 import json
 import os
+import re
 import struct
 import subprocess
 import sys
@@ -96,11 +97,72 @@ def candidates(other):
     return sorted(pairs, key=lambda p: p[0])
 
 
+IMMEDIATE = re.compile(r"^(-?)(0x[0-9A-Fa-f]+|\d+)(\(\$\w+\))?$")
+
+
+def fix_literals(text, diff):
+    """The source with each literal the judge shows off by an immediate (same instruction, same
+    registers, another constant or offset) changed to the original's value, when the source writes
+    that literal exactly once. The masked hash cannot tell a %lo from a struct offset added to an
+    address, so twins whose structs differ by a field land here."""
+    for line in diff.splitlines():
+        if not line.startswith("!") or "|" not in line:
+            continue
+        left, right = (re.sub(r"<[^>]*>", "", s).strip() for s in line[1:].split("|", 1))
+        lt, rt = left.replace(",", " ").split(), right.replace(",", " ").split()
+        if len(lt) != len(rt) or lt[:-1] != rt[:-1] or not lt:
+            continue
+        lm, rm = IMMEDIATE.match(lt[-1]), IMMEDIATE.match(rt[-1])
+        if not lm or not rm or lm.group(3) != rm.group(3):
+            continue
+        want = int(lm.group(1) + lm.group(2), 0)
+        have = int(rm.group(1) + rm.group(2), 0)
+        for form in (f"0x{abs(have):X}", f"0x{abs(have):x}", str(abs(have))):
+            hits = re.findall(rf"(?<![\w.]){re.escape(form)}(?![\w.])", text)
+            if len(hits) == 1 and (want < 0) == (have < 0):
+                new = f"0x{abs(want):X}" if form.startswith("0x") else str(abs(want))
+                text = re.sub(rf"(?<![\w.]){re.escape(form)}(?![\w.])", new, text)
+                break
+    return text
+
+
+def fix_symbols(text, diff):
+    """The source with each D_ADDR whose %hi/%lo pair the judge shows at another address (a class
+    named after its vtable, `_vt$10D_ADDR`, which match.suggest_renames cannot rename) moved to the
+    address the original's lui/lo pair builds."""
+    hi, moved = {}, {}
+    for line in diff.splitlines():
+        if "|" not in line:
+            continue
+        left, right = line[1:].split("|", 1)
+        m = re.search(r"<[^>]*?(D_[0-9A-F]{8})>", right)
+        lt = left.replace(",", " ").split()
+        if not m or len(lt) < 2:
+            continue
+        sym = m.group(1)
+        if lt[0] == "lui":
+            hi[sym] = int(lt[-1], 0)
+        elif sym in hi:
+            lo = IMMEDIATE.match(lt[-1])
+            if lo:
+                v = int(lo.group(1) + lo.group(2), 0)
+                moved[sym] = f"D_{((hi[sym] << 16) + v) & 0xFFFFFFFF:08X}"
+    moved = {k: v for k, v in moved.items() if k != v}
+    return match_renames(text, moved) if moved else text
+
+
+def match_renames(text, renames):
+    import match
+    return match.apply_renames(text, renames)
+
+
 def apply_one(addr, other):
     import match
     import symbols
     root = match.ROOT
     text = other["text"].replace(f"func_{other['addr']:08X}", f"func_{addr:08X}")
+    # comments that name the function's address (third-party headers: "placed at 0x...")
+    text = text.replace(f"0x{other['addr']:08x}", f"0x{addr:08x}")
     renames = {}
     for a, b in zip(other["calls"], jump_targets(match, addr)):
         if a != b:
@@ -114,7 +176,7 @@ def apply_one(addr, other):
                               capture_output=True, text=True, cwd=root)
     res = check()
     for _ in range(2):  # globals: each round moves the symbols whose delta the judge can see
-        if res.returncode == 0 or "wrong address" not in res.stdout:
+        if res.returncode == 0:
             break
         moved = match.suggest_renames(addr, path)
         if not moved:
@@ -122,8 +184,21 @@ def apply_one(addr, other):
         text = match.apply_renames(text, moved)
         open(path, "w", encoding="utf-8", newline="\n").write(text)
         res = check()
+    for _ in range(3):  # offsets that moved between the games (a struct grew a field)
+        if res.returncode == 0:
+            break
+        fixed = fix_symbols(fix_literals(text, res.stdout), res.stdout)
+        if fixed == text:
+            break
+        text = fixed
+        open(path, "w", encoding="utf-8", newline="\n").write(text)
+        res = check()
     if res.returncode != 0:
         return addr, False, (res.stdout.splitlines() or ["?"])[0]
+    import asm_policy
+    bad = asm_policy.violations(text)
+    if bad:  # the other project's source predates a policy fix: never copy it on
+        return addr, False, "asm policy: " + "; ".join(bad)
     final = symbols.rename_text(text)
     os.replace(path, os.path.join(root, "src", f"func_{addr:08X}.{other['ext']}"))
     open(os.path.join(root, "src", f"func_{addr:08X}.{other['ext']}"), "w", encoding="utf-8", newline="\n").write(final)

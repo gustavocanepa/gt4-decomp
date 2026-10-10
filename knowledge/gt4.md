@@ -251,3 +251,18 @@ What repeated:
   through slot 8 with argument 3, then nulling the pointer, is `delete child; child = 0;`
   (003bfe10). Store order: build/scratch/opus3/perm_fix.py permutes independent store statements
   until the order matches (candidate for tools/near_fix.py).
+- Third round (slices to lines ~216-230): g++ 2.96 turns a final call into `j` only when written
+  `return f(...)`, even in a void function (a plain trailing call stays `jal`; ee-gcc 2.9 does turn
+  it into `j`); a void prototype frees `$v0`, an ignored int result makes the next load avoid `$v0`;
+  `for(;;)` with `return` exits stays unrotated while `break` exits move to the bottom; the script
+  `Val` unit around 0x47xxxx is no-strict-aliasing code and returns its small value class through
+  an inline constructor (`return Val(x);`); placement new keeps its null check only when
+  `operator new(size_t, void*)` is `throw()`; a virtual call through `this` in a constructor is
+  direct, through a base pointer it uses the vtable; addressed parameters take the lowest stack
+  slots; ee-gcc 2.9 code reaches at least 0x5B95A0 (`va_start` under 2.9:
+  `__builtin_next_arg(last) - (8 - __builtin_args_info(2)) * 8`). Open families: the 0x70002000
+  scratchpad base kept in a register across branches/calls (004a06f0, 004a0890, 004a4c58,
+  0049FDA0, 004A40B0, 004A2D20); ee-gcc 2.9 functions whose last call stays `jal` (00583068,
+  00582fc0). libio (`_IO_init` 00594fb8 matches) awaits a licence decision (GPLv2 + exception).
+  Helpers worth turning into tools: build/scratch/os2b/climb.py (store-order hill climb),
+  build/scratch/opus3/perm_fix.py, build/scratch/os1b/callers.py.

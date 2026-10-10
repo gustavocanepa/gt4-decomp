@@ -45,7 +45,7 @@ jobs:
           python3 - > /tmp/commands.txt <<'EOF'
           import tomllib, os
           for name, c in tomllib.load(open("project.toml", "rb")).get("compilers", {}).items():
-              print(name, c["command"].replace("{dir}", os.path.expanduser(c["dir"])))
+              print(name, c["command"].replace("{dir}", os.path.expanduser(c["dir"])).replace("{tools}", os.path.abspath("tools")))
           EOF
           mkdir -p /tmp/obj
           fail=0
@@ -58,7 +58,8 @@ jobs:
               [ -n "$cmd" ] || { echo "::error file=$f::unknown compiler $name"; fail=1; continue; }
             fi
             n=$((n + 1))
-            $cmd "$f" -o "/tmp/obj/$n.o" \
+            # eval: a command may quote its own arguments (wrappers such as cc_rf.sh)
+            eval "$cmd \"\$f\" -o /tmp/obj/$n.o" \
               || { echo "::error file=$f::does not compile"; fail=1; }
           done < /tmp/sources.txt
           echo "$(ls /tmp/obj | wc -l) sources compiled"
