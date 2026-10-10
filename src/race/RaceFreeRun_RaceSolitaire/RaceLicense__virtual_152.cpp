@@ -1,3 +1,4 @@
+#include "gt4/RaceLicense.h"
 typedef short s16;
 typedef int s32;
 
@@ -7,14 +8,9 @@ struct VEntry {
     s32 (*fn)(void *);
 };
 
-struct Obj003EAC18 {
-    char pad[0x64];
-    char *unk64;
-};
-
 extern "C" void func_003BDB48(s32 arg0);
 
-extern "C" void RaceLicense__virtual_152(struct Obj003EAC18 *arg0)
+extern "C" void RaceLicense__virtual_152(struct RaceLicense *arg0)
 {
     VEntry *e = (VEntry *)(arg0->unk64 + 0x90);
 

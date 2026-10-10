@@ -1,3 +1,4 @@
+#include "gt4/mGamePort.h"
 typedef int s32;
 
 struct Rep { s32 len; s32 cap; s32 ref; s32 sel; };
@@ -19,7 +20,7 @@ static inline void str_release(Str *s) {
 
 
 extern "C" void mGamePort__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mGamePort__vtable;
+    ((struct mGamePort *)arg0)->unk4 = &mGamePort__vtable;
     str_release((Str *)((char *)arg0 + 0xc4));
     hObject__structor_2(arg0, 0x0);
     if ((arg1 & 0x1) != 0) {

@@ -68,6 +68,8 @@ function counts only when the judge says MATCH and the full build still hashes l
 - knowledge/ee-gcc-2.96.md — compiler rules (how C shapes compile).
 - knowledge/gt4.md — project rules: C++/STL/string/handles/registration, open problems.
 - knowledge/architecture.md, classes.md, script-engine.md, runtime-types.md — what the game code is.
+- knowledge/gthd.md — real method names/prototypes from Gran Turismo HD (tools/gthd_names.py),
+  its source files as GT4 translation units and its global names (tools/gthd_units.py).
 - knowledge/coverage-map.md — what is matched and missing, by unit.
 - knowledge/attempts.jsonl — every attempt per function (read it with tools/attempts.py show ADDR).
 

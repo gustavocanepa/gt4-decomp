@@ -1,3 +1,4 @@
+#include "gt4/mHttp.h"
 typedef int s32;
 
 struct Rep { s32 len; s32 cap; s32 ref; s32 sel; };
@@ -22,7 +23,7 @@ static inline void str_release(Str *s) {
 
 
 extern "C" void mHttp__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mHttp__vtable;
+    ((struct mHttp *)arg0)->unk4 = &mHttp__vtable;
     str_release((Str *)((char *)arg0 + 0x104));
     func_00309378((char *)arg0 + 0x100, 0x2);
     func_002F9B38((char *)arg0 + 0xfc, 0x2);

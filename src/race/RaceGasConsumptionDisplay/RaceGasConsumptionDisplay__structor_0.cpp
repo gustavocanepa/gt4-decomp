@@ -1,10 +1,18 @@
 extern "C" void *RaceValueDisplayBase__structor_1(void *arg0);
 extern "C" char RaceGasConsumptionDisplay__vtable[];
 
+struct RaceGasConsumptionDisplay__structor_0_s0 {
+    char pad0[0x14];
+    void *unk14;
+    char pad18[0x50];
+    int unk68;
+    int unk6C;
+};
+
 extern "C" void RaceGasConsumptionDisplay__structor_0(void *arg0) {
     void *s0 = arg0;
     RaceValueDisplayBase__structor_1(s0);
-    *(int *)((char *)s0 + 0x6C) = 0;
-    *(int *)((char *)s0 + 0x68) = 0;
-    *(void **)((char *)s0 + 0x14) = RaceGasConsumptionDisplay__vtable;
+    ((struct RaceGasConsumptionDisplay__structor_0_s0 *)s0)->unk6C = 0;
+    ((struct RaceGasConsumptionDisplay__structor_0_s0 *)s0)->unk68 = 0;
+    ((struct RaceGasConsumptionDisplay__structor_0_s0 *)s0)->unk14 = RaceGasConsumptionDisplay__vtable;
 }

@@ -35,6 +35,11 @@ extern "C" void func_003285A8(s32);
 extern "C" void func_003285F8(s32);
 extern "C" void func_002FC870(void *, s32);
 
+struct MToolTipFace__get_action_type_v_s0 {
+    char pad0[0x10C];
+    s32 unk10C;
+};
+
 extern "C" void MToolTipFace__get_action_type(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
     s32 buf0[4];
     s32 buf1[4];
@@ -47,7 +52,7 @@ extern "C" void MToolTipFace__get_action_type(s32 *arg0, void *arg1, s32 arg2, c
         func_00248C48(buf0);
         v_s0 = buf0[0];
         t1 = vcall_58((char *)*(s32 *)arg3);
-        *(s32 *)((char *)v_s0 + 0x10c) = t1;
+        ((struct MToolTipFace__get_action_type_v_s0 *)v_s0)->unk10C = t1;
         func_00248BF0(buf0, 0x2);
     } else {
         p_s1 = buf1;

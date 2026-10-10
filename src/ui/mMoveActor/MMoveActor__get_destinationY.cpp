@@ -35,6 +35,11 @@ extern "C" void func_003285A8(s32);
 extern "C" void func_003285F8(s32);
 extern "C" void func_002F7B68(void *, s32);
 
+struct MMoveActor__get_destinationY_v_s0 {
+    char pad0[0x2C];
+    f32 unk2C;
+};
+
 extern "C" void MMoveActor__get_destinationY(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
     s32 buf0[4];
     s32 buf1[4];
@@ -47,7 +52,7 @@ extern "C" void MMoveActor__get_destinationY(s32 *arg0, void *arg1, s32 arg2, ch
         func_002C03E0(buf0);
         v_s0 = buf0[0];
         t1 = vcall_60((char *)*(s32 *)arg3);
-        *(f32 *)((char *)v_s0 + 0x2c) = t1;
+        ((struct MMoveActor__get_destinationY_v_s0 *)v_s0)->unk2C = t1;
         func_002C0388(buf0, 0x2);
     } else {
         p_s1 = buf1;

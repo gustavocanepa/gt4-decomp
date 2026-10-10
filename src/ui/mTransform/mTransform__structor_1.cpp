@@ -1,3 +1,4 @@
+#include "gt4/mTransform.h"
 typedef int s32;
 
 extern "C" void hObject__structor_2(void *arg0, s32 arg1);
@@ -5,8 +6,8 @@ extern "C" void func_00326798(void *arg0, s32 arg1, s32 arg2, const char *arg3);
 
 extern void *mTransform__vtable;
 
-extern "C" void mTransform__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 4) = &mTransform__vtable;
+extern "C" void mTransform__structor_1(struct mTransform *arg0, s32 arg1) {
+    arg0->unk4 = &mTransform__vtable;
     hObject__structor_2(arg0, 0);
     if (arg1 & 1) {
         return func_00326798(arg0, 0x34, 4, "RefCounter");

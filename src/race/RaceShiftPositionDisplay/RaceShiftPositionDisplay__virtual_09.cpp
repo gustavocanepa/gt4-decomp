@@ -1,12 +1,8 @@
+#include "gt4/RaceShiftPositionDisplay.h"
 typedef int s32;
-
-struct Obj {
-    char pad[0x10];
-    s32 unk10;
-};
 
 extern "C" s32 func_003A1E10(const char *arg0);
 
-extern "C" void RaceShiftPositionDisplay__virtual_09(struct Obj *arg0) {
+extern "C" void RaceShiftPositionDisplay__virtual_09(struct RaceShiftPositionDisplay *arg0) {
     arg0->unk10 = func_003A1E10("gear_base");
 }

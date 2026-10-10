@@ -10,7 +10,16 @@ a string literal that is re-read from the data), or a jal target. Every old valu
 source and every old value must map to a single new one; otherwise the sibling is skipped.
 
     siblings.py scan [-jN] [--min-size N]   every family of build/families.json with a matched member
+    siblings.py scan --any [-jN] [--only FILE]
+                                            donors by identical masked body: every unmatched function that has
+                                            a matched function with exactly the same masked words (any family,
+                                            not only the MinHash families), up to 4 donors each
     siblings.py try MATCHED UNMATCHED       one pair, prints the rules and the judge's verdict
+
+A literal that the source spells in several places (0x60 as a field offset and as a vtable slot) is not
+replaced blindly: when the plain substitution is not a match, each spelled occurrence is switched between
+the old and the new value in turn (hill-climbing on the judge's differing-instruction count), so only the
+occurrences that belong to the changed word are rewritten.
 """
 import csv
 import json
@@ -192,6 +201,98 @@ def substitute(src, subs, funcs):
                 rep = f"-0x{-v:X}" if v < 0 else f"0x{v:X}"
         text = text.replace(token, rep)
     return text
+
+
+def tokenise_occurrences(src, subs):
+    """(text, occurrences): symbol rules applied, every spelled occurrence of an old immediate replaced by a token
+    @@n@@; occurrences are (token, old, new, spelling). None when an old value cannot be found."""
+    text = src
+    for old, new in subs.items():
+        if old[0] != "sym":
+            continue
+        oa, na = old[1], new[1]
+        found = False
+        for name, rep in ((f"D_{oa:08X}", f"D_{na:08X}"), (f"func_{oa:08X}", f"func_{na:08X}")):
+            if re.search(rf"{name}", text):
+                text = re.sub(rf"{name}", rep, text)
+                found = True
+        if not found:
+            so, sn = data_string(oa), data_string(na)
+            if so is not None and sn is not None and f'"{so}"' in text:
+                text = text.replace(f'"{so}"', f'"{sn}"')
+                found = True
+        if not found:
+            return None
+    occ = []
+    for old, new in subs.items():
+        if old[0] != "imm":
+            continue
+        found = False
+        for sp in spellings(old[1]):
+            pat = rf"(?<![\w.]){re.escape(sp)}(?![\w.])"
+
+            def rep(m, old=old, new=new):
+                tok = f"@@{len(occ)}@@"
+                occ.append((tok, old[1], new[1], m.group(0)))
+                return tok
+            if re.search(pat, text):
+                text = re.sub(pat, rep, text)
+                found = True
+        if not found:
+            return None
+    return text, occ
+
+
+def render_occurrences(text, occ, on):
+    for (tok, old, new, sp), flag in zip(occ, on):
+        if flag:
+            rep = f"~0x{~new:X}" if old < 0 and sp.startswith("~") else (f"-0x{-new:X}" if new < 0 else f"0x{new:X}")
+        else:
+            rep = sp
+        text = text.replace(tok, rep)
+    return text
+
+
+def differing(out):
+    m = re.search(r"(\d+) of (\d+) instructions differ", out)
+    return int(m.group(1)) if m else 10 ** 6
+
+
+def climb_occurrences(m, u, words):
+    """Judge the substitution with every occurrence replaced, then toggle occurrences one at a time while the
+    differing count drops. (ok, path) of the best variant, or (None, reason)."""
+    wm, wu = Words(m, words[m]), Words(u, words[u])
+    subs = rules(wm, wu)
+    if subs is None:
+        return None, "shapes differ"
+    src = symbols.generic_text(open(source_path(m)).read())
+    t = tokenise_occurrences(src, subs)
+    if t is None:
+        return None, "old value not in source"
+    text, occ = t
+    text = re.sub(rf"func_{m:08X}", f"func_{u:08X}", text)
+    if len(occ) < 2 or len({o[1] for o in occ}) == len(occ):
+        return None, "no literal is spelled twice"
+    state = [True] * len(occ)
+    ok, out, path = judge(u, render_occurrences(text, occ, state))
+    best, tried = (differing(out), list(state)), {tuple(state)}
+    improved = not ok
+    while improved and len(tried) < 40:
+        improved = False
+        for i in range(len(occ)):
+            s2 = list(best[1])
+            s2[i] = not s2[i]
+            if tuple(s2) in tried:
+                continue
+            tried.add(tuple(s2))
+            ok, out, path = judge(u, render_occurrences(text, occ, s2))
+            if ok:
+                return True, path
+            d = differing(out)
+            if d < best[0]:
+                best, improved = (d, s2), True
+    ok, out, path = judge(u, render_occurrences(text, occ, best[1]))
+    return ok, path if ok else out
 
 
 def judge(addr, text):

@@ -283,3 +283,12 @@ What repeated:
 - Still open after the rules: a run of zero stores whose field set changed (the one-to-one literal
   map is wrong under reordering; regenerate the run from the original's offsets), `&p->f` vs `p->g`
   argument shapes, a statement added or removed.
+- Round four (2026-10-10): `ee-gcc2.96-no-strict-aliasing` whenever, against the original, float or
+  pointer stores move above int stores or a load moves above a store (also in game code); nops inside
+  small loops point at the `ee-gcc2.96-as2004` profile (the 2004 assembler); a plain indexed loop
+  with a call gives the `lw; nop` preheader and the countdown, a bound read in the condition with
+  no call gives `lw; daddu; nop`; registers skipped in a tail call are pass-through parameters; a
+  small class returned through a hidden pointer needs a declared copy constructor (a destructor
+  alone still returns in v0); old-ABI `dynamic_cast<T&>` is an explicit `__dynamic_cast`, a
+  noreturn `__throw_bad_cast` and a real virtual call; in ee-gcc 2.9 `lui 0xFFFF; ori 0xFFFF` is an
+  unsigned compare with 0xFFFFFFFF. Store-order search with blocks: build/scratch/os2d/permsearch.py.

@@ -5,8 +5,13 @@ extern "C" void func_005C1628(void *arg0);
 
 extern void *D_006898F8;
 
-extern "C" void func_00553350(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x68) = &D_006898F8;
+struct func_00553350_arg0 {
+    char pad0[0x68];
+    void *unk68;
+};
+
+extern "C" void func_00553350(struct func_00553350_arg0 *arg0, s32 arg1) {
+    arg0->unk68 = &D_006898F8;
     func_005659F8(arg0, 0);
     if (arg1 & 1) {
         return func_005C1628(arg0);

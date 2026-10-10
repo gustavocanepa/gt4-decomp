@@ -5,15 +5,22 @@ extern "C" void func_005C1628(void *arg0);
 extern void *D_006611F0;
 extern void *D_006614F8;
 
-extern "C" void func_005D1A78(void *arg0, int arg1) {
+struct func_005D1A78_arg0 {
+    char pad0[0x4C];
+    void *unk4C;
+    char pad50[0x4];
+    int unk54;
+};
+
+extern "C" void func_005D1A78(struct func_005D1A78_arg0 *arg0, int arg1) {
     int temp_v1;
 
-    *(void **)((char *)arg0 + 0x4C) = &D_006611F0;
-    temp_v1 = *(int *)((char *)arg0 + 0x54);
+    arg0->unk4C = &D_006611F0;
+    temp_v1 = arg0->unk54;
     if (temp_v1 != 0) {
         func_00575DA0(temp_v1);
     }
-    *(void **)((char *)arg0 + 0x4C) = &D_006614F8;
+    arg0->unk4C = &D_006614F8;
     func_001CC060(arg0, 0);
     if (arg1 & 1) {
         return func_005C1628(arg0);

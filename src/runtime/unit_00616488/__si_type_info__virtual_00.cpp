@@ -5,8 +5,13 @@ extern "C" void func_005C1628(void *arg0);
 
 extern void *__user_type_info__vtable;
 
-extern "C" void __si_type_info__virtual_00(void *arg0, int arg1) {
-    *(void **)((char *)arg0 + 0x4) = &__user_type_info__vtable;
+struct __si_type_info__virtual_00_arg0 {
+    char pad0[0x4];
+    void *unk4;
+};
+
+extern "C" void __si_type_info__virtual_00(struct __si_type_info__virtual_00_arg0 *arg0, int arg1) {
+    arg0->unk4 = &__user_type_info__vtable;
     type_info__virtual_00(arg0, 0);
     if (arg1 & 1) {
         return func_005C1628(arg0);

@@ -36,12 +36,28 @@ OUT = os.path.join(ROOT, "build", "auto", "cpu")
 RESULTS = os.path.join(OUT, "results.jsonl")
 M2C = autoloop.M2C
 MACROS = open(os.path.join(os.path.dirname(M2C), "m2c_macros.h")).read()
-PRELUDE = ("typedef signed char s8; typedef unsigned char u8; typedef short s16; typedef unsigned short u16;\n"
-           "typedef int s32; typedef unsigned int u32; typedef long long s64; typedef unsigned long long u64;\n"
-           "typedef float f32; typedef double f64;\n"
-           "typedef int s128 __attribute__((mode(TI))); typedef unsigned int u128 __attribute__((mode(TI)));\n"
+# Every draft starts with this: the sized types and m2c's macros come from include/ (types.h,
+# m2c_macros.h; every compile command has -Iinclude), not pasted into each source.
+PRELUDE = ('#include "types.h"\n'
            "#define NULL 0\n"
-           "void *memcpy(void *, const void *, unsigned int);\n" + MACROS + "\n")
+           "void *memcpy(void *, const void *, unsigned int);\n"
+           '#include "m2c_macros.h"\n\n')
+# What drafts written before 2026-10-10 start with (the same declarations, pasted).
+LEGACY_PRELUDE = ("typedef signed char s8; typedef unsigned char u8; typedef short s16; typedef unsigned short u16;\n"
+                  "typedef int s32; typedef unsigned int u32; typedef long long s64; typedef unsigned long long u64;\n"
+                  "typedef float f32; typedef double f64;\n"
+                  "typedef int s128 __attribute__((mode(TI))); typedef unsigned int u128 __attribute__((mode(TI)));\n"
+                  "#define NULL 0\n"
+                  "void *memcpy(void *, const void *, unsigned int);\n" + MACROS.replace("\r\n", "\n") + "\n")
+
+
+def strip_prelude(text, prelude=None):
+    """A draft without its prelude (the current or the legacy one), or None if it has neither."""
+    for pre in ((prelude,) if prelude else (PRELUDE, LEGACY_PRELUDE)):
+        if text.startswith(pre):
+            return text[len(pre):]
+    return None
+
 
 FLOAT = re.compile(r"(?<![\w.])(\d+\.\d*(?:[eE][-+]?\d+)?|\d+[eE][-+]?\d+)(f?)(?![\w.])")
 
@@ -349,7 +365,7 @@ def attempt(addr, context=None, out=OUT, plain=True):
     # the draft kept by an earlier run competes too, so a retry never makes a function farther
     if os.path.exists(path):
         old = open(path).read()
-        old = old[len(PRELUDE):] if old.startswith(PRELUDE) else None
+        old = strip_prelude(old)
         if old:
             res = judge(addr, path)
             best = (differs_by(res), old, res, "kept")

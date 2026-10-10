@@ -99,7 +99,8 @@ def main():
     open(os.path.join(work, "settings.toml"), "w", newline="\n").write(
         f'func_name = "{name}"\ncompiler_type = "gcc"\n'
         f'objdump_command = "mips-linux-gnu-objdump -drz -m {project.CONFIG["cpu"]["objdump_arch"]}"\n')
-    src = open(a.source, encoding="utf-8").read()
+    # The permuter reads one self-contained file: the project's headers (include/) go in inline.
+    src = project.inline_includes(open(a.source, encoding="utf-8").read())
     # The permuter parses C: drop C++ linkage markers (compile.sh wraps the file in extern "C").
     src = re.sub(r'extern\s+"C"\s*\{', "", src)
     src = re.sub(r'extern\s+"C"\s*', "extern ", src)

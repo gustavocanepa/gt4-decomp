@@ -36,6 +36,11 @@ extern "C" void func_003285F8(s32);
 extern "C" void func_002FC870(void *, s32);
 extern "C" void func_001B1D30(void *, s32);
 
+struct MUsedCar__get_arg3 {
+    char pad0[0x4];
+    s32 unk4;
+};
+
 extern "C" void MUsedCar__get(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
     s32 buf0[4];
     s32 buf1[4];
@@ -49,7 +54,7 @@ extern "C" void MUsedCar__get(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
         func_001B1D88(p_s4);
         v_s1 = *(s32 *)((char *)(*p_s4) + 0x10);
         v_s0 = vcall_58((char *)(*(s32 *)(char *)arg3));
-        func_002FE278(buf0, func_0043B638(v_s1, v_s0, vcall_58((char *)(*(s32 *)((char *)arg3 + 0x4)))) != 0);
+        func_002FE278(buf0, func_0043B638(v_s1, v_s0, vcall_58((char *)(((struct MUsedCar__get_arg3 *)arg3)->unk4))) != 0);
         if (arg0 != buf0) {
             newVal = buf0[0];
             if (newVal != 0) {

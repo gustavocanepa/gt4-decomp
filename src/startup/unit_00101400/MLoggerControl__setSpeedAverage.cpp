@@ -28,6 +28,15 @@ extern "C" s32 func_002FE250(s32);
 extern "C" void func_002FC870(void *, s32);
 extern "C" void func_001237E0(void *, s32);
 
+struct MLoggerControl__setSpeedAverage_v_s1 {
+    char pad0[0x94];
+    s32 unk94;
+};
+struct MLoggerControl__setSpeedAverage_arg3 {
+    char pad0[0x4];
+    s32 unk4;
+};
+
 extern "C" void MLoggerControl__setSpeedAverage(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
     s32 buf0[4];
     s32 buf1[4];
@@ -41,7 +50,7 @@ extern "C" void MLoggerControl__setSpeedAverage(s32 *arg0, void *arg1, s32 arg2,
         func_002FC870(p_s0, 0x2);
         v_s1 = (v_s1 << 2);
         v_s1 = (v_s1 + buf0[0]);
-        *(s32 *)((char *)v_s1 + 0x94) = *(s32 *)((char *)arg3 + 0x4);
+        ((struct MLoggerControl__setSpeedAverage_v_s1 *)v_s1)->unk94 = ((struct MLoggerControl__setSpeedAverage_arg3 *)arg3)->unk4;
         func_001237E0(buf0, 0x2);
     }
 }

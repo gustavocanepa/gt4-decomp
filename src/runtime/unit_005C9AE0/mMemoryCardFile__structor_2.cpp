@@ -1,3 +1,4 @@
+#include "gt4/mMemoryCardFile.h"
 typedef int s32;
 
 extern void *mMemoryCardFile__vtable;
@@ -10,9 +11,9 @@ static inline void vcall_0(char *o, s32 a0) {
 }
 
 extern "C" void mMemoryCardFile__structor_2(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mMemoryCardFile__vtable;
-    if (*(void **)((char *)arg0 + 0x14) != 0) {
-        if (*(void **)((char *)arg0 + 0x10) != 0) {
+    ((struct mMemoryCardFile *)arg0)->unk4 = &mMemoryCardFile__vtable;
+    if (((struct mMemoryCardFile *)arg0)->unk14 != 0) {
+        if (((struct mMemoryCardFile *)arg0)->unk10 != 0) {
             vcall_0((char *)*(void **)((char *)arg0 + 0x10), 0x3);
         }
     }

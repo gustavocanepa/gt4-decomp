@@ -1,3 +1,4 @@
+#include "gt4/mInputNumberFace.h"
 typedef int s32;
 
 struct Rep { s32 len; s32 cap; s32 ref; s32 sel; };
@@ -24,7 +25,7 @@ static inline void member_0(char *m) {
 }
 
 extern "C" void mInputNumberFace__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mInputNumberFace__vtable;
+    ((struct mInputNumberFace *)arg0)->unk4 = &mInputNumberFace__vtable;
     str_release((Str *)((char *)arg0 + 0x104));
     func_00203118((char *)arg0 + 0xe0, 0x2);
     member_0((char *)arg0 + 0xa0);

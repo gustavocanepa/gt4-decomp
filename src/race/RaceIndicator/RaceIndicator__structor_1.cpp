@@ -1,3 +1,4 @@
+#include "gt4/RaceIndicator.h"
 typedef int s32;
 
 extern void *RaceIndicator__vtable;
@@ -9,11 +10,11 @@ extern "C" void *func_003A9738(void *, s32, s32);
 
 extern "C" void RaceIndicator__structor_1(void *arg0) {
     RaceDisplayObjectBase__structor_0(arg0);
-    *(void **)((char *)arg0 + 0x14) = &RaceIndicator__vtable;
+    ((struct RaceIndicator *)arg0)->unk14 = &RaceIndicator__vtable;
     func_003A9608((char *)arg0 + 0x18);
-    *(void **)((char *)arg0 + 0x38) = (void *)(-0x7f000001);
-    *(void **)((char *)arg0 + 0x3c) = 0x0;
-    *(char *)((char *)arg0 + 0x40) = 0x0;
+    ((struct RaceIndicator *)arg0)->unk38 = (void *)(-0x7f000001);
+    ((struct RaceIndicator *)arg0)->unk3C = 0x0;
+    ((struct RaceIndicator *)arg0)->unk40 = 0x0;
     func_003A96F8((char *)arg0 + 0x18, 0.199999991804f, 0.500000014901f);
     func_003A9708((char *)arg0 + 0x18, 0.0f, 0.0699999947101f);
     func_003A9738((char *)arg0 + 0x18, -0x1, 0x0); return;

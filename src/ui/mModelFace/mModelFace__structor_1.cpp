@@ -1,3 +1,4 @@
+#include "gt4/mModelFace.h"
 typedef int s32;
 
 struct Rep { s32 len; s32 cap; s32 ref; s32 sel; };
@@ -37,7 +38,7 @@ static inline void member_0(char *m) {
 }
 
 extern "C" void mModelFace__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mModelFace__vtable;
+    ((struct mModelFace *)arg0)->unk4 = &mModelFace__vtable;
     func_0021B340((char *)arg0 + 0x2dc, 0x2);
     str_release((Str *)((char *)arg0 + 0x2d8));
     if ((char *)arg0 + 0x2d0 != 0) {

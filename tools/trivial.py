@@ -25,8 +25,7 @@ import project
 ROOT = match.ROOT
 LOADS = {"lw": "s32", "lh": "s16", "lhu": "u16", "lb": "s8", "lbu": "u8", "ld": "s64", "lwu": "u32"}
 STORES = {"sw": "s32", "sh": "s16", "sb": "s8", "sd": "s64"}
-TYPES = "typedef signed char s8; typedef unsigned char u8; typedef short s16; typedef unsigned short u16;\n" \
-        "typedef int s32; typedef unsigned int u32; typedef long long s64;\n"
+TYPES = '#include "types.h"\n'  # include/types.h: the sized types (every compile command has -Iinclude)
 
 
 def shapes(addr, words):

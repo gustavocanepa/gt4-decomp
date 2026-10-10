@@ -38,6 +38,11 @@ extern "C" void func_002F7B68(void *, s32);
 extern "C" void func_0022ACC8(void *, s32);
 extern "C" void func_00192A00(void *, s32);
 
+struct MPhotoMapWindow__getAperture_arg3 {
+    char pad0[0x4];
+    s32 unk4;
+};
+
 extern "C" void MPhotoMapWindow__getAperture(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
     s32 buf0[4];
     s32 buf1[4];
@@ -55,7 +60,7 @@ extern "C" void MPhotoMapWindow__getAperture(s32 *arg0, void *arg1, s32 arg2, ch
         func_0022AD20(p_s3, arg3);
         v_s1 = *p_s3;
         v_s0 = buf0[0];
-        t1 = func_00195270(v_s0, v_s1, vcall_58((char *)(*(s32 *)((char *)arg3 + 0x4))));
+        t1 = func_00195270(v_s0, v_s1, vcall_58((char *)(((struct MPhotoMapWindow__getAperture_arg3 *)arg3)->unk4)));
         p_s1 = buf2;
         func_002F9360(p_s1, t1);
         if (arg0 != p_s1) {

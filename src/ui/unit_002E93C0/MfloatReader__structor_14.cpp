@@ -56,6 +56,11 @@ static inline void rep_delete(void *ptr) { deallocate(ptr, sizeof(StringRep) + (
 static inline void release(StringRep *r) { if (--r->ref == 0) rep_delete(r); }
 static inline void destroy(String *str) { release(rep(str)); }
 
+struct MfloatReader__structor_14_pcb {
+    char pad0[0x4];
+    char *unk4;
+};
+
 extern "C" s32 MfloatReader__structor_14(char *a0, void *a1) {
     if (MfloatReader__structor_0(a0))
         return 1;
@@ -65,7 +70,7 @@ extern "C" s32 MfloatReader__structor_14(char *a0, void *a1) {
     Cb *pcb = &cb;
     char *p = a0 + 0xC0;
     pcb->vtbl = MfloatReader__vtable;
-    *(char **)((char *)pcb + 4) = p;
+    ((struct MfloatReader__structor_14_pcb *)pcb)->unk4 = p;
     s32 r = func_0020FD38(a1, s, pcb);
     pcb->vtbl = MfloatReader__vtable;
     MReaderBase__structor_0(pcb, 0);

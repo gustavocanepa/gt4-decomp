@@ -1,6 +1,4 @@
-typedef signed char s8; typedef unsigned char u8; typedef short s16; typedef unsigned short u16;
-typedef int s32; typedef unsigned int u32; typedef long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
+#include "types.h"
 #define NULL 0
 f32 func_00459338(f32 x) {
     if (x < -0x1.c2p+12f || x > 0x1.c2p+12f) {

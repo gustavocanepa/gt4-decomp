@@ -29,6 +29,13 @@ extern "C" void func_0055CFE8(void *, s64);
 extern "C" void func_0055C9A0(s32, void *, void *, void *, s32);
 extern "C" void func_00576140(void *);
 
+struct func_0055B250_arg0 {
+    char pad0[0x28];
+    s64 unk28;
+    char pad30[0x30];
+    s32 unk60;
+};
+
 extern "C" void func_0055B250(s32 *arg0, void *arg1) {
     s32 buf0[4];
     s32 buf1[4];
@@ -37,10 +44,10 @@ extern "C" void func_0055B250(s32 *arg0, void *arg1) {
     char *v_s2;
     v_s2 = (char *)&D_00655340;
     func_00576100(v_s2);
-    if (*(s32 *)((char *)arg0 + 0x60) != 0) {
-        func_0055CFE8(buf0, *(s64 *)((char *)arg0 + 0x28));
+    if (((struct func_0055B250_arg0 *)arg0)->unk60 != 0) {
+        func_0055CFE8(buf0, ((struct func_0055B250_arg0 *)arg0)->unk28);
         func_0055C9A0(buf0[0], buf0, &D_0055CF28, arg1, 0);
-        *(s32 *)((char *)arg0 + 0x60) = 0x3;
+        ((struct func_0055B250_arg0 *)arg0)->unk60 = 0x3;
     }
     func_00576140(v_s2);
 }

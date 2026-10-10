@@ -1,3 +1,4 @@
+#include "gt4/mFlashFace.h"
 typedef int s32;
 
 struct Rep { s32 len; s32 cap; s32 ref; s32 sel; };
@@ -20,7 +21,7 @@ static inline void str_release(Str *s) {
 
 
 extern "C" void mFlashFace__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mFlashFace__vtable;
+    ((struct mFlashFace *)arg0)->unk4 = &mFlashFace__vtable;
     if ((char *)arg0 + 0xa8 != 0) {
         char *p0 = (char *)arg0 + 0xb0;
         while ((char *)arg0 + 0xa8 != p0) {

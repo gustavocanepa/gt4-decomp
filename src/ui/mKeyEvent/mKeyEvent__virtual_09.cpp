@@ -1,13 +1,9 @@
+#include "gt4/mKeyEvent.h"
 typedef int s32;
-
-struct Obj {
-    char pad[8];
-    s32 unk8;
-};
 
 extern "C" int func_002A95A8(void) throw();
 
-extern "C" void mKeyEvent__virtual_09(struct Obj *arg0) {
+extern "C" void mKeyEvent__virtual_09(struct mKeyEvent *arg0) {
     s32 temp_v0 = arg0->unk8;
 
     if (temp_v0 == 0) {

@@ -1,5 +1,5 @@
-typedef signed char s8; typedef unsigned char u8; typedef short s16; typedef unsigned short u16;
-typedef int s32; typedef unsigned int u32; typedef long long s64;
-extern "C" void RaceSimplePanel__virtual_23(void *a0, s8 a1) {
-    *(s8 *)((char *)a0 + 464) = a1;
+#include "types.h"
+#include "gt4/RaceSimplePanel.h"
+extern "C" void RaceSimplePanel__virtual_23(struct RaceSimplePanel *a0, s8 a1) {
+    a0->unk1D0 = a1;
 }

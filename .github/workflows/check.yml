@@ -46,9 +46,12 @@ jobs:
               done
           done
       - name: Every source compiles (with the compiler its first line names, else ee-gcc 2.96)
+        # from the repository root, so -Iinclude (in every project.toml command) finds include/
+        # (m2c_macros.h, types.h, the game headers include/gt4/); CPATH covers any command without it
         run: |
+          export CPATH="$PWD/include"
           d=~/.local/share/gt4/ee-gcc2.96
-          default="$d/bin/ee-gcc -c -B $d/bin/ee- -O2 -G0 -fno-exceptions"
+          default="$d/bin/ee-gcc -c -B $d/bin/ee- -O2 -G0 -fno-exceptions -Iinclude"
           python3 - > /tmp/commands.txt <<'EOF'
           import tomllib, os
           for name, c in tomllib.load(open("project.toml", "rb")).get("compilers", {}).items():

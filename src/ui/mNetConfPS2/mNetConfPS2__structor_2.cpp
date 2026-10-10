@@ -1,3 +1,4 @@
+#include "gt4/mNetConfPS2.h"
 typedef int s32;
 
 extern void *mNetConfPS2__vtable;
@@ -10,8 +11,8 @@ static inline void vcall_0(char *o, s32 a0) {
 }
 
 extern "C" void mNetConfPS2__structor_2(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mNetConfPS2__vtable;
-    if (*(void **)((char *)arg0 + 0x268) != 0) {
+    ((struct mNetConfPS2 *)arg0)->unk4 = &mNetConfPS2__vtable;
+    if (((struct mNetConfPS2 *)arg0)->unk268 != 0) {
         vcall_0((char *)*(void **)((char *)arg0 + 0x268), 0x3);
     }
     mNetConf__structor_2(arg0, 0x0);

@@ -1,3 +1,4 @@
+#include "gt4/mManager.h"
 typedef int s32;
 
 extern void *mManager__vtable;
@@ -30,7 +31,7 @@ static inline void member_1(char *m) {
 }
 
 extern "C" void mManager__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mManager__vtable;
+    ((struct mManager *)arg0)->unk4 = &mManager__vtable;
     member_0((char *)arg0 + 0x10);
     func_003041B8((char *)arg0 + 0x24, 0x2);
     func_0024E378((char *)arg0 + 0x20, 0x2);

@@ -5,6 +5,9 @@
     match.py gnu ADDR             the same, as GNU assembler text with labels (for m2c)
     match.py check ADDR file.c    compile file.c with the project's compiler (WSL) and compare the
                                   function it defines with the original at ADDR
+    match.py check-many LIST [--jobs 2]
+                                  the same for every `ADDR FILE` (or `FILE`) line of LIST, compiled
+                                  in batches (one WSL call per 400 sources, 2 compiles at a time)
 
 Relocations are resolved as the linker would: every symbol the project knows (tools/symbols.py:
 func_ADDR / D_ADDR, the names of config/symbol_addrs.txt and config/adhoc_methods.txt, C++
@@ -120,7 +123,7 @@ def compile_c(src):
     os.makedirs(os.path.join(ROOT, "build", "obj"), exist_ok=True)
     obj = os.path.join(ROOT, "build", "obj", f"match_{os.getpid()}_{uuid.uuid4().hex}.o")
     rel = lambda p: os.path.relpath(os.path.abspath(p), ROOT).replace("\\", "/")
-    args = ["bash", "tools/cc_wsl.sh", rel(src), rel(obj), project.compiler_command(project.source_compiler(src))]
+    args = project.with_include_stamp(["bash", "tools/cc_wsl.sh", rel(src), rel(obj), project.compiler_command(project.source_compiler(src))])
     if os.name == "nt":
         cmd = ["wsl", "-d", "Ubuntu", "--cd", "/mnt/" + ROOT[0].lower() + ROOT[2:].replace("\\", "/"), "--"] + args
     else:
@@ -348,7 +351,7 @@ def cmd_asm(addr):
         print(f"/* {pc:08X} {w:08X} */  {disasm(w, pc)}")
 
 
-def link_problem(addr, src):
+def link_problem(addr, src, sources=None):
     """Why a source that matches alone would still differ after the full build (tools/build.py
     places each object at the address its file name stands for, and links one source per
     address): a message, or None. This is what held 77 matching sources out of the image once:
@@ -364,7 +367,7 @@ def link_problem(addr, src):
     import layout
     others = [os.path.join(project.SRC, f"func_{addr:08X}{ext}") for ext in project.SOURCE_EXTS]
     others += [os.path.join(ROOT, layout.path_for(addr, ext).replace("/", os.sep)) for ext in project.SOURCE_EXTS]
-    others.append(project.sources(refresh=True).get(addr))
+    others.append((sources if sources is not None else project.sources(refresh=True)).get(addr))
     others = sorted({norm(p) for p in others if p and os.path.exists(p)} - {norm(src)})
     if others:
         return (f"another source stands for 0x{addr:08x} too: {os.path.relpath(others[0], ROOT)}; "
@@ -372,22 +375,34 @@ def link_problem(addr, src):
     return None
 
 
-def cmd_check(addr, src):
+def judge(addr, src, obj=None, sources=None):
+    """The judge's verdict on src as the function at addr: (True, report) on MATCH, else (False,
+    report), the report being what `match.py check` prints. obj: an object already compiled from
+    src (compile_many), else src is compiled here (a failed compile raises SystemExit). sources: a
+    {address: path} map to use instead of rescanning src/ (batches). The object is removed."""
     # Inline assembly beyond single instructions (and raw words) is not decompiled code: such a
     # source is refused before it is compiled, so no tool or agent can keep it as a match.
     import asm_policy
     bad = asm_policy.violations(open(src, encoding="utf-8", errors="replace").read())
     if bad:
-        print(f"REFUSED by tools/asm_policy.py: {'; '.join(bad)}")
-        sys.exit(1)
+        if obj:
+            os.remove(obj)
+        return False, f"REFUSED by tools/asm_policy.py: {'; '.join(bad)}"
+    # A file-scope `int D_X;` without extern is a tentative definition: the object then defines the
+    # game's global itself (a common symbol), which the full build's link rejects.
+    tentative = re.findall(r"(?m)^(?!extern\b|static\b|typedef\b|struct\b|class\b|union\b|enum\b)[A-Za-z_][\w \t*]*?\b((?:D|func)_[0-9A-Fa-f]{8})\s*(?:\[[^\]]*\])?\s*;",
+                           open(src, encoding="utf-8", errors="replace").read())
+    if tentative:
+        if obj:
+            os.remove(obj)
+        return False, f"REFUSED: global defined instead of declared (add extern): {', '.join(sorted(set(tentative)))}"
     text_addr, text = load_text()
     target = trim_padding(words_at(text_addr, text, addr, function_span(addr)))
-    obj = compile_c(src)
+    obj = obj or compile_c(src)
     blob, srelocs, funcs = read_object(obj, want_symbols=True)
     os.remove(obj)
-    relocs = {off: r[0] for off, r in srelocs.items()}
     if not funcs:
-        raise SystemExit("no function in the compiled object")
+        return False, "no function in the compiled object"
     fname, foff, fsize = funcs[0]
     # Everything the object puts in .text from this function on lands in the image after it
     # (e.g. a second, glued function defined in the same file), so all of it is judged.
@@ -415,10 +430,9 @@ def cmd_check(addr, src):
     linked, unresolved = link_words(mine, srelocs, foff, addr)
     own_vars = sorted({srelocs[o][1] for o in unresolved} & {".bss", ".data", ".sbss", ".sdata"})
     if own_vars:
-        print(f"{fname}: REJECTED: references its own {', '.join(own_vars)}: a game global is defined "
-              "here (static, or without extern) instead of declared; declare it `extern TYPE D_XXXXXXXX;` "
-              "so its address can be checked")
-        sys.exit(1)
+        return False, (f"{fname}: REJECTED: references its own {', '.join(own_vars)}: a game global is defined "
+                       "here (static, or without extern) instead of declared; declare it `extern TYPE D_XXXXXXXX;` "
+                       "so its address can be checked")
     width = max(len(target), len(mine))
     bad = 0
     lines = []
@@ -442,23 +456,111 @@ def cmd_check(addr, src):
         tag = f"   <{rel[1]}>" if rel else ""
         lines.append(f"{mark} {left:<44} | {right}{tag}")
     if bad:
-        print(f"{fname}: {bad} of {width} instructions differ (original {len(target)}, mine {len(mine)})")
+        out = [f"{fname}: {bad} of {width} instructions differ (original {len(target)}, mine {len(mine)})"]
         for sym in sorted(wrong):
-            print(f"wrong address: the original does not use {sym} where marked; take the address "
-                  "from the original's instruction and rename the symbol")
-        print("\n".join(lines))
-        sys.exit(1)
-    problem = link_problem(addr, src)
+            out.append(f"wrong address: the original does not use {sym} where marked; take the address "
+                       "from the original's instruction and rename the symbol")
+        return False, "\n".join(out + lines)
+    problem = link_problem(addr, src, sources)
     if problem:
-        print(f"{fname}: DIFFERS AFTER LINKING (matches alone): {problem}")
-        sys.exit(1)
-    print(f"{fname}: MATCH ({len(target)} instructions)")
+        return False, f"{fname}: DIFFERS AFTER LINKING (matches alone): {problem}"
+    out = [f"{fname}: MATCH ({len(target)} instructions)"]
     if unresolved:
         names = sorted({srelocs[o][1] for o in unresolved})
-        print(f"note: {len(unresolved)} references to {', '.join(names)} could not be checked "
-              "(no address in the name); only opcode and registers were compared there")
+        out.append(f"note: {len(unresolved)} references to {', '.join(names)} could not be checked "
+                   "(no address in the name); only opcode and registers were compared there")
     if following:
-        print(f"note: the original goes on after the return; another function seems to start at 0x{following:08x}")
+        out.append(f"note: the original goes on after the return; another function seems to start at 0x{following:08x}")
+    return True, "\n".join(out)
+
+
+def cmd_check(addr, src):
+    ok, report = judge(addr, src)
+    print(report)
+    if not ok:
+        sys.exit(1)
+
+
+def compile_many(srcs, jobs=2):
+    """Compile many sources in one Linux/WSL call, `jobs` at a time, each exactly as compile_c
+    does (tools/cc_wsl.sh with the compiler its first line names): {src: object path or None}.
+    A failed compile leaves None and its messages in build/obj/<batch>/N.err."""
+    import shlex
+    batch = os.path.join(ROOT, "build", "obj", f"batch_{os.getpid()}_{uuid.uuid4().hex[:8]}")
+    os.makedirs(batch)
+    rel = lambda p: os.path.relpath(os.path.abspath(p), ROOT).replace("\\", "/")
+    objs, lines = {}, []
+    for n, src in enumerate(srcs):
+        obj = os.path.join(batch, f"{n}.o")
+        objs[src] = obj
+        try:
+            command = project.compiler_command(project.source_compiler(src))
+        except SystemExit:
+            continue  # unknown compiler marker: no object, judged as not compiling
+        lines.append(" ".join(["env", f"INCLUDE_STAMP={project.include_stamp()}", "bash", "tools/cc_wsl.sh", shlex.quote(rel(src)), shlex.quote(rel(obj)),
+                               shlex.quote(command), "2>" + shlex.quote(rel(obj)[:-2] + ".err")]))
+    listing = os.path.join(batch, "jobs.txt")
+    open(listing, "w", newline="\n").write("\n".join(lines) + "\n")
+    # every line is one shell command; xargs hands it whole to bash -c
+    script = os.path.join(batch, "run.sh")
+    open(script, "w", newline="\n").write(f"xargs -d '\\n' -n 1 -P {int(jobs)} bash -c < {shlex.quote(rel(listing))}\n")
+    args = ["bash", rel(script)]
+    if os.name == "nt":
+        cmd = ["wsl", "-d", "Ubuntu", "--cd", "/mnt/" + ROOT[0].lower() + ROOT[2:].replace("\\", "/"), "--"] + args
+    else:
+        cmd = args
+    subprocess.run(cmd, capture_output=True, text=True, env=dict(os.environ, MSYS_NO_PATHCONV="1"), cwd=ROOT)
+    return {src: (obj if os.path.exists(obj) else None) for src, obj in objs.items()}
+
+
+def judge_many(pairs, jobs=2, chunk=400):
+    """judge() for many (addr, src) pairs, compiled `jobs` at a time in batches of `chunk` per WSL
+    call: yields (addr, src, ok, report) in order. A source that does not compile is (False,
+    "compile failed")."""
+    import shutil
+    sources = project.sources(refresh=True)
+    pairs = list(pairs)
+    for k in range(0, len(pairs), chunk):
+        part = pairs[k:k + chunk]
+        objs = compile_many([src for _, src in part], jobs)
+        for addr, src in part:
+            obj = objs.get(src)
+            if obj:
+                try:
+                    ok, report = judge(addr, src, obj, sources)
+                except SystemExit as e:  # e.g. an address the inventory does not know
+                    ok, report = False, str(e)
+            else:
+                ok, report = False, "compile failed"
+            yield addr, src, ok, report
+        # the batch directory keeps the error files only when something failed to compile
+        batch = next((os.path.dirname(o) for o in objs.values() if o), None)
+        if batch and all(objs.get(src) for _, src in part):
+            shutil.rmtree(batch, ignore_errors=True)
+
+
+def cmd_check_many(listing, jobs):
+    """check-many LIST: LIST holds `ADDR FILE` lines (or just FILE: the address comes from the file
+    name); prints `ADDR FILE MATCH|DIFFERS first-report-line` per source. Exit 0 if all match."""
+    pairs = []
+    for line in open(listing, encoding="utf-8"):
+        parts = line.strip().split(None, 1)
+        if not parts:
+            continue
+        if len(parts) == 1:
+            addr = project.source_address(parts[0])
+            if addr is None:
+                print(f"- {parts[0]} NO-ADDRESS")
+                continue
+            pairs.append((addr, parts[0]))
+        else:
+            pairs.append((int(parts[0], 16), parts[1]))
+    failed = 0
+    for addr, src, ok, report in judge_many(pairs, jobs):
+        failed += not ok
+        print(f"{addr:08X} {src} {'MATCH' if ok else 'DIFFERS'} {report.splitlines()[0] if report else ''}", flush=True)
+    print(f"{len(pairs) - failed} of {len(pairs)} match")
+    sys.exit(1 if failed else 0)
 
 
 def main():
@@ -468,6 +570,9 @@ def main():
         sys.stdout.write(gnu_asm(int(sys.argv[2], 16)))
     elif len(sys.argv) >= 4 and sys.argv[1] == "check":
         cmd_check(int(sys.argv[2], 16), sys.argv[3])
+    elif len(sys.argv) >= 3 and sys.argv[1] == "check-many":
+        jobs = int(sys.argv[sys.argv.index("--jobs") + 1]) if "--jobs" in sys.argv else 2
+        cmd_check_many(sys.argv[2], jobs)
     else:
         sys.exit(__doc__)
 

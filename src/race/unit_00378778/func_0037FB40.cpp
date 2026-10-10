@@ -1,9 +1,15 @@
 extern "C" void *func_00378AE0(void *arg0);
 extern "C" char D_0067B090[];
 
-extern "C" void func_0037FB40(void *arg0)
+struct func_0037FB40_arg0 {
+    void *unk0;
+    char pad4[0x17C];
+    int unk180;
+};
+
+extern "C" void func_0037FB40(struct func_0037FB40_arg0 *arg0)
 {
     func_00378AE0(arg0);
-    *(int *)((char *)arg0 + 0x180) = 0;
-    *(void **)((char *)arg0 + 0x0) = D_0067B090;
+    arg0->unk180 = 0;
+    arg0->unk0 = D_0067B090;
 }

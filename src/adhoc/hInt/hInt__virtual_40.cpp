@@ -27,11 +27,16 @@ extern "C" void func_003285A8(s32);
 extern "C" void func_003285F8(s32);
 extern "C" void func_002FC870(void *, s32);
 
+struct hInt__virtual_40_arg0 {
+    u8 pad0[0x10];
+    s32 unk10;
+};
+
 extern "C" void hInt__virtual_40(s32 *arg0, void *arg1) {
     s32 buf0[4];
     s32 v_s0;
-    func_002FE278(buf0, *(s32 *)((char *)arg0 + 0x10));
-    *(s32 *)((char *)arg0 + 0x10) = *(s32 *)((char *)arg0 + 0x10) + 0x1;
+    func_002FE278(buf0, ((struct hInt__virtual_40_arg0 *)arg0)->unk10);
+    ((struct hInt__virtual_40_arg0 *)arg0)->unk10 = ((struct hInt__virtual_40_arg0 *)arg0)->unk10 + 0x1;
     if ((char *)arg1 != (char *)buf0) {
         v_s0 = buf0[0];
         if (v_s0 != 0) {

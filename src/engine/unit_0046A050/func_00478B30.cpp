@@ -30,19 +30,30 @@ extern "C" void func_00473750(s32, void *);
 extern "C" void func_004A5348(s32);
 extern "C" void func_004A74B4(s32);
 
+struct func_00478B30_arg0 {
+    char pad0[0x6E14];
+    s32 unk6E14;
+    char pad6E18[0x20];
+    s32 unk6E38;
+};
+struct func_00478B30_v_s0 {
+    char pad0[0x4];
+    s32 unk4;
+};
+
 extern "C" void func_00478B30(s32 *arg0, void *arg1, s32 arg2) {
     s32 buf0[4];
     s32 v_s0;
-    if (*(s32 *)((char *)arg0 + 0x6e38) == 0) {
+    if (((struct func_00478B30_arg0 *)arg0)->unk6E38 == 0) {
         buf0[0] = 0x80ffffff;
-        func_00473380(*(s32 *)((char *)arg0 + 0x6e14), func_0047E658((char *)arg0 + 0x6e18, buf0));
+        func_00473380(((struct func_00478B30_arg0 *)arg0)->unk6E14, func_0047E658((char *)arg0 + 0x6e18, buf0));
     }
-    v_s0 = *(s32 *)((char *)arg0 + 0x6e14);
+    v_s0 = ((struct func_00478B30_arg0 *)arg0)->unk6E14;
     func_004A1638(0x2);
     func_004AB040(0x9);
-    *(s32 *)((char *)v_s0 + 0x4) = 0x1;
+    ((struct func_00478B30_v_s0 *)v_s0)->unk4 = 0x1;
     if (arg1 != 0) {
-        func_00473750(*(s32 *)((char *)arg0 + 0x6e14), arg1);
+        func_00473750(((struct func_00478B30_arg0 *)arg0)->unk6E14, arg1);
     }
     func_004A5348(0x2);
     func_004A74B4(arg2);

@@ -35,6 +35,11 @@ extern "C" void func_003285A8(s32);
 extern "C" void func_003285F8(s32);
 extern "C" void func_002F7B68(void *, s32);
 
+struct MCrossTransition__get_magnify_ratio_v_s0 {
+    char pad0[0x30];
+    f32 unk30;
+};
+
 extern "C" void MCrossTransition__get_magnify_ratio(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
     s32 buf0[4];
     s32 buf1[4];
@@ -47,7 +52,7 @@ extern "C" void MCrossTransition__get_magnify_ratio(s32 *arg0, void *arg1, s32 a
         func_00289700(buf0);
         v_s0 = buf0[0];
         t1 = vcall_60((char *)*(s32 *)arg3);
-        *(f32 *)((char *)v_s0 + 0x30) = t1;
+        ((struct MCrossTransition__get_magnify_ratio_v_s0 *)v_s0)->unk30 = t1;
         func_002896A8(buf0, 0x2);
     } else {
         p_s1 = buf1;

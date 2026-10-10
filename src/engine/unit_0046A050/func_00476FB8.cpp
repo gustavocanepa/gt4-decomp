@@ -26,6 +26,26 @@ extern "C" void func_004768C0(void);
 extern "C" s32 exception__structor_0(s32);
 extern "C" s32 func_00575E60(s32, s32);
 
+struct func_00476FB8_buf1 {
+    s8 unk0;
+};
+struct func_00476FB8_v_s0 {
+    char pad0[0x4];
+    s32 unk4;
+    s32 unk8;
+    s8 unkC;
+    char padD[0x3];
+    s32 unk10;
+};
+struct func_00476FB8_v_s1 {
+    char pad0[0x18];
+    s32 unk18;
+};
+struct func_00476FB8_arg0 {
+    char pad0[0x4];
+    s32 unk4;
+};
+
 extern "C" void func_00476FB8(s32 *arg0) {
     s32 buf0[4];
     s32 buf1[4];
@@ -38,18 +58,18 @@ extern "C" void func_00476FB8(s32 *arg0) {
     v_s1 = exception__structor_0(0x20);
     v_s0 = v_s1 + 0x4;
     *(s32 *)(char *)v_s1 = 0;
-    *(s8 *)((char *)buf1 + 0x0) = (s8)0;
+    ((struct func_00476FB8_buf1 *)buf1)->unk0 = (s8)0;
     p_s2 = buf1;
-    *(s32 *)((char *)v_s0 + 0x4) = 0;
+    ((struct func_00476FB8_v_s0 *)v_s0)->unk4 = 0;
     t1 = func_00575E60(0x10, 0x1c);
-    *(s32 *)((char *)v_s0 + 0x8) = 0;
-    *(s32 *)((char *)v_s0 + 0x4) = t1;
-    *(s8 *)((char *)v_s0 + 0xc) = (s8)*(u8 *)(char *)p_s2;
+    ((struct func_00476FB8_v_s0 *)v_s0)->unk8 = 0;
+    ((struct func_00476FB8_v_s0 *)v_s0)->unk4 = t1;
+    ((struct func_00476FB8_v_s0 *)v_s0)->unkC = (s8)*(u8 *)(char *)p_s2;
     *(s32 *)(char *)t1 = 0;
-    *(s32 *)((char *)(*(s32 *)((char *)v_s0 + 0x4)) + 0x4) = 0;
-    *(s32 *)((char *)(*(s32 *)((char *)v_s0 + 0x4)) + 0x8) = *(s32 *)((char *)v_s0 + 0x4);
-    *(s32 *)((char *)(*(s32 *)((char *)v_s0 + 0x4)) + 0xc) = *(s32 *)((char *)v_s0 + 0x4);
-    *(s32 *)((char *)v_s0 + 0x10) = 0;
-    *(s32 *)((char *)v_s1 + 0x18) = 0x1;
-    *(s32 *)((char *)arg0 + 0x4) = v_s1;
+    *(s32 *)((char *)(((struct func_00476FB8_v_s0 *)v_s0)->unk4) + 0x4) = 0;
+    *(s32 *)((char *)(((struct func_00476FB8_v_s0 *)v_s0)->unk4) + 0x8) = ((struct func_00476FB8_v_s0 *)v_s0)->unk4;
+    *(s32 *)((char *)(((struct func_00476FB8_v_s0 *)v_s0)->unk4) + 0xc) = ((struct func_00476FB8_v_s0 *)v_s0)->unk4;
+    ((struct func_00476FB8_v_s0 *)v_s0)->unk10 = 0;
+    ((struct func_00476FB8_v_s1 *)v_s1)->unk18 = 0x1;
+    ((struct func_00476FB8_arg0 *)arg0)->unk4 = v_s1;
 }

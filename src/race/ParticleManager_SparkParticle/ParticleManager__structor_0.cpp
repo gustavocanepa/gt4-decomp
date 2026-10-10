@@ -1,3 +1,4 @@
+#include "gt4/ParticleManager.h"
 typedef int s32;
 
 extern void *D_00620000;
@@ -8,7 +9,7 @@ extern "C" void func_003C2070(void *);
 extern "C" void func_0040AB98(void *, s32, float, float, float);
 
 extern "C" void ParticleManager__structor_0(void *arg0) {
-    *(void **)((char *)arg0 + 0x3ac) = &ParticleManager__vtable;
+    ((struct ParticleManager *)arg0)->unk3AC_pvoid = &ParticleManager__vtable;
     void *r0 = func_003C1310(arg0);
     void *r1 = exception__structor_0(((s32)r0 << (s32)0x7));
     *(void **)(arg0) = r1;

@@ -1,3 +1,4 @@
+#include "gt4/RaceMTRMeterPanel.h"
 typedef int s32;
 
 extern void *RaceMTRMeterPanel__vtable;
@@ -10,7 +11,7 @@ static inline void vcall_0(char *o, s32 a0) {
 }
 
 extern "C" void RaceMTRMeterPanel__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x14) = &RaceMTRMeterPanel__vtable;
+    ((struct RaceMTRMeterPanel *)arg0)->unk14 = &RaceMTRMeterPanel__vtable;
     if ((char *)arg0 + 0x20 != 0) {
         char *p0 = (char *)arg0 + 0x1e0;
         while ((char *)arg0 + 0x20 != p0) {

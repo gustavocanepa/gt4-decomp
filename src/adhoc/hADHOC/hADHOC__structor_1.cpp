@@ -1,3 +1,4 @@
+#include "gt4/hADHOC.h"
 typedef int s32;
 
 struct Rep { s32 len; s32 cap; s32 ref; s32 sel; };
@@ -66,7 +67,7 @@ static inline void member_3(char *m) {
 }
 
 extern "C" void hADHOC__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &hADHOC__vtable;
+    ((struct hADHOC *)arg0)->unk4 = &hADHOC__vtable;
     func_002ED5C0((char *)arg0 + 0x74, 0x2);
     func_00574DA8((char *)arg0 + 0x44, 0x2);
     str_release((Str *)((char *)arg0 + 0x40));

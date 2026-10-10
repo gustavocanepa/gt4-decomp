@@ -190,6 +190,12 @@ def main():
                       "duplicate_sources": len(build.get("duplicate_sources", {}))},
             "linked_functions": linked, "data_functions": sum(1 for f in funcs if f["data"]),
             "asm_functions": len(asm), "data_bytes": data_size, "bss_bytes": bss_size}
+    # How many of the sources are clean C/C++ rather than raw decompiler output (tools/clean_report.py)
+    try:
+        import clean_report
+        meta["clean"] = clean_report.summary()
+    except Exception as e:  # the report stands without it
+        print(f"note: no clean-source count ({e})")
     json.dump(meta, open(META, "w"), indent=1)
     if not (build.get("text_matches") and build.get("data_matches")):
         print("WARNING: the build this report reads does not reproduce the original (.text/.data differ)")

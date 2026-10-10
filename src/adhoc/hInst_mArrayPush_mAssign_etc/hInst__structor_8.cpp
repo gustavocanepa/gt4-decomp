@@ -7,10 +7,15 @@ extern "C" void *func_0031B500(s32 arg0);
 extern void *hInst__vtable;
 extern void *mEval__vtable;
 
-extern "C" void hInst__structor_8(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 4) = &mEval__vtable;
+struct hInst__structor_8_arg0 {
+    char pad0[0x4];
+    void *unk4;
+};
+
+extern "C" void hInst__structor_8(struct hInst__structor_8_arg0 *arg0, s32 arg1) {
+    arg0->unk4 = &mEval__vtable;
     func_0031B500(0);
-    *(void **)((char *)arg0 + 4) = &hInst__vtable;
+    arg0->unk4 = &hInst__vtable;
     RefCounter__structor_2(arg0, 0);
     if (arg1 & 1) {
         return func_00326798(arg0, 8, 4, "RefCounter");

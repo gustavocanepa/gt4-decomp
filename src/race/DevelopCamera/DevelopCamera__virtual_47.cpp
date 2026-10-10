@@ -1,5 +1,5 @@
-typedef signed char s8; typedef unsigned char u8; typedef short s16; typedef unsigned short u16;
-typedef int s32; typedef unsigned int u32; typedef long long s64;
-extern "C" u8 DevelopCamera__virtual_47(void *a0) {
-    return *(u8 *)((char *)a0 + 2761);
+#include "types.h"
+#include "gt4/DevelopCamera.h"
+extern "C" u8 DevelopCamera__virtual_47(struct DevelopCamera *a0) {
+    return a0->unkAC9;
 }

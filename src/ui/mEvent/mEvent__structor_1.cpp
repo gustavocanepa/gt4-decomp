@@ -1,3 +1,4 @@
+#include "gt4/mEvent.h"
 typedef int s32;
 
 extern "C" void func_00575DA0(void *arg0);
@@ -7,9 +8,9 @@ extern "C" void hObject__structor_2(void *, s32);
 
 extern void *mEvent__vtable;
 
-extern "C" void mEvent__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 4) = &mEvent__vtable;
-    void *p = *(void **)((char *)arg0 + 0x1C);
+extern "C" void mEvent__structor_1(struct mEvent *arg0, s32 arg1) {
+    arg0->unk4 = &mEvent__vtable;
+    void *p = arg0->unk1C;
     if (p != 0) {
         func_003286B8(p);
     }

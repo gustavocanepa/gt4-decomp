@@ -11,8 +11,11 @@ rm -f "$out"
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
 cp "$in" "$work/"
-# The project's headers (include/stl, include/shim) next to the source, for commands that say -Iinclude/...
-cp -r "$(dirname "$0")/../include" "$work/include"
+# The project's headers (include/, include/stl, include/shim) next to the source, for commands that
+# say -Iinclude/...; include/ is also on the search path of commands that do not say it (CPATH, e.g.
+# for the candidate commands of tools/compiler_probe.py). See include_wsl.sh.
+. "$(dirname "$0")/include_wsl.sh"
+include_into "$work"
 src="$(basename "$in")"
 (cd "$work" && eval "$*" "\"$src\"" -o out.o)
 # Copy under a temporary name and rename: a reader never sees a half-written object.

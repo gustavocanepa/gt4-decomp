@@ -1,10 +1,11 @@
+#include "gt4/RaceSteeringDisplay.h"
 extern "C" void RaceDisplayObjectBase__structor_1(void *arg0, void *arg1);
 extern "C" void func_005C1628(void *arg0);
 
 extern void *RaceSteeringDisplay__vtable;
 
-extern "C" void RaceSteeringDisplay__structor_2(void *arg0, int arg1) {
-    *(void **)((char *)arg0 + 0x14) = &RaceSteeringDisplay__vtable;
+extern "C" void RaceSteeringDisplay__structor_2(struct RaceSteeringDisplay *arg0, int arg1) {
+    arg0->unk14 = &RaceSteeringDisplay__vtable;
     RaceDisplayObjectBase__structor_1(arg0, 0);
     if (arg1 & 1) {
         return func_005C1628(arg0);

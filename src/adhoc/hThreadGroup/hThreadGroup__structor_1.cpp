@@ -1,3 +1,4 @@
+#include "gt4/hThreadGroup.h"
 typedef int s32;
 
 extern void *hThreadGroup__vtable;
@@ -14,7 +15,7 @@ static inline void member_0(char *m) {
 }
 
 extern "C" void hThreadGroup__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &hThreadGroup__vtable;
+    ((struct hThreadGroup *)arg0)->unk4 = &hThreadGroup__vtable;
     member_0((char *)arg0 + 0x14);
     func_00318538((char *)arg0 + 0x10, 0x2);
     hObject__structor_2(arg0, 0x0);

@@ -1,0 +1,462 @@
+# Translation units proposed by tools/gthd_units.py from Gran Turismo HD's source-file
+# symbols (names only). START NAME, then (tab separated):
+#   name confidence: high (>= 2 high pairs, or >= 3 pairs with a high one), medium (one
+#     high pair in <= 40 functions, or 2 pairs), low (one pair: check before using);
+#   boundary confidence at START: high (after a static initialiser, or between adjacent
+#     functions of two files), medium (an RTTI boundary of config/units.txt inside the
+#     gap between two files), low (somewhere in that gap);
+#   why; GT HD file; functions; functions paired with a file; profiles of the matched
+#   sources (default = no compiler marker).
+00100000 unit_00100000	-	high	start	-	7	0	default:3
+00100910 unit_00100910	-	high	static initialiser	-	14	0	default:14
+00100d10 unit_00100D10	-	high	static initialiser	-	3	0	default:2
+00100e10 gameobject_ps3	high	high	static initialiser	gameobject_ps3.cxx	25	11	default:22
+00101538 unit_00101538	-	high	static initialiser	-	21	0	default:16
+00101bb8 unit_00101BB8	-	high	static initialiser	-	10	0	default:8
+00102308 loading_ps3_config	low	high	static initialiser	loading_ps3_config.cxx	91	1	default:54,ee-gcc2.96-no-strict-aliasing:1
+001051d8 unit_001051D8	-	high	static initialiser	-	43	0	default:36,ee-gcc2.96-no-strict-aliasing:1
+00106058 unit_00106058	-	high	static initialiser	-	22	0	default:12
+00107730 init_ps3	low	high	static initialiser	init_ps3.cxx	31	1	default:23
+00108bf8 unit_00108BF8	-	high	static initialiser	-	19	0	default:14,ee-gcc2.96-no-strict-aliasing:1
+00109448 menugameobject	low	high	static initialiser	menugameobject.cxx	37	1	default:30,ee-gcc2.96-no-strict-aliasing:1
+0010aa08 unit_0010AA08	-	high	static initialiser	-	26	0	default:22
+0010b9c8 unit_0010B9C8	-	high	static initialiser	-	10	0	default:5
+0010ca50 unit_0010CA50	-	high	static initialiser	-	13	0	default:4
+0010f608 unit_0010F608	-	high	static initialiser	-	54	0	default:31
+00111498 unit_00111498	-	high	static initialiser	-	10	0	default:4
+00112620 unit_00112620	-	high	static initialiser	-	10	0	default:3
+00113b48 unit_00113B48	-	high	static initialiser	-	9	0	default:4
+00114e38 unit_00114E38	-	high	static initialiser	-	7	0	default:3
+00115a90 unit_00115A90	-	high	static initialiser	-	11	0	default:4
+00116e20 unit_00116E20	-	high	static initialiser	-	9	0	default:3
+001181c8 unit_001181C8	-	high	static initialiser	-	7	0	default:4
+00118ef0 unit_00118EF0	-	high	static initialiser	-	15	0	default:4
+0011abe0 unit_0011ABE0	-	high	static initialiser	-	7	0	default:4
+0011bb60 unit_0011BB60	-	high	static initialiser	-	11	0	default:4
+0011cb38 unit_0011CB38	-	high	static initialiser	-	9	0	default:3
+0011db60 MLoggerControlDummy	high	high	static initialiser	MLoggerControlDummy.cpp	92	5	default:58,ee-gcc2.96-no-strict-aliasing:1
+001240a8 MQuickWork	medium	high	static initialiser	MQuickWork.cpp	55	4	default:42
+00128738 unit_00128738	-	high	static initialiser	-	18	0	default:13
+0012a0d8 MRaceCourseMapFace	high	high	static initialiser	MRaceCourseMapFace.cpp	24	10	default:19
+0012b468 MSceneViewFace	high	high	static initialiser	MSceneViewFace.cpp	32	5	default:25
+0012c9d0 unit_0012C9D0	-	high	static initialiser	-	4	0	default:4
+0012d470 unit_0012D470	-	high	static initialiser	-	54	0	default:26
+00132c80 MCalendar	medium	high	static initialiser	MCalendar.cpp	44	5	default:21
+00137d30 MCarFace	high	high	static initialiser	MCarFace.cpp	72	8	default:53
+0013bd38 MCarGarage	high	high	static initialiser	MCarGarage.cpp	182	5	default:140,ee-gcc2.96-no-strict-aliasing:1
+00148940 unit_00148940	-	high	static initialiser	-	56	0	default:28
+00151750 MCarModel	high	high	static initialiser	MCarModel.cpp	73	6	default:61
+00154ac0 unit_00154AC0	-	high	static initialiser	-	67	0	default:44
+00157ce0 MColorChipFace	high	high	static initialiser	MColorChipFace.cpp	39	7	default:23
+0015aa38 MCourseRecord	high	high	static initialiser	MCourseRecord.cpp	51	12	default:40
+0015d810 MDemonstration	high	high	static initialiser	MDemonstration.cpp	34	6	default:33
+0015f358 MGame	high	high	static initialiser	MGame.cpp	156	5	default:114
+0016bf10 unit_0016BF10	-	high	static initialiser	-	35	0	default:32
+0016d7c0 MGarage	high	high	static initialiser	MGarage.cpp	42	6	default:26
+001711c0 MLicenseRecord	high	high	static initialiser	MLicenseRecord.cpp	43	12	default:36
+00173220 unit_00173220	-	high	static initialiser	-	25	0	default:22
+001740c0 MMemoryCardFile	high	high	static initialiser	MMemoryCardFile.cpp	52	6	default:27
+00179250 MMemoryCardManager	high	high	static initialiser	MMemoryCardManager.cpp	59	6	default:51
+0017d238 MMemoryCardPlayList	high	high	static initialiser	MMemoryCardPlayList.cpp	32	6	default:25
+0017ed30 unit_0017ED30	-	high	static initialiser	-	21	0	default:20
+0017faa0 MOption	high	high	static initialiser	MOption.cpp	163	5	default:143
+001908c0 unit_001908C0	-	high	static initialiser	-	15	0	default:4
+001929d0 MPhotoMapWindow	high	high	static initialiser	MPhotoMapWindow.cpp	63	5	default:41
+00197788 MPhotoRenderFace	high	high	static initialiser	MPhotoRenderFace.cpp	86	5	default:64
+0019c150 unit_0019C150	-	high	static initialiser	-	45	0	default:43
+0019e3d0 MPlayList	medium	high	static initialiser	MPlayList.cpp	24	6	default:21
+0019f980 MPresent	high	high	static initialiser	MPresent.cpp	24	6	default:23
+001a0ac8 unit_001A0AC8	-	high	static initialiser	-	46	0	default:39
+001a47d8 MRaceRecord	high	high	static initialiser	MRaceRecord.cpp	51	12	default:37
+001a76f8 unit_001A76F8	-	high	static initialiser	-	39	0	default:28
+001aa070 MSlideShowFaceDummy	low	high	static initialiser	MSlideShowFaceDummy.cpp	37	6	default:25
+001abdf8 MSystem	high	high	static initialiser	MSystem.cpp	37	5	default:32,ee-gcc2.96-no-strict-aliasing:1
+001aeba8 unit_001AEBA8	-	high	static initialiser	-	28	0	default:22
+001b0a68 unit_001B0A68	-	high	static initialiser	-	23	0	default:23
+001b1d00 MUsedCar	high	high	static initialiser	MUsedCar.cpp	22	6	default:21
+001b2d00 MCourseData	high	high	static initialiser	MCourseData.cpp	23	6	default:19
+001b4080 MDatabase	high	high	static initialiser	MDatabase.cpp	34	6	default:29
+001b6890 MEyetoy	high	high	static initialiser	MEyetoy.cpp	55	42	default:55
+001b8ab8 MEyetoyFace	high	high	static initialiser	MEyetoyFace.cpp	22	7	default:21
+001b98f8 MEyetoyImageProcessor	high	high	static initialiser	MEyetoyImageProcessor.cpp	25	11	default:25
+001ba478 MGTShirt	high	high	static initialiser	MGTShirt.cpp	40	28	default:40
+001bbab8 MLoggerFace	high	high	static initialiser	MLoggerFace.cpp	28	8	default:22
+001bcec0 MPhotoViewFace	high	high	static initialiser	MPhotoViewFace.cpp	27	5	default:26
+001be060 unit_001BE060	-	high	static initialiser	-	13	0	default:8
+001beef8 unit_001BEEF8	-	high	static initialiser	-	47	0	default:41
+001bfe20 MFavorite	high	high	static initialiser	MFavorite.cpp	27	6	default:22
+001c1620 unit_001C1620	-	high	static initialiser	-	63	0	default:35
+001c49a0 unit_001C49A0	-	high	static initialiser	-	39	0	default:21
+001c5b20 unit_001C5B20	-	high	static initialiser	-	63	0	default:45
+001c85e0 unit_001C85E0	-	high	static initialiser	-	9	0	default:6
+001c9370 file	low	high	static initialiser	file.cxx	178	14	default:101,ee-gcc2.96-no-strict-aliasing:1
+001d0438 file_photo_dummy	low	low	somewhere in a gap of 2 function(s)	file_photo_dummy.cxx	3	1	default:2
+001d0520 file_playlist	low	low	somewhere in a gap of 18 function(s)	file_playlist.cxx	21	2	default:11
+001d1270 device_demo	low	low	somewhere in a gap of 39 function(s)	device_demo.cxx	49	1	default:41,ee-gcc2.96-stl:1
+001d2470 unit_001D2470	-	high	static initialiser	-	153	0	default:90,ee-gcc2.96-no-strict-aliasing:1
+001daea0 unit_001DAEA0	-	high	static initialiser	-	22	0	default:20
+001dc5c8 unit_001DC5C8	-	high	static initialiser	-	382	0	default:250,ee-gcc2.96-as2004:1,ee-gcc2.96-no-strict-aliasing:1
+001fc378 MStream	medium	high	static initialiser	MStream.cpp	25	5	default:25
+001fd2a8 unit_001FD2A8	-	high	static initialiser	-	33	0	default:13
+001fef20 MActor	high	high	static initialiser	MActor.cpp	25	7	default:23
+001ffe50 MBlob	high	high	static initialiser	MBlob.cpp	19	5	default:19
+002009f8 MBox	high	high	static initialiser	MBox.cpp	35	6	default:34
+00201ec8 unit_00201EC8	-	high	static initialiser	-	8	0	default:5
+00202c20 MColorObject	high	high	static initialiser	MColorObject.cpp	46	6	default:40
+00204d00 MComposite	high	high	static initialiser	MComposite.cpp	75	14	default:41
+00208210 MSliderBar	low	low	somewhere in a gap of 9 function(s)	MSliderBar.cpp	13	1	default:8
+00208ee8 unit_00208EE8	-	high	static initialiser	-	53	0	default:45
+0020b310 MFadeActor	high	high	static initialiser	MFadeActor.cpp	38	8	default:31
+0020d0d8 MFunctionEvent	high	high	static initialiser	MFunctionEvent.cpp	27	7	default:21
+0020e348 unit_0020E348	-	high	static initialiser	-	28	0	default:11
+002106c8 MImage	medium	high	static initialiser	MImage.cpp	7	3	default:7
+00210810 MLightSetting	low	medium	RTTI boundary in a gap of 2	MLightSetting.cpp	4	1	default:1
+00211328 MManager	high	medium	RTTI boundary in a gap of 1	MManager.cpp	151	24	default:88
+0021a6b8 MModel	medium	high	static initialiser	MModel.cpp	34	6	default:30,ee-gcc2.96-no-strict-aliasing:1
+0021b2f8 MModelMotion	medium	high	static initialiser	MModelMotion.cpp	12	3	default:11,ee-gcc2.96-no-strict-aliasing:1
+0021b588 MModelSet	medium	medium	RTTI boundary in a gap of 5	MModelSet.cpp	16	3	default:12
+0021c5a8 MModelStream	high	high	static initialiser	MModelStream.cpp	30	7	default:24
+0021d7e0 MMovie	medium	high	static initialiser	MMovie.cpp	7	3	default:7
+0021d928 MMovieFace	high	medium	RTTI boundary in a gap of 6	MMovieFace.cpp	52	7	default:41
+00220730 MMovieSetting	low	high	static initialiser	MMovieSetting.cpp	11	1	default:4,ee-gcc2.96-no-strict-aliasing:1
+00221aa0 MNetConf	high	high	static initialiser	MNetConf.cpp	72	5	default:47
+002270f8 MPipe	high	high	static initialiser	MPipe.cpp	26	5	default:24
+00228450 MProgress	high	high	static initialiser	MProgress.cpp	24	5	default:21
+00229270 MProject	high	high	static initialiser	MProject.cpp	39	7	default:32
+0022a840 MWidget	low	high	static initialiser	MWidget.cpp	6	1	default:4
+0022abe8 MRenderContext	high	medium	RTTI boundary in a gap of 3	MRenderContext.cpp	145	8	default:92
+00232bf0 MRootWindow	high	high	static initialiser	MRootWindow.cpp	64	11	default:43
+00236650 MScaleBar	high	high	static initialiser	MScaleBar.cpp	68	4	default:51,ee-gcc2.96-no-strict-aliasing:1
+00239e28 MScriptEvent	high	high	static initialiser	MScriptEvent.cpp	25	8	default:21
+0023b1a8 MShell	high	high	static initialiser	MShell.cpp	26	7	default:21
+0023d230 unit_0023D230	-	high	static initialiser	-	5	0	default:3
+0023ddc0 MSound	high	high	static initialiser	MSound.cpp	48	6	default:39
+00240398 MStorage	high	high	static initialiser	MStorage.cpp	33	5	default:28
+00242468 MStorageHD	high	high	static initialiser	MStorageHD.cpp	28	15	default:26
+00243440 MTextFace	high	high	static initialiser	MTextFace.cpp	58	9	default:38
+00246f58 unit_00246F58	-	high	static initialiser	-	12	0	default:5
+00248bc0 MToolTipFace	high	high	static initialiser	MToolTipFace.cpp	44	7	default:33
+0024b218 MTransform	high	high	static initialiser	MTransform.cpp	34	6	default:28,ee-gcc2.96-no-strict-aliasing:1
+0024c7d8 MTransition	high	high	static initialiser	MTransition.cpp	35	13	default:35
+0024db50 MUpdateContext	high	high	static initialiser	MUpdateContext.cpp	89	5	default:45
+00253c08 MWatcher	high	high	static initialiser	MWatcher.cpp	32	6	default:30
+00254fd0 MWidget_2	high	high	static initialiser	MWidget.cpp	352	49	default:266,ee-gcc2.96-stl:1
+00269290 MWidgetIO	low	high	static initialiser	MWidgetIO.cpp	6	1	default:4
+0026a038 MRootWindow_2	low	high	static initialiser	MRootWindow.cpp	42	1	default:34
+0026b930 MWindowEvent	medium	high	static initialiser	MWindowEvent.cpp	18	5	default:18
+0026c428 MXml	high	high	static initialiser	MXml.cpp	29	5	default:23
+0026da88 MenuControl	low	high	static initialiser	MenuControl.cpp	2	1	default:2
+0026db28 menu	low	medium	RTTI boundary in a gap of 7	menu.cpp	11	1	default:9
+0026ee28 unit_0026EE28	-	high	static initialiser	-	15	0	default:6
+00270e98 unit_00270E98	-	high	static initialiser	-	29	0	default:23
+002726c0 unit_002726C0	-	high	static initialiser	-	20	0	default:18
+00273528 unit_00273528	-	high	static initialiser	-	53	0	default:45
+00274818 unit_00274818	-	high	static initialiser	-	70	0	default:55,ee-gcc2.96-no-strict-aliasing:2
+00276500 unit_00276500	-	high	static initialiser	-	27	0	default:26
+002770e8 MActivateEvent	high	high	static initialiser	MActivateEvent.cpp	32	7	default:27,ee-gcc2.96-as2004:1
+002780e8 MAnchorActor	high	high	static initialiser	MAnchorActor.cpp	22	4	default:20
+00278e98 MBlinkActor	high	high	static initialiser	MBlinkActor.cpp	24	6	default:19
+0027a198 MBlockTransition	high	high	static initialiser	MBlockTransition.cpp	46	11	default:36
+0027bb98 MBlurFace	high	high	static initialiser	MBlurFace.cpp	27	6	default:25
+0027cd68 MButton	high	high	static initialiser	MButton.cpp	27	12	default:26
+0027e098 MButtonActor	high	high	static initialiser	MButtonActor.cpp	28	7	default:24
+0027f240 MButtonEvent	high	high	static initialiser	MButtonEvent.cpp	24	6	default:22
+00280550 MButtonPressEvent	high	high	static initialiser	MButtonPressEvent.cpp	18	5	default:16
+002810c0 MButtonReleaseEvent	high	high	static initialiser	MButtonReleaseEvent.cpp	18	5	default:16
+00281c30 MCallbackEvent	high	high	static initialiser	MCallbackEvent.cpp	21	7	default:20
+00282888 MCancelEvent	high	high	static initialiser	MCancelEvent.cpp	23	7	default:21
+00283618 MChaseActor	high	high	static initialiser	MChaseActor.cpp	31	6	default:28
+00284ae8 MColorFace	high	high	static initialiser	MColorFace.cpp	38	10	default:25
+00286c90 MColorTransition	high	high	static initialiser	MColorTransition.cpp	28	9	default:26
+00287c58 MColorWindow	high	high	static initialiser	MColorWindow.cpp	35	12	default:26
+00289678 MCrossTransition	high	high	static initialiser	MCrossTransition.cpp	32	10	default:27
+0028b0d0 MCrossingEvent	high	high	static initialiser	MCrossingEvent.cpp	17	5	default:16
+0028bbd8 MData	medium	high	static initialiser	MData.cpp	38	3	default:36
+0028d810 MEnterEvent	high	high	static initialiser	MEnterEvent.cpp	17	5	default:16
+0028e298 MEvent	high	high	static initialiser	MEvent.cpp	28	8	default:23
+0028f4b8 MFBox	high	high	static initialiser	MFBox.cpp	22	6	default:20
+002903a0 MFinalizeEvent	high	high	static initialiser	MFinalizeEvent.cpp	21	7	default:19
+00291000 MFlash	medium	high	static initialiser	MFlash.cpp	11	3	default:11
+00291850 MFlashFace	high	high	static initialiser	MFlashFace.cpp	49	7	default:33
+00294300 MFocusEnterEvent	high	high	static initialiser	MFocusEnterEvent.cpp	20	6	default:19
+00294ea8 MFocusLeaveEvent	high	high	static initialiser	MFocusLeaveEvent.cpp	20	6	default:19
+00295a50 MFrameImageFace	high	high	static initialiser	MFrameImageFace.cpp	50	7	default:36
+0029a658 MGamePort	high	high	static initialiser	MGamePort.cpp	83	24	default:77
+0029d468 MGpb	high	high	static initialiser	MGpb.cpp	28	5	default:26
+0029e7c0 MGraphFace	high	high	static initialiser	MGraphFace.cpp	22	4	default:18
+0029f738 MNode	low	low	somewhere in a gap of 4 function(s)	MNode.cpp	8	1	default:6
+002a0110 MHBox	high	high	static initialiser	MHBox.cpp	20	5	default:20
+002a0cf0 MImageFace	high	high	static initialiser	MImageFace.cpp	53	8	default:32
+002a41e0 MInputNumberFace	high	high	static initialiser	MInputNumberFace.cpp	25	8	default:19
+002a5d90 MInputTextFace	high	high	static initialiser	MInputTextFace.cpp	58	8	default:44
+002a9530 MKeyEvent	high	high	static initialiser	MKeyEvent.cpp	22	6	default:19
+002aa6d0 MKeyPressEvent	high	high	static initialiser	MKeyPressEvent.cpp	20	6	default:18
+002ab428 MKeyReleaseEvent	high	high	static initialiser	MKeyReleaseEvent.cpp	18	5	default:16
+002abf98 MKeyboardBox	high	high	static initialiser	MKeyboardBox.cpp	23	6	default:23
+002acd38 MKeytopBox	high	high	static initialiser	MKeytopBox.cpp	24	8	default:21
+002ade00 MLeaveEvent	high	high	static initialiser	MLeaveEvent.cpp	17	5	default:16
+002ae888 MListBox	high	high	static initialiser	MListBox.cpp	117	25	default:82,ee-gcc2.96-nosib:1
+002b5e28 MListItem	medium	high	static initialiser	MListItem.cpp	2	2	default:2
+002b5e40 MLocale	low	medium	RTTI boundary in a gap of 8	MLocale.cpp	25	6	default:24
+002b6e60 MLocalizedText	high	high	static initialiser	MLocalizedText.cpp	19	4	default:11
+002b80d8 MMBox	high	high	static initialiser	MMBox.cpp	30	7	default:27
+002b9750 MMagnifyActor	high	high	static initialiser	MMagnifyActor.cpp	32	7	default:29
+002baab0 MModelFace	high	high	static initialiser	MModelFace.cpp	61	7	default:46
+002bf408 MMotionEvent	high	high	static initialiser	MMotionEvent.cpp	23	8	default:20
+002c0358 MMoveActor	high	high	static initialiser	MMoveActor.cpp	41	8	default:34
+002c2848 MMusic	medium	high	static initialiser	MMusic.cpp	43	6	default:34,ee-gcc2.96-no-strict-aliasing:1
+002c45c0 MOSKeyboard	high	high	static initialiser	MOSKeyboard.cpp	24	5	default:12
+002c7288 MOptionMenu	high	high	static initialiser	MOptionMenu.cpp	53	5	default:32
+002ca6c8 MProgressFace	high	high	static initialiser	MProgressFace.cpp	24	6	default:21
+002cb670 MRandom	high	high	static initialiser	MRandom.cpp	23	6	default:19
+002cc648 MRotateActor	high	high	static initialiser	MRotateActor.cpp	46	8	default:40
+002ce478 MScriptWatcher	high	high	static initialiser	MScriptWatcher.cpp	24	5	default:23
+002cf3c0 MScrollBox	high	high	static initialiser	MScrollBox.cpp	22	7	default:21
+002d0538 MScrollWindow	high	high	static initialiser	MScrollWindow.cpp	117	43	default:99
+002d4498 MScrollable	high	high	static initialiser	MScrollable.cpp	30	10	default:28,ee-gcc2.96-no-strict-aliasing:1
+002d5450 MSelectBar	high	high	static initialiser	MSelectBar.cpp	59	12	default:34,ee-gcc2.96-no-strict-aliasing:1
+002d8a80 MSelectBox	high	high	static initialiser	MSelectBox.cpp	72	12	default:45,ee-gcc2.96-no-strict-aliasing:2
+002dcaf8 MSession	high	high	static initialiser	MSession.cpp	19	5	default:19
+002dd610 MSliderBar_2	medium	high	static initialiser	MSliderBar.cpp	14	3	default:13
+002dd988 MNode_2	medium	low	somewhere in a gap of 19 function(s)	MNode.cpp	44	2	default:31
+002e0998 MStorageEntry	high	high	static initialiser	MStorageEntry.cpp	28	5	default:21
+002e1f38 MSwitchActor	high	high	static initialiser	MSwitchActor.cpp	34	6	default:29
+002e3b38 MTextActor	high	high	static initialiser	MTextActor.cpp	26	5	default:25
+002e4b50 MTextBoxFace	high	high	static initialiser	MTextBoxFace.cpp	36	10	default:25
+002e6b28 MVBox	high	high	static initialiser	MVBox.cpp	20	5	default:20
+002e7708 MVirtualFace	high	high	static initialiser	MVirtualFace.cpp	26	7	default:24
+002e88f8 unit_002E88F8	-	high	static initialiser	-	4	0	default:3
+002e90e8 MDBox	high	high	static initialiser	MDBox.cpp	37	8	default:31
+002ea548 h_adhoc	medium	high	static initialiser	h_adhoc.cpp	34	4	default:19
+002ed590 h_array	high	high	static initialiser	h_array.cpp	62	13	default:39
+002f0d88 h_array_element	high	high	static initialiser	h_array_element.cpp	22	8	default:20
+002f1bc8 h_builtin_module	low	high	static initialiser	h_builtin_module.cpp	8	1	default:7
+002f29d8 h_class	high	high	static initialiser	h_class.cpp	47	7	default:35
+002f41e0 h_code	medium	high	static initialiser	h_code.cpp	25	6	default:20
+002f5478 h_exception	high	high	static initialiser	h_exception.cpp	25	5	default:23
+002f6668 h_file_io	high	high	static initialiser	h_file_io.cpp	32	9	default:27
+002f7b38 h_float	high	high	static initialiser	h_float.cpp	53	18	default:37,ee-gcc2.96-no-strict-aliasing:1
+002f9b08 h_function_object	high	high	static initialiser	h_function_object.cpp	24	9	default:21
+002fa8a0 h_function_value	medium	high	static initialiser	h_function_value.cpp	15	3	default:14
+002fb178 h_inst	medium	high	static initialiser	h_inst.cpp	9	2	default:8
+002fc840 h_int	high	high	static initialiser	h_int.cpp	60	19	default:50
+002fea80 h_io	high	high	static initialiser	h_io.cpp	51	17	default:43
+003005a8 h_nil	high	high	static initialiser	h_nil.cpp	21	5	default:21
+003011f8 h_local_variable	high	high	static initialiser	h_local_variable.cpp	23	9	default:22
+00301fe0 unit_00301FE0	-	high	static initialiser	-	6	0	default:5
+00302a50 h_method_object	medium	high	static initialiser	h_method_object.cpp	23	8	default:20
+003038b0 h_method_value	medium	high	static initialiser	h_method_value.cpp	15	3	default:15
+00304188 h_module	high	high	static initialiser	h_module.cpp	77	16	default:57,ee-gcc2.96-no-strict-aliasing:1
+003076f8 h_module_variable	high	high	static initialiser	h_module_variable.cpp	23	9	default:21
+00308558 h_numeric	high	high	static initialiser	h_numeric.cpp	23	6	default:23
+00309348 h_object	high	high	static initialiser	h_object.cpp	88	32	default:72
+0030c2c8 h_output	medium	high	static initialiser	h_output.cpp	35	3	default:21,ee-gcc2.96-no-strict-aliasing:1
+0030ece0 h_scope_path	low	high	static initialiser	h_scope_path.cpp	18	1	default:8,ee-gcc2.96-stl:2
+0030fff8 h_script_function	medium	high	static initialiser	h_script_function.cpp	15	7	default:13
+00310bc0 h_script_method	medium	high	static initialiser	h_script_method.cpp	15	7	default:14
+00311748 h_static_value	medium	high	static initialiser	h_static_value.cpp	17	5	default:16
+003122e8 h_string	high	high	static initialiser	h_string.cpp	51	14	default:37
+00315918 unit_00315918	-	high	static initialiser	-	5	0	default:3
+003166b8 unit_003166B8	-	high	static initialiser	-	6	0	default:6
+00316df8 h_system_module	low	high	static initialiser	h_system_module.cpp	7	1	default:5
+00317bf0 h_time_module	low	high	static initialiser	h_time_module.cpp	5	1	default:4
+00318508 h_thread	high	high	static initialiser	h_thread.cpp	417	201	default:367,ee-gcc2.96-no-strict-aliasing:2
+003227a8 h_thread_group	high	high	static initialiser	h_thread_group.cpp	27	7	default:23
+00323b30 h_value	medium	high	static initialiser	h_value.cpp	18	6	default:18
+00324440 h_variable	medium	high	static initialiser	h_variable.cpp	21	5	default:21
+00324f98 unit_00324F98	-	high	static initialiser	-	6	0	default:6
+00325730 unit_00325730	-	high	static initialiser	-	9	0	default:5
+003262b0 m_adhoc	low	high	static initialiser	m_adhoc.cpp	27	5	default:15,ee-gcc2.96-nosib:1
+00328420 ref_pointer	high	high	static initialiser	ref_pointer.cpp	18	8	default:15
+00328798 m_adhoc_2	medium	low	somewhere in a gap of 14 function(s)	m_adhoc.cpp	38	2	default:20
+0032aed0 unit_0032AED0	-	high	static initialiser	-	5	0	default:5
+0032b5c0 h_attribute	medium	high	static initialiser	h_attribute.cpp	30	4	default:27,ee-gcc2.96-no-strict-aliasing:1
+0032c480 h_builtin_attribute	medium	high	static initialiser	h_builtin_attribute.cpp	16	4	default:15
+0032cee0 h_builtin_function	medium	high	static initialiser	h_builtin_function.cpp	14	6	default:13
+0032d970 h_builtin_method	medium	high	static initialiser	h_builtin_method.cpp	14	6	default:13
+0032e418 h_builtin_static	medium	high	static initialiser	h_builtin_static.cpp	16	4	default:15
+0032ee60 battle2p	high	high	static initialiser	battle2p.cxx	51	31	default:34
+00330860 unit_00330860	-	high	static initialiser	-	160	0	default:73
+00338658 unit_00338658	-	high	static initialiser	-	32	0	default:21
+00339318 unit_00339318	-	high	static initialiser	-	14	0	default:8
+00339970 ps3_render	low	high	static initialiser	ps3_render.cxx	46	1	default:26
+0033bbf8 photorenderer_dummy	medium	high	adjacent labels	photorenderer_dummy.cxx	7	5	default:1
+0033c300 ps3_render_2	high	low	somewhere in a gap of 13 function(s)	ps3_render.cxx	122	31	default:59
+00343220 automobile	medium	medium	RTTI boundary in a gap of 27	automobile.cxx	53	3	default:39
+00344720 controlRecorder	medium	low	somewhere in a gap of 62 function(s)	controlRecorder.cxx	112	13	default:78
+00347380 decideBehavior	medium	medium	RTTI boundary in a gap of 46	decideBehavior.cxx	46	2	default:36
+00349fd0 dynamicsConductor	medium	low	somewhere in a gap of 22 function(s)	dynamicsConductor.cxx	106	34	default:52
+00350a40 tireSqueal	low	high	static initialiser	tireSqueal.cxx	1	1	-
+00350c20 pitStopProcedure	low	low	somewhere in a gap of 176 function(s)	pitStopProcedure.cxx	177	1	default:88
+0035af18 decideBehavior_2	low	low	somewhere in a gap of 55 function(s)	decideBehavior.cxx	56	1	default:25
+0035df28 dynamics2D	low	low	somewhere in a gap of 38 function(s)	dynamics2D.cxx	96	1	default:48
+00364760 showRoomCar	medium	medium	RTTI boundary in a gap of 58	showRoomCar.cxx	2	1	default:2
+00364818 slowCarBoost	medium	medium	RTTI boundary in a gap of 48	slowCarBoost.cxx	50	2	default:36
+00365790 standings	low	low	somewhere in a gap of 3 function(s)	standings.cxx	19	1	default:11
+00366388 tireWearParameters	medium	high	static initialiser	tireWearParameters.cxx	21	3	default:7
+00367d90 toyotaHybrid	medium	low	somewhere in a gap of 17 function(s)	toyotaHybrid.cxx	176	2	default:98,ee-gcc2.96-no-strict-aliasing:2,ee-gcc2.96-nosib:1
+00371ca8 manager	medium	medium	RTTI boundary in a gap of 163	manager.cxx	91	9	default:46
+00374e90 manager_dive	low	medium	RTTI boundary in a gap of 20	manager_dive.cxx	29	1	default:4
+00377c60 camera_pathanim	low	medium	RTTI boundary in a gap of 166	camera_pathanim.cxx	568	1	default:466
+00387698 arcade_demo	high	high	static initialiser	arcade_demo.cxx	14	8	default:12
+00387a28 base	high	high	static initialiser	base.cxx	113	91	default:76,ee-gcc2.96-nogcse:1
+0038a5e8 basic	high	high	static initialiser	basic.cxx	44	28	default:25
+0038bfe0 bgm	high	high	static initialiser	bgm.cxx	13	9	default:13
+0038c108 cargeometry	medium	high	static initialiser	cargeometry.cxx	211	198	default:197,ee-gcc2.96-no-strict-aliasing:1
+0038e7c8 carmodel	low	medium	RTTI boundary in a gap of 14	carmodel.cxx	69	1	default:35
+00391878 carsnd	high	high	static initialiser	carsnd.cxx	40	12	default:20
+00393700 course	high	high	static initialiser	course.cxx	66	11	default:41
+00396278 coursedata	medium	high	static initialiser	coursedata.cxx	30	9	default:18
+00397768 courseenvptr	low	low	somewhere in a gap of 19 function(s)	courseenvptr.cxx	20	1	default:13
+00397cd8 dynamicsConductor_2	low	high	adjacent labels	dynamicsConductor.cxx	1	1	default:1
+00397ce0 courseenvptr_2	low	low	somewhere in a gap of 24 function(s)	courseenvptr.cxx	48	1	default:25
+0039a6f8 display	high	medium	RTTI boundary in a gap of 28	display.cxx	130	61	default:47,ee-gcc2.96-nosib:1
+003a27b0 display_objects	high	high	static initialiser	display_objects.cxx	345	198	default:228,ee-gcc2.96-no-strict-aliasing:1
+003ae850 display_rtext	medium	medium	RTTI boundary in a gap of 5	display_rtext.cxx	11	2	default:8
+003aeba8 displayutil	low	high	static initialiser	displayutil.cxx	56	5	default:34,ee-gcc2.96-no-strict-aliasing:1
+003b0a00 humanmodel	low	medium	RTTI boundary in a gap of 31	humanmodel.cxx	39	1	default:24
+003b1db0 entry	medium	high	static initialiser	entry.cxx	57	17	default:21
+003b7068 error_event_view	medium	medium	RTTI boundary in a gap of 1	error_event_view.cxx	55	3	default:29
+003b98f8 freerun	high	high	static initialiser	freerun.cxx	29	21	default:17
+003bab90 unit_003BAB90	-	high	static initialiser	-	36	0	default:28
+003bb840 unit_003BB840	-	high	static initialiser	-	43	0	default:32
+003bcc68 license_display	high	high	static initialiser	license_display.cxx	39	15	default:20
+003be1d8 meterbase_dummy	high	high	static initialiser	meterbase_dummy.cxx	38	7	default:22,ee-gcc2.96-as2004:1
+003bfb10 particle_dummy	high	high	static initialiser	particle_dummy.cxx	89	10	default:58,ee-gcc2.96-no-strict-aliasing:1
+003c2d80 pause	high	high	static initialiser	pause.cxx	10	7	default:6
+003c39d0 pause_photo_dummy	low	medium	RTTI boundary in a gap of 6	pause_photo_dummy.cxx	32	7	default:17
+003c6520 pause_base	medium	high	static initialiser	pause_base.cxx	54	8	default:28
+003c81a8 unit_003C81A8	-	high	static initialiser	-	27	0	default:20
+003c8f00 pitmen	high	high	static initialiser	pitmen.cxx	140	30	default:78
+003d3490 pitmen_tiny	medium	high	static initialiser	pitmen_tiny.cxx	49	4	default:34
+003d5848 pitmen_data	medium	medium	RTTI boundary in a gap of 11	pitmen_data.cxx	26	1	default:21
+003d6268 racemonitor_ps3	low	high	static initialiser	racemonitor_ps3.cxx	111	12	default:68,ee-gcc2.96-nosib:1
+003dc5d8 pitmenu	low	low	somewhere in a gap of 3 function(s)	pitmenu.cxx	23	3	default:14
+003dd838 replay_data	low	medium	RTTI boundary in a gap of 71	replay_data.cxx	63	1	default:41
+003dee70 result_arcade	high	high	static initialiser	result_arcade.cxx	26	19	default:11
+003e0030 result_license	high	medium	RTTI boundary in a gap of 17	result_license.cxx	38	7	default:20
+003e1c18 result_license_dummy	medium	high	adjacent labels	result_license_dummy.cxx	1	1	default:1
+003e1c28 result_license_2	high	high	adjacent labels	result_license.cxx	9	2	default:6
+003e20a8 rigidbody_dummy	high	medium	RTTI boundary in a gap of 15	rigidbody_dummy.cxx	49	5	default:16,ee-gcc2.96-no-strict-aliasing:2
+003e5338 scene_pack	low	low	somewhere in a gap of 33 function(s)	scene_pack.cxx	34	1	default:16
+003e7410 smoke	low	low	somewhere in a gap of 9 function(s)	smoke.cxx	28	1	default:8
+003e9908 solitaire	high	medium	RTTI boundary in a gap of 27	solitaire.cxx	51	30	default:31
+003eb7a0 speedmeter	low	high	static initialiser	speedmeter.cxx	2	1	-
+003eb958 strobe_handler_dummy	low	low	somewhere in a gap of 16 function(s)	strobe_handler_dummy.cxx	18	1	default:11
+003ec3f8 tachometer	low	medium	RTTI boundary in a gap of 4	tachometer.cxx	39	6	default:28
+003ed6b8 unit_003ED6B8	-	high	static initialiser	-	19	0	default:15
+003edbb8 unit_003EDBB8	-	high	static initialiser	-	18	0	default:12
+003ee590 championship	high	high	static initialiser	championship.cxx	37	13	default:19
+003efb78 afterfire	low	high	static initialiser	afterfire.cxx	33	1	default:20
+003f16c0 envptrOverrider	low	high	static initialiser	envptrOverrider.cxx	21	1	default:11
+003f24a0 brakeRotor	low	low	somewhere in a gap of 35 function(s)	brakeRotor.cxx	52	1	default:29
+003f4eb8 dcLicense	high	medium	RTTI boundary in a gap of 61	dcLicense.cxx	73	25	default:53
+003f6958 dcMachineTest	high	medium	RTTI boundary in a gap of 1	dcMachineTest.cxx	15	14	default:14
+003f6e00 boostmeter	low	medium	RTTI boundary in a gap of 262	boostmeter.cxx	264	1	default:132,ee-gcc2.96-as2004:1,ee-gcc2.96-no-strict-aliasing:4
+004076a0 change_tire_information	low	medium	RTTI boundary in a gap of 14	change_tire_information.cxx	20	1	default:14
+00407fe0 concourse	medium	medium	RTTI boundary in a gap of 7	concourse.cxx	46	19	default:29,ee-gcc2.96-no-strict-aliasing:2
+00409940 concourse_lighting	medium	high	static initialiser	concourse_lighting.cxx	4	2	default:4
+00409a48 pitin_pillar	low	low	somewhere in a gap of 22 function(s)	pitin_pillar.cxx	23	1	default:5
+0040bab0 result_championship	medium	low	somewhere in a gap of 5 function(s)	result_championship.cxx	9	2	default:4
+0040ca58 carman	medium	low	somewhere in a gap of 119 function(s)	carman.cxx	132	5	default:81,ee-gcc2.96-no-strict-aliasing:3
+00415e90 euclid_factor	low	medium	RTTI boundary in a gap of 28	euclid_factor.cxx	29	1	default:10
+00418ee0 skeleton	low	low	somewhere in a gap of 29 function(s)	skeleton.cxx	118	1	default:49,ee-gcc2.96-no-strict-aliasing:2
+00421a78 quaternion	low	high	static initialiser	quaternion.cxx	108	1	default:38,ee-gcc2.96-no-strict-aliasing:4
+00426800 base_2	low	medium	RTTI boundary in a gap of 111	base.cxx	37	1	default:33
+00427148 playlist	medium	high	static initialiser	playlist.cxx	279	3	default:167,ee-gcc2.96-no-strict-aliasing:1
+0042f820 unit_0042F820	-	high	static initialiser	-	27	0	default:17
+00430270 unit_00430270	-	high	static initialiser	-	4	0	default:4
+00430320 unit_00430320	-	high	static initialiser	-	59	0	default:44
+00431c38 unit_00431C38	-	high	static initialiser	-	6	0	default:5
+00431d80 unit_00431D80	-	high	static initialiser	-	27	0	default:16,ee-gcc2.96-as2004:2
+00432e28 unit_00432E28	-	high	static initialiser	-	44	0	default:29
+00434590 demonstration	low	high	static initialiser	demonstration.cxx	137	1	default:75
+00437928 option_lanbattle	low	high	static initialiser	option_lanbattle.cxx	81	1	default:57
+00439d18 race_setting	low	high	static initialiser	race_setting.cxx	18	1	default:13
+0043a318 status	low	low	somewhere in a gap of 16 function(s)	status.cxx	24	3	default:17
+0043ac68 option_controller_dualshock2	low	low	somewhere in a gap of 105 function(s)	option_controller_dualshock2.cxx	106	1	default:79
+0043cf30 spec_database	low	low	somewhere in a gap of 215 function(s)	spec_database.cxx	236	8	default:189
+00444190 car_equipments	low	high	static initialiser	car_equipments.cxx	63	4	default:46,ee-gcc2.96-nosib:1
+00445e50 race_spec	medium	low	somewhere in a gap of 60 function(s)	race_spec.cxx	77	11	default:65
+00447730 spec_database_util	low	low	somewhere in a gap of 13 function(s)	spec_database_util.cxx	95	6	default:73
+00448d80 unit_00448D80	-	high	static initialiser	-	9	0	default:8
+00448f18 database_table	medium	high	static initialiser	database_table.cxx	11	3	default:5
+004493f8 parts_info	low	low	somewhere in a gap of 22 function(s)	parts_info.cxx	129	1	default:71,ee-gcc2.96-no-strict-aliasing:1
+0044ceb8 serialize	medium	high	static initialiser	serialize.cxx	22	2	default:17
+0044d410 obsolete_dummy	medium	high	static initialiser	obsolete_dummy.cxx	48	3	default:32,ee-gcc2.96-no-strict-aliasing:1
+0044e500 build_dummy	low	high	static initialiser	build_dummy.cxx	14	1	default:7
+0044f188 driver_system	low	medium	RTTI boundary in a gap of 35	driver_system.cxx	26	1	default:24
+0044f528 CarDataBase	low	high	static initialiser	CarDataBase.cxx	138	1	default:134
+0044ffa0 SettingSerialize	medium	medium	RTTI boundary in a gap of 10	SettingSerialize.cxx	22	7	default:19
+00450308 car2	medium	high	static initialiser	car2.cxx	127	4	default:78
+004543e0 modelset2	high	low	somewhere in a gap of 9 function(s)	modelset2.cxx	66	14	default:40,ee-gcc2.96-no-strict-aliasing:2
+00457568 visionlist	low	high	static initialiser	visionlist.cxx	217	1	default:127
+00460368 unit_00460368	-	high	static initialiser	-	33	0	default:22
+00460d50 unit_00460D50	-	high	static initialiser	-	31	0	default:18
+00461c00 unit_00461C00	-	high	static initialiser	-	19	0	default:11
+00462450 sesystem	low	high	static initialiser	sesystem.cxx	53	5	default:39
+00463790 autoDriveParameterSource	low	high	static initialiser	autoDriveParameterSource.cxx	87	1	default:42
+0046a000 enemyLineProcessorOld	low	medium	RTTI boundary in a gap of 49	enemyLineProcessorOld.cxx	163	1	default:83,ee-gcc2.96-no-strict-aliasing:1
+00472de8 animationinstance	low	high	static initialiser	animationinstance.cxx	69	1	default:39,ee-gcc2.96-stl:1
+004756c0 any	low	low	somewhere in a gap of 60 function(s)	any.cxx	95	4	default:68,ee-gcc2.96-no-strict-aliasing:4,ee-gcc2.96-stl:1
+00478af0 spriteinstance	low	low	somewhere in a gap of 237 function(s)	spriteinstance.cxx	238	1	default:133,ee-gcc2.96-no-strict-aliasing:22,ee-gcc2.96-nosib:1
+004806b0 actioninstance	low	low	somewhere in a gap of 33 function(s)	actioninstance.cxx	63	1	default:31,ee-gcc2.96-no-strict-aliasing:3,ee-gcc2.96-stl:4
+004858a0 unit_004858A0	-	high	static initialiser	-	41	0	default:26
+00486f60 unit_00486F60	-	high	static initialiser	-	59	0	default:26
+004891e0 unit_004891E0	-	high	static initialiser	-	163	0	default:74
+0048ef90 unit_0048EF90	-	high	static initialiser	-	97	0	default:64
+00491798 fontset	low	high	static initialiser	fontset.cpp	47	1	default:24
+00494500 init_ps3_2	medium	medium	RTTI boundary in a gap of 137	init_ps3.cxx	450	6	default:95,ee-gcc2.96-no-strict-aliasing:6,ee-gcc2.96-nogcse:1,ee-gcc2.96-nsa-nosib:1
+004ac920 unit_004AC920	-	high	static initialiser	-	3	0	default:2
+004aca40 unit_004ACA40	-	high	static initialiser	-	55	0	default:23,ee-gcc2.96-no-strict-aliasing:1,ee-gcc2.96-nsa-nosib:9
+004adee0 unit_004ADEE0	-	high	static initialiser	-	83	0	default:48,ee-gcc2.96-no-strict-aliasing:4,ee-gcc2.96-nsa-nosib:3
+004b0088 unit_004B0088	-	high	static initialiser	-	22	0	default:8,ee-gcc2.96-nsa-nosib:1
+004b0960 unit_004B0960	-	high	static initialiser	-	22	0	default:11
+004b15b8 unit_004B15B8	-	high	static initialiser	-	51	0	default:21,ee-gcc2.96-no-strict-aliasing:2
+004b3698 unit_004B3698	-	high	static initialiser	-	27	0	default:22
+004b3e40 input_buffer	low	high	static initialiser	input_buffer.cpp	67	1	default:22,ee-gcc2.96-as2004:1,ee-gcc2.96-no-strict-aliasing:2
+004b6a38 mwnn	low	low	somewhere in a gap of 65 function(s)	mwnn.cpp	66	1	default:12
+004b9ec8 xmlparse	low	low	somewhere in a gap of 319 function(s)	xmlparse.c	686	1	default:340,ee-gcc2.96-no-strict-aliasing:56,ee-gcc2.96-nsa-nosib:3
+004ef4d8 unit_004EF4D8	-	high	static initialiser	-	42	0	default:31,ee-gcc2.96-nsa-nosib:4
+004f01e8 unit_004F01E8	-	high	static initialiser	-	162	0	default:90,ee-gcc2.96-no-strict-aliasing:1,ee-gcc2.96-nsa-nosib:4
+004f71d0 unit_004F71D0	-	high	static initialiser	-	274	0	default:114,ee-gcc2.96-no-strict-aliasing:1,ee-gcc2.96-nsa-nosib:15
+005034b0 unit_005034B0	-	high	static initialiser	-	44	0	default:15,ee-gcc2.96-nsa-nosib:3
+00504630 unit_00504630	-	high	static initialiser	-	1483	0	default:500,ee-gcc2.9-991111:1,ee-gcc2.96-no-strict-aliasing:3,ee-gcc2.96-nsa-nosib:19
+00547ce0 unit_00547CE0	-	high	static initialiser	-	17	0	default:10,ee-gcc2.96-nsa-nosib:3
+00548368 unit_00548368	-	high	static initialiser	-	23	0	default:14,ee-gcc2.96-nsa-nosib:4
+00548a20 unit_00548A20	-	high	static initialiser	-	154	0	default:59,ee-gcc2.96-no-strict-aliasing:4,ee-gcc2.96-nsa-nosib:7
+0054f748 unit_0054F748	-	high	static initialiser	-	31	0	default:20
+00550ae0 unit_00550AE0	-	high	static initialiser	-	18	0	default:16
+00551170 unit_00551170	-	high	static initialiser	-	12	0	default:11
+00551568 unit_00551568	-	high	static initialiser	-	11	0	default:4
+00551c98 unit_00551C98	-	high	static initialiser	-	12	0	default:7,ee-gcc2.96-nsa-nosib:1
+005524b8 unit_005524B8	-	high	static initialiser	-	4	0	default:3
+005525e8 unit_005525E8	-	high	static initialiser	-	57	0	default:38
+00554258 unit_00554258	-	high	static initialiser	-	58	0	default:19,ee-gcc2.96-no-strict-aliasing:2,ee-gcc2.96-nsa-nosib:5
+00556380 unit_00556380	-	high	static initialiser	-	21	0	default:7,ee-gcc2.96-nsa-nosib:2
+00556ca0 unit_00556CA0	-	high	static initialiser	-	22	0	default:9
+00557c70 unit_00557C70	-	high	static initialiser	-	36	0	default:22,ee-gcc2.96-nsa-nosib:1
+00558bc8 unit_00558BC8	-	high	static initialiser	-	3	0	default:2
+00558da8 unit_00558DA8	-	high	static initialiser	-	19	0	default:6
+00559900 unit_00559900	-	high	static initialiser	-	16	0	default:10,ee-gcc2.96-no-strict-aliasing:2
+00559db0 unit_00559DB0	-	high	static initialiser	-	22	0	default:13,ee-gcc2.96-no-strict-aliasing:1,ee-gcc2.96-nsa-nosib:1
+0055a730 unit_0055A730	-	high	static initialiser	-	66	0	default:36,ee-gcc2.96-no-strict-aliasing:2,ee-gcc2.96-nosib:1,ee-gcc2.96-nsa-nosib:2
+0055c520 unit_0055C520	-	high	static initialiser	-	44	0	default:27,ee-gcc2.96-no-strict-aliasing:3
+0055d408 unit_0055D408	-	high	static initialiser	-	40	0	default:20,ee-gcc2.96-no-strict-aliasing:1,ee-gcc2.96-nsa-nosib:2
+0055eb08 unit_0055EB08	-	high	static initialiser	-	102	0	default:72,ee-gcc2.96-no-strict-aliasing:1,ee-gcc2.96-nsa-nosib:4
+005622a8 unit_005622A8	-	high	static initialiser	-	71	0	default:33,ee-gcc2.96-no-strict-aliasing:4,ee-gcc2.96-nsa-nosib:2
+00565310 unit_00565310	-	high	static initialiser	-	14	0	default:8,ee-gcc2.96-nsa-nosib:1
+005659d8 unit_005659D8	-	high	static initialiser	-	21	0	default:11,ee-gcc2.96-no-strict-aliasing:1,ee-gcc2.96-nsa-nosib:1
+00566310 unit_00566310	-	high	static initialiser	-	13	0	default:6
+00566da8 unit_00566DA8	-	high	static initialiser	-	20	0	default:4
+005675a8 unit_005675A8	-	high	static initialiser	-	46	0	default:31,ee-gcc2.96-nsa-nosib:2
+005681e8 unit_005681E8	-	high	static initialiser	-	163	0	default:40,ee-gcc2.96-no-strict-aliasing:2
+00572c90 any_2	low	high	static initialiser	any.cxx	168	1	default:112,ee-gcc2.96-no-strict-aliasing:3,ee-gcc2.96-nsa-nosib:3
+00577c98 MBlockTransition_2	low	high	static initialiser	MBlockTransition.cpp	71	1	default:52,ee-gcc2.96-nsa-nosib:5
+00579420 unit_00579420	-	high	static initialiser	-	41	0	default:15,ee-gcc2.96-no-strict-aliasing:1
+0057acd8 h_file_io_2	low	high	static initialiser	h_file_io.cpp	617	1	default:189,ee-gcc2.9-991111:66,ee-gcc2.96-no-strict-aliasing:8,ee-gcc2.96-nsa-nosib:2
+00594470 unit_00594470	-	high	static initialiser	-	81	0	default:66,ee-gcc2.96-no-strict-aliasing:1,ee-gcc2.96-nsa-nosib:1
+00597800 file_2	low	high	static initialiser	file.cxx	777	1	default:198,ee-gcc2.9-991111:74,ee-gcc2.96-no-strict-aliasing:19,ee-gcc2.96-nsa-nosib:1
+005c1058 any_3	low	medium	RTTI boundary in a gap of 1114	any.cxx	1115	1	default:803,ee-gcc2.96-no-strict-aliasing:10,ee-gcc2.96-nsa-nosib:53,ee-gcc2.96-nsa-nosib-as2004:162,ee-gcc2.96-stl:13
+005d2e30 MActor_2	low	low	somewhere in a gap of 80 function(s)	MActor.cpp	252	1	default:194,ee-gcc2.96-no-strict-aliasing:2,ee-gcc2.96-nsa-nosib:1,ee-gcc2.96-nsa-nosib-as2004:9,ee-gcc2.96-stl:19
+005db198 config_service_agent	low	medium	RTTI boundary in a gap of 4372	config_service_agent.cc	4206	1	default:3715,ee-gcc2.96-no-strict-aliasing:27,ee-gcc2.96-nsa-nosib:66,ee-gcc2.96-nsa-nosib-as2004:35,ee-gcc2.96-stl:37

@@ -1,3 +1,4 @@
+#include "gt4/mDnasInst.h"
 typedef int s32;
 
 extern "C" void hObject__structor_2(void *arg0, s32 arg1);
@@ -7,7 +8,7 @@ extern "C" void func_00326798(void *arg0, s32 arg1, s32 arg2, const char *arg3);
 extern void *mDnasInst__vtable;
 
 extern "C" void mDnasInst__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 4) = &mDnasInst__vtable;
+    ((struct mDnasInst *)arg0)->unk4 = &mDnasInst__vtable;
     func_0032EEC0((char *)arg0 + 0x10);
     hObject__structor_2(arg0, 0);
     if (arg1 & 1) {

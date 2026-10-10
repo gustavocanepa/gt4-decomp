@@ -81,6 +81,15 @@ struct B2 {
     char pad0[12];
     Cb cb;
 };
+struct MboolReader__structor_12_pcb {
+    char pad0[0x4];
+    char *unk4;
+};
+struct MboolReader__structor_12_pcb2 {
+    char pad0[0x4];
+    char *unk4;
+};
+
 extern "C" s32 MboolReader__structor_12(char *a0, void *a1) {
     if (MfloatReader__structor_11(a0))
         return 1;
@@ -90,7 +99,7 @@ extern "C" s32 MboolReader__structor_12(char *a0, void *a1) {
         Cb *pcb = &u.b0.cb;
         char *p = a0 + 0xEC;
         pcb->vtbl = MintReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MboolReader__structor_12_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.b0.s, pcb);
         pcb->vtbl = MintReader__vtable;
         MReaderBase__structor_0(pcb, 0);
@@ -103,7 +112,7 @@ extern "C" s32 MboolReader__structor_12(char *a0, void *a1) {
         Cb *pcb = &u.b1.cb;
         char *p = a0 + 0xF0;
         pcb->vtbl = MintReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MboolReader__structor_12_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.b1.s, pcb);
         pcb->vtbl = MintReader__vtable;
         MReaderBase__structor_0(pcb, 0);
@@ -117,7 +126,7 @@ extern "C" s32 MboolReader__structor_12(char *a0, void *a1) {
         pcb2 = &u.b2.cb;
         char *p = a0 + 0xF4;
         pcb2->vtbl = MfloatReader__vtable;
-        *(char **)((char *)pcb2 + 4) = p;
+        ((struct MboolReader__structor_12_pcb2 *)pcb2)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.b2.s, pcb2);
         pcb2->vtbl = MfloatReader__vtable;
         MReaderBase__structor_0(pcb2, 0);

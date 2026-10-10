@@ -1,3 +1,4 @@
+#include "gt4/mFrameImageFace.h"
 typedef int s32;
 
 struct Rep { s32 len; s32 cap; s32 ref; s32 sel; };
@@ -20,7 +21,7 @@ static inline void str_release(Str *s) {
 
 
 extern "C" void mFrameImageFace__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mFrameImageFace__vtable;
+    ((struct mFrameImageFace *)arg0)->unk4 = &mFrameImageFace__vtable;
     func_00210710((char *)arg0 + 0x12c, 0x2);
     func_00210710((char *)arg0 + 0x128, 0x2);
     func_00210710((char *)arg0 + 0x124, 0x2);

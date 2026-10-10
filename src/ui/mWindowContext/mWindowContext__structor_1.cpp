@@ -1,3 +1,4 @@
+#include "gt4/mWindowContext.h"
 typedef int s32;
 
 extern void *mWindowContext__vtable;
@@ -19,7 +20,7 @@ static inline void member_0(char *m) {
 }
 
 extern "C" void mWindowContext__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mWindowContext__vtable;
+    ((struct mWindowContext *)arg0)->unk4 = &mWindowContext__vtable;
     member_0((char *)arg0 + 0x20);
     hObject__structor_2(arg0, 0x0);
     if ((arg1 & 0x1) != 0) {

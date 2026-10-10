@@ -24,15 +24,25 @@ struct S00659988 {
 
 extern "C" void func_0045AFC8(void *, s32);
 
+struct func_0045B548_arg0 {
+    char pad0[0x4];
+    s32 unk4;
+    s32 unk8;
+};
+struct func_0045B548_arg1 {
+    char pad0[0x8];
+    s32 unk8;
+};
+
 extern "C" void func_0045B548(s32 *arg0, void *arg1) {
     s32 v_s0;
-    if (*(s32 *)((char *)arg0 + 0x4) >= 0) {
-        v_s0 = *(s32 *)((char *)arg1 + 0x8);
+    if (((struct func_0045B548_arg0 *)arg0)->unk4 >= 0) {
+        v_s0 = ((struct func_0045B548_arg1 *)arg1)->unk8;
         v_s0 = (v_s0 - *(s32 *)(char *)arg1);
-        *(s32 *)((char *)arg0 + 0x8) = (v_s0 - *(s32 *)((char *)arg0 + 0x4));
-        *(s32 *)((char *)arg1 + 0x8) = (*(s32 *)(char *)arg1 + *(s32 *)((char *)arg0 + 0x4));
+        ((struct func_0045B548_arg0 *)arg0)->unk8 = (v_s0 - ((struct func_0045B548_arg0 *)arg0)->unk4);
+        ((struct func_0045B548_arg1 *)arg1)->unk8 = (*(s32 *)(char *)arg1 + ((struct func_0045B548_arg0 *)arg0)->unk4);
         func_0045AFC8(arg1, *(s32 *)(char *)arg0);
-        func_0045AFC8(arg1, *(s32 *)((char *)arg0 + 0x8));
-        *(s32 *)((char *)arg1 + 0x8) = (*(s32 *)(char *)arg1 + v_s0);
+        func_0045AFC8(arg1, ((struct func_0045B548_arg0 *)arg0)->unk8);
+        ((struct func_0045B548_arg1 *)arg1)->unk8 = (*(s32 *)(char *)arg1 + v_s0);
     }
 }

@@ -1,3 +1,4 @@
+#include "gt4/mInputTextFace.h"
 typedef int s32;
 
 struct Rep { s32 len; s32 cap; s32 ref; s32 sel; };
@@ -25,7 +26,7 @@ static inline void member_dtor_0(char *m) {
     func_00203118(m, 2);
 }
 extern "C" void mInputTextFace__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mInputTextFace__vtable;
+    ((struct mInputTextFace *)arg0)->unk4 = &mInputTextFace__vtable;
     func_004B4400((char *)arg0 + 0x578, 0x2);
     func_00203118((char *)arg0 + 0x154, 0x2);
     func_00203118((char *)arg0 + 0x144, 0x2);
