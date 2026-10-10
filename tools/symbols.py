@@ -142,6 +142,9 @@ def _demangled(sym):
     m = re.match(r"^_[$.]_(\d+)(\w+)$", sym)         # destructor: _$_10MCarGarage
     if m and len(m.group(2)) >= int(m.group(1)):
         out.append(m.group(2)[:int(m.group(1))] + "__dtor")
+    m = re.match(r"^_vt[$.](\d+)(\w+)$", sym)        # vtable: _vt$10MCarGarage (real C++ ctors)
+    if m and len(m.group(2)) == int(m.group(1)):
+        out.append(m.group(2) + "__vtable")
     for m in re.finditer(r"__(?=[FH])", sym):        # plain function: name__Fv
         out.append(sym[:m.start()])
     for m in re.finditer(r"__(?=Q\d|\d)", sym):      # member: method__10MCarGarageiPv

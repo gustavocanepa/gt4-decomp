@@ -200,3 +200,54 @@ Known facts about Gran Turismo 4's code (learned while matching; add new ones as
   request structs on the stack initialised field by field before the strncpy calls. Open: unexplained
   stack-slot sharing between a string and a later handle (MNetwork__set_language, disconnect,
   func_001F11E8), the beqz/beql delay-slot choice of func_001F0E98 and func_004EE3D8.
+
+## Shared GT4/Tourist Trophy functions: rules from the first 180 matches (2026-10-09)
+
+Three agents worked through the smallest functions that are identical in GT4 and Tourist Trophy
+and were unmatched in both (build/auto/shared_slice*.txt); the CPU tools had failed on all of them.
+What repeated:
+
+- **Constructors are real C++ classes.** A base-constructor call followed by member stores whose
+  hand-written C plateaus at 2-7 differ (the epilogue restores `ld $s0` then `ld $ra` where ours
+  hoists `ld $ra`, or the constants come in another order) matches as a C++ constructor that lets
+  the compiler store the vtable pointer itself: 0039A6F8, 00547CE0, 00552730, 003A5288, 0042A918,
+  00548458, 00553310. Name the base struct after its constructor (`struct func_005659D8`), a class
+  with no known name after its vtable (`struct D_006898F8`, so `_vt$10D_006898F8` resolves through
+  tools/symbols.py), or use the known name when `X__vtable` is in symbol_addrs. Still open with the
+  same symptom: mCalendar 00132E90 (14 copies), 00415608, 004858A0, 004B1490.
+- **Which of `$v0`/`$v1` holds the vtable entry tells the return type of a virtual call:** entry in
+  `$v1`, function pointer in `$v0` -> the call's value is returned; the reverse -> a void call.
+- **A virtual call whose object lands in `$a2`/`$a3`** takes 2-3 arguments; the other argument
+  registers are the caller's own parameters passed through (m2c drafts them as extra arguments).
+- **A run of stores before `jr`:** the last store in the source is emitted first, as early as its
+  operands allow; move the out-of-place store to the end of the source, or try store permutations.
+- **Unused stack space:** a frame 16 bytes larger than the saves with no stack stores is an unused
+  local `s32 spare[4]` written once after its last use; a 16-byte slot in a constructor is a
+  container member built with a default allocator argument (0020A6C0). Buffer sizes are the frame
+  minus the saves (m2c always writes `s8[0x10]`).
+- **Early returns:** `li $v0, 0` before the first test with a shared epilogue (or before a null
+  test followed by a tail call and a dead `nop`) is `if (!p) return 0; return f(p, ...);`; `&&`
+  chains and result variables do not give it.
+- **Condition shapes:** `andi 1; beqz` is `(x & 1) == 0` (`!(x & 1)` gives `xori`);
+  `nor; srl 31; movn` is `int ok = x >= 0; return ok ? a : b;`; `c.cond; bc1t +2; li 1; li 0` is
+  `return a cond b;`.
+- **ee-gcc 2.9 code that saves only `$ra` (or nothing)** escapes the 16-byte save-spacing test of
+  tools/other_compiler.py: in 0x583540-0x5b73c8 eight such functions matched only with the
+  `ee-gcc2.9-991111` marker; the whole range was then swept with tools/region_compiler.py.
+- `__builtin_return_address(0)` reads the saved `$ra` slot (`addiu v0, sp, FRAME-0x10; lw a0, 0(v0)`,
+  00587440). Copying an aligned 16-byte struct whole gives `ld`/`sd` pairs; member by member gives
+  `lq`/`sq`. `*p++` on a signed char array still loads with `lbu`; `p[i] != 0` uses `lb`.
+- Generators: the `func_00443ED0` record getters (build/auto/gen_rec_443ed0.py, ~139 call sites
+  between 0x43FE00 and 0x44A440) and the `func_005878F8` request family.
+- More from the second round: a real C++ copy constructor in game code may need the
+  no-strict-aliasing profile (002f9238: the source's float load moved above the vtable store);
+  zero stores after a member object's constructor are constructor-body assignments, not the init
+  list (00346758); `addiu $s1, this, K` in the base constructor's delay slot is a pointer taken
+  before the call, with the base declared returning `Obj*` (0037d288); `mtc1 $zero` + `swc1` is a
+  zero passed through a float parameter of an inline setter (00153b08); a global's `lui` kept in
+  `$s` across an inner call is the address assigned to a local first (0020eb50); jump-table
+  switches match when the cases are rebuilt from the table words (0035fbc8); read-modify-write of a
+  word comes from explicit masks, byte-aligned bitfields give `sb` (0039cdf0); a virtual call
+  through slot 8 with argument 3, then nulling the pointer, is `delete child; child = 0;`
+  (003bfe10). Store order: build/scratch/opus3/perm_fix.py permutes independent store statements
+  until the order matches (candidate for tools/near_fix.py).
