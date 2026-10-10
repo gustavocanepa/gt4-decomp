@@ -468,6 +468,16 @@ mips-linux-gnu-as {project.CONFIG['cpu']['as_flags']} gaps.s -o gaps.o 2>&1 | gr
     wsl(f"""
 d="{WSL_DIR}"
 cd "$d"
+# A template instantiation's code sits in .gnu.linkonce.t.<mangled name>, and ld keeps only the
+# first section of each such name: two objects matching the same template at two addresses (a
+# copy made by dedup.py) would lose the second body and shift everything after it. An object whose
+# .text is empty owns its first linkonce section, so that one becomes its .text (idempotent).
+for o in obj/*.o; do
+  s=$(mips-linux-gnu-objdump -h "$o" | awk '$2==".text" && !n++ {{print $3}}')
+  [ "$s" = "00000000" ] || continue
+  lo=$(mips-linux-gnu-objdump -h "$o" | awk '$2 ~ /^\\.gnu\\.linkonce\\.t\\./ && !n++ {{print $2}}')
+  if [ -n "$lo" ]; then mips-linux-gnu-objcopy -R .text --rename-section "$lo=.text" "$o"; fi
+done
 mips-linux-gnu-ld -EL -e 0x{project.load_image()[0]:x} -T link.ld -o {IMAGE} --no-check-sections
 mips-linux-gnu-objcopy -O binary --only-section=.text {IMAGE} built_text.bin
 mips-linux-gnu-objcopy -O binary --only-section=.data {IMAGE} built_data.bin

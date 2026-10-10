@@ -34,7 +34,7 @@ def violations(src):
 
 
 def fakematch(src):
-    return bool(re.search(r'register\s+[^;=]*\basm\s*\(', src))
+    return bool(re.search(r'register\s+[^;=]*(?:\basm|__asm__)\s*\(', src))
 
 
 if __name__ == "__main__":
