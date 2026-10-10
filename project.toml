@@ -93,3 +93,11 @@ archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-
 dir = "~/.local/share/gt4/compilers/ee-gcc2.96-no-strict-aliasing"
 command = "bash {tools}/cc_hilo.sh \"{dir}/bin/ee-gcc -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-strict-aliasing\""
 archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
+
+# The game's flags without global common-subexpression elimination: the 0x70002000 scratchpad
+# code (around 0x4a0000-0x4a8000) keeps the base address in one register across branches and
+# calls, which only -fno-gcse reproduces (found on 0x004a0690: 23 -> 3 differing instructions).
+[compilers."ee-gcc2.96-nogcse"]
+dir = "~/.local/share/gt4/ee-gcc2.96"
+command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-gcse"
+archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"

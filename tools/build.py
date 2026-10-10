@@ -2,7 +2,7 @@
 """Full build: link every matched function at its original address into one ELF and compare the
 result with the original executable, byte for byte.
 
-    build.py [--jobs 4] [--keep-going] [--limit N] [--compile-only]
+    build.py [--jobs 4] [--keep-going] [--limit N] [--compile-only] [--without LICENCE]
 
 Every function source under src/ (project.sources: flat src/func_ADDR.* or organized by
 tools/layout.py) is compiled with the game's compiler and linked, with the real addresses of
@@ -208,6 +208,10 @@ def main():
     ap.add_argument("--compile-only", action="store_true", help="stop after the compile step")
     ap.add_argument("--incbin", action="store_true",
                     help="fill undecompiled code with raw bytes even if splat's assembly is there")
+    ap.add_argument("--without", action="append", default=[], metavar="LICENCE",
+                    help="leave out the sources marked `licence: LICENCE` (e.g. libio, see "
+                         "THIRD_PARTY.md): their functions come from splat's assembly and the "
+                         "image still matches; such a build is never published")
     a = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
     # The previous proof goes first: a build that fails on the way leaves no report or image that
@@ -225,6 +229,14 @@ def main():
     open(os.path.join(OUT, "data.bin"), "wb").write(elf[data_off:data_off + data_size])
 
     sources = project.sources(refresh=True)  # {address: path}
+    if a.without:
+        def licence(path):
+            with open(path, encoding="utf-8", errors="replace") as f:
+                m = re.search(r"licence: ([\w.+-]+)", "".join(f.readline() for _ in range(8)))
+            return m.group(1) if m else None
+        left_out = {addr for addr, path in sources.items() if licence(path) in a.without}
+        sources = {addr: path for addr, path in sources.items() if addr not in left_out}
+        print(f"  --without {', '.join(a.without)}: {len(left_out)} sources left out", flush=True)
     starts = set(sources)
     with open(match.FUNCTIONS) as f:
         for row in csv.DictReader(f):
@@ -483,7 +495,7 @@ cp {IMAGE} built_text.bin built_data.bin {to_wsl(OUT)}/
     # from it (tools/report.py, publish_progress.py) can say what it describes and refuse a stale
     # or partial build.
     report = {"generated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-              "commit": commit, "dirty": dirty, "partial": bool(a.limit),
+              "commit": commit, "dirty": dirty, "partial": bool(a.limit or a.without),
               "sources": len(sources), "orphan_sources": orphans, "duplicate_sources": duplicates,
               "text_sha1": sha(built_text), "data_sha1": sha(built_data),
               "text_matches": text_ok, "data_matches": data_ok,
