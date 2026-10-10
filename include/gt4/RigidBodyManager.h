@@ -4,17 +4,43 @@
  * type_info 0x006D6058, type_info function 0x005FE2B0, structors 0x003E4CE0, 0x003E4D50
  * vtable 0x00683408: 1 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (not known: up to the last field seen), vptr at 0x14 (introduced here), fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RigidBodyManager_H
 #define GT4_RigidBodyManager_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class RigidBodyManager {
+public:
+    s32 unk0;
+    char pad4[0x10];
+    virtual ~RigidBodyManager();  /* 0: RigidBodyManager::~RigidBodyManager() */
+    void remove(void *, void *);  /* 0x003E4F98 */
+    s32 Update(f32);  /* 0x003E5040 */
+    s32 computeCarCollisionPlane();  /* 0x003E5108 */
+};
+#else
 struct RigidBodyManager {
     s32 unk0;
     char pad4[0x10];
     s32 unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RigidBodyManager__remove(struct RigidBodyManager *, void *, void *);
+s32 RigidBodyManager__Update(struct RigidBodyManager *, f32);
+s32 RigidBodyManager__computeCarCollisionPlane(struct RigidBodyManager *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003E4D50  RigidBodyManager::~RigidBodyManager() [high]

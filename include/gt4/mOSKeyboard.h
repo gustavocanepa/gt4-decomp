@@ -4,12 +4,25 @@
  * type_info 0x0088E850, type_info function 0x005E96E0, structors 0x002C4660, 0x002C46F0
  * vtable 0x0066F598: 8 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x68 (rc_size), vptr at 0x4
  */
 #ifndef GT4_mOSKeyboard_H
 #define GT4_mOSKeyboard_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RefCounter.h"
+class mRenderContext;
+class mRootWindow;
+
+class mOSKeyboard : public RefCounter {
+public:
+    char pad8[0x60];
+    s32 initialize(mRenderContext *);  /* 0x002C48A8 */
+    s32 open(mRenderContext *, mRootWindow *, f32, f32, f32, f32, s32);  /* 0x002C5928 */
+};
+#else
 struct mOSKeyboard {
     s32 unk0;
     union {
@@ -17,6 +30,20 @@ struct mOSKeyboard {
         void *unk4_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mOSKeyboard__rc_class(struct mOSKeyboard *);
+s32 mOSKeyboard__rc_size(struct mOSKeyboard *);
+s32 mOSKeyboard__initialize(struct mOSKeyboard *, struct mRenderContext *);
+s32 mOSKeyboard__open(struct mOSKeyboard *, struct mRenderContext *, struct mRootWindow *, f32, f32, f32, f32, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002C46F0  mOSKeyboard::~mOSKeyboard() [high]

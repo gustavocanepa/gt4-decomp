@@ -4,12 +4,21 @@
  * type_info 0x0088F610, type_info function 0x005F80C8, structors 0x0039AB68, 0x003A4118, 0x005F8060, 0x005FA130
  * vtable 0x0067F9B0: 9 slots
  * size: not known; the fields seen reach 0x1C
+ * C++ (GT4_CXX): size 0x1C (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceOdometer_H
 #define GT4_RaceOdometer_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceOdometer : public RaceDisplayObjectBase {
+public:
+    s32 unk18;
+};
+#else
 struct RaceOdometer {
     char pad0[0x14];
     union {
@@ -18,6 +27,17 @@ struct RaceOdometer {
     };
     s32 unk18;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceOdometer__render_main(struct RaceOdometer *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F8060  RaceOdometer::~RaceOdometer() [high]

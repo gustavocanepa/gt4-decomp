@@ -4,12 +4,21 @@
  * type_info 0x0088EB90, type_info function 0x005F0030, structors 0x00310F20, 0x00310F68
  * vtable 0x00675158: 16 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_hScriptMethod_H
 #define GT4_hScriptMethod_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hMethodValue.h"
+
+class hScriptMethod : public hMethodValue {
+public:
+    char padC[0x4];
+};
+#else
 struct hScriptMethod {
     s32 unk0;
     union {
@@ -18,6 +27,21 @@ struct hScriptMethod {
     };
     s32 unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hScriptMethod__rc_class(struct hScriptMethod *);
+s32 hScriptMethod__rc_size(struct hScriptMethod *);
+s32 hScriptMethod__call_const(struct hScriptMethod *, struct HObject *, const struct HObject *, s32, const struct HObject *);
+s32 hScriptMethod__call_const_2(struct hScriptMethod *, void *, const struct HObject *, s32, const struct HObject *);
+s32 hScriptMethod__cleanup(struct hScriptMethod *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00310F68  hScriptMethod::~hScriptMethod() [high]

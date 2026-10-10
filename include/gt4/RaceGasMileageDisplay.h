@@ -4,18 +4,39 @@
  * type_info 0x0088F420, type_info function 0x005F9390, structors 0x003A99B8
  * vtable 0x0067F220: 9 slots
  * size: not known; the fields seen reach 0x6C
+ * C++ (GT4_CXX): size 0x6C (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceGasMileageDisplay_H
 #define GT4_RaceGasMileageDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceValueDisplayBase.h"
+
+class RaceGasMileageDisplay : public RaceValueDisplayBase {
+public:
+    char pad18[0x50];
+    s32 unk68;
+};
+#else
 struct RaceGasMileageDisplay {
     char pad0[0x14];
     void *unk14;
     char pad18[0x50];
     s32 unk68;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceGasMileageDisplay__render_main(struct RaceGasMileageDisplay *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F9328  RaceGasMileageDisplay::~RaceGasMileageDisplay() [high]

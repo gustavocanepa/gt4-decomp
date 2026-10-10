@@ -4,12 +4,21 @@
  * type_info 0x0088DD10, type_info function 0x005CE150, structors 0x001A7908, 0x001A7948
  * vtable 0x0065E460: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mRunViewer_H
 #define GT4_mRunViewer_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mRunViewer : public hObject {
+public:
+    char pad10[0x4];
+};
+#else
 struct mRunViewer {
     s32 unk0;
     union {
@@ -19,6 +28,19 @@ struct mRunViewer {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mRunViewer__virtual_03(struct mRunViewer *);
+s32 mRunViewer__virtual_04(struct mRunViewer *);
+s32 mRunViewer__virtual_09(struct mRunViewer *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001A7948

@@ -4,12 +4,30 @@
  * type_info 0x0088F520, type_info function 0x005F96D0, structors 0x003AAEE0
  * vtable 0x0067F0B0: 9 slots
  * size: not known; the fields seen reach 0x79
+ * C++ (GT4_CXX): size 0x7C (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceRichCountDisplay_H
 #define GT4_RaceRichCountDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceValueDisplayBase.h"
+
+class RaceRichCountDisplay : public RaceValueDisplayBase {
+public:
+    char pad18[0x50];
+    s32 unk68;
+    s32 unk6C;
+    s32 unk70;
+    s32 unk74;
+    s8 unk78;
+    char pad79[0x3];
+    void setCount(s32);  /* 0x003AAF40 */
+    void setTotal(s32);  /* 0x003AAF70 */
+    s32 make_string();  /* 0x003AAFA0 */
+};
+#else
 struct RaceRichCountDisplay {
     char pad0[0x14];
     union {
@@ -23,6 +41,19 @@ struct RaceRichCountDisplay {
     s32 unk74;
     s8 unk78;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceRichCountDisplay__setCount(struct RaceRichCountDisplay *, s32);
+void RaceRichCountDisplay__setTotal(struct RaceRichCountDisplay *, s32);
+s32 RaceRichCountDisplay__make_string(struct RaceRichCountDisplay *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F9668  RaceRichCountDisplay::~RaceRichCountDisplay() [high]

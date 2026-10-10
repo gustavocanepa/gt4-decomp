@@ -4,18 +4,30 @@
  * type_info 0x006D6198, type_info function 0x0060A438, structors 0x00494500, 0x00494520, 0x00494540
  * vtable 0x00688B58: 1 slots
  * size: not known; the fields seen reach 0x990
+ * C++ (GT4_CXX): size 0x990 (not known: up to the last field seen), vptr at 0x98C (introduced here), fields left out (overlap, or in the base's part): 0x98C
  */
 #ifndef GT4_PGLXshapeBuilder_H
 #define GT4_PGLXshapeBuilder_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class PGLXshapeBuilder {
+public:
+    char pad0[0x298];
+    s32 unk298;
+    char pad29C[0x6F0];
+    virtual s32 virtual_0(s32);  /* 0: parameters from the code */
+};
+#else
 struct PGLXshapeBuilder {
     char pad0[0x298];
     s32 unk298;
     char pad29C[0x6F0];
     void *unk98C;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00494540

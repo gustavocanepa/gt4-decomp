@@ -4,12 +4,21 @@
  * type_info 0x0088EBA0, type_info function 0x005F0080, structors 0x003117E8, 0x00311830
  * vtable 0x006751E8: 14 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_hStaticValue_H
 #define GT4_hStaticValue_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hValue.h"
+
+class hStaticValue : public hValue {
+public:
+    s32 unkC;
+};
+#else
 struct hStaticValue {
     s32 unk0;
     union {
@@ -19,6 +28,19 @@ struct hStaticValue {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hStaticValue__rc_class(struct hStaticValue *);
+s32 hStaticValue__rc_size(struct hStaticValue *);
+s32 hStaticValue__cleanup(struct hStaticValue *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00311830  hStaticValue::~hStaticValue() [high]

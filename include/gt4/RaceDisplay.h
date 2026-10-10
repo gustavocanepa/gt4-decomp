@@ -4,12 +4,102 @@
  * type_info 0x0088F330, type_info function 0x005F76F8, structors 0x0039A908, 0x0039AB68
  * vtable 0x0067E278: 56 slots
  * size: not known; the fields seen reach 0xC0
+ * C++ (GT4_CXX): size 0xC0 (not known: up to the last field seen), vptr at 0x0 (introduced here)
+ * base RaceDisplayBase has no known member: left out of the C++ form
  */
 #ifndef GT4_RaceDisplay_H
 #define GT4_RaceDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+class RaceEntryCar;
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; RaceDisplay has fields after 0x0, so a base without RTTI introduced it */
+class RaceDisplay_vbase {
+public:
+    virtual void cleanup();  /* 0: RaceDisplay::cleanup() */
+    virtual s32 update(f32);  /* 1: RaceDisplay::update(float) */
+    virtual s32 render(void *);  /* 2: RaceDisplay::render(GSBuffer&) */
+    virtual s32 DMAsafe();  /* 3: RaceDisplay::DMAsafe() */
+    virtual void setOrganization(void *);  /* 4: RaceDisplay::setOrganization(RaceOrganization&) */
+    virtual void setRaceMonitor(void *);  /* 5: RaceDisplay::setRaceMonitor(RaceMonitor*) */
+    virtual s32 virtual_6(s32);  /* 6: GT HD (medium): RaceDisplay::setRaceMode(int); parameters from the code */
+    virtual s32 virtual_7(s32);  /* 7: GT HD (medium): RaceDisplay::setRunMode(int); parameters from the code */
+    virtual s32 initialize();  /* 8: RaceDisplay::initialize() */
+    virtual void setPlayerCarNumber(s32);  /* 9: RaceDisplay::setPlayerCarNumber(int) */
+    virtual s32 virtual_10(s32);  /* 10: GT HD (medium): RaceDisplay::setTargetCarNumber(int); parameters from the code */
+    virtual s32 setViewMode(s32);  /* 11: RaceDisplay::setViewMode(int) */
+    virtual s32 setCameraViewMode(void *);  /* 12: RaceDisplay::setCameraViewMode(CameraSys::CameraManager&) */
+    virtual s32 setDiveReplayMode(bool);  /* 13: RaceDisplay::setDiveReplayMode(bool) */
+    virtual s32 setDisplayEnableInReplay(bool);  /* 14: RaceDisplay::setDisplayEnableInReplay(bool) */
+    virtual f32 getBackMirrorRate() const;  /* 15: RaceDisplay::getBackMirrorRate() const */
+    virtual s32 virtual_16(s32);  /* 16: GT HD (medium): RaceDisplay::setGuideMode(bool); parameters from the code */
+    virtual s32 virtual_17(s32);  /* 17: GT HD (medium): RaceDisplay::setMinilogo(bool); parameters from the code */
+    virtual s32 printMessage(const char *, f32, u32);  /* 18: RaceDisplay::printMessage(char const*, float, unsigned int) */
+    virtual s32 printGeneralInformation(const char *, f32);  /* 19: RaceDisplay::printGeneralInformation(char const*, float) */
+    virtual s32 printReplayMode(const char *, u32, u32);  /* 20: RaceDisplay::printReplayMode(char const*, unsigned int, unsigned int) */
+    virtual s32 setExternalConstToolTip(const char *);  /* 21: RaceDisplay::setExternalConstToolTip(char const*) */
+    virtual void setExternalStartLogo(void *);  /* 22: RaceDisplay::setExternalStartLogo(PGLUtexSet*) */
+    virtual s32 virtual_23(s32);  /* 23: parameters from the code */
+    virtual s32 render_time();  /* 24: RaceDisplay::render_time() */
+    virtual s32 update_rank(f32, void *);  /* 25: RaceDisplay::update_rank(float, RaceOrganization&) */
+    virtual s32 update_automobile_message(void *);  /* 26: RaceDisplay::update_automobile_message(Automobile&) */
+    virtual s32 set_automobile_message(s32);  /* 27: RaceDisplay::set_automobile_message(int) */
+    virtual f32 init_starting_style_for_play();  /* 28: RaceDisplay::init_starting_style_for_play() */
+    virtual s32 init_starting_style_for_replay();  /* 29: RaceDisplay::init_starting_style_for_replay() */
+    virtual f32 virtual_30();  /* 30: GT HD (medium): RaceDisplay::init_starting_style_for_spectator(); parameters from the code */
+    virtual s32 init_starting_style_for_autodemo();  /* 31: RaceDisplay::init_starting_style_for_autodemo() */
+    virtual s32 init_display_switch_by_run_mode(s32);  /* 32: RaceDisplay::init_display_switch_by_run_mode(int) */
+    virtual void virtual_33(s32, s32, s32);  /* 33: GT HD (medium): RaceDisplay::init_display_config(int, int, int); parameters from the code */
+    virtual s32 virtual_34();  /* 34: GT HD (medium): RaceDisplay::disable_all(); parameters from the code */
+    virtual s32 virtual_35(s32, s32, s32);  /* 35: parameters from the code */
+    virtual void onLicenseFailedEvent();  /* 36: RaceDisplay::onLicenseFailedEvent() */
+    virtual f32 virtual_37();  /* 37: parameters from the code */
+    virtual s32 virtual_38();  /* 38: GT HD (medium): RaceDisplay::put_initial_display(); parameters from the code */
+    virtual s32 put_start_display();  /* 39: RaceDisplay::put_start_display() */
+    virtual void put_finish_display();  /* 40: RaceDisplay::put_finish_display() */
+    virtual s32 get_aspec_point_available() const;  /* 41: RaceDisplay::get_aspec_point_available() const */
+    virtual s32 put_aspec_race_information(f32, f32, f32, f32);  /* 42: RaceDisplay::put_aspec_race_information(float, float, float, float) */
+    virtual s32 put_aspec_race_result();  /* 43: RaceDisplay::put_aspec_race_result() */
+    virtual s32 virtual_44(f32, f32, f32, f32);  /* 44: GT HD (medium): RaceDisplay::put_replay_race_information(float, float, float, float); parameters from the code */
+    virtual f32 virtual_45(s32);  /* 45: GT HD (medium): RaceDisplay::put_replay_race_result(unsigned int); parameters from the code */
+    virtual s32 virtual_46(s32, s32);  /* 46: GT HD (medium): RaceDisplay::put_laptime_display(int, unsigned int); parameters from the code */
+    virtual s32 put_sectiontime_display(s32, u32);  /* 47: RaceDisplay::put_sectiontime_display(int, unsigned int) */
+    virtual s32 put_record_times_display(f32);  /* 48: RaceDisplay::put_record_times_display(float) */
+    virtual s32 put_position_display(f32);  /* 49: RaceDisplay::put_position_display(float) */
+    virtual s32 virtual_50(s32);  /* 50: GT HD (medium): RaceDisplay::get_time_diff_target_car(int); parameters from the code */
+    virtual s32 get_session_best_time(RaceEntryCar &) const;  /* 51: RaceDisplay::get_session_best_time(RaceEntryCar&) const */
+    virtual ~RaceDisplay_vbase();  /* 52: RaceDisplay::~RaceDisplay() */
+    virtual s32 clear();  /* 53: RaceDisplay::clear() */
+    virtual s32 changeDisplayInReplay();  /* 54: RaceDisplay::changeDisplayInReplay() */
+    virtual s32 setDisplayTypeInReplay(s32);  /* 55: RaceDisplay::setDisplayTypeInReplay(int) */
+};
+
+class RaceDisplay : public RaceDisplay_vbase {
+public:
+    char pad4[0x8];
+    s32 unkC;
+    char pad10[0x14];
+    s32 unk24;
+    char pad28[0x7];
+    s8 unk2F;
+    s32 unk30;
+    char pad34[0x88];
+    f32 unkBC;
+    s32 initialize_gpb();  /* 0x0039B2B8 */
+    s32 setProjectionMatrix(f32, f32, f32, f32);  /* 0x0039BB38 */
+    f32 init_starting_style_short_format();  /* 0x0039C188 */
+    f32 init_starting_style_long_format();  /* 0x0039C318 */
+    void commonPreUpdate(void *);  /* 0x0039DA78 */
+    s32 put_replay_mode_display(const char *, f32, u32, u32);  /* 0x0039F018 */
+    s32 get_race_signal_font() const;  /* 0x003A1460 */
+    s32 is_play_mode() const;  /* 0x003A1628 */
+    void init_panel(s32);  /* 0x003A1970 */
+    void setObjectDisplaySwitch(s32, s32);  /* 0x003A2130 */
+    s32 init_display_objects(const void *);  /* 0x003A2630 */
+};
+#else
 struct RaceDisplay {
     char pad0[0xC];
     s32 unkC;
@@ -21,6 +111,66 @@ struct RaceDisplay {
     char pad34[0x88];
     f32 unkBC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceDisplay__cleanup(struct RaceDisplay *);
+s32 RaceDisplay__initialize_gpb(struct RaceDisplay *);
+void RaceDisplay__setOrganization(struct RaceDisplay *, void *);
+void RaceDisplay__setRaceMonitor(struct RaceDisplay *, void *);
+void RaceDisplay__initialize(struct RaceDisplay *);
+s32 RaceDisplay__setProjectionMatrix(struct RaceDisplay *, f32, f32, f32, f32);
+f32 RaceDisplay__init_starting_style_for_play(struct RaceDisplay *);
+s32 RaceDisplay__init_starting_style_for_replay(struct RaceDisplay *);
+s32 RaceDisplay__init_starting_style_for_autodemo(struct RaceDisplay *);
+f32 RaceDisplay__init_starting_style_short_format(struct RaceDisplay *);
+f32 RaceDisplay__init_starting_style_long_format(struct RaceDisplay *);
+s32 RaceDisplay__get_aspec_point_available(struct RaceDisplay *);
+s32 RaceDisplay__put_aspec_race_information(struct RaceDisplay *, f32, f32, f32, f32);
+s32 RaceDisplay__put_aspec_race_result(struct RaceDisplay *);
+s32 RaceDisplay__init_display_switch_by_run_mode(struct RaceDisplay *, s32);
+s32 RaceDisplay__clear(struct RaceDisplay *);
+void RaceDisplay__setViewMode(struct RaceDisplay *, s32);
+s32 RaceDisplay__setCameraViewMode(struct RaceDisplay *, void *);
+void RaceDisplay__setDiveReplayMode(struct RaceDisplay *, s32);
+s32 RaceDisplay__printGeneralInformation(struct RaceDisplay *, const char *, f32);
+s32 RaceDisplay__update_automobile_message(struct RaceDisplay *, void *);
+s32 RaceDisplay__set_automobile_message(struct RaceDisplay *, s32);
+void RaceDisplay__commonPreUpdate(struct RaceDisplay *, void *);
+void RaceDisplay__update(struct RaceDisplay *, f32);
+f32 RaceDisplay__update_rank(struct RaceDisplay *, f32, void *);
+s32 RaceDisplay__printReplayMode(struct RaceDisplay *, const char *, u32, u32);
+s32 RaceDisplay__put_replay_mode_display(struct RaceDisplay *, const char *, f32, u32, u32);
+s32 RaceDisplay__get_session_best_time(struct RaceDisplay *, struct RaceEntryCar *);
+s32 RaceDisplay__render(struct RaceDisplay *, void *);
+s32 RaceDisplay__render_time(struct RaceDisplay *);
+s32 RaceDisplay__DMAsafe(struct RaceDisplay *);
+void RaceDisplay__onLicenseFailedEvent(struct RaceDisplay *);
+s32 RaceDisplay__put_sectiontime_display(struct RaceDisplay *, s32, u32);
+s32 RaceDisplay__put_position_display(struct RaceDisplay *, f32);
+s32 RaceDisplay__put_record_times_display(struct RaceDisplay *, f32);
+s32 RaceDisplay__get_race_signal_font(struct RaceDisplay *);
+s32 RaceDisplay__put_start_display(struct RaceDisplay *);
+s32 RaceDisplay__put_finish_display(struct RaceDisplay *);
+s32 RaceDisplay__is_play_mode(struct RaceDisplay *);
+void RaceDisplay__init_panel(struct RaceDisplay *, s32);
+s32 RaceDisplay__changeDisplayInReplay(struct RaceDisplay *);
+void RaceDisplay__setDisplayEnableInReplay(struct RaceDisplay *, s32);
+s32 RaceDisplay__setDisplayTypeInReplay(struct RaceDisplay *, s32);
+void RaceDisplay__setObjectDisplaySwitch(struct RaceDisplay *, s32, s32);
+s32 RaceDisplay__printMessage(struct RaceDisplay *, const char *, f32, u32);
+s32 RaceDisplay__setExternalConstToolTip(struct RaceDisplay *, const char *);
+void RaceDisplay__setExternalStartLogo(struct RaceDisplay *, void *);
+s32 RaceDisplay__init_display_objects(struct RaceDisplay *, const void *);
+void RaceDisplay__setPlayerCarNumber(struct RaceDisplay *, s32);
+f32 RaceDisplay__getBackMirrorRate(struct RaceDisplay *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0039B290  RaceDisplay::cleanup() [high]

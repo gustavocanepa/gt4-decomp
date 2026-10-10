@@ -4,12 +4,27 @@
  * type_info 0x0088E8A0, type_info function 0x005E9EE8, structors 0x002CCAA8
  * vtable 0x0066FE08: 53 slots
  * size: not known; the fields seen reach 0x38
+ * C++ (GT4_CXX): size 0x40 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mRotateActor_H
 #define GT4_mRotateActor_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mActor.h"
+
+class mRotateActor : public mActor {
+public:
+    s32 unk14;
+    f32 unk18;
+    f32 unk1C;
+    f32 unk20;
+    char pad24[0x10];
+    s32 unk34;
+    char pad38[0x8];
+};
+#else
 struct mRotateActor {
     s32 unk0;
     union {
@@ -26,6 +41,22 @@ struct mRotateActor {
     char pad24[0x10];
     s32 unk34;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mRotateActor__rc_class(struct mRotateActor *);
+s32 mRotateActor__rc_size(struct mRotateActor *);
+s32 mRotateActor__virtual_09(struct mRotateActor *);
+s32 mRotateActor__initialize(struct mRotateActor *);
+f32 mRotateActor__rewind(struct mRotateActor *);
+s32 mRotateActor__update(struct mRotateActor *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E9E20  mRotateActor::~mRotateActor() [high]

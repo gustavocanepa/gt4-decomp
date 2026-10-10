@@ -4,12 +4,20 @@
  * type_info 0x0088F770, type_info function 0x005FB728, structors 0x003BF6E8, 0x003BF7D8
  * vtable 0x006815E0: 153 slots
  * size: not known; the fields seen reach 0xE428
+ * C++ (GT4_CXX): size 0xE428 (not known: up to the last field seen), vptr at 0x64
  */
 #ifndef GT4_RaceMission_H
 #define GT4_RaceMission_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceTrainingBase.h"
+
+class RaceMission : public RaceTrainingBase {
+public:
+};
+#else
 struct RaceMission {
     char pad0[0x64];
     union {
@@ -63,6 +71,27 @@ struct RaceMission {
     void *unkE420;
     void *unkE424;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceMission__raceName(struct RaceMission *);
+s32 RaceMission__initialize(struct RaceMission *, s32);
+s32 RaceMission__cleanup(struct RaceMission *);
+s32 RaceMission__postInitialize(struct RaceMission *);
+s32 RaceMission__raceStart(struct RaceMission *);
+s32 RaceMission__getRaceMode(struct RaceMission *, s32 *);
+s32 RaceMission__getRaceModeKey(struct RaceMission *, s32 *);
+s32 RaceTrainingBase__controlFetch(struct RaceMission *);
+s32 RaceTrainingBase__updateRace(struct RaceMission *);
+s32 RaceTrainingBase__raceEnd(struct RaceMission *);
+void RaceTrainingBase__setGuideMode(struct RaceMission *, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003BF7D8  RaceMission::~RaceMission() [high]

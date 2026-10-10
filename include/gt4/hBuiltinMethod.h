@@ -4,12 +4,24 @@
  * type_info 0x0088EEF0, type_info function 0x005F2858, structors 0x0032DC08, 0x0032DC48
  * vtable 0x00676B38: 16 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_hBuiltinMethod_H
 #define GT4_hBuiltinMethod_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hMethodValue.h"
+
+class hBuiltinMethod : public hMethodValue {
+public:
+    union {
+        s32 (*unkC)(s32, s32, s32, s32);
+        void *unkC_pvoid;
+    };
+};
+#else
 struct hBuiltinMethod {
     s32 unk0;
     union {
@@ -22,6 +34,20 @@ struct hBuiltinMethod {
         void *unkC_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hBuiltinMethod__rc_class(struct hBuiltinMethod *);
+s32 hBuiltinMethod__rc_size(struct hBuiltinMethod *);
+s32 hBuiltinMethod__call_const(struct hBuiltinMethod *, struct HObject *, const struct HObject *, s32, const struct HObject *);
+s32 hBuiltinMethod__call_const_2(struct hBuiltinMethod *, void *, const struct HObject *, s32, const struct HObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0032DC48  hBuiltinMethod::~hBuiltinMethod() [high]

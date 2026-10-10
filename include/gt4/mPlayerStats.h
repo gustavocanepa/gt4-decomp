@@ -4,12 +4,30 @@
  * type_info 0x0088DCB0, type_info function 0x005CDE78, structors 0x0019C360, 0x0019C3C0, 0x0019C3F0
  * vtable 0x0065DAD0: 49 slots
  * size: not known; the fields seen reach 0x110
+ * C++ (GT4_CXX): size 0x110 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mPlayerStats_H
 #define GT4_mPlayerStats_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mPlayerStats : public hObject {
+public:
+    char pad10[0x3F];
+    char unk4F;
+    char pad50[0x1F];
+    char unk6F;
+    char pad70[0x1F];
+    char unk8F;
+    char pad90[0x3F];
+    char unkCF;
+    char padD0[0x3F];
+    char unk10F;
+};
+#else
 struct mPlayerStats {
     s32 unk0;
     union {
@@ -29,6 +47,19 @@ struct mPlayerStats {
     char padD0[0x3F];
     char unk10F;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mPlayerStats__virtual_03(struct mPlayerStats *);
+s32 mPlayerStats__virtual_04(struct mPlayerStats *);
+s32 mPlayerStats__virtual_09(struct mPlayerStats *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0019C3F0

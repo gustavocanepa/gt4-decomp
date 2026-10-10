@@ -4,12 +4,23 @@
  * type_info 0x0088E470, type_info function 0x005E34E8, structors 0x00273D10, 0x00273D50
  * vtable 0x00667F08: 20 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mMoviePS2_H
 #define GT4_mMoviePS2_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mMovie.h"
+
+class mMoviePS2 : public mMovie {
+public:
+    s32 unk8;
+    s32 unkC;
+    s32 unk10;
+};
+#else
 struct mMoviePS2 {
     s32 unk0;
     union {
@@ -20,6 +31,18 @@ struct mMoviePS2 {
     s32 unkC;
     s32 unk10;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mMoviePS2__virtual_03(struct mMoviePS2 *);
+s32 mMoviePS2__virtual_04(struct mMoviePS2 *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00273D50

@@ -18,6 +18,29 @@ struct DynamicsConductorMachineTest {
     };
 };
 
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 DynamicsConductorMachineTest__isDataLoggerSupported(struct DynamicsConductorMachineTest *);
+s32 DynamicsConductorMachineTest__isDataLoggerStandingStart(struct DynamicsConductorMachineTest *);
+s32 DynamicsConductorMachineTest__getEachEntrantInfo(struct DynamicsConductorMachineTest *, s32, s32 *, s32 *, s32 *, s32 *);
+s32 DynamicsConductorMachineTest__GetNumberOfLaps(struct DynamicsConductorMachineTest *);
+s32 DynamicsConductorMachineTest__CurrentLapTime(struct DynamicsConductorMachineTest *, void *);
+s32 DynamicsConductorMachineTest__getTestMode(struct DynamicsConductorMachineTest *);
+void DynamicsConductorMachineTest__getCourseV(struct DynamicsConductorMachineTest *, void *);
+s32 DynamicsConductorMachineTest__GetNumberOfSplits(struct DynamicsConductorMachineTest *);
+f32 DynamicsConductorMachineTest__GetGoalV(struct DynamicsConductorMachineTest *);
+f32 DynamicsConductorMachineTest__GetCheckPointVabs(struct DynamicsConductorMachineTest *, s32);
+s32 DynamicsConductorMachineTest__ProcessCheckPoint(struct DynamicsConductorMachineTest *, s32, s32, s32, u32, u32, u32);
+void DynamicsConductorMachineTest__ProcessControlLine(struct DynamicsConductorMachineTest *, s32, s32, u32, u32, u32, f32, u32);
+s32 DynamicsConductorMachineTest__ProcessGoalLine(struct DynamicsConductorMachineTest *, s32, s32, u32, u32, u32);
+s32 DynamicsConductorMachineTest__terminate(struct DynamicsConductorMachineTest *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
+
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00359230
  *   1: 0x00365D80

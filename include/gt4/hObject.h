@@ -4,12 +4,70 @@
  * type_info 0x0088EB70, type_info function 0x005EFF90, structors 0x0030A678, 0x0030A6B0, 0x0030A908
  * vtable 0x00674F30: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_hObject_H
 #define GT4_hObject_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RefCounter.h"
+class HObject;
+class HSymID;
+class hClass;
+
+class hObject : public RefCounter {
+public:
+    s32 unk8;
+    s32 unkC;
+    virtual s32 deepCopy(const hObject *);  /* 8: hObject::deepCopy(hObject const*) */
+    virtual s32 getClassID() const;  /* 9: hObject::getClassID() const */
+    virtual s32 toInt() const;  /* 10: hObject::toInt() const */
+    virtual f32 toFloat() const;  /* 11: hObject::toFloat() const */
+    virtual s32 virtual_12(s32);  /* 12: GT HD (medium): hObject::getElement(unsigned int) const; parameters from the code */
+    virtual s32 virtual_13(s32);  /* 13: GT HD (medium): hObject::getElement(unsigned int); parameters from the code */
+    virtual void setElement(u32, const HObject &);  /* 14: hObject::setElement(unsigned int, HObject const&) */
+    virtual s32 virtual_15(s32);  /* 15: GT HD hObject::copyPrimitive() const: its parameters do not fit GT4's code; parameters from the code */
+    virtual s32 evaluate(HObject &) const;  /* 16: hObject::evaluate(HObject&) const */
+    virtual s32 assign(const HObject &);  /* 17: hObject::assign(HObject const&) */
+    virtual s32 isValid() const;  /* 18: hObject::isValid() const */
+    virtual s32 call(void *, s32, const HObject *) const;  /* 19: hObject::call(HThread&, int, HObject const*) const */
+    virtual s32 call(HObject &, s32, const HObject *) const;  /* 20: hObject::call(HObject&, int, HObject const*) const */
+    virtual s32 virtual_21(s32, s32, s32, s32);  /* 21: parameters from the code */
+    virtual s32 virtual_22(s32, s32, s32, s32);  /* 22: parameters from the code */
+    virtual s32 virtual_23(s32, s32, s32, s32);  /* 23: parameters from the code */
+    virtual s32 virtual_24(s32, s32, s32, s32);  /* 24: parameters from the code */
+    virtual s32 virtual_25(s32, s32, s32, s32);  /* 25: parameters from the code */
+    virtual s32 virtual_26(s32, s32, s32, s32);  /* 26: parameters from the code */
+    virtual s32 virtual_27(s32, s32, s32, s32);  /* 27: parameters from the code */
+    virtual s32 virtual_28(s32, s32, s32, s32);  /* 28: parameters from the code */
+    virtual s32 virtual_29(s32, s32, s32, s32);  /* 29: GT HD (medium): hObject::op_ge(HObject&, HObject const&, int, HObject const*); parameters from the code */
+    virtual s32 virtual_30(s32, s32, s32, s32);  /* 30: GT HD (medium): hObject::op_gt(HObject&, HObject const&, int, HObject const*); parameters from the code */
+    virtual s32 virtual_31(s32, s32, s32, s32);  /* 31: GT HD (medium): hObject::op_le(HObject&, HObject const&, int, HObject const*); parameters from the code */
+    virtual s32 virtual_32(s32, s32, s32, s32);  /* 32: GT HD (medium): hObject::op_lt(HObject&, HObject const&, int, HObject const*); parameters from the code */
+    virtual s32 virtual_33(s32, s32);  /* 33: GT HD (medium): hObject::op_mod(HObject&, HObject const&, int, HObject const*); parameters from the code */
+    virtual s32 virtual_34(s32, s32, s32, s32);  /* 34: GT HD (medium): hObject::op_mul(HObject&, HObject const&, int, HObject const*); parameters from the code */
+    virtual s32 virtual_35(s32, s32, s32, s32);  /* 35: GT HD (medium): hObject::op_not(HObject&, HObject const&, int, HObject const*); parameters from the code */
+    virtual s32 virtual_36(s32, s32);  /* 36: parameters from the code */
+    virtual s32 virtual_37(s32, s32);  /* 37: parameters from the code */
+    virtual s32 virtual_38(s32, s32);  /* 38: parameters from the code */
+    virtual s32 virtual_39(s32, s32);  /* 39: parameters from the code */
+    virtual s32 virtual_40(s32, s32);  /* 40: parameters from the code */
+    virtual s32 virtual_41(s32, s32);  /* 41: parameters from the code */
+    virtual s32 virtual_42(s32, s32, s32, s32);  /* 42: parameters from the code */
+    virtual s32 virtual_43(s32, s32, s32, s32);  /* 43: parameters from the code */
+    virtual s32 virtual_44(s32, s32, s32, s32);  /* 44: parameters from the code */
+    virtual s32 virtual_45(s32, s32, s32, s32);  /* 45: parameters from the code */
+    virtual s32 virtual_46(s32, s32, s32, s32);  /* 46: parameters from the code */
+    virtual s32 virtual_47(s32, s32);  /* 47: parameters from the code */
+    virtual s32 virtual_48(s32, s32, s32, s32);  /* 48: parameters from the code */
+    static s32 GetClassID();  /* 0x00309CC0 */
+    static s32 InitClass(hClass *);  /* 0x00309D00 */
+    s32 isInstanceOf(hClass *) const;  /* 0x0030AA08 */
+    void send(HObject &, const HSymID &, s32, const HObject *) const;  /* 0x0030ADA0 */
+};
+#else
 struct hObject {
     s32 unk0;
     union {
@@ -19,6 +77,23 @@ struct hObject {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hObject__rc_class(struct hObject *);
+s32 hObject__rc_size(struct hObject *);
+s32 hObject__GetClassID(void);
+s32 hObject__getClassID(struct hObject *);
+s32 hObject__InitClass(struct hClass *);
+s32 hObject__isInstanceOf(struct hObject *, struct hClass *);
+void hObject__send(struct hObject *, struct HObject *, const struct HSymID *, s32, const struct HObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0030A908  hObject::~hObject() [high]

@@ -4,12 +4,21 @@
  * type_info 0x0088E2B0, type_info function 0x005DC730, structors 0x00242778
  * vtable 0x00666188: 59 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mStorageHD_H
 #define GT4_mStorageHD_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mStorage.h"
+
+class mStorageHD : public mStorage {
+public:
+    static s32 GetClassID();  /* 0x00242640 */
+};
+#else
 struct mStorageHD {
     s32 unk0;
     union {
@@ -23,6 +32,29 @@ struct mStorageHD {
         void *unk10_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mStorageHD__rc_class(struct mStorageHD *);
+s32 mStorageHD__rc_size(struct mStorageHD *);
+s32 mStorageHD__GetClassID(void);
+s32 mStorageHD__getClassID(struct mStorageHD *);
+s32 mStorageHD__isRemovable(struct mStorageHD *);
+s32 mStorageHD__isAvailable(struct mStorageHD *);
+s32 mStorageHD__isFormatted(struct mStorageHD *);
+s32 mStorageHD__doFormat(struct mStorageHD *);
+s32 mStorageHD__getFreeSize(struct mStorageHD *);
+s32 mStorageHD__getFileSize(struct mStorageHD *, const char *);
+s32 mStorageHD__read(struct mStorageHD *, const char *, void *, u32);
+s32 mStorageHD__write(struct mStorageHD *, const char *, void *, u32);
+s32 mStorageHD__mkdir(struct mStorageHD *, const char *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005DC6B8  mStorageHD::~mStorageHD() [high]

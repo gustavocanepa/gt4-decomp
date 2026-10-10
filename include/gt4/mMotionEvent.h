@@ -4,12 +4,23 @@
  * type_info 0x0088E820, type_info function 0x005E8C08, structors 0x002BF9A8, 0x002BF9F8
  * vtable 0x0066F0A0: 51 slots
  * size: not known; the fields seen reach 0x28
+ * C++ (GT4_CXX): size 0x28 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mMotionEvent_H
 #define GT4_mMotionEvent_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWindowEvent.h"
+
+class mMotionEvent : public mWindowEvent {
+public:
+    f32 unk20;
+    f32 unk24;
+    static s32 GetClassID();  /* 0x002BF480 */
+};
+#else
 struct mMotionEvent {
     s32 unk0;
     union {
@@ -23,6 +34,22 @@ struct mMotionEvent {
     f32 unk20;
     f32 unk24;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mMotionEvent__rc_class(struct mMotionEvent *);
+s32 mMotionEvent__rc_size(struct mMotionEvent *);
+s32 mMotionEvent__GetClassID(void);
+s32 mMotionEvent__getClassID(struct mMotionEvent *);
+s32 mMotionEvent__onEvent(struct mMotionEvent *, struct mRenderContext *, struct mWidget *);
+s32 mMotionEvent__dispatchEvent(struct mMotionEvent *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002BF9F8  mMotionEvent::~mMotionEvent() [high]

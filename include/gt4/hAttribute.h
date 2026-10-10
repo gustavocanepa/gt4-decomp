@@ -4,12 +4,21 @@
  * type_info 0x0088EEC0, type_info function 0x005F2768, structors 0x0032BC68, 0x0032BCA0
  * vtable 0x006769A8: 14 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_hAttribute_H
 #define GT4_hAttribute_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hValue.h"
+
+class hAttribute : public hValue {
+public:
+    s32 unkC;
+};
+#else
 struct hAttribute {
     s32 unk0;
     union {
@@ -19,6 +28,18 @@ struct hAttribute {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hAttribute__rc_class(struct hAttribute *);
+s32 hAttribute__rc_size(struct hAttribute *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0032BCA0  hAttribute::~hAttribute() [high]

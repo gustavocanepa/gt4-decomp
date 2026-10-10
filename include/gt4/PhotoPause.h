@@ -4,17 +4,41 @@
  * type_info 0x0088F7B0, type_info function 0x005FBF10, structors 0x003C3C20, 0x003C3CE8
  * vtable 0x00681B98: 5 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (not known: up to the last field seen), vptr at 0x8
  */
 #ifndef GT4_PhotoPause_H
 #define GT4_PhotoPause_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/PauseBase.h"
+
+class PhotoPause : public PauseBase {
+public:
+    s32 deleteAnimInst();  /* 0x003C4758 */
+};
+#else
 struct PhotoPause {
     s32 unk0;
     s32 unk4;
     void *unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 PhotoPause__init(struct PhotoPause *);
+s32 PhotoPause__cleanup(struct PhotoPause *);
+s32 PhotoPause__deleteAnimInst(struct PhotoPause *);
+s32 PhotoPause__update(struct PhotoPause *, struct RaceInput *, void *);
+void PauseBase__render(struct PhotoPause *, void *, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003C3CE8  PhotoPause::~PhotoPause() [high]

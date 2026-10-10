@@ -4,12 +4,21 @@
  * type_info 0x0088EC70, type_info function 0x005F1968, structors 0x003205D8
  * vtable 0x006754D0: 11 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4
  */
 #ifndef GT4_mUnaryAssignOperator_H
 #define GT4_mUnaryAssignOperator_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mUnaryAssignOperator : public hInst {
+public:
+    char pad8[0xC];
+};
+#else
 struct mUnaryAssignOperator {
     s32 unk0;
     union {
@@ -17,6 +26,20 @@ struct mUnaryAssignOperator {
         s32 unk4_s32;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mUnaryAssignOperator__rc_class(struct mUnaryAssignOperator *);
+s32 mUnaryAssignOperator__rc_size(struct mUnaryAssignOperator *);
+s32 mUnaryAssignOperator__execute(struct mUnaryAssignOperator *, struct hThread *);
+s32 mUnaryAssignOperator__read(struct mUnaryAssignOperator *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00320638  mUnaryAssignOperator::~mUnaryAssignOperator() [high]

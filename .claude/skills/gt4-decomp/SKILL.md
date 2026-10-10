@@ -66,6 +66,8 @@ function counts only when the judge says MATCH and the full build still hashes l
 
 ## Knowledge map (read only the part you need)
 - knowledge/ee-gcc-2.96.md — compiler rules (how C shapes compile).
+- knowledge/gcc296-codegen-map.md — register/schedule residuals: which pass decides, the source
+  lever, read with tools/rtl_dumps.py + tools/alloc_table.py (allocation order before any pin).
 - knowledge/gt4.md — project rules: C++/STL/string/handles/registration, open problems.
 - knowledge/architecture.md, classes.md, script-engine.md, runtime-types.md — what the game code is.
 - knowledge/gthd.md — real method names/prototypes from Gran Turismo HD (tools/gthd_names.py),

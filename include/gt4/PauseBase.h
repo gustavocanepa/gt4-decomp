@@ -4,17 +4,50 @@
  * type_info 0x006D6030, type_info function 0x005FBF70, structors 0x003C6520, 0x003C6538
  * vtable 0x00681BD0: 5 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (not known: up to the last field seen), vptr at 0x8 (introduced here), fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_PauseBase_H
 #define GT4_PauseBase_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+class RaceInput;
+
+class PauseBase {
+public:
+    s32 unk0;
+    s32 unk4;
+    virtual ~PauseBase();  /* 0: PauseBase::~PauseBase() */
+    virtual s32 init();  /* 1: PauseBase::init() */
+    virtual void cleanup();  /* 2: PauseBase::cleanup() */
+    virtual s32 update(RaceInput &, void *);  /* 3: PauseBase::update(RaceInput&, RaceOrganization*) */
+    virtual void render(void *, void *);  /* 4: PauseBase::render(GSBuffer&, RaceOrganization&) */
+    s32 setTimeLimit(s32);  /* 0x003C6570 */
+    s32 checkTimeLimit();  /* 0x003C6598 */
+    void clearTimeCount();  /* 0x003C65D0 */
+};
+#else
 struct PauseBase {
     s32 unk0;
     s32 unk4;
     void *unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 PauseBase__setTimeLimit(struct PauseBase *, s32);
+s32 PauseBase__update(struct PauseBase *, struct RaceInput *, void *);
+s32 PauseBase__checkTimeLimit(struct PauseBase *);
+void PauseBase__clearTimeCount(struct PauseBase *);
+void PauseBase__init(struct PauseBase *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003C6538  PauseBase::~PauseBase() [high]

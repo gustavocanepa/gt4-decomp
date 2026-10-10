@@ -4,12 +4,28 @@
  * type_info 0x0088E0D0, type_info function 0x005D8AC8, structors 0x00210768, 0x00210798
  * vtable 0x00663900: 16 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mImage_H
 #define GT4_mImage_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mData.h"
+
+class mImage : public mData {
+public:
+    virtual s32 virtual_8();  /* 8: parameters from the code */
+    virtual s32 virtual_9();  /* 9: parameters from the code */
+    virtual s32 virtual_10();  /* 10: parameters from the code */
+    virtual s32 virtual_11();  /* 11: parameters from the code */
+    virtual s32 virtual_12();  /* 12: parameters from the code */
+    virtual f32 virtual_13();  /* 13: parameters from the code */
+    virtual f32 virtual_14();  /* 14: parameters from the code */
+    virtual s32 virtual_15();  /* 15: parameters from the code */
+};
+#else
 struct mImage {
     s32 unk0;
     union {
@@ -17,6 +33,18 @@ struct mImage {
         s32 unk4_s32;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mImage__rc_class(struct mImage *);
+s32 mImage__rc_size(struct mImage *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00210798  mImage::~mImage() [high]

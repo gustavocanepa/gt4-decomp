@@ -4,12 +4,20 @@
  * type_info 0x0088F910, type_info function 0x005FE880, structors 0x003EC900
  * vtable 0x00683A98: 11 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x24 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceBattleTachometer_H
 #define GT4_RaceBattleTachometer_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceBarMeter.h"
+
+class RaceBattleTachometer : public RaceBarMeter {
+public:
+};
+#else
 struct RaceBattleTachometer {
     s32 unk0;
     char pad4[0x10];
@@ -21,6 +29,18 @@ struct RaceBattleTachometer {
     s32 unk1C;
     s32 unk20;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceBattleTachometer__render_main(struct RaceBattleTachometer *, void *);
+f32 RaceBattleTachometer__get_ratio_x(struct RaceBattleTachometer *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FE818  RaceBattleTachometer::~RaceBattleTachometer() [high]

@@ -4,12 +4,21 @@
  * type_info 0x0088F900, type_info function 0x005FE638, structors 0x003EB7A0
  * vtable 0x00683A08: 16 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x24 (not known: up to the last field seen), vptr at 0x14
  */
 #ifndef GT4_RaceOnboardSpeedmeter_H
 #define GT4_RaceOnboardSpeedmeter_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceRoundMeterBase.h"
+
+class RaceOnboardSpeedmeter : public RaceRoundMeterBase {
+public:
+    void setSpeedScale(bool, f32);  /* 0x003EB860 */
+};
+#else
 struct RaceOnboardSpeedmeter {
     s32 unk0;
     char pad4[0x10];
@@ -21,6 +30,17 @@ struct RaceOnboardSpeedmeter {
     s32 unk1C;
     s32 unk20;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceOnboardSpeedmeter__setSpeedScale(struct RaceOnboardSpeedmeter *, s32, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FE5D0  RaceOnboardSpeedmeter::~RaceOnboardSpeedmeter() [high]

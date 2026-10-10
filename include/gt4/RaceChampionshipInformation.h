@@ -4,12 +4,24 @@
  * type_info 0x0088F990, type_info function 0x005FEAA8, structors 0x003EE590, 0x003EE640
  * vtable 0x006850C0: 19 slots
  * size: not known; the fields seen reach 0x174
+ * C++ (GT4_CXX): size 0x174 (not known: up to the last field seen), vptr at 0x12C, fields left out (overlap, or in the base's part): 0x12C
  */
 #ifndef GT4_RaceChampionshipInformation_H
 #define GT4_RaceChampionshipInformation_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceInformation.h"
+
+class RaceChampionshipInformation : public RaceInformation {
+public:
+    char pad130[0x40];
+    s32 unk170;
+    s32 finishEntryCar_FirstSession(void *);  /* 0x003EEDA8 */
+    s32 finishEntryCar_Continue(void *);  /* 0x003EEEC8 */
+};
+#else
 struct RaceChampionshipInformation {
     char pad0[0x12C];
     union {
@@ -19,6 +31,22 @@ struct RaceChampionshipInformation {
     char pad130[0x40];
     s32 unk170;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceChampionshipInformation__createEntry(struct RaceChampionshipInformation *);
+s32 RaceChampionshipInformation__updateEntryCar(struct RaceChampionshipInformation *, struct RaceEntryCar *);
+s32 RaceChampionshipInformation__finishEntryCar(struct RaceChampionshipInformation *, void *);
+s32 RaceChampionshipInformation__finishEntryCar_FirstSession(struct RaceChampionshipInformation *, void *);
+s32 RaceChampionshipInformation__finishEntryCar_Continue(struct RaceChampionshipInformation *, void *);
+s32 RaceChampionshipInformation__getDriversPoints(struct RaceChampionshipInformation *, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003EE640  RaceChampionshipInformation::~RaceChampionshipInformation() [high]

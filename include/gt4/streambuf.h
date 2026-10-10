@@ -4,16 +4,43 @@
  * type_info 0x008A1C30, type_info function 0x00615388, structors 0x00594120, 0x00594140
  * vtable 0x0068A0B0: 17 slots
  * size: not known; the fields seen reach 0x54
+ * C++ (GT4_CXX): size 0x54 (not known: up to the last field seen), vptr at 0x50 (introduced here), fields left out (overlap, or in the base's part): 0x50
+ * base _IO_FILE has no known member: left out of the C++ form
  */
 #ifndef GT4_streambuf_H
 #define GT4_streambuf_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class streambuf {
+public:
+    char pad0[0x50];
+    virtual s32 virtual_0(s32);  /* 0: parameters from the code */
+    virtual s32 virtual_1(s32);  /* 1: parameters from the code */
+    virtual s32 virtual_2();  /* 2: parameters from the code */
+    virtual void virtual_3();  /* 3: parameters from the code */
+    virtual void virtual_4();  /* 4: parameters from the code */
+    virtual s32 virtual_5(s32, s32);  /* 5: parameters from the code */
+    virtual s32 virtual_6(s32, s32);  /* 6: parameters from the code */
+    virtual s32 virtual_7();  /* 7: parameters from the code */
+    virtual s32 virtual_8(s32, s32);  /* 8: parameters from the code */
+    virtual void virtual_9(s32, s32);  /* 9: parameters from the code */
+    virtual s32 virtual_10();  /* 10: parameters from the code */
+    virtual void virtual_11();  /* 11: parameters from the code */
+    virtual s32 virtual_12(s32, s32);  /* 12: parameters from the code */
+    virtual s32 virtual_13(s32, s32);  /* 13: parameters from the code */
+    virtual s32 virtual_14();  /* 14: parameters from the code */
+    virtual s32 virtual_15();  /* 15: parameters from the code */
+    virtual s32 virtual_16();  /* 16: parameters from the code */
+};
+#else
 struct streambuf {
     char pad0[0x50];
     void *unk50;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00594140

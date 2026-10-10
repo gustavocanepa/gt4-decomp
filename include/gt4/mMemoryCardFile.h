@@ -4,12 +4,25 @@
  * type_info 0x0088DC30, type_info function 0x005CB830, structors 0x00178A98, 0x005CB880, 0x005CB8C8
  * vtable 0x0065CC48: 49 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mMemoryCardFile_H
 #define GT4_mMemoryCardFile_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class HObject;
+
+class mMemoryCardFile : public hObject {
+public:
+    void *unk10;
+    void *unk14;
+    static s32 GetClassID();  /* 0x00174298 */
+    s32 m_loadInstance(HObject &, const HObject &, s32, const HObject *);  /* 0x00175920 */
+};
+#else
 struct mMemoryCardFile {
     s32 unk0;
     union {
@@ -21,6 +34,21 @@ struct mMemoryCardFile {
     void *unk10;
     void *unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mMemoryCardFile__rc_class(struct mMemoryCardFile *);
+s32 mMemoryCardFile__rc_size(struct mMemoryCardFile *);
+s32 mMemoryCardFile__GetClassID(void);
+s32 mMemoryCardFile__getClassID(struct mMemoryCardFile *);
+s32 MMemoryCardFile__loadInstance(struct mMemoryCardFile *, struct HObject *, const struct HObject *, s32, const struct HObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005CB8C8  mMemoryCardFile::~mMemoryCardFile() [high]

@@ -4,12 +4,24 @@
  * type_info 0x0088E1D0, type_info function 0x005DAD50, structors 0x00229480, 0x002294B8
  * vtable 0x00664D50: 103 slots
  * size: not known; the fields seen reach 0xB0
+ * C++ (GT4_CXX): size 0xB8 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mProject_H
 #define GT4_mProject_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mComposite.h"
+class hClass;
+
+class mProject : public mComposite {
+public:
+    char padB0[0x8];
+    static s32 GetClassID();  /* 0x00229448 */
+    static s32 InitClass(hClass *);  /* 0x00229830 */
+};
+#else
 struct mProject {
     s32 unk0;
     union {
@@ -30,6 +42,21 @@ struct mProject {
     void *unkA8;
     void *unkAC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mProject__rc_class(struct mProject *);
+s32 mProject__rc_size(struct mProject *);
+s32 mProject__GetClassID(void);
+s32 mProject__getClassID(struct mProject *);
+s32 mProject__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002294B8  mProject::~mProject() [high]

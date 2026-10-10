@@ -4,12 +4,22 @@
  * type_info 0x0088E0C0, type_info function 0x005D88D0, structors 0x0020D578, 0x0020D648
  * vtable 0x00663728: 51 slots
  * size: not known; the fields seen reach 0x20
+ * C++ (GT4_CXX): size 0x34 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mFunctionEvent_H
 #define GT4_mFunctionEvent_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mEvent.h"
+
+class mFunctionEvent : public mEvent {
+public:
+    char pad20[0x14];
+    static s32 GetClassID();  /* 0x0020D150 */
+};
+#else
 struct mFunctionEvent {
     s32 unk0;
     union {
@@ -21,6 +31,22 @@ struct mFunctionEvent {
     char pad10[0xC];
     void *unk1C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mFunctionEvent__rc_class(struct mFunctionEvent *);
+s32 mFunctionEvent__rc_size(struct mFunctionEvent *);
+s32 mFunctionEvent__GetClassID(void);
+s32 mFunctionEvent__getClassID(struct mFunctionEvent *);
+s32 mFunctionEvent__dispatchEvent(struct mFunctionEvent *);
+s32 mFunctionEvent__onEvent(struct mFunctionEvent *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0020D648  mFunctionEvent::~mFunctionEvent() [high]

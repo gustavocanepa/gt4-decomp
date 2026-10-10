@@ -4,12 +4,25 @@
  * type_info 0x0088DAB0, type_info function 0x005C4C30, structors 0x0012A188, 0x0012A1D8
  * vtable 0x0065A768: 98 slots
  * size: not known; the fields seen reach 0x94
+ * C++ (GT4_CXX): size 0xC8 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mRaceCourseMapFace_H
 #define GT4_mRaceCourseMapFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWidget.h"
+
+class mRaceCourseMapFace : public mWidget {
+public:
+    char padA0[0x28];
+    virtual void setMiniMap(void *);  /* 95: mRaceCourseMapFace::setMiniMap(void*) */
+    virtual void setVPosition(f32);  /* 96: mRaceCourseMapFace::setVPosition(float) */
+    virtual void setVSpan(f32, f32);  /* 97: mRaceCourseMapFace::setVSpan(float, float) */
+    static s32 GetClassID();  /* 0x0012A150 */
+};
+#else
 struct mRaceCourseMapFace {
     s32 unk0;
     union {
@@ -25,6 +38,20 @@ struct mRaceCourseMapFace {
     char pad30[0x60];
     void *unk90;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mRaceCourseMapFace__GetClassID(void);
+void mRaceCourseMapFace__setMiniMap(struct mRaceCourseMapFace *, void *);
+void mRaceCourseMapFace__setVPosition(struct mRaceCourseMapFace *, f32);
+void mRaceCourseMapFace__setVSpan(struct mRaceCourseMapFace *, f32, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0012A1D8  mRaceCourseMapFace::~mRaceCourseMapFace() [high]

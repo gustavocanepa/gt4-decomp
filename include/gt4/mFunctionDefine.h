@@ -4,12 +4,21 @@
  * type_info 0x0088ED70, type_info function 0x005F1188, structors 0x0031BAB8, 0x0031BB00
  * vtable 0x00675E28: 11 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mFunctionDefine_H
 #define GT4_mFunctionDefine_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mDefine.h"
+
+class mFunctionDefine : public mDefine {
+public:
+    char padC[0x4];
+};
+#else
 struct mFunctionDefine {
     s32 unk0;
     union {
@@ -18,6 +27,20 @@ struct mFunctionDefine {
     };
     s32 unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mFunctionDefine__rc_class(struct mFunctionDefine *);
+s32 mFunctionDefine__rc_size(struct mFunctionDefine *);
+s32 mFunctionDefine__execute(struct mFunctionDefine *, struct hThread *);
+s32 mFunctionDefine__read(struct mFunctionDefine *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031BB00  mFunctionDefine::~mFunctionDefine() [high]

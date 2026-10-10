@@ -4,16 +4,36 @@
  * type_info 0x0088E3A0, type_info function 0x005DEB68, structors 0x00263428
  * vtable 0x00667200: 2 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (not known: up to the last field seen), vptr at 0x0
  */
 #ifndef GT4_IfWidget_H
 #define GT4_IfWidget_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/MEventFilter.h"
+
+class IfWidget : public MEventFilter {
+public:
+    s32 unk4;
+};
+#else
 struct IfWidget {
     char pad0[0x4];
     s32 unk4;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 IfWidget__filter(struct IfWidget *, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005DEBB8  IfWidget::~IfWidget() [high]

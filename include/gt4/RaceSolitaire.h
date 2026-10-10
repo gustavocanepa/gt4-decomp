@@ -4,12 +4,34 @@
  * type_info 0x0088F8F0, type_info function 0x005FE4F0, structors 0x003E9BF0, 0x003E9EE8
  * vtable 0x00683420: 158 slots
  * size: not known; the fields seen reach 0xF104
+ * C++ (GT4_CXX): size 0xF104 (not known: up to the last field seen), vptr at 0x64, fields left out (overlap, or in the base's part): 0x64
  */
 #ifndef GT4_RaceSolitaire_H
 #define GT4_RaceSolitaire_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceBasic.h"
+
+class RaceSolitaire : public RaceBasic {
+public:
+    char padE428[0xCC4];
+    void *unkF0EC;
+    char padF0F0[0x10];
+    void *unkF100;
+    virtual s32 initializeLogger();  /* 152: RaceSolitaire::initializeLogger() */
+    virtual s32 prepareLogger();  /* 153: RaceSolitaire::prepareLogger() */
+    virtual s32 loadDemoInputs(void *);  /* 154: RaceSolitaire::loadDemoInputs(RaceReplayData&) */
+    virtual s32 loadTrackInputs(void *);  /* 155: RaceSolitaire::loadTrackInputs(RaceReplayData&) */
+    virtual s32 loadTrackInputs(s32, void *);  /* 156: RaceSolitaire::loadTrackInputs(int, RaceReplayData&) */
+    virtual s32 loadReplayTheathre(void *);  /* 157: RaceSolitaire::loadReplayTheathre(RaceReplayData&) */
+    s32 getInput();  /* 0x003EA8C8 */
+    s32 getInputGhost();  /* 0x003EA908 */
+    void loadReplaceData(void *);  /* 0x003EB040 */
+    void loadReplaceInputs(void *, bool);  /* 0x003EB210 */
+};
+#else
 struct RaceSolitaire {
     char pad0[0x64];
     union {
@@ -67,6 +89,22 @@ struct RaceSolitaire {
     char padF0F0[0x10];
     void *unkF100;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceSolitaire__raceName(struct RaceSolitaire *);
+s32 RaceSolitaire__getInput(struct RaceSolitaire *);
+s32 RaceSolitaire__getInputGhost(struct RaceSolitaire *);
+void RaceSolitaire__initialize(struct RaceSolitaire *, s32);
+void RaceSolitaire__loadReplaceData(struct RaceSolitaire *, void *);
+void RaceSolitaire__loadReplaceInputs(struct RaceSolitaire *, void *, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003E9EE8  RaceSolitaire::~RaceSolitaire() [high]

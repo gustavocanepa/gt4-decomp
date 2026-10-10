@@ -1,3 +1,5 @@
+#define GT4_DECLS
+#include "gt4/hObject.h"
 typedef int s32;
 
 struct Rep {
@@ -33,7 +35,6 @@ extern "C" s32 func_0057F260(const char *s);
 extern "C" void *func_005C2630(Str *s, s32 pos, s32 n, const char *src, s32 len);
 extern "C" struct S00659988 *func_005C11A8(void);
 extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
-extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 extern "C" void func_003068A8(Obj *arg0, Str *arg1, void (*arg2)(void));
 extern "C" void MSystem__GetVersionString(void);
@@ -58,7 +59,7 @@ extern "C" void MSystem__GetDnasCode(void);
 extern "C" void MSystem__Reboot(void);
 extern "C" void MSystem__IsOEM(void);
 
-extern "C" void func_001AD598(Obj *arg0) {
+extern "C" void mSystem__InitClass(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
@@ -85,7 +86,7 @@ extern "C" void func_001AD598(Obj *arg0) {
             }
         }
     }
-    func_002F3A30(arg0, func_00309CC0());
+    func_002F3A30(arg0, hObject__GetClassID());
     {
         Str *ps = &s;
         const char *src = "GetVersionString";

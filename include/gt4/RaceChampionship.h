@@ -4,12 +4,20 @@
  * type_info 0x0088F9A0, type_info function 0x005FEB48, structors 0x003EF498, 0x003EF620
  * vtable 0x00684BF0: 152 slots
  * size: not known; the fields seen reach 0xE428
+ * C++ (GT4_CXX): size 0xE428 (not known: up to the last field seen), vptr at 0x64
  */
 #ifndef GT4_RaceChampionship_H
 #define GT4_RaceChampionship_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceSinglePlayer.h"
+
+class RaceChampionship : public RaceSinglePlayer {
+public:
+};
+#else
 struct RaceChampionship {
     char pad0[0x64];
     union {
@@ -63,6 +71,21 @@ struct RaceChampionship {
     void *unkE420;
     void *unkE424;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceChampionship__raceName(struct RaceChampionship *);
+s32 RaceChampionship__initialize(struct RaceChampionship *, s32);
+s32 RaceChampionship__cleanup(struct RaceChampionship *);
+s32 RaceChampionship__postInitialize(struct RaceChampionship *);
+s32 RaceChampionship__changeEntryCarTire(struct RaceChampionship *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003EF620  RaceChampionship::~RaceChampionship() [high]

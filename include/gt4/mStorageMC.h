@@ -4,12 +4,20 @@
  * type_info 0x0088E490, type_info function 0x005E3680, structors 0x00276810
  * vtable 0x00668308: 59 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8, 0x10
  */
 #ifndef GT4_mStorageMC_H
 #define GT4_mStorageMC_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mStorage.h"
+
+class mStorageMC : public mStorage {
+public:
+};
+#else
 struct mStorageMC {
     s32 unk0;
     union {
@@ -23,6 +31,29 @@ struct mStorageMC {
         void *unk10_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mStorageMC__virtual_03(struct mStorageMC *);
+s32 mStorageMC__virtual_04(struct mStorageMC *);
+s32 mStorageMC__virtual_09(struct mStorageMC *);
+s32 mStorageMC__virtual_49(struct mStorageMC *);
+s32 mStorageMC__virtual_50(struct mStorageMC *);
+void mStorageMC__virtual_51(struct mStorageMC *);
+s32 mStorageMC__virtual_54(struct mStorageMC *);
+void mStorageMC__virtual_52(struct mStorageMC *);
+s32 mStorageMC__virtual_53(struct mStorageMC *, const char *);
+s32 mStorageMC__virtual_55(struct mStorageMC *, const char *, void *, u32);
+s32 mStorageMC__virtual_56(struct mStorageMC *, const char *, void *, u32);
+s32 mStorageMC__virtual_57(struct mStorageMC *, const char *, const char *);
+s32 mStorageMC__virtual_58(struct mStorageMC *, const char *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E3608

@@ -4,12 +4,27 @@
  * type_info 0x0088DD20, type_info function 0x005CE308, structors 0x001AA280, 0x001AA2D8
  * vtable 0x0065E5F8: 95 slots
  * size: not known; the fields seen reach 0x1F54
+ * C++ (GT4_CXX): size 0x1F54 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mSlideShowFace_H
 #define GT4_mSlideShowFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWidget.h"
+
+class mSlideShowFace : public mWidget {
+public:
+    s32 unkA0;
+    s32 unkA4;
+    s32 unkA8;
+    s32 unkAC;
+    char padB0[0x1EA0];
+    s32 unk1F50;
+    static s32 GetClassID();  /* 0x001AA248 */
+};
+#else
 struct mSlideShowFace {
     s32 unk0;
     union {
@@ -32,6 +47,20 @@ struct mSlideShowFace {
     char padB0[0x1EA0];
     s32 unk1F50;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mSlideShowFace__rc_class(struct mSlideShowFace *);
+s32 mSlideShowFace__rc_size(struct mSlideShowFace *);
+s32 mSlideShowFace__GetClassID(void);
+s32 mSlideShowFace__getClassID(struct mSlideShowFace *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001AA2D8  mSlideShowFace::~mSlideShowFace() [high]

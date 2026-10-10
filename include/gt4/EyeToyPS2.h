@@ -4,16 +4,26 @@
  * type_info 0x006D5E70, type_info function 0x005D0B10, structors 0x001C4B08, 0x001C4BA8
  * vtable 0x00660C90: 1 slots
  * size: not known; the fields seen reach 0x29C
+ * C++ (GT4_CXX): size 0x29C (not known: up to the last field seen), vptr at 0x298 (introduced here), fields left out (overlap, or in the base's part): 0x298
  */
 #ifndef GT4_EyeToyPS2_H
 #define GT4_EyeToyPS2_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class EyeToyPS2 {
+public:
+    char pad0[0x298];
+    virtual s32 virtual_0(s32);  /* 0: parameters from the code */
+};
+#else
 struct EyeToyPS2 {
     char pad0[0x298];
     s32 unk298;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001C4BA8

@@ -4,12 +4,27 @@
  * type_info 0x0088F2A0, type_info function 0x005F6F98, structors 0x0038F920, 0x0038F9B8
  * vtable 0x0067DE00: 43 slots
  * size: not known; the fields seen reach 0x1684
+ * C++ (GT4_CXX): size 0x1684 (not known: up to the last field seen), vptr at 0x8
  */
 #ifndef GT4_RaceCarModel_H
 #define GT4_RaceCarModel_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/VehicleModel.h"
+
+class RaceCarModel : public VehicleModel {
+public:
+    char padC[0x165C];
+    s32 unk1668;
+    s32 unk166C;
+    s32 unk1670;
+    s32 unk1674;
+    char pad1678[0x8];
+    s32 unk1680;
+};
+#else
 struct RaceCarModel {
     char pad0[0x1668];
     s32 unk1668;
@@ -19,6 +34,7 @@ struct RaceCarModel {
     char pad1678[0x8];
     s32 unk1680;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0038F9B8  RaceCarModel::~RaceCarModel() [high]

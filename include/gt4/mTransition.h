@@ -4,12 +4,39 @@
  * type_info 0x0088E2F0, type_info function 0x005DCDB8, structors 0x0024D3C8, 0x0027A558, 0x005DCD40, 0x005E53B0, 0x005E5560
  * vtable 0x00666B18: 57 slots
  * size: not known; the fields seen reach 0x20
+ * C++ (GT4_CXX): size 0x20 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mTransition_H
 #define GT4_mTransition_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+class mRenderContext;
+
+class mTransition : public hObject {
+public:
+    void *unk10;
+    void *unk14;
+    union {
+        s32 unk18;
+        void *unk18_pvoid;
+    };
+    void *unk1C;
+    virtual s32 panOut(mRenderContext *);  /* 49: mTransition::panOut(mRenderContext*) */
+    virtual s32 panIn(mRenderContext *);  /* 50: mTransition::panIn(mRenderContext*) */
+    virtual s32 panOutIn(mRenderContext *);  /* 51: mTransition::panOutIn(mRenderContext*) */
+    virtual s32 syncOut(mRenderContext *);  /* 52: mTransition::syncOut(mRenderContext*) */
+    virtual s32 syncWait(mRenderContext *);  /* 53: mTransition::syncWait(mRenderContext*) */
+    virtual s32 syncIn(mRenderContext *);  /* 54: mTransition::syncIn(mRenderContext*) */
+    virtual void begin(mRenderContext *, void *);  /* 55: mTransition::begin(mRenderContext*, std_vector<mRootWindow*, std_allocator<mRootWindow*> >&) */
+    virtual void end(mRenderContext *);  /* 56: mTransition::end(mRenderContext*) */
+    static s32 GetClassID();  /* 0x0024C9B0 */
+    static s32 InitClass(hClass *);  /* 0x0024CCB8 */
+};
+#else
 struct mTransition {
     s32 unk0;
     union {
@@ -26,6 +53,29 @@ struct mTransition {
     };
     void *unk1C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mTransition__rc_class(struct mTransition *);
+s32 mTransition__rc_size(struct mTransition *);
+s32 mTransition__GetClassID(void);
+s32 mTransition__getClassID(struct mTransition *);
+s32 mTransition__InitClass(struct hClass *);
+void mTransition__panOut(struct mTransition *, struct mRenderContext *);
+void mTransition__panIn(struct mTransition *, struct mRenderContext *);
+void mTransition__panOutIn(struct mTransition *, struct mRenderContext *);
+s32 mTransition__syncOut(struct mTransition *, struct mRenderContext *);
+s32 mTransition__syncWait(struct mTransition *, struct mRenderContext *);
+s32 mTransition__syncIn(struct mTransition *, struct mRenderContext *);
+void mTransition__begin(struct mTransition *, struct mRenderContext *, void *);
+void mTransition__end(struct mTransition *, struct mRenderContext *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005DCD40  mTransition::~mTransition() [high]

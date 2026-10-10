@@ -4,16 +4,28 @@
  * type_info 0x0088E420, type_info function 0x005DF900, structors 0x0026DA88, 0x0026DAC0
  * vtable 0x00667BC8: 3 slots
  * size: not known; the fields seen reach 0xD4
+ * C++ (GT4_CXX): size 0xD4 (not known: up to the last field seen), vptr at 0xD0 (introduced here), fields left out (overlap, or in the base's part): 0xD0
  */
 #ifndef GT4_MenuControl_H
 #define GT4_MenuControl_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class MenuControl {
+public:
+    char pad0[0xD0];
+    virtual ~MenuControl();  /* 0: MenuControl::~MenuControl() */
+    virtual s32 virtual_1();  /* 1: GT HD (medium): PDISTD::ControlBase::fetch(); parameters from the code */
+    virtual s32 virtual_2();  /* 2: GT HD (medium): PDISTD::ControlBase::feedback(); parameters from the code */
+};
+#else
 struct MenuControl {
     char pad0[0xD0];
     void *unkD0;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0026DAC0  MenuControl::~MenuControl() [high]

@@ -4,16 +4,47 @@
  * type_info 0x0088F6A0, type_info function 0x005FAAE0, structors 0x003B1D08, 0x005FAA78, 0x005FAB30
  * vtable 0x0067FB18: 5 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (not known: up to the last field seen), vptr at 0x0 (introduced here), fields left out (overlap, or in the base's part): 0x0
  */
 #ifndef GT4_DriverCallback_H
 #define GT4_DriverCallback_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; DriverCallback has fields after 0x0, so a base without RTTI introduced it */
+class DriverCallback_vbase {
+public:
+    virtual s32 virtual_0(s32);  /* 0: parameters from the code */
+    virtual s32 virtual_1();  /* 1: parameters from the code */
+    virtual s32 virtual_2();  /* 2: parameters from the code */
+    virtual s32 virtual_3();  /* 3: parameters from the code */
+    virtual f32 virtual_4();  /* 4: parameters from the code */
+};
+
+class DriverCallback : public DriverCallback_vbase {
+public:
+    s32 unk4;
+};
+#else
 struct DriverCallback {
     s32 unk0;
     s32 unk4;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 ModelSet2__Callback__callback(s32);
+s32 ModelSet2__Callback__usr(s32, void *);
+f32 ModelSet2__Callback__usrf(s32, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FAA78

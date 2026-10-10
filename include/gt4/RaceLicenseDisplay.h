@@ -4,12 +4,24 @@
  * type_info 0x0088F710, type_info function 0x005FB398, structors 0x003BCC68, 0x003BCD38
  * vtable 0x00680D00: 58 slots
  * size: not known; the fields seen reach 0xC0
+ * C++ (GT4_CXX): size 0xC0 (not known: up to the last field seen), vptr at 0x0, fields left out (overlap, or in the base's part): 0x10
  */
 #ifndef GT4_RaceLicenseDisplay_H
 #define GT4_RaceLicenseDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplay.h"
+
+class RaceLicenseDisplay : public RaceDisplay {
+public:
+    virtual void virtual_56();  /* 56: parameters from the code */
+    virtual s32 virtual_57();  /* 57: GT HD (medium): RaceLicenseDisplay::put_record_times_display(); parameters from the code */
+    s32 update_pass_check(void *);  /* 0x003BCFF0 */
+    s32 get_real_entry_car_count(void *) const;  /* 0x003BD5A8 */
+};
+#else
 struct RaceLicenseDisplay {
     char pad0[0xC];
     s32 unkC;
@@ -22,6 +34,27 @@ struct RaceLicenseDisplay {
     char pad34[0x88];
     f32 unkBC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceLicenseDisplay__update(struct RaceLicenseDisplay *, f32);
+s32 RaceLicenseDisplay__update_pass_check(struct RaceLicenseDisplay *, void *);
+s32 RaceLicenseDisplay__render_time(struct RaceLicenseDisplay *);
+s32 RaceLicenseDisplay__initialize(struct RaceLicenseDisplay *);
+s32 RaceLicenseDisplay__onLicenseFailedEvent(struct RaceLicenseDisplay *);
+void RaceLicenseDisplay__put_finish_display(struct RaceLicenseDisplay *);
+s32 RaceLicenseDisplay__update_rank(struct RaceLicenseDisplay *, f32, void *);
+s32 RaceLicenseDisplay__get_real_entry_car_count(struct RaceLicenseDisplay *, void *);
+s32 RaceLicenseDisplay__update_automobile_message(struct RaceLicenseDisplay *, void *);
+s32 RaceLicenseDisplay__set_automobile_message(struct RaceLicenseDisplay *, s32);
+s32 RaceLicenseDisplay__setDisplayTypeInReplay(struct RaceLicenseDisplay *, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0039B290

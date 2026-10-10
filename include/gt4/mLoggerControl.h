@@ -4,12 +4,28 @@
  * type_info 0x0088DA80, type_info function 0x005C33E8, structors 0x0011EA90, 0x0011ECE8
  * vtable 0x0065A118: 49 slots
  * size: not known; the fields seen reach 0x2B8
+ * C++ (GT4_CXX): size 0x310 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mLoggerControl_H
 #define GT4_mLoggerControl_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mLoggerControl : public hObject {
+public:
+    char pad10[0x68];
+    void *unk78;
+    char pad7C[0x224];
+    void *unk2A0;
+    char pad2A4[0x10];
+    void *unk2B4;
+    char pad2B8[0x58];
+    static s32 GetClassID();  /* 0x0011EA58 */
+};
+#else
 struct mLoggerControl {
     s32 unk0;
     union {
@@ -25,6 +41,30 @@ struct mLoggerControl {
     char pad2A4[0x10];
     void *unk2B4;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mLoggerControl__rc_class(struct mLoggerControl *);
+s32 mLoggerControl__rc_size(struct mLoggerControl *);
+s32 mLoggerControl__GetClassID(void);
+s32 mLoggerControl__getClassID(struct mLoggerControl *);
+s32 hObject__call_const(struct mLoggerControl *, void *, s32, const struct HObject *);
+void hObject__call_const_2(struct mLoggerControl *, struct HObject *, s32, const struct HObject *);
+void hObject__setElement(struct mLoggerControl *, u32, const struct HObject *);
+s32 hObject__evaluate(struct mLoggerControl *, struct HObject *);
+void hObject__assign(struct mLoggerControl *, const struct HObject *);
+s32 hObject__isValid(struct mLoggerControl *);
+s32 hObject__toInt(struct mLoggerControl *);
+f32 hObject__toFloat(struct mLoggerControl *);
+void hObject__cleanup(struct mLoggerControl *);
+s32 hObject__deepCopy(struct mLoggerControl *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0011ECE8  mLoggerControl::~mLoggerControl() [high]

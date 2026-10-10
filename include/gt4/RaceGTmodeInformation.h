@@ -4,12 +4,23 @@
  * type_info 0x0088F980, type_info function 0x005FEA08, structors 0x003EDBB8, 0x003EDC00
  * vtable 0x00684B48: 19 slots
  * size: not known; the fields seen reach 0x2AC
+ * C++ (GT4_CXX): size 0x2AC (not known: up to the last field seen), vptr at 0x12C, fields left out (overlap, or in the base's part): 0x118, 0x12C
  */
 #ifndef GT4_RaceGTmodeInformation_H
 #define GT4_RaceGTmodeInformation_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceInformation.h"
+
+class RaceGTmodeInformation : public RaceInformation {
+public:
+    char unk130[1];
+    char pad131[0x177];
+    s32 unk2A8;
+};
+#else
 struct RaceGTmodeInformation {
     char pad0[0x118];
     s32 unk118;
@@ -22,6 +33,19 @@ struct RaceGTmodeInformation {
     char pad131[0x177];
     s32 unk2A8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceGTmodeInformation__createEntry(struct RaceGTmodeInformation *);
+s32 RaceGTmodeInformation__updateEntryCar(struct RaceGTmodeInformation *, struct RaceEntryCar *);
+s32 RaceGTmodeInformation__finishEntryCar(struct RaceGTmodeInformation *, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003EDC00  RaceGTmodeInformation::~RaceGTmodeInformation() [high]

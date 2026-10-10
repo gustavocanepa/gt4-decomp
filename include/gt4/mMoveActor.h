@@ -4,12 +4,24 @@
  * type_info 0x0088E830, type_info function 0x005E8D30, structors 0x002C0568
  * vtable 0x0066F248: 53 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x64 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mMoveActor_H
 #define GT4_mMoveActor_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mActor.h"
+class hClass;
+
+class mMoveActor : public mActor {
+public:
+    char pad14[0x50];
+    static s32 InitClass(hClass *);  /* 0x002C0F88 */
+    s32 doFlip();  /* 0x002C1840 */
+};
+#else
 struct mMoveActor {
     s32 unk0;
     union {
@@ -19,6 +31,24 @@ struct mMoveActor {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mMoveActor__rc_class(struct mMoveActor *);
+s32 mMoveActor__rc_size(struct mMoveActor *);
+s32 mMoveActor__virtual_09(struct mMoveActor *);
+s32 mMoveActor__InitClass(struct hClass *);
+s32 mMoveActor__initialize(struct mMoveActor *);
+s32 mMoveActor__doFlip(struct mMoveActor *);
+f32 mMoveActor__rewind(struct mMoveActor *);
+s32 mMoveActor__update(struct mMoveActor *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E8C68  mMoveActor::~mMoveActor() [high]

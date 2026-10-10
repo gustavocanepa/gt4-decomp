@@ -4,12 +4,22 @@
  * type_info 0x0088E770, type_info function 0x005E7D70, structors 0x002AC498, 0x002AC4D8
  * vtable 0x0066DAB8: 103 slots
  * size: not known; the fields seen reach 0xB0
+ * C++ (GT4_CXX): size 0xB4 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mKeyboardBox_H
 #define GT4_mKeyboardBox_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mComposite.h"
+
+class mKeyboardBox : public mComposite {
+public:
+    char padB0[0x4];
+    static s32 GetClassID();  /* 0x002AC170 */
+};
+#else
 struct mKeyboardBox {
     s32 unk0;
     union {
@@ -30,6 +40,20 @@ struct mKeyboardBox {
     void *unkA8;
     void *unkAC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mKeyboardBox__rc_class(struct mKeyboardBox *);
+s32 mKeyboardBox__rc_size(struct mKeyboardBox *);
+s32 mKeyboardBox__GetClassID(void);
+s32 mKeyboardBox__getClassID(struct mKeyboardBox *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002AC4D8  mKeyboardBox::~mKeyboardBox() [high]

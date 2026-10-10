@@ -4,12 +4,23 @@
  * type_info 0x0088E8B0, type_info function 0x005EA000, structors 0x002CE478, 0x005E9F78
  * vtable 0x0066FFC0: 50 slots
  * size: not known; the fields seen reach 0x28
+ * C++ (GT4_CXX): size 0x28 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mScriptWatcher_H
 #define GT4_mScriptWatcher_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWatcher.h"
+
+class mScriptWatcher : public mWatcher {
+public:
+    char pad1C[0x8];
+    s32 unk24;
+    static s32 GetClassID();  /* 0x002CE690 */
+};
+#else
 struct mScriptWatcher {
     s32 unk0;
     union {
@@ -24,6 +35,21 @@ struct mScriptWatcher {
     char pad1C[0x8];
     s32 unk24;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mScriptWatcher__rc_class(struct mScriptWatcher *);
+s32 mScriptWatcher__rc_size(struct mScriptWatcher *);
+s32 mScriptWatcher__GetClassID(void);
+s32 mScriptWatcher__getClassID(struct mScriptWatcher *);
+s32 mScriptWatcher__virtual_49(struct mScriptWatcher *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E9F78  mScriptWatcher::~mScriptWatcher() [high]

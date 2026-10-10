@@ -15,6 +15,57 @@ struct DynamicsConductor {
     s32 unk10140;
 };
 
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 DynamicsConductor__SetupSlowCarBoost(struct DynamicsConductor *, s32);
+s32 DynamicsConductor__getLimitTime(struct DynamicsConductor *);
+s32 DynamicsConductor__GetCountDown(struct DynamicsConductor *, s32);
+f32 DynamicsConductor__GetCourseLength(struct DynamicsConductor *);
+s32 DynamicsConductor__IsExistStartV(struct DynamicsConductor *);
+s32 DynamicsConductor__GetStartVOffsetBySectionSet(struct DynamicsConductor *);
+s32 DynamicsConductor__getCourseType(struct DynamicsConductor *);
+s32 DynamicsConductor__getEachEntrantInfo_TypicalRace(struct DynamicsConductor *, s32, s32 *, s32 *, s32 *, s32 *);
+s32 DynamicsConductor__getEachEntrantInfo_TypicalTT(struct DynamicsConductor *, s32, s32 *, s32 *, s32 *, s32 *);
+s32 DynamicsConductor__getEachEntrantInfo(struct DynamicsConductor *, s32, s32 *, s32 *, s32 *, s32 *);
+void DynamicsConductor__getSpecialStart_Handicap(struct DynamicsConductor *, s32, s32 *, s32 *, s32 *);
+s32 DynamicsConductor__getSpecialStart_Launch(struct DynamicsConductor *, s32, s32 *, s32 *, s32 *);
+s32 DynamicsConductor__getSpecialStart_Rolling_ByBalance(struct DynamicsConductor *, s32, s32 *, s32 *, s32 *);
+s32 DynamicsConductor__getSpecialStart_Rolling_ByCourse(struct DynamicsConductor *, s32, s32 *, s32 *, s32 *);
+s32 DynamicsConductor__SetTireWearParameters(struct DynamicsConductor *, void *);
+s32 DynamicsConductor__processCollision_Race(struct DynamicsConductor *);
+s32 DynamicsConductor__processCollision_Solitaire(struct DynamicsConductor *, s32);
+s32 DynamicsConductor__processCollision(struct DynamicsConductor *);
+s32 DynamicsConductor__CurrentLapTime_Normal(struct DynamicsConductor *, void *);
+s32 DynamicsConductor__IssuePassingGate_Race(struct DynamicsConductor *, s32, s32, s32, u32, u32);
+void DynamicsConductor__IssuePassingGate(struct DynamicsConductor *, s32, s32, s32, u32, u32);
+s32 DynamicsConductor__updateSolitaire_atTermination(struct DynamicsConductor *);
+s32 DynamicsConductor__BSpecCommand(struct DynamicsConductor *, s32, s32, s32);
+s32 DynamicsConductor__CurrentTotalTime(struct DynamicsConductor *);
+s32 DynamicsConductor__getCourseVbyNose(struct DynamicsConductor *, void *);
+s32 DynamicsConductor__getCourseVbyCenter(struct DynamicsConductor *, void *);
+void DynamicsConductor__ReportTimeDifference(struct DynamicsConductor *);
+s32 DynamicsConductor__ReportTimeDifference_Race(struct DynamicsConductor *);
+s32 DynamicsConductor__getNumberOfLoggerSections(struct DynamicsConductor *);
+void DynamicsConductor__playbackOneLapReplay(struct DynamicsConductor *, s32);
+s32 DynamicsConductor__GetNumberOfPylonsToBeTouched(struct DynamicsConductor *);
+s32 DynamicsConductor__GetNumberOfPylonsTouched(struct DynamicsConductor *);
+void DynamicsConductor__ReportDifferenceFromRecord(struct DynamicsConductor *, s32, u32);
+s32 DynamicsConductor__getCrashability(struct DynamicsConductor *);
+s32 DynamicsConductor__chargePenaltyBySurface(struct DynamicsConductor *, void *, s32, s32);
+s32 DynamicsConductor__issueCrashEvent_Exam(struct DynamicsConductor *, void *, s32, s32, f32);
+s32 DynamicsConductor__SetSlowCarBoostParameters(struct DynamicsConductor *, void *);
+s32 DynamicsConductor__getSlowCarBoostType(struct DynamicsConductor *);
+s32 DynamicsConductor__GetStandings(struct DynamicsConductor *, s32);
+void DynamicsConductor__ComputeDifference(struct DynamicsConductor *, const void *, const void *, s32 *, f32 *);
+void DynamicsConductor__Update(struct DynamicsConductor *, s32);
+s32 DynamicsConductor__IsBSpecRace(struct DynamicsConductor *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
+
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00359230  DynamicsConductor::ReportTimeDifference() [high]
  *   1: 0x00365D80  DynamicsConductor::InitializeStandings() [high]

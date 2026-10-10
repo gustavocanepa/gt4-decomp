@@ -4,12 +4,36 @@
  * type_info 0x0088E060, type_info function 0x005D5828, structors 0x00204F10, 0x00204F50
  * vtable 0x00662EF8: 103 slots
  * size: not known; the fields seen reach 0xB0
+ * C++ (GT4_CXX): size 0xB0 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mComposite_H
 #define GT4_mComposite_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWidget.h"
+class hClass;
+class mRenderContext;
+
+class mComposite : public mWidget {
+public:
+    void *unkA0;
+    void *unkA4;
+    void *unkA8;
+    void *unkAC;
+    virtual s32 doUpdateChildren(mRenderContext *);  /* 95: mComposite::doUpdateChildren(mRenderContext*) */
+    virtual s32 doRenderChildren(mRenderContext *);  /* 96: mComposite::doRenderChildren(mRenderContext*) */
+    virtual s32 virtual_97(s32);  /* 97: parameters from the code */
+    virtual s32 virtual_98(s32);  /* 98: parameters from the code */
+    virtual s32 virtual_99(s32, s32);  /* 99: parameters from the code */
+    virtual s32 virtual_100(s32, s32, s32);  /* 100: parameters from the code */
+    virtual s32 virtual_101(s32, s32, s32);  /* 101: parameters from the code */
+    virtual s32 virtual_102(s32, s32);  /* 102: parameters from the code */
+    static s32 GetClassID();  /* 0x00204ED8 */
+    static s32 InitClass(hClass *);  /* 0x00205C80 */
+};
+#else
 struct mComposite {
     s32 unk0;
     union {
@@ -30,6 +54,22 @@ struct mComposite {
     void *unkA8;
     void *unkAC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mComposite__rc_class(struct mComposite *);
+s32 mComposite__rc_size(struct mComposite *);
+s32 mComposite__GetClassID(void);
+s32 mComposite__getClassID(struct mComposite *);
+s32 mComposite__InitClass(struct hClass *);
+void mComposite__deepCopy(struct mComposite *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00204F50  mComposite::~mComposite() [high]

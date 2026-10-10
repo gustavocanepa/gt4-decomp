@@ -4,12 +4,20 @@
  * type_info 0x0088F6F0, type_info function 0x005FB338, structors 0x003BBF90, 0x003BC0C0
  * vtable 0x006807A8: 158 slots
  * size: not known; the fields seen reach 0xF104
+ * C++ (GT4_CXX): size 0xF104 (not known: up to the last field seen), vptr at 0x64, fields left out (overlap, or in the base's part): 0x64, 0xCC8
  */
 #ifndef GT4_RaceLicense_H
 #define GT4_RaceLicense_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceSolitaire.h"
+
+class RaceLicense : public RaceSolitaire {
+public:
+};
+#else
 struct RaceLicense {
     char pad0[0x64];
     union {
@@ -68,6 +76,36 @@ struct RaceLicense {
     char padF0F0[0x10];
     void *unkF100;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceLicense__raceName(struct RaceLicense *);
+s32 RaceLicense__mustUseClosedModel(struct RaceLicense *);
+s32 RaceLicense__controlFetch(struct RaceLicense *);
+s32 RaceLicense__initialize(struct RaceLicense *, s32);
+s32 RaceLicense__postInitialize(struct RaceLicense *);
+s32 RaceLicense__updateRace(struct RaceLicense *);
+void RaceLicense__raceStart(struct RaceLicense *);
+s32 RaceLicense__raceEnd(struct RaceLicense *);
+s32 RaceLicense__isRenderConcourse(struct RaceLicense *);
+s32 RaceLicense__render_concourse(struct RaceLicense *, void *);
+void RaceLicense__is_able_to_render_this_car(struct RaceLicense *, struct RaceEntryCar *);
+s32 RaceLicense__computeInterruptMotionCamera(struct RaceLicense *, s32, void *);
+s32 RaceLicense__isInterruptMotionCameraPeriod(struct RaceLicense *, s32);
+s32 RaceLicense__getRaceMode(struct RaceLicense *, s32 *);
+s32 RaceLicense__getRaceModeKey(struct RaceLicense *, s32 *);
+s32 RaceSolitaire__updateToLogger(struct RaceLicense *);
+s32 RaceSolitaire__initializeLogger(struct RaceLicense *);
+void RaceSolitaire__cleanup(struct RaceLicense *);
+s32 RaceSolitaire__loadTrackInputs_2(struct RaceLicense *, s32, void *);
+s32 RaceSolitaire__loadReplayTheathre(struct RaceLicense *, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003BC0C0  RaceLicense::~RaceLicense() [high]

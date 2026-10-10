@@ -4,12 +4,23 @@
  * type_info 0x0088E6D0, type_info function 0x005E61D0, structors 0x0029E9D0, 0x0029EA40
  * vtable 0x0066C5F8: 95 slots
  * size: not known; the fields seen reach 0x94
+ * C++ (GT4_CXX): size 0x8C4 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mGraphFace_H
 #define GT4_mGraphFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mColorFace.h"
+class hClass;
+
+class mGraphFace : public mColorFace {
+public:
+    char padB8[0x80C];
+    static s32 InitClass(hClass *);  /* 0x0029F360 */
+};
+#else
 struct mGraphFace {
     s32 unk0;
     union {
@@ -25,6 +36,21 @@ struct mGraphFace {
     char pad30[0x60];
     void *unk90;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mGraphFace__rc_class(struct mGraphFace *);
+s32 mGraphFace__rc_size(struct mGraphFace *);
+s32 mGraphFace__virtual_09(struct mGraphFace *);
+s32 mGraphFace__InitClass(struct hClass *);
+s32 mGraphFace__virtual_08(struct mGraphFace *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0029EA40  mGraphFace::~mGraphFace() [high]

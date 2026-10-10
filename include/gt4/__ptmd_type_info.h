@@ -4,12 +4,20 @@
  * type_info 0x008A2120, type_info function 0x00616C50, structors 0x005C0F00, 0x00616BE8
  * vtable 0x0068A328: 1 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (not known: up to the last field seen), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4___ptmd_type_info_H
 #define GT4___ptmd_type_info_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/type_info.h"
+
+class __ptmd_type_info : public type_info {
+public:
+};
+#else
 struct __ptmd_type_info {
     s32 unk0;
     union {
@@ -17,6 +25,7 @@ struct __ptmd_type_info {
         s32 unk4_s32;
     };
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00616BE8

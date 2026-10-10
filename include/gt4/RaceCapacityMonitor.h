@@ -4,12 +4,24 @@
  * type_info 0x0088F430, type_info function 0x005F8A78, structors 0x003A68E8, 0x005F8A10
  * vtable 0x0067F5D0: 9 slots
  * size: not known; the fields seen reach 0x28
+ * C++ (GT4_CXX): size 0x28 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceCapacityMonitor_H
 #define GT4_RaceCapacityMonitor_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceCapacityMonitor : public RaceDisplayObjectBase {
+public:
+    void *unk18;
+    void *unk1C;
+    void *unk20;
+    void *unk24;
+};
+#else
 struct RaceCapacityMonitor {
     char pad0[0x14];
     void *unk14;
@@ -18,6 +30,17 @@ struct RaceCapacityMonitor {
     void *unk20;
     void *unk24;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceCapacityMonitor__render_main(struct RaceCapacityMonitor *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F8A10  RaceCapacityMonitor::~RaceCapacityMonitor() [high]

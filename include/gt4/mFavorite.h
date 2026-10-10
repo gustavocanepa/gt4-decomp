@@ -4,12 +4,24 @@
  * type_info 0x0088DE10, type_info function 0x005D0940, structors 0x001C0DC0, 0x001C0E00
  * vtable 0x00660880: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mFavorite_H
 #define GT4_mFavorite_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+
+class mFavorite : public hObject {
+public:
+    char pad10[0x4];
+    static s32 GetClassID();  /* 0x001BFFF8 */
+    static s32 InitClass(hClass *);  /* 0x001C0778 */
+};
+#else
 struct mFavorite {
     s32 unk0;
     union {
@@ -19,6 +31,21 @@ struct mFavorite {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mFavorite__rc_class(struct mFavorite *);
+s32 mFavorite__rc_size(struct mFavorite *);
+s32 mFavorite__GetClassID(void);
+s32 mFavorite__getClassID(struct mFavorite *);
+s32 mFavorite__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001C0E00  mFavorite::~mFavorite() [high]

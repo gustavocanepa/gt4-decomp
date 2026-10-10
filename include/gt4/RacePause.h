@@ -4,12 +4,30 @@
  * type_info 0x0088F790, type_info function 0x005FBE50, structors 0x003C2D80, 0x003C2DE0
  * vtable 0x00681B28: 5 slots
  * size: not known; the fields seen reach 0x28
+ * C++ (GT4_CXX): size 0x28 (not known: up to the last field seen), vptr at 0x8
  */
 #ifndef GT4_RacePause_H
 #define GT4_RacePause_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/PauseBase.h"
+
+class RacePause : public PauseBase {
+public:
+    s32 unkC;
+    s32 unk10;
+    union {
+        s32 unk14;
+        void *unk14_pvoid;
+    };
+    s32 unk18;
+    char pad1C[0x4];
+    s32 unk20;
+    s32 unk24;
+};
+#else
 struct RacePause {
     s32 unk0;
     s32 unk4;
@@ -25,6 +43,20 @@ struct RacePause {
     s32 unk20;
     s32 unk24;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RacePause__init(struct RacePause *);
+s32 RacePause__cleanup(struct RacePause *);
+s32 RacePause__update(struct RacePause *, struct RaceInput *, void *);
+s32 RacePause__render(struct RacePause *, void *, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003C2DE0  RacePause::~RacePause() [high]

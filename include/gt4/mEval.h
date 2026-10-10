@@ -4,12 +4,20 @@
  * type_info 0x0088EC30, type_info function 0x005F10E8, structors 0x0031B470, 0x0031B5B8
  * vtable 0x00675EF8: 11 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (rc_size), vptr at 0x4
  */
 #ifndef GT4_mEval_H
 #define GT4_mEval_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mEval : public hInst {
+public:
+};
+#else
 struct mEval {
     s32 unk0;
     union {
@@ -17,6 +25,20 @@ struct mEval {
         s32 unk4_s32;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mEval__rc_class(struct mEval *);
+s32 mEval__rc_size(struct mEval *);
+s32 mEval__execute(struct mEval *, struct hThread *);
+void mEval__read(struct mEval *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031B470  mEval::~mEval() [high]

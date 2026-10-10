@@ -4,12 +4,37 @@
  * type_info 0x0088E440, type_info function 0x005E33F0, structors 0x00272760, 0x002727A8
  * vtable 0x00667D88: 15 slots
  * size: not known; the fields seen reach 0x20
+ * C++ (GT4_CXX): size 0x20 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mFlashPS2_H
 #define GT4_mFlashPS2_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mFlash.h"
+
+class mFlashPS2 : public mFlash {
+public:
+    union {
+        s32 unkC;
+        void *unkC_pvoid;
+    };
+    union {
+        s32 unk10;
+        void *unk10_pvoid;
+    };
+    union {
+        s32 unk14;
+        void *unk14_pvoid;
+    };
+    void *unk18;
+    union {
+        s32 unk1C;
+        void *unk1C_pvoid;
+    };
+};
+#else
 struct mFlashPS2 {
     s32 unk0;
     union {
@@ -35,6 +60,18 @@ struct mFlashPS2 {
         void *unk1C_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mFlashPS2__virtual_03(struct mFlashPS2 *);
+s32 mFlashPS2__virtual_04(struct mFlashPS2 *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002727A8

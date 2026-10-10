@@ -4,18 +4,48 @@
  * type_info 0x0088FA70, type_info function 0x005FF2F8, structors 0x00407FE0, 0x00408018
  * vtable 0x00686380: 2 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x14 (not known: up to the last field seen), vptr at 0x10 (introduced here), fields left out (overlap, or in the base's part): 0x10
+ * base ScenePack has no known member: left out of the C++ form
  */
 #ifndef GT4_Concourse_H
 #define GT4_Concourse_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class Concourse {
+public:
+    char pad0[0x8];
+    s32 unk8;
+    s32 unkC;
+    virtual s32 getSkinningBuffer();  /* 0: Concourse::getSkinningBuffer() */
+    virtual ~Concourse();  /* 1: Concourse::~Concourse() */
+    s32 init(s32);  /* 0x00408120 */
+    s32 registerSphereMap(void *);  /* 0x00408470 */
+    s32 render(void *);  /* 0x00408490 */
+};
+#else
 struct Concourse {
     char pad0[0x8];
     s32 unk8;
     s32 unkC;
     s32 unk10;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 Concourse__getSkinningBuffer(struct Concourse *);
+s32 Concourse__init(struct Concourse *, s32);
+s32 Concourse__registerSphereMap(struct Concourse *, void *);
+s32 Concourse__render(struct Concourse *, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x004080B0  Concourse::getSkinningBuffer() [high]

@@ -4,12 +4,23 @@
  * type_info 0x0088DD30, type_info function 0x005CE518, structors 0x005CE4A0
  * vtable 0x0065E900: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mSystem_H
 #define GT4_mSystem_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+
+class mSystem : public hObject {
+public:
+    static s32 GetClassID();  /* 0x001ABFD0 */
+    static s32 InitClass(hClass *);  /* 0x001AD598 */
+};
+#else
 struct mSystem {
     s32 unk0;
     union {
@@ -19,6 +30,21 @@ struct mSystem {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mSystem__rc_class(struct mSystem *);
+s32 mSystem__rc_size(struct mSystem *);
+s32 mSystem__GetClassID(void);
+s32 mSystem__getClassID(struct mSystem *);
+s32 mSystem__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005CE4A0  mSystem::~mSystem() [high]

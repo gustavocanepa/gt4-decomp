@@ -20,6 +20,29 @@ struct DynamicsConductorBattleMP {
     };
 };
 
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 DynamicsConductorBattleMP__virtual_28(struct DynamicsConductorBattleMP *, s32, s32 *, s32 *, s32 *, s32 *);
+s32 DynamicsConductorBattleMP__virtual_36(struct DynamicsConductorBattleMP *);
+s32 DynamicsConductorBattleMP__virtual_11(struct DynamicsConductorBattleMP *, void *);
+s32 DynamicsConductorBattleMP__virtual_10(struct DynamicsConductorBattleMP *, void *);
+s32 DynamicsConductorBattleMP__virtual_39(struct DynamicsConductorBattleMP *);
+f32 DynamicsConductorBattleMP__virtual_03(struct DynamicsConductorBattleMP *, void *, void *, f32);
+s32 DynamicsConductorBattleMP__virtual_12(struct DynamicsConductorBattleMP *);
+s32 DynamicsConductorBattleMP__virtual_17(struct DynamicsConductorBattleMP *, s32, s32, s32, u32, u32);
+s32 DynamicsConductorBattleMP__virtual_00(struct DynamicsConductorBattleMP *);
+s32 DynamicsConductorBattleMP__virtual_43(struct DynamicsConductorBattleMP *);
+void DynamicsConductorBattleMP__virtual_48(struct DynamicsConductorBattleMP *, void *, s32, s32);
+void DynamicsConductor__getSpecialStart(struct DynamicsConductorBattleMP *, s32, s32 *, s32 *, s32 *);
+void DynamicsConductor__ProcessControlLine(struct DynamicsConductorBattleMP *, s32, s32, u32, u32, u32, f32, u32);
+s32 DynamicsConductor__ProcessLapTimeCommonPost(struct DynamicsConductorBattleMP *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
+
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00347490
  *   1: 0x00365D80

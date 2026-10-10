@@ -4,12 +4,32 @@
  * type_info 0x006D6238, type_info function 0x00610240, structors 0x0054DBB8, 0x0054DE50
  * vtable 0x00689818: 1 slots
  * size: not known; the fields seen reach 0x40C
+ * C++ (GT4_CXX): size 0x40C (not known: up to the last field seen), vptr at 0x408 (introduced here), fields left out (overlap, or in the base's part): 0x408
  */
 #ifndef GT4_mpegif_H
 #define GT4_mpegif_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class mpegif {
+public:
+    char pad0[0x3CC];
+    void *unk3CC;
+    char pad3D0[0x4];
+    void *unk3D4;
+    void *unk3D8;
+    void *unk3DC;
+    char pad3E0[0x4];
+    void *unk3E4;
+    void *unk3E8;
+    char pad3EC[0x14];
+    void *unk400;
+    char pad404[0x4];
+    virtual s32 virtual_0(s32);  /* 0: parameters from the code */
+};
+#else
 struct mpegif {
     char pad0[0x3CC];
     void *unk3CC;
@@ -25,6 +45,7 @@ struct mpegif {
     char pad404[0x4];
     void *unk408;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0054DE50

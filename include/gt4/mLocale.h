@@ -4,12 +4,21 @@
  * type_info 0x0088E7D0, type_info function 0x005E8600, structors 0x002B6658, 0x002B6688
  * vtable 0x0066E6A8: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mLocale_H
 #define GT4_mLocale_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mLocale : public hObject {
+public:
+    static s32 GetClassID();  /* 0x002B60A0 */
+};
+#else
 struct mLocale {
     s32 unk0;
     union {
@@ -19,6 +28,20 @@ struct mLocale {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mLocale__rc_class(struct mLocale *);
+s32 mLocale__rc_size(struct mLocale *);
+s32 mLocale__GetClassID(void);
+s32 mLocale__getClassID(struct mLocale *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002B6688  mLocale::~mLocale() [high]

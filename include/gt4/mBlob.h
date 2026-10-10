@@ -4,12 +4,29 @@
  * type_info 0x0088E010, type_info function 0x005D5070, structors 0x00200060, 0x002000B0
  * vtable 0x00662820: 49 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mBlob_H
 #define GT4_mBlob_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mBlob : public hObject {
+public:
+    union {
+        s32 unk10;
+        void *unk10_pvoid;
+    };
+    union {
+        s32 unk14;
+        void *unk14_pvoid;
+    };
+    static s32 GetClassID();  /* 0x001FFEC8 */
+};
+#else
 struct mBlob {
     s32 unk0;
     union {
@@ -27,6 +44,20 @@ struct mBlob {
         void *unk14_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mBlob__rc_class(struct mBlob *);
+s32 mBlob__rc_size(struct mBlob *);
+s32 mBlob__GetClassID(void);
+s32 mBlob__getClassID(struct mBlob *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002000B0  mBlob::~mBlob() [high]

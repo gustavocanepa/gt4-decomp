@@ -39,6 +39,22 @@ struct SparkParticle {
     s32 unk54;
 };
 
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 SparkParticle__Update(struct SparkParticle *, f32, s32);
+s32 SparkParticle__Render(struct SparkParticle *);
+s32 SparkParticle__getColor(struct SparkParticle *);
+s32 SparkParticle__Init(struct SparkParticle *);
+s32 SparkParticle__write(struct SparkParticle *, void *, const struct ParticleManager *);
+f32 SparkParticle__read(struct SparkParticle *, void *, const struct ParticleManager *);
+s32 SparkParticle__getClassID(struct SparkParticle *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
+
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FBCC8  SparkParticle::getClassID() [high]
  *   1: 0x003C1430  SparkParticle::Update(float, bool) [high]

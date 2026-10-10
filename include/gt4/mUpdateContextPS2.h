@@ -4,12 +4,22 @@
  * type_info 0x0088E110, type_info function 0x005DA0E0, structors 0x00213840, 0x00213908
  * vtable 0x00663990: 72 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x434 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mUpdateContextPS2_H
 #define GT4_mUpdateContextPS2_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mUpdateContext.h"
+
+class mUpdateContextPS2 : public mUpdateContext {
+public:
+    char pad12C[0x308];
+    static s32 GetClassID();  /* 0x002135A8 */
+};
+#else
 struct mUpdateContextPS2 {
     s32 unk0;
     union {
@@ -19,6 +29,20 @@ struct mUpdateContextPS2 {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mUpdateContextPS2__rc_class(struct mUpdateContextPS2 *);
+s32 mUpdateContextPS2__rc_size(struct mUpdateContextPS2 *);
+s32 mUpdateContextPS2__GetClassID(void);
+s32 mUpdateContextPS2__getClassID(struct mUpdateContextPS2 *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00213908  mUpdateContextPS3::~mUpdateContextPS3() [high]

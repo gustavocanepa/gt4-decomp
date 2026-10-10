@@ -4,12 +4,40 @@
  * type_info 0x0088E4B0, type_info function 0x005E3890, structors 0x002782F8
  * vtable 0x006686C8: 53 slots
  * size: not known; the fields seen reach 0x28
+ * C++ (GT4_CXX): size 0x28 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mAnchorActor_H
 #define GT4_mAnchorActor_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mActor.h"
+
+class mAnchorActor : public mActor {
+public:
+    union {
+        s32 unk14;
+        void *unk14_pvoid;
+    };
+    union {
+        f32 unk18;
+        void *unk18_pvoid;
+    };
+    union {
+        f32 unk1C;
+        void *unk1C_pvoid;
+    };
+    union {
+        s32 unk20;
+        void *unk20_pvoid;
+    };
+    union {
+        s32 unk24;
+        void *unk24_pvoid;
+    };
+};
+#else
 struct mAnchorActor {
     s32 unk0;
     union {
@@ -40,6 +68,20 @@ struct mAnchorActor {
         void *unk24_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mAnchorActor__rc_class(struct mAnchorActor *);
+s32 mAnchorActor__rc_size(struct mAnchorActor *);
+s32 mAnchorActor__virtual_09(struct mAnchorActor *);
+s32 mAnchorActor__update(struct mAnchorActor *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E37C8  mAnchorActor::~mAnchorActor() [high]

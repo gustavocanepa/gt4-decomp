@@ -4,12 +4,30 @@
  * type_info 0x006D5FD0, type_info function 0x005FA8E0, structors 0x003B0A00, 0x003B0AC0
  * vtable 0x0067FB88: 4 slots
  * size: not known; the fields seen reach 0x7E0
+ * C++ (GT4_CXX): size 0x7E0 (not known: up to the last field seen), vptr at 0x7DC (introduced here), fields left out (overlap, or in the base's part): 0x7DC
  */
 #ifndef GT4_HumanModel_H
 #define GT4_HumanModel_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class HumanModel {
+public:
+    s32 unk0;
+    char pad4[0x6AC];
+    union {
+        s32 *unk6B0;
+        s32 unk6B0_s32;
+    };
+    char pad6B4[0x128];
+    virtual s32 virtual_0(s32);  /* 0: parameters from the code */
+    virtual s32 virtual_1();  /* 1: GT HD (medium): HumanModel::reset(); parameters from the code */
+    virtual void virtual_2();  /* 2: GT HD (medium): HumanModel::update(float); parameters from the code */
+    virtual s32 virtual_3();  /* 3: GT HD (medium): HumanModel::DMAsafe(); parameters from the code */
+};
+#else
 struct HumanModel {
     s32 unk0;
     char pad4[0x6AC];
@@ -20,6 +38,7 @@ struct HumanModel {
     char pad6B4[0x128];
     s32 unk7DC;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003B0AC0

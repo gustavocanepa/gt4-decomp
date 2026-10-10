@@ -4,16 +4,26 @@
  * type_info 0x006D6300, type_info function 0x00616370, structors 0x005BFAC8, 0x006163B0
  * vtable 0x0068A2F8: 1 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (not known: up to the last field seen), vptr at 0x4 (introduced here), fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_type_info_H
 #define GT4_type_info_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class type_info {
+public:
+    s32 unk0;
+    virtual ~type_info();  /* 0: std::type_info::~type_info() */
+};
+#else
 struct type_info {
     s32 unk0;
     s32 unk4;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005BFAC8  std::type_info::~type_info() [high]

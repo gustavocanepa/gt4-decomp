@@ -4,12 +4,26 @@
  * type_info 0x0088DDA0, type_info function 0x005CF618, structors 0x001B8B68, 0x001B8BB0
  * vtable 0x0065F550: 96 slots
  * size: not known; the fields seen reach 0xAC
+ * C++ (GT4_CXX): size 0xAC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mEyetoyFace_H
 #define GT4_mEyetoyFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWidget.h"
+class hClass;
+
+class mEyetoyFace : public mWidget {
+public:
+    char padA0[0x8];
+    s32 unkA8;
+    virtual void virtual_95();  /* 95: parameters from the code */
+    static s32 GetClassID();  /* 0x001B8B30 */
+    static s32 InitClass(hClass *);  /* 0x001B8D18 */
+};
+#else
 struct mEyetoyFace {
     s32 unk0;
     union {
@@ -27,6 +41,22 @@ struct mEyetoyFace {
     char pad94[0x14];
     s32 unkA8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mEyetoyFace__rc_class(struct mEyetoyFace *);
+s32 mEyetoyFace__rc_size(struct mEyetoyFace *);
+s32 mEyetoyFace__GetClassID(void);
+s32 mEyetoyFace__getClassID(struct mEyetoyFace *);
+s32 mEyetoyFace__deepCopy(struct mEyetoyFace *, const struct hObject *);
+s32 mEyetoyFace__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001B8BB0  mEyetoyFace::~mEyetoyFace() [high]

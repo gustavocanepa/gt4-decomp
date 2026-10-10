@@ -4,12 +4,39 @@
  * type_info 0x0088E2C0, type_info function 0x005DCA60, structors 0x00243650, 0x002436C0
  * vtable 0x00666370: 95 slots
  * size: not known; the fields seen reach 0x120
+ * C++ (GT4_CXX): size 0x120 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mTextFace_H
 #define GT4_mTextFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWidget.h"
+
+class mTextFace : public mWidget {
+public:
+    char padA0[0xC];
+    f32 unkAC;
+    char padB0[0x58];
+    void *unk108;
+    void *unk10C;
+    void *unk110;
+    union {
+        s32 unk114;
+        void *unk114_pvoid;
+    };
+    union {
+        f32 unk118;
+        void *unk118_pvoid;
+    };
+    union {
+        f32 unk11C;
+        void *unk11C_pvoid;
+    };
+    static s32 GetClassID();  /* 0x00243618 */
+};
+#else
 struct mTextFace {
     s32 unk0;
     union {
@@ -43,6 +70,24 @@ struct mTextFace {
         void *unk11C_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mTextFace__rc_class(struct mTextFace *);
+s32 mTextFace__rc_size(struct mTextFace *);
+s32 mTextFace__GetClassID(void);
+s32 mTextFace__getClassID(struct mTextFace *);
+s32 mTextFace__setColor(struct mTextFace *, const struct MColor *);
+void mTextFace__virtual_57(struct mTextFace *, f32);
+f32 mTextFace__virtual_55(struct mTextFace *);
+s32 mTextFace__deepCopy(struct mTextFace *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002436C0  mTextFace::~mTextFace() [high]

@@ -18,6 +18,31 @@ struct DynamicsConductorFreePractice {
     };
 };
 
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 DynamicsConductorFreePractice__getStartingFormat(struct DynamicsConductorFreePractice *);
+void DynamicsConductorFreePractice__getEachEntrantInfo(struct DynamicsConductorFreePractice *, s32, s32 *, s32 *, s32 *, s32 *);
+s32 DynamicsConductorFreePractice__virtual_29(struct DynamicsConductorFreePractice *, s32, s32 *, s32 *, s32 *);
+s32 DynamicsConductorFreePractice__GetNumberOfLaps(struct DynamicsConductorFreePractice *);
+s32 DynamicsConductorFreePractice__CurrentLapTime(struct DynamicsConductorFreePractice *, void *);
+s32 DynamicsConductorFreePractice__ProcessCheckPoint(struct DynamicsConductorFreePractice *, s32, s32, s32, u32, u32, u32);
+s32 DynamicsConductorFreePractice__ProcessLap0ControlLine(struct DynamicsConductorFreePractice *, s32, f32, u32, u32);
+void DynamicsConductorFreePractice__ProcessControlLine(struct DynamicsConductorFreePractice *, s32, s32, u32, u32, u32, f32, u32);
+s32 DynamicsConductorFreePractice__SetTireWearParameters(struct DynamicsConductorFreePractice *, void *);
+s32 DynamicsConductorFreePractice__SetSlowCarBoostParameters(struct DynamicsConductorFreePractice *, void *);
+s32 DynamicsConductorFreePractice__processCollision(struct DynamicsConductorFreePractice *);
+s32 DynamicsConductorFreePractice__InitializeStandings(struct DynamicsConductorFreePractice *);
+s32 DynamicsConductorFreePractice__ComputeStandings(struct DynamicsConductorFreePractice *);
+s32 DynamicsConductorFreePractice__getCrashability(struct DynamicsConductorFreePractice *);
+s32 DynamicsConductorFreePractice__EveryTimePitStop(struct DynamicsConductorFreePractice *);
+void DynamicsConductorFreePractice__chargePenaltyBySurface(struct DynamicsConductorFreePractice *, void *, s32, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
+
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00359230
  *   1: 0x003F5270  DynamicsConductorFreePractice::InitializeStandings() [high]

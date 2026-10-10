@@ -4,12 +4,21 @@
  * type_info 0x0088EDC0, type_info function 0x005F15E8, structors 0x0031E3D8
  * vtable 0x006758E0: 11 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mNop_H
 #define GT4_mNop_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mNop : public hInst {
+public:
+    void *unk8;
+};
+#else
 struct mNop {
     s32 unk0;
     union {
@@ -18,6 +27,20 @@ struct mNop {
     };
     void *unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mNop__rc_class(struct mNop *);
+s32 mNop__rc_size(struct mNop *);
+void mNop__execute(struct mNop *, struct hThread *);
+void mNop__read(struct mNop *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031E418  mNop::~mNop() [high]

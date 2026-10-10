@@ -4,12 +4,93 @@
  * type_info 0x0088E3B0, type_info function 0x005DEA30, structors 0x00255298, 0x00255548
  * vtable 0x00667220: 95 slots
  * size: not known; the fields seen reach 0x94
+ * C++ (GT4_CXX): size 0xA0 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mWidget_H
 #define GT4_mWidget_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hModule.h"
+class MColor;
+class mButtonEvent;
+class mCrossingEvent;
+class mEvent;
+class mKeyPressEvent;
+class mKeyReleaseEvent;
+class mMotionEvent;
+class mRenderContext;
+
+class mWidget : public hModule {
+public:
+    void *unk2C;
+    char pad30[0x60];
+    void *unk90;
+    char pad94[0xC];
+    virtual s32 virtual_51();  /* 51: GT HD (medium): mWidget::isRootWindow() const; parameters from the code */
+    virtual s32 isClipBox() const;  /* 52: mWidget::isClipBox() const */
+    virtual s32 isComposite() const;  /* 53: mWidget::isComposite() const */
+    virtual s32 getProperSize(f32 *, f32 *) const;  /* 54: mWidget::getProperSize(float*, float*) const */
+    virtual s32 getAlpha() const;  /* 55: mWidget::getAlpha() const */
+    virtual s32 getAlpha(s32) const;  /* 56: mWidget::getAlpha(int) const */
+    virtual s32 setAlpha(f32);  /* 57: mWidget::setAlpha(float) */
+    virtual s32 setAlpha(f32, s32);  /* 58: mWidget::setAlpha(float, int) */
+    virtual void setColor(const MColor &);  /* 59: mWidget::setColor(MColor const&) */
+    virtual s32 virtual_60();  /* 60: parameters from the code */
+    virtual s32 virtual_61(s32);  /* 61: parameters from the code */
+    virtual s32 virtual_62(s32);  /* 62: parameters from the code */
+    virtual void virtual_63(s32);  /* 63: parameters from the code */
+    virtual s32 virtual_64(s32);  /* 64: parameters from the code */
+    virtual s32 virtual_65(s32);  /* 65: parameters from the code */
+    virtual s32 virtual_66(s32);  /* 66: parameters from the code */
+    virtual s32 virtual_67(s32);  /* 67: parameters from the code */
+    virtual s32 virtual_68(s32);  /* 68: parameters from the code */
+    virtual s32 virtual_69(s32, s32);  /* 69: parameters from the code */
+    virtual void virtual_70(s32, s32);  /* 70: parameters from the code */
+    virtual s32 onKeyPress(mRenderContext *, mKeyPressEvent *);  /* 71: mWidget::onKeyPress(mRenderContext*, mKeyPressEvent*) */
+    virtual void onKeyRelease(mRenderContext *, mKeyReleaseEvent *);  /* 72: mWidget::onKeyRelease(mRenderContext*, mKeyReleaseEvent*) */
+    virtual s32 onButtonPress(mRenderContext *, mButtonEvent *);  /* 73: mWidget::onButtonPress(mRenderContext*, mButtonEvent*) */
+    virtual s32 onButtonRelease(mRenderContext *, mButtonEvent *);  /* 74: mWidget::onButtonRelease(mRenderContext*, mButtonEvent*) */
+    virtual s32 onEnter(mRenderContext *, mCrossingEvent *);  /* 75: mWidget::onEnter(mRenderContext*, mCrossingEvent*) */
+    virtual s32 onLeave(mRenderContext *, mCrossingEvent *);  /* 76: mWidget::onLeave(mRenderContext*, mCrossingEvent*) */
+    virtual s32 onMotion(mRenderContext *, mMotionEvent *);  /* 77: mWidget::onMotion(mRenderContext*, mMotionEvent*) */
+    virtual s32 onActivate(mRenderContext *, mEvent *);  /* 78: mWidget::onActivate(mRenderContext*, mEvent*) */
+    virtual s32 onCancel(mRenderContext *, mEvent *);  /* 79: mWidget::onCancel(mRenderContext*, mEvent*) */
+    virtual s32 onFocusEnter(mRenderContext *, mEvent *);  /* 80: mWidget::onFocusEnter(mRenderContext*, mEvent*) */
+    virtual s32 onFocusLeave(mRenderContext *, mEvent *);  /* 81: mWidget::onFocusLeave(mRenderContext*, mEvent*) */
+    virtual s32 onDropPossible(mRenderContext *, f32, f32, const void *);  /* 82: mWidget::onDropPossible(mRenderContext*, float, float, std::basic_string<char, std::char_traits<char>, std_allocator<char> > const&) */
+    virtual void onDropReceived(mRenderContext *, f32, f32, const void *, void *);  /* 83: mWidget::onDropReceived(mRenderContext*, float, float, std::basic_string<char, std::char_traits<char>, std_allocator<char> > const&, void*) */
+    virtual s32 onEvent(mRenderContext *, mEvent *, bool);  /* 84: mWidget::onEvent(mRenderContext*, mEvent*, bool) */
+    virtual s32 virtual_85(s32);  /* 85: parameters from the code */
+    virtual s32 virtual_86(s32);  /* 86: parameters from the code */
+    virtual s32 virtual_87(s32);  /* 87: parameters from the code */
+    virtual s32 virtual_88(s32);  /* 88: parameters from the code */
+    virtual s32 virtual_89(s32);  /* 89: parameters from the code */
+    virtual s32 virtual_90(s32);  /* 90: parameters from the code */
+    virtual s32 virtual_91(s32);  /* 91: GT HD (medium): mWidget::doUpdate(mRenderContext*); parameters from the code */
+    virtual s32 virtual_92(s32);  /* 92: GT HD (medium): mWidget::doRender(mRenderContext*); parameters from the code */
+    virtual s32 virtual_93();  /* 93: parameters from the code */
+    virtual s32 virtual_94(s32);  /* 94: parameters from the code */
+    static s32 GetClassID();  /* 0x00255260 */
+    f32 getWindowX() const;  /* 0x0025B2B0 */
+    void setWindowX(f32);  /* 0x0025B2E0 */
+    f32 getWindowY() const;  /* 0x0025B310 */
+    void setWindowY(f32);  /* 0x0025B340 */
+    f32 getWindowW() const;  /* 0x0025B370 */
+    void setWindowW(f32);  /* 0x0025B3A0 */
+    f32 getWindowH() const;  /* 0x0025B3D0 */
+    void setWindowH(f32);  /* 0x0025B400 */
+    void setWindowPosition(f32, f32);  /* 0x0025B460 */
+    void getWindowSize(f32 *, f32 *) const;  /* 0x0025B498 */
+    s32 getRootWindow();  /* 0x0025C1E8 */
+    s32 canDefault() const;  /* 0x00265FA8 */
+    void setActive(bool);  /* 0x00265FF0 */
+    void setScale(const void *);  /* 0x00267CE8 */
+    void setRotate(f32);  /* 0x00267D18 */
+    void setOpacity(f32);  /* 0x00267DB8 */
+};
+#else
 struct mWidget {
     s32 unk0;
     union {
@@ -25,6 +106,36 @@ struct mWidget {
     char pad30[0x60];
     void *unk90;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mWidget__rc_class(struct mWidget *);
+s32 mWidget__rc_size(struct mWidget *);
+s32 mWidget__GetClassID(void);
+s32 mWidget__getClassID(struct mWidget *);
+f32 mWidget__getWindowX(struct mWidget *);
+void mWidget__setWindowX(struct mWidget *, f32);
+f32 mWidget__getWindowY(struct mWidget *);
+void mWidget__setWindowY(struct mWidget *, f32);
+f32 mWidget__getWindowW(struct mWidget *);
+void mWidget__setWindowW(struct mWidget *, f32);
+f32 mWidget__getWindowH(struct mWidget *);
+void mWidget__setWindowH(struct mWidget *, f32);
+void mWidget__setWindowPosition(struct mWidget *, f32, f32);
+void mWidget__getWindowSize(struct mWidget *, f32 *, f32 *);
+s32 mWidget__getRootWindow(struct mWidget *);
+s32 mWidget__canDefault(struct mWidget *);
+void mWidget__setActive(struct mWidget *, s32);
+void mWidget__setScale(struct mWidget *, const void *);
+void mWidget__setRotate(struct mWidget *, f32);
+void mWidget__setOpacity(struct mWidget *, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00255548  mWidget::~mWidget() [high]

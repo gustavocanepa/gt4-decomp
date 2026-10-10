@@ -24,6 +24,16 @@ struct DynamicsConductorTraining {
     };
 };
 
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void DynamicsConductorTraining__ReportTimeDifference(struct DynamicsConductorTraining *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
+
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003F7148  DynamicsConductorTraining::ReportTimeDifference() [high]
  *   1: 0x00365D80

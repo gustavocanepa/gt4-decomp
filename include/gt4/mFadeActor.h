@@ -4,12 +4,33 @@
  * type_info 0x0088E0B0, type_info function 0x005D8418, structors 0x0020B520
  * vtable 0x00663570: 53 slots
  * size: not known; the fields seen reach 0x40
+ * C++ (GT4_CXX): size 0x40 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mFadeActor_H
 #define GT4_mFadeActor_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mActor.h"
+class hClass;
+
+class mFadeActor : public mActor {
+public:
+    void *unk14;
+    void *unk18;
+    void *unk1C;
+    void *unk20;
+    f32 unk24;
+    void *unk28;
+    void *unk2C;
+    void *unk30;
+    void *unk34;
+    void *unk38;
+    void *unk3C;
+    static s32 InitClass(hClass *);  /* 0x0020BB30 */
+};
+#else
 struct mFadeActor {
     s32 unk0;
     union {
@@ -31,6 +52,24 @@ struct mFadeActor {
     void *unk38;
     void *unk3C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mFadeActor__rc_class(struct mFadeActor *);
+s32 mFadeActor__rc_size(struct mFadeActor *);
+s32 mFadeActor__virtual_09(struct mFadeActor *);
+s32 mFadeActor__InitClass(struct hClass *);
+s32 mFadeActor__initialize(struct mFadeActor *);
+s32 mFadeActor__rewind(struct mFadeActor *);
+s32 mFadeActor__resetFocus(struct mFadeActor *);
+s32 mFadeActor__update(struct mFadeActor *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005D8350  mFadeActor::~mFadeActor() [high]

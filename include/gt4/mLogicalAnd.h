@@ -4,12 +4,24 @@
  * type_info 0x0088ED90, type_info function 0x005F1438, structors 0x0031D410
  * vtable 0x00675AE8: 11 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mLogicalAnd_H
 #define GT4_mLogicalAnd_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mLogicalAnd : public hInst {
+public:
+    union {
+        s32 unk8;
+        void *unk8_pvoid;
+    };
+};
+#else
 struct mLogicalAnd {
     s32 unk0;
     union {
@@ -21,6 +33,20 @@ struct mLogicalAnd {
         void *unk8_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mLogicalAnd__rc_class(struct mLogicalAnd *);
+s32 mLogicalAnd__rc_size(struct mLogicalAnd *);
+s32 mLogicalAnd__execute(struct mLogicalAnd *, struct hThread *);
+s32 mLogicalAnd__read(struct mLogicalAnd *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031D450  mLogicalAnd::~mLogicalAnd() [high]

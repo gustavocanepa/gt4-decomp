@@ -4,12 +4,24 @@
  * type_info 0x0088E640, type_info function 0x005E5AF8, structors 0x00291A60, 0x00291B18
  * vtable 0x0066B4A0: 95 slots
  * size: not known; the fields seen reach 0x94
+ * C++ (GT4_CXX): size 0xB8 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mFlashFace_H
 #define GT4_mFlashFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWidget.h"
+class hClass;
+
+class mFlashFace : public mWidget {
+public:
+    char padA0[0x18];
+    static s32 GetClassID();  /* 0x00291A28 */
+    static s32 InitClass(hClass *);  /* 0x00292410 */
+};
+#else
 struct mFlashFace {
     s32 unk0;
     union {
@@ -25,6 +37,22 @@ struct mFlashFace {
     char pad30[0x60];
     void *unk90;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mFlashFace__rc_class(struct mFlashFace *);
+s32 mFlashFace__rc_size(struct mFlashFace *);
+s32 mFlashFace__GetClassID(void);
+s32 mFlashFace__getClassID(struct mFlashFace *);
+s32 mFlashFace__InitClass(struct hClass *);
+s32 mFlashFace__deepCopy(struct mFlashFace *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00291B18  mFlashFace::~mFlashFace() [high]

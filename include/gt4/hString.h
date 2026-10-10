@@ -4,12 +4,24 @@
  * type_info 0x0088EBB0, type_info function 0x005F0188, structors 0x003147D8, 0x00314858
  * vtable 0x00675268: 49 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x0, 0x4, 0x8, 0xC
  */
 #ifndef GT4_hString_H
 #define GT4_hString_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+
+class hString : public hObject {
+public:
+    void * unk10;
+    static s32 GetClassID();  /* 0x003124C0 */
+    static s32 InitClass(hClass *);  /* 0x00313FF0 */
+};
+#else
 struct hString {
     s32 unk0;
     union {
@@ -24,6 +36,23 @@ struct hString {
     };
     void * unk10;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hString__rc_class(struct hString *);
+s32 hString__rc_size(struct hString *);
+s32 hString__GetClassID(void);
+s32 hString__getClassID(struct hString *);
+s32 hString__InitClass(struct hClass *);
+s32 hString__toInt(struct hString *);
+f32 hString__toFloat(struct hString *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00314858  hString::~hString() [high]

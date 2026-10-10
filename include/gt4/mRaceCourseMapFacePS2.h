@@ -4,12 +4,37 @@
  * type_info 0x0088DAA0, type_info function 0x005C48E0, structors 0x00128738, 0x00128788
  * vtable 0x0065A448: 98 slots
  * size: not known; the fields seen reach 0xE8
+ * C++ (GT4_CXX): size 0xE8 (allocation, 1 site), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mRaceCourseMapFacePS2_H
 #define GT4_mRaceCourseMapFacePS2_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mRaceCourseMapFace.h"
+
+class mRaceCourseMapFacePS2 : public mRaceCourseMapFace {
+public:
+    union {
+        s32 unkC8;
+        void *unkC8_pvoid;
+    };
+    void *unkCC;
+    void *unkD0;
+    void *unkD4;
+    union {
+        f32 unkD8;
+        void *unkD8_pvoid;
+    };
+    union {
+        f32 unkDC;
+        void *unkDC_pvoid;
+    };
+    void *unkE0;
+    void *unkE4;
+};
+#else
 struct mRaceCourseMapFacePS2 {
     s32 unk0;
     union {
@@ -43,6 +68,23 @@ struct mRaceCourseMapFacePS2 {
     void *unkE0;
     void *unkE4;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mRaceCourseMapFacePS2__virtual_95(struct mRaceCourseMapFacePS2 *, void *);
+s32 mRaceCourseMapFacePS2__virtual_96(struct mRaceCourseMapFacePS2 *, f32);
+s32 mRaceCourseMapFacePS2__virtual_97(struct mRaceCourseMapFacePS2 *, f32, f32);
+s32 mRaceCourseMapFace__rc_class(struct mRaceCourseMapFacePS2 *);
+s32 mRaceCourseMapFace__rc_size(struct mRaceCourseMapFacePS2 *);
+s32 mRaceCourseMapFace__getClassID(struct mRaceCourseMapFacePS2 *);
+s32 mRaceCourseMapFace__deepCopy(struct mRaceCourseMapFacePS2 *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00128788

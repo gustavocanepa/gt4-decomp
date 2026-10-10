@@ -4,12 +4,22 @@
  * type_info 0x0088DC90, type_info function 0x005CD5E0, structors 0x00192BE0, 0x00192D30
  * vtable 0x0065D480: 103 slots
  * size: not known; the fields seen reach 0xC0
+ * C++ (GT4_CXX): size 0x164 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8, 0xAC
  */
 #ifndef GT4_mPhotoMapWindow_H
 #define GT4_mPhotoMapWindow_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mBox.h"
+
+class mPhotoMapWindow : public mBox {
+public:
+    char padC0[0xA4];
+    static s32 GetClassID();  /* 0x00192BA8 */
+};
+#else
 struct mPhotoMapWindow {
     s32 unk0;
     union {
@@ -37,6 +47,26 @@ struct mPhotoMapWindow {
     s32 unkB8;
     s32 unkBC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mPhotoMapWindow__rc_class(struct mPhotoMapWindow *);
+s32 mPhotoMapWindow__rc_size(struct mPhotoMapWindow *);
+s32 mPhotoMapWindow__GetClassID(void);
+s32 mPhotoMapWindow__getClassID(struct mPhotoMapWindow *);
+void mBox__deepCopy(struct mPhotoMapWindow *, const struct hObject *);
+s32 mComposite__isComposite(struct mPhotoMapWindow *);
+s32 mComposite__isClipBox(struct mPhotoMapWindow *);
+s32 mComposite__doUpdateChildren(struct mPhotoMapWindow *, struct mRenderContext *);
+s32 mComposite__doRenderChildren(struct mPhotoMapWindow *, struct mRenderContext *);
+s32 mPhotoMapWindow__virtual_01(struct mPhotoMapWindow *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00192D30  mPhotoMapWindow::~mPhotoMapWindow() [high]

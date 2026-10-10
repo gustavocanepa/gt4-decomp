@@ -4,12 +4,24 @@
  * type_info 0x0088E210, type_info function 0x005DB6C0, structors 0x00232280, 0x005DB658
  * vtable 0x006650C8: 9 slots
  * size: not known; the fields seen reach 0x5C
+ * C++ (GT4_CXX): size 0x5C (not known: up to the last field seen), vptr at 0x48
  */
 #ifndef GT4_CompatibleModel_H
 #define GT4_CompatibleModel_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/MModel.h"
+
+class CompatibleModel : public MModel {
+public:
+    s32 (*unk4C)(s32);
+    s32 unk50;
+    s32 (*unk54)(s32);
+    s32 unk58;
+};
+#else
 struct CompatibleModel {
     char pad0[0x4C];
     s32 (*unk4C)(s32);
@@ -17,6 +29,7 @@ struct CompatibleModel {
     s32 (*unk54)(s32);
     s32 unk58;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005DB658  CompatibleModel::~CompatibleModel() [high]

@@ -4,12 +4,21 @@
  * type_info 0x0088EE50, type_info function 0x005F0F08, structors 0x00319CA0, 0x00319CD8
  * vtable 0x00676168: 11 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mAttributeDefine_H
 #define GT4_mAttributeDefine_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mDefine.h"
+
+class mAttributeDefine : public mDefine {
+public:
+    char padC[0x4];
+};
+#else
 struct mAttributeDefine {
     s32 unk0;
     union {
@@ -18,6 +27,19 @@ struct mAttributeDefine {
     };
     s32 unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mAttributeDefine__rc_class(struct mAttributeDefine *);
+s32 mAttributeDefine__rc_size(struct mAttributeDefine *);
+s32 mAttributeDefine__execute(struct mAttributeDefine *, struct hThread *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00319CD8  mAttributeDefine::~mAttributeDefine() [high]

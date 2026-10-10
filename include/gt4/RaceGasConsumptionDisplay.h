@@ -4,16 +4,35 @@
  * type_info 0x0088F4F0, type_info function 0x005F9450, structors 0x003A9B58
  * vtable 0x0067F1C8: 9 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (not known: up to the last field seen), vptr at 0x14
  */
 #ifndef GT4_RaceGasConsumptionDisplay_H
 #define GT4_RaceGasConsumptionDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceValueDisplayBase.h"
+
+class RaceGasConsumptionDisplay : public RaceValueDisplayBase {
+public:
+};
+#else
 struct RaceGasConsumptionDisplay {
     char pad0[0x14];
     void *unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceGasConsumptionDisplay__render_main(struct RaceGasConsumptionDisplay *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F93E8  RaceGasConsumptionDisplay::~RaceGasConsumptionDisplay() [high]

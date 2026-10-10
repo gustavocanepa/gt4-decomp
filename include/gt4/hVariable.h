@@ -4,12 +4,22 @@
  * type_info 0x0088EEA0, type_info function 0x005F1C50, structors 0x00324750, 0x00324798
  * vtable 0x006767C0: 49 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_hVariable_H
 #define GT4_hVariable_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class hVariable : public hObject {
+public:
+    s32 unk10;
+    static s32 GetClassID();  /* 0x00324618 */
+};
+#else
 struct hVariable {
     s32 unk0;
     union {
@@ -20,6 +30,20 @@ struct hVariable {
     s32 unkC;
     s32 unk10;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hVariable__rc_class(struct hVariable *);
+s32 hVariable__rc_size(struct hVariable *);
+s32 hVariable__GetClassID(void);
+s32 hVariable__getClassID(struct hVariable *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00324798  hVariable::~hVariable() [high]

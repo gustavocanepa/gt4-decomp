@@ -4,12 +4,23 @@
  * type_info 0x0088F8C0, type_info function 0x005FE258, structors 0x003E0768, 0x003E0860
  * vtable 0x00683370: 17 slots
  * size: not known; the fields seen reach 0x584
+ * C++ (GT4_CXX): size 0x584 (not known: up to the last field seen), vptr at 0xC, fields left out (overlap, or in the base's part): 0xC
  */
 #ifndef GT4_ResultLicense_H
 #define GT4_ResultLicense_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/ResultArcade.h"
+
+class ResultLicense : public ResultArcade {
+public:
+    char pad10[0x570];
+    f32 unk580;
+    s32 disableEffect();  /* 0x003E09A8 */
+};
+#else
 struct ResultLicense {
     s32 unk0;
     s32 unk4;
@@ -21,6 +32,25 @@ struct ResultLicense {
     char pad10[0x570];
     f32 unk580;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 ResultLicense__init(struct ResultLicense *, void *, s32);
+s32 ResultLicense__disableEffect(struct ResultLicense *);
+s32 ResultLicense__cleanup(struct ResultLicense *);
+s32 ResultLicense__getStrobeFilename(struct ResultLicense *);
+s32 ResultLicense__getStrobeActionCallback(struct ResultLicense *);
+s32 ResultLicense__getStrobeRenderCallback(struct ResultLicense *);
+f32 ResultLicense__update(struct ResultLicense *, void *, struct RaceInput *);
+void ResultLicense__postStartResultSequence(struct ResultLicense *, void *);
+s32 ResultLicense__isStrobeFileCommonDir(struct ResultLicense *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003E0860  ResultLicense::~ResultLicense() [high]

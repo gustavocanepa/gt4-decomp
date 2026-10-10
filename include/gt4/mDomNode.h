@@ -4,12 +4,24 @@
  * type_info 0x0088E070, type_info function 0x005D7F68, structors 0x002090F8, 0x005D7DE0
  * vtable 0x006633D8: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x34 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mDomNode_H
 #define GT4_mDomNode_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+
+class mDomNode : public hObject {
+public:
+    char pad10[0x24];
+    static s32 GetClassID();  /* 0x002090C0 */
+    static s32 InitClass(hClass *);  /* 0x00209F90 */
+};
+#else
 struct mDomNode {
     s32 unk0;
     union {
@@ -19,6 +31,21 @@ struct mDomNode {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mDomNode__rc_class(struct mDomNode *);
+s32 mDomNode__rc_size(struct mDomNode *);
+s32 mDomNode__GetClassID(void);
+s32 mDomNode__getClassID(struct mDomNode *);
+s32 mDomNode__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005D7DE0  mDomNode::~mDomNode() [high]

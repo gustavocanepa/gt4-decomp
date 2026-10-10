@@ -1,3 +1,5 @@
+#define GT4_CXX
+#include "gt4/hModule.h"
 typedef int s32;
 
 struct Rep {
@@ -13,12 +15,6 @@ struct S00659988 {
 
 struct Str {
     char *p;
-};
-
-struct VEntry {
-    short delta;
-    short index;
-    void (*fn)(void *, Str *);
 };
 
 struct Obj {
@@ -49,10 +45,7 @@ extern "C" void func_002906D0(Obj *arg0) {
     }
     ps->p = d;
     func_005C2630(ps, 0, -1, src, func_0057F260(src));
-    {
-        VEntry *e = (VEntry *)(arg0->vtbl + 0x190);
-        e->fn((char *)arg0 + e->delta, &s);
-    }
+    ((hModule *)(void *)arg0)->setName(&s);
     {
         Rep *q = (Rep *)(s.p - 0x10);
         if (--q->ref == 0) {

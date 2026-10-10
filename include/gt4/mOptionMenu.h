@@ -4,12 +4,26 @@
  * type_info 0x0088E860, type_info function 0x005E9770, structors 0x002C7498, 0x002C7588
  * vtable 0x0066F5E8: 104 slots
  * size: not known; the fields seen reach 0x100
+ * C++ (GT4_CXX): size 0x120 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mOptionMenu_H
 #define GT4_mOptionMenu_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mFBox.h"
+
+class mOptionMenu : public mFBox {
+public:
+    s32 unkC0;
+    s32 unkC4;
+    char padC8[0x34];
+    s32 unkFC;
+    char pad100[0x20];
+    virtual s32 virtual_103(s32);  /* 103: GT HD (medium): mOptionMenu::applyAppend(mRenderContext*); parameters from the code */
+};
+#else
 struct mOptionMenu {
     s32 unk0;
     union {
@@ -38,6 +52,24 @@ struct mOptionMenu {
     char padC8[0x34];
     s32 unkFC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mOptionMenu__rc_class(struct mOptionMenu *);
+s32 mOptionMenu__rc_size(struct mOptionMenu *);
+s32 mOptionMenu__virtual_09(struct mOptionMenu *);
+s32 mOptionMenu__onInitialize(struct mOptionMenu *, struct mRenderContext *);
+s32 mOptionMenu__virtual_78(struct mOptionMenu *, struct mRenderContext *, struct mEvent *);
+s32 mOptionMenu__virtual_79(struct mOptionMenu *, struct mRenderContext *, struct mEvent *);
+s32 mOptionMenu__virtual_71(struct mOptionMenu *, struct mRenderContext *, struct mKeyPressEvent *);
+s32 mOptionMenu__virtual_08(struct mOptionMenu *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002C7588  mOptionMenu::~mOptionMenu() [high]

@@ -4,12 +4,24 @@
  * type_info 0x0088ECF0, type_info function 0x005F1918, structors 0x00320158
  * vtable 0x00675538: 11 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mTryCatch_H
 #define GT4_mTryCatch_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mTryCatch : public hInst {
+public:
+    union {
+        s32 unk8;
+        void *unk8_pvoid;
+    };
+};
+#else
 struct mTryCatch {
     s32 unk0;
     union {
@@ -21,6 +33,20 @@ struct mTryCatch {
         void *unk8_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mTryCatch__rc_class(struct mTryCatch *);
+s32 mTryCatch__rc_size(struct mTryCatch *);
+s32 mTryCatch__execute(struct mTryCatch *, struct hThread *);
+s32 mTryCatch__read(struct mTryCatch *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00320198  mTryCatch::~mTryCatch() [high]

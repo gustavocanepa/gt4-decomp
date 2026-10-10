@@ -4,12 +4,199 @@
  * type_info 0x0088EFA0, type_info function 0x005F3460, structors 0x00336448, 0x00336718
  * vtable 0x00677C28: 154 slots
  * size: not known; the fields seen reach 0x1FA58
+ * C++ (GT4_CXX): size 0x1FA58 (not known: up to the last field seen), vptr at 0x64 (introduced here)
  */
 #ifndef GT4_RaceLanBattle_H
 #define GT4_RaceLanBattle_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; RaceLanBattle has fields after 0x64, so a base without RTTI introduced it */
+class RaceLanBattle_vbase {
+public:
+    char pad0[0x64];
+    virtual s32 virtual_0(s32);  /* 0: parameters from the code */
+    virtual s32 virtual_1();  /* 1: parameters from the code */
+    virtual s32 virtual_2();  /* 2: parameters from the code */
+    virtual s32 virtual_3();  /* 3: parameters from the code */
+    virtual s32 virtual_4();  /* 4: parameters from the code */
+    virtual s32 virtual_5();  /* 5: parameters from the code */
+    virtual s32 virtual_6();  /* 6: parameters from the code */
+    virtual s32 virtual_7();  /* 7: parameters from the code */
+    virtual s32 virtual_8();  /* 8: parameters from the code */
+    virtual s32 virtual_9();  /* 9: parameters from the code */
+    virtual s32 virtual_10();  /* 10: parameters from the code */
+    virtual s32 virtual_11();  /* 11: parameters from the code */
+    virtual s32 virtual_12();  /* 12: parameters from the code */
+    virtual void virtual_13();  /* 13: parameters from the code */
+    virtual s32 virtual_14();  /* 14: parameters from the code */
+    virtual s32 virtual_15(s32);  /* 15: parameters from the code */
+    virtual s32 virtual_16();  /* 16: parameters from the code */
+    virtual s32 virtual_17();  /* 17: parameters from the code */
+    virtual s32 virtual_18();  /* 18: parameters from the code */
+    virtual void virtual_19();  /* 19: parameters from the code */
+    virtual s32 virtual_20();  /* 20: parameters from the code */
+    virtual s32 virtual_21(s32);  /* 21: parameters from the code */
+    virtual s32 virtual_22();  /* 22: parameters from the code */
+    virtual s32 virtual_23();  /* 23: parameters from the code */
+    virtual s32 virtual_24();  /* 24: parameters from the code */
+    virtual s32 virtual_25();  /* 25: parameters from the code */
+    virtual s32 virtual_26(s32);  /* 26: parameters from the code */
+    virtual s32 virtual_27(s32);  /* 27: parameters from the code */
+    virtual s32 virtual_28(s32);  /* 28: parameters from the code */
+    virtual s32 virtual_29();  /* 29: parameters from the code */
+    virtual s32 virtual_30();  /* 30: parameters from the code */
+    virtual s32 virtual_31();  /* 31: parameters from the code */
+    virtual s32 virtual_32();  /* 32: parameters from the code */
+    virtual s32 virtual_33();  /* 33: parameters from the code */
+    virtual s32 virtual_34();  /* 34: parameters from the code */
+    virtual s32 virtual_35();  /* 35: parameters from the code */
+    virtual s32 virtual_36();  /* 36: parameters from the code */
+    virtual s32 virtual_37(s32);  /* 37: parameters from the code */
+    virtual s32 virtual_38();  /* 38: parameters from the code */
+    virtual s32 virtual_39();  /* 39: parameters from the code */
+    virtual s32 virtual_40();  /* 40: parameters from the code */
+    virtual s32 virtual_41();  /* 41: parameters from the code */
+    virtual s32 virtual_42(f32);  /* 42: parameters from the code */
+    virtual s32 virtual_43();  /* 43: parameters from the code */
+    virtual s32 virtual_44();  /* 44: parameters from the code */
+    virtual s32 virtual_45();  /* 45: parameters from the code */
+    virtual s32 virtual_46();  /* 46: parameters from the code */
+    virtual s32 virtual_47();  /* 47: parameters from the code */
+    virtual s32 virtual_48();  /* 48: parameters from the code */
+    virtual s32 virtual_49();  /* 49: parameters from the code */
+    virtual s32 virtual_50();  /* 50: parameters from the code */
+    virtual s32 virtual_51();  /* 51: parameters from the code */
+    virtual s32 virtual_52(s32);  /* 52: parameters from the code */
+    virtual s32 virtual_53();  /* 53: parameters from the code */
+    virtual s32 virtual_54(s32);  /* 54: parameters from the code */
+    virtual s32 virtual_55(s32);  /* 55: parameters from the code */
+    virtual s32 virtual_56(s32);  /* 56: parameters from the code */
+    virtual s32 virtual_57(s32);  /* 57: parameters from the code */
+    virtual s32 virtual_58();  /* 58: parameters from the code */
+    virtual s32 virtual_59();  /* 59: parameters from the code */
+    virtual s32 virtual_60(s32);  /* 60: parameters from the code */
+    virtual s32 virtual_61(s32);  /* 61: parameters from the code */
+    virtual s32 virtual_62(s32);  /* 62: parameters from the code */
+    virtual void virtual_63();  /* 63: parameters from the code */
+    virtual void virtual_64();  /* 64: parameters from the code */
+    virtual s32 virtual_65();  /* 65: parameters from the code */
+    virtual void virtual_66();  /* 66: parameters from the code */
+    virtual s32 virtual_67();  /* 67: parameters from the code */
+    virtual s32 virtual_68();  /* 68: parameters from the code */
+    virtual s32 virtual_69();  /* 69: parameters from the code */
+    virtual s32 virtual_70();  /* 70: parameters from the code */
+    virtual s32 virtual_71(s32);  /* 71: parameters from the code */
+    virtual s32 virtual_72();  /* 72: parameters from the code */
+    virtual s32 virtual_73(f32);  /* 73: parameters from the code */
+    virtual s32 virtual_74();  /* 74: parameters from the code */
+    virtual s32 virtual_75();  /* 75: parameters from the code */
+    virtual s32 virtual_76();  /* 76: parameters from the code */
+    virtual void virtual_77();  /* 77: parameters from the code */
+    virtual s32 virtual_78();  /* 78: parameters from the code */
+    virtual s32 virtual_79();  /* 79: parameters from the code */
+    virtual s32 virtual_80();  /* 80: parameters from the code */
+    virtual s32 virtual_81();  /* 81: parameters from the code */
+    virtual s32 virtual_82();  /* 82: parameters from the code */
+    virtual s32 virtual_83();  /* 83: parameters from the code */
+    virtual void virtual_84();  /* 84: parameters from the code */
+    virtual s32 virtual_85();  /* 85: parameters from the code */
+    virtual s32 virtual_86(s32, f32, f32);  /* 86: parameters from the code */
+    virtual s32 virtual_87();  /* 87: parameters from the code */
+    virtual s32 virtual_88();  /* 88: parameters from the code */
+    virtual s32 virtual_89();  /* 89: parameters from the code */
+    virtual s32 virtual_90();  /* 90: parameters from the code */
+    virtual s32 virtual_91();  /* 91: parameters from the code */
+    virtual s32 virtual_92();  /* 92: parameters from the code */
+    virtual void virtual_93(s32);  /* 93: parameters from the code */
+    virtual s32 virtual_94();  /* 94: parameters from the code */
+    virtual s32 virtual_95(s32);  /* 95: parameters from the code */
+    virtual s32 virtual_96(s32);  /* 96: parameters from the code */
+    virtual s32 virtual_97();  /* 97: parameters from the code */
+    virtual s32 virtual_98();  /* 98: parameters from the code */
+    virtual s32 virtual_99();  /* 99: parameters from the code */
+    virtual s32 virtual_100(s32);  /* 100: parameters from the code */
+    virtual s32 virtual_101();  /* 101: parameters from the code */
+    virtual s32 virtual_102();  /* 102: parameters from the code */
+    virtual void virtual_103();  /* 103: parameters from the code */
+    virtual s32 virtual_104(s32, f32);  /* 104: parameters from the code */
+    virtual s32 virtual_105(s32);  /* 105: parameters from the code */
+    virtual s32 virtual_106(s32);  /* 106: parameters from the code */
+    virtual s32 virtual_107();  /* 107: parameters from the code */
+    virtual s32 virtual_108(s32, s32, f32);  /* 108: parameters from the code */
+    virtual s32 virtual_109();  /* 109: parameters from the code */
+    virtual s32 virtual_110(s32, s32, s32, f32);  /* 110: parameters from the code */
+    virtual s32 virtual_111(s32, s32, s32, s32, f32);  /* 111: parameters from the code */
+    virtual s32 virtual_112(s32, f32);  /* 112: parameters from the code */
+    virtual s32 virtual_113();  /* 113: parameters from the code */
+    virtual s32 virtual_114(s32, s32);  /* 114: parameters from the code */
+    virtual void virtual_115();  /* 115: parameters from the code */
+    virtual s32 virtual_116(s32);  /* 116: parameters from the code */
+    virtual s32 virtual_117();  /* 117: parameters from the code */
+    virtual s32 virtual_118();  /* 118: parameters from the code */
+    virtual s32 virtual_119(s32, s32);  /* 119: parameters from the code */
+    virtual s32 virtual_120();  /* 120: parameters from the code */
+    virtual s32 virtual_121();  /* 121: parameters from the code */
+    virtual void virtual_122();  /* 122: parameters from the code */
+    virtual void virtual_123();  /* 123: parameters from the code */
+    virtual void virtual_124();  /* 124: parameters from the code */
+    virtual s32 virtual_125(f32);  /* 125: parameters from the code */
+    virtual s32 virtual_126();  /* 126: parameters from the code */
+    virtual s32 virtual_127();  /* 127: parameters from the code */
+    virtual s32 virtual_128();  /* 128: parameters from the code */
+    virtual s32 virtual_129();  /* 129: parameters from the code */
+    virtual s32 virtual_130();  /* 130: parameters from the code */
+    virtual s32 virtual_131();  /* 131: parameters from the code */
+    virtual s32 virtual_132();  /* 132: parameters from the code */
+    virtual s32 virtual_133(s32, s32);  /* 133: parameters from the code */
+    virtual s32 virtual_134();  /* 134: parameters from the code */
+    virtual s32 virtual_135();  /* 135: parameters from the code */
+    virtual s32 virtual_136();  /* 136: parameters from the code */
+    virtual s32 virtual_137(s32, s32);  /* 137: parameters from the code */
+    virtual s32 virtual_138();  /* 138: parameters from the code */
+    virtual s32 virtual_139();  /* 139: parameters from the code */
+    virtual s32 virtual_140();  /* 140: parameters from the code */
+    virtual s32 virtual_141(s32);  /* 141: parameters from the code */
+    virtual f32 virtual_142();  /* 142: parameters from the code */
+    virtual void virtual_143();  /* 143: parameters from the code */
+    virtual s32 virtual_144();  /* 144: parameters from the code */
+    virtual s32 virtual_145(s32, s32);  /* 145: parameters from the code */
+    virtual void virtual_146();  /* 146: parameters from the code */
+    virtual void virtual_147();  /* 147: parameters from the code */
+    virtual void virtual_148();  /* 148: parameters from the code */
+    virtual s32 virtual_149(s32);  /* 149: parameters from the code */
+    virtual s32 virtual_150();  /* 150: parameters from the code */
+    virtual s32 virtual_151();  /* 151: parameters from the code */
+    virtual void virtual_152();  /* 152: parameters from the code */
+    virtual s32 virtual_153(s32);  /* 153: parameters from the code */
+};
+
+class RaceLanBattle : public RaceLanBattle_vbase {
+public:
+    char pad68[0x4];
+    s32 unk6C;
+    char pad70[0xE3D4];
+    s32 unkE444;
+    s32 unkE448;
+    s32 unkE44C;
+    char padE450[0x8];
+    s32 unkE458;
+    char padE45C[0x4];
+    s64 unkE460;
+    s32 unkE468;
+    char padE46C[0xF04];
+    s32 unkF370;
+    char padF374[0x4];
+    s32 unkF378;
+    char padF37C[0xC];
+    s32 unkF388;
+    s32 unkF38C;
+    char padF390[0x106C4];
+    s32 unk1FA54;
+};
+#else
 struct RaceLanBattle {
     char pad0[0x6C];
     s32 unk6C;
@@ -32,6 +219,7 @@ struct RaceLanBattle {
     char padF390[0x106C4];
     s32 unk1FA54;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00336718

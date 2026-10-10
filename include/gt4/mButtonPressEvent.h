@@ -4,12 +4,21 @@
  * type_info 0x0088E520, type_info function 0x005E44F8, structors 0x00252A50, 0x00280760, 0x005E4548
  * vtable 0x006695C0: 51 slots
  * size: not known; the fields seen reach 0x30
+ * C++ (GT4_CXX): size 0x30 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8, 0x20, 0x24, 0x28, 0x2C
  */
 #ifndef GT4_mButtonPressEvent_H
 #define GT4_mButtonPressEvent_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mButtonEvent.h"
+
+class mButtonPressEvent : public mButtonEvent {
+public:
+    static s32 GetClassID();  /* 0x002805C8 */
+};
+#else
 struct mButtonPressEvent {
     s32 unk0;
     union {
@@ -26,6 +35,21 @@ struct mButtonPressEvent {
     f32 unk28;
     f32 unk2C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mButtonPressEvent__rc_class(struct mButtonPressEvent *);
+s32 mButtonPressEvent__rc_size(struct mButtonPressEvent *);
+s32 mButtonPressEvent__GetClassID(void);
+s32 mButtonPressEvent__getClassID(struct mButtonPressEvent *);
+s32 mButtonPressEvent__onEvent(struct mButtonPressEvent *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E45B8  mButtonPressEvent::~mButtonPressEvent() [high]

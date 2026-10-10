@@ -27,6 +27,61 @@ struct DynamicsConductorBattle2P {
     };
 };
 
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 DynamicsConductorBattle2P__getEachEntrantInfo(struct DynamicsConductorBattle2P *, s32, s32 *, s32 *, s32 *, s32 *);
+s32 DynamicsConductorBattle2P__getSpecialStart(struct DynamicsConductorBattle2P *, s32, s32 *, s32 *, s32 *);
+s32 DynamicsConductorBattle2P__GetNumberOfLaps(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductorBattle2P__SetSlowCarBoostParameters(struct DynamicsConductorBattle2P *, void *);
+s32 DynamicsConductorBattle2P__SetTireWearParameters(struct DynamicsConductorBattle2P *, void *);
+s32 DynamicsConductorBattle2P__getSlowCarBoostType(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductorBattle2P__processCollision(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductorBattle2P__IssuePassingGate(struct DynamicsConductorBattle2P *, s32, s32, s32, u32, u32);
+void DynamicsConductorBattle2P__ProcessLapTimeCommonPost(struct DynamicsConductorBattle2P *);
+void DynamicsConductorBattle2P__ProcessControlLine(struct DynamicsConductorBattle2P *, s32, s32, u32, u32, u32, f32, u32);
+s32 DynamicsConductorBattle2P__ReportTimeDifference(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductorBattle2P__getCrashability(struct DynamicsConductorBattle2P *);
+void DynamicsConductorBattle2P__chargePenaltyBySurface(struct DynamicsConductorBattle2P *, void *, s32, s32);
+void DynamicsConductor__recordOneLapGhostControl(struct DynamicsConductorBattle2P *, struct RaceInput *, void *);
+s32 DynamicsConductor__isRandomSkillAvailable(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductor__getStartingFormat(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductor__GetNumberOfSplits(struct DynamicsConductorBattle2P *);
+f32 DynamicsConductor__GetCheckPointVabs(struct DynamicsConductorBattle2P *, s32);
+void DynamicsConductor__GetStartV(struct DynamicsConductorBattle2P *);
+void DynamicsConductor__GetGoalV(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductor__SetupGlobalStatusPre(struct DynamicsConductorBattle2P *, s32);
+s32 DynamicsConductor__getStartPosition(struct DynamicsConductorBattle2P *, s32);
+s32 DynamicsConductor__getLaunchSpeed(struct DynamicsConductorBattle2P *, s32);
+s32 DynamicsConductor__getSpecialStart_RollingStart(struct DynamicsConductorBattle2P *, s32, s32 *, s32 *, s32 *);
+s32 DynamicsConductor__initialize(struct DynamicsConductorBattle2P *, s32);
+s32 DynamicsConductor__IsDelayStart(struct DynamicsConductorBattle2P *);
+void DynamicsConductor__RunTimeJudgement(struct DynamicsConductorBattle2P *, s32, s32);
+void DynamicsConductor__terminate(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductor__CurrentLapTime(struct DynamicsConductorBattle2P *, void *);
+s32 DynamicsConductor__ProcessCheckPoint(struct DynamicsConductorBattle2P *, s32, s32, s32, u32, u32, u32);
+void DynamicsConductor__ProcessLap0ControlLine(struct DynamicsConductorBattle2P *, s32, f32, u32, u32);
+void DynamicsConductor__ProcessStartLine(struct DynamicsConductorBattle2P *, s32, f32, u32, u32);
+s32 DynamicsConductor__ProcessGoalLine(struct DynamicsConductorBattle2P *, s32, s32, u32, u32, u32);
+s32 DynamicsConductor__ProcessLapTimeCommonPre(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductor__isDataLoggerSupported(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductor__isDataLoggerStandingStart(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductor__isDataLoggerMultiLap(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductor__GetLapTimeCorrection(struct DynamicsConductorBattle2P *, s32);
+void DynamicsConductor__SetLapTimeCorrection(struct DynamicsConductorBattle2P *, s32, s32);
+void DynamicsConductor__getCourseV(struct DynamicsConductorBattle2P *, void *);
+s32 DynamicsConductor__getDataLoggerSection(struct DynamicsConductorBattle2P *, void *, s32);
+s32 DynamicsConductor__EveryTimePitStop(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductor__issueCrashEvent(struct DynamicsConductorBattle2P *, void *, s32, s32, f32);
+f32 DynamicsConductor__ControlEnemySpeed(struct DynamicsConductorBattle2P *, void *, void *, f32);
+s32 DynamicsConductor__ComputeStandings(struct DynamicsConductorBattle2P *);
+s32 DynamicsConductor__InitializeStandings(struct DynamicsConductorBattle2P *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
+
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00347350  DynamicsConductorBattle2P::ReportTimeDifference() [high]
  *   1: 0x00365D80

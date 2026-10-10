@@ -4,12 +4,21 @@
  * type_info 0x0088EE20, type_info function 0x005F1878, structors 0x0031FD98
  * vtable 0x00675608: 11 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mStringPush_H
 #define GT4_mStringPush_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mStringPush : public hInst {
+public:
+    void *unk8;
+};
+#else
 struct mStringPush {
     s32 unk0;
     union {
@@ -18,6 +27,20 @@ struct mStringPush {
     };
     void *unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mStringPush__rc_class(struct mStringPush *);
+s32 mStringPush__rc_size(struct mStringPush *);
+s32 mStringPush__execute(struct mStringPush *, struct hThread *);
+s32 mStringPush__read(struct mStringPush *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031FDD8  mStringPush::~mStringPush() [high]

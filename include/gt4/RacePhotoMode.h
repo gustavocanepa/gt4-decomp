@@ -4,12 +4,22 @@
  * type_info 0x0088F7D0, type_info function 0x005FD758, structors 0x003C6C98, 0x003C6E08
  * vtable 0x00681C08: 150 slots
  * size: not known; the fields seen reach 0xCFC0
+ * C++ (GT4_CXX): size 0xCFC0 (not known: up to the last field seen), vptr at 0x64
  */
 #ifndef GT4_RacePhotoMode_H
 #define GT4_RacePhotoMode_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RacePS2Base.h"
+
+class RacePhotoMode : public RacePS2Base {
+public:
+    virtual s32 virtual_148();  /* 148: parameters from the code */
+    virtual s32 virtual_149();  /* 149: parameters from the code */
+};
+#else
 struct RacePhotoMode {
     char pad0[0x64];
     s32 unk64;
@@ -49,6 +59,19 @@ struct RacePhotoMode {
     char padCF64[0x58];
     s32 unkCFBC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RacePhotoMode__virtual_67(struct RacePhotoMode *);
+s32 RacePhotoMode__virtual_25(struct RacePhotoMode *, s32);
+s32 RacePhotoMode__virtual_51(struct RacePhotoMode *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003C6E08

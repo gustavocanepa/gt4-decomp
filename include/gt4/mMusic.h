@@ -4,12 +4,24 @@
  * type_info 0x0088E840, type_info function 0x005E8DF0, structors 0x002C3A88, 0x002C3AE0
  * vtable 0x0066F400: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x24 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mMusic_H
 #define GT4_mMusic_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+
+class mMusic : public hObject {
+public:
+    char pad10[0x14];
+    static s32 GetClassID();  /* 0x002C2A20 */
+    static s32 InitClass(hClass *);  /* 0x002C2A58 */
+};
+#else
 struct mMusic {
     s32 unk0;
     union {
@@ -19,6 +31,21 @@ struct mMusic {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mMusic__rc_class(struct mMusic *);
+s32 mMusic__rc_size(struct mMusic *);
+s32 mMusic__GetClassID(void);
+s32 mMusic__getClassID(struct mMusic *);
+s32 mMusic__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002C3AE0  mMusic::~mMusic() [high]

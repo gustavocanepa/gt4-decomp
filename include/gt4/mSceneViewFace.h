@@ -4,12 +4,29 @@
  * type_info 0x0088DAC0, type_info function 0x005C4CF0, structors 0x0012BE98, 0x0012BEE0
  * vtable 0x0065AA88: 95 slots
  * size: not known; the fields seen reach 0xBC
+ * C++ (GT4_CXX): size 0xC0 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mSceneViewFace_H
 #define GT4_mSceneViewFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWidget.h"
+
+class mSceneViewFace : public mWidget {
+public:
+    void *unkA0;
+    void *unkA4;
+    void *unkA8;
+    char padAC[0x4];
+    void *unkB0;
+    void *unkB4;
+    void *unkB8;
+    char padBC[0x4];
+    static s32 GetClassID();  /* 0x0012B640 */
+};
+#else
 struct mSceneViewFace {
     s32 unk0;
     union {
@@ -33,6 +50,45 @@ struct mSceneViewFace {
     void *unkB4;
     void *unkB8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mSceneViewFace__rc_class(struct mSceneViewFace *);
+s32 mSceneViewFace__rc_size(struct mSceneViewFace *);
+s32 mSceneViewFace__GetClassID(void);
+s32 mSceneViewFace__getClassID(struct mSceneViewFace *);
+s32 mSceneViewFace__virtual_49(struct mSceneViewFace *, const void *);
+s32 mWidget__isComposite(struct mSceneViewFace *);
+s32 mWidget__isClipBox(struct mSceneViewFace *);
+s32 mSceneViewFace__virtual_50(struct mSceneViewFace *, void *, const struct HSymID *);
+void mWidget__deepCopy(struct mSceneViewFace *, const struct hObject *);
+s32 mWidget__onKeyPress(struct mSceneViewFace *, struct mRenderContext *, struct mKeyPressEvent *);
+s32 mWidget__onKeyRelease(struct mSceneViewFace *, struct mRenderContext *, struct mKeyReleaseEvent *);
+void mWidget__onButtonPress(struct mSceneViewFace *, struct mRenderContext *, struct mButtonEvent *);
+void mWidget__onButtonRelease(struct mSceneViewFace *, struct mRenderContext *, struct mButtonEvent *);
+s32 mWidget__onMotion(struct mSceneViewFace *, struct mRenderContext *, struct mMotionEvent *);
+void mWidget__onEnter(struct mSceneViewFace *, struct mRenderContext *, struct mCrossingEvent *);
+void mWidget__onLeave(struct mSceneViewFace *, struct mRenderContext *, struct mCrossingEvent *);
+s32 mWidget__onActivate(struct mSceneViewFace *, struct mRenderContext *, struct mEvent *);
+s32 mWidget__onCancel(struct mSceneViewFace *, struct mRenderContext *, struct mEvent *);
+void mWidget__onFocusEnter(struct mSceneViewFace *, struct mRenderContext *, struct mEvent *);
+void mWidget__onFocusLeave(struct mSceneViewFace *, struct mRenderContext *, struct mEvent *);
+s32 mWidget__onDropPossible(struct mSceneViewFace *, struct mRenderContext *, f32, f32, const void *);
+void mWidget__onDropReceived(struct mSceneViewFace *, struct mRenderContext *, f32, f32, const void *, void *);
+s32 mWidget__onEvent(struct mSceneViewFace *, struct mRenderContext *, struct mEvent *, s32);
+s32 mWidget__getProperSize(struct mSceneViewFace *, f32 *, f32 *);
+f32 mWidget__getAlpha_const(struct mSceneViewFace *);
+s32 mWidget__getAlpha_const_2(struct mSceneViewFace *, s32);
+void mWidget__setAlpha(struct mSceneViewFace *, f32);
+s32 mWidget__setAlpha_2(struct mSceneViewFace *, f32, s32);
+void mWidget__setColor(struct mSceneViewFace *, const struct MColor *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0012BEE0  mSceneViewFace::~mSceneViewFace() [high]

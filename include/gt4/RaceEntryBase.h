@@ -4,12 +4,35 @@
  * type_info 0x006D5FE8, type_info function 0x005FAF28, structors 0x003B6C10, 0x003B6C38
  * vtable 0x0067FBB8: 6 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x24 (not known: up to the last field seen), vptr at 0x20 (introduced here), fields left out (overlap, or in the base's part): 0x20
  */
 #ifndef GT4_RaceEntryBase_H
 #define GT4_RaceEntryBase_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+class RaceEntryCar;
+
+class RaceEntryBase {
+public:
+    s32 unk0;
+    s32 unk4;
+    s32 unk8;
+    s32 unkC;
+    s32 unk10;
+    char pad14[0x8];
+    s32 unk1C;
+    virtual ~RaceEntryBase();  /* 0: RaceEntryBase::~RaceEntryBase() */
+    virtual s32 newEntryForm();  /* 1: RaceEntryBase::newEntryForm() */
+    virtual s32 createReservedEntry();  /* 2: RaceEntryBase::createReservedEntry() */
+    virtual s32 inquiry(RaceEntryCar &);  /* 3: RaceEntryBase::inquiry(RaceEntryCar&) */
+    virtual s32 entry(RaceEntryCar &);  /* 4: RaceEntryBase::entry(RaceEntryCar&) */
+    virtual void changeLoggerMode(bool);  /* 5: RaceEntryBase::changeLoggerMode(bool) */
+    s32 sortEntryCar(f32, f32, f32);  /* 0x003B6E80 */
+    void sortByRank();  /* 0x003B6FD0 */
+};
+#else
 struct RaceEntryBase {
     s32 unk0;
     s32 unk4;
@@ -23,6 +46,23 @@ struct RaceEntryBase {
         void *unk20_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceEntryBase__entry(struct RaceEntryBase *, struct RaceEntryCar *);
+s32 RaceEntryBase__inquiry(struct RaceEntryBase *, struct RaceEntryCar *);
+s32 RaceEntryBase__newEntryForm(struct RaceEntryBase *);
+s32 RaceEntryBase__createReservedEntry(struct RaceEntryBase *);
+void RaceEntryBase__changeLoggerMode(struct RaceEntryBase *, s32);
+s32 RaceEntryBase__sortEntryCar(struct RaceEntryBase *, f32, f32, f32);
+void RaceEntryBase__sortByRank(struct RaceEntryBase *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003B6C38  RaceEntryBase::~RaceEntryBase() [high]

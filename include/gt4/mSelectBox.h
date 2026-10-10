@@ -4,12 +4,24 @@
  * type_info 0x0088E930, type_info function 0x005EA378, structors 0x002D8C90, 0x002D8D38
  * vtable 0x00671898: 107 slots
  * size: not known; the fields seen reach 0xF4
+ * C++ (GT4_CXX): size 0xFC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mSelectBox_H
 #define GT4_mSelectBox_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mScrollable.h"
+
+class mSelectBox : public mScrollable {
+public:
+    char padBC[0x34];
+    void *unkF0;
+    char padF4[0x8];
+    static s32 GetClassID();  /* 0x002D8C58 */
+};
+#else
 struct mSelectBox {
     s32 unk0;
     union {
@@ -35,6 +47,26 @@ struct mSelectBox {
     char padBC[0x34];
     void *unkF0;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mSelectBox__rc_class(struct mSelectBox *);
+s32 mSelectBox__rc_size(struct mSelectBox *);
+s32 mSelectBox__GetClassID(void);
+s32 mSelectBox__getClassID(struct mSelectBox *);
+s32 mSelectBox__onKeyPress(struct mSelectBox *, struct mRenderContext *, struct mKeyPressEvent *);
+s32 mSelectBox__deepCopy(struct mSelectBox *, const struct hObject *);
+s32 mSelectBox__getBeginPointRatio(struct mSelectBox *);
+f32 mSelectBox__getVolumeRatio(struct mSelectBox *);
+s32 mSelectBox__canIncrement(struct mSelectBox *);
+s32 mSelectBox__canDecrement(struct mSelectBox *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002D8D38  mSelectBox::~mSelectBox() [high]

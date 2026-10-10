@@ -4,12 +4,21 @@
  * type_info 0x0088E6E0, type_info function 0x005E6258, structors 0x002A0320, 0x002A0358
  * vtable 0x0066C900: 103 slots
  * size: not known; the fields seen reach 0xD0
+ * C++ (GT4_CXX): size 0xD0 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mHBox_H
 #define GT4_mHBox_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mDBox.h"
+
+class mHBox : public mDBox {
+public:
+    static s32 GetClassID();  /* 0x002A02E8 */
+};
+#else
 struct mHBox {
     s32 unk0;
     union {
@@ -38,6 +47,23 @@ struct mHBox {
     void *unkC8;
     void *unkCC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mHBox__rc_class(struct mHBox *);
+s32 mHBox__rc_size(struct mHBox *);
+s32 mHBox__GetClassID(void);
+s32 mHBox__getClassID(struct mHBox *);
+s32 mDBox__doUpdateChildren(struct mHBox *, struct mRenderContext *);
+s32 mDBox__doRenderChildren(struct mHBox *, struct mRenderContext *);
+s32 mDBox__deepCopy(struct mHBox *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002A0358  mHBox::~mHBox() [high]

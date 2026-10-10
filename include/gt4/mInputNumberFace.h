@@ -4,12 +4,26 @@
  * type_info 0x0088E710, type_info function 0x005E6F78, structors 0x002A43F0, 0x002A45E8
  * vtable 0x0066CFB0: 95 slots
  * size: not known; the fields seen reach 0x120
+ * C++ (GT4_CXX): size 0x124 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mInputNumberFace_H
 #define GT4_mInputNumberFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWidget.h"
+
+class mInputNumberFace : public mWidget {
+public:
+    char padA0[0x68];
+    s32 unk108;
+    char pad10C[0x10];
+    s32 unk11C;
+    char pad120[0x4];
+    static s32 GetClassID();  /* 0x002A43B8 */
+};
+#else
 struct mInputNumberFace {
     s32 unk0;
     union {
@@ -29,6 +43,22 @@ struct mInputNumberFace {
     char pad10C[0x10];
     s32 unk11C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mInputNumberFace__rc_class(struct mInputNumberFace *);
+s32 mInputNumberFace__rc_size(struct mInputNumberFace *);
+s32 mInputNumberFace__GetClassID(void);
+s32 mInputNumberFace__getClassID(struct mInputNumberFace *);
+s32 mInputNumberFace__onKeyPress(struct mInputNumberFace *, struct mRenderContext *, struct mKeyPressEvent *);
+s32 mInputNumberFace__virtual_08(struct mInputNumberFace *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002A45E8  mInputNumberFace::~mInputNumberFace() [high]

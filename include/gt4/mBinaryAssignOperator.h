@@ -4,12 +4,21 @@
  * type_info 0x0088ECA0, type_info function 0x005F0FA8, structors 0x0031A4B0
  * vtable 0x00676098: 11 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4
  */
 #ifndef GT4_mBinaryAssignOperator_H
 #define GT4_mBinaryAssignOperator_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mBinaryAssignOperator : public hInst {
+public:
+    char pad8[0xC];
+};
+#else
 struct mBinaryAssignOperator {
     s32 unk0;
     union {
@@ -17,6 +26,20 @@ struct mBinaryAssignOperator {
         s32 unk4_s32;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mBinaryAssignOperator__rc_class(struct mBinaryAssignOperator *);
+s32 mBinaryAssignOperator__rc_size(struct mBinaryAssignOperator *);
+s32 mBinaryAssignOperator__execute(struct mBinaryAssignOperator *, struct hThread *);
+s32 mBinaryAssignOperator__read(struct mBinaryAssignOperator *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031A510  mBinaryAssignOperator::~mBinaryAssignOperator() [high]

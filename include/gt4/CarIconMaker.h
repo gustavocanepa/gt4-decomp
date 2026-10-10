@@ -4,12 +4,46 @@
  * type_info 0x0088F2E0, type_info function 0x005F7198, structors 0x00393A48, 0x00394A98, 0x005F7130
  * vtable 0x0067E140: 17 slots
  * size: not known; the fields seen reach 0x6C
+ * C++ (GT4_CXX): size 0x6C (not known: up to the last field seen), vptr at 0x64 (introduced here), fields left out (overlap, or in the base's part): 0x64
  */
 #ifndef GT4_CarIconMaker_H
 #define GT4_CarIconMaker_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; CarIconMaker has fields after 0x64, so a base without RTTI introduced it */
+class CarIconMaker_vbase {
+public:
+    char pad0[0x5C];
+    s32 unk5C;
+    s32 unk60;
+    virtual ~CarIconMaker_vbase();  /* 0: CarIconMaker::~CarIconMaker() */
+    virtual s32 start();  /* 1: GranTurismo4::GameObjectPS3::start() */
+    virtual s32 stop();  /* 2: GranTurismo4::GameObjectBase::stop() */
+    virtual s32 sync();  /* 3: GranTurismo4::GameObjectBase::sync() */
+    virtual s32 controlFetch();  /* 4: GranTurismo4::GameObjectBase::controlFetch() */
+    virtual s32 controlFeedback();  /* 5: GranTurismo4::GameObjectBase::controlFeedback() */
+    virtual s32 virtual_6();  /* 6: GT HD (medium): CarIconMaker::update(); parameters from the code */
+    virtual s32 render();  /* 7: GranTurismo4::GameObjectPS3::render() */
+    virtual s32 terminate();  /* 8: GranTurismo4::GameObjectPS3::terminate() */
+    virtual s32 startHook();  /* 9: GranTurismo4::GameObjectBase::startHook() */
+    virtual s32 terminateHook();  /* 10: GranTurismo4::GameObjectBase::terminateHook() */
+    virtual s32 internal_update();  /* 11: GranTurismo4::GameObjectPS3::internal_update() */
+    virtual s32 internal_render();  /* 12: GranTurismo4::GameObjectPS3::internal_render() */
+    virtual void update(f32);  /* 13: GranTurismo4::GameObjectPS3::update(float) */
+    virtual s32 render(void *);  /* 14: GranTurismo4::GameObjectPS3::render(GranTurismo4::RenderContext&) */
+    virtual s32 render_15(void *);  /* 15: CarIconMaker::render(GSBuffer&) */
+    virtual void idle();  /* 16: GranTurismo4::GameObjectPS3::idle() */
+};
+
+class CarIconMaker : public CarIconMaker_vbase {
+public:
+    s32 unk68;
+    s32 exec();  /* 0x00393AB0 */
+};
+#else
 struct CarIconMaker {
     char pad0[0x5C];
     s32 unk5C;
@@ -17,6 +51,21 @@ struct CarIconMaker {
     void *unk64;
     s32 unk68;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void GranTurismo4__GameObjectPS2__update(f32);
+s32 GranTurismo4__GameObjectPS2__render_2(void *);
+void GranTurismo4__GameObjectPS2__idle(void);
+s32 CarIconMaker__exec(struct CarIconMaker *);
+s32 CarIconMaker__render(struct CarIconMaker *, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F7130  CarIconMaker::~CarIconMaker() [high]

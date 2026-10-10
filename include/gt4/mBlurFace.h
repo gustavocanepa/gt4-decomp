@@ -4,12 +4,26 @@
  * type_info 0x0088E4E0, type_info function 0x005E4198, structors 0x0027C598, 0x005E4120
  * vtable 0x00668C10: 95 slots
  * size: not known; the fields seen reach 0xAC
+ * C++ (GT4_CXX): size 0xAC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mBlurFace_H
 #define GT4_mBlurFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWidget.h"
+class hClass;
+
+class mBlurFace : public mWidget {
+public:
+    s32 unkA0;
+    s32 unkA4;
+    s32 unkA8;
+    static s32 GetClassID();  /* 0x0027BD70 */
+    static s32 InitClass(hClass *);  /* 0x0027C028 */
+};
+#else
 struct mBlurFace {
     s32 unk0;
     union {
@@ -29,6 +43,22 @@ struct mBlurFace {
     s32 unkA4;
     s32 unkA8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mBlurFace__rc_class(struct mBlurFace *);
+s32 mBlurFace__rc_size(struct mBlurFace *);
+s32 mBlurFace__GetClassID(void);
+s32 mBlurFace__getClassID(struct mBlurFace *);
+s32 mBlurFace__InitClass(struct hClass *);
+s32 mBlurFace__deepCopy(struct mBlurFace *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E4120  mBlurFace::~mBlurFace() [high]

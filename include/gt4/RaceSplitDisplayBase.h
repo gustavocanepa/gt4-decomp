@@ -4,16 +4,60 @@
  * type_info 0x0088F340, type_info function 0x005F7978, structors 0x003A27B0, 0x003A27C8
  * vtable 0x0067E598: 29 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (not known: up to the last field seen), vptr at 0x0 (introduced here), fields left out (overlap, or in the base's part): 0x0
+ * base RaceDisplayBase has no known member: left out of the C++ form
  */
 #ifndef GT4_RaceSplitDisplayBase_H
 #define GT4_RaceSplitDisplayBase_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; RaceSplitDisplayBase has fields after 0x0, so a base without RTTI introduced it */
+class RaceSplitDisplayBase_vbase {
+public:
+    virtual s32 cleanup();  /* 0: RaceSplitDisplayBase::cleanup() */
+    virtual s32 update(f32);  /* 1: RaceSplitDisplayBase::update(float) */
+    virtual s32 render(void *);  /* 2: RaceSplitDisplayBase::render(GSBuffer&) */
+    virtual void DMAsafe();  /* 3: RaceSplitDisplayBase::DMAsafe() */
+    virtual s32 setOrganization(void *);  /* 4: RaceSplitDisplayBase::setOrganization(RaceOrganization&) */
+    virtual void setRaceMonitor(void *);  /* 5: RaceSplitDisplayBase::setRaceMonitor(RaceMonitor*) */
+    virtual s32 setRaceMode(s32);  /* 6: RaceSplitDisplayBase::setRaceMode(int) */
+    virtual s32 setRunMode(s32);  /* 7: RaceSplitDisplayBase::setRunMode(int) */
+    virtual s32 initialize();  /* 8: RaceSplitDisplayBase::initialize() */
+    virtual s32 setPlayerCarNumber(s32);  /* 9: RaceSplitDisplayBase::setPlayerCarNumber(int) */
+    virtual s32 setTargetCarNumber(s32);  /* 10: RaceSplitDisplayBase::setTargetCarNumber(int) */
+    virtual s32 setViewMode(s32);  /* 11: RaceSplitDisplayBase::setViewMode(int) */
+    virtual s32 setCameraViewMode(void *);  /* 12: RaceSplitDisplayBase::setCameraViewMode(CameraSys::CameraManager&) */
+    virtual s32 setDiveReplayMode(bool);  /* 13: RaceSplitDisplayBase::setDiveReplayMode(bool) */
+    virtual s32 setDisplayEnableInReplay(bool);  /* 14: RaceSplitDisplayBase::setDisplayEnableInReplay(bool) */
+    virtual s32 getBackMirrorRate() const;  /* 15: RaceSplitDisplayBase::getBackMirrorRate() const */
+    virtual void setGuideMode(bool);  /* 16: RaceSplitDisplayBase::setGuideMode(bool) */
+    virtual void setMinilogo(bool);  /* 17: RaceSplitDisplayBase::setMinilogo(bool) */
+    virtual void printMessage(const char *, f32, u32);  /* 18: RaceSplitDisplayBase::printMessage(char const*, float, unsigned int) */
+    virtual void printGeneralInformation(const char *, f32);  /* 19: RaceSplitDisplayBase::printGeneralInformation(char const*, float) */
+    virtual void printReplayMode(const char *, u32, u32);  /* 20: RaceSplitDisplayBase::printReplayMode(char const*, unsigned int, unsigned int) */
+    virtual void setExternalConstToolTip(const char *);  /* 21: RaceSplitDisplayBase::setExternalConstToolTip(char const*) */
+    virtual void setExternalStartLogo(void *);  /* 22: RaceSplitDisplayBase::setExternalStartLogo(PGLUtexSet*) */
+    virtual void setMusicInformation(const void *);  /* 23: RaceSplitDisplayBase::setMusicInformation(BGM::Data const*) */
+    virtual s32 virtual_24(s32, s32);  /* 24: GT HD RaceSplitDisplay::getDisplay(int): its parameters do not fit GT4's code; parameters from the code */
+    virtual s32 virtual_25(s32, s32);  /* 25: GT HD RaceSplitDisplay::getDisplay(int) const: its parameters do not fit GT4's code; parameters from the code */
+    virtual ~RaceSplitDisplayBase_vbase();  /* 26: RaceSplitDisplayBase::~RaceSplitDisplayBase() */
+    virtual s32 renderCurrent(void *);  /* 27: RaceSplitDisplayBase::renderCurrent(GSBuffer&) */
+    virtual s32 hideAll(bool);  /* 28: RaceSplitDisplayBase::hideAll(bool) */
+};
+
+class RaceSplitDisplayBase : public RaceSplitDisplayBase_vbase {
+public:
+    s32 unk4;
+};
+#else
 struct RaceSplitDisplayBase {
     s32 unk0;
     s32 unk4;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003A2B28  RaceSplitDisplayBase::cleanup() [high]

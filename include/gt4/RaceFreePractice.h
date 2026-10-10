@@ -4,12 +4,20 @@
  * type_info 0x0088F6C0, type_info function 0x005FB110, structors 0x003B92D0, 0x003B93C8
  * vtable 0x0067FC70: 152 slots
  * size: not known; the fields seen reach 0xE428
+ * C++ (GT4_CXX): size 0xE428 (not known: up to the last field seen), vptr at 0x64
  */
 #ifndef GT4_RaceFreePractice_H
 #define GT4_RaceFreePractice_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceSinglePlayer.h"
+
+class RaceFreePractice : public RaceSinglePlayer {
+public:
+};
+#else
 struct RaceFreePractice {
     char pad0[0x64];
     union {
@@ -63,6 +71,22 @@ struct RaceFreePractice {
     void *unkE420;
     void *unkE424;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceFreePractice__raceName(struct RaceFreePractice *);
+void RaceFreePractice__initialize(struct RaceFreePractice *, s32);
+s32 RaceFreePractice__updatePlay(struct RaceFreePractice *, f32);
+s32 RaceFreePractice__cleanup(struct RaceFreePractice *);
+s32 RaceFreePractice__postInitialize(struct RaceFreePractice *);
+s32 RaceFreePractice__changeEntryCarTire(struct RaceFreePractice *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003B93C8  RaceFreePractice::~RaceFreePractice() [high]

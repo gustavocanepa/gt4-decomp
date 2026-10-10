@@ -4,16 +4,43 @@
  * type_info 0x0088F590, type_info function 0x005F9518, structors 0x0039AB68, 0x003AA3F8, 0x005F94B0, 0x005FA350
  * vtable 0x0067F160: 11 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RacePriusHybridDisplay_H
 #define GT4_RacePriusHybridDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RacePriusHybridDisplay : public RaceDisplayObjectBase {
+public:
+    virtual s32 update(f32);  /* 9: RacePriusHybridDisplay::update(float) */
+    virtual s32 DMAsafe();  /* 10: RacePriusHybridDisplay::DMAsafe() */
+    void apply_patch(void *, s32, s32, s32);  /* 0x003AA5D8 */
+    s32 apply_level_patch(f32, s32, s32, s32, u32, u32);  /* 0x003AA6E8 */
+};
+#else
 struct RacePriusHybridDisplay {
     char pad0[0x14];
     void *unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RacePriusHybridDisplay__update(struct RacePriusHybridDisplay *, f32);
+s32 RacePriusHybridDisplay__render_main(struct RacePriusHybridDisplay *);
+void RacePriusHybridDisplay__apply_patch(struct RacePriusHybridDisplay *, void *, s32, s32, s32);
+s32 RacePriusHybridDisplay__apply_level_patch(struct RacePriusHybridDisplay *, f32, s32, s32, s32, u32, u32);
+s32 RacePriusHybridDisplay__DMAsafe(struct RacePriusHybridDisplay *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F94B0  RacePriusHybridDisplay::~RacePriusHybridDisplay() [high]

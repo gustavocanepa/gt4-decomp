@@ -4,12 +4,22 @@
  * type_info 0x0088E1C0, type_info function 0x005DAC90, structors 0x00228660, 0x005DAC18
  * vtable 0x00664BB8: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x2C (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mProgress_H
 #define GT4_mProgress_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mProgress : public hObject {
+public:
+    char pad10[0x1C];
+    static s32 GetClassID();  /* 0x00228628 */
+};
+#else
 struct mProgress {
     s32 unk0;
     union {
@@ -19,6 +29,20 @@ struct mProgress {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mProgress__rc_class(struct mProgress *);
+s32 mProgress__rc_size(struct mProgress *);
+s32 mProgress__GetClassID(void);
+s32 mProgress__getClassID(struct mProgress *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005DAC18  mProgress::~mProgress() [high]

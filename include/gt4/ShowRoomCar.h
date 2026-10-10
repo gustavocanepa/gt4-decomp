@@ -4,18 +4,30 @@
  * type_info 0x006D5F88, type_info function 0x005F4FD0, structors 0x00364760, 0x003647A0
  * vtable 0x0067A048: 1 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (not known: up to the last field seen), vptr at 0x8 (introduced here), fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_ShowRoomCar_H
 #define GT4_ShowRoomCar_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class ShowRoomCar {
+public:
+    s32 unk0;
+    s8 unk4;
+    char pad5[0x3];
+    virtual ~ShowRoomCar();  /* 0: ShowRoomCar::~ShowRoomCar() */
+};
+#else
 struct ShowRoomCar {
     s32 unk0;
     s8 unk4;
     char pad5[0x3];
     s32 unk8;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003647A0  ShowRoomCar::~ShowRoomCar() [high]

@@ -4,17 +4,38 @@
  * type_info 0x0088F360, type_info function 0x005F7AF0, structors 0x003A32F0
  * vtable 0x0067E7D0: 3 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (not known: up to the last field seen), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_RaceDisplayLapTimeEvent_H
 #define GT4_RaceDisplayLapTimeEvent_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayEventBase.h"
+
+class RaceDisplayLapTimeEvent : public RaceDisplayEventBase {
+public:
+    s32 unk8;
+};
+#else
 struct RaceDisplayLapTimeEvent {
     char pad0[0x4];
     void *unk4;
     s32 unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceDisplayLapTimeEvent__getEventType(struct RaceDisplayLapTimeEvent *);
+s32 RaceDisplayLapTimeEvent__decode(struct RaceDisplayLapTimeEvent *, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003A3328  RaceDisplayLapTimeEvent::getEventType() const [high]

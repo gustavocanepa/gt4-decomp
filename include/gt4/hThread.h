@@ -4,12 +4,28 @@
  * type_info 0x0088EBE0, type_info function 0x005F0340, structors 0x00318ED8, 0x00319040
  * vtable 0x006763E8: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x4C (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_hThread_H
 #define GT4_hThread_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class HObject;
+
+class hThread : public hObject {
+public:
+    char pad10[0x3C];
+    static s32 GetClassID();  /* 0x003186E0 */
+    void beginCodeFrame(const void *);  /* 0x00318B68 */
+    s32 beginTryCatchFrame(u32);  /* 0x00318E00 */
+    s32 execute0(u32);  /* 0x00321428 */
+    s32 execute(u32);  /* 0x00321730 */
+    void setArguments(const void *, s32, const HObject *, const HObject &);  /* 0x003217D0 */
+};
+#else
 struct hThread {
     s32 unk0;
     union {
@@ -19,6 +35,23 @@ struct hThread {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hThread__rc_class(struct hThread *);
+s32 hThread__rc_size(struct hThread *);
+s32 hThread__GetClassID(void);
+s32 hThread__getClassID(struct hThread *);
+s32 hThread__execute0(struct hThread *, u32);
+s32 hThread__execute(struct hThread *, u32);
+void hThread__setArguments(struct hThread *, const void *, s32, const struct HObject *, const struct HObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00319040  hThread::~hThread() [high]

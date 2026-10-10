@@ -4,12 +4,24 @@
  * type_info 0x0088E5A0, type_info function 0x005E5500, structors 0x00287E68, 0x00287F20
  * vtable 0x0066A328: 103 slots
  * size: not known; the fields seen reach 0xB0
+ * C++ (GT4_CXX): size 0x100 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mColorWindow_H
 #define GT4_mColorWindow_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mComposite.h"
+class MColor;
+
+class mColorWindow : public mComposite {
+public:
+    char padB0[0x50];
+    static s32 GetClassID();  /* 0x00287E30 */
+    s32 setColor(const MColor &, s32);  /* 0x00288DE8 */
+};
+#else
 struct mColorWindow {
     s32 unk0;
     union {
@@ -30,6 +42,27 @@ struct mColorWindow {
     void *unkA8;
     void *unkAC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mColorWindow__rc_class(struct mColorWindow *);
+s32 mColorWindow__rc_size(struct mColorWindow *);
+s32 mColorWindow__GetClassID(void);
+s32 mColorWindow__getClassID(struct mColorWindow *);
+s32 mColorWindow__deepCopy(struct mColorWindow *, const struct hObject *);
+s32 mColorWindow__setColor(struct mColorWindow *, const struct MColor *);
+s32 mColorWindow__setAlpha(struct mColorWindow *, f32);
+s32 mColorWindow__getAlpha_const(struct mColorWindow *);
+s32 mColorWindow__setColor_2(struct mColorWindow *, const struct MColor *, s32);
+f32 mColorWindow__getAlpha_const_2(struct mColorWindow *, s32);
+s32 mColorWindow__virtual_58(struct mColorWindow *, f32, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00287F20  mColorWindow::~mColorWindow() [high]

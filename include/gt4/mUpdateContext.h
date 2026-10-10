@@ -4,12 +4,46 @@
  * type_info 0x0088E340, type_info function 0x005DD660, structors 0x00250538, 0x00250770
  * vtable 0x00666DB0: 72 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x12C (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mUpdateContext_H
 #define GT4_mUpdateContext_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mUpdateContext : public hObject {
+public:
+    char pad10[0x11C];
+    virtual s32 virtual_49(s32, s32);  /* 49: parameters from the code */
+    virtual s32 virtual_50();  /* 50: parameters from the code */
+    virtual s32 virtual_51();  /* 51: parameters from the code */
+    virtual s32 virtual_52();  /* 52: parameters from the code */
+    virtual void virtual_53(s32, s32);  /* 53: parameters from the code */
+    virtual s32 virtual_54(s32);  /* 54: parameters from the code */
+    virtual s32 virtual_55(s32);  /* 55: parameters from the code */
+    virtual s32 virtual_56();  /* 56: parameters from the code */
+    virtual s32 virtual_57(s32);  /* 57: parameters from the code */
+    virtual s32 virtual_58(s32);  /* 58: parameters from the code */
+    virtual f32 virtual_59(s32, s32);  /* 59: parameters from the code */
+    virtual s32 virtual_60();  /* 60: parameters from the code */
+    virtual s32 virtual_61();  /* 61: parameters from the code */
+    virtual s32 virtual_62();  /* 62: parameters from the code */
+    virtual s32 virtual_63();  /* 63: parameters from the code */
+    virtual s32 virtual_64();  /* 64: parameters from the code */
+    virtual s32 virtual_65();  /* 65: parameters from the code */
+    virtual s32 virtual_66();  /* 66: parameters from the code */
+    virtual void virtual_67(s32, s32);  /* 67: parameters from the code */
+    virtual s32 virtual_68(s32, s32, s32);  /* 68: parameters from the code */
+    virtual s32 virtual_69(s32, s32, s32);  /* 69: parameters from the code */
+    virtual s32 virtual_70(s32, s32, s32);  /* 70: parameters from the code */
+    virtual s32 virtual_71(s32, s32, s32);  /* 71: parameters from the code */
+    void Sync(s32);  /* 0x00215298 */
+    static s32 GetClassID();  /* 0x0024E310 */
+};
+#else
 struct mUpdateContext {
     s32 unk0;
     union {
@@ -19,6 +53,21 @@ struct mUpdateContext {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void mUpdateContext__Sync(struct mUpdateContext *, s32);
+s32 mUpdateContext__rc_class(struct mUpdateContext *);
+s32 mUpdateContext__rc_size(struct mUpdateContext *);
+s32 mUpdateContext__GetClassID(void);
+s32 mUpdateContext__getClassID(struct mUpdateContext *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00250770  mUpdateContext::~mUpdateContext() [high]

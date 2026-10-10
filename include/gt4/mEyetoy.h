@@ -4,12 +4,58 @@
  * type_info 0x0088DD90, type_info function 0x005CF248, structors 0x001B6940, 0x001B6970
  * vtable 0x0065F290: 86 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mEyetoy_H
 #define GT4_mEyetoy_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mEyetoy : public hObject {
+public:
+    virtual s32 initialize();  /* 49: mEyetoy::initialize() */
+    virtual s32 finalize();  /* 50: mEyetoy::finalize() */
+    virtual void start();  /* 51: mEyetoy::start() */
+    virtual void stop();  /* 52: mEyetoy::stop() */
+    virtual void update();  /* 53: mEyetoy::update() */
+    virtual s32 isConnected() const;  /* 54: mEyetoy::isConnected() const */
+    virtual s32 isCaptured() const;  /* 55: mEyetoy::isCaptured() const */
+    virtual s32 getWidth() const;  /* 56: mEyetoy::getWidth() const */
+    virtual s32 getHeight() const;  /* 57: mEyetoy::getHeight() const */
+    virtual void setCamera(s32);  /* 58: mEyetoy::setCamera(int) */
+    virtual void setResolution(const void *);  /* 59: mEyetoy::setResolution(std::basic_string<char, std::char_traits<char>, std_allocator<char> > const&) */
+    virtual void setSamplingSpeed(s32);  /* 60: mEyetoy::setSamplingSpeed(int) */
+    virtual void setAutoBrightness(bool);  /* 61: mEyetoy::setAutoBrightness(bool) */
+    virtual void setAutoExposure(bool);  /* 62: mEyetoy::setAutoExposure(bool) */
+    virtual void setAutoGain(bool);  /* 63: mEyetoy::setAutoGain(bool) */
+    virtual void setAudioGain(s32);  /* 64: mEyetoy::setAudioGain(int) */
+    virtual void setAutoWhiteBalance(bool);  /* 65: mEyetoy::setAutoWhiteBalance(bool) */
+    virtual void setBackLightComp(bool);  /* 66: mEyetoy::setBackLightComp(bool) */
+    virtual void setBrightness(s32);  /* 67: mEyetoy::setBrightness(int) */
+    virtual void setExposure(s32);  /* 68: mEyetoy::setExposure(int) */
+    virtual void setGain(s32);  /* 69: mEyetoy::setGain(int) */
+    virtual void setJpeg(bool);  /* 70: mEyetoy::setJpeg(bool) */
+    virtual void setLedOn(s32);  /* 71: mEyetoy::setLedOn(int) */
+    virtual void setLedOff(s32);  /* 72: mEyetoy::setLedOff(int) */
+    virtual void setMirror(bool);  /* 73: mEyetoy::setMirror(bool) */
+    virtual void setNzcLuminance(s32);  /* 74: mEyetoy::setNzcLuminance(int) */
+    virtual void setNzcChrominance(s32);  /* 75: mEyetoy::setNzcChrominance(int) */
+    virtual void setQS(s32);  /* 76: mEyetoy::setQS(int) */
+    virtual void setRedGain(s32);  /* 77: mEyetoy::setRedGain(int) */
+    virtual void setBlueGain(s32);  /* 78: mEyetoy::setBlueGain(int) */
+    virtual void setSaturation(s32);  /* 79: mEyetoy::setSaturation(int) */
+    virtual void setYUV(bool);  /* 80: mEyetoy::setYUV(bool) */
+    virtual s32 getDecodeBuffer() const;  /* 81: mEyetoy::getDecodeBuffer() const */
+    virtual s32 getFrameBuffer() const;  /* 82: mEyetoy::getFrameBuffer() const */
+    virtual s32 getFrameNumber() const;  /* 83: mEyetoy::getFrameNumber() const */
+    virtual void allocateBuffer();  /* 84: mEyetoy::allocateBuffer() */
+    virtual void freeBuffer();  /* 85: mEyetoy::freeBuffer() */
+    static s32 GetClassID();  /* 0x001B6908 */
+};
+#else
 struct mEyetoy {
     s32 unk0;
     union {
@@ -19,6 +65,57 @@ struct mEyetoy {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mEyetoy__rc_class(struct mEyetoy *);
+s32 mEyetoy__rc_size(struct mEyetoy *);
+s32 mEyetoy__GetClassID(void);
+s32 mEyetoy__getClassID(struct mEyetoy *);
+void mEyetoy__initialize(struct mEyetoy *);
+void mEyetoy__finalize(struct mEyetoy *);
+void mEyetoy__start(struct mEyetoy *);
+void mEyetoy__stop(struct mEyetoy *);
+void mEyetoy__update(struct mEyetoy *);
+s32 mEyetoy__isConnected(struct mEyetoy *);
+s32 mEyetoy__isCaptured(struct mEyetoy *);
+s32 mEyetoy__getWidth(struct mEyetoy *);
+s32 mEyetoy__getHeight(struct mEyetoy *);
+void mEyetoy__setCamera(struct mEyetoy *, s32);
+void mEyetoy__setResolution(struct mEyetoy *, const void *);
+void mEyetoy__setSamplingSpeed(struct mEyetoy *, s32);
+void mEyetoy__setAutoBrightness(struct mEyetoy *, s32);
+void mEyetoy__setAutoExposure(struct mEyetoy *, s32);
+void mEyetoy__setAutoGain(struct mEyetoy *, s32);
+void mEyetoy__setAudioGain(struct mEyetoy *, s32);
+void mEyetoy__setAutoWhiteBalance(struct mEyetoy *, s32);
+void mEyetoy__setBackLightComp(struct mEyetoy *, s32);
+void mEyetoy__setBrightness(struct mEyetoy *, s32);
+void mEyetoy__setExposure(struct mEyetoy *, s32);
+void mEyetoy__setGain(struct mEyetoy *, s32);
+void mEyetoy__setJpeg(struct mEyetoy *, s32);
+void mEyetoy__setLedOn(struct mEyetoy *, s32);
+void mEyetoy__setLedOff(struct mEyetoy *, s32);
+void mEyetoy__setMirror(struct mEyetoy *, s32);
+void mEyetoy__setNzcLuminance(struct mEyetoy *, s32);
+void mEyetoy__setNzcChrominance(struct mEyetoy *, s32);
+void mEyetoy__setQS(struct mEyetoy *, s32);
+void mEyetoy__setRedGain(struct mEyetoy *, s32);
+void mEyetoy__setBlueGain(struct mEyetoy *, s32);
+void mEyetoy__setSaturation(struct mEyetoy *, s32);
+void mEyetoy__setYUV(struct mEyetoy *, s32);
+s32 mEyetoy__getDecodeBuffer(struct mEyetoy *);
+s32 mEyetoy__getFrameBuffer(struct mEyetoy *);
+s32 mEyetoy__getFrameNumber(struct mEyetoy *);
+void mEyetoy__allocateBuffer(struct mEyetoy *);
+void mEyetoy__freeBuffer(struct mEyetoy *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001B6970  mEyetoy::~mEyetoy() [high]

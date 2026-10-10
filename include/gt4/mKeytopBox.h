@@ -4,12 +4,24 @@
  * type_info 0x0088E780, type_info function 0x005E7DD0, structors 0x002AD0D0, 0x002AD108
  * vtable 0x0066DE00: 103 slots
  * size: not known; the fields seen reach 0xB4
+ * C++ (GT4_CXX): size 0xB4 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mKeytopBox_H
 #define GT4_mKeytopBox_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mComposite.h"
+class mRenderContext;
+
+class mKeytopBox : public mComposite {
+public:
+    s32 unkB0;
+    static s32 GetClassID();  /* 0x002ACF10 */
+    s32 on_activate(mRenderContext *);  /* 0x002AD388 */
+};
+#else
 struct mKeytopBox {
     s32 unk0;
     union {
@@ -31,6 +43,23 @@ struct mKeytopBox {
     void *unkAC;
     s32 unkB0;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mKeytopBox__rc_class(struct mKeytopBox *);
+s32 mKeytopBox__rc_size(struct mKeytopBox *);
+s32 mKeytopBox__GetClassID(void);
+s32 mKeytopBox__getClassID(struct mKeytopBox *);
+s32 mKeytopBox__deepCopy(struct mKeytopBox *, const struct hObject *);
+s32 mKeytopBox__on_activate(struct mKeytopBox *, struct mRenderContext *);
+s32 mKeytopBox__onKeyPress(struct mKeytopBox *, struct mRenderContext *, struct mKeyPressEvent *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002AD108  mKeytopBox::~mKeytopBox() [high]

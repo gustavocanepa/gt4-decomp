@@ -4,12 +4,38 @@
  * type_info 0x0088F230, type_info function 0x005F6AB0, structors 0x0038A660, 0x0038A708
  * vtable 0x0067D298: 152 slots
  * size: not known; the fields seen reach 0xE428
+ * C++ (GT4_CXX): size 0xE428 (not known: up to the last field seen), vptr at 0x64, fields left out (overlap, or in the base's part): 0x64
  */
 #ifndef GT4_RaceBasic_H
 #define GT4_RaceBasic_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RacePS2Base.h"
+class PauseBase;
+
+class RaceBasic : public RacePS2Base {
+public:
+    char padCFC0[0x1440];
+    void *unkE400;
+    void *unkE404;
+    void *unkE408;
+    void *unkE40C;
+    void *unkE410;
+    void *unkE414;
+    void *unkE418;
+    void *unkE41C;
+    void *unkE420;
+    void *unkE424;
+    virtual s32 updatePlayCheckPause();  /* 148: RaceBasic::updatePlayCheckPause() */
+    virtual s32 pauseStart(PauseBase *);  /* 149: RaceBasic::pauseStart(PauseBase*) */
+    virtual s32 pauseEnd();  /* 150: RaceBasic::pauseEnd() */
+    virtual s32 getAutoDemoPauseExit();  /* 151: RaceBasic::getAutoDemoPauseExit() */
+    void setPause(bool);  /* 0x0038B798 */
+    s32 handle_command_in_pause();  /* 0x0038BB60 */
+};
+#else
 struct RaceBasic {
     char pad0[0x64];
     union {
@@ -63,6 +89,18 @@ struct RaceBasic {
     void *unkE420;
     void *unkE424;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceBasic__setPause(struct RaceBasic *, s32);
+s32 RaceBasic__handle_command_in_pause(struct RaceBasic *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0038A708  RaceBasic::~RaceBasic() [high]

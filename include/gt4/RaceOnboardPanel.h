@@ -4,12 +4,44 @@
  * type_info 0x0088F680, type_info function 0x005FA300, structors 0x0039AB68, 0x003A84F0, 0x005FA130
  * vtable 0x0067EA18: 37 slots
  * size: not known; the fields seen reach 0xC44
+ * C++ (GT4_CXX): size 0xC44 (not known: up to the last field seen), vptr at 0x14
  */
 #ifndef GT4_RaceOnboardPanel_H
 #define GT4_RaceOnboardPanel_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RacePanel.h"
+
+class RaceOnboardPanel : public RacePanel {
+public:
+    char pad18[0x14];
+    f32 unk2C;
+    f32 unk30;
+    f32 unk34;
+    f32 unk38;
+    char pad3C[0x48];
+    f32 unk84;
+    char pad88[0x58];
+    f32 unkE0;
+    char padE4[0x898];
+    f32 unk97C;
+    char pad980[0x58];
+    s32 unk9D8;
+    char pad9DC[0x3E];
+    s16 unkA1A;
+    char padA1C[0x58];
+    s8 unkA74;
+    char padA75[0x57];
+    s8 unkACC;
+    char padACD[0x57];
+    s32 unkB24;
+    char padB28[0x118];
+    f32 unkC40;
+    s32 init_texset();  /* 0x003A8F28 */
+};
+#else
 struct RaceOnboardPanel {
     char pad0[0x14];
     void *unk14;
@@ -37,6 +69,47 @@ struct RaceOnboardPanel {
     char padB28[0x118];
     f32 unkC40;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RacePanel__DMAsafe(struct RaceOnboardPanel *);
+void RacePanel__setGasMileage(struct RaceOnboardPanel *, f32);
+void RacePanel__setGasConsumption(struct RaceOnboardPanel *, f32);
+void RacePanel__setGasUnit(struct RaceOnboardPanel *, s32);
+s32 RaceOnboardPanel__reset(struct RaceOnboardPanel *);
+f32 RaceOnboardPanel__update(struct RaceOnboardPanel *, f32);
+s32 RaceOnboardPanel__render_main(struct RaceOnboardPanel *, void *);
+s32 RaceOnboardPanel__init_texset(struct RaceOnboardPanel *);
+void RaceOnboardPanel__setLocation(struct RaceOnboardPanel *, s32, s32);
+s32 RaceOnboardPanel__setSpeed(struct RaceOnboardPanel *, f32);
+void RaceOnboardPanel__setSpeedmeterScale(struct RaceOnboardPanel *, s32, f32);
+void RaceOnboardPanel__setTachometerScale(struct RaceOnboardPanel *, f32, f32);
+s32 RaceOnboardPanel__setTachometerRedZone(struct RaceOnboardPanel *, s32);
+void RaceOnboardPanel__setTachometerRPM(struct RaceOnboardPanel *, f32);
+void RaceOnboardPanel__setBoostPressure(struct RaceOnboardPanel *, f32);
+void RaceOnboardPanel__setGear(struct RaceOnboardPanel *, s32);
+s32 RaceOnboardPanel__setClutch(struct RaceOnboardPanel *, s32);
+s32 RaceOnboardPanel__setAutomaticTransmission(struct RaceOnboardPanel *, s32);
+s32 RaceOnboardPanel__setShiftTimingLamp(struct RaceOnboardPanel *, s32);
+s32 RaceOnboardPanel__showSuggestedGear(struct RaceOnboardPanel *, s32);
+void RaceOnboardPanel__setSuggestedGear(struct RaceOnboardPanel *, s32);
+s32 RaceOnboardPanel__setBrakingSign(struct RaceOnboardPanel *, s32);
+s32 RaceOnboardPanel__showSideGravity(struct RaceOnboardPanel *, s32);
+void RaceOnboardPanel__setSideGravity(struct RaceOnboardPanel *, f32);
+void RaceOnboardPanel__setOdometer(struct RaceOnboardPanel *, s32);
+void RaceOnboardPanel__showTireWear(struct RaceOnboardPanel *, s32);
+s32 RaceOnboardPanel__setTireWearColor(struct RaceOnboardPanel *, s32, s32, s32, s32);
+void RaceOnboardPanel__setFuelAmount(struct RaceOnboardPanel *, f32);
+void RaceOnboardPanel__setFuelTankCapacity(struct RaceOnboardPanel *, f32);
+void RaceOnboardPanel__setNosAmount(struct RaceOnboardPanel *, f32);
+void RaceOnboardPanel__setNosTankCapacity(struct RaceOnboardPanel *, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FA130  RaceOnboardPanel::~RaceOnboardPanel() [high]

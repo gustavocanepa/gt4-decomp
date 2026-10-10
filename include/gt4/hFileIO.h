@@ -4,12 +4,26 @@
  * type_info 0x0088EA80, type_info function 0x005EE660, structors 0x002F6D18, 0x002F6DD0
  * vtable 0x00673B80: 58 slots
  * size: not known; the fields seen reach 0xFC
+ * C++ (GT4_CXX): size 0xFC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_hFileIO_H
 #define GT4_hFileIO_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hIO.h"
+
+class hFileIO : public hIO {
+public:
+    char pad14[0xD4];
+    s32 unkE8;
+    void *unkEC;
+    char padF0[0x8];
+    void *unkF8;
+    static s32 GetClassID();  /* 0x002F66E0 */
+};
+#else
 struct hFileIO {
     s32 unk0;
     union {
@@ -25,6 +39,27 @@ struct hFileIO {
     char padF0[0x8];
     void *unkF8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hFileIO__rc_class(struct hFileIO *);
+s32 hFileIO__rc_size(struct hFileIO *);
+s32 hFileIO__GetClassID(void);
+s32 hFileIO__getClassID(struct hFileIO *);
+s32 hFileIO__read(struct hFileIO *, char *, u32);
+s32 hFileIO__write(struct hFileIO *, const char *, u32);
+s32 hFileIO__virtual_53(struct hFileIO *);
+s32 hFileIO__status(struct hFileIO *);
+s32 hIO__cget(struct hFileIO *);
+s32 hIO__cput(struct hFileIO *, s32);
+s32 hIO__sput(struct hFileIO *, const void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002F6DD0  hFileIO::~hFileIO() [high]

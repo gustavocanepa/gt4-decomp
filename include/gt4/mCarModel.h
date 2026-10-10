@@ -4,12 +4,37 @@
  * type_info 0x0088DB40, type_info function 0x005CA210, structors 0x00151960, 0x00151A58
  * vtable 0x0065B5C0: 60 slots
  * size: not known; the fields seen reach 0x58
+ * C++ (GT4_CXX): size 0x9C (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mCarModel_H
 #define GT4_mCarModel_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+
+class mCarModel : public hObject {
+public:
+    char pad10[0x44];
+    s32 unk54;
+    char pad58[0x44];
+    virtual s32 virtual_49(s32, s32, s32);  /* 49: parameters from the code */
+    virtual s32 virtual_50(s32);  /* 50: parameters from the code */
+    virtual s32 virtual_51(s32);  /* 51: parameters from the code */
+    virtual s32 virtual_52();  /* 52: parameters from the code */
+    virtual void virtual_53(s32);  /* 53: parameters from the code */
+    virtual s32 virtual_54();  /* 54: parameters from the code */
+    virtual f32 virtual_55();  /* 55: parameters from the code */
+    virtual s32 virtual_56(s32);  /* 56: parameters from the code */
+    virtual s32 virtual_57(s32, s32, s32, s32, s32, s32, s32);  /* 57: parameters from the code */
+    virtual s32 virtual_58();  /* 58: parameters from the code */
+    virtual void virtual_59(s32);  /* 59: parameters from the code */
+    static s32 GetClassID();  /* 0x001517C8 */
+    static s32 InitClass(hClass *);  /* 0x00152C50 */
+};
+#else
 struct mCarModel {
     s32 unk0;
     union {
@@ -21,6 +46,21 @@ struct mCarModel {
     char pad10[0x44];
     s32 unk54;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mCarModel__rc_class(struct mCarModel *);
+s32 mCarModel__rc_size(struct mCarModel *);
+s32 mCarModel__GetClassID(void);
+s32 mCarModel__getClassID(struct mCarModel *);
+s32 mCarModel__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00151A58  mCarModel::~mCarModel() [high]

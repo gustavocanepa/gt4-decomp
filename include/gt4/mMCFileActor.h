@@ -4,12 +4,23 @@
  * type_info 0x0088DC20, type_info function 0x005CB310, structors 0x00173430, 0x005CB230
  * vtable 0x0065CA80: 55 slots
  * size: not known; the fields seen reach 0x40
+ * C++ (GT4_CXX): size 0x80 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mMCFileActor_H
 #define GT4_mMCFileActor_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mFadeActor.h"
+
+class mMCFileActor : public mFadeActor {
+public:
+    char pad40[0x40];
+    virtual void virtual_53();  /* 53: parameters from the code */
+    virtual s32 virtual_54();  /* 54: parameters from the code */
+};
+#else
 struct mMCFileActor {
     s32 unk0;
     union {
@@ -31,6 +42,20 @@ struct mMCFileActor {
     void *unk38;
     void *unk3C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mMCFileActor__virtual_03(struct mMCFileActor *);
+s32 mMCFileActor__virtual_04(struct mMCFileActor *);
+s32 mMCFileActor__virtual_09(struct mMCFileActor *);
+s32 mMCFileActor__virtual_52(struct mMCFileActor *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005CB230

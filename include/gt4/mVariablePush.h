@@ -4,12 +4,22 @@
  * type_info 0x0088EC50, type_info function 0x005F09C0, structors 0x00321250, 0x003212A0
  * vtable 0x00676308: 11 slots
  * size: not known; the fields seen reach 0x1C
+ * C++ (GT4_CXX): size 0x1C (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mVariablePush_H
 #define GT4_mVariablePush_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mVariablePush : public hInst {
+public:
+    char pad8[0x10];
+    s32 unk18;
+};
+#else
 struct mVariablePush {
     s32 unk0;
     union {
@@ -19,6 +29,20 @@ struct mVariablePush {
     char pad8[0x10];
     s32 unk18;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mVariablePush__rc_class(struct mVariablePush *);
+s32 mVariablePush__rc_size(struct mVariablePush *);
+s32 mVariablePush__virtual_08(struct mVariablePush *, struct hThread *);
+s32 mVariablePush__read(struct mVariablePush *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003212A0  mVariablePush::~mVariablePush() [high]

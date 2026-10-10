@@ -4,12 +4,20 @@
  * type_info 0x008A1C20, type_info function 0x00615960, structors 0x00596FC0, 0x00597028, 0x005970A0, 0x00597140
  * vtable 0x0068A018: 17 slots
  * size: not known; the fields seen reach 0x54
+ * C++ (GT4_CXX): size 0x54 (not known: up to the last field seen), vptr at 0x50, fields left out (overlap, or in the base's part): 0x0, 0x10, 0x14, 0x38, 0x50
  */
 #ifndef GT4_filebuf_H
 #define GT4_filebuf_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/streambuf.h"
+
+class filebuf : public streambuf {
+public:
+};
+#else
 struct filebuf {
     s32 unk0;
     char pad4[0xC];
@@ -20,6 +28,7 @@ struct filebuf {
     char pad3C[0x14];
     void *unk50;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00597140

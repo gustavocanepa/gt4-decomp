@@ -4,16 +4,26 @@
  * type_info 0x0088E330, type_info function 0x005DD030, structors 0x00201168, 0x00201FA8, 0x00233E38, 0x002390E8, 0x00247768, 0x00261E08, 0x00285CC8, 0x002984C0, 0x002B3D50, 0x002B8CA0, 0x002D3A00, 0x002D4990, 0x002D75F0, 0x002DB4E8, 0x002E9C70, 0x005D5268, 0x005D52C0, 0x005DCFC8, 0x005DD080
  * vtable 0x00666D20: 4 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (not known: up to the last field seen), vptr at 0x0, fields left out (overlap, or in the base's part): 0x0
  */
 #ifndef GT4_MfloatReader_H
 #define GT4_MfloatReader_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/MReaderBase.h"
+
+class MfloatReader : public MReaderBase {
+public:
+    s32 unk4;
+};
+#else
 struct MfloatReader {
     s32 unk0;
     s32 unk4;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005DCFC8

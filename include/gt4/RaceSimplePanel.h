@@ -4,12 +4,39 @@
  * type_info 0x0088F440, type_info function 0x005FA0C0, structors 0x0039AB68, 0x003A7538, 0x005F9E90
  * vtable 0x0067EB50: 37 slots
  * size: not known; the fields seen reach 0x2B0
+ * C++ (GT4_CXX): size 0x2B0 (not known: up to the last field seen), vptr at 0x14
  */
 #ifndef GT4_RaceSimplePanel_H
 #define GT4_RaceSimplePanel_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RacePanel.h"
+
+class RaceSimplePanel : public RacePanel {
+public:
+    char pad18[0x62];
+    s16 unk7A;
+    char pad7C[0x24];
+    f32 unkA0;
+    f32 unkA4;
+    char padA8[0x20];
+    f32 unkC8;
+    f32 unkCC;
+    char padD0[0x18];
+    s32 unkE8;
+    char padEC[0x2C];
+    f32 unk118;
+    char pad11C[0x5C];
+    s8 unk178;
+    char pad179[0x57];
+    s8 unk1D0;
+    char pad1D1[0xDB];
+    f32 unk2AC;
+    s32 init_texset();  /* 0x003A8290 */
+};
+#else
 struct RaceSimplePanel {
     char pad0[0x14];
     void *unk14;
@@ -32,6 +59,40 @@ struct RaceSimplePanel {
     char pad1D1[0xDB];
     f32 unk2AC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceSimplePanel__reset(struct RaceSimplePanel *);
+s32 RaceSimplePanel__update(struct RaceSimplePanel *, f32);
+s32 RaceSimplePanel__render_main(struct RaceSimplePanel *, void *);
+void RaceSimplePanel__setLocation(struct RaceSimplePanel *, s32, s32);
+s32 RaceSimplePanel__init_texset(struct RaceSimplePanel *);
+void RaceSimplePanel__setTachometerScale(struct RaceSimplePanel *, f32, f32);
+s32 RaceSimplePanel__setTachometerRedZone(struct RaceSimplePanel *, s32);
+void RaceSimplePanel__setTachometerRPM(struct RaceSimplePanel *, f32);
+s32 RaceSimplePanel__setSpeed(struct RaceSimplePanel *, f32);
+s32 RaceSimplePanel__setShiftTimingLamp(struct RaceSimplePanel *, s32);
+void RaceSimplePanel__setGear(struct RaceSimplePanel *, s32);
+s32 RaceSimplePanel__setClutch(struct RaceSimplePanel *, s32);
+s32 RaceSimplePanel__setAutomaticTransmission(struct RaceSimplePanel *, s32);
+s32 RaceSimplePanel__showSuggestedGear(struct RaceSimplePanel *, s32);
+void RaceSimplePanel__setSuggestedGear(struct RaceSimplePanel *, s32);
+s32 RaceSimplePanel__setBrakingSign(struct RaceSimplePanel *, s32);
+s32 RaceSimplePanel__showSideGravity(struct RaceSimplePanel *, s32);
+void RaceSimplePanel__setSideGravity(struct RaceSimplePanel *, f32);
+void RaceSimplePanel__showTireWear(struct RaceSimplePanel *, s32);
+s32 RaceSimplePanel__setTireWearColor(struct RaceSimplePanel *, s32, s32, s32, s32);
+void RaceSimplePanel__setFuelAmount(struct RaceSimplePanel *, f32);
+void RaceSimplePanel__setFuelTankCapacity(struct RaceSimplePanel *, f32);
+void RaceSimplePanel__setNosAmount(struct RaceSimplePanel *, f32);
+void RaceSimplePanel__setNosTankCapacity(struct RaceSimplePanel *, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F9E90  RaceSimplePanel::~RaceSimplePanel() [high]

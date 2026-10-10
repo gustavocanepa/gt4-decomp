@@ -4,12 +4,20 @@
  * type_info 0x0088F280, type_info function 0x005F6EE0, structors 0x0038F9B8, 0x003B1C68, 0x005F6F30
  * vtable 0x0067DF68: 5 slots
  * size: not known; the fields seen reach 0x7E0
+ * C++ (GT4_CXX): size 0x7E0 (not known: up to the last field seen), vptr at 0x7DC, fields left out (overlap, or in the base's part): 0x7DC
  */
 #ifndef GT4_RaceCrewModel_H
 #define GT4_RaceCrewModel_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDriverModel.h"
+
+class RaceCrewModel : public RaceDriverModel {
+public:
+};
+#else
 struct RaceCrewModel {
     s32 unk0;
     char pad4[0x6AC];
@@ -23,6 +31,7 @@ struct RaceCrewModel {
         void *unk7DC_pvoid;
     };
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F6F30

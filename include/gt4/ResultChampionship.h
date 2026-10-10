@@ -4,12 +4,22 @@
  * type_info 0x0088FA90, type_info function 0x005FF560, structors 0x003EF498, 0x003EF620, 0x005FF4F8, 0x005FF5B0
  * vtable 0x006863E0: 17 slots
  * size: not known; the fields seen reach 0x564
+ * C++ (GT4_CXX): size 0x564 (not known: up to the last field seen), vptr at 0xC, fields left out (overlap, or in the base's part): 0xC
  */
 #ifndef GT4_ResultChampionship_H
 #define GT4_ResultChampionship_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/ResultArcade.h"
+
+class ResultChampionship : public ResultArcade {
+public:
+    char pad10[0x550];
+    s32 unk560;
+};
+#else
 struct ResultChampionship {
     s32 unk0;
     s32 unk4;
@@ -21,6 +31,18 @@ struct ResultChampionship {
     char pad10[0x550];
     s32 unk560;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 ResultChampionship__init(struct ResultChampionship *, void *, s32);
+s32 ResultChampionship__isChampionship(struct ResultChampionship *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FF4F8  ResultChampionship::~ResultChampionship() [high]

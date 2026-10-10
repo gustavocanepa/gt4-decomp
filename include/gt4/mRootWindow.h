@@ -4,12 +4,24 @@
  * type_info 0x0088E240, type_info function 0x005DB9E0, structors 0x00232E00, 0x00232F78
  * vtable 0x00665418: 103 slots
  * size: not known; the fields seen reach 0xC0
+ * C++ (GT4_CXX): size 0xF0 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mRootWindow_H
 #define GT4_mRootWindow_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mFBox.h"
+class MData;
+
+class mRootWindow : public mFBox {
+public:
+    char padC0[0x30];
+    static s32 GetClassID();  /* 0x00232DC8 */
+    s32 getDataCache(MData &, const void *);  /* 0x0026A598 */
+};
+#else
 struct mRootWindow {
     s32 unk0;
     union {
@@ -34,6 +46,26 @@ struct mRootWindow {
     s32 unkB8;
     s32 unkBC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mRootWindow__rc_class(struct mRootWindow *);
+s32 mRootWindow__rc_size(struct mRootWindow *);
+s32 mRootWindow__GetClassID(void);
+s32 mRootWindow__getClassID(struct mRootWindow *);
+s32 mRootWindow__deepCopy(struct mRootWindow *, const struct hObject *);
+s32 mRootWindow__onKeyPress(struct mRootWindow *, struct mRenderContext *, struct mKeyPressEvent *);
+s32 mRootWindow__onEvent(struct mRootWindow *, struct mRenderContext *, struct mEvent *, s32);
+s32 mRootWindow__getDataCache(struct mRootWindow *, struct MData *, const void *);
+s32 mFBox__doUpdateChildren(struct mRootWindow *, struct mRenderContext *);
+s32 mRootWindow__virtual_96(struct mRootWindow *, struct mRenderContext *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00232F78  mRootWindow::~mRootWindow() [high]

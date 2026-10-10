@@ -4,12 +4,27 @@
  * type_info 0x0088DC50, type_info function 0x005CB988, structors 0x0017A9E8, 0x0017AA40, 0x0017AAC0
  * vtable 0x0065CE20: 49 slots
  * size: not known; the fields seen reach 0x28
+ * C++ (GT4_CXX): size 0x34 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mMemoryCardManager_H
 #define GT4_mMemoryCardManager_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mMemoryCardManager : public hObject {
+public:
+    char pad10[0x8];
+    void *unk18;
+    void *unk1C;
+    void *unk20;
+    void *unk24;
+    char pad28[0xC];
+    static s32 GetClassID();  /* 0x00179428 */
+};
+#else
 struct mMemoryCardManager {
     s32 unk0;
     union {
@@ -24,6 +39,20 @@ struct mMemoryCardManager {
     void *unk20;
     void *unk24;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mMemoryCardManager__rc_class(struct mMemoryCardManager *);
+s32 mMemoryCardManager__rc_size(struct mMemoryCardManager *);
+s32 mMemoryCardManager__GetClassID(void);
+s32 mMemoryCardManager__getClassID(struct mMemoryCardManager *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0017AAC0  mMemoryCardManager::~mMemoryCardManager() [high]

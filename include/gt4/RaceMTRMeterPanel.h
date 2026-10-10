@@ -4,16 +4,39 @@
  * type_info 0x0088F480, type_info function 0x005F9950, structors 0x003AC3E8, 0x003AC4E8
  * vtable 0x0067EF40: 10 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceMTRMeterPanel_H
 #define GT4_RaceMTRMeterPanel_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceMTRMeterPanel : public RaceDisplayObjectBase {
+public:
+    virtual s32 update(f32);  /* 9: RaceMTRMeterPanel::update(float) */
+    s32 init_texset();  /* 0x003AC610 */
+};
+#else
 struct RaceMTRMeterPanel {
     char pad0[0x14];
     void *unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceMTRMeterPanel__update(struct RaceMTRMeterPanel *, f32);
+s32 RaceMTRMeterPanel__init_texset(struct RaceMTRMeterPanel *);
+s32 RaceMTRMeterPanel__render_main(struct RaceMTRMeterPanel *, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003AC4E8  RaceMTRMeterPanel::~RaceMTRMeterPanel() [high]

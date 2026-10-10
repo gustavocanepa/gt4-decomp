@@ -4,12 +4,23 @@
  * type_info 0x0088E560, type_info function 0x005E48D0, structors 0x00283618
  * vtable 0x00669C60: 53 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x34 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mChaseActor_H
 #define GT4_mChaseActor_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mActor.h"
+class hClass;
+
+class mChaseActor : public mActor {
+public:
+    char pad14[0x20];
+    static s32 InitClass(hClass *);  /* 0x00283CC8 */
+};
+#else
 struct mChaseActor {
     s32 unk0;
     union {
@@ -19,6 +30,22 @@ struct mChaseActor {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mChaseActor__rc_class(struct mChaseActor *);
+s32 mChaseActor__rc_size(struct mChaseActor *);
+s32 mChaseActor__virtual_09(struct mChaseActor *);
+s32 mChaseActor__InitClass(struct hClass *);
+void mChaseActor__rewind(struct mChaseActor *);
+s32 mChaseActor__update(struct mChaseActor *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E4808  mChaseActor::~mChaseActor() [high]

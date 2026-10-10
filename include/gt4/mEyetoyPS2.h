@@ -4,12 +4,36 @@
  * type_info 0x0088DE00, type_info function 0x005D08F0, structors 0x001BEF50, 0x001BEF90
  * vtable 0x006605C0: 86 slots
  * size: not known; the fields seen reach 0x20
+ * C++ (GT4_CXX): size 0x20 (allocation, 1 site), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mEyetoyPS2_H
 #define GT4_mEyetoyPS2_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mEyetoy.h"
+
+class mEyetoyPS2 : public mEyetoy {
+public:
+    union {
+        s32 unk10;
+        void *unk10_pvoid;
+    };
+    union {
+        s32 unk14;
+        void *unk14_pvoid;
+    };
+    union {
+        s32 unk18;
+        void *unk18_pvoid;
+    };
+    union {
+        s32 unk1C;
+        void *unk1C_pvoid;
+    };
+};
+#else
 struct mEyetoyPS2 {
     s32 unk0;
     union {
@@ -35,6 +59,53 @@ struct mEyetoyPS2 {
         void *unk1C_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mEyetoyPS2__virtual_49(struct mEyetoyPS2 *);
+s32 mEyetoyPS2__virtual_50(struct mEyetoyPS2 *);
+s32 mEyetoyPS2__virtual_51(struct mEyetoyPS2 *);
+s32 mEyetoyPS2__virtual_52(struct mEyetoyPS2 *);
+s32 mEyetoyPS2__virtual_53(struct mEyetoyPS2 *);
+s32 mEyetoyPS2__virtual_54(struct mEyetoyPS2 *);
+s32 mEyetoyPS2__virtual_55(struct mEyetoyPS2 *);
+s32 mEyetoyPS2__virtual_56(struct mEyetoyPS2 *);
+s32 mEyetoyPS2__virtual_57(struct mEyetoyPS2 *);
+void mEyetoyPS2__virtual_58(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_59(struct mEyetoyPS2 *, const void *);
+s32 mEyetoyPS2__virtual_60(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_61(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_62(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_63(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_64(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_65(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_66(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_67(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_68(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_69(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_70(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_71(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_72(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_73(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_74(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_75(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_76(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_77(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_78(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_79(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_80(struct mEyetoyPS2 *, s32);
+s32 mEyetoyPS2__virtual_81(struct mEyetoyPS2 *);
+s32 mEyetoyPS2__virtual_82(struct mEyetoyPS2 *);
+s32 mEyetoyPS2__virtual_83(struct mEyetoyPS2 *);
+s32 mEyetoyPS2__virtual_84(struct mEyetoyPS2 *);
+s32 mEyetoyPS2__virtual_85(struct mEyetoyPS2 *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001BEF90

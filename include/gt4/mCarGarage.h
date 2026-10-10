@@ -4,12 +4,24 @@
  * type_info 0x0088DB00, type_info function 0x005C98C0, structors 0x00147D88, 0x00147DF0, 0x00147E70, 0x00147EC0, 0x00147F10, 0x00147F88
  * vtable 0x0065B408: 49 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x190 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mCarGarage_H
 #define GT4_mCarGarage_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mCarGarage : public hObject {
+public:
+    s32 unk10;
+    s32 unk14;
+    char pad18[0x178];
+    static s32 GetClassID();  /* 0x0013BF10 */
+};
+#else
 struct mCarGarage {
     s32 unk0;
     union {
@@ -21,6 +33,20 @@ struct mCarGarage {
     s32 unk10;
     s32 unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mCarGarage__rc_class(struct mCarGarage *);
+s32 mCarGarage__rc_size(struct mCarGarage *);
+s32 mCarGarage__GetClassID(void);
+s32 mCarGarage__getClassID(struct mCarGarage *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00147F88  mCarGarage::~mCarGarage() [high]

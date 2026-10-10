@@ -4,16 +4,41 @@
  * type_info 0x006D5FF8, type_info function 0x005FB040, structors 0x003B73D0, 0x003B7408
  * vtable 0x0067FC40: 1 slots
  * size: not known; the fields seen reach 0x82C
+ * C++ (GT4_CXX): size 0x82C (not known: up to the last field seen), vptr at 0x828 (introduced here), fields left out (overlap, or in the base's part): 0x828
  */
 #ifndef GT4_RaceEventQueue_H
 #define GT4_RaceEventQueue_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class RaceEventQueue {
+public:
+    char pad0[0x828];
+    virtual ~RaceEventQueue();  /* 0: RaceEventQueue::~RaceEventQueue() */
+    void remove(s32);  /* 0x003B7498 */
+    void clear(s32);  /* 0x003B7538 */
+    s32 update();  /* 0x003B75D8 */
+};
+#else
 struct RaceEventQueue {
     char pad0[0x828];
     void *unk828;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceEventQueue__remove(struct RaceEventQueue *, s32);
+void RaceEventQueue__clear(struct RaceEventQueue *, s32);
+s32 RaceEventQueue__update(struct RaceEventQueue *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003B7408  RaceEventQueue::~RaceEventQueue() [high]

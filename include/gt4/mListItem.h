@@ -4,12 +4,21 @@
  * type_info 0x0088E7C0, type_info function 0x005E84C0, structors 0x002B4A00, 0x005E8510, 0x005E8588
  * vtable 0x0066E658: 8 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x20 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mListItem_H
 #define GT4_mListItem_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RefCounter.h"
+
+class mListItem : public RefCounter {
+public:
+    char pad8[0x18];
+};
+#else
 struct mListItem {
     s32 unk0;
     union {
@@ -17,6 +26,18 @@ struct mListItem {
         s32 unk4_s32;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mListItem__rc_class(struct mListItem *);
+s32 mListItem__rc_size(struct mListItem *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E8588  mListItem::~mListItem() [high]

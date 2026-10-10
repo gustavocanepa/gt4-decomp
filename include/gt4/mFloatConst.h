@@ -4,12 +4,21 @@
  * type_info 0x0088EE10, type_info function 0x005F1138, structors 0x0031B748
  * vtable 0x00675E90: 11 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0xC (rc_size), vptr at 0x4
  */
 #ifndef GT4_mFloatConst_H
 #define GT4_mFloatConst_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mFloatConst : public hInst {
+public:
+    char pad8[0x4];
+};
+#else
 struct mFloatConst {
     s32 unk0;
     union {
@@ -17,6 +26,20 @@ struct mFloatConst {
         s32 unk4_s32;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mFloatConst__rc_class(struct mFloatConst *);
+s32 mFloatConst__rc_size(struct mFloatConst *);
+s32 mFloatConst__execute(struct mFloatConst *, struct hThread *);
+s32 mFloatConst__read(struct mFloatConst *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031B788  mFloatConst::~mFloatConst() [high]

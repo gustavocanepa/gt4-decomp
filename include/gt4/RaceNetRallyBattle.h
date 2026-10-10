@@ -4,12 +4,22 @@
  * type_info 0x0088EFE0, type_info function 0x005F35F0, structors 0x00339428, 0x003394F8
  * vtable 0x00678D48: 152 slots
  * size: not known; the fields seen reach 0xE44C
+ * C++ (GT4_CXX): size 0xE44C (not known: up to the last field seen), vptr at 0x64, fields left out (overlap, or in the base's part): 0x6C, 0xCC8
  */
 #ifndef GT4_RaceNetRallyBattle_H
 #define GT4_RaceNetRallyBattle_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceNetSinglePlayer.h"
+
+class RaceNetRallyBattle : public RaceNetSinglePlayer {
+public:
+    char padE428[0x20];
+    s32 unkE448;
+};
+#else
 struct RaceNetRallyBattle {
     char pad0[0x64];
     union {
@@ -65,6 +75,31 @@ struct RaceNetRallyBattle {
     char padE428[0x20];
     s32 unkE448;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceNetRallyBattle__virtual_67(struct RaceNetRallyBattle *);
+void RaceNetRallyBattle__virtual_37(struct RaceNetRallyBattle *, s32);
+s32 RaceNetRallyBattle__virtual_39(struct RaceNetRallyBattle *);
+s32 RaceNetRallyBattle__virtual_72(struct RaceNetRallyBattle *);
+s32 RaceNetRallyBattle__virtual_148(struct RaceNetRallyBattle *);
+s32 RaceNetRallyBattle__virtual_41(struct RaceNetRallyBattle *, s32);
+void RaceBasic__cleanup(struct RaceNetRallyBattle *);
+void RaceBasic__updatePause(struct RaceNetRallyBattle *);
+s32 RaceSinglePlayer__getCommonInput(struct RaceNetRallyBattle *);
+s32 RaceSinglePlayer__getInput(struct RaceNetRallyBattle *, s32);
+s32 RaceSinglePlayer__loadReplayInputs(struct RaceNetRallyBattle *, void *);
+s32 RaceSinglePlayer__saveReplayInputs(struct RaceNetRallyBattle *, void *);
+s32 RaceSinglePlayer__sizeReplayInputs(struct RaceNetRallyBattle *);
+s32 RaceSinglePlayer__notifyChangeSpecMode(struct RaceNetRallyBattle *);
+s32 RaceSinglePlayer__updatePlay(struct RaceNetRallyBattle *, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003394F8

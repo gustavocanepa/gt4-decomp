@@ -4,16 +4,35 @@
  * type_info 0x0088F4B0, type_info function 0x005F91F8, structors 0x0039AB68, 0x003A5760, 0x003D77F8, 0x005F9190, 0x005F9E90
  * vtable 0x0067F2D0: 9 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceFuelMeter_H
 #define GT4_RaceFuelMeter_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceFuelMeter : public RaceDisplayObjectBase {
+public:
+};
+#else
 struct RaceFuelMeter {
     char pad0[0x14];
     void *unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceFuelMeter__render_main(struct RaceFuelMeter *, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F9190  RaceFuelMeter::~RaceFuelMeter() [high]

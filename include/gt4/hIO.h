@@ -4,12 +4,31 @@
  * type_info 0x0088EAE0, type_info function 0x005EE958, structors 0x002FFD98, 0x002FFDD0
  * vtable 0x00674320: 58 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_hIO_H
 #define GT4_hIO_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class hIO : public hObject {
+public:
+    s32 unk10;
+    virtual s32 read(char *, u32);  /* 49: hFileIO::read(char*, unsigned int) */
+    virtual s32 write(const char *, u32);  /* 50: hFileIO::write(char const*, unsigned int) */
+    virtual s32 status() const;  /* 51: hFileIO::status() const */
+    virtual s32 virtual_52(s32);  /* 52: GT HD hFileIO::source() const: its parameters do not fit GT4's code; parameters from the code */
+    virtual s32 close();  /* 53: hIO::close() */
+    virtual s32 cget();  /* 54: hIO::cget() */
+    virtual s32 cput(s32);  /* 55: hIO::cput(int) */
+    virtual s32 virtual_56(s32);  /* 56: GT HD hIO::sget(): its parameters do not fit GT4's code; parameters from the code */
+    virtual s32 sput(const void *);  /* 57: hIO::sput(std::basic_string<char, std::char_traits<char>, std_allocator<char> > const&) */
+    static s32 GetClassID();  /* 0x002FEC58 */
+};
+#else
 struct hIO {
     s32 unk0;
     union {
@@ -20,6 +39,21 @@ struct hIO {
     s32 unkC;
     s32 unk10;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hIO__rc_class(struct hIO *);
+s32 hIO__rc_size(struct hIO *);
+s32 hIO__GetClassID(void);
+s32 hIO__getClassID(struct hIO *);
+void hIO__close(struct hIO *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002FFDD0  hIO::~hIO() [high]

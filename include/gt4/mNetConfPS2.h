@@ -4,12 +4,32 @@
  * type_info 0x0088E480, type_info function 0x005E35B8, structors 0x002749C8, 0x00274A08, 0x00274A48
  * vtable 0x00667FB8: 104 slots
  * size: not known; the fields seen reach 0x371
+ * C++ (GT4_CXX): size 0x470 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8, 0x50, 0x114, 0x198, 0x1DC, 0x1E0, 0x264
  */
 #ifndef GT4_mNetConfPS2_H
 #define GT4_mNetConfPS2_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mNetConf.h"
+
+class mNetConfPS2 : public mNetConf {
+public:
+    union {
+        void *unk268;
+        s32 unk268_s32;
+    };
+    union {
+        s32 unk26C;
+        void *unk26C_pvoid;
+    };
+    char unk270;
+    char pad271[0xFF];
+    char unk370;
+    char pad371[0xFF];
+};
+#else
 struct mNetConfPS2 {
     s32 unk0;
     union {
@@ -41,6 +61,19 @@ struct mNetConfPS2 {
     char pad271[0xFF];
     char unk370;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mNetConfPS2__virtual_03(struct mNetConfPS2 *);
+s32 mNetConfPS2__virtual_04(struct mNetConfPS2 *);
+s32 mNetConfPS2__virtual_09(struct mNetConfPS2 *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00274A48

@@ -1,0 +1,2418 @@
+{
+ "CameraBase": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "CarDataBase": {
+  "vptr": 12,
+  "vptr_from": "structors"
+ },
+ "CarGeometry": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "CarIconMaker": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "CompatibleModel": {
+  "vptr": 72,
+  "vptr_from": "structors"
+ },
+ "Concourse": {
+  "vptr": 16,
+  "vptr_from": "structors"
+ },
+ "ConcourseCallback": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "DevelopCamera": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "DirectivityMicrophone": {
+  "vptr": 28,
+  "vptr_from": "structors"
+ },
+ "DriverCallback": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "EasyHandleSolver": {
+  "vptr": 76,
+  "vptr_from": "structors"
+ },
+ "EnemyLineProcessorOld": {
+  "vptr": 24,
+  "vptr_from": "structors"
+ },
+ "EngineSound": {
+  "vptr": 28,
+  "vptr_from": "structors"
+ },
+ "ErrorEventView": {
+  "vptr": 24,
+  "vptr_from": "structors"
+ },
+ "EyeToyPS2": {
+  "vptr": 664,
+  "vptr_from": "structors"
+ },
+ "FileInstrumentStream": {
+  "vptr": 32,
+  "vptr_from": "structors"
+ },
+ "FixedHandleSolver": {
+  "vptr": 76,
+  "vptr_from": "structors"
+ },
+ "FreeHandleSolver": {
+  "vptr": 76,
+  "vptr_from": "structors"
+ },
+ "FunctionCompare": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "GTSOUNDINSTRUMENT": {
+  "vptr": 28,
+  "vptr_from": "structors"
+ },
+ "GTSOUNDINSTRUMENTJAM": {
+  "vptr": 28,
+  "vptr_from": "structors"
+ },
+ "HCodeFrame": {
+  "vptr": 0,
+  "vptr_from": "base"
+ },
+ "HFrame": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "HModuleFrame": {
+  "vptr": 0,
+  "vptr_from": "base"
+ },
+ "HTryCatchFrame": {
+  "vptr": 0,
+  "vptr_from": "base"
+ },
+ "HandleSolverBase": {
+  "vptr": 76,
+  "vptr_from": "structors"
+ },
+ "HumanModel": {
+  "vptr": 2012,
+  "vptr_from": "structors"
+ },
+ "IfRootEvent": {
+  "vptr": 0,
+  "vptr_from": "base"
+ },
+ "IfScriptEvent": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "IfWidget": {
+  "vptr": 0,
+  "vptr_from": "base"
+ },
+ "Ipic": {
+  "vptr": 24,
+  "vptr_from": "structors"
+ },
+ "IpicArchive": {
+  "vptr": 12,
+  "vptr_from": "structors"
+ },
+ "LicenseConcourse": {
+  "vptr": 16,
+  "vptr_from": "structors"
+ },
+ "MAction": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "MColorReader": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "MEventFilter": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "MModel": {
+  "vptr": 72,
+  "vptr_from": "structors"
+ },
+ "MReaderBase": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "MRectangleReader": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "MRegionReader": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "MTRGeometry": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "MVector3Reader": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "MVectorReader": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "MWidgetReader": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "MboolReader": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "MenuControl": {
+  "vptr": 208,
+  "vptr_from": "structors"
+ },
+ "MfloatReader": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "MintReader": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "MstringReader": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "NormalCarGeometry": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "PGLXshapeBuilder": {
+  "vptr": 2444,
+  "vptr_from": "structors"
+ },
+ "ParticleManager": {
+  "vptr": 940,
+  "vptr_from": "structors"
+ },
+ "PauseBase": {
+  "vptr": 8,
+  "vptr_from": "structors"
+ },
+ "PhotoModeInput": {
+  "vptr": 208,
+  "vptr_from": "structors"
+ },
+ "PhotoPause": {
+  "vptr": 8,
+  "vptr_from": "structors"
+ },
+ "PitmanCallback": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "PitmenData": {
+  "vptr": 108,
+  "vptr_from": "structors"
+ },
+ "PropNameSearcher": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "RaceABMonitor": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceArcade": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceArcadeDemo": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceArcadeDemoInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceArcadeInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceArcadeSingle": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceBGMBase": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RaceBGMPS2": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RaceBarMeter": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceBase": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceBasic": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceBasicWithRaceDisplay": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceBattleTachometer": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceBoostmeter": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceCapacityMonitor": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceCarIconDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceCarModel": {
+  "vptr": 8,
+  "vptr_from": "structors"
+ },
+ "RaceChampionship": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceChampionshipInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceCountDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceCourse": {
+  "vptr": 184,
+  "vptr_from": "structors"
+ },
+ "RaceCrewModel": {
+  "vptr": 2012,
+  "vptr_from": "structors"
+ },
+ "RaceDigitalSpeedmeter": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceDisplay": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "RaceDisplayCheckPointEvent": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RaceDisplayDiffEvent": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RaceDisplayEventBase": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RaceDisplayGeneralTimeEvent": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RaceDisplayInformationEvent": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RaceDisplayLapDiffEvent": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RaceDisplayLapTimeEvent": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RaceDisplayMessageEvent": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RaceDisplayObjectBase": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceDisplaySpeedEvent": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RaceDisplayTimeDiffEvent": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RaceDriverModel": {
+  "vptr": 2012,
+  "vptr_from": "structors"
+ },
+ "RaceEntryBase": {
+  "vptr": 32,
+  "vptr_from": "structors"
+ },
+ "RaceEntryCar": {
+  "vptr": 13772,
+  "vptr_from": "structors"
+ },
+ "RaceEntryInformation": {
+  "vptr": 380,
+  "vptr_from": "structors"
+ },
+ "RaceEventDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceEventQueue": {
+  "vptr": 2088,
+  "vptr_from": "structors"
+ },
+ "RaceFreePractice": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceFreeRun": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceFreeRunInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceFuelMeter": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceGTmode": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceGTmodeInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceGasConsumptionDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceGasMileageDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceIndicator": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceInput": {
+  "vptr": 208,
+  "vptr_from": "structors"
+ },
+ "RaceInputLan": {
+  "vptr": 208,
+  "vptr_from": "structors"
+ },
+ "RaceLanBattle": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceLanBattleInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceLanControlManager": {
+  "vptr": 60,
+  "vptr_from": "structors"
+ },
+ "RaceLapDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceLapTime": {
+  "vptr": 4020,
+  "vptr_from": "structors"
+ },
+ "RaceLapTimesDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceLicense": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceLicenseBGM": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RaceLicenseDisplay": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "RaceMTRGravityMeter": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceMTRMeter": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceMTRMeterPanel": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceMTRMultiFunctionDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceMTRSpeedMeterPanel": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceMachineTest": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceMachineTestInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceMessageDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceMeterBase": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceMiniMap": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceMission": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceMusicDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceNetBattle": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceNetBattleInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceNetRallyBattle": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceNetRallyBattleInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceNetSinglePlayer": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceNetSinglePlayerInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceOdometer": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceOnboardPanel": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceOnboardSpeedmeter": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceOnboardTachometer": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RacePS2Base": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RacePanel": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RacePause": {
+  "vptr": 8,
+  "vptr_from": "structors"
+ },
+ "RacePhotoDevelop": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RacePhotoMode": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RacePhotoModeCameraManager": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "RacePriusHybridDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RacePriusPanel": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceRankDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceRefuelMeter": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceReplayInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceReplayModeDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceResultBase": {
+  "vptr": 12,
+  "vptr_from": "structors"
+ },
+ "RaceRichCountDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceRoundMeterBase": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceRoundTachometerBase": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceShiftPositionDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceShiftTimingLampDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceSideGravityMeter": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceSimpleBarMeter": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceSimplePanel": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceSinglePlayer": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceSinglePlayerInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceSolitaire": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceSolitaireEntry": {
+  "vptr": 32,
+  "vptr_from": "structors"
+ },
+ "RaceSolitaireInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceSpeedDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceSplitBattle": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceSplitBattleBase": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceSplitBattleInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceSplitDisplay": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "RaceSplitDisplayBase": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "RaceSteeringDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceSuggestedGearDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceTexturePanel": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceTimeDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceTireWearDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceTooltipDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceTraining": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceTrainingBase": {
+  "vptr": 100,
+  "vptr_from": "structors"
+ },
+ "RaceTrainingInformation": {
+  "vptr": 300,
+  "vptr_from": "structors"
+ },
+ "RaceValueDisplay": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RaceValueDisplayBase": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "RebuildPropagate": {
+  "vptr": 0,
+  "vptr_from": "base"
+ },
+ "RefCounter": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "RelocatorBase": {
+  "vptr": 16,
+  "vptr_from": "structors"
+ },
+ "ResultArcade": {
+  "vptr": 12,
+  "vptr_from": "structors"
+ },
+ "ResultChampionship": {
+  "vptr": 12,
+  "vptr_from": "structors"
+ },
+ "ResultLicense": {
+  "vptr": 12,
+  "vptr_from": "structors"
+ },
+ "ResultLinkBattle": {
+  "vptr": 12,
+  "vptr_from": "structors"
+ },
+ "RigidBodyManager": {
+  "vptr": 20,
+  "vptr_from": "structors"
+ },
+ "SceneCameraBase": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "SettingSerialize": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "ShowRoomCar": {
+  "vptr": 8,
+  "vptr_from": "structors"
+ },
+ "SimplePause": {
+  "vptr": 8,
+  "vptr_from": "structors"
+ },
+ "SingleHandedHandleSolver": {
+  "vptr": 76,
+  "vptr_from": "structors"
+ },
+ "VehicleModel": {
+  "vptr": 8,
+  "vptr_from": "structors"
+ },
+ "_UnitArenaBase": {
+  "vptr": 24,
+  "vptr_from": "structors"
+ },
+ "__array_type_info": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "__attr_type_info": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "__builtin_type_info": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "__class_type_info": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "__func_type_info": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "__pointer_type_info": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "__ptmd_type_info": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "__ptmf_type_info": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "__si_type_info": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "__user_type_info": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ },
+ "bad_alloc": {
+  "vptr": 0,
+  "vptr_from": "base"
+ },
+ "bad_cast": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "bad_exception": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "bad_typeid": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "exception": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "filebuf": {
+  "vptr": 80,
+  "vptr_from": "structors"
+ },
+ "fpool": {
+  "vptr": 28,
+  "vptr_from": "structors"
+ },
+ "hADHOC": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 120,
+  "size_from": "rc_size"
+ },
+ "hArray": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 36,
+  "size_from": "rc_size"
+ },
+ "hArrayCompare": {
+  "vptr": 0,
+  "vptr_from": "structors"
+ },
+ "hArrayElement": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 24,
+  "size_from": "rc_size"
+ },
+ "hAttribute": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "hBuiltinAttribute": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "hBuiltinFunction": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "hBuiltinMethod": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "hBuiltinStatic": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "hClass": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 56,
+  "size_from": "rc_size"
+ },
+ "hCode": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 60,
+  "size_from": "rc_size"
+ },
+ "hException": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "hFileIO": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 252,
+  "size_from": "rc_size"
+ },
+ "hFloat": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "hFunctionObject": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "hFunctionValue": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "hIO": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "hInst": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 8,
+  "size_from": "rc_size"
+ },
+ "hInt": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "hLocalVariable": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 24,
+  "size_from": "rc_size"
+ },
+ "hMethodObject": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 24,
+  "size_from": "rc_size"
+ },
+ "hMethodValue": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "hModule": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 44,
+  "size_from": "rc_size"
+ },
+ "hModuleVariable": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 28,
+  "size_from": "rc_size"
+ },
+ "hNil": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "hNumeric": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "hObject": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "hScriptFunction": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "hScriptMethod": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "hStaticValue": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "hString": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "hThread": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 76,
+  "size_from": "rc_size"
+ },
+ "hThreadGroup": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 28,
+  "size_from": "rc_size"
+ },
+ "hValue": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "hVariable": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mActivateEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mActor": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mAnchorActor": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 40,
+  "size_from": "rc_size"
+ },
+ "mArrayPush": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mAssign": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 8,
+  "size_from": "rc_size"
+ },
+ "mAttributeDefine": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mAttributePush": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mBinaryAssignOperator": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mBinaryOperator": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mBlinkActor": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 64,
+  "size_from": "rc_size"
+ },
+ "mBlob": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 24,
+  "size_from": "rc_size"
+ },
+ "mBlockTransition": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 60,
+  "size_from": "rc_size"
+ },
+ "mBlurFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 172,
+  "size_from": "rc_size"
+ },
+ "mBox": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 192,
+  "size_from": "rc_size"
+ },
+ "mButton": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 180,
+  "size_from": "rc_size"
+ },
+ "mButtonActor": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 68,
+  "size_from": "rc_size"
+ },
+ "mButtonEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 48,
+  "size_from": "rc_size"
+ },
+ "mButtonPressEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 48,
+  "size_from": "rc_size"
+ },
+ "mButtonReleaseEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 48,
+  "size_from": "rc_size"
+ },
+ "mCalendar": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mCall": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mCallbackEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 36,
+  "size_from": "rc_size"
+ },
+ "mCancelEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mCarData": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mCarFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 700,
+  "size_from": "rc_size"
+ },
+ "mCarGarage": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 400,
+  "size_from": "rc_size"
+ },
+ "mCarModel": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 156,
+  "size_from": "rc_size"
+ },
+ "mCarModelPS2": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 2656,
+  "size_from": "rc_size"
+ },
+ "mChaseActor": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 52,
+  "size_from": "rc_size"
+ },
+ "mClassDefine": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mColorChipFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 220,
+  "size_from": "rc_size"
+ },
+ "mColorFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 184,
+  "size_from": "rc_size"
+ },
+ "mColorObject": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mColorTransition": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 56,
+  "size_from": "rc_size"
+ },
+ "mColorWindow": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 256,
+  "size_from": "rc_size"
+ },
+ "mComm": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 36,
+  "size_from": "rc_size"
+ },
+ "mComposite": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 176,
+  "size_from": "rc_size"
+ },
+ "mCourseData": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mCourseRecord": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mCourseRecordUnit": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mCrossTransition": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 64,
+  "size_from": "rc_size"
+ },
+ "mCrossingEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mDBox": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 208,
+  "size_from": "rc_size"
+ },
+ "mData": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 8,
+  "size_from": "rc_size"
+ },
+ "mDatabase": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mDefine": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mDemonstration": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mDnas": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 56,
+  "size_from": "rc_size"
+ },
+ "mDnasInst": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 28,
+  "size_from": "rc_size"
+ },
+ "mDomNode": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 52,
+  "size_from": "rc_size"
+ },
+ "mDomNodeList": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mEnterEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mEval": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 8,
+  "size_from": "rc_size"
+ },
+ "mEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mEyetoy": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mEyetoyFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 172,
+  "size_from": "rc_size"
+ },
+ "mEyetoyFacePS2": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 172,
+  "size_from": "allocation, 1 site"
+ },
+ "mEyetoyImageProcessor": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mEyetoyPS2": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "allocation, 1 site"
+ },
+ "mFBox": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 192,
+  "size_from": "rc_size"
+ },
+ "mFadeActor": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 64,
+  "size_from": "rc_size"
+ },
+ "mFavorite": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mFinalizeEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mFlash": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mFlashFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 184,
+  "size_from": "rc_size"
+ },
+ "mFlashPS2": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mFloatConst": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mFocusEnterEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mFocusLeaveEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mFrameImageFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 312,
+  "size_from": "rc_size"
+ },
+ "mFunctionDefine": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mFunctionEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 52,
+  "size_from": "rc_size"
+ },
+ "mGTShirt": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mGTShirtPS2": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 812,
+  "size_from": "allocation, 1 site"
+ },
+ "mGame": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 24,
+  "size_from": "rc_size"
+ },
+ "mGameInputAnalog": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 84,
+  "size_from": "rc_size"
+ },
+ "mGameInputButton": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 52,
+  "size_from": "rc_size"
+ },
+ "mGameInputData": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 196,
+  "size_from": "rc_size"
+ },
+ "mGamePort": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 200,
+  "size_from": "rc_size"
+ },
+ "mGameStats": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 272,
+  "size_from": "rc_size"
+ },
+ "mGarage": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mGpb": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 24,
+  "size_from": "rc_size"
+ },
+ "mGraphFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 2244,
+  "size_from": "rc_size"
+ },
+ "mHBox": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 208,
+  "size_from": "rc_size"
+ },
+ "mHttp": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 272,
+  "size_from": "rc_size"
+ },
+ "mImage": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 8,
+  "size_from": "rc_size"
+ },
+ "mImageFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 240,
+  "size_from": "rc_size"
+ },
+ "mImagePS2": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 36,
+  "size_from": "rc_size"
+ },
+ "mImport": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 28,
+  "size_from": "rc_size"
+ },
+ "mInputNumberFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 292,
+  "size_from": "rc_size"
+ },
+ "mInputTextFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 3568,
+  "size_from": "rc_size"
+ },
+ "mIntConst": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mJump": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mJumpNotZero": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mJumpZero": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mKeyEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 48,
+  "size_from": "rc_size"
+ },
+ "mKeyPressEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 52,
+  "size_from": "rc_size"
+ },
+ "mKeyReleaseEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 48,
+  "size_from": "rc_size"
+ },
+ "mKeyboardBox": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 180,
+  "size_from": "rc_size"
+ },
+ "mKeytopBox": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 180,
+  "size_from": "rc_size"
+ },
+ "mLeaveEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mLicenseRecord": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mLicenseRecordUnit": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mListAssign": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mListBox": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 344,
+  "size_from": "rc_size"
+ },
+ "mListItem": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mLocalDefine": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mLocale": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mLocalizedText": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mLoggerControl": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 784,
+  "size_from": "rc_size"
+ },
+ "mLoggerFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 176,
+  "size_from": "rc_size"
+ },
+ "mLogicalAnd": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mLogicalOr": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mMBox": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 204,
+  "size_from": "rc_size"
+ },
+ "mMCFileActor": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 128,
+  "size_from": "rc_size"
+ },
+ "mMagnifyActor": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 56,
+  "size_from": "rc_size"
+ },
+ "mManager": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 48,
+  "size_from": "rc_size"
+ },
+ "mMemoryCardFile": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 24,
+  "size_from": "rc_size"
+ },
+ "mMemoryCardManager": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 52,
+  "size_from": "rc_size"
+ },
+ "mMemoryCardPlayList": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 28,
+  "size_from": "rc_size"
+ },
+ "mMemorycardProgress": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mMethodDefine": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mModelFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 780,
+  "size_from": "rc_size"
+ },
+ "mModelMotion": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 36,
+  "size_from": "rc_size"
+ },
+ "mModelSet": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 8,
+  "size_from": "rc_size"
+ },
+ "mModelSetPS2": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mModelStream": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 44,
+  "size_from": "rc_size"
+ },
+ "mModuleDefine": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 28,
+  "size_from": "rc_size"
+ },
+ "mMotionEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 40,
+  "size_from": "rc_size"
+ },
+ "mMoveActor": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 100,
+  "size_from": "rc_size"
+ },
+ "mMovie": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 8,
+  "size_from": "rc_size"
+ },
+ "mMovieFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 352,
+  "size_from": "rc_size"
+ },
+ "mMoviePS2": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mMusic": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 36,
+  "size_from": "rc_size"
+ },
+ "mNetConf": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 616,
+  "size_from": "rc_size"
+ },
+ "mNetConfPS2": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 1136,
+  "size_from": "rc_size"
+ },
+ "mNetwork": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 508,
+  "size_from": "rc_size"
+ },
+ "mNilConst": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 8,
+  "size_from": "rc_size"
+ },
+ "mNop": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mOSKeyboard": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 104,
+  "size_from": "rc_size"
+ },
+ "mOption": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 5840,
+  "size_from": "rc_size"
+ },
+ "mOptionMenu": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 288,
+  "size_from": "rc_size"
+ },
+ "mPhotoMapWindow": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 356,
+  "size_from": "rc_size"
+ },
+ "mPhotoRenderFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 256,
+  "size_from": "rc_size"
+ },
+ "mPhotoViewFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 160,
+  "size_from": "rc_size"
+ },
+ "mPipe": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 336,
+  "size_from": "rc_size"
+ },
+ "mPlayList": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mPlayerStats": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 272,
+  "size_from": "rc_size"
+ },
+ "mPop": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 8,
+  "size_from": "rc_size"
+ },
+ "mPresent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mPrint": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mProgress": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 44,
+  "size_from": "rc_size"
+ },
+ "mProgressFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 256,
+  "size_from": "rc_size"
+ },
+ "mProject": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 184,
+  "size_from": "rc_size"
+ },
+ "mQuickWork": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mRaceCourseMapFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 200,
+  "size_from": "rc_size"
+ },
+ "mRaceCourseMapFacePS2": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 232,
+  "size_from": "allocation, 1 site"
+ },
+ "mRaceData": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 192,
+  "size_from": "rc_size"
+ },
+ "mRaceRecord": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mRaceRecordUnit": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mRandom": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mRenderContext": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 7516,
+  "size_from": "rc_size"
+ },
+ "mRenderContextPS2": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 7596,
+  "size_from": "rc_size"
+ },
+ "mRequire": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 8,
+  "size_from": "rc_size"
+ },
+ "mRootWindow": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 240,
+  "size_from": "rc_size"
+ },
+ "mRotateActor": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 64,
+  "size_from": "rc_size"
+ },
+ "mRunViewer": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mScaleBar": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 264,
+  "size_from": "rc_size"
+ },
+ "mSceneViewFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 192,
+  "size_from": "rc_size"
+ },
+ "mScriptEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 40,
+  "size_from": "rc_size"
+ },
+ "mScriptWatcher": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 40,
+  "size_from": "rc_size"
+ },
+ "mScrollArrow": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 188,
+  "size_from": "rc_size"
+ },
+ "mScrollBase": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 184,
+  "size_from": "rc_size"
+ },
+ "mScrollBox": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 192,
+  "size_from": "rc_size"
+ },
+ "mScrollPinch": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 188,
+  "size_from": "rc_size"
+ },
+ "mScrollWindow": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 308,
+  "size_from": "rc_size"
+ },
+ "mScrollable": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 188,
+  "size_from": "rc_size"
+ },
+ "mSelectBar": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 248,
+  "size_from": "rc_size"
+ },
+ "mSelectBox": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 252,
+  "size_from": "rc_size"
+ },
+ "mSession": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mSetState": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mShell": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mSlideShowFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 8020,
+  "size_from": "rc_size"
+ },
+ "mSliderBar": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 272,
+  "size_from": "rc_size"
+ },
+ "mSound": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 24,
+  "size_from": "rc_size"
+ },
+ "mStaticDefine": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mStorage": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mStorageEntry": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 184,
+  "size_from": "rc_size"
+ },
+ "mStorageHD": {
+  "vptr": 4,
+  "vptr_from": "base",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mStorageMC": {
+  "vptr": 4,
+  "vptr_from": "base",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mStream": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 40,
+  "size_from": "rc_size"
+ },
+ "mStringConst": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mStringPush": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mSwitchActor": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 68,
+  "size_from": "rc_size"
+ },
+ "mSystem": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mTextActor": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 36,
+  "size_from": "rc_size"
+ },
+ "mTextBoxFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 968,
+  "size_from": "rc_size"
+ },
+ "mTextFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 288,
+  "size_from": "rc_size"
+ },
+ "mThrow": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 8,
+  "size_from": "rc_size"
+ },
+ "mToolTipFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 340,
+  "size_from": "rc_size"
+ },
+ "mTransform": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 52,
+  "size_from": "rc_size"
+ },
+ "mTransition": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mTryCatch": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 12,
+  "size_from": "rc_size"
+ },
+ "mUnaryAssignOperator": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mUnaryOperator": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mUndef": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 24,
+  "size_from": "rc_size"
+ },
+ "mUnit": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mUpdateContext": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 300,
+  "size_from": "rc_size"
+ },
+ "mUpdateContextPS2": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 1076,
+  "size_from": "rc_size"
+ },
+ "mUsedCar": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 20,
+  "size_from": "rc_size"
+ },
+ "mUtility": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 16,
+  "size_from": "rc_size"
+ },
+ "mVBox": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 208,
+  "size_from": "rc_size"
+ },
+ "mVariablePush": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 28,
+  "size_from": "rc_size"
+ },
+ "mVirtualFace": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 168,
+  "size_from": "rc_size"
+ },
+ "mWatcher": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 28,
+  "size_from": "rc_size"
+ },
+ "mWidget": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 160,
+  "size_from": "rc_size"
+ },
+ "mWindowContext": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 52,
+  "size_from": "rc_size"
+ },
+ "mWindowContextPS2": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 52,
+  "size_from": "rc_size"
+ },
+ "mWindowEvent": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 32,
+  "size_from": "rc_size"
+ },
+ "mXml": {
+  "vptr": 4,
+  "vptr_from": "structors",
+  "size": 1072,
+  "size_from": "rc_size"
+ },
+ "mpegif": {
+  "vptr": 1032,
+  "vptr_from": "structors"
+ },
+ "rbuf": {
+  "vptr": 64,
+  "vptr_from": "structors"
+ },
+ "stdiobuf": {
+  "vptr": 80,
+  "vptr_from": "structors"
+ },
+ "streambuf": {
+  "vptr": 80,
+  "vptr_from": "structors"
+ },
+ "type_info": {
+  "vptr": 4,
+  "vptr_from": "structors"
+ }
+}

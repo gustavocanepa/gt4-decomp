@@ -4,12 +4,21 @@
  * type_info 0x0088DFE0, type_info function 0x005D4B20, structors 0x001DC7D8, 0x001DC860
  * vtable 0x00662338: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x1FC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mNetwork_H
 #define GT4_mNetwork_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mNetwork : public hObject {
+public:
+    char pad10[0x1EC];
+};
+#else
 struct mNetwork {
     s32 unk0;
     union {
@@ -19,6 +28,19 @@ struct mNetwork {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mNetwork__virtual_03(struct mNetwork *);
+s32 mNetwork__virtual_04(struct mNetwork *);
+s32 mNetwork__virtual_09(struct mNetwork *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001DC860

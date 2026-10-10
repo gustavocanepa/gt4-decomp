@@ -4,16 +4,46 @@
  * type_info 0x0088F660, type_info function 0x005F8408, structors 0x0039AB68, 0x003A49A0, 0x003ADDF8, 0x005F83A0, 0x005FA5B0
  * vtable 0x0067F848: 10 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceMessageDisplay_H
 #define GT4_RaceMessageDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceMessageDisplay : public RaceDisplayObjectBase {
+public:
+    virtual f32 update(f32);  /* 9: RaceMessageDisplay::update(float) */
+    void setMessage(const char *, f32, f32);  /* 0x003A4CF0 */
+    void setFont(const char *, s32);  /* 0x003A4D80 */
+    void clear();  /* 0x003A4DA0 */
+    s32 show(f32, f32);  /* 0x003A4E00 */
+    void fadeout(f32);  /* 0x003A4E48 */
+};
+#else
 struct RaceMessageDisplay {
     char pad0[0x14];
     void *unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceMessageDisplay__render_main(struct RaceMessageDisplay *);
+void RaceMessageDisplay__setMessage(struct RaceMessageDisplay *, const char *, f32, f32);
+void RaceMessageDisplay__setFont(struct RaceMessageDisplay *, const char *, s32);
+void RaceMessageDisplay__clear(struct RaceMessageDisplay *);
+s32 RaceMessageDisplay__show(struct RaceMessageDisplay *, f32, f32);
+void RaceMessageDisplay__fadeout(struct RaceMessageDisplay *, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F83A0  RaceMessageDisplay::~RaceMessageDisplay() [high]

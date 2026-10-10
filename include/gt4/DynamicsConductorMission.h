@@ -26,6 +26,32 @@ struct DynamicsConductorMission {
     };
 };
 
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 DynamicsConductorMission__GetNumberOfSplits(struct DynamicsConductorMission *);
+f32 DynamicsConductorMission__GetCheckPointVabs(struct DynamicsConductorMission *, s32);
+s32 DynamicsConductorMission__ReportTimeDifference(struct DynamicsConductorMission *);
+s32 DynamicsConductorMission__ProcessLap0ControlLine(struct DynamicsConductorMission *, s32, f32, u32, u32);
+s32 DynamicsConductorMission__CurrentLapTime(struct DynamicsConductorMission *, void *);
+s32 DynamicsConductorMission__RunTimeJudgement(struct DynamicsConductorMission *, s32, s32);
+s32 DynamicsConductorMission__getCrashability(struct DynamicsConductorMission *);
+s32 DynamicsConductorMission__issueCrashEvent(struct DynamicsConductorMission *, void *, s32, s32, f32);
+s32 DynamicsConductorTraining__isDataLoggerSupported(struct DynamicsConductorMission *);
+void DynamicsConductorTraining__SetupGlobalStatusPre(struct DynamicsConductorMission *, s32);
+void DynamicsConductorTraining__getEachEntrantInfo(struct DynamicsConductorMission *, s32, s32 *, s32 *, s32 *, s32 *);
+s32 DynamicsConductorTraining__getStartPosition(struct DynamicsConductorMission *, s32);
+s32 DynamicsConductorTraining__getLaunchSpeed(struct DynamicsConductorMission *, s32);
+s32 DynamicsConductorTraining__SetSlowCarBoostParameters(struct DynamicsConductorMission *, void *);
+s32 DynamicsConductorTraining__getSlowCarBoostType(struct DynamicsConductorMission *);
+s32 DynamicsConductorTraining__processCollision(struct DynamicsConductorMission *);
+s32 DynamicsConductorTraining__IssuePassingGate(struct DynamicsConductorMission *, s32, s32, s32, u32, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
+
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003F6E30  DynamicsConductorMission::ReportTimeDifference() [high]
  *   1: 0x00365D80

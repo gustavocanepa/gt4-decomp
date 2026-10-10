@@ -4,12 +4,26 @@
  * type_info 0x0088E0E0, type_info function 0x005DA090, structors 0x00215A80, 0x00215AF8
  * vtable 0x00663BE0: 77 slots
  * size: not known; the fields seen reach 0x1DAC
+ * C++ (GT4_CXX): size 0x1DAC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mRenderContextPS2_H
 #define GT4_mRenderContextPS2_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mRenderContext.h"
+
+class mRenderContextPS2 : public mRenderContext {
+public:
+    char pad1D5C[0x40];
+    s32 unk1D9C;
+    char pad1DA0[0x4];
+    s32 unk1DA4;
+    s32 unk1DA8;
+    static s32 GetClassID();  /* 0x002157E8 */
+};
+#else
 struct mRenderContextPS2 {
     s32 unk0;
     union {
@@ -24,6 +38,22 @@ struct mRenderContextPS2 {
     s32 unk1DA4;
     s32 unk1DA8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mRenderContextPS2__rc_class(struct mRenderContextPS2 *);
+s32 mRenderContextPS2__rc_size(struct mRenderContextPS2 *);
+s32 mRenderContextPS2__GetClassID(void);
+s32 mRenderContextPS2__getClassID(struct mRenderContextPS2 *);
+s32 mRenderContextPS2__magnifyScreen(struct mRenderContextPS2 *, f32, f32, f32, f32, u32);
+s32 mRenderContextPS2__shotScreen(struct mRenderContextPS2 *, const char *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00215AF8  mRenderContextPS3::~mRenderContextPS3() [high]

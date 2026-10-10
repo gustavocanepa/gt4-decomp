@@ -4,12 +4,23 @@
  * type_info 0x0088E4D0, type_info function 0x005E40D0, structors 0x0027A4D0, 0x0027A558
  * vtable 0x00668A38: 57 slots
  * size: not known; the fields seen reach 0x20
+ * C++ (GT4_CXX): size 0x3C (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mBlockTransition_H
 #define GT4_mBlockTransition_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mTransition.h"
+
+class mBlockTransition : public mTransition {
+public:
+    char pad20[0x1C];
+    static s32 GetClassID();  /* 0x0027A498 */
+    s32 initialize_blocks();  /* 0x0027AEE0 */
+};
+#else
 struct mBlockTransition {
     s32 unk0;
     union {
@@ -26,6 +37,24 @@ struct mBlockTransition {
     };
     void *unk1C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mBlockTransition__rc_class(struct mBlockTransition *);
+s32 mBlockTransition__rc_size(struct mBlockTransition *);
+s32 mBlockTransition__GetClassID(void);
+s32 mBlockTransition__getClassID(struct mBlockTransition *);
+s32 mBlockTransition__initialize_blocks(struct mBlockTransition *);
+s32 mBlockTransition__panOut(struct mBlockTransition *, struct mRenderContext *);
+s32 mBlockTransition__panOutIn(struct mBlockTransition *, struct mRenderContext *);
+s32 mBlockTransition__end(struct mBlockTransition *, struct mRenderContext *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0027A558  mBlockTransition::~mBlockTransition() [high]

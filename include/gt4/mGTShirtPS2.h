@@ -4,12 +4,36 @@
  * type_info 0x0088DE20, type_info function 0x005D09A0, structors 0x001C2928, 0x001C2D40
  * vtable 0x00660A18: 77 slots
  * size: not known; the fields seen reach 0x2B0
+ * C++ (GT4_CXX): size 0x32C (allocation, 1 site), vptr at 0x4
  */
 #ifndef GT4_mGTShirtPS2_H
 #define GT4_mGTShirtPS2_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mGTShirt.h"
+
+class mGTShirtPS2 : public mGTShirt {
+public:
+    char pad10[0x22C];
+    s32 unk23C;
+    s32 unk240;
+    char pad244[0x4];
+    f32 unk248;
+    f32 unk24C;
+    char pad250[0xC];
+    s32 unk25C;
+    char pad260[0x18];
+    s32 unk278;
+    s32 unk27C;
+    s32 unk280;
+    s32 unk284;
+    char pad288[0x24];
+    s32 unk2AC;
+    char pad2B0[0x7C];
+};
+#else
 struct mGTShirtPS2 {
     s32 unk0;
     union {
@@ -34,6 +58,42 @@ struct mGTShirtPS2 {
     char pad288[0x24];
     s32 unk2AC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mGTShirtPS2__virtual_55(struct mGTShirtPS2 *);
+s32 mGTShirtPS2__virtual_56(struct mGTShirtPS2 *);
+s32 mGTShirtPS2__virtual_57(struct mGTShirtPS2 *, s32);
+s32 mGTShirtPS2__virtual_58(struct mGTShirtPS2 *);
+void mGTShirtPS2__virtual_59(struct mGTShirtPS2 *, s32);
+f32 mGTShirtPS2__virtual_60(struct mGTShirtPS2 *);
+s32 mGTShirtPS2__virtual_61(struct mGTShirtPS2 *, f32);
+f32 mGTShirtPS2__virtual_62(struct mGTShirtPS2 *);
+s32 mGTShirtPS2__virtual_63(struct mGTShirtPS2 *, f32);
+f32 mGTShirtPS2__virtual_64(struct mGTShirtPS2 *);
+s32 mGTShirtPS2__virtual_65(struct mGTShirtPS2 *, f32);
+f32 mGTShirtPS2__virtual_66(struct mGTShirtPS2 *);
+s32 mGTShirtPS2__virtual_67(struct mGTShirtPS2 *, f32);
+f32 mGTShirtPS2__virtual_68(struct mGTShirtPS2 *, f32);
+f32 mGTShirtPS2__virtual_69(struct mGTShirtPS2 *, f32);
+void mGTShirtPS2__virtual_70(struct mGTShirtPS2 *, s32);
+s32 mGTShirtPS2__virtual_71(struct mGTShirtPS2 *, const struct HObject *);
+s32 mGTShirtPS2__virtual_72(struct mGTShirtPS2 *);
+void mGTShirtPS2__virtual_73(struct mGTShirtPS2 *, s32);
+s32 mGTShirtPS2__virtual_74(struct mGTShirtPS2 *);
+s32 mGTShirtPS2__virtual_75(struct mGTShirtPS2 *);
+void mGTShirtPS2__virtual_76(struct mGTShirtPS2 *, s32);
+s32 mGTShirtPS2__virtual_52(struct mGTShirtPS2 *, struct mRenderContext *, f32, f32, s32);
+s32 mGTShirtPS2__virtual_51(struct mGTShirtPS2 *, struct mRenderContext *, struct mWidget *);
+s32 mGTShirtPS2__virtual_53(struct mGTShirtPS2 *, void *);
+s32 mGTShirtPS2__virtual_54(struct mGTShirtPS2 *, s32 *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001C2D40

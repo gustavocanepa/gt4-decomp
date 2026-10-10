@@ -4,12 +4,28 @@
  * type_info 0x0088E630, type_info function 0x005E5A98, structors 0x002910A0, 0x002910D8
  * vtable 0x0066B418: 15 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mFlash_H
 #define GT4_mFlash_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mData.h"
+
+class mFlash : public mData {
+public:
+    s32 unk8;
+    virtual s32 virtual_8();  /* 8: parameters from the code */
+    virtual void virtual_9();  /* 9: parameters from the code */
+    virtual s32 virtual_10();  /* 10: parameters from the code */
+    virtual s32 virtual_11(f32);  /* 11: parameters from the code */
+    virtual s32 virtual_12();  /* 12: parameters from the code */
+    virtual s32 virtual_13(s32, f32, f32, f32);  /* 13: parameters from the code */
+    virtual f32 virtual_14();  /* 14: parameters from the code */
+};
+#else
 struct mFlash {
     s32 unk0;
     union {
@@ -18,6 +34,18 @@ struct mFlash {
     };
     s32 unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mFlash__rc_class(struct mFlash *);
+s32 mFlash__rc_size(struct mFlash *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002910D8  mFlash::~mFlash() [high]

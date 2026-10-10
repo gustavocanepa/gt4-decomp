@@ -4,12 +4,53 @@
  * type_info 0x0088E220, type_info function 0x005DB1D0, structors 0x0022ADF8, 0x0022B0A0
  * vtable 0x00665160: 77 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x1D5C (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mRenderContext_H
 #define GT4_mRenderContext_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class mRootWindow;
+
+class mRenderContext : public hObject {
+public:
+    char pad10[0x1D4C];
+    virtual s32 virtual_49();  /* 49: parameters from the code */
+    virtual s32 virtual_50(s32);  /* 50: parameters from the code */
+    virtual s32 virtual_51(f32, f32, f32, f32);  /* 51: parameters from the code */
+    virtual s32 virtual_52(f32, f32, f32, f32);  /* 52: parameters from the code */
+    virtual s32 virtual_53(s32, s32, s32, s32);  /* 53: parameters from the code */
+    virtual s32 virtual_54(s32, s32, s32, s32);  /* 54: parameters from the code */
+    virtual s32 virtual_55(s32);  /* 55: parameters from the code */
+    virtual s32 virtual_56();  /* 56: parameters from the code */
+    virtual s32 virtual_57();  /* 57: parameters from the code */
+    virtual void virtual_58();  /* 58: parameters from the code */
+    virtual s32 virtual_59();  /* 59: parameters from the code */
+    virtual s32 virtual_60();  /* 60: parameters from the code */
+    virtual s32 virtual_61(s32);  /* 61: parameters from the code */
+    virtual f32 virtual_62(s32, s32);  /* 62: parameters from the code */
+    virtual s32 virtual_63(s32, s32);  /* 63: parameters from the code */
+    virtual s32 virtual_64(s32, s32);  /* 64: parameters from the code */
+    virtual s32 virtual_65(s32);  /* 65: parameters from the code */
+    virtual s32 virtual_66(s32, f32);  /* 66: parameters from the code */
+    virtual s32 virtual_67(s32, f32);  /* 67: parameters from the code */
+    virtual s32 virtual_68();  /* 68: parameters from the code */
+    virtual s32 virtual_69();  /* 69: parameters from the code */
+    virtual s32 virtual_70();  /* 70: parameters from the code */
+    virtual s32 virtual_71();  /* 71: parameters from the code */
+    virtual s32 virtual_72();  /* 72: parameters from the code */
+    virtual s32 magnifyScreen(f32, f32, f32, f32, u32);  /* 73: mRenderContext::magnifyScreen(float, float, float, float, unsigned int) */
+    virtual s32 shotScreen(const char *);  /* 74: mRenderContextPS3::shotScreen(char const*) */
+    virtual s32 virtual_75(s32, s32, s32, f32);  /* 75: parameters from the code */
+    virtual s32 virtual_76(s32, s32, s32, f32);  /* 76: parameters from the code */
+    static s32 GetClassID();  /* 0x0022AC60 */
+    void closePage(mRootWindow *);  /* 0x0022FA08 */
+    void closeOSKeyboard();  /* 0x002321D0 */
+};
+#else
 struct mRenderContext {
     s32 unk0;
     union {
@@ -19,6 +60,23 @@ struct mRenderContext {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mRenderContext__rc_class(struct mRenderContext *);
+s32 mRenderContext__rc_size(struct mRenderContext *);
+s32 mRenderContext__GetClassID(void);
+s32 mRenderContext__getClassID(struct mRenderContext *);
+void mRenderContext__closePage(struct mRenderContext *, struct mRootWindow *);
+void mRenderContext__closeOSKeyboard(struct mRenderContext *);
+void mRenderContext__magnifyScreen(struct mRenderContext *, f32, f32, f32, f32, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0022B0A0  mRenderContext::~mRenderContext() [high]

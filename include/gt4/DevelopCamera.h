@@ -4,12 +4,95 @@
  * type_info 0x0088F7F0, type_info function 0x005FD9A0, structors 0x003C8220, 0x003C8480, 0x005FD938, 0x005FD9F0
  * vtable 0x006827E0: 57 slots
  * size: not known; the fields seen reach 0xC22
+ * C++ (GT4_CXX): size 0xC24 (not known: up to the last field seen), vptr at 0x0 (introduced here)
  */
 #ifndef GT4_DevelopCamera_H
 #define GT4_DevelopCamera_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; DevelopCamera has fields after 0x0, so a base without RTTI introduced it */
+class DevelopCamera_vbase {
+public:
+    virtual s32 virtual_0(s32);  /* 0: parameters from the code */
+    virtual s32 virtual_1(f32);  /* 1: parameters from the code */
+    virtual s32 virtual_2(f32);  /* 2: parameters from the code */
+    virtual s32 virtual_3();  /* 3: parameters from the code */
+    virtual s32 virtual_4();  /* 4: parameters from the code */
+    virtual s32 virtual_5();  /* 5: parameters from the code */
+    virtual s32 virtual_6(s32, f32);  /* 6: parameters from the code */
+    virtual s32 virtual_7(s32, f32);  /* 7: parameters from the code */
+    virtual f32 virtual_8(s32);  /* 8: parameters from the code */
+    virtual s32 virtual_9();  /* 9: parameters from the code */
+    virtual s32 virtual_10();  /* 10: parameters from the code */
+    virtual s32 virtual_11();  /* 11: parameters from the code */
+    virtual f32 virtual_12();  /* 12: parameters from the code */
+    virtual f32 virtual_13();  /* 13: parameters from the code */
+    virtual f32 virtual_14();  /* 14: parameters from the code */
+    virtual s32 virtual_15();  /* 15: parameters from the code */
+    virtual s32 virtual_16();  /* 16: parameters from the code */
+    virtual s32 virtual_17();  /* 17: parameters from the code */
+    virtual s32 virtual_18();  /* 18: parameters from the code */
+    virtual s32 virtual_19();  /* 19: parameters from the code */
+    virtual s32 virtual_20(s32);  /* 20: parameters from the code */
+    virtual s32 virtual_21(s32, s32, s32);  /* 21: parameters from the code */
+    virtual s32 virtual_22(s32);  /* 22: parameters from the code */
+    virtual s32 virtual_23(s32, f32);  /* 23: parameters from the code */
+    virtual s32 virtual_24(f32, f32);  /* 24: parameters from the code */
+    virtual s32 virtual_25(f32);  /* 25: parameters from the code */
+    virtual s32 virtual_26(s32);  /* 26: parameters from the code */
+    virtual s32 virtual_27(s32);  /* 27: parameters from the code */
+    virtual s32 virtual_28(s32);  /* 28: parameters from the code */
+    virtual s32 virtual_29(s32);  /* 29: parameters from the code */
+    virtual s32 virtual_30();  /* 30: parameters from the code */
+    virtual s32 virtual_31();  /* 31: parameters from the code */
+    virtual s32 virtual_32();  /* 32: parameters from the code */
+    virtual s32 virtual_33();  /* 33: parameters from the code */
+    virtual s32 virtual_34();  /* 34: parameters from the code */
+    virtual s32 virtual_35();  /* 35: parameters from the code */
+    virtual s32 virtual_36();  /* 36: parameters from the code */
+    virtual s32 virtual_37();  /* 37: parameters from the code */
+    virtual s32 virtual_38(s32);  /* 38: parameters from the code */
+    virtual s32 virtual_39();  /* 39: parameters from the code */
+    virtual s32 virtual_40();  /* 40: parameters from the code */
+    virtual s32 virtual_41(s32);  /* 41: parameters from the code */
+    virtual s32 virtual_42();  /* 42: parameters from the code */
+    virtual s32 virtual_43(s32);  /* 43: parameters from the code */
+    virtual s32 virtual_44(s32, s32);  /* 44: parameters from the code */
+    virtual s32 virtual_45();  /* 45: parameters from the code */
+    virtual f32 virtual_46();  /* 46: parameters from the code */
+    virtual s32 virtual_47();  /* 47: parameters from the code */
+    virtual f32 virtual_48();  /* 48: parameters from the code */
+    virtual s32 virtual_49();  /* 49: parameters from the code */
+    virtual s32 virtual_50();  /* 50: parameters from the code */
+    virtual s32 virtual_51();  /* 51: parameters from the code */
+    virtual s32 virtual_52();  /* 52: parameters from the code */
+    virtual s32 virtual_53(s32);  /* 53: parameters from the code */
+    virtual s32 virtual_54();  /* 54: parameters from the code */
+    virtual s32 virtual_55();  /* 55: parameters from the code */
+    virtual void virtual_56();  /* 56: parameters from the code */
+};
+
+class DevelopCamera : public DevelopCamera_vbase {
+public:
+    char pad4[0x9BC];
+    f32 unk9C0;
+    char pad9C4[0x10];
+    f32 unk9D4;
+    char pad9D8[0xE8];
+    f32 unkAC0;
+    f32 unkAC4;
+    u8 unkAC8;
+    u8 unkAC9;
+    char padACA[0x133];
+    u8 unkBFD;
+    char padBFE[0x23];
+    u8 unkC21;
+    char padC22[0x2];
+};
+#else
 struct DevelopCamera {
     char pad0[0x9C0];
     f32 unk9C0;
@@ -25,6 +108,7 @@ struct DevelopCamera {
     char padBFE[0x23];
     u8 unkC21;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FD938

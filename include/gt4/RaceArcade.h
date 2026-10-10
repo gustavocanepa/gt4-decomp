@@ -4,12 +4,20 @@
  * type_info 0x0088F1C0, type_info function 0x005F64A0, structors 0x00386E08, 0x00386F78
  * vtable 0x0067BFA8: 152 slots
  * size: not known; the fields seen reach 0xE428
+ * C++ (GT4_CXX): size 0xE428 (not known: up to the last field seen), vptr at 0x64
  */
 #ifndef GT4_RaceArcade_H
 #define GT4_RaceArcade_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceSinglePlayer.h"
+
+class RaceArcade : public RaceSinglePlayer {
+public:
+};
+#else
 struct RaceArcade {
     char pad0[0x64];
     union {
@@ -63,6 +71,17 @@ struct RaceArcade {
     void *unkE420;
     void *unkE424;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceArcade__raceName(struct RaceArcade *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00386F78  RaceArcade::~RaceArcade() [high]

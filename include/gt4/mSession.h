@@ -4,12 +4,21 @@
  * type_info 0x0088E940, type_info function 0x005EA440, structors 0x002DCE08, 0x002DCE38
  * vtable 0x00671C00: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mSession_H
 #define GT4_mSession_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mSession : public hObject {
+public:
+    static s32 GetClassID();  /* 0x002DCCD0 */
+};
+#else
 struct mSession {
     s32 unk0;
     union {
@@ -19,6 +28,20 @@ struct mSession {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mSession__rc_class(struct mSession *);
+s32 mSession__rc_size(struct mSession *);
+s32 mSession__GetClassID(void);
+s32 mSession__getClassID(struct mSession *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002DCE38  mSession::~mSession() [high]

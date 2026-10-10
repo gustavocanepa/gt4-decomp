@@ -4,16 +4,26 @@
  * type_info 0x0088E320, type_info function 0x005DD100, structors 0x00159D60, 0x0021B848, 0x00220A38, 0x00233E38, 0x002463A0, 0x00247768, 0x00261E70, 0x00292F18, 0x002984C0, 0x002A29F0, 0x002A51D8, 0x002BD568, 0x005DD098, 0x005DD150
  * vtable 0x00666CF0: 4 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (not known: up to the last field seen), vptr at 0x0, fields left out (overlap, or in the base's part): 0x0
  */
 #ifndef GT4_MstringReader_H
 #define GT4_MstringReader_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/MReaderBase.h"
+
+class MstringReader : public MReaderBase {
+public:
+    s32 unk4;
+};
+#else
 struct MstringReader {
     s32 unk0;
     s32 unk4;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005DD098

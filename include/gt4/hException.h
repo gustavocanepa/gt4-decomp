@@ -4,12 +4,22 @@
  * type_info 0x0088EA70, type_info function 0x005EE610, structors 0x002F5CC8, 0x005EE548
  * vtable 0x006739E8: 49 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x0, 0x4, 0x8, 0xC
  */
 #ifndef GT4_hException_H
 #define GT4_hException_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class hException : public hObject {
+public:
+    void * unk10;
+    static s32 GetClassID();  /* 0x002F5650 */
+};
+#else
 struct hException {
     s32 unk0;
     union {
@@ -24,6 +34,20 @@ struct hException {
     };
     void * unk10;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hException__rc_class(struct hException *);
+s32 hException__rc_size(struct hException *);
+s32 hException__GetClassID(void);
+s32 hException__getClassID(struct hException *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005EE548  hException::~hException() [high]

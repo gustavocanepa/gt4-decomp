@@ -4,18 +4,56 @@
  * type_info 0x0088F8B0, type_info function 0x005FE0E8, structors 0x003DEE70, 0x003DEEA0
  * vtable 0x00683288: 17 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (not known: up to the last field seen), vptr at 0xC
  */
 #ifndef GT4_ResultArcade_H
 #define GT4_ResultArcade_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceResultBase.h"
+class RaceEntryCar;
+
+class ResultArcade : public RaceResultBase {
+public:
+    virtual s32 setData(s32, RaceEntryCar *);  /* 8: ResultArcade::setData(int, RaceEntryCar*) */
+    virtual s32 setCarName(char *, RaceEntryCar *);  /* 9: ResultArcade::setCarName(char*, RaceEntryCar*) */
+    virtual void postStartResultSequence(void *);  /* 10: ResultArcade::postStartResultSequence(RaceOrganization&) */
+    virtual s32 getStrobeFilename() const;  /* 11: ResultArcade::getStrobeFilename() const */
+    virtual s32 isStrobeFileCommonDir() const;  /* 12: ResultArcade::isStrobeFileCommonDir() const */
+    virtual s32 getStrobeActionCallback() const;  /* 13: ResultArcade::getStrobeActionCallback() const */
+    virtual s32 getStrobeRenderCallback() const;  /* 14: ResultArcade::getStrobeRenderCallback() const */
+    virtual s32 isChampionship() const;  /* 15: ResultArcade::isChampionship() const */
+    virtual s32 virtual_16(s32, s32, s32, s32);  /* 16: GT HD ResultArcade::subCallFunction(std::basic_string<char, std::char_traits<char>, PDISTD::stl_allocator<char, 16u> > const&, unsigned int, strobe::ActionStack&): its parameters do not fit GT4's code; parameters from the code */
+    void setPlayerRank(s32);  /* 0x003DFA98 */
+    void setCarName(s32, RaceEntryCar *);  /* 0x003DFBC8 */
+    void setCarIconNumber(s32, s32);  /* 0x003DFC28 */
+};
+#else
 struct ResultArcade {
     s32 unk0;
     s32 unk4;
     s32 unk8;
     void *unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void ResultArcade__init(struct ResultArcade *, void *, s32);
+void ResultArcade__update(struct ResultArcade *, void *, struct RaceInput *);
+void ResultArcade__setPlayerRank(struct ResultArcade *, s32);
+void ResultArcade__setCarName(struct ResultArcade *, s32, struct RaceEntryCar *);
+void ResultArcade__setCarIconNumber(struct ResultArcade *, s32, s32);
+s32 ResultArcade__setCarName_2(struct ResultArcade *, char *, struct RaceEntryCar *);
+s32 ResultArcade__goal(struct ResultArcade *, void *, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003DEEA0  ResultArcade::~ResultArcade() [high]

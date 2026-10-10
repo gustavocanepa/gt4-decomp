@@ -4,12 +4,27 @@
  * type_info 0x0088F510, type_info function 0x005F99D8, structors 0x003AC818, 0x003AC860
  * vtable 0x0067EEE0: 10 slots
  * size: not known; the fields seen reach 0x28
+ * C++ (GT4_CXX): size 0x28 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceMTRGravityMeter_H
 #define GT4_RaceMTRGravityMeter_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceMTRGravityMeter : public RaceDisplayObjectBase {
+public:
+    s32 unk18;
+    s32 unk1C;
+    s32 unk20;
+    s32 unk24;
+    virtual void update(f32);  /* 9: RaceMTRGravityMeter::update(float) */
+    s32 render_buffer(void *);  /* 0x003ACAF0 */
+    s32 init_texset();  /* 0x003ACDA8 */
+};
+#else
 struct RaceMTRGravityMeter {
     char pad0[0x14];
     union {
@@ -21,6 +36,20 @@ struct RaceMTRGravityMeter {
     s32 unk20;
     s32 unk24;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceMTRGravityMeter__update(struct RaceMTRGravityMeter *, f32);
+s32 RaceMTRGravityMeter__render_main(struct RaceMTRGravityMeter *, void *);
+s32 RaceMTRGravityMeter__render_buffer(struct RaceMTRGravityMeter *, void *);
+s32 RaceMTRGravityMeter__init_texset(struct RaceMTRGravityMeter *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003AC860  RaceMTRGravityMeter::~RaceMTRGravityMeter() [high]

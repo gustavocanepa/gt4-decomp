@@ -4,16 +4,37 @@
  * type_info 0x0088FE00, type_info function 0x00603C28, structors 0x0044D410, 0x0044D460
  * vtable 0x006883D8: 2 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x24 (not known: up to the last field seen), vptr at 0x20 (introduced here), fields left out (overlap, or in the base's part): 0x20
  */
 #ifndef GT4_FileInstrumentStream_H
 #define GT4_FileInstrumentStream_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class FileInstrumentStream {
+public:
+    char pad0[0x20];
+    virtual ~FileInstrumentStream();  /* 0: FileInstrumentStream::~FileInstrumentStream() */
+    virtual s32 reset();  /* 1: FileInstrumentStream::reset() */
+};
+#else
 struct FileInstrumentStream {
     char pad0[0x20];
     void *unk20;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 FileInstrumentStream__reset(struct FileInstrumentStream *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0044D460  FileInstrumentStream::~FileInstrumentStream() [high]

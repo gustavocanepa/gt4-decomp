@@ -4,12 +4,25 @@
  * type_info 0x006D6028, type_info function 0x005FBCD0, structors 0x003C1EC0, 0x003C2008
  * vtable 0x00681AD0: 1 slots
  * size: not known; the fields seen reach 0x3B0
+ * C++ (GT4_CXX): size 0x3B0 (not known: up to the last field seen), vptr at 0x3AC (introduced here), fields left out (overlap, or in the base's part): 0x3AC
  */
 #ifndef GT4_ParticleManager_H
 #define GT4_ParticleManager_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+class Particle;
+
+class ParticleManager {
+public:
+    void *unk0;
+    char pad4[0x3A8];
+    virtual ~ParticleManager();  /* 0: ParticleManager::~ParticleManager() */
+    s32 remove(Particle *, Particle *);  /* 0x003C2758 */
+    s32 Update(f32, bool);  /* 0x003C2780 */
+};
+#else
 struct ParticleManager {
     void *unk0;
     char pad4[0x3A8];
@@ -18,6 +31,18 @@ struct ParticleManager {
         void *unk3AC_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 ParticleManager__remove(struct ParticleManager *, struct Particle *, struct Particle *);
+s32 ParticleManager__Update(struct ParticleManager *, f32, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003C2008  ParticleManager::~ParticleManager() [high]

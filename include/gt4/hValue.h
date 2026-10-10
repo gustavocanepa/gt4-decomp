@@ -4,12 +4,29 @@
  * type_info 0x0088EE90, type_info function 0x005F1C00, structors 0x00323C10, 0x00323C58
  * vtable 0x00676740: 14 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_hValue_H
 #define GT4_hValue_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RefCounter.h"
+
+class hValue : public RefCounter {
+public:
+    s32 unk8;
+    virtual s32 virtual_8(s32, s32);  /* 8: parameters from the code */
+    virtual void virtual_9(s32, s32);  /* 9: parameters from the code */
+    virtual s32 virtual_10();  /* 10: parameters from the code */
+    virtual s32 virtual_11();  /* 11: parameters from the code */
+    virtual s32 virtual_12();  /* 12: parameters from the code */
+    virtual void virtual_13(s32);  /* 13: parameters from the code */
+    s32 isValid() const;  /* 0x00323BF8 */
+    s32 getName() const;  /* 0x00323CD8 */
+};
+#else
 struct hValue {
     s32 unk0;
     union {
@@ -18,6 +35,20 @@ struct hValue {
     };
     s32 unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hValue__rc_class(struct hValue *);
+s32 hValue__rc_size(struct hValue *);
+s32 hValue__isValid(struct hValue *);
+s32 hValue__getName(struct hValue *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00323C58  hValue::~hValue() [high]

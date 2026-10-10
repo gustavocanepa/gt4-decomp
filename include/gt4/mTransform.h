@@ -4,12 +4,24 @@
  * type_info 0x0088E2E0, type_info function 0x005DCCE8, structors 0x0024BC50, 0x0024BCB8, 0x0024BD30
  * vtable 0x00666980: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x34 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mTransform_H
 #define GT4_mTransform_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+
+class mTransform : public hObject {
+public:
+    char pad10[0x24];
+    static s32 GetClassID();  /* 0x0024B3F0 */
+    static s32 InitClass(hClass *);  /* 0x0024B740 */
+};
+#else
 struct mTransform {
     s32 unk0;
     union {
@@ -19,6 +31,21 @@ struct mTransform {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mTransform__rc_class(struct mTransform *);
+s32 mTransform__rc_size(struct mTransform *);
+s32 mTransform__GetClassID(void);
+s32 mTransform__getClassID(struct mTransform *);
+s32 mTransform__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0024BCB8  mTransform::~mTransform() [high]

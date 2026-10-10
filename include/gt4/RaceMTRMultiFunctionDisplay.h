@@ -4,12 +4,24 @@
  * type_info 0x0088F450, type_info function 0x005F9AA8, structors 0x003AD4D8, 0x003AD518
  * vtable 0x0067EE20: 10 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceMTRMultiFunctionDisplay_H
 #define GT4_RaceMTRMultiFunctionDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceMTRMultiFunctionDisplay : public RaceDisplayObjectBase {
+public:
+    virtual s32 update(f32);  /* 9: RaceMTRMultiFunctionDisplay::update(float) */
+    s32 update_auto_info(f32);  /* 0x003AD628 */
+    s32 render_buffer(void *);  /* 0x003AD8E8 */
+    s32 showInformation(s32, f32);  /* 0x003ADCE8 */
+};
+#else
 struct RaceMTRMultiFunctionDisplay {
     char pad0[0x14];
     union {
@@ -17,6 +29,21 @@ struct RaceMTRMultiFunctionDisplay {
         void *unk14_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceMTRMultiFunctionDisplay__update(struct RaceMTRMultiFunctionDisplay *, f32);
+s32 RaceMTRMultiFunctionDisplay__update_auto_info(struct RaceMTRMultiFunctionDisplay *, f32);
+s32 RaceMTRMultiFunctionDisplay__render_main(struct RaceMTRMultiFunctionDisplay *, void *);
+s32 RaceMTRMultiFunctionDisplay__render_buffer(struct RaceMTRMultiFunctionDisplay *, void *);
+s32 RaceMTRMultiFunctionDisplay__showInformation(struct RaceMTRMultiFunctionDisplay *, s32, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003AD518  RaceMTRMultiFunctionDisplay::~RaceMTRMultiFunctionDisplay() [high]

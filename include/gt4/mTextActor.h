@@ -4,12 +4,26 @@
  * type_info 0x0088E980, type_info function 0x005EA808, structors 0x002E3D48
  * vtable 0x00672430: 53 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x24 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mTextActor_H
 #define GT4_mTextActor_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mActor.h"
+class hClass;
+
+class mTextActor : public mActor {
+public:
+    void *unk14;
+    void *unk18;
+    void *unk1C;
+    void *unk20;
+    static s32 InitClass(hClass *);  /* 0x002E40C0 */
+};
+#else
 struct mTextActor {
     s32 unk0;
     union {
@@ -24,6 +38,21 @@ struct mTextActor {
     void *unk1C;
     void *unk20;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mTextActor__rc_class(struct mTextActor *);
+s32 mTextActor__rc_size(struct mTextActor *);
+s32 mTextActor__virtual_09(struct mTextActor *);
+s32 mTextActor__InitClass(struct hClass *);
+s32 mTextActor__update(struct mTextActor *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005EA740  mTextActor::~mTextActor() [high]

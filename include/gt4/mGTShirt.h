@@ -4,12 +4,46 @@
  * type_info 0x0088DDC0, type_info function 0x005D0248, structors 0x001BA528, 0x001BA558
  * vtable 0x0065FA28: 77 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mGTShirt_H
 #define GT4_mGTShirt_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mEyetoyImageProcessor.h"
+class HObject;
+class hClass;
+
+class mGTShirt : public mEyetoyImageProcessor {
+public:
+    virtual s32 clear();  /* 55: mGTShirt::clear() */
+    virtual s32 getThreshold() const;  /* 56: mGTShirt::getThreshold() const */
+    virtual void setThreshold(s32);  /* 57: mGTShirt::setThreshold(int) */
+    virtual s32 getThresholdCr() const;  /* 58: mGTShirt::getThresholdCr() const */
+    virtual void setThresholdCr(s32);  /* 59: mGTShirt::setThresholdCr(int) */
+    virtual f32 getThresholdLScanBase() const;  /* 60: mGTShirt::getThresholdLScanBase() const */
+    virtual void setThresholdLScanBase(f32);  /* 61: mGTShirt::setThresholdLScanBase(float) */
+    virtual f32 getThresholdLScanStep() const;  /* 62: mGTShirt::getThresholdLScanStep() const */
+    virtual void setThresholdLScanStep(f32);  /* 63: mGTShirt::setThresholdLScanStep(float) */
+    virtual f32 getThresholdPatternBase() const;  /* 64: mGTShirt::getThresholdPatternBase() const */
+    virtual void setThresholdPatternBase(f32);  /* 65: mGTShirt::setThresholdPatternBase(float) */
+    virtual f32 getThresholdPatternStep() const;  /* 66: mGTShirt::getThresholdPatternStep() const */
+    virtual void setThresholdPatternStep(f32);  /* 67: mGTShirt::setThresholdPatternStep(float) */
+    virtual f32 setLedStartDelay(f32);  /* 68: mGTShirt::setLedStartDelay(float) */
+    virtual f32 setLedInterval(f32);  /* 69: mGTShirt::setLedInterval(float) */
+    virtual void setRefrectCount(s32);  /* 70: mGTShirt::setRefrectCount(int) */
+    virtual void setFocusWidget(const HObject &);  /* 71: mGTShirt::setFocusWidget(HObject const&) */
+    virtual s32 getRecognizing() const;  /* 72: mGTShirt::getRecognizing() const */
+    virtual void setRecognizing(bool);  /* 73: mGTShirt::setRecognizing(bool) */
+    virtual s32 getFound() const;  /* 74: mGTShirt::getFound() const */
+    virtual s32 getRecognized() const;  /* 75: mGTShirt::getRecognized() const */
+    virtual void setDebug(s32);  /* 76: mGTShirt::setDebug(int) */
+    static s32 GetClassID();  /* 0x001BA4F0 */
+    static s32 InitClass(hClass *);  /* 0x001BA6A0 */
+};
+#else
 struct mGTShirt {
     s32 unk0;
     union {
@@ -19,6 +53,43 @@ struct mGTShirt {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mGTShirt__rc_class(struct mGTShirt *);
+s32 mGTShirt__rc_size(struct mGTShirt *);
+s32 mGTShirt__GetClassID(void);
+s32 mGTShirt__getClassID(struct mGTShirt *);
+void mGTShirt__clear(struct mGTShirt *);
+s32 mGTShirt__getThreshold(struct mGTShirt *);
+void mGTShirt__setThreshold(struct mGTShirt *, s32);
+s32 mGTShirt__getThresholdCr(struct mGTShirt *);
+void mGTShirt__setThresholdCr(struct mGTShirt *, s32);
+f32 mGTShirt__getThresholdLScanBase(struct mGTShirt *);
+void mGTShirt__setThresholdLScanBase(struct mGTShirt *, f32);
+f32 mGTShirt__getThresholdLScanStep(struct mGTShirt *);
+void mGTShirt__setThresholdLScanStep(struct mGTShirt *, f32);
+f32 mGTShirt__getThresholdPatternBase(struct mGTShirt *);
+void mGTShirt__setThresholdPatternBase(struct mGTShirt *, f32);
+f32 mGTShirt__getThresholdPatternStep(struct mGTShirt *);
+void mGTShirt__setThresholdPatternStep(struct mGTShirt *, f32);
+void mGTShirt__setLedStartDelay(struct mGTShirt *, f32);
+void mGTShirt__setLedInterval(struct mGTShirt *, f32);
+void mGTShirt__setRefrectCount(struct mGTShirt *, s32);
+void mGTShirt__setFocusWidget(struct mGTShirt *, const struct HObject *);
+s32 mGTShirt__getRecognizing(struct mGTShirt *);
+void mGTShirt__setRecognizing(struct mGTShirt *, s32);
+s32 mGTShirt__getFound(struct mGTShirt *);
+s32 mGTShirt__getRecognized(struct mGTShirt *);
+void mGTShirt__setDebug(struct mGTShirt *, s32);
+s32 mGTShirt__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001BA558  mGTShirt::~mGTShirt() [high]

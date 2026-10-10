@@ -4,12 +4,21 @@
  * type_info 0x0088E550, type_info function 0x005E47B8, structors 0x00282CD8, 0x00282D08
  * vtable 0x00669AB8: 51 slots
  * size: not known; the fields seen reach 0x20
+ * C++ (GT4_CXX): size 0x20 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mCancelEvent_H
 #define GT4_mCancelEvent_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mEvent.h"
+
+class mCancelEvent : public mEvent {
+public:
+    static s32 GetClassID();  /* 0x00282900 */
+};
+#else
 struct mCancelEvent {
     s32 unk0;
     union {
@@ -21,6 +30,22 @@ struct mCancelEvent {
     char pad10[0xC];
     void *unk1C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mCancelEvent__rc_class(struct mCancelEvent *);
+s32 mCancelEvent__rc_size(struct mCancelEvent *);
+s32 mCancelEvent__GetClassID(void);
+s32 mCancelEvent__getClassID(struct mCancelEvent *);
+s32 mCancelEvent__dispatchEvent(struct mCancelEvent *);
+s32 mCancelEvent__onEvent(struct mCancelEvent *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00282D08  mCancelEvent::~mCancelEvent() [high]

@@ -4,12 +4,28 @@
  * type_info 0x0088EED0, type_info function 0x005F27B8, structors 0x0032C6B0, 0x0032C700
  * vtable 0x00676A28: 14 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_hBuiltinAttribute_H
 #define GT4_hBuiltinAttribute_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hValue.h"
+
+class hBuiltinAttribute : public hValue {
+public:
+    union {
+        s32 (*unkC)(s32, s32, s32, s32);
+        s32 unkC_s32;
+    };
+    union {
+        s32 unk10;
+        void (*unk10_fn)(void *, s32, s32, s32);
+    };
+};
+#else
 struct hBuiltinAttribute {
     s32 unk0;
     union {
@@ -26,6 +42,18 @@ struct hBuiltinAttribute {
         void (*unk10_fn)(void *, s32, s32, s32);
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hBuiltinAttribute__rc_class(struct hBuiltinAttribute *);
+s32 hBuiltinAttribute__rc_size(struct hBuiltinAttribute *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0032C700  hBuiltinAttribute::~hBuiltinAttribute() [high]

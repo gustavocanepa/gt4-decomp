@@ -4,12 +4,22 @@
  * type_info 0x0088DCA0, type_info function 0x005CDDE8, structors 0x00197A58, 0x00197AD8
  * vtable 0x0065D7C8: 95 slots
  * size: not known; the fields seen reach 0x94
+ * C++ (GT4_CXX): size 0x100 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mPhotoRenderFace_H
 #define GT4_mPhotoRenderFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWidget.h"
+
+class mPhotoRenderFace : public mWidget {
+public:
+    char padA0[0x60];
+    static s32 GetClassID();  /* 0x00197A20 */
+};
+#else
 struct mPhotoRenderFace {
     s32 unk0;
     union {
@@ -25,6 +35,21 @@ struct mPhotoRenderFace {
     char pad30[0x60];
     void *unk90;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mPhotoRenderFace__rc_class(struct mPhotoRenderFace *);
+s32 mPhotoRenderFace__rc_size(struct mPhotoRenderFace *);
+s32 mPhotoRenderFace__GetClassID(void);
+s32 mPhotoRenderFace__getClassID(struct mPhotoRenderFace *);
+s32 mPhotoRenderFace__virtual_08(struct mPhotoRenderFace *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00197AD8  mPhotoRenderFace::~mPhotoRenderFace() [high]

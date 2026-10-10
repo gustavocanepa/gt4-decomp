@@ -177,6 +177,8 @@ def _demangled(sym):
             pos += ln
         if parts and method:
             out.append("::".join(parts) + "__" + method)
+            if len(parts) > 1:  # GT HD names nested classes Outer__Inner__method
+                out.append("__".join(parts) + "__" + method)
             out.append(parts[-1] + "__" + method)
     return out
 

@@ -4,16 +4,59 @@
  * type_info 0x006D6008, type_info function 0x005FB200, structors 0x003BB340, 0x003BB3D8
  * vtable 0x006806E8: 19 slots
  * size: not known; the fields seen reach 0x130
+ * C++ (GT4_CXX): size 0x130 (not known: up to the last field seen), vptr at 0x12C (introduced here), fields left out (overlap, or in the base's part): 0x12C
  */
 #ifndef GT4_RaceInformation_H
 #define GT4_RaceInformation_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+class RaceEntryCar;
+
+class RaceInformation {
+public:
+    char pad0[0x12C];
+    virtual ~RaceInformation();  /* 0: RaceInformation::~RaceInformation() */
+    virtual s32 getRaceCode();  /* 1: RaceInformation::getRaceCode() */
+    virtual s32 getCourseCode();  /* 2: RaceInformation::getCourseCode() */
+    virtual s32 setCourseCode(u64);  /* 3: RaceInformation::setCourseCode(unsigned long long) */
+    virtual s32 createEntry();  /* 4: RaceInformation::createEntry() */
+    virtual s32 getCountDown();  /* 5: RaceInformation::getCountDown() */
+    virtual s32 getRaceLaps();  /* 6: RaceInformation::getRaceLaps() */
+    virtual s32 getTimeLimit();  /* 7: RaceInformation::getTimeLimit() */
+    virtual s32 getPauseTimeLimit();  /* 8: RaceInformation::getPauseTimeLimit() */
+    virtual void setEntryCars(s32);  /* 9: RaceInformation::setEntryCars(int) */
+    virtual s32 getEntryCars();  /* 10: RaceInformation::getEntryCars() */
+    virtual s32 getDriversPoints(s32);  /* 11: RaceInformation::getDriversPoints(int) */
+    virtual s32 updateEntryCar(RaceEntryCar &);  /* 12: RaceInformation::updateEntryCar(RaceEntryCar&) */
+    virtual void finishEntryCar(void *);  /* 13: RaceInformation::finishEntryCar(RaceOrganization&) */
+    virtual s32 randomEnemyPickup(void *, s32 *, s32, s32);  /* 14: RaceInformation::randomEnemyPickup(RaceOrganization&, int*, int, int) */
+    virtual s32 randomEnemyPickup(void *, s32, s32, s32);  /* 15: RaceInformation::randomEnemyPickup(RaceOrganization&, int, int, int) */
+    virtual void setCourseSection(s32);  /* 16: RaceInformation::setCourseSection(int) */
+    virtual s32 getCourseSection();  /* 17: RaceInformation::getCourseSection() */
+    virtual s32 getRaceDB();  /* 18: RaceInformation::getRaceDB() */
+    s32 defaultTimeLimit(s32);  /* 0x003BB538 */
+};
+#else
 struct RaceInformation {
     char pad0[0x12C];
     s32 unk12C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceInformation__createEntry(struct RaceInformation *);
+s32 RaceInformation__defaultTimeLimit(struct RaceInformation *, s32);
+void RaceInformation__updateEntryCar(struct RaceInformation *, struct RaceEntryCar *);
+s32 RaceInformation__finishEntryCar(struct RaceInformation *, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003BB3D8  RaceInformation::~RaceInformation() [high]

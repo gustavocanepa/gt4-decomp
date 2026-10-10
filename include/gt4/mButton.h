@@ -4,12 +4,22 @@
  * type_info 0x0088E4F0, type_info function 0x005E4208, structors 0x0027D100, 0x0027D150
  * vtable 0x00668F18: 103 slots
  * size: not known; the fields seen reach 0xB0
+ * C++ (GT4_CXX): size 0xB4 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mButton_H
 #define GT4_mButton_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mComposite.h"
+
+class mButton : public mComposite {
+public:
+    char padB0[0x4];
+    static s32 GetClassID();  /* 0x0027CF40 */
+};
+#else
 struct mButton {
     s32 unk0;
     union {
@@ -30,6 +40,25 @@ struct mButton {
     void *unkA8;
     void *unkAC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mButton__rc_class(struct mButton *);
+s32 mButton__rc_size(struct mButton *);
+s32 mButton__GetClassID(void);
+s32 mButton__getClassID(struct mButton *);
+s32 mButton__onMotion(struct mButton *, struct mRenderContext *, struct mMotionEvent *);
+s32 mButton__onEnter(struct mButton *, struct mRenderContext *, struct mCrossingEvent *);
+s32 mButton__onLeave(struct mButton *, struct mRenderContext *, struct mCrossingEvent *);
+s32 mButton__onButtonPress(struct mButton *, struct mRenderContext *, struct mButtonEvent *);
+s32 mButton__onButtonRelease(struct mButton *, struct mRenderContext *, struct mButtonEvent *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0027D150  mButton::~mButton() [high]

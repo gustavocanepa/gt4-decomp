@@ -4,12 +4,35 @@
  * type_info 0x0088F8E0, type_info function 0x005FE428, structors 0x003E9908, 0x003E9940
  * vtable 0x006839C8: 6 slots
  * size: not known; the fields seen reach 0x5C
+ * C++ (GT4_CXX): size 0x5C (not known: up to the last field seen), vptr at 0x20 (introduced here), fields left out (overlap, or in the base's part): 0x20
  */
 #ifndef GT4_RaceSolitaireEntry_H
 #define GT4_RaceSolitaireEntry_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+class RaceEntryCar;
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; RaceSolitaireEntry has fields after 0x20, so a base without RTTI introduced it */
+class RaceSolitaireEntry_vbase {
+public:
+    char pad0[0x20];
+    virtual ~RaceSolitaireEntry_vbase();  /* 0: RaceSolitaireEntry::~RaceSolitaireEntry() */
+    virtual s32 newEntryForm();  /* 1: RaceEntryBase::newEntryForm() */
+    virtual s32 createReservedEntry();  /* 2: RaceEntryBase::createReservedEntry() */
+    virtual s32 inquiry(RaceEntryCar &);  /* 3: RaceEntryBase::inquiry(RaceEntryCar&) */
+    virtual s32 entry(RaceEntryCar &);  /* 4: RaceEntryBase::entry(RaceEntryCar&) */
+    virtual s32 changeLoggerMode(bool);  /* 5: RaceSolitaireEntry::changeLoggerMode(bool) */
+};
+
+class RaceSolitaireEntry : public RaceSolitaireEntry_vbase {
+public:
+    char pad24[0x30];
+    s32 unk54;
+    s32 unk58;
+};
+#else
 struct RaceSolitaireEntry {
     char pad0[0x20];
     void *unk20;
@@ -17,6 +40,17 @@ struct RaceSolitaireEntry {
     s32 unk54;
     s32 unk58;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceSolitaireEntry__changeLoggerMode(struct RaceSolitaireEntry *, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003E9940  RaceSolitaireEntry::~RaceSolitaireEntry() [high]

@@ -4,12 +4,21 @@
  * type_info 0x0088ED10, type_info function 0x005F17C8, structors 0x0031F7D0, 0x0031F850
  * vtable 0x00675670: 11 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0xC (rc_size), vptr at 0x4
  */
 #ifndef GT4_mStringConst_H
 #define GT4_mStringConst_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mStringConst : public hInst {
+public:
+    char pad8[0x4];
+};
+#else
 struct mStringConst {
     s32 unk0;
     union {
@@ -17,6 +26,20 @@ struct mStringConst {
         s32 unk4_s32;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mStringConst__rc_class(struct mStringConst *);
+s32 mStringConst__rc_size(struct mStringConst *);
+s32 mStringConst__execute(struct mStringConst *, struct hThread *);
+s32 mStringConst__read(struct mStringConst *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031F850  mStringConst::~mStringConst() [high]

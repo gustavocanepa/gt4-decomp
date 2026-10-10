@@ -4,12 +4,89 @@
  * type_info 0x0088F020, type_info function 0x005F3AE0, structors 0x0033B8A8, 0x0033BA98
  * vtable 0x00679378: 148 slots
  * size: not known; the fields seen reach 0xCFC0
+ * C++ (GT4_CXX): size 0xCFC0 (not known: up to the last field seen), vptr at 0x64, fields left out (overlap, or in the base's part): 0x6C
  */
 #ifndef GT4_RacePS2Base_H
 #define GT4_RacePS2Base_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceBase.h"
+class CameraBase;
+class RaceEntryCar;
+class VehicleModel;
+
+class RacePS2Base : public RaceBase {
+public:
+    char padD6C[0x14];
+    s32 unkD80;
+    s32 (*unkD84)(s32, s32);
+    s32 unkD88;
+    char padD8C[0xC1BC];
+    f32 unkCF48;
+    union {
+        f32 unkCF4C;
+        s32 unkCF4C_s32;
+    };
+    char padCF50[0x4];
+    f32 unkCF54;
+    char padCF58[0x8];
+    s32 unkCF60;
+    char padCF64[0x58];
+    s32 unkCFBC;
+    virtual s32 play(s32);  /* 100: RacePS3Base::play(int) */
+    virtual s32 checkReplayLoop();  /* 101: RacePS3Base::checkReplayLoop() */
+    virtual s32 virtual_102();  /* 102: GT HD (medium): RacePS3Base::initializePlayList(); parameters from the code */
+    virtual s32 virtual_103();  /* 103: GT HD (medium): RacePS3Base::cleanupPlayList(); parameters from the code */
+    virtual s32 render_world(void *, f32);  /* 104: RacePS3Base::render_world(GSBuffer&, float) */
+    virtual s32 render_post_effect(void *);  /* 105: RacePS3Base::render_post_effect(GSBuffer&) */
+    virtual s32 render_panel(void *);  /* 106: RacePS3Base::render_panel(GSBuffer&) */
+    virtual s32 render_other(void *);  /* 107: RacePS3Base::render_other(GSBuffer&) */
+    virtual s32 render_world_split(void *, bool, f32);  /* 108: RacePS3Base::render_world_split(GSBuffer&, bool, float) */
+    virtual s32 render_course(CameraBase &, bool);  /* 109: RacePS3Base::render_course(CameraBase&, bool) */
+    virtual s32 render_reflection(void *, void *, bool, f32);  /* 110: RacePS3Base::render_reflection(GSBuffer&, GSBuffer&, bool, float) */
+    virtual s32 render_cars(void *, s32, f32, bool, s32);  /* 111: RacePS3Base::render_cars(GSBuffer&, int, float, bool, int) */
+    virtual s32 render_reflection_cars(void *, f32);  /* 112: RacePS3Base::render_reflection_cars(GSBuffer&, float) */
+    virtual s32 render_reflection_car_lights(f32);  /* 113: RacePS3Base::render_reflection_car_lights(float) */
+    virtual s32 render_exchange_tire(s32, const VehicleModel &);  /* 114: RacePS3Base::render_exchange_tire(int, VehicleModel const&) */
+    virtual void render_concourse(void *);  /* 115: RacePS3Base::render_concourse(GSBuffer&) */
+    virtual s32 render_after(CameraBase &);  /* 116: RacePS3Base::render_after(CameraBase&) */
+    virtual s32 render_use_back_mirror() const;  /* 117: RacePS3Base::render_use_back_mirror() const */
+    virtual f32 get_back_mirror_rate() const;  /* 118: RacePS3Base::get_back_mirror_rate() const */
+    virtual s32 render_back_mirror(void *, bool);  /* 119: RacePS3Base::render_back_mirror(GSBuffer&, bool) */
+    virtual void DMAsafe();  /* 120: RacePS3Base::DMAsafe() */
+    virtual s32 virtual_121();  /* 121: GT HD (medium): RacePS3Base::start_driver_computing(); parameters from the code */
+    virtual void virtual_122();  /* 122: parameters from the code */
+    virtual void virtual_123();  /* 123: parameters from the code */
+    virtual void virtual_124();  /* 124: parameters from the code */
+    virtual s32 virtual_125(f32);  /* 125: GT HD (medium): RacePS3Base::set_car_flares(bool, float); parameters from the code */
+    virtual s32 virtual_126();  /* 126: GT HD (medium): RacePS3Base::set_course_flares(); parameters from the code */
+    virtual s32 soundMute();  /* 127: RacePS3Base::soundMute() */
+    virtual s32 soundToggle();  /* 128: RacePS3Base::soundToggle() */
+    virtual void printSoundMode();  /* 129: RacePS3Base::printSoundMode() */
+    virtual void printAccelerateMode();  /* 130: RacePS3Base::printAccelerateMode() */
+    virtual s32 virtual_131();  /* 131: GT HD (medium): RacePS3Base::getCurrentMusicInformation(); parameters from the code */
+    virtual s32 isCrossFadeEnabled() const;  /* 132: RacePS3Base::isCrossFadeEnabled() const */
+    virtual s32 computePitCamera(s32, void *);  /* 133: RacePS3Base::computePitCamera(int, RacePS3Base::Motion_Camera&) */
+    virtual s32 isPitCameraPeriod(s32) const;  /* 134: RacePS3Base::isPitCameraPeriod(int) const */
+    virtual s32 isPitHandCameraPeriod(s32) const;  /* 135: RacePS3Base::isPitHandCameraPeriod(int) const */
+    virtual s32 isExtensionPitCameraPeriod(s32) const;  /* 136: RacePS3Base::isExtensionPitCameraPeriod(int) const */
+    virtual s32 computeInterruptMotionCamera(s32, void *);  /* 137: RacePS3Base::computeInterruptMotionCamera(int, RacePS3Base::Motion_Camera&) */
+    virtual s32 isInterruptMotionCameraPeriod(s32) const;  /* 138: RacePS3Base::isInterruptMotionCameraPeriod(int) const */
+    virtual s32 isUseDefocusEffect() const;  /* 139: RacePS3Base::isUseDefocusEffect() const */
+    virtual s32 isRenderConcourse() const;  /* 140: RacePS3Base::isRenderConcourse() const */
+    virtual s32 virtual_141(s32);  /* 141: parameters from the code */
+    virtual f32 getMasterVolume() const;  /* 142: RacePS3Base::getMasterVolume() const */
+    virtual s32 initializeReplayStyle();  /* 143: RacePS3Base::initializeReplayStyle() */
+    virtual s32 isUseProjectionShadow();  /* 144: RacePS3Base::isUseProjectionShadow() */
+    virtual s32 isRenderCar(RaceEntryCar *, void *, f32);  /* 145: RacePS3Base::isRenderCar(RaceEntryCar*, CameraSys::CameraManager&, float) */
+    virtual void render_dash_panel(void *, f32);  /* 146: RacePS3Base::render_dash_panel(GSBuffer&, float) */
+    virtual s32 is_able_to_render_this_car(RaceEntryCar &);  /* 147: RacePS3Base::is_able_to_render_this_car(RaceEntryCar&) */
+    void updateVolume();  /* 0x0033FC60 */
+    s32 is_render_pitin_car(RaceEntryCar &);  /* 0x003426B8 */
+};
+#else
 struct RacePS2Base {
     char pad0[0x64];
     s32 unk64;
@@ -49,6 +126,76 @@ struct RacePS2Base {
     char padCF64[0x58];
     s32 unkCFBC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RacePS2Base__play(struct RacePS2Base *, s32);
+s32 RacePS2Base__checkReplayLoop(struct RacePS2Base *);
+s32 RacePS2Base__initialize(struct RacePS2Base *, s32);
+s32 RacePS2Base__initializeReplayStyle(struct RacePS2Base *);
+s32 RacePS2Base__cleanup(struct RacePS2Base *);
+s32 RacePS2Base__getReplayPlayList(struct RacePS2Base *, void *);
+s32 RacePS2Base__setReplayPlayList(struct RacePS2Base *, void *);
+s32 RacePS2Base__soundStart(struct RacePS2Base *);
+s32 RacePS2Base__soundStop(struct RacePS2Base *);
+s32 RacePS2Base__soundMute(struct RacePS2Base *);
+void RacePS2Base__soundToggle(struct RacePS2Base *);
+s32 RacePS2Base__update(struct RacePS2Base *);
+s32 RacePS2Base__updateCommon(struct RacePS2Base *);
+s32 RacePS2Base__updatePlay(struct RacePS2Base *, f32);
+void RacePS2Base__updateRace(struct RacePS2Base *);
+s32 RacePS2Base__virtual_75(struct RacePS2Base *);
+void RacePS2Base__updateOther(struct RacePS2Base *);
+s32 RacePS2Base__updatePitmen(struct RacePS2Base *, f32);
+s32 RacePS2Base__isPitCameraPeriod(struct RacePS2Base *, s32);
+s32 RacePS2Base__isPitHandCameraPeriod(struct RacePS2Base *, s32);
+s32 RacePS2Base__isExtensionPitCameraPeriod(struct RacePS2Base *, s32);
+s32 RacePS2Base__computePitCamera(struct RacePS2Base *, s32, void *);
+s32 RacePS2Base__isInterruptMotionCameraPeriod(struct RacePS2Base *, s32);
+s32 RacePS2Base__computeInterruptMotionCamera(struct RacePS2Base *, s32, void *);
+void RacePS2Base__raceEnd(struct RacePS2Base *);
+s32 RacePS2Base__replayStart(struct RacePS2Base *);
+s32 RacePS2Base__DMAsafe(struct RacePS2Base *);
+s32 RacePS2Base__idle(struct RacePS2Base *);
+s32 RacePS2Base__signalHandler(struct RacePS2Base *);
+s32 RacePS2Base__getLastKey(struct RacePS2Base *);
+s32 RacePS2Base__getFrameInterval(struct RacePS2Base *);
+void RacePS2Base__printSoundMode(struct RacePS2Base *);
+void RacePS2Base__printAccelerateMode(struct RacePS2Base *);
+s32 RacePS2Base__render(struct RacePS2Base *, void *);
+s32 RacePS2Base__render_world(struct RacePS2Base *, void *, f32);
+void RacePS2Base__render_concourse(struct RacePS2Base *, void *);
+s32 RacePS2Base__isRenderConcourse(struct RacePS2Base *);
+s32 RacePS2Base__render_post_effect(struct RacePS2Base *, void *);
+s32 RacePS2Base__render_panel(struct RacePS2Base *, void *);
+s32 RacePS2Base__render_other(struct RacePS2Base *, void *);
+void RacePS2Base__updateVolume(struct RacePS2Base *);
+s32 RacePS2Base__getMasterVolume(struct RacePS2Base *);
+s32 RacePS2Base__render_world_split(struct RacePS2Base *, void *, s32, f32);
+s32 RacePS2Base__render_course(struct RacePS2Base *, struct CameraBase *, s32);
+s32 RacePS2Base__isRenderCar(struct RacePS2Base *, struct RaceEntryCar *, void *, f32);
+s32 RacePS2Base__render_exchange_tire(struct RacePS2Base *, s32, const struct VehicleModel *);
+s32 RacePS2Base__render_cars(struct RacePS2Base *, void *, s32, f32, s32, s32);
+s32 RacePS2Base__isUseProjectionShadow(struct RacePS2Base *);
+s32 RacePS2Base__render_reflection(struct RacePS2Base *, void *, void *, s32, f32);
+s32 RacePS2Base__render_reflection_cars(struct RacePS2Base *, void *, f32);
+s32 RacePS2Base__render_reflection_car_lights(struct RacePS2Base *, f32);
+s32 RacePS2Base__render_use_back_mirror(struct RacePS2Base *);
+f32 RacePS2Base__get_back_mirror_rate(struct RacePS2Base *);
+s32 RacePS2Base__render_back_mirror(struct RacePS2Base *, void *, s32);
+s32 RacePS2Base__render_after(struct RacePS2Base *, struct CameraBase *);
+void RacePS2Base__is_able_to_render_this_car(struct RacePS2Base *, struct RaceEntryCar *);
+s32 RacePS2Base__is_render_pitin_car(struct RacePS2Base *, struct RaceEntryCar *);
+s32 RacePS2Base__isCrossFadeEnabled(struct RacePS2Base *);
+void RacePS2Base__render_dash_panel(struct RacePS2Base *, void *, f32);
+s32 RacePS2Base__isUseDefocusEffect(struct RacePS2Base *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0033BA98  RacePS3Base::~RacePS3Base() [high]

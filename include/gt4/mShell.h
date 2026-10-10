@@ -4,12 +4,24 @@
  * type_info 0x0088E280, type_info function 0x005DBEF0, structors 0x0023B3B8, 0x0023B3F0
  * vtable 0x00665C70: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mShell_H
 #define GT4_mShell_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+
+class mShell : public hObject {
+public:
+    char pad10[0x4];
+    static s32 GetClassID();  /* 0x0023B380 */
+    static s32 InitClass(hClass *);  /* 0x0023BD08 */
+};
+#else
 struct mShell {
     s32 unk0;
     union {
@@ -19,6 +31,21 @@ struct mShell {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mShell__rc_class(struct mShell *);
+s32 mShell__rc_size(struct mShell *);
+s32 mShell__GetClassID(void);
+s32 mShell__getClassID(struct mShell *);
+s32 mShell__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0023B3F0  mShell::~mShell() [high]

@@ -4,12 +4,21 @@
  * type_info 0x0088F2B0, type_info function 0x005F70D8, structors 0x00391878, 0x003918C8
  * vtable 0x0067E120: 2 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x24 (not known: up to the last field seen), vptr at 0x1C, fields left out (overlap, or in the base's part): 0x0, 0x4, 0x8, 0xC, 0x10, 0x14, 0x18, 0x1C
  */
 #ifndef GT4_EngineSound_H
 #define GT4_EngineSound_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/GTSOUNDINSTRUMENT.h"
+
+class EngineSound : public GTSOUNDINSTRUMENT {
+public:
+    void * unk20;
+};
+#else
 struct EngineSound {
     s32 unk0;
     union {
@@ -42,6 +51,17 @@ struct EngineSound {
     };
     void * unk20;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 EngineSound__AttachCallback(struct EngineSound *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003918C8  EngineSound::~EngineSound() [high]

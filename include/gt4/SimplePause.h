@@ -4,12 +4,20 @@
  * type_info 0x0088F7A0, type_info function 0x005FBEC0, structors 0x003C39D0, 0x003C3A08
  * vtable 0x00681B60: 5 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (not known: up to the last field seen), vptr at 0x8, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_SimplePause_H
 #define GT4_SimplePause_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/PauseBase.h"
+
+class SimplePause : public PauseBase {
+public:
+};
+#else
 struct SimplePause {
     s32 unk0;
     s32 unk4;
@@ -18,6 +26,20 @@ struct SimplePause {
         void *unk8_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void SimplePause__init(struct SimplePause *);
+s32 SimplePause__update(struct SimplePause *, struct RaceInput *, void *);
+s32 SimplePause__render(struct SimplePause *, void *, void *);
+void PauseBase__cleanup(struct SimplePause *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003C3A08  SimplePause::~SimplePause() [high]

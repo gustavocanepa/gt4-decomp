@@ -1,9 +1,10 @@
+#define GT4_DECLS
+#include "gt4/mWidget.h"
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 func_00206868(s32);                             /* extern */
 s32 func_0025C300(s32);                             /* extern */
-s32 func_00265FF0(s32, s32);                /* extern */
 s32 func_00266088();                                /* extern */
 
 void func_002D73C8(s32 arg0, s32 arg1, s32 arg2) {
@@ -16,10 +17,10 @@ void func_002D73C8(s32 arg0, s32 arg1, s32 arg2) {
         if (var_s0 != 0) {
             do {
                 if (var_s1 == arg1) {
-                    func_00265FF0(var_s0, 0);
+                    mWidget__setActive(var_s0, 0);
                 }
                 if (var_s1 == arg2) {
-                    func_00265FF0(var_s0, 1);
+                    mWidget__setActive(var_s0, 1);
                 }
                 var_s1 += 1;
                 var_s0 = func_0025C300(var_s0);

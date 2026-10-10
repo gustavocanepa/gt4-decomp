@@ -4,16 +4,59 @@
  * type_info 0x0088EF10, type_info function 0x005F2BD8, structors 0x00330578, 0x003305D0
  * vtable 0x00676C48: 154 slots
  * size: not known; the fields seen reach 0x68
+ * C++ (GT4_CXX): size 0x68 (not known: up to the last field seen), vptr at 0x64, fields left out (overlap, or in the base's part): 0x64
  */
 #ifndef GT4_RaceSplitBattle_H
 #define GT4_RaceSplitBattle_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceSplitBattleBase.h"
+
+class RaceSplitBattle : public RaceSplitBattleBase {
+public:
+};
+#else
 struct RaceSplitBattle {
     char pad0[0x64];
     s32 unk64;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceSplitBattleBase__initialize(struct RaceSplitBattle *, s32);
+s32 RaceSplitBattleBase__mustUseClosedModel(struct RaceSplitBattle *);
+void RaceSplitBattleBase__postInitialize(struct RaceSplitBattle *);
+void RaceSplitBattleBase__initializeCameraOption(struct RaceSplitBattle *);
+s32 RaceSplitBattleBase__initializeCamera(struct RaceSplitBattle *);
+s32 RaceSplitBattleBase__postInitializeCamera(struct RaceSplitBattle *);
+s32 RaceSplitBattleBase__postInitializeCameraOption(struct RaceSplitBattle *);
+s32 RaceSplitBattleBase__cleanupCameraOption(struct RaceSplitBattle *);
+s32 RaceSplitBattleBase__getCameraInput(struct RaceSplitBattle *, s32);
+s32 RaceSplitBattleBase__getCommonInput(struct RaceSplitBattle *);
+s32 RaceSplitBattleBase__getInput(struct RaceSplitBattle *, s32);
+s32 RaceSplitBattleBase__updatePlay(struct RaceSplitBattle *, f32);
+void RaceSplitBattleBase__updateHMD(struct RaceSplitBattle *);
+s32 RaceSplitBattleBase__updatePause(struct RaceSplitBattle *);
+s32 RaceSplitBattleBase__render(struct RaceSplitBattle *, void *);
+s32 RaceSplitBattleBase__render_panel(struct RaceSplitBattle *, void *);
+s32 RaceSplitBattleBase__render_other(struct RaceSplitBattle *, void *);
+s32 RaceSplitBattleBase__loadReplayInputs(struct RaceSplitBattle *, void *);
+s32 RaceSplitBattleBase__saveReplayInputs(struct RaceSplitBattle *, void *);
+s32 RaceSplitBattleBase__sizeReplayInputs(struct RaceSplitBattle *);
+s32 RaceSplitBattle__raceName(struct RaceSplitBattle *);
+s32 RaceSplitBattle__changeEntryCarTire(struct RaceSplitBattle *);
+s32 RaceSplitBattleBase__getReplayPauseExit(struct RaceSplitBattle *);
+s32 RaceSplitBattle__getDisplay(struct RaceSplitBattle *);
+s32 RaceSplitBattle__getDisplay_const(struct RaceSplitBattle *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003305D0  RaceSplitBattle::~RaceSplitBattle() [high]

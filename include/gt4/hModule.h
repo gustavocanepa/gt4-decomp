@@ -4,12 +4,30 @@
  * type_info 0x0088EB30, type_info function 0x005EFE50, structors 0x00305270, 0x00305308, 0x00306EA0
  * vtable 0x00674A58: 51 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x2C (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_hModule_H
 #define GT4_hModule_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class HSymID;
+
+class hModule : public hObject {
+public:
+    char pad10[0x4];
+    void *unk14;
+    char pad18[0x14];
+    virtual s32 setName(const void *);  /* 49: hModule::setName(std::basic_string<char, std::char_traits<char>, std_allocator<char> > const&) */
+    virtual s32 getModuleValue(void *, const HSymID &) const;  /* 50: hModule::getModuleValue(HValue&, HSymID const&) const */
+    static s32 GetClassID();  /* 0x00304360 */
+    s32 getName() const;  /* 0x00305570 */
+    void findModuleValue(void *, const HSymID &) const;  /* 0x00305FE0 */
+    s32 clearModuleValue();  /* 0x003063F8 */
+};
+#else
 struct hModule {
     s32 unk0;
     union {
@@ -21,6 +39,24 @@ struct hModule {
     char pad10[0x4];
     void *unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hModule__rc_class(struct hModule *);
+s32 hModule__rc_size(struct hModule *);
+s32 hModule__GetClassID(void);
+s32 hModule__getClassID(struct hModule *);
+s32 hModule__getName(struct hModule *);
+void hModule__findModuleValue(struct hModule *, void *, const struct HSymID *);
+s32 hModule__clearModuleValue(struct hModule *);
+s32 hModule__getModuleValue(struct hModule *, void *, const struct HSymID *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00306EA0  hModule::~hModule() [high]

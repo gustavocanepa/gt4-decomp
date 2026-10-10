@@ -4,12 +4,20 @@
  * type_info 0x0088EE30, type_info function 0x005F1638, structors 0x0031E618, 0x0031E648
  * vtable 0x00675878: 11 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (rc_size), vptr at 0x4
  */
 #ifndef GT4_mPop_H
 #define GT4_mPop_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mPop : public hInst {
+public:
+};
+#else
 struct mPop {
     s32 unk0;
     union {
@@ -17,6 +25,20 @@ struct mPop {
         s32 unk4_s32;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mPop__rc_class(struct mPop *);
+s32 mPop__rc_size(struct mPop *);
+s32 mPop__execute(struct mPop *, struct hThread *);
+void mPop__read(struct mPop *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031E648  mPop::~mPop() [high]

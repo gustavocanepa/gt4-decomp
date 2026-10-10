@@ -4,12 +4,30 @@
  * type_info 0x0088E450, type_info function 0x005E3440, structors 0x002735C8, 0x00273620
  * vtable 0x00667E10: 16 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x24 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mImagePS2_H
 #define GT4_mImagePS2_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mImage.h"
+
+class mImagePS2 : public mImage {
+public:
+    s32 unk8;
+    s32 unkC;
+    char pad10[0x4];
+    union {
+        s32 unk14;
+        void *unk14_pvoid;
+    };
+    f32 unk18;
+    f32 unk1C;
+    void *unk20;
+};
+#else
 struct mImagePS2 {
     s32 unk0;
     union {
@@ -27,6 +45,18 @@ struct mImagePS2 {
     f32 unk1C;
     void *unk20;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mImagePS2__virtual_03(struct mImagePS2 *);
+s32 mImagePS2__virtual_04(struct mImagePS2 *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00273620

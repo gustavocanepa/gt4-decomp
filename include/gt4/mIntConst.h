@@ -4,12 +4,21 @@
  * type_info 0x0088EDD0, type_info function 0x005F1228, structors 0x0031C0E0
  * vtable 0x00675D58: 11 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mIntConst_H
 #define GT4_mIntConst_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mIntConst : public hInst {
+public:
+    void *unk8;
+};
+#else
 struct mIntConst {
     s32 unk0;
     union {
@@ -18,6 +27,20 @@ struct mIntConst {
     };
     void *unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mIntConst__rc_class(struct mIntConst *);
+s32 mIntConst__rc_size(struct mIntConst *);
+s32 mIntConst__execute(struct mIntConst *, struct hThread *);
+s32 mIntConst__read(struct mIntConst *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031C120  mIntConst::~mIntConst() [high]

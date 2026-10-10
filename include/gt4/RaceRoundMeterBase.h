@@ -4,12 +4,26 @@
  * type_info 0x0088F750, type_info function 0x005FB5D8, structors 0x003BE238
  * vtable 0x006814F0: 16 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x24 (not known: up to the last field seen), vptr at 0x14
  */
 #ifndef GT4_RaceRoundMeterBase_H
 #define GT4_RaceRoundMeterBase_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceMeterBase.h"
+
+class RaceRoundMeterBase : public RaceMeterBase {
+public:
+    virtual void init_needle();  /* 10: RaceRoundMeterBase::init_needle() */
+    virtual s32 get_needle_vertex() const;  /* 11: RaceRoundMeterBase::get_needle_vertex() const */
+    virtual s32 get_needle_color() const;  /* 12: RaceRoundMeterBase::get_needle_color() const */
+    virtual void draw_scale();  /* 13: RaceRoundMeterBase::draw_scale() */
+    virtual s32 virtual_14();  /* 14: parameters from the code */
+    virtual s32 virtual_15();  /* 15: parameters from the code */
+};
+#else
 struct RaceRoundMeterBase {
     s32 unk0;
     char pad4[0x10];
@@ -21,6 +35,21 @@ struct RaceRoundMeterBase {
     s32 unk1C;
     s32 unk20;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceRoundMeterBase__virtual_05(struct RaceRoundMeterBase *, void *);
+void RaceRoundMeterBase__init_needle(struct RaceRoundMeterBase *);
+s32 RaceRoundMeterBase__get_needle_vertex(struct RaceRoundMeterBase *);
+s32 RaceRoundMeterBase__get_needle_color(struct RaceRoundMeterBase *);
+void RaceRoundMeterBase__draw_scale(struct RaceRoundMeterBase *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FB570  RaceRoundMeterBase::~RaceRoundMeterBase() [high]

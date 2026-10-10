@@ -4,12 +4,21 @@
  * type_info 0x0088EE70, type_info function 0x005F0E68, structors 0x00319670
  * vtable 0x00676238: 11 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mArrayPush_H
 #define GT4_mArrayPush_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mArrayPush : public hInst {
+public:
+    void *unk8;
+};
+#else
 struct mArrayPush {
     s32 unk0;
     union {
@@ -18,6 +27,20 @@ struct mArrayPush {
     };
     void *unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mArrayPush__rc_class(struct mArrayPush *);
+s32 mArrayPush__rc_size(struct mArrayPush *);
+s32 mArrayPush__execute(struct mArrayPush *, struct hThread *);
+s32 mArrayPush__read(struct mArrayPush *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003196B0  mArrayPush::~mArrayPush() [high]

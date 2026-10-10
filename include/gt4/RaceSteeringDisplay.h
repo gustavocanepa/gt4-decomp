@@ -4,12 +4,26 @@
  * type_info 0x0088F4C0, type_info function 0x005F8708, structors 0x0039AB68, 0x003A5CC8, 0x005F86A0
  * vtable 0x0067F738: 9 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x24 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceSteeringDisplay_H
 #define GT4_RaceSteeringDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceSteeringDisplay : public RaceDisplayObjectBase {
+public:
+    void *unk18;
+    union {
+        f32 unk1C;
+        void *unk1C_pvoid;
+    };
+    f32 unk20;
+};
+#else
 struct RaceSteeringDisplay {
     char pad0[0x14];
     void *unk14;
@@ -20,6 +34,18 @@ struct RaceSteeringDisplay {
     };
     f32 unk20;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceSteeringDisplay__update(struct RaceSteeringDisplay *);
+s32 RaceSteeringDisplay__render_main(struct RaceSteeringDisplay *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F86A0  RaceSteeringDisplay::~RaceSteeringDisplay() [high]

@@ -4,12 +4,24 @@
  * type_info 0x006D62C0, type_info function 0x00613AE8, structors 0x0057A070
  * vtable 0x00689EC8: 1 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x14 (not known: up to the last field seen), vptr at 0x10 (introduced here), fields left out (overlap, or in the base's part): 0x10
  */
 #ifndef GT4_RelocatorBase_H
 #define GT4_RelocatorBase_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class RelocatorBase {
+public:
+    s32 unk0;
+    s32 unk4;
+    s32 unk8;
+    s32 unkC;
+    virtual void readUserChunks(u8 *, u32, u32);  /* 0: RelocatorBase::readUserChunks(unsigned char*, unsigned int, unsigned int) */
+};
+#else
 struct RelocatorBase {
     s32 unk0;
     s32 unk4;
@@ -17,6 +29,17 @@ struct RelocatorBase {
     s32 unkC;
     void *unk10;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RelocatorBase__readUserChunks(struct RelocatorBase *, u8 *, u32, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0057A120  RelocatorBase::readUserChunks(unsigned char*, unsigned int, unsigned int) [high]

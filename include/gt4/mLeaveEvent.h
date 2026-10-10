@@ -4,12 +4,21 @@
  * type_info 0x0088E790, type_info function 0x005E7E30, structors 0x0022F400, 0x0022FFD0, 0x005E7E80
  * vtable 0x0066E148: 51 slots
  * size: not known; the fields seen reach 0x20
+ * C++ (GT4_CXX): size 0x20 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mLeaveEvent_H
 #define GT4_mLeaveEvent_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mCrossingEvent.h"
+
+class mLeaveEvent : public mCrossingEvent {
+public:
+    static s32 GetClassID();  /* 0x002ADE78 */
+};
+#else
 struct mLeaveEvent {
     s32 unk0;
     union {
@@ -21,6 +30,21 @@ struct mLeaveEvent {
     char pad10[0xC];
     void *unk1C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mLeaveEvent__rc_class(struct mLeaveEvent *);
+s32 mLeaveEvent__rc_size(struct mLeaveEvent *);
+s32 mLeaveEvent__GetClassID(void);
+s32 mLeaveEvent__getClassID(struct mLeaveEvent *);
+s32 mLeaveEvent__onEvent(struct mLeaveEvent *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E7EB0  mLeaveEvent::~mLeaveEvent() [high]

@@ -4,12 +4,21 @@
  * type_info 0x0088E950, type_info function 0x005EA490, structors 0x002DD820, 0x002DD900
  * vtable 0x00671D98: 103 slots
  * size: not known; the fields seen reach 0xC0
+ * C++ (GT4_CXX): size 0x110 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mSliderBar_H
 #define GT4_mSliderBar_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mFBox.h"
+
+class mSliderBar : public mFBox {
+public:
+    char padC0[0x50];
+};
+#else
 struct mSliderBar {
     s32 unk0;
     union {
@@ -34,6 +43,22 @@ struct mSliderBar {
     s32 unkB8;
     s32 unkBC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mSliderBar__rc_class(struct mSliderBar *);
+s32 mSliderBar__rc_size(struct mSliderBar *);
+s32 mSliderBar__virtual_09(struct mSliderBar *);
+s32 mSliderBar__virtual_71(struct mSliderBar *, struct mRenderContext *, struct mKeyPressEvent *);
+void mSliderBar__virtual_72(struct mSliderBar *, struct mRenderContext *, struct mKeyReleaseEvent *);
+s32 mSliderBar__virtual_08(struct mSliderBar *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002DD900  mSliderBar::~mSliderBar() [high]

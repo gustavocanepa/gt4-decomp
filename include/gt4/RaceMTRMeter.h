@@ -4,12 +4,31 @@
  * type_info 0x0088F580, type_info function 0x005F98C0, structors 0x003ABA80, 0x003ABAD8
  * vtable 0x0067EFA0: 10 slots
  * size: not known; the fields seen reach 0x70
+ * C++ (GT4_CXX): size 0x70 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceMTRMeter_H
 #define GT4_RaceMTRMeter_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceMTRMeter : public RaceDisplayObjectBase {
+public:
+    s32 unk18;
+    s32 unk1C;
+    s32 unk20;
+    s32 unk24;
+    s32 unk28;
+    s32 unk2C;
+    char pad30[0x3C];
+    s32 unk6C;
+    virtual f32 virtual_9();  /* 9: GT HD (medium): RaceMTRMeter::update(float); parameters from the code */
+    s32 render_buffer(void *);  /* 0x003ABC10 */
+    s32 init_texset();  /* 0x003AC340 */
+};
+#else
 struct RaceMTRMeter {
     char pad0[0x14];
     union {
@@ -25,6 +44,19 @@ struct RaceMTRMeter {
     char pad30[0x3C];
     s32 unk6C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceMTRMeter__render_main(struct RaceMTRMeter *, void *);
+s32 RaceMTRMeter__render_buffer(struct RaceMTRMeter *, void *);
+s32 RaceMTRMeter__init_texset(struct RaceMTRMeter *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003ABAD8  RaceMTRMeter::~RaceMTRMeter() [high]

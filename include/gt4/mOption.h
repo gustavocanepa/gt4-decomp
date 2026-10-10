@@ -4,12 +4,26 @@
  * type_info 0x0088DC80, type_info function 0x005CBC48, structors 0x0018FB20, 0x0018FB58, 0x0018FBA0
  * vtable 0x0065D2E8: 49 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x16D0 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mOption_H
 #define GT4_mOption_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mOption : public hObject {
+public:
+    union {
+        s32 unk10;
+        void *unk10_pvoid;
+    };
+    char pad14[0x16BC];
+    static s32 GetClassID();  /* 0x0017FC78 */
+};
+#else
 struct mOption {
     s32 unk0;
     union {
@@ -23,6 +37,20 @@ struct mOption {
         void *unk10_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mOption__rc_class(struct mOption *);
+s32 mOption__rc_size(struct mOption *);
+s32 mOption__GetClassID(void);
+s32 mOption__getClassID(struct mOption *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0018FBA0  mOption::~mOption() [high]

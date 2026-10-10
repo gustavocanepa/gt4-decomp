@@ -1,3 +1,5 @@
+#define GT4_DECLS
+#include "gt4/hObject.h"
 typedef int s32;
 
 struct Rep {
@@ -33,9 +35,8 @@ extern "C" s32 func_0057F260(const char *s);
 extern "C" void *func_005C2630(Str *s, s32 pos, s32 n, const char *src, s32 len);
 extern "C" struct S00659988 *func_005C11A8(void);
 extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
-extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
-extern "C" int func_0026B9A8(void);
+extern "C" int mWindowEvent__GetClassID(void);
 extern "C" void func_002F36E0(Obj *arg0, void *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
 extern char D_0069BB78[];
@@ -48,7 +49,7 @@ extern "C" void MKeyEvent__get_keysym(void);
 extern "C" void MKeyEvent__get_state(void);
 extern "C" void MKeyEvent__get_port(void);
 
-extern "C" void func_002A9AF0(Obj *arg0) {
+extern "C" void mKeyEvent__InitClass(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
@@ -75,7 +76,7 @@ extern "C" void func_002A9AF0(Obj *arg0) {
             }
         }
     }
-    func_002F3A30(arg0, func_0026B9A8());
+    func_002F3A30(arg0, mWindowEvent__GetClassID());
     func_002F36E0(arg0, D_00837318, MKeyEvent__global_00837318);
     {
         Str *ps = &s;

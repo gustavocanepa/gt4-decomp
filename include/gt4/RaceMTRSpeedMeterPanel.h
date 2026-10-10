@@ -4,12 +4,30 @@
  * type_info 0x0088F550, type_info function 0x005F9A38, structors 0x003ACE18, 0x003ACE68
  * vtable 0x0067EE80: 10 slots
  * size: not known; the fields seen reach 0x34
+ * C++ (GT4_CXX): size 0x34 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceMTRSpeedMeterPanel_H
 #define GT4_RaceMTRSpeedMeterPanel_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceMTRSpeedMeterPanel : public RaceDisplayObjectBase {
+public:
+    s32 unk18;
+    s32 unk1C;
+    char pad20[0x4];
+    s32 unk24;
+    s32 unk28;
+    s32 unk2C;
+    s32 unk30;
+    virtual void update(f32);  /* 9: RaceMTRSpeedMeterPanel::update(float) */
+    s32 render_buffer(void *);  /* 0x003AD0D0 */
+    s32 init_texset();  /* 0x003AD458 */
+};
+#else
 struct RaceMTRSpeedMeterPanel {
     char pad0[0x14];
     union {
@@ -24,6 +42,20 @@ struct RaceMTRSpeedMeterPanel {
     s32 unk2C;
     s32 unk30;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceMTRSpeedMeterPanel__update(struct RaceMTRSpeedMeterPanel *, f32);
+s32 RaceMTRSpeedMeterPanel__render_main(struct RaceMTRSpeedMeterPanel *, void *);
+s32 RaceMTRSpeedMeterPanel__render_buffer(struct RaceMTRSpeedMeterPanel *, void *);
+s32 RaceMTRSpeedMeterPanel__init_texset(struct RaceMTRSpeedMeterPanel *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003ACE68  RaceMTRSpeedMeterPanel::~RaceMTRSpeedMeterPanel() [high]

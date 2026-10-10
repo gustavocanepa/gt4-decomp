@@ -4,12 +4,20 @@
  * type_info 0x0088DDF0, type_info function 0x005D08A0, structors 0x001BE0B8, 0x001BE0E8
  * vtable 0x006602B0: 96 slots
  * size: not known; the fields seen reach 0xAC
+ * C++ (GT4_CXX): size 0xAC (allocation, 1 site), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mEyetoyFacePS2_H
 #define GT4_mEyetoyFacePS2_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mEyetoyFace.h"
+
+class mEyetoyFacePS2 : public mEyetoyFace {
+public:
+};
+#else
 struct mEyetoyFacePS2 {
     s32 unk0;
     union {
@@ -27,6 +35,7 @@ struct mEyetoyFacePS2 {
     char pad94[0x14];
     s32 unkA8;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001BE0E8

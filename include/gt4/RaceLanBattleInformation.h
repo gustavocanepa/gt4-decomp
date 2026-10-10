@@ -4,12 +4,46 @@
  * type_info 0x0088EF60, type_info function 0x005F3308, structors 0x00335A08, 0x00335A38
  * vtable 0x00678670: 19 slots
  * size: not known; the fields seen reach 0xAB8
+ * C++ (GT4_CXX): size 0xAB8 (not known: up to the last field seen), vptr at 0x12C (introduced here), fields left out (overlap, or in the base's part): 0x12C
  */
 #ifndef GT4_RaceLanBattleInformation_H
 #define GT4_RaceLanBattleInformation_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; RaceLanBattleInformation has fields after 0x12C, so a base without RTTI introduced it */
+class RaceLanBattleInformation_vbase {
+public:
+    char pad0[0x12C];
+    virtual s32 virtual_0(s32);  /* 0: parameters from the code */
+    virtual s32 virtual_1();  /* 1: parameters from the code */
+    virtual s32 virtual_2();  /* 2: parameters from the code */
+    virtual void virtual_3(s32);  /* 3: parameters from the code */
+    virtual s32 virtual_4();  /* 4: parameters from the code */
+    virtual s32 virtual_5();  /* 5: parameters from the code */
+    virtual s32 virtual_6();  /* 6: parameters from the code */
+    virtual s32 virtual_7();  /* 7: parameters from the code */
+    virtual s32 virtual_8();  /* 8: parameters from the code */
+    virtual void virtual_9(s32);  /* 9: parameters from the code */
+    virtual s32 virtual_10();  /* 10: parameters from the code */
+    virtual s32 virtual_11();  /* 11: parameters from the code */
+    virtual s32 virtual_12(s32);  /* 12: parameters from the code */
+    virtual s32 virtual_13(s32);  /* 13: parameters from the code */
+    virtual s32 virtual_14(s32, s32, s32);  /* 14: parameters from the code */
+    virtual s32 virtual_15(s32, s32, s32);  /* 15: parameters from the code */
+    virtual void virtual_16(s32);  /* 16: parameters from the code */
+    virtual s32 virtual_17();  /* 17: parameters from the code */
+    virtual s32 virtual_18();  /* 18: parameters from the code */
+};
+
+class RaceLanBattleInformation : public RaceLanBattleInformation_vbase {
+public:
+    char pad130[0x980];
+    s64 unkAB0;
+};
+#else
 struct RaceLanBattleInformation {
     char pad0[0x12C];
     union {
@@ -19,6 +53,7 @@ struct RaceLanBattleInformation {
     char pad130[0x980];
     s64 unkAB0;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00335A38

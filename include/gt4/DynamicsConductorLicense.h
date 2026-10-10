@@ -24,6 +24,38 @@ struct DynamicsConductorLicense {
     };
 };
 
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 DynamicsConductorLicense__isDataLoggerSupported(struct DynamicsConductorLicense *);
+void DynamicsConductorLicense__virtual_27(struct DynamicsConductorLicense *, s32);
+s32 DynamicsConductorLicense__terminate(struct DynamicsConductorLicense *);
+s32 DynamicsConductorLicense__getEachEntrantInfo(struct DynamicsConductorLicense *, s32, s32 *, s32 *, s32 *, s32 *);
+s32 DynamicsConductorLicense__getStartPosition(struct DynamicsConductorLicense *, s32);
+s32 DynamicsConductorLicense__getLaunchSpeed(struct DynamicsConductorLicense *, s32);
+s32 DynamicsConductorLicense__getStartingFormat(struct DynamicsConductorLicense *);
+s32 DynamicsConductorLicense__GetNumberOfLaps(struct DynamicsConductorLicense *);
+s32 DynamicsConductorLicense__isDataLoggerStandingStart(struct DynamicsConductorLicense *);
+s32 DynamicsConductorLicense__isDataLoggerMultiLap(struct DynamicsConductorLicense *);
+s32 DynamicsConductorLicense__getDataLoggerSection(struct DynamicsConductorLicense *, void *, s32);
+s32 DynamicsConductorLicense__CurrentLapTime(struct DynamicsConductorLicense *, void *);
+s32 DynamicsConductorLicense__getSpecialStart(struct DynamicsConductorLicense *, s32, s32 *, s32 *, s32 *);
+s32 DynamicsConductorLicense__ProcessCheckPoint(struct DynamicsConductorLicense *, s32, s32, s32, u32, u32, u32);
+s32 DynamicsConductorLicense__ProcessLap0ControlLine(struct DynamicsConductorLicense *, s32, f32, u32, u32);
+s32 DynamicsConductorLicense__ProcessControlLine(struct DynamicsConductorLicense *, s32, s32, u32, u32, u32, f32, u32);
+s32 DynamicsConductorLicense__ProcessStartLine(struct DynamicsConductorLicense *, s32, f32, u32, u32);
+s32 DynamicsConductorLicense__ProcessGoalLine(struct DynamicsConductorLicense *, s32, s32, u32, u32, u32);
+void DynamicsConductorLicense__ProcessLapTimeCommonPre(struct DynamicsConductorLicense *);
+s32 DynamicsConductorLicense__ProcessLapTimeCommonPost(struct DynamicsConductorLicense *);
+s32 DynamicsConductorLicense__getCrashability(struct DynamicsConductorLicense *);
+s32 DynamicsConductorLicense__issueCrashEvent(struct DynamicsConductorLicense *, void *, s32, s32, f32);
+s32 DynamicsConductorLicense__LicenseRunTimeJudge(struct DynamicsConductorLicense *, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
+
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00359230
  *   1: 0x00365D80

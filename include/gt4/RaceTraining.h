@@ -4,12 +4,22 @@
  * type_info 0x0088F940, type_info function 0x005FE9B8, structors 0x003ED298, 0x003ED388
  * vtable 0x00683C20: 153 slots
  * size: not known; the fields seen reach 0x137EC
+ * C++ (GT4_CXX): size 0x137EC (not known: up to the last field seen), vptr at 0x64
  */
 #ifndef GT4_RaceTraining_H
 #define GT4_RaceTraining_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceTrainingBase.h"
+
+class RaceTraining : public RaceTrainingBase {
+public:
+    char padE428[0x53C0];
+    s32 unk137E8;
+};
+#else
 struct RaceTraining {
     char pad0[0x64];
     union {
@@ -65,6 +75,23 @@ struct RaceTraining {
     char padE428[0x53C0];
     s32 unk137E8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceTrainingBase__postInitialize(struct RaceTraining *);
+void RaceTrainingBase__raceStart(struct RaceTraining *);
+s32 RaceTraining__raceName(struct RaceTraining *);
+s32 RaceTraining__initialize(struct RaceTraining *, s32);
+void RaceTraining__setGuideMode(struct RaceTraining *, s32);
+s32 RaceTraining__getRaceMode(struct RaceTraining *, s32 *);
+s32 RaceTraining__getRaceModeKey(struct RaceTraining *, s32 *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003ED388  RaceTraining::~RaceTraining() [high]

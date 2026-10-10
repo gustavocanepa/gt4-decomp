@@ -4,12 +4,23 @@
  * type_info 0x0088E4C0, type_info function 0x005E4020, structors 0x00278E98
  * vtable 0x00668880: 53 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x40 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mBlinkActor_H
 #define GT4_mBlinkActor_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mActor.h"
+class hClass;
+
+class mBlinkActor : public mActor {
+public:
+    char pad14[0x2C];
+    static s32 InitClass(hClass *);  /* 0x00279198 */
+};
+#else
 struct mBlinkActor {
     s32 unk0;
     union {
@@ -19,6 +30,22 @@ struct mBlinkActor {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mBlinkActor__rc_class(struct mBlinkActor *);
+s32 mBlinkActor__rc_size(struct mBlinkActor *);
+s32 mBlinkActor__virtual_09(struct mBlinkActor *);
+s32 mBlinkActor__InitClass(struct hClass *);
+s32 mBlinkActor__rewind(struct mBlinkActor *);
+s32 mBlinkActor__update(struct mBlinkActor *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E3F58  mBlinkActor::~mBlinkActor() [high]

@@ -4,12 +4,25 @@
  * type_info 0x0088EA00, type_info function 0x005ED8F0, structors 0x002EF6A0, 0x002EF6E8, 0x002EF800, 0x002EF8E8
  * vtable 0x00673358: 49 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x24 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_hArray_H
 #define GT4_hArray_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class hArray : public hObject {
+public:
+    char pad10[0x4];
+    s32 unk14;
+    char pad18[0xC];
+    static s32 GetClassID();  /* 0x002ED768 */
+    s32 size() const;  /* 0x002EF9B0 */
+};
+#else
 struct hArray {
     s32 unk0;
     union {
@@ -21,6 +34,24 @@ struct hArray {
     char pad10[0x4];
     s32 unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hArray__rc_class(struct hArray *);
+s32 hArray__rc_size(struct hArray *);
+s32 hArray__GetClassID(void);
+s32 hArray__getClassID(struct hArray *);
+s32 hArray__cleanup(struct hArray *);
+s32 hArray__size(struct hArray *);
+s32 hArray__setElement(struct hArray *, u32, const struct HObject *);
+s32 hArray__deepCopy(struct hArray *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002EF800  hArray::~hArray() [high]

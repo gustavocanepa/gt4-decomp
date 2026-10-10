@@ -4,12 +4,20 @@
  * type_info 0x0088EF80, type_info function 0x005F3368, structors 0x00335C80, 0x00335CB0
  * vtable 0x00678620: 8 slots
  * size: not known; the fields seen reach 0x1E0
+ * C++ (GT4_CXX): size 0x1E0 (not known: up to the last field seen), vptr at 0xD0, fields left out (overlap, or in the base's part): 0xD0, 0x1D0
  */
 #ifndef GT4_RaceInputLan_H
 #define GT4_RaceInputLan_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceInput.h"
+
+class RaceInputLan : public RaceInput {
+public:
+};
+#else
 struct RaceInputLan {
     char pad0[0xD0];
     union {
@@ -36,6 +44,22 @@ struct RaceInputLan {
     void *unk1D8;
     void *unk1DC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceInputLan__virtual_04(struct RaceInputLan *, void *, void *);
+s32 RaceInputLan__virtual_05(struct RaceInputLan *, void *);
+s32 RaceInput__getAutomobileConfig(struct RaceInputLan *, void *);
+s32 RaceInput__replayControl(struct RaceInputLan *, void *);
+s32 RaceInput__recordControl(struct RaceInputLan *, void *);
+s32 RaceInput__fetch(struct RaceInputLan *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00335CB0

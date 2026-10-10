@@ -4,12 +4,20 @@
  * type_info 0x0088ECD0, type_info function 0x005F0EB8, structors 0x00319A50
  * vtable 0x006761D0: 11 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (rc_size), vptr at 0x4
  */
 #ifndef GT4_mAssign_H
 #define GT4_mAssign_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mAssign : public hInst {
+public:
+};
+#else
 struct mAssign {
     s32 unk0;
     union {
@@ -17,6 +25,20 @@ struct mAssign {
         s32 unk4_s32;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mAssign__rc_class(struct mAssign *);
+s32 mAssign__rc_size(struct mAssign *);
+s32 mAssign__execute(struct mAssign *, struct hThread *);
+void mAssign__read(struct mAssign *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00319A80  mAssign::~mAssign() [high]

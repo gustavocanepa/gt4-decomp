@@ -4,12 +4,27 @@
  * type_info 0x0088E990, type_info function 0x005EA878, structors 0x002E4D60, 0x002E4E70
  * vtable 0x006725E8: 107 slots
  * size: not known; the fields seen reach 0x3C0
+ * C++ (GT4_CXX): size 0x3C8 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mTextBoxFace_H
 #define GT4_mTextBoxFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mScrollable.h"
+
+class mTextBoxFace : public mScrollable {
+public:
+    char padBC[0x2F0];
+    s32 unk3AC;
+    s32 unk3B0;
+    char pad3B4[0x8];
+    f32 unk3BC;
+    char pad3C0[0x8];
+    static s32 GetClassID();  /* 0x002E4D28 */
+};
+#else
 struct mTextBoxFace {
     s32 unk0;
     union {
@@ -38,6 +53,25 @@ struct mTextBoxFace {
     char pad3B4[0x8];
     f32 unk3BC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mTextBoxFace__rc_class(struct mTextBoxFace *);
+s32 mTextBoxFace__rc_size(struct mTextBoxFace *);
+s32 mTextBoxFace__GetClassID(void);
+s32 mTextBoxFace__getClassID(struct mTextBoxFace *);
+s32 mTextBoxFace__onKeyPress(struct mTextBoxFace *, struct mRenderContext *, struct mKeyPressEvent *);
+s32 mTextBoxFace__getBeginPointRatio(struct mTextBoxFace *);
+s32 mTextBoxFace__getVolumeRatio(struct mTextBoxFace *);
+s32 mTextBoxFace__deepCopy(struct mTextBoxFace *, const struct hObject *);
+s32 mTextBoxFace__setColor(struct mTextBoxFace *, const struct MColor *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002E4E70  mTextBoxFace::~mTextBoxFace() [high]

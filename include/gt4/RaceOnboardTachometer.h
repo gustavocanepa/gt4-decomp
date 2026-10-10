@@ -4,12 +4,25 @@
  * type_info 0x0088F930, type_info function 0x005FE7C8, structors 0x003EC848
  * vtable 0x00683B00: 16 slots
  * size: not known; the fields seen reach 0x890
+ * C++ (GT4_CXX): size 0x890 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceOnboardTachometer_H
 #define GT4_RaceOnboardTachometer_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceRoundTachometerBase.h"
+
+class RaceOnboardTachometer : public RaceRoundTachometerBase {
+public:
+    char pad24[0x2C];
+    f32 unk50;
+    f32 unk54;
+    char pad58[0x834];
+    f32 unk88C;
+};
+#else
 struct RaceOnboardTachometer {
     s32 unk0;
     char pad4[0x10];
@@ -26,6 +39,19 @@ struct RaceOnboardTachometer {
     char pad58[0x834];
     f32 unk88C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceOnboardTachometer__virtual_05(struct RaceOnboardTachometer *, void *);
+s32 RaceOnboardTachometer__virtual_13(struct RaceOnboardTachometer *);
+void RaceRoundTachometerBase__setScale(struct RaceOnboardTachometer *, f32, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FE760  RaceOnboardTachometer::~RaceOnboardTachometer() [high]

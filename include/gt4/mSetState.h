@@ -4,12 +4,24 @@
  * type_info 0x0088EE40, type_info function 0x005F1728, structors 0x0031F2A8
  * vtable 0x00675740: 11 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mSetState_H
 #define GT4_mSetState_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mSetState : public hInst {
+public:
+    union {
+        s32 unk8;
+        void *unk8_pvoid;
+    };
+};
+#else
 struct mSetState {
     s32 unk0;
     union {
@@ -21,6 +33,20 @@ struct mSetState {
         void *unk8_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mSetState__rc_class(struct mSetState *);
+s32 mSetState__rc_size(struct mSetState *);
+s32 mSetState__execute(struct mSetState *, struct hThread *);
+s32 mSetState__read(struct mSetState *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031F2E8  mSetState::~mSetState() [high]

@@ -4,16 +4,41 @@
  * type_info 0x0088F810, type_info function 0x005FDBB0, structors 0x003CCA38, 0x005FDC00
  * vtable 0x006829B8: 1 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (not known: up to the last field seen), vptr at 0x0 (introduced here), fields left out (overlap, or in the base's part): 0x0
  */
 #ifndef GT4_PropNameSearcher_H
 #define GT4_PropNameSearcher_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; PropNameSearcher has fields after 0x0, so a base without RTTI introduced it */
+class PropNameSearcher_vbase {
+public:
+    virtual s32 setName(const char *);  /* 0: PropNameSearcher::setName(char const*) */
+};
+
+class PropNameSearcher : public PropNameSearcher_vbase {
+public:
+    s32 unk4;
+};
+#else
 struct PropNameSearcher {
     s32 unk0;
     s32 unk4;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 PropNameSearcher__setName(struct PropNameSearcher *, const char *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003CC9E8  PropNameSearcher::setName(char const*) [high]

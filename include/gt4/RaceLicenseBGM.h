@@ -4,12 +4,22 @@
  * type_info 0x0088F700, type_info function 0x005FB2E0, structors 0x003BBE18, 0x003BBE50
  * vtable 0x00680CA8: 9 slots
  * size: not known; the fields seen reach 0x11EC
+ * C++ (GT4_CXX): size 0x11EC (not known: up to the last field seen), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_RaceLicenseBGM_H
 #define GT4_RaceLicenseBGM_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceBGMPS2.h"
+
+class RaceLicenseBGM : public RaceBGMPS2 {
+public:
+    char pad8[0x11E0];
+    s32 unk11E8;
+};
+#else
 struct RaceLicenseBGM {
     char pad0[0x4];
     union {
@@ -19,6 +29,17 @@ struct RaceLicenseBGM {
     char pad8[0x11E0];
     s32 unk11E8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceLicenseBGM__play(struct RaceLicenseBGM *, s32, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003BBE50  RaceLicenseBGM::~RaceLicenseBGM() [high]

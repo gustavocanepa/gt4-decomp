@@ -4,12 +4,23 @@
  * type_info 0x0088E500, type_info function 0x005E4320, structors 0x0027E098
  * vtable 0x00669260: 53 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x44 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mButtonActor_H
 #define GT4_mButtonActor_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mActor.h"
+
+class mButtonActor : public mActor {
+public:
+    char pad14[0xC];
+    s32 unk20;
+    char pad24[0x20];
+};
+#else
 struct mButtonActor {
     s32 unk0;
     union {
@@ -21,6 +32,22 @@ struct mButtonActor {
     char pad10[0x10];
     s32 unk20;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mButtonActor__rc_class(struct mButtonActor *);
+s32 mButtonActor__rc_size(struct mButtonActor *);
+s32 mButtonActor__virtual_09(struct mButtonActor *);
+void mButtonActor__initialize(struct mButtonActor *);
+s32 mButtonActor__rewind(struct mButtonActor *);
+s32 mButtonActor__update(struct mButtonActor *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E4258  mButtonActor::~mButtonActor() [high]

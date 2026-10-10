@@ -4,18 +4,41 @@
  * type_info 0x0088EBD0, type_info function 0x005F0780, structors 0x00318DA0
  * vtable 0x00676398: 3 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x24 (not known: up to the last field seen), vptr at 0x0
  */
 #ifndef GT4_HModuleFrame_H
 #define GT4_HModuleFrame_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/HFrame.h"
+
+class HModuleFrame : public HFrame {
+public:
+    s32 unk4;
+    char pad8[0x18];
+    s32 unk20;
+};
+#else
 struct HModuleFrame {
     char pad0[0x4];
     s32 unk4;
     char pad8[0x18];
     s32 unk20;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 HModuleFrame__getType(struct HModuleFrame *);
+s32 HModuleFrame__end(struct HModuleFrame *, struct hThread *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F0738  HModuleFrame::~HModuleFrame() [high]

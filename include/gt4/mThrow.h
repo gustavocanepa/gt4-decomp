@@ -4,12 +4,20 @@
  * type_info 0x0088EE00, type_info function 0x005F18C8, structors 0x0031FF68
  * vtable 0x006755A0: 11 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (rc_size), vptr at 0x4
  */
 #ifndef GT4_mThrow_H
 #define GT4_mThrow_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mThrow : public hInst {
+public:
+};
+#else
 struct mThrow {
     s32 unk0;
     union {
@@ -17,6 +25,20 @@ struct mThrow {
         s32 unk4_s32;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mThrow__rc_class(struct mThrow *);
+s32 mThrow__rc_size(struct mThrow *);
+void mThrow__execute(struct mThrow *, struct hThread *);
+void mThrow__read(struct mThrow *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031FF98  mThrow::~mThrow() [high]

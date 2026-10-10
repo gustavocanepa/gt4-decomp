@@ -4,12 +4,21 @@
  * type_info 0x0088E650, type_info function 0x005E5BC0, structors 0x00294610
  * vtable 0x0066B7A8: 51 slots
  * size: not known; the fields seen reach 0x20
+ * C++ (GT4_CXX): size 0x20 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mFocusEnterEvent_H
 #define GT4_mFocusEnterEvent_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mCrossingEvent.h"
+
+class mFocusEnterEvent : public mCrossingEvent {
+public:
+    static s32 GetClassID();  /* 0x00294378 */
+};
+#else
 struct mFocusEnterEvent {
     s32 unk0;
     union {
@@ -21,6 +30,21 @@ struct mFocusEnterEvent {
     char pad10[0xC];
     void *unk1C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mFocusEnterEvent__rc_class(struct mFocusEnterEvent *);
+s32 mFocusEnterEvent__rc_size(struct mFocusEnterEvent *);
+s32 mFocusEnterEvent__GetClassID(void);
+s32 mFocusEnterEvent__getClassID(struct mFocusEnterEvent *);
+s32 mFocusEnterEvent__onEvent(struct mFocusEnterEvent *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00294640  mFocusEnterEvent::~mFocusEnterEvent() [high]

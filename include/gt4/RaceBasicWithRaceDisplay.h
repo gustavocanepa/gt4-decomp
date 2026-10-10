@@ -4,12 +4,20 @@
  * type_info 0x0088F220, type_info function 0x005F6C00, structors 0x0038BEA8, 0x0038BF00
  * vtable 0x0067CDC8: 152 slots
  * size: not known; the fields seen reach 0xE428
+ * C++ (GT4_CXX): size 0xE428 (not known: up to the last field seen), vptr at 0x64, fields left out (overlap, or in the base's part): 0x64
  */
 #ifndef GT4_RaceBasicWithRaceDisplay_H
 #define GT4_RaceBasicWithRaceDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceBasic.h"
+
+class RaceBasicWithRaceDisplay : public RaceBasic {
+public:
+};
+#else
 struct RaceBasicWithRaceDisplay {
     char pad0[0x64];
     union {
@@ -63,6 +71,19 @@ struct RaceBasicWithRaceDisplay {
     void *unkE420;
     void *unkE424;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceBasic__raceName(struct RaceBasicWithRaceDisplay *);
+void RaceBasic__initialize(struct RaceBasicWithRaceDisplay *, s32);
+void RaceBasic__updatePlay(struct RaceBasicWithRaceDisplay *, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0038BF00  RaceBasicWithRaceDisplay::~RaceBasicWithRaceDisplay() [high]

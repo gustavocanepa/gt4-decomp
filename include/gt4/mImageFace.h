@@ -4,12 +4,24 @@
  * type_info 0x0088E6F0, type_info function 0x005E6368, structors 0x002A0F00, 0x002A1028
  * vtable 0x0066CC78: 95 slots
  * size: not known; the fields seen reach 0x94
+ * C++ (GT4_CXX): size 0xF0 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mImageFace_H
 #define GT4_mImageFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mColorFace.h"
+class hClass;
+
+class mImageFace : public mColorFace {
+public:
+    char padB8[0x38];
+    static s32 GetClassID();  /* 0x002A0EC8 */
+    static s32 InitClass(hClass *);  /* 0x002A19C8 */
+};
+#else
 struct mImageFace {
     s32 unk0;
     union {
@@ -25,6 +37,22 @@ struct mImageFace {
     char pad30[0x60];
     void *unk90;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mImageFace__rc_class(struct mImageFace *);
+s32 mImageFace__rc_size(struct mImageFace *);
+s32 mImageFace__GetClassID(void);
+s32 mImageFace__getClassID(struct mImageFace *);
+s32 mImageFace__InitClass(struct hClass *);
+void mImageFace__deepCopy(struct mImageFace *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002A1028  mImageFace::~mImageFace() [high]

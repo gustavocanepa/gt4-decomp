@@ -4,12 +4,22 @@
  * type_info 0x0088E180, type_info function 0x005DA748, structors 0x0021DB58, 0x0021DBB0
  * vtable 0x00664398: 95 slots
  * size: not known; the fields seen reach 0x94
+ * C++ (GT4_CXX): size 0x160 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mMovieFace_H
 #define GT4_mMovieFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mImageFace.h"
+
+class mMovieFace : public mImageFace {
+public:
+    char padF0[0x70];
+    static s32 GetClassID();  /* 0x0021DB20 */
+};
+#else
 struct mMovieFace {
     s32 unk0;
     union {
@@ -25,6 +35,27 @@ struct mMovieFace {
     char pad30[0x60];
     void *unk90;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mMovieFace__rc_class(struct mMovieFace *);
+s32 mMovieFace__rc_size(struct mMovieFace *);
+s32 mMovieFace__GetClassID(void);
+s32 mMovieFace__getClassID(struct mMovieFace *);
+s32 mMovieFace__deepCopy(struct mMovieFace *, const struct hObject *);
+s32 mColorFace__setColor(struct mMovieFace *, const struct MColor *);
+s32 mColorFace__setAlpha(struct mMovieFace *, f32);
+s32 mColorFace__getAlpha(struct mMovieFace *);
+f32 mMovieFace__virtual_56(struct mMovieFace *, s32);
+s32 mMovieFace__virtual_58(struct mMovieFace *, f32, s32);
+s32 mImageFace__getProperSize(struct mMovieFace *, f32 *, f32 *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0021DBB0  mMovieFace::~mMovieFace() [high]

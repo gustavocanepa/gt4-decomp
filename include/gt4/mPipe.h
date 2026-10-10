@@ -4,12 +4,22 @@
  * type_info 0x0088E1B0, type_info function 0x005DAB78, structors 0x00227308, 0x00227340
  * vtable 0x006649F0: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x150 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mPipe_H
 #define GT4_mPipe_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mPipe : public hObject {
+public:
+    char pad10[0x140];
+    static s32 GetClassID();  /* 0x002272D0 */
+};
+#else
 struct mPipe {
     s32 unk0;
     union {
@@ -19,6 +29,20 @@ struct mPipe {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mPipe__rc_class(struct mPipe *);
+s32 mPipe__rc_size(struct mPipe *);
+s32 mPipe__GetClassID(void);
+s32 mPipe__getClassID(struct mPipe *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00227340  mPipe::~mPipe() [high]

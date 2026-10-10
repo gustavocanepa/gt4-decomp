@@ -4,12 +4,23 @@
  * type_info 0x0088E260, type_info function 0x005DBE28, structors 0x00236860, 0x00236928
  * vtable 0x00665780: 103 slots
  * size: not known; the fields seen reach 0xC8
+ * C++ (GT4_CXX): size 0x108 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mScaleBar_H
 #define GT4_mScaleBar_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mFBox.h"
+
+class mScaleBar : public mFBox {
+public:
+    char padC0[0x4];
+    f32 unkC4;
+    char padC8[0x40];
+};
+#else
 struct mScaleBar {
     s32 unk0;
     union {
@@ -36,6 +47,23 @@ struct mScaleBar {
     char padC0[0x4];
     f32 unkC4;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mScaleBar__rc_class(struct mScaleBar *);
+s32 mScaleBar__rc_size(struct mScaleBar *);
+s32 mScaleBar__virtual_09(struct mScaleBar *);
+s32 mScaleBar__virtual_80(struct mScaleBar *, struct mRenderContext *, struct mEvent *);
+s32 mScaleBar__virtual_71(struct mScaleBar *, struct mRenderContext *, struct mKeyPressEvent *);
+s32 mScaleBar__virtual_72(struct mScaleBar *, struct mRenderContext *, struct mKeyReleaseEvent *);
+s32 mScaleBar__virtual_08(struct mScaleBar *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00236928  mScaleBar::~mScaleBar() [high]

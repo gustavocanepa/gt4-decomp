@@ -4,12 +4,29 @@
  * type_info 0x0088F050, type_info function 0x005F48C0, structors 0x00336448, 0x00336718, 0x003389F0, 0x00338B80, 0x005F4858
  * vtable 0x006798C0: 17 slots
  * size: not known; the fields seen reach 0x50C
+ * C++ (GT4_CXX): size 0x50C (not known: up to the last field seen), vptr at 0xC, fields left out (overlap, or in the base's part): 0x0, 0xC
  */
 #ifndef GT4_ResultLinkBattle_H
 #define GT4_ResultLinkBattle_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/ResultArcade.h"
+
+class ResultLinkBattle : public ResultArcade {
+public:
+    s32 unk10;
+    char pad14[0x40];
+    s32 unk54;
+    char pad58[0x4];
+    s32 unk5C;
+    char pad60[0x4A0];
+    f32 unk500;
+    s32 unk504;
+    s32 unk508;
+};
+#else
 struct ResultLinkBattle {
     s32 unk0;
     s32 unk4;
@@ -25,6 +42,31 @@ struct ResultLinkBattle {
     s32 unk504;
     s32 unk508;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+f32 ResultLinkBattle__virtual_01(struct ResultLinkBattle *, void *, s32);
+s32 ResultLinkBattle__virtual_03(struct ResultLinkBattle *, void *, struct RaceInput *);
+s32 ResultLinkBattle__virtual_05(struct ResultLinkBattle *, void *, s32);
+s32 ResultLinkBattle__virtual_09(struct ResultLinkBattle *, char *, struct RaceEntryCar *);
+s32 ResultArcade__isResultStarting(struct ResultLinkBattle *, s32);
+s32 ResultArcade__cleanup(struct ResultLinkBattle *);
+s32 ResultArcade__getStrobeFilename(struct ResultLinkBattle *);
+s32 ResultArcade__getStrobeActionCallback(struct ResultLinkBattle *);
+s32 ResultArcade__getStrobeRenderCallback(struct ResultLinkBattle *);
+s32 ResultArcade__render(struct ResultLinkBattle *, void *, void *);
+s32 ResultArcade__startResultSequence(struct ResultLinkBattle *, void *);
+s32 ResultArcade__postStartResultSequence(struct ResultLinkBattle *, void *);
+s32 ResultArcade__setData(struct ResultLinkBattle *, s32, struct RaceEntryCar *);
+s32 ResultArcade__isStrobeFileCommonDir(struct ResultLinkBattle *);
+s32 ResultArcade__isChampionship(struct ResultLinkBattle *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F4858

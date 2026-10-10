@@ -4,16 +4,41 @@
  * type_info 0x0088F5E0, type_info function 0x005F85D0, structors 0x0039AB68, 0x003A4E68, 0x003ADDF8, 0x005F8510
  * vtable 0x0067F7E8: 10 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceEventDisplay_H
 #define GT4_RaceEventDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceEventDisplay : public RaceDisplayObjectBase {
+public:
+    virtual f32 update(f32);  /* 9: RaceEventDisplay::update(float) */
+    s32 clear(f32);  /* 0x003A4F00 */
+    void addEvent(const char *, f32, f32, f32, f32);  /* 0x003A50D0 */
+};
+#else
 struct RaceEventDisplay {
     char pad0[0x14];
     void *unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceEventDisplay__clear(struct RaceEventDisplay *, f32);
+s32 RaceEventDisplay__update(struct RaceEventDisplay *, f32);
+s32 RaceEventDisplay__render_main(struct RaceEventDisplay *);
+void RaceEventDisplay__addEvent(struct RaceEventDisplay *, const char *, f32, f32, f32, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F8510  RaceEventDisplay::~RaceEventDisplay() [high]

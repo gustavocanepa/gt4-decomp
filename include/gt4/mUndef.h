@@ -4,12 +4,21 @@
  * type_info 0x0088ED20, type_info function 0x005F1A08, structors 0x00320C60, 0x00320CA8
  * vtable 0x00675400: 11 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x18 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mUndef_H
 #define GT4_mUndef_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mUndef : public hInst {
+public:
+    char pad8[0x10];
+};
+#else
 struct mUndef {
     s32 unk0;
     union {
@@ -17,6 +26,20 @@ struct mUndef {
         void *unk4_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mUndef__rc_class(struct mUndef *);
+s32 mUndef__rc_size(struct mUndef *);
+s32 mUndef__execute(struct mUndef *, struct hThread *);
+s32 mUndef__read(struct mUndef *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00320CA8  mUndef::~mUndef() [high]

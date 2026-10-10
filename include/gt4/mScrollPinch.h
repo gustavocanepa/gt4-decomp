@@ -4,12 +4,24 @@
  * type_info 0x0088E900, type_info function 0x005EA188, structors 0x002D1298, 0x002D12D0
  * vtable 0x006707F0: 103 slots
  * size: not known; the fields seen reach 0xB8
+ * C++ (GT4_CXX): size 0xBC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mScrollPinch_H
 #define GT4_mScrollPinch_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mComposite.h"
+
+class mScrollPinch : public mComposite {
+public:
+    s32 unkB0;
+    s32 unkB4;
+    char padB8[0x4];
+    static s32 GetClassID();  /* 0x002D1260 */
+};
+#else
 struct mScrollPinch {
     s32 unk0;
     union {
@@ -32,6 +44,25 @@ struct mScrollPinch {
     s32 unkB0;
     s32 unkB4;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mScrollPinch__rc_class(struct mScrollPinch *);
+s32 mScrollPinch__rc_size(struct mScrollPinch *);
+s32 mScrollPinch__GetClassID(void);
+s32 mScrollPinch__getClassID(struct mScrollPinch *);
+s32 mScrollPinch__onEnter(struct mScrollPinch *, struct mRenderContext *, struct mCrossingEvent *);
+s32 mScrollPinch__onLeave(struct mScrollPinch *, struct mRenderContext *, struct mCrossingEvent *);
+s32 mScrollPinch__onButtonPress(struct mScrollPinch *, struct mRenderContext *, struct mButtonEvent *);
+s32 mScrollPinch__onButtonRelease(struct mScrollPinch *, struct mRenderContext *, struct mButtonEvent *);
+s32 mScrollPinch__onMotion(struct mScrollPinch *, struct mRenderContext *, struct mMotionEvent *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002D12D0  mScrollPinch::~mScrollPinch() [high]

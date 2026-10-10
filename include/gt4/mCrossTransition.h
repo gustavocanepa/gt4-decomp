@@ -4,12 +4,27 @@
  * type_info 0x0088E5B0, type_info function 0x005E55D8, structors 0x00289888
  * vtable 0x0066A670: 57 slots
  * size: not known; the fields seen reach 0x40
+ * C++ (GT4_CXX): size 0x40 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mCrossTransition_H
 #define GT4_mCrossTransition_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mTransition.h"
+class hClass;
+
+class mCrossTransition : public mTransition {
+public:
+    char pad20[0x4];
+    f32 unk24;
+    char pad28[0x14];
+    s32 unk3C;
+    static s32 GetClassID();  /* 0x00289850 */
+    static s32 InitClass(hClass *);  /* 0x00289FE0 */
+};
+#else
 struct mCrossTransition {
     s32 unk0;
     union {
@@ -30,6 +45,26 @@ struct mCrossTransition {
     char pad28[0x14];
     s32 unk3C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mCrossTransition__rc_class(struct mCrossTransition *);
+s32 mCrossTransition__rc_size(struct mCrossTransition *);
+s32 mCrossTransition__GetClassID(void);
+s32 mCrossTransition__getClassID(struct mCrossTransition *);
+s32 mCrossTransition__InitClass(struct hClass *);
+s32 mCrossTransition__panOut(struct mCrossTransition *, struct mRenderContext *);
+f32 mCrossTransition__panIn(struct mCrossTransition *, struct mRenderContext *);
+s32 mCrossTransition__panOutIn(struct mCrossTransition *, struct mRenderContext *);
+s32 mCrossTransition__begin(struct mCrossTransition *, struct mRenderContext *, void *);
+s32 mCrossTransition__end(struct mCrossTransition *, struct mRenderContext *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E5560  mCrossTransition::~mCrossTransition() [high]

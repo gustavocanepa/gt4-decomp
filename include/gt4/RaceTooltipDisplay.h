@@ -4,16 +4,38 @@
  * type_info 0x0088F570, type_info function 0x005F9B50, structors 0x003ADDA8, 0x003ADDF8
  * vtable 0x0067EDC0: 10 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceTooltipDisplay_H
 #define GT4_RaceTooltipDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceTooltipDisplay : public RaceDisplayObjectBase {
+public:
+    virtual s32 update(f32);  /* 9: RaceTooltipDisplay::update(float) */
+};
+#else
 struct RaceTooltipDisplay {
     char pad0[0x14];
     s32 unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceTooltipDisplay__update(struct RaceTooltipDisplay *, f32);
+s32 RaceTooltipDisplay__render_main(struct RaceTooltipDisplay *, void *);
+s32 RaceTooltipDisplay__render_main_2(struct RaceTooltipDisplay *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003ADDF8  RaceTooltipDisplay::~RaceTooltipDisplay() [high]

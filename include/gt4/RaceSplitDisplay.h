@@ -4,16 +4,60 @@
  * type_info 0x0088F350, type_info function 0x005F7A30, structors 0x003A3008, 0x003A3070
  * vtable 0x0067E4A0: 29 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (not known: up to the last field seen), vptr at 0x0
  */
 #ifndef GT4_RaceSplitDisplay_H
 #define GT4_RaceSplitDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceSplitDisplayBase.h"
+
+class RaceSplitDisplay : public RaceSplitDisplayBase {
+public:
+};
+#else
 struct RaceSplitDisplay {
     s32 unk0;
     s32 unk4;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceSplitDisplayBase__setOrganization(struct RaceSplitDisplay *, void *);
+void RaceSplitDisplayBase__setRaceMonitor(struct RaceSplitDisplay *, void *);
+s32 RaceSplitDisplayBase__setRaceMode(struct RaceSplitDisplay *, s32);
+s32 RaceSplitDisplayBase__setRunMode(struct RaceSplitDisplay *, s32);
+s32 RaceSplitDisplayBase__initialize(struct RaceSplitDisplay *);
+s32 RaceSplitDisplayBase__cleanup(struct RaceSplitDisplay *);
+s32 RaceSplitDisplayBase__update(struct RaceSplitDisplay *, f32);
+s32 RaceSplitDisplayBase__render(struct RaceSplitDisplay *, void *);
+s32 RaceSplitDisplayBase__renderCurrent(struct RaceSplitDisplay *, void *);
+void RaceSplitDisplayBase__DMAsafe(struct RaceSplitDisplay *);
+s32 RaceSplitDisplayBase__setTargetCarNumber(struct RaceSplitDisplay *, s32);
+s32 RaceSplitDisplayBase__setPlayerCarNumber(struct RaceSplitDisplay *, s32);
+s32 RaceSplitDisplayBase__setViewMode(struct RaceSplitDisplay *, s32);
+s32 RaceSplitDisplayBase__setCameraViewMode(struct RaceSplitDisplay *, void *);
+s32 RaceSplitDisplayBase__setDiveReplayMode(struct RaceSplitDisplay *, s32);
+s32 RaceSplitDisplayBase__setDisplayEnableInReplay(struct RaceSplitDisplay *, s32);
+s32 RaceSplitDisplayBase__getBackMirrorRate(struct RaceSplitDisplay *);
+s32 RaceSplitDisplayBase__hideAll(struct RaceSplitDisplay *, s32);
+void RaceSplitDisplayBase__setGuideMode(struct RaceSplitDisplay *, s32);
+void RaceSplitDisplayBase__setMinilogo(struct RaceSplitDisplay *, s32);
+void RaceSplitDisplayBase__printMessage(struct RaceSplitDisplay *, const char *, f32, u32);
+void RaceSplitDisplayBase__printGeneralInformation(struct RaceSplitDisplay *, const char *, f32);
+void RaceSplitDisplayBase__printReplayMode(struct RaceSplitDisplay *, const char *, u32, u32);
+void RaceSplitDisplayBase__setExternalConstToolTip(struct RaceSplitDisplay *, const char *);
+void RaceSplitDisplayBase__setExternalStartLogo(struct RaceSplitDisplay *, void *);
+void RaceSplitDisplayBase__setMusicInformation(struct RaceSplitDisplay *, const void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003A2B28

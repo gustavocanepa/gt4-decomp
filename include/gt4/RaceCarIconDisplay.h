@@ -4,12 +4,26 @@
  * type_info 0x0088F640, type_info function 0x005F8960, structors 0x0039AB68, 0x003A65C0, 0x005F88F8
  * vtable 0x0067F628: 10 slots
  * size: not known; the fields seen reach 0x28
+ * C++ (GT4_CXX): size 0x28 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceCarIconDisplay_H
 #define GT4_RaceCarIconDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceCarIconDisplay : public RaceDisplayObjectBase {
+public:
+    s32 unk18;
+    s32 unk1C;
+    s32 unk20;
+    s32 unk24;
+    virtual f32 update(f32);  /* 9: RaceCarIconDisplay::update(float) */
+    s32 clear();  /* 0x003A68C8 */
+};
+#else
 struct RaceCarIconDisplay {
     char pad0[0x14];
     union {
@@ -21,6 +35,19 @@ struct RaceCarIconDisplay {
     s32 unk20;
     s32 unk24;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceCarIconDisplay__update(struct RaceCarIconDisplay *, f32);
+s32 RaceCarIconDisplay__render_main(struct RaceCarIconDisplay *);
+s32 RaceCarIconDisplay__clear(struct RaceCarIconDisplay *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F88F8  RaceCarIconDisplay::~RaceCarIconDisplay() [high]

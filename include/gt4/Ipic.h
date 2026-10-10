@@ -4,16 +4,26 @@
  * type_info 0x006D5F10, type_info function 0x005E36E0, structors 0x002770E8, 0x002770F8
  * vtable 0x00668508: 1 slots
  * size: not known; the fields seen reach 0x1C
+ * C++ (GT4_CXX): size 0x1C (not known: up to the last field seen), vptr at 0x18 (introduced here), fields left out (overlap, or in the base's part): 0x18
  */
 #ifndef GT4_Ipic_H
 #define GT4_Ipic_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class Ipic {
+public:
+    char pad0[0x18];
+    virtual s32 virtual_0(s32);  /* 0: parameters from the code */
+};
+#else
 struct Ipic {
     char pad0[0x18];
     s32 unk18;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002770F8

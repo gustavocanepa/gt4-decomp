@@ -4,12 +4,29 @@
  * type_info 0x0088E800, type_info function 0x005E87B8, structors 0x002B9750
  * vtable 0x0066EBE0: 53 slots
  * size: not known; the fields seen reach 0x38
+ * C++ (GT4_CXX): size 0x38 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mMagnifyActor_H
 #define GT4_mMagnifyActor_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mActor.h"
+
+class mMagnifyActor : public mActor {
+public:
+    void *unk14;
+    f32 unk18;
+    f32 unk1C;
+    f32 unk20;
+    f32 unk24;
+    f32 unk28;
+    void *unk2C;
+    void *unk30;
+    f32 unk34;
+};
+#else
 struct mMagnifyActor {
     s32 unk0;
     union {
@@ -29,6 +46,22 @@ struct mMagnifyActor {
     void *unk30;
     f32 unk34;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mMagnifyActor__rc_class(struct mMagnifyActor *);
+s32 mMagnifyActor__rc_size(struct mMagnifyActor *);
+s32 mMagnifyActor__virtual_09(struct mMagnifyActor *);
+f32 mMagnifyActor__initialize(struct mMagnifyActor *);
+s32 mMagnifyActor__rewind(struct mMagnifyActor *);
+s32 mMagnifyActor__update(struct mMagnifyActor *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E86F0  mMagnifyActor::~mMagnifyActor() [high]

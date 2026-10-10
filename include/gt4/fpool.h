@@ -4,18 +4,30 @@
  * type_info 0x006D6288, type_info function 0x00612A28, structors 0x005675A8, 0x00567648
  * vtable 0x00689CF8: 1 slots
  * size: not known; the fields seen reach 0x20
+ * C++ (GT4_CXX): size 0x20 (not known: up to the last field seen), vptr at 0x1C (introduced here), fields left out (overlap, or in the base's part): 0x1C
  */
 #ifndef GT4_fpool_H
 #define GT4_fpool_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class fpool {
+public:
+    char pad0[0x10];
+    s32 unk10;
+    char pad14[0x8];
+    virtual s32 virtual_0(s32);  /* 0: parameters from the code */
+};
+#else
 struct fpool {
     char pad0[0x10];
     s32 unk10;
     char pad14[0x8];
     s32 unk1C;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00567648

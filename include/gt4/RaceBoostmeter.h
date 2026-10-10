@@ -4,12 +4,20 @@
  * type_info 0x0088FA40, type_info function 0x005FF2A8, structors 0x00407568
  * vtable 0x00686298: 16 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x24 (not known: up to the last field seen), vptr at 0x14
  */
 #ifndef GT4_RaceBoostmeter_H
 #define GT4_RaceBoostmeter_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceRoundMeterBase.h"
+
+class RaceBoostmeter : public RaceRoundMeterBase {
+public:
+};
+#else
 struct RaceBoostmeter {
     s32 unk0;
     char pad4[0x10];
@@ -21,6 +29,18 @@ struct RaceBoostmeter {
     s32 unk1C;
     s32 unk20;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceBoostmeter__get_needle_vertex(struct RaceBoostmeter *);
+s32 RaceBoostmeter__virtual_05(struct RaceBoostmeter *, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FF240  RaceBoostmeter::~RaceBoostmeter() [high]

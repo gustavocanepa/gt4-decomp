@@ -4,12 +4,24 @@
  * type_info 0x0088E690, type_info function 0x005E5D40, structors 0x0029AF58, 0x0029AF98
  * vtable 0x0066C130: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x34 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mGameInputButton_H
 #define GT4_mGameInputButton_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+
+class mGameInputButton : public hObject {
+public:
+    char pad10[0x24];
+    static s32 GetClassID();  /* 0x0029ACD8 */
+    static s32 InitClass(hClass *);  /* 0x0029AD10 */
+};
+#else
 struct mGameInputButton {
     s32 unk0;
     union {
@@ -19,6 +31,21 @@ struct mGameInputButton {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mGameInputButton__rc_class(struct mGameInputButton *);
+s32 mGameInputButton__rc_size(struct mGameInputButton *);
+s32 mGameInputButton__GetClassID(void);
+s32 mGameInputButton__getClassID(struct mGameInputButton *);
+s32 mGameInputButton__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0029AF98  mGameInputButton::~mGameInputButton() [high]

@@ -4,12 +4,22 @@
  * type_info 0x0088E160, type_info function 0x005DA468, structors 0x0021C918, 0x0021C950
  * vtable 0x00664150: 49 slots
  * size: not known; the fields seen reach 0x2C
+ * C++ (GT4_CXX): size 0x2C (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mModelStream_H
 #define GT4_mModelStream_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mStream.h"
+
+class mModelStream : public mStream {
+public:
+    s32 unk28;
+    static s32 GetClassID();  /* 0x0021CC38 */
+};
+#else
 struct mModelStream {
     s32 unk0;
     union {
@@ -26,6 +36,21 @@ struct mModelStream {
     void *unk24;
     s32 unk28;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mModelStream__rc_class(struct mModelStream *);
+s32 mModelStream__rc_size(struct mModelStream *);
+s32 mModelStream__GetClassID(void);
+s32 mModelStream__getClassID(struct mModelStream *);
+s32 mModelStream__isValid(struct mModelStream *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0021C950  mModelStream::~mModelStream() [high]

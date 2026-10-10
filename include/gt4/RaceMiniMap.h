@@ -4,16 +4,41 @@
  * type_info 0x0088F320, type_info function 0x005F7640, structors 0x0039AB68, 0x003BEC40, 0x003D77F8, 0x005F7690
  * vtable 0x0067E448: 9 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceMiniMap_H
 #define GT4_RaceMiniMap_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceMiniMap : public RaceDisplayObjectBase {
+public:
+};
+#else
 struct RaceMiniMap {
     char pad0[0x14];
     void *unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceDisplayObjectBase__load(struct RaceMiniMap *);
+void RaceDisplayObjectBase__unload(struct RaceMiniMap *);
+void RaceDisplayObjectBase__update(struct RaceMiniMap *);
+void RaceDisplayObjectBase__render_main(struct RaceMiniMap *);
+void RaceDisplayObjectBase__render_main_2(struct RaceMiniMap *, void *);
+void RaceDisplayObjectBase__setLocation(struct RaceMiniMap *, s32, s32);
+void RaceDisplayObjectBase__setAlignment(struct RaceMiniMap *, u8, u8);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F7690  RaceMiniMap::~RaceMiniMap() [high]

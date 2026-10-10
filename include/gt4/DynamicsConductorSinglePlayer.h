@@ -27,6 +27,32 @@ struct DynamicsConductorSinglePlayer {
     };
 };
 
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 DynamicsConductorSinglePlayer__isRandomSkillAvailable(struct DynamicsConductorSinglePlayer *);
+s32 DynamicsConductorSinglePlayer__getStartingFormat(struct DynamicsConductorSinglePlayer *);
+s32 DynamicsConductorSinglePlayer__getSpecialStart(struct DynamicsConductorSinglePlayer *, s32, s32 *, s32 *, s32 *);
+s32 DynamicsConductorSinglePlayer__getEachEntrantInfo(struct DynamicsConductorSinglePlayer *, s32, s32 *, s32 *, s32 *, s32 *);
+s32 DynamicsConductorSinglePlayer__SetTireWearParameters(struct DynamicsConductorSinglePlayer *, void *);
+s32 DynamicsConductorSinglePlayer__SetSlowCarBoostParameters(struct DynamicsConductorSinglePlayer *, void *);
+s32 DynamicsConductorSinglePlayer__getSlowCarBoostType(struct DynamicsConductorSinglePlayer *);
+s32 DynamicsConductorSinglePlayer__processCollision(struct DynamicsConductorSinglePlayer *);
+s32 DynamicsConductorSinglePlayer__IssuePassingGate(struct DynamicsConductorSinglePlayer *, s32, s32, s32, u32, u32);
+void DynamicsConductorSinglePlayer__ProcessLapTimeCommonPre(struct DynamicsConductorSinglePlayer *);
+void DynamicsConductorSinglePlayer__ProcessLapTimeCommonPost(struct DynamicsConductorSinglePlayer *);
+s32 DynamicsConductorSinglePlayer__ProcessLap0ControlLine(struct DynamicsConductorSinglePlayer *, s32, f32, u32, u32);
+void DynamicsConductorSinglePlayer__ProcessGoalLine(struct DynamicsConductorSinglePlayer *, s32, s32, u32, u32, u32);
+s32 DynamicsConductorSinglePlayer__ReportTimeDifference(struct DynamicsConductorSinglePlayer *);
+s32 DynamicsConductorSinglePlayer__getCrashability(struct DynamicsConductorSinglePlayer *);
+void DynamicsConductorSinglePlayer__chargePenaltyBySurface(struct DynamicsConductorSinglePlayer *, void *, s32, s32);
+s32 DynamicsConductor__GetNumberOfLaps(struct DynamicsConductorSinglePlayer *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
+
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003479D0  DynamicsConductorSinglePlayer::ReportTimeDifference() [high]
  *   1: 0x00365D80

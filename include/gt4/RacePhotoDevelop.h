@@ -4,12 +4,25 @@
  * type_info 0x0088F7E0, type_info function 0x005FDA40, structors 0x003C8220, 0x003C8480
  * vtable 0x00682310: 152 slots
  * size: not known; the fields seen reach 0x2EF44
+ * C++ (GT4_CXX): size 0x2EF44 (not known: up to the last field seen), vptr at 0x64
  */
 #ifndef GT4_RacePhotoDevelop_H
 #define GT4_RacePhotoDevelop_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceSinglePlayer.h"
+
+class RacePhotoDevelop : public RaceSinglePlayer {
+public:
+    char padE428[0x20B08];
+    s32 unk2EF30;
+    char pad2EF34[0x8];
+    s32 unk2EF3C;
+    s32 unk2EF40;
+};
+#else
 struct RacePhotoDevelop {
     char pad0[0x64];
     union {
@@ -68,6 +81,26 @@ struct RacePhotoDevelop {
     s32 unk2EF3C;
     s32 unk2EF40;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RacePhotoDevelop__virtual_67(struct RacePhotoDevelop *);
+s32 RacePhotoDevelop__virtual_37(struct RacePhotoDevelop *, s32);
+s32 RacePhotoDevelop__virtual_06(struct RacePhotoDevelop *);
+void RacePhotoDevelop__virtual_120(struct RacePhotoDevelop *);
+s32 RacePhotoDevelop__virtual_15(struct RacePhotoDevelop *, void *);
+s32 RacePhotoDevelop__virtual_51(struct RacePhotoDevelop *);
+s32 RacePhotoDevelop__virtual_139(struct RacePhotoDevelop *);
+s32 RacePhotoDevelop__virtual_147(struct RacePhotoDevelop *, struct RaceEntryCar *);
+s32 RacePhotoDevelop__virtual_25(struct RacePhotoDevelop *, s32);
+s32 RacePhotoDevelop__virtual_145(struct RacePhotoDevelop *, struct RaceEntryCar *, void *, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003C8480

@@ -4,12 +4,24 @@
  * type_info 0x0088F740, type_info function 0x005FB518, structors 0x0039AB68, 0x003BE1D8, 0x005F9E90, 0x005FA130, 0x005FB4B0, 0x005FB570, 0x005FB670, 0x005FE5D0, 0x005FE688, 0x005FE760, 0x005FE818, 0x005FF240
  * vtable 0x00681580: 10 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x24 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x0, 0x14
  */
 #ifndef GT4_RaceMeterBase_H
 #define GT4_RaceMeterBase_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceMeterBase : public RaceDisplayObjectBase {
+public:
+    s32 unk18;
+    s32 unk1C;
+    s32 unk20;
+    virtual void setScale(f32, f32);  /* 9: RaceMeterBase::setScale(float, float) */
+};
+#else
 struct RaceMeterBase {
     s32 unk0;
     char pad4[0x10];
@@ -21,6 +33,17 @@ struct RaceMeterBase {
     s32 unk1C;
     s32 unk20;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceMeterBase__setScale(struct RaceMeterBase *, f32, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FB4B0  RaceMeterBase::~RaceMeterBase() [high]

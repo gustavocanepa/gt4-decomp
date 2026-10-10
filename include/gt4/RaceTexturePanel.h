@@ -4,16 +4,35 @@
  * type_info 0x0088F5B0, type_info function 0x005F8648, structors 0x003A5288, 0x003A52C8
  * vtable 0x0067F790: 9 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceTexturePanel_H
 #define GT4_RaceTexturePanel_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceTexturePanel : public RaceDisplayObjectBase {
+public:
+};
+#else
 struct RaceTexturePanel {
     char pad0[0x14];
     void *unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceTexturePanel__render_main(struct RaceTexturePanel *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003A52C8  RaceTexturePanel::~RaceTexturePanel() [high]

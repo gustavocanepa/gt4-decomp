@@ -4,16 +4,51 @@
  * type_info 0x006D5FA0, type_info function 0x005F6C50, structors 0x0038BFE0, 0x0038BFF0
  * vtable 0x0067D768: 9 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (not known: up to the last field seen), vptr at 0x4 (introduced here), fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_RaceBGMBase_H
 #define GT4_RaceBGMBase_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class RaceBGMBase {
+public:
+    char pad0[0x4];
+    virtual ~RaceBGMBase();  /* 0: RaceBGMBase::~RaceBGMBase() */
+    virtual void update();  /* 1: RaceBGMBase::update() */
+    virtual f32 nextTiming(s32);  /* 2: RaceBGMBase::nextTiming(int) */
+    virtual s32 checkTiming(s32);  /* 3: RaceBGMBase::checkTiming(int) */
+    virtual void play(s32, bool);  /* 4: RaceBGMBase::play(int, bool) */
+    virtual void pause();  /* 5: RaceBGMBase::pause() */
+    virtual void resume();  /* 6: RaceBGMBase::resume() */
+    virtual void stop();  /* 7: RaceBGMBase::stop() */
+    virtual s32 getMusicInformation();  /* 8: RaceBGMBase::getMusicInformation() */
+};
+#else
 struct RaceBGMBase {
     char pad0[0x4];
     s32 unk4;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceBGMBase__update(struct RaceBGMBase *);
+f32 RaceBGMBase__nextTiming(struct RaceBGMBase *, s32);
+s32 RaceBGMBase__checkTiming(struct RaceBGMBase *, s32);
+void RaceBGMBase__play(struct RaceBGMBase *, s32, s32);
+void RaceBGMBase__pause(struct RaceBGMBase *);
+void RaceBGMBase__resume(struct RaceBGMBase *);
+void RaceBGMBase__stop(struct RaceBGMBase *);
+s32 RaceBGMBase__getMusicInformation(struct RaceBGMBase *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0038BFF0  RaceBGMBase::~RaceBGMBase() [high]

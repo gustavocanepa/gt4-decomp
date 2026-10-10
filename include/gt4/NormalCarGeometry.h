@@ -4,17 +4,142 @@
  * type_info 0x0088F270, type_info function 0x005F6D78, structors 0x0038DB30, 0x0038DB98, 0x005F6DC8
  * vtable 0x0067D950: 48 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (not known: up to the last field seen), vptr at 0x0 (introduced here), fields left out (overlap, or in the base's part): 0x0
+ * base CarGeometryBase has no known member: left out of the C++ form
  */
 #ifndef GT4_NormalCarGeometry_H
 #define GT4_NormalCarGeometry_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; NormalCarGeometry has fields after 0x0, so a base without RTTI introduced it */
+class NormalCarGeometry_vbase {
+public:
+    virtual s32 GetNumCrew() const;  /* 0: NormalCarGeometry::GetNumCrew() const */
+    virtual void GetSeatPosition_X(f32) const;  /* 1: NormalCarGeometry::GetSeatPosition_X(float) const */
+    virtual void GetSeatPosition_Y(f32) const;  /* 2: NormalCarGeometry::GetSeatPosition_Y(float) const */
+    virtual void GetSeatPosition_Z(f32) const;  /* 3: NormalCarGeometry::GetSeatPosition_Z(float) const */
+    virtual void GetOppositeSeatPosition_X(f32) const;  /* 4: NormalCarGeometry::GetOppositeSeatPosition_X(float) const */
+    virtual void GetOppositeSeatPosition_Y(f32) const;  /* 5: NormalCarGeometry::GetOppositeSeatPosition_Y(float) const */
+    virtual void GetOppositeSeatPosition_Z(f32) const;  /* 6: NormalCarGeometry::GetOppositeSeatPosition_Z(float) const */
+    virtual s32 GetStepPosition_X(s32, f32) const;  /* 7: NormalCarGeometry::GetStepPosition_X(int, float) const */
+    virtual s32 GetStepPosition_Y(s32, f32) const;  /* 8: NormalCarGeometry::GetStepPosition_Y(int, float) const */
+    virtual s32 GetStepPosition_Z(s32, f32) const;  /* 9: NormalCarGeometry::GetStepPosition_Z(int, float) const */
+    virtual s32 GetSteeringWheelCenter_X(f32) const;  /* 10: NormalCarGeometry::GetSteeringWheelCenter_X(float) const */
+    virtual s32 GetSteeringWheelCenter_Y(f32) const;  /* 11: NormalCarGeometry::GetSteeringWheelCenter_Y(float) const */
+    virtual s32 GetSteeringWheelCenter_Z(f32) const;  /* 12: NormalCarGeometry::GetSteeringWheelCenter_Z(float) const */
+    virtual f32 GetSteeringWheelNormal_X(f32) const;  /* 13: NormalCarGeometry::GetSteeringWheelNormal_X(float) const */
+    virtual f32 GetSteeringWheelNormal_Y(f32) const;  /* 14: NormalCarGeometry::GetSteeringWheelNormal_Y(float) const */
+    virtual f32 GetSteeringWheelNormal_Z(f32) const;  /* 15: NormalCarGeometry::GetSteeringWheelNormal_Z(float) const */
+    virtual f32 GetSteeringWheelRadius() const;  /* 16: NormalCarGeometry::GetSteeringWheelRadius() const */
+    virtual f32 GetShiftPosition_X(f32) const;  /* 17: NormalCarGeometry::GetShiftPosition_X(float) const */
+    virtual f32 GetShiftPosition_Y(f32) const;  /* 18: NormalCarGeometry::GetShiftPosition_Y(float) const */
+    virtual f32 GetShiftPosition_Z(f32) const;  /* 19: NormalCarGeometry::GetShiftPosition_Z(float) const */
+    virtual f32 GetSideBrakePosition_X(f32) const;  /* 20: NormalCarGeometry::GetSideBrakePosition_X(float) const */
+    virtual f32 GetSideBrakePosition_Y(f32) const;  /* 21: NormalCarGeometry::GetSideBrakePosition_Y(float) const */
+    virtual f32 GetSideBrakePosition_Z(f32) const;  /* 22: NormalCarGeometry::GetSideBrakePosition_Z(float) const */
+    virtual s32 HasBackmirror() const;  /* 23: NormalCarGeometry::HasBackmirror() const */
+    virtual f32 GetBackmirrorPosition_X(f32) const;  /* 24: NormalCarGeometry::GetBackmirrorPosition_X(float) const */
+    virtual f32 GetBackmirrorPosition_Y(f32) const;  /* 25: NormalCarGeometry::GetBackmirrorPosition_Y(float) const */
+    virtual f32 GetBackmirrorPosition_Z(f32) const;  /* 26: NormalCarGeometry::GetBackmirrorPosition_Z(float) const */
+    virtual f32 GetChairAngle(f32) const;  /* 27: NormalCarGeometry::GetChairAngle(float) const */
+    virtual f32 virtual_28();  /* 28: GT HD (medium): NormalCarGeometry::GetShiftBoundingBox_W(float) const; parameters from the code */
+    virtual f32 virtual_29();  /* 29: GT HD (medium): NormalCarGeometry::GetShiftBoundingBox_H(float) const; parameters from the code */
+    virtual f32 GetSideBrakeLength(f32) const;  /* 30: NormalCarGeometry::GetSideBrakeLength(float) const */
+    virtual f32 GetShiftLength(f32) const;  /* 31: NormalCarGeometry::GetShiftLength(float) const */
+    virtual s32 IsManualShift() const;  /* 32: NormalCarGeometry::IsManualShift() const */
+    virtual f32 GetFixedLeftHandlePosition_X(f32) const;  /* 33: NormalCarGeometry::GetFixedLeftHandlePosition_X(float) const */
+    virtual f32 GetFixedLeftHandlePosition_Y(f32) const;  /* 34: NormalCarGeometry::GetFixedLeftHandlePosition_Y(float) const */
+    virtual f32 GetFixedLeftHandlePosition_Z(f32) const;  /* 35: NormalCarGeometry::GetFixedLeftHandlePosition_Z(float) const */
+    virtual f32 GetFixedRightHandlePosition_X(f32) const;  /* 36: NormalCarGeometry::GetFixedRightHandlePosition_X(float) const */
+    virtual f32 GetFixedRightHandlePosition_Y(f32) const;  /* 37: NormalCarGeometry::GetFixedRightHandlePosition_Y(float) const */
+    virtual f32 GetFixedRightHandlePosition_Z(f32) const;  /* 38: NormalCarGeometry::GetFixedRightHandlePosition_Z(float) const */
+    virtual f32 GetFixedLeftHandleVector_X(f32) const;  /* 39: NormalCarGeometry::GetFixedLeftHandleVector_X(float) const */
+    virtual f32 GetFixedLeftHandleVector_Y(f32) const;  /* 40: NormalCarGeometry::GetFixedLeftHandleVector_Y(float) const */
+    virtual f32 GetFixedLeftHandleVector_Z(f32) const;  /* 41: NormalCarGeometry::GetFixedLeftHandleVector_Z(float) const */
+    virtual f32 GetFixedRightHandleVector_X(f32) const;  /* 42: NormalCarGeometry::GetFixedRightHandleVector_X(float) const */
+    virtual f32 GetFixedRightHandleVector_Y(f32) const;  /* 43: NormalCarGeometry::GetFixedRightHandleVector_Y(float) const */
+    virtual f32 GetFixedRightHandleVector_Z(f32) const;  /* 44: NormalCarGeometry::GetFixedRightHandleVector_Z(float) const */
+    virtual s32 IsFixedHandle() const;  /* 45: NormalCarGeometry::IsFixedHandle() const */
+    virtual s32 IsFixedFoot() const;  /* 46: NormalCarGeometry::IsFixedFoot() const */
+    virtual s32 DoesLieOnBelly() const;  /* 47: NormalCarGeometry::DoesLieOnBelly() const */
+};
+
+class NormalCarGeometry : public NormalCarGeometry_vbase {
+public:
+    s32 unk4;
+    s32 unk8;
+    s32 getSeatX(f32, bool) const;  /* 0x0038D130 */
+    s32 getSeatY(f32, bool) const;  /* 0x0038D1D0 */
+    s32 getSeatZ(f32, bool) const;  /* 0x0038D238 */
+};
+#else
 struct NormalCarGeometry {
     s32 unk0;
     s32 unk4;
     s32 unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 NormalCarGeometry__GetNumCrew(struct NormalCarGeometry *);
+s32 NormalCarGeometry__getSeatX(struct NormalCarGeometry *, f32, s32);
+s32 NormalCarGeometry__getSeatY(struct NormalCarGeometry *, f32, s32);
+s32 NormalCarGeometry__getSeatZ(struct NormalCarGeometry *, f32, s32);
+void NormalCarGeometry__GetSeatPosition_X(struct NormalCarGeometry *, f32);
+void NormalCarGeometry__GetSeatPosition_Y(struct NormalCarGeometry *, f32);
+void NormalCarGeometry__GetSeatPosition_Z(struct NormalCarGeometry *, f32);
+void NormalCarGeometry__GetOppositeSeatPosition_X(struct NormalCarGeometry *, f32);
+void NormalCarGeometry__GetOppositeSeatPosition_Y(struct NormalCarGeometry *, f32);
+void NormalCarGeometry__GetOppositeSeatPosition_Z(struct NormalCarGeometry *, f32);
+s32 NormalCarGeometry__GetStepPosition_X(struct NormalCarGeometry *, s32, f32);
+s32 NormalCarGeometry__GetStepPosition_Y(struct NormalCarGeometry *, s32, f32);
+s32 NormalCarGeometry__GetStepPosition_Z(struct NormalCarGeometry *, s32, f32);
+s32 NormalCarGeometry__GetSteeringWheelCenter_X(struct NormalCarGeometry *, f32);
+s32 NormalCarGeometry__GetSteeringWheelCenter_Y(struct NormalCarGeometry *, f32);
+s32 NormalCarGeometry__GetSteeringWheelCenter_Z(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetSteeringWheelNormal_X(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetSteeringWheelNormal_Y(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetSteeringWheelNormal_Z(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetSteeringWheelRadius(struct NormalCarGeometry *);
+f32 NormalCarGeometry__GetShiftPosition_X(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetShiftPosition_Y(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetShiftPosition_Z(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetSideBrakePosition_X(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetSideBrakePosition_Y(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetSideBrakePosition_Z(struct NormalCarGeometry *, f32);
+s32 NormalCarGeometry__HasBackmirror(struct NormalCarGeometry *);
+f32 NormalCarGeometry__GetBackmirrorPosition_X(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetBackmirrorPosition_Y(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetBackmirrorPosition_Z(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetChairAngle(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetShiftLength(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetSideBrakeLength(struct NormalCarGeometry *, f32);
+s32 NormalCarGeometry__IsManualShift(struct NormalCarGeometry *);
+f32 NormalCarGeometry__GetFixedLeftHandlePosition_X(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetFixedLeftHandlePosition_Y(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetFixedLeftHandlePosition_Z(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetFixedRightHandlePosition_X(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetFixedRightHandlePosition_Y(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetFixedRightHandlePosition_Z(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetFixedLeftHandleVector_X(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetFixedLeftHandleVector_Y(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetFixedLeftHandleVector_Z(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetFixedRightHandleVector_X(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetFixedRightHandleVector_Y(struct NormalCarGeometry *, f32);
+f32 NormalCarGeometry__GetFixedRightHandleVector_Z(struct NormalCarGeometry *, f32);
+s32 NormalCarGeometry__IsFixedHandle(struct NormalCarGeometry *);
+s32 NormalCarGeometry__IsFixedFoot(struct NormalCarGeometry *);
+s32 NormalCarGeometry__DoesLieOnBelly(struct NormalCarGeometry *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0038D0D8  NormalCarGeometry::GetNumCrew() const [high]

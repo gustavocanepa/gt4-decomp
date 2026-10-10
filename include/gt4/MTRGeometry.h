@@ -4,16 +4,119 @@
  * type_info 0x0088F260, type_info function 0x005F6CA0, structors 0x0038DB30, 0x0038DB98, 0x005F6D00
  * vtable 0x0067DC70: 48 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (not known: up to the last field seen), vptr at 0x0 (introduced here), fields left out (overlap, or in the base's part): 0x0
+ * base CarGeometryBase has no known member: left out of the C++ form
  */
 #ifndef GT4_MTRGeometry_H
 #define GT4_MTRGeometry_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; MTRGeometry has fields after 0x0, so a base without RTTI introduced it */
+class MTRGeometry_vbase {
+public:
+    virtual s32 GetNumCrew() const;  /* 0: MTRGeometry::GetNumCrew() const */
+    virtual f32 GetSeatPosition_X(f32) const;  /* 1: MTRGeometry::GetSeatPosition_X(float) const */
+    virtual void GetSeatPosition_Y(f32) const;  /* 2: MTRGeometry::GetSeatPosition_Y(float) const */
+    virtual void GetSeatPosition_Z(f32) const;  /* 3: MTRGeometry::GetSeatPosition_Z(float) const */
+    virtual f32 GetOppositeSeatPosition_X(f32) const;  /* 4: MTRGeometry::GetOppositeSeatPosition_X(float) const */
+    virtual void GetOppositeSeatPosition_Y(f32) const;  /* 5: MTRGeometry::GetOppositeSeatPosition_Y(float) const */
+    virtual void GetOppositeSeatPosition_Z(f32) const;  /* 6: MTRGeometry::GetOppositeSeatPosition_Z(float) const */
+    virtual f32 virtual_7(s32);  /* 7: GT HD (medium): MTRGeometry::GetStepPosition_X(int, float) const; parameters from the code */
+    virtual s32 virtual_8();  /* 8: GT HD (medium): MTRGeometry::GetStepPosition_Y(int, float) const; parameters from the code */
+    virtual s32 virtual_9();  /* 9: GT HD (medium): MTRGeometry::GetStepPosition_Z(int, float) const; parameters from the code */
+    virtual f32 GetSteeringWheelCenter_X(f32) const;  /* 10: MTRGeometry::GetSteeringWheelCenter_X(float) const */
+    virtual s32 virtual_11();  /* 11: GT HD (medium): MTRGeometry::GetSteeringWheelCenter_Y(float) const; parameters from the code */
+    virtual s32 virtual_12();  /* 12: GT HD (medium): MTRGeometry::GetSteeringWheelCenter_Z(float) const; parameters from the code */
+    virtual f32 GetSteeringWheelNormal_X(f32) const;  /* 13: MTRGeometry::GetSteeringWheelNormal_X(float) const */
+    virtual f32 virtual_14();  /* 14: GT HD (medium): MTRGeometry::GetSteeringWheelNormal_Y(float) const; parameters from the code */
+    virtual f32 virtual_15();  /* 15: GT HD (medium): MTRGeometry::GetSteeringWheelNormal_Z(float) const; parameters from the code */
+    virtual f32 virtual_16();  /* 16: GT HD (medium): MTRGeometry::GetSteeringWheelRadius() const; parameters from the code */
+    virtual f32 virtual_17();  /* 17: GT HD (medium): MTRGeometry::GetShiftPosition_X(float) const; parameters from the code */
+    virtual s32 virtual_18();  /* 18: GT HD (medium): MTRGeometry::GetShiftPosition_Y(float) const; parameters from the code */
+    virtual s32 virtual_19();  /* 19: GT HD (medium): MTRGeometry::GetShiftPosition_Z(float) const; parameters from the code */
+    virtual s32 GetSideBrakePosition_X(f32) const;  /* 20: MTRGeometry::GetSideBrakePosition_X(float) const */
+    virtual s32 GetSideBrakePosition_Y(f32) const;  /* 21: MTRGeometry::GetSideBrakePosition_Y(float) const */
+    virtual s32 GetSideBrakePosition_Z(f32) const;  /* 22: MTRGeometry::GetSideBrakePosition_Z(float) const */
+    virtual s32 HasBackmirror() const;  /* 23: MTRGeometry::HasBackmirror() const */
+    virtual s32 GetBackmirrorPosition_X(f32) const;  /* 24: MTRGeometry::GetBackmirrorPosition_X(float) const */
+    virtual f32 virtual_25();  /* 25: GT HD (medium): MTRGeometry::GetBackmirrorPosition_Y(float) const; parameters from the code */
+    virtual f32 virtual_26();  /* 26: GT HD (medium): MTRGeometry::GetBackmirrorPosition_Z(float) const; parameters from the code */
+    virtual s32 virtual_27();  /* 27: GT HD (medium): MTRGeometry::GetChairAngle(float) const; parameters from the code */
+    virtual f32 virtual_28();  /* 28: GT HD (medium): MTRGeometry::GetShiftBoundingBox_W(float) const; parameters from the code */
+    virtual f32 virtual_29();  /* 29: GT HD (medium): MTRGeometry::GetShiftBoundingBox_H(float) const; parameters from the code */
+    virtual s32 GetSideBrakeLength(f32) const;  /* 30: MTRGeometry::GetSideBrakeLength(float) const */
+    virtual f32 virtual_31();  /* 31: GT HD (medium): MTRGeometry::GetShiftLength(float) const; parameters from the code */
+    virtual s32 IsManualShift() const;  /* 32: MTRGeometry::IsManualShift() const */
+    virtual s32 virtual_33();  /* 33: GT HD (medium): MTRGeometry::GetFixedLeftHandlePosition_X(float) const; parameters from the code */
+    virtual s32 virtual_34();  /* 34: GT HD (medium): MTRGeometry::GetFixedLeftHandlePosition_Y(float) const; parameters from the code */
+    virtual s32 virtual_35();  /* 35: GT HD (medium): MTRGeometry::GetFixedLeftHandlePosition_Z(float) const; parameters from the code */
+    virtual f32 GetFixedRightHandlePosition_X(f32) const;  /* 36: MTRGeometry::GetFixedRightHandlePosition_X(float) const */
+    virtual s32 GetFixedRightHandlePosition_Y(f32) const;  /* 37: MTRGeometry::GetFixedRightHandlePosition_Y(float) const */
+    virtual s32 GetFixedRightHandlePosition_Z(f32) const;  /* 38: MTRGeometry::GetFixedRightHandlePosition_Z(float) const */
+    virtual s32 virtual_39();  /* 39: GT HD (medium): MTRGeometry::GetFixedLeftHandleVector_X(float) const; parameters from the code */
+    virtual s32 virtual_40();  /* 40: GT HD (medium): MTRGeometry::GetFixedLeftHandleVector_Y(float) const; parameters from the code */
+    virtual s32 virtual_41();  /* 41: GT HD (medium): MTRGeometry::GetFixedLeftHandleVector_Z(float) const; parameters from the code */
+    virtual f32 GetFixedRightHandleVector_X(f32) const;  /* 42: MTRGeometry::GetFixedRightHandleVector_X(float) const */
+    virtual s32 GetFixedRightHandleVector_Y(f32) const;  /* 43: MTRGeometry::GetFixedRightHandleVector_Y(float) const */
+    virtual s32 GetFixedRightHandleVector_Z(f32) const;  /* 44: MTRGeometry::GetFixedRightHandleVector_Z(float) const */
+    virtual s32 IsFixedHandle() const;  /* 45: MTRGeometry::IsFixedHandle() const */
+    virtual s32 IsFixedFoot() const;  /* 46: MTRGeometry::IsFixedFoot() const */
+    virtual s32 DoesLieOnBelly() const;  /* 47: MTRGeometry::DoesLieOnBelly() const */
+};
+
+class MTRGeometry : public MTRGeometry_vbase {
+public:
+    s32 unk4;
+    f32 getSeatX(f32, bool) const;  /* 0x0038C118 */
+    s32 getSeatY(f32, bool) const;  /* 0x0038C128 */
+    s32 getSeatZ(f32, bool) const;  /* 0x0038C150 */
+};
+#else
 struct MTRGeometry {
     s32 unk0;
     s32 unk4;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 MTRGeometry__GetNumCrew(struct MTRGeometry *);
+f32 MTRGeometry__getSeatX(struct MTRGeometry *, f32, s32);
+s32 MTRGeometry__getSeatY(struct MTRGeometry *, f32, s32);
+s32 MTRGeometry__getSeatZ(struct MTRGeometry *, f32, s32);
+f32 MTRGeometry__GetSeatPosition_X(struct MTRGeometry *, f32);
+void MTRGeometry__GetSeatPosition_Y(struct MTRGeometry *, f32);
+void MTRGeometry__GetSeatPosition_Z(struct MTRGeometry *, f32);
+f32 MTRGeometry__GetOppositeSeatPosition_X(struct MTRGeometry *, f32);
+void MTRGeometry__GetOppositeSeatPosition_Y(struct MTRGeometry *, f32);
+void MTRGeometry__GetOppositeSeatPosition_Z(struct MTRGeometry *, f32);
+f32 MTRGeometry__GetSteeringWheelCenter_X(struct MTRGeometry *, f32);
+f32 MTRGeometry__GetSteeringWheelNormal_X(struct MTRGeometry *, f32);
+s32 MTRGeometry__GetSideBrakePosition_X(struct MTRGeometry *, f32);
+s32 MTRGeometry__GetSideBrakePosition_Y(struct MTRGeometry *, f32);
+s32 MTRGeometry__GetSideBrakePosition_Z(struct MTRGeometry *, f32);
+s32 MTRGeometry__HasBackmirror(struct MTRGeometry *);
+s32 MTRGeometry__GetBackmirrorPosition_X(struct MTRGeometry *, f32);
+s32 MTRGeometry__GetSideBrakeLength(struct MTRGeometry *, f32);
+s32 MTRGeometry__IsManualShift(struct MTRGeometry *);
+f32 MTRGeometry__GetFixedRightHandlePosition_X(struct MTRGeometry *, f32);
+s32 MTRGeometry__GetFixedRightHandlePosition_Y(struct MTRGeometry *, f32);
+s32 MTRGeometry__GetFixedRightHandlePosition_Z(struct MTRGeometry *, f32);
+f32 MTRGeometry__GetFixedRightHandleVector_X(struct MTRGeometry *, f32);
+s32 MTRGeometry__GetFixedRightHandleVector_Y(struct MTRGeometry *, f32);
+s32 MTRGeometry__GetFixedRightHandleVector_Z(struct MTRGeometry *, f32);
+s32 MTRGeometry__IsFixedHandle(struct MTRGeometry *);
+s32 MTRGeometry__IsFixedFoot(struct MTRGeometry *);
+s32 MTRGeometry__DoesLieOnBelly(struct MTRGeometry *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0038C110  MTRGeometry::GetNumCrew() const [high]

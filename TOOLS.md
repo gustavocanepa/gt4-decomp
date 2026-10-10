@@ -41,6 +41,14 @@ A source may name another compiler on its first line (`/* compiler: NAME */`, NA
 `build.py` (one compile loop per compiler) and the CI (which installs the named compilers from
 decomp.me's archive) compile that source with it. Sources without a marker use the game's compiler.
 
+Register and schedule residuals (logic right, `$v0/$v1`, `$s*` or `$f*` homes or instruction order
+wrong) are read from the compiler's own dumps: `rtl_dumps.py ADDR|FILE` keeps one RTL dump per pass
+(`-da`) in build/rtl/ADDR/, and `alloc_table.py ADDR [FILE] [--diff --insns --sched1 --sched --dbr]`
+prints the allocator's view of the draft (pseudos in allocation order with refs, live length,
+priority, the hard register each got and the original's register in its place) plus the scheduler's
+ready lists and reorg's summary. knowledge/gcc296-codegen-map.md maps each residual class to the
+pass and the source lever, with the functions it was proven on.
+
 `match.py check` proves one function in isolation; `build.py` proves them all together, with
 real addresses. Run the build before every commit: a function only counts once it links.
 

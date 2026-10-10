@@ -4,12 +4,24 @@
  * type_info 0x0088F620, type_info function 0x005F8F20, structors 0x0039AB68, 0x003AB1F0, 0x005F8EB8, 0x005F9E90, 0x005FA130
  * vtable 0x0067F3D8: 10 slots
  * size: not known; the fields seen reach 0x2C
+ * C++ (GT4_CXX): size 0x2C (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceSideGravityMeter_H
 #define GT4_RaceSideGravityMeter_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceSideGravityMeter : public RaceDisplayObjectBase {
+public:
+    s32 unk18;
+    char pad1C[0xC];
+    s32 unk28;
+    virtual void update(f32);  /* 9: RaceSideGravityMeter::update(float) */
+};
+#else
 struct RaceSideGravityMeter {
     char pad0[0x14];
     union {
@@ -20,6 +32,18 @@ struct RaceSideGravityMeter {
     char pad1C[0xC];
     s32 unk28;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceSideGravityMeter__update(struct RaceSideGravityMeter *, f32);
+void RaceSideGravityMeter__render_main(struct RaceSideGravityMeter *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F8EB8  RaceSideGravityMeter::~RaceSideGravityMeter() [high]

@@ -696,6 +696,17 @@
    "s32 unkC"
   ]
  },
+ "RaceDisplayGeneralTimeEvent": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ]
+ },
  "RaceDisplayInformationEvent": {
   "0x4": [
    "void *unk4"

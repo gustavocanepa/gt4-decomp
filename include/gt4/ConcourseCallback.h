@@ -4,16 +4,45 @@
  * type_info 0x0088FA50, type_info function 0x005FF430, structors 0x00409898, 0x005FF3C8, 0x005FF480
  * vtable 0x00686328: 5 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (not known: up to the last field seen), vptr at 0x0 (introduced here), fields left out (overlap, or in the base's part): 0x0
  */
 #ifndef GT4_ConcourseCallback_H
 #define GT4_ConcourseCallback_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; ConcourseCallback has fields after 0x0, so a base without RTTI introduced it */
+class ConcourseCallback_vbase {
+public:
+    virtual ~ConcourseCallback_vbase();  /* 0: ConcourseCallback::~ConcourseCallback() */
+    virtual s32 callback(s32);  /* 1: ModelSet2::Callback::callback(int) */
+    virtual s32 LOD(f32);  /* 2: ConcourseCallback::LOD(float) */
+    virtual s32 usr(s32, void *);  /* 3: ModelSet2::Callback::usr(int, ModelSet2::RegisterVal*) */
+    virtual f32 usrf(s32, void *);  /* 4: ModelSet2::Callback::usrf(int, ModelSet2::RegisterVal*) */
+};
+
+class ConcourseCallback : public ConcourseCallback_vbase {
+public:
+    s32 unk4;
+};
+#else
 struct ConcourseCallback {
     s32 unk0;
     s32 unk4;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 ConcourseCallback__LOD(struct ConcourseCallback *, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FF3C8  ConcourseCallback::~ConcourseCallback() [high]

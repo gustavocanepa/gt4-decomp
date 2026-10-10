@@ -4,12 +4,28 @@
  * type_info 0x006D6118, type_info function 0x00604E00, structors 0x00462500, 0x00462530
  * vtable 0x00688888: 2 slots
  * size: not known; the fields seen reach 0x20
+ * C++ (GT4_CXX): size 0x20 (not known: up to the last field seen), vptr at 0x1C (introduced here), fields left out (overlap, or in the base's part): 0x1C
  */
 #ifndef GT4_GTSOUNDINSTRUMENT_H
 #define GT4_GTSOUNDINSTRUMENT_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+class GTSOUNDINSTRUMENT {
+public:
+    char pad0[0x4];
+    void *unk4;
+    void *unk8;
+    void *unkC;
+    void *unk10;
+    void *unk14;
+    void *unk18;
+    virtual ~GTSOUNDINSTRUMENT();  /* 0: GTSOUNDINSTRUMENT::~GTSOUNDINSTRUMENT() */
+    virtual void AttachCallback();  /* 1: GTSOUNDINSTRUMENT::AttachCallback() */
+};
+#else
 struct GTSOUNDINSTRUMENT {
     char pad0[0x4];
     void *unk4;
@@ -20,6 +36,7 @@ struct GTSOUNDINSTRUMENT {
     void *unk18;
     void *unk1C;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00462530  GTSOUNDINSTRUMENT::~GTSOUNDINSTRUMENT() [high]

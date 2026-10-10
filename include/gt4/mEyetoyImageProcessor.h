@@ -4,12 +4,29 @@
  * type_info 0x0088DDB0, type_info function 0x005CF710, structors 0x001B99A8, 0x001B99D8
  * vtable 0x0065F860: 55 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mEyetoyImageProcessor_H
 #define GT4_mEyetoyImageProcessor_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class mRenderContext;
+class mWidget;
+
+class mEyetoyImageProcessor : public hObject {
+public:
+    virtual void start();  /* 49: mEyetoyImageProcessor::start() */
+    virtual void stop();  /* 50: mEyetoyImageProcessor::stop() */
+    virtual void update(mRenderContext *, mWidget *);  /* 51: mEyetoyImageProcessor::update(mRenderContext*, mWidget*) */
+    virtual void render(mRenderContext *, f32, f32, bool);  /* 52: mEyetoyImageProcessor::render(mRenderContext*, float, float, bool) */
+    virtual void imageProcess(void *);  /* 53: mEyetoyImageProcessor::imageProcess(void*) */
+    virtual s32 ledControl(bool &);  /* 54: mEyetoyImageProcessor::ledControl(bool&) */
+    static s32 GetClassID();  /* 0x001B9970 */
+};
+#else
 struct mEyetoyImageProcessor {
     s32 unk0;
     union {
@@ -19,6 +36,26 @@ struct mEyetoyImageProcessor {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mEyetoyImageProcessor__rc_class(struct mEyetoyImageProcessor *);
+s32 mEyetoyImageProcessor__rc_size(struct mEyetoyImageProcessor *);
+s32 mEyetoyImageProcessor__GetClassID(void);
+s32 mEyetoyImageProcessor__getClassID(struct mEyetoyImageProcessor *);
+void mEyetoyImageProcessor__start(struct mEyetoyImageProcessor *);
+void mEyetoyImageProcessor__stop(struct mEyetoyImageProcessor *);
+void mEyetoyImageProcessor__update(struct mEyetoyImageProcessor *, struct mRenderContext *, struct mWidget *);
+void mEyetoyImageProcessor__render(struct mEyetoyImageProcessor *, struct mRenderContext *, f32, f32, s32);
+void mEyetoyImageProcessor__imageProcess(struct mEyetoyImageProcessor *, void *);
+s32 mEyetoyImageProcessor__ledControl(struct mEyetoyImageProcessor *, s32 *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001B99D8  mEyetoyImageProcessor::~mEyetoyImageProcessor() [high]

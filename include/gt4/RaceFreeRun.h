@@ -4,12 +4,27 @@
  * type_info 0x0088F6D0, type_info function 0x005FB1B0, structors 0x003B9A18, 0x003B9BD8
  * vtable 0x00680140: 158 slots
  * size: not known; the fields seen reach 0x246A8
+ * C++ (GT4_CXX): size 0x246A8 (not known: up to the last field seen), vptr at 0x64, fields left out (overlap, or in the base's part): 0x6C, 0x70, 0xD58, 0xCF4C
  */
 #ifndef GT4_RaceFreeRun_H
 #define GT4_RaceFreeRun_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceSolitaire.h"
+
+class RaceFreeRun : public RaceSolitaire {
+public:
+    char padF104[0x15594];
+    s32 unk24698;
+    char pad2469C[0x4];
+    s32 unk246A0;
+    s32 unk246A4;
+    void setDescriptionVoicePause(bool);  /* 0x003BA8B8 */
+    void setDescriptionVoicePlay(bool);  /* 0x003BA938 */
+};
+#else
 struct RaceFreeRun {
     char pad0[0x64];
     union {
@@ -73,6 +88,52 @@ struct RaceFreeRun {
     s32 unk246A0;
     s32 unk246A4;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceFreeRun__raceName(struct RaceFreeRun *);
+s32 RaceFreeRun__initialize(struct RaceFreeRun *, s32);
+s32 RaceFreeRun__postInitialize(struct RaceFreeRun *);
+s32 RaceFreeRun__cleanup(struct RaceFreeRun *);
+s32 RaceFreeRun__initializeLogger(struct RaceFreeRun *);
+s32 RaceFreeRun__updateToLogger(struct RaceFreeRun *);
+s32 RaceFreeRun__loadReplayTheathre(struct RaceFreeRun *, void *);
+s32 RaceFreeRun__loadTrackInputs(struct RaceFreeRun *, s32, void *);
+s32 RaceFreeRun__pauseStart(struct RaceFreeRun *, struct PauseBase *);
+s32 RaceFreeRun__updatePause(struct RaceFreeRun *);
+s32 RaceFreeRun__changeEntryCarTire(struct RaceFreeRun *);
+s32 RaceFreeRun__update(struct RaceFreeRun *);
+s32 RaceFreeRun__raceStart(struct RaceFreeRun *);
+s32 RaceFreeRun__soundToggle(struct RaceFreeRun *);
+void RaceFreeRun__setDescriptionVoicePause(struct RaceFreeRun *, s32);
+void RaceFreeRun__setDescriptionVoicePlay(struct RaceFreeRun *, s32);
+s32 RaceFreeRun__printSoundMode(struct RaceFreeRun *);
+f32 RaceFreeRun__getMasterVolume(struct RaceFreeRun *);
+s32 RaceSolitaire__getLoggerBuffer(struct RaceFreeRun *);
+s32 RaceSolitaire__prepareLogger(struct RaceFreeRun *);
+s32 RaceSolitaire__getCommonInput(struct RaceFreeRun *);
+s32 RaceSolitaire__getInput_2(struct RaceFreeRun *, s32);
+s32 RaceSolitaire__initializeDynamicsConductor(struct RaceFreeRun *);
+s32 RaceSolitaire__notifyChangeSpecMode(struct RaceFreeRun *);
+s32 RaceSolitaire__createReplayInformation(struct RaceFreeRun *, void *);
+s32 RaceSolitaire__loadDemoInputs(struct RaceFreeRun *, void *);
+s32 RaceSolitaire__loadReplayInputs(struct RaceFreeRun *, void *);
+s32 RaceSolitaire__saveReplayInputs(struct RaceFreeRun *, void *);
+s32 RaceSolitaire__sizeReplayInputs(struct RaceFreeRun *);
+s32 RaceSolitaire__loadGhostInputs(struct RaceFreeRun *, void *);
+s32 RaceSolitaire__saveGhostInputs(struct RaceFreeRun *, void *);
+s32 RaceSolitaire__sizeGhostInputs(struct RaceFreeRun *);
+s32 RaceSolitaire__loadTrackInputs(struct RaceFreeRun *, void *);
+s32 RaceSolitaire__updatePlay(struct RaceFreeRun *, f32);
+s32 RaceSolitaire__setReplayEndingFrames(struct RaceFreeRun *, s32);
+s32 RaceSolitaire__render_panel(struct RaceFreeRun *, void *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003B9BD8  RaceFreeRun::~RaceFreeRun() [high]

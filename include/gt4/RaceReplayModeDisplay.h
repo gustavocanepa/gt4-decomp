@@ -4,12 +4,23 @@
  * type_info 0x0088F650, type_info function 0x005FA618, structors 0x003AE5A8
  * vtable 0x0067E820: 10 slots
  * size: not known; the fields seen reach 0x158
+ * C++ (GT4_CXX): size 0x158 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceReplayModeDisplay_H
 #define GT4_RaceReplayModeDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceMessageDisplay.h"
+
+class RaceReplayModeDisplay : public RaceMessageDisplay {
+public:
+    char pad18[0x138];
+    s32 unk150;
+    s32 unk154;
+};
+#else
 struct RaceReplayModeDisplay {
     char pad0[0x14];
     void *unk14;
@@ -17,6 +28,18 @@ struct RaceReplayModeDisplay {
     s32 unk150;
     s32 unk154;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceMessageDisplay__update(struct RaceReplayModeDisplay *, f32);
+s32 RaceReplayModeDisplay__render_main(struct RaceReplayModeDisplay *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FA5B0  RaceReplayModeDisplay::~RaceReplayModeDisplay() [high]

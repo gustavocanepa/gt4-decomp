@@ -4,12 +4,39 @@
  * type_info 0x0088E8E0, type_info function 0x005EA1F0, structors 0x002D2720, 0x002D27A8
  * vtable 0x006704A8: 103 slots
  * size: not known; the fields seen reach 0xC4
+ * C++ (GT4_CXX): size 0x134 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mScrollWindow_H
 #define GT4_mScrollWindow_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mComposite.h"
+class hClass;
+class mButtonEvent;
+class mMotionEvent;
+class mRenderContext;
+
+class mScrollWindow : public mComposite {
+public:
+    void *unkB0;
+    f32 unkB4;
+    void *unkB8;
+    void *unkBC;
+    void *unkC0;
+    char padC4[0x70];
+    static s32 InitClass(hClass *);  /* 0x002D2988 */
+    s32 onHDecButtonPress(mRenderContext *, mButtonEvent *);  /* 0x002D2CF8 */
+    s32 onVDecButtonPress(mRenderContext *, mButtonEvent *);  /* 0x002D2D58 */
+    s32 onHBaseButtonPress(mRenderContext *, mButtonEvent *);  /* 0x002D2DB8 */
+    s32 onHPinchMotion(mRenderContext *, mMotionEvent *);  /* 0x002D2DE0 */
+    s32 onVIncButtonPress(mRenderContext *, mButtonEvent *);  /* 0x002D2E40 */
+    s32 onHIncButtonPress(mRenderContext *, mButtonEvent *);  /* 0x002D2EA0 */
+    s32 onVBaseButtonPress(mRenderContext *, mButtonEvent *);  /* 0x002D2F00 */
+    s32 onVPinchMotion(mRenderContext *, mMotionEvent *);  /* 0x002D2F28 */
+};
+#else
 struct mScrollWindow {
     s32 unk0;
     union {
@@ -35,6 +62,29 @@ struct mScrollWindow {
     void *unkBC;
     void *unkC0;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mScrollWindow__rc_class(struct mScrollWindow *);
+s32 mScrollWindow__rc_size(struct mScrollWindow *);
+s32 mScrollWindow__virtual_09(struct mScrollWindow *);
+s32 mScrollWindow__InitClass(struct hClass *);
+s32 mScrollWindow__onHDecButtonPress(struct mScrollWindow *, struct mRenderContext *, struct mButtonEvent *);
+s32 mScrollWindow__onVDecButtonPress(struct mScrollWindow *, struct mRenderContext *, struct mButtonEvent *);
+s32 mScrollWindow__onHBaseButtonPress(struct mScrollWindow *, struct mRenderContext *, struct mButtonEvent *);
+s32 mScrollWindow__onHPinchMotion(struct mScrollWindow *, struct mRenderContext *, struct mMotionEvent *);
+s32 mScrollWindow__onVIncButtonPress(struct mScrollWindow *, struct mRenderContext *, struct mButtonEvent *);
+s32 mScrollWindow__onHIncButtonPress(struct mScrollWindow *, struct mRenderContext *, struct mButtonEvent *);
+s32 mScrollWindow__onVBaseButtonPress(struct mScrollWindow *, struct mRenderContext *, struct mButtonEvent *);
+s32 mScrollWindow__onVPinchMotion(struct mScrollWindow *, struct mRenderContext *, struct mMotionEvent *);
+s32 mScrollWindow__virtual_08(struct mScrollWindow *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002D27A8  mScrollWindow::~mScrollWindow() [high]

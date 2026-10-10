@@ -4,12 +4,38 @@
  * type_info 0x0088EFB0, type_info function 0x005F33B8, structors 0x00335E88, 0x00335EF0
  * vtable 0x006785D8: 7 slots
  * size: not known; the fields seen reach 0x70
+ * C++ (GT4_CXX): size 0x70 (not known: up to the last field seen), vptr at 0x3C (introduced here), fields left out (overlap, or in the base's part): 0x3C
  */
 #ifndef GT4_RaceLanControlManager_H
 #define GT4_RaceLanControlManager_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; RaceLanControlManager has fields after 0x3C, so a base without RTTI introduced it */
+class RaceLanControlManager_vbase {
+public:
+    char pad0[0x3C];
+    virtual s32 virtual_0(s32);  /* 0: parameters from the code */
+    virtual s32 virtual_1();  /* 1: parameters from the code */
+    virtual s32 virtual_2();  /* 2: parameters from the code */
+    virtual s32 virtual_3();  /* 3: parameters from the code */
+    virtual s32 virtual_4();  /* 4: parameters from the code */
+    virtual s32 virtual_5();  /* 5: parameters from the code */
+    virtual s32 virtual_6();  /* 6: parameters from the code */
+};
+
+class RaceLanControlManager : public RaceLanControlManager_vbase {
+public:
+    char pad40[0x10];
+    s32 unk50;
+    char pad54[0x10];
+    s32 unk64;
+    s32 unk68;
+    s32 unk6C;
+};
+#else
 struct RaceLanControlManager {
     char pad0[0x3C];
     s32 unk3C;
@@ -20,6 +46,7 @@ struct RaceLanControlManager {
     s32 unk68;
     s32 unk6C;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00335EF0

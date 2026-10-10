@@ -4,12 +4,24 @@
  * type_info 0x0088EAC0, type_info function 0x005EE7A0, structors 0x00319538, 0x003196B0, 0x00319A80, 0x00319FC8, 0x0031A510, 0x0031A9E8, 0x0031AC78, 0x0031B258, 0x0031B470, 0x0031B788, 0x0031BE70, 0x0031C120, 0x0031C338, 0x0031C5B8, 0x0031C778, 0x0031CF40, 0x0031D450, 0x0031D7A8, 0x0031DFD8, 0x0031E258, 0x0031E418, 0x0031E648, 0x0031EBD8, 0x0031F0E8, 0x0031F2E8, 0x0031F850, 0x0031FDD8, 0x0031FF98, 0x00320198, 0x00320638, 0x00320A48, 0x00320CA8, 0x003212A0, 0x005EE7F0, 0x005EE820
  * vtable 0x00674120: 11 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_hInst_H
 #define GT4_hInst_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RefCounter.h"
+class hThread;
+
+class hInst : public RefCounter {
+public:
+    virtual s32 execute(hThread *);  /* 8: mUndef::execute(hThread*) */
+    virtual s32 read(void *, u32);  /* 9: mUndef::read(HIO&, unsigned int) */
+    virtual s32 virtual_10(s32);  /* 10: parameters from the code */
+};
+#else
 struct hInst {
     s32 unk0;
     union {
@@ -17,6 +29,18 @@ struct hInst {
         s32 unk4_s32;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hInst__rc_class(struct hInst *);
+s32 hInst__rc_size(struct hInst *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005EE820  hInst::~hInst() [high]

@@ -4,12 +4,23 @@
  * type_info 0x0088E5E0, type_info function 0x005E57B0, structors 0x0028BF30, 0x0028BF68
  * vtable 0x0066AA40: 49 slots
  * size: not known; the fields seen reach 0x38
+ * C++ (GT4_CXX): size 0x38 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mDnas_H
 #define GT4_mDnas_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mDnas : public hObject {
+public:
+    s32 unk10;
+    char pad14[0x20];
+    s32 unk34;
+};
+#else
 struct mDnas {
     s32 unk0;
     union {
@@ -22,6 +33,19 @@ struct mDnas {
     char pad14[0x20];
     s32 unk34;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mDnas__virtual_03(struct mDnas *);
+s32 mDnas__virtual_04(struct mDnas *);
+s32 mDnas__virtual_09(struct mDnas *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0028BF68

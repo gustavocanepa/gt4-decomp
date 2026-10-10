@@ -4,12 +4,26 @@
  * type_info 0x0088DC60, type_info function 0x005CBB10, structors 0x0017D448, 0x0017D490, 0x0017D540
  * vtable 0x0065CFB8: 49 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x1C (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mMemoryCardPlayList_H
 #define GT4_mMemoryCardPlayList_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+
+class mMemoryCardPlayList : public hObject {
+public:
+    void *unk10;
+    s32 unk14;
+    char pad18[0x4];
+    static s32 GetClassID();  /* 0x0017D410 */
+    static s32 InitClass(hClass *);  /* 0x0017DDF8 */
+};
+#else
 struct mMemoryCardPlayList {
     s32 unk0;
     union {
@@ -21,6 +35,21 @@ struct mMemoryCardPlayList {
     void *unk10;
     s32 unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mMemoryCardPlayList__rc_class(struct mMemoryCardPlayList *);
+s32 mMemoryCardPlayList__rc_size(struct mMemoryCardPlayList *);
+s32 mMemoryCardPlayList__GetClassID(void);
+s32 mMemoryCardPlayList__getClassID(struct mMemoryCardPlayList *);
+s32 mMemoryCardPlayList__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0017D540  mMemoryCardPlayList::~mMemoryCardPlayList() [high]

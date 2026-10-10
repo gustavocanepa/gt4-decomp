@@ -4,12 +4,22 @@
  * type_info 0x0088EA90, type_info function 0x005EE6B0, structors 0x002F91F8, 0x002F9238, 0x002F92C8
  * vtable 0x00673D60: 49 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_hFloat_H
 #define GT4_hFloat_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class hFloat : public hObject {
+public:
+    f32 unk10;
+    static s32 GetClassID();  /* 0x002F7D10 */
+};
+#else
 struct hFloat {
     s32 unk0;
     union {
@@ -20,6 +30,22 @@ struct hFloat {
     s32 unkC;
     f32 unk10;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hFloat__rc_class(struct hFloat *);
+s32 hFloat__rc_size(struct hFloat *);
+s32 hFloat__GetClassID(void);
+s32 hFloat__getClassID(struct hFloat *);
+s32 hFloat__toInt(struct hFloat *);
+f32 hFloat__toFloat(struct hFloat *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002F92C8  hFloat::~hFloat() [high]

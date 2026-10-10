@@ -4,12 +4,37 @@
  * type_info 0x0088E2A0, type_info function 0x005DC658, structors 0x00241C90, 0x00241CC8, 0x005DC5E0, 0x005DC6B8, 0x005E3608
  * vtable 0x00665FA0: 59 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mStorage_H
 #define GT4_mStorage_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+
+class mStorage : public hObject {
+public:
+    union {
+        s32 unk10;
+        void *unk10_pvoid;
+    };
+    virtual s32 isRemovable() const;  /* 49: mStorageHD::isRemovable() const */
+    virtual s32 isAvailable() const;  /* 50: mStorageHD::isAvailable() const */
+    virtual s32 isFormatted() const;  /* 51: mStorageHD::isFormatted() const */
+    virtual s32 getFreeSize() const;  /* 52: mStorageHD::getFreeSize() const */
+    virtual s32 getFileSize(const char *);  /* 53: mStorageHD::getFileSize(char const*) */
+    virtual s32 doFormat() const;  /* 54: mStorageHD::doFormat() const */
+    virtual s32 read(const char *, void *, u32);  /* 55: mStorageHD::read(char const*, void*, unsigned int) */
+    virtual s32 write(const char *, void *, u32);  /* 56: mStorageHD::write(char const*, void*, unsigned int) */
+    virtual s32 virtual_57(s32, s32, s32);  /* 57: GT HD mStorageHD::getDir(char const*, char const*): its parameters do not fit GT4's code; parameters from the code */
+    virtual s32 mkdir(const char *);  /* 58: mStorageHD::mkdir(char const*) */
+    static s32 GetClassID();  /* 0x00240570 */
+    static s32 InitClass(hClass *);  /* 0x002413A0 */
+};
+#else
 struct mStorage {
     s32 unk0;
     union {
@@ -23,6 +48,21 @@ struct mStorage {
         void *unk10_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mStorage__rc_class(struct mStorage *);
+s32 mStorage__rc_size(struct mStorage *);
+s32 mStorage__GetClassID(void);
+s32 mStorage__getClassID(struct mStorage *);
+s32 mStorage__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005DC5E0  mStorage::~mStorage() [high]

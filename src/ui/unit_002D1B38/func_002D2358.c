@@ -1,8 +1,8 @@
+#define GT4_DECLS
+#include "gt4/mWidget.h"
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
-f32 func_0025B2B0(s32);                             /* extern */
-f32 func_0025B310(s32);                             /* extern */
 
 struct func_002D2358_arg0 {
     char pad0[0x4];
@@ -19,9 +19,9 @@ s32 func_002D2358(struct func_002D2358_arg0 *arg0) {
     temp_a0 = arg0->unk30;
     if (temp_a0 != 0) {
         if (arg0->unk4 != 0) {
-            var_f0 = func_0025B2B0(temp_a0);
+            var_f0 = mWidget__getWindowX(temp_a0);
         } else {
-            var_f0 = func_0025B310(temp_a0);
+            var_f0 = mWidget__getWindowY(temp_a0);
         }
         arg0->unk34 = var_f0;
     }

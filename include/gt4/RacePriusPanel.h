@@ -4,12 +4,28 @@
  * type_info 0x0088F4D0, type_info function 0x005FA430, structors 0x0039AB68, 0x003A9D80, 0x005FA350
  * vtable 0x0067E8E0: 37 slots
  * size: not known; the fields seen reach 0x150
+ * C++ (GT4_CXX): size 0x150 (not known: up to the last field seen), vptr at 0x14
  */
 #ifndef GT4_RacePriusPanel_H
 #define GT4_RacePriusPanel_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RacePanel.h"
+
+class RacePriusPanel : public RacePanel {
+public:
+    char pad18[0x56];
+    s16 unk6E;
+    char pad70[0x6C];
+    f32 unkDC;
+    char padE0[0x68];
+    f32 unk148;
+    s32 unk14C;
+    s32 init_texset();  /* 0x003A9E80 */
+};
+#else
 struct RacePriusPanel {
     char pad0[0x14];
     void *unk14;
@@ -21,6 +37,47 @@ struct RacePriusPanel {
     f32 unk148;
     s32 unk14C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RacePanel__reset(struct RacePriusPanel *);
+void RacePanel__setSpeedmeterScale(struct RacePriusPanel *, s32, f32);
+void RacePanel__setTachometerRPM(struct RacePriusPanel *, f32);
+void RacePanel__setTachometerScale(struct RacePriusPanel *, f32, f32);
+void RacePanel__setTachometerRedZone(struct RacePriusPanel *, s32);
+void RacePanel__setBoostPressure(struct RacePriusPanel *, f32);
+void RacePanel__setGear(struct RacePriusPanel *, s32);
+void RacePanel__setClutch(struct RacePriusPanel *, s32);
+void RacePanel__setAutomaticTransmission(struct RacePriusPanel *, s32);
+void RacePanel__setShiftTimingLamp(struct RacePriusPanel *, s32);
+void RacePanel__showSuggestedGear(struct RacePriusPanel *, s32);
+void RacePanel__setSuggestedGear(struct RacePriusPanel *, s32);
+void RacePanel__setBrakingSign(struct RacePriusPanel *, s32);
+void RacePanel__showSideGravity(struct RacePriusPanel *, s32);
+void RacePanel__setSideGravity(struct RacePriusPanel *, f32);
+void RacePanel__setOdometer(struct RacePriusPanel *, s32);
+void RacePanel__showTireWear(struct RacePriusPanel *, s32);
+void RacePanel__setTireWearColor(struct RacePriusPanel *, s32, s32, s32, s32);
+void RacePanel__setFuelAmount(struct RacePriusPanel *, f32);
+void RacePanel__setFuelTankCapacity(struct RacePriusPanel *, f32);
+void RacePanel__setNosAmount(struct RacePriusPanel *, f32);
+void RacePanel__setNosTankCapacity(struct RacePriusPanel *, f32);
+s32 RacePriusPanel__init_texset(struct RacePriusPanel *);
+void RacePriusPanel__setLocation(struct RacePriusPanel *, s32, s32);
+s32 RacePriusPanel__update(struct RacePriusPanel *, f32);
+s32 RacePriusPanel__render_main(struct RacePriusPanel *, void *);
+s32 RacePriusPanel__DMAsafe(struct RacePriusPanel *);
+s32 RacePriusPanel__setSpeed(struct RacePriusPanel *, f32);
+void RacePriusPanel__setGasMileage(struct RacePriusPanel *, f32);
+void RacePriusPanel__setGasConsumption(struct RacePriusPanel *, f32);
+void RacePriusPanel__setGasUnit(struct RacePriusPanel *, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FA350  RacePriusPanel::~RacePriusPanel() [high]

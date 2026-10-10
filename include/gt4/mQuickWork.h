@@ -4,12 +4,21 @@
  * type_info 0x0088DA90, type_info function 0x005C42F0, structors 0x00127E30, 0x005C4278
  * vtable 0x0065A2B0: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mQuickWork_H
 #define GT4_mQuickWork_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mQuickWork : public hObject {
+public:
+    static s32 GetClassID();  /* 0x00124280 */
+};
+#else
 struct mQuickWork {
     s32 unk0;
     union {
@@ -19,6 +28,20 @@ struct mQuickWork {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mQuickWork__rc_class(struct mQuickWork *);
+s32 mQuickWork__rc_size(struct mQuickWork *);
+s32 mQuickWork__GetClassID(void);
+s32 mQuickWork__getClassID(struct mQuickWork *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005C4278  mQuickWork::~mQuickWork() [high]

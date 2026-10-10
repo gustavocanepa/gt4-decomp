@@ -4,12 +4,29 @@
  * type_info 0x0088E000, type_info function 0x005D4F58, structors 0x001FF130, 0x005CB230, 0x005D4E90, 0x005D8350, 0x005E37C8, 0x005E3F58, 0x005E4258, 0x005E4808, 0x005E86F0, 0x005E8C68, 0x005E9E20, 0x005EA628, 0x005EA740
  * vtable 0x00662668: 53 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mActor_H
 #define GT4_mActor_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+class mRenderContext;
+class mWidget;
+
+class mActor : public hObject {
+public:
+    char pad10[0x4];
+    virtual f32 initialize();  /* 49: mActor::initialize() */
+    virtual s32 rewind();  /* 50: mActor::rewind() */
+    virtual s32 resetFocus();  /* 51: mActor::resetFocus() */
+    virtual s32 update(mRenderContext *, mWidget *);  /* 52: mTextActor::update(mRenderContext*, mWidget*) */
+    static s32 InitClass(hClass *);  /* 0x001FF3F0 */
+};
+#else
 struct mActor {
     s32 unk0;
     union {
@@ -19,6 +36,23 @@ struct mActor {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mActor__rc_class(struct mActor *);
+s32 mActor__rc_size(struct mActor *);
+s32 mActor__virtual_09(struct mActor *);
+s32 mActor__InitClass(struct hClass *);
+void mActor__initialize(struct mActor *);
+void mActor__rewind(struct mActor *);
+void mActor__resetFocus(struct mActor *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005D4E90  mActor::~mActor() [high]

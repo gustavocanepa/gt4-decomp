@@ -4,12 +4,24 @@
  * type_info 0x0088DB90, type_info function 0x005CA908, structors 0x0015AC48, 0x0015AC88
  * vtable 0x0065BF58: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mCourseRecordUnit_H
 #define GT4_mCourseRecordUnit_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+
+class mCourseRecordUnit : public hObject {
+public:
+    char pad10[0x4];
+    static s32 GetClassID();  /* 0x0015AC10 */
+    static s32 InitClass(hClass *);  /* 0x0015BCF0 */
+};
+#else
 struct mCourseRecordUnit {
     s32 unk0;
     union {
@@ -19,6 +31,21 @@ struct mCourseRecordUnit {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mCourseRecordUnit__rc_class(struct mCourseRecordUnit *);
+s32 mCourseRecordUnit__rc_size(struct mCourseRecordUnit *);
+s32 mCourseRecordUnit__GetClassID(void);
+s32 mCourseRecordUnit__getClassID(struct mCourseRecordUnit *);
+s32 mCourseRecordUnit__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0015AC88  mCourseRecordUnit::~mCourseRecordUnit() [high]

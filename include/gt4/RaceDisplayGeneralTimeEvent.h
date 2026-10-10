@@ -4,18 +4,38 @@
  * type_info 0x0088F3A0, type_info function 0x005F7D20, structors 0x0035E428, 0x0035E550, 0x0039F200, 0x0039F368, 0x005F7D70
  * vtable 0x0067E708: 3 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (not known: up to the last field seen), vptr at 0x4, fields left out (overlap, or in the base's part): 0x0, 0x8, 0xC
  */
 #ifndef GT4_RaceDisplayGeneralTimeEvent_H
 #define GT4_RaceDisplayGeneralTimeEvent_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayDiffEvent.h"
+
+class RaceDisplayGeneralTimeEvent : public RaceDisplayDiffEvent {
+public:
+};
+#else
 struct RaceDisplayGeneralTimeEvent {
-    char pad0[0x4];
+    s32 unk0;
     void *unk4;
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceDisplayDiffEvent__decode(struct RaceDisplayGeneralTimeEvent *, s32);
+s32 RaceDisplayGeneralTimeEvent__getEventType(struct RaceDisplayGeneralTimeEvent *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003A3658  RaceDisplayGeneralTimeEvent::getEventType() const [high]

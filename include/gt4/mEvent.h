@@ -4,12 +4,30 @@
  * type_info 0x0088E600, type_info function 0x005E5988, structors 0x0028E8E8, 0x0028E978
  * vtable 0x0066AD80: 51 slots
  * size: not known; the fields seen reach 0x20
+ * C++ (GT4_CXX): size 0x20 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mEvent_H
 #define GT4_mEvent_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+class mRenderContext;
+class mWidget;
+
+class mEvent : public hObject {
+public:
+    char pad10[0xC];
+    void *unk1C;
+    virtual s32 dispatchEvent();  /* 49: mFinalizeEvent::dispatchEvent() */
+    virtual s32 onEvent(mRenderContext *, mWidget *);  /* 50: mEvent::onEvent(mRenderContext*, mWidget*) */
+    static s32 GetClassID();  /* 0x0028E310 */
+    static s32 InitClass(hClass *);  /* 0x0028E5F8 */
+    s32 propagateEvent(mRenderContext *, mWidget *);  /* 0x0028E858 */
+};
+#else
 struct mEvent {
     s32 unk0;
     union {
@@ -21,6 +39,22 @@ struct mEvent {
     char pad10[0xC];
     void *unk1C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mEvent__rc_class(struct mEvent *);
+s32 mEvent__rc_size(struct mEvent *);
+s32 mEvent__GetClassID(void);
+s32 mEvent__getClassID(struct mEvent *);
+s32 mEvent__InitClass(struct hClass *);
+s32 mEvent__propagateEvent(struct mEvent *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0028E978  mEvent::~mEvent() [high]

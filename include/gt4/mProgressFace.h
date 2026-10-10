@@ -4,12 +4,26 @@
  * type_info 0x0088E870, type_info function 0x005E9C80, structors 0x002CA8D8, 0x002CA928
  * vtable 0x0066F938: 95 slots
  * size: not known; the fields seen reach 0x100
+ * C++ (GT4_CXX): size 0x100 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mProgressFace_H
 #define GT4_mProgressFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mImageFace.h"
+class hClass;
+
+class mProgressFace : public mImageFace {
+public:
+    char padF0[0x8];
+    s32 unkF8;
+    f32 unkFC;
+    static s32 GetClassID();  /* 0x002CA8A0 */
+    static s32 InitClass(hClass *);  /* 0x002CAA08 */
+};
+#else
 struct mProgressFace {
     s32 unk0;
     union {
@@ -28,6 +42,21 @@ struct mProgressFace {
     s32 unkF8;
     f32 unkFC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mProgressFace__rc_class(struct mProgressFace *);
+s32 mProgressFace__rc_size(struct mProgressFace *);
+s32 mProgressFace__GetClassID(void);
+s32 mProgressFace__getClassID(struct mProgressFace *);
+s32 mProgressFace__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002CA928  mProgressFace::~mProgressFace() [high]

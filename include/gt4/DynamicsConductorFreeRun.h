@@ -18,6 +18,33 @@ struct DynamicsConductorFreeRun {
     };
 };
 
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 DynamicsConductorFreeRun__isDataLoggerSupported(struct DynamicsConductorFreeRun *);
+s32 DynamicsConductorFreeRun__isRandomSkillAvailable(struct DynamicsConductorFreeRun *);
+s32 DynamicsConductorFreeRun__getStartingFormat(struct DynamicsConductorFreeRun *);
+s32 DynamicsConductorFreeRun__SetupGlobalStatusPre(struct DynamicsConductorFreeRun *, s32);
+s32 DynamicsConductorFreeRun__getEachEntrantInfo(struct DynamicsConductorFreeRun *, s32, s32 *, s32 *, s32 *, s32 *);
+s32 DynamicsConductorFreeRun__getSpecialStart(struct DynamicsConductorFreeRun *, s32, s32 *, s32 *, s32 *);
+s32 DynamicsConductorFreeRun__GetNumberOfLaps(struct DynamicsConductorFreeRun *);
+s32 DynamicsConductorFreeRun__CurrentLapTime(struct DynamicsConductorFreeRun *, void *);
+s32 DynamicsConductorFreeRun__InitializeLapTimeCorrection(struct DynamicsConductorFreeRun *);
+s32 DynamicsConductorFreeRun__GetLapTimeCorrection(struct DynamicsConductorFreeRun *, s32);
+void DynamicsConductorFreeRun__SetLapTimeCorrection(struct DynamicsConductorFreeRun *, s32, s32);
+s32 DynamicsConductorFreeRun__ProcessCheckPoint(struct DynamicsConductorFreeRun *, s32, s32, s32, u32, u32, u32);
+s32 DynamicsConductorFreeRun__recordOneLapGhostControl(struct DynamicsConductorFreeRun *, struct RaceInput *, void *);
+void DynamicsConductorFreeRun__ProcessLap0ControlLine(struct DynamicsConductorFreeRun *, s32, f32, u32, u32);
+s32 DynamicsConductorFreeRun__ProcessControlLine(struct DynamicsConductorFreeRun *, s32, s32, u32, u32, u32, f32, u32);
+s32 DynamicsConductorFreeRun__ProcessLapTimeCommonPre(struct DynamicsConductorFreeRun *);
+void DynamicsConductorFreeRun__ProcessLapTimeCommonPost(struct DynamicsConductorFreeRun *);
+s32 DynamicsConductorFreeRun__getCrashability(struct DynamicsConductorFreeRun *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
+
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00359230
  *   1: 0x00365D80

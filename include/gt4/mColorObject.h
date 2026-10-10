@@ -4,12 +4,24 @@
  * type_info 0x0088E050, type_info function 0x005D56B0, structors 0x002043F8, 0x00204430, 0x00204478
  * vtable 0x00662D60: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x20 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mColorObject_H
 #define GT4_mColorObject_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+class hClass;
+
+class mColorObject : public hObject {
+public:
+    char pad10[0x10];
+    static s32 GetClassID();  /* 0x002037C8 */
+    static s32 InitClass(hClass *);  /* 0x00203F58 */
+};
+#else
 struct mColorObject {
     s32 unk0;
     union {
@@ -19,6 +31,21 @@ struct mColorObject {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mColorObject__rc_class(struct mColorObject *);
+s32 mColorObject__rc_size(struct mColorObject *);
+s32 mColorObject__GetClassID(void);
+s32 mColorObject__getClassID(struct mColorObject *);
+s32 mColorObject__InitClass(struct hClass *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00204478  mColorObject::~mColorObject() [high]

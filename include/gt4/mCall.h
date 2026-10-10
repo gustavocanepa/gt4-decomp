@@ -4,12 +4,21 @@
  * type_info 0x0088ECC0, type_info function 0x005F1048, structors 0x0031AC38
  * vtable 0x00675FC8: 11 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mCall_H
 #define GT4_mCall_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mCall : public hInst {
+public:
+    void *unk8;
+};
+#else
 struct mCall {
     s32 unk0;
     union {
@@ -18,6 +27,20 @@ struct mCall {
     };
     void *unk8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mCall__rc_class(struct mCall *);
+s32 mCall__rc_size(struct mCall *);
+s32 mCall__execute(struct mCall *, struct hThread *);
+s32 mCall__read(struct mCall *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031AC78  mCall::~mCall() [high]

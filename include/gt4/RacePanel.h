@@ -4,16 +4,63 @@
  * type_info 0x0088F5F0, type_info function 0x005F9D50, structors 0x0039AB68, 0x003A73F8, 0x005F9CE8, 0x005F9E90, 0x005FA130, 0x005FA350
  * vtable 0x0067EC88: 37 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RacePanel_H
 #define GT4_RacePanel_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RacePanel : public RaceDisplayObjectBase {
+public:
+    virtual f32 update(f32);  /* 9: RacePriusPanel::update(float) */
+    virtual void DMAsafe();  /* 10: RacePanel::DMAsafe() */
+    virtual s32 reset();  /* 11: RacePanel::reset() */
+    virtual s32 setSpeed(f32);  /* 12: RacePanel::setSpeed(float) */
+    virtual void setSpeedmeterScale(bool, f32);  /* 13: RacePanel::setSpeedmeterScale(bool, float) */
+    virtual void setTachometerRPM(f32);  /* 14: RacePanel::setTachometerRPM(float) */
+    virtual void setTachometerScale(f32, f32);  /* 15: RacePanel::setTachometerScale(float, float) */
+    virtual s32 setTachometerRedZone(s32);  /* 16: RacePanel::setTachometerRedZone(int) */
+    virtual void setBoostPressure(f32);  /* 17: RacePanel::setBoostPressure(float) */
+    virtual void setGear(s32);  /* 18: RacePanel::setGear(int) */
+    virtual s32 setClutch(bool);  /* 19: RacePanel::setClutch(bool) */
+    virtual s32 setAutomaticTransmission(bool);  /* 20: RacePanel::setAutomaticTransmission(bool) */
+    virtual s32 setShiftTimingLamp(bool);  /* 21: RacePanel::setShiftTimingLamp(bool) */
+    virtual s32 showSuggestedGear(bool);  /* 22: RacePanel::showSuggestedGear(bool) */
+    virtual void setSuggestedGear(s32);  /* 23: RacePanel::setSuggestedGear(int) */
+    virtual s32 setBrakingSign(bool);  /* 24: RacePanel::setBrakingSign(bool) */
+    virtual s32 showSideGravity(bool);  /* 25: RacePanel::showSideGravity(bool) */
+    virtual void setSideGravity(f32);  /* 26: RacePanel::setSideGravity(float) */
+    virtual void setOdometer(s32);  /* 27: RacePanel::setOdometer(int) */
+    virtual void showTireWear(bool);  /* 28: RacePanel::showTireWear(bool) */
+    virtual void setTireWearColor(s32, s32, s32, s32);  /* 29: RacePanel::setTireWearColor(int, int, int, int) */
+    virtual void setFuelAmount(f32);  /* 30: RacePanel::setFuelAmount(float) */
+    virtual void setFuelTankCapacity(f32);  /* 31: RacePanel::setFuelTankCapacity(float) */
+    virtual void setNosAmount(f32);  /* 32: RacePanel::setNosAmount(float) */
+    virtual void setNosTankCapacity(f32);  /* 33: RacePanel::setNosTankCapacity(float) */
+    virtual void setGasMileage(f32);  /* 34: RacePanel::setGasMileage(float) */
+    virtual void setGasConsumption(f32);  /* 35: RacePanel::setGasConsumption(float) */
+    virtual void setGasUnit(s32);  /* 36: RacePanel::setGasUnit(int) */
+};
+#else
 struct RacePanel {
     char pad0[0x14];
     void *unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RacePanel__setSpeed(struct RacePanel *, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F9CE8  RacePanel::~RacePanel() [high]

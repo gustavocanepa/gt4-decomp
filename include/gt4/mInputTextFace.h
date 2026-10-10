@@ -4,12 +4,22 @@
  * type_info 0x0088E730, type_info function 0x005E7698, structors 0x002A5FA0, 0x002A6120
  * vtable 0x0066D2B8: 95 slots
  * size: not known; the fields seen reach 0x94
+ * C++ (GT4_CXX): size 0xDF0 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mInputTextFace_H
 #define GT4_mInputTextFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWidget.h"
+
+class mInputTextFace : public mWidget {
+public:
+    char padA0[0xD50];
+    static s32 GetClassID();  /* 0x002A5F68 */
+};
+#else
 struct mInputTextFace {
     s32 unk0;
     union {
@@ -25,6 +35,24 @@ struct mInputTextFace {
     char pad30[0x60];
     void *unk90;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mInputTextFace__rc_class(struct mInputTextFace *);
+s32 mInputTextFace__rc_size(struct mInputTextFace *);
+s32 mInputTextFace__GetClassID(void);
+s32 mInputTextFace__getClassID(struct mInputTextFace *);
+s32 mInputTextFace__onFocusLeave(struct mInputTextFace *, struct mRenderContext *, struct mEvent *);
+s32 mInputTextFace__onKeyPress(struct mInputTextFace *, struct mRenderContext *, struct mKeyPressEvent *);
+s32 mInputTextFace__deepCopy(struct mInputTextFace *, const struct hObject *);
+s32 mInputTextFace__setColor(struct mInputTextFace *, const struct MColor *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002A6120  mInputTextFace::~mInputTextFace() [high]

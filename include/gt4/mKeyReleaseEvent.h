@@ -4,12 +4,21 @@
  * type_info 0x0088E760, type_info function 0x005E7C38, structors 0x00251300, 0x00251EF0, 0x00252A50, 0x002AB638, 0x005E7C88
  * vtable 0x0066D910: 51 slots
  * size: not known; the fields seen reach 0x30
+ * C++ (GT4_CXX): size 0x30 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8, 0x20, 0x24, 0x28, 0x2C
  */
 #ifndef GT4_mKeyReleaseEvent_H
 #define GT4_mKeyReleaseEvent_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mKeyEvent.h"
+
+class mKeyReleaseEvent : public mKeyEvent {
+public:
+    static s32 GetClassID();  /* 0x002AB4A0 */
+};
+#else
 struct mKeyReleaseEvent {
     s32 unk0;
     union {
@@ -25,6 +34,21 @@ struct mKeyReleaseEvent {
     f32 unk28;
     f32 unk2C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mKeyReleaseEvent__rc_class(struct mKeyReleaseEvent *);
+s32 mKeyReleaseEvent__rc_size(struct mKeyReleaseEvent *);
+s32 mKeyReleaseEvent__GetClassID(void);
+s32 mKeyReleaseEvent__getClassID(struct mKeyReleaseEvent *);
+s32 mKeyReleaseEvent__onEvent(struct mKeyReleaseEvent *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E7CF8  mKeyReleaseEvent::~mKeyReleaseEvent() [high]

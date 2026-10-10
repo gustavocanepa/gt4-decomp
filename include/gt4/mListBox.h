@@ -4,12 +4,39 @@
  * type_info 0x0088E7B0, type_info function 0x005E8348, structors 0x002AEA98, 0x002AEBF0
  * vtable 0x0066E2F0: 107 slots
  * size: not known; the fields seen reach 0x130
+ * C++ (GT4_CXX): size 0x158 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mListBox_H
 #define GT4_mListBox_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mScrollable.h"
+class mRenderContext;
+class mWidget;
+
+class mListBox : public mScrollable {
+public:
+    char padBC[0x68];
+    s32 unk124;
+    char pad128[0x4];
+    s32 unk12C;
+    char pad130[0x28];
+    static s32 GetClassID();  /* 0x002AE900 */
+    s32 get_width() const;  /* 0x002B1F90 */
+    s32 is_left(s32) const;  /* 0x002B21D0 */
+    s32 is_right(s32) const;  /* 0x002B2270 */
+    s32 getTotalItemCount() const;  /* 0x002B2310 */
+    f32 getTotal() const;  /* 0x002B2390 */
+    void setFocusIndex(s32);  /* 0x002B3AF8 */
+    s32 get_total_item_count() const;  /* 0x002B49D8 */
+    void setDragIcon(mRenderContext *, mWidget *);  /* 0x002B5188 */
+    void leaveDragMode(mRenderContext *);  /* 0x002B5270 */
+    s32 getItemActive(s32) const;  /* 0x002B5498 */
+    void setItemActive(s32, bool);  /* 0x002B5500 */
+};
+#else
 struct mListBox {
     s32 unk0;
     union {
@@ -37,6 +64,41 @@ struct mListBox {
     char pad128[0x4];
     s32 unk12C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mListBox__rc_class(struct mListBox *);
+s32 mListBox__rc_size(struct mListBox *);
+s32 mListBox__GetClassID(void);
+s32 mListBox__getClassID(struct mListBox *);
+s32 mListBox__get_width(struct mListBox *);
+s32 mListBox__is_left(struct mListBox *, s32);
+s32 mListBox__is_right(struct mListBox *, s32);
+s32 mListBox__getTotalItemCount(struct mListBox *);
+f32 mListBox__getTotal(struct mListBox *);
+s32 mListBox__onFocusEnter(struct mListBox *, struct mRenderContext *, struct mEvent *);
+s32 mListBox__onFocusLeave(struct mListBox *, struct mRenderContext *, struct mEvent *);
+s32 mListBox__onKeyPress(struct mListBox *, struct mRenderContext *, struct mKeyPressEvent *);
+s32 mListBox__onKeyRelease(struct mListBox *, struct mRenderContext *, struct mKeyReleaseEvent *);
+void mListBox__setFocusIndex(struct mListBox *, s32);
+s32 mListBox__deepCopy(struct mListBox *, const struct hObject *);
+s32 mListBox__getBeginPointRatio(struct mListBox *);
+f32 mListBox__getVolumeRatio(struct mListBox *);
+s32 mListBox__canIncrement(struct mListBox *);
+s32 mListBox__canDecrement(struct mListBox *);
+s32 mListBox__get_total_item_count(struct mListBox *);
+void mListBox__setDragIcon(struct mListBox *, struct mRenderContext *, struct mWidget *);
+void mListBox__leaveDragMode(struct mListBox *, struct mRenderContext *);
+s32 mListBox__getItemActive(struct mListBox *, s32);
+void mListBox__setItemActive(struct mListBox *, s32, s32);
+s32 mListBox__isComposite(struct mListBox *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002AEBF0  mListBox::~mListBox() [high]

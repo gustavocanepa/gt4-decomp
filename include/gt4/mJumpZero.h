@@ -4,12 +4,24 @@
  * type_info 0x0088ECE0, type_info function 0x005F1338, structors 0x0031C738
  * vtable 0x00675C20: 11 slots
  * size: not known; the fields seen reach 0xC
+ * C++ (GT4_CXX): size 0xC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mJumpZero_H
 #define GT4_mJumpZero_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hInst.h"
+
+class mJumpZero : public hInst {
+public:
+    union {
+        s32 unk8;
+        void *unk8_pvoid;
+    };
+};
+#else
 struct mJumpZero {
     s32 unk0;
     union {
@@ -21,6 +33,20 @@ struct mJumpZero {
         void *unk8_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mJumpZero__rc_class(struct mJumpZero *);
+s32 mJumpZero__rc_size(struct mJumpZero *);
+s32 mJumpZero__execute(struct mJumpZero *, struct hThread *);
+s32 mJumpZero__read(struct mJumpZero *, void *, u32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0031C778  mJumpZero::~mJumpZero() [high]

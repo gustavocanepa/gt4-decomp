@@ -7,6 +7,9 @@ the right arguments, type globals and read struct fields with the width the orig
     types_db.py show CLASS       the fields recorded for a class and their evidence
     types_db.py context ADDR F   print the part of the context the draft file F needs (what
                                  cpu_solve.py prepends before compiling)
+    types_db.py ab SAMPLE.json BEFORE.json AFTER.json [--jobs 2] [--take N] [--report]
+                                 the context drafts of a fixed sample with two databases
+                                 (e.g. TYPES_DB=... TYPES_DB_NO_GTHD=1 build for the before side)
     types_db.py measure [--sample 400] [--jobs 2]
                                  re-draft a fixed sample of unmatched functions with no context,
                                  prototypes only, and the full context; report per size bucket
@@ -47,8 +50,10 @@ import symbols
 import project
 
 ROOT = match.ROOT
-DB = os.path.join(ROOT, "build", "types_db.json")
-CONTEXT = os.path.join(ROOT, "build", "types_context.c")
+# TYPES_DB / TYPES_CONTEXT: another database (a measurement's "before" side); TYPES_DB_NO_GTHD=1
+# builds without the GT HD signatures
+DB = os.environ.get("TYPES_DB") or os.path.join(ROOT, "build", "types_db.json")
+CONTEXT = os.environ.get("TYPES_CONTEXT") or os.path.join(ROOT, "build", "types_context.c")
 CLASSES = os.path.join(ROOT, "config", "classes.json")
 LIBRARY = 0x5547E8  # library code from here on (other flags, partly another compiler)
 
@@ -219,7 +224,7 @@ def collect_sources(owners):
     for name, c in globs.items():
         (best, n), = c.most_common(1)
         gl[name] = best
-    return protos, len(defs), conflicts, gl
+    return protos, set(defs), conflicts, gl
 
 
 # ---------------------------------------------------------------- classes
@@ -398,6 +403,244 @@ def scan(words, addr):
     return out
 
 
+# ---------------------------------------------------------------- what the code says about a signature
+
+V0 = 2
+INT_ARGS = list(range(4, 12))     # $a0-$a3, $t0-$t3: integer arguments 1-8 (the EE's EABI)
+FLOAT_ARGS = list(range(12, 20))  # $f12-$f19: float arguments 1-8, counted apart from the integer ones
+FLOAT_CLOBBER = set(range(0, 20))
+JR_RA = 0x03E00008
+
+
+def fp_written(w):
+    """The FPR an instruction writes, or None (lwc1, mtc1, single/word arithmetic and moves)."""
+    op = w >> 26
+    if op == 0x31:  # lwc1
+        return (w >> 16) & 31
+    if op != 0x11:
+        return None
+    fmt = (w >> 21) & 31
+    if fmt == 4:  # mtc1
+        return (w >> 11) & 31
+    if fmt in (0x10, 0x14):
+        funct = w & 0x3F
+        if funct >= 0x30 or funct in (0x18, 0x19, 0x1A, 0x1E, 0x1F):  # compares; adda/suba/mula/madda/msuba
+            return None
+        return (w >> 6) & 31
+    return None
+
+
+def reads(w):
+    """(GPRs, FPRs) one instruction reads, approximately (what live_args needs)."""
+    op = w >> 26
+    rs, rt = (w >> 21) & 31, (w >> 16) & 31
+    gpr, fpr = set(), set()
+    if op == 0:
+        f = w & 0x3F
+        if f in (0x00, 0x02, 0x03, 0x38, 0x3A, 0x3B, 0x3C, 0x3E, 0x3F):  # shifts by a constant
+            gpr = {rt}
+        elif f in (0x08, 0x09, 0x11, 0x13):  # jr jalr mthi mtlo
+            gpr = {rs}
+        elif f in (0x0C, 0x0D, 0x0F, 0x10, 0x12):  # syscall break sync mfhi mflo
+            pass
+        else:
+            gpr = {rs, rt}
+    elif op == 0x1C:  # MMI
+        gpr = {rs, rt}
+    elif op in (2, 3, 0x0F):
+        pass
+    elif op in (4, 5, 0x14, 0x15):
+        gpr = {rs, rt}
+    elif op in (1, 6, 7, 0x16, 0x17) or 0x08 <= op <= 0x0E or op in (0x18, 0x19):
+        gpr = {rs}
+    elif op == 0x39:  # swc1
+        gpr, fpr = {rs}, {rt}
+    elif op in STORES or op in (0x2A, 0x2E, 0x2C, 0x2D):
+        gpr = {rs, rt}
+    elif op in LOADS or op in (0x22, 0x26, 0x1A, 0x1B, 0x37, 0x1E):
+        gpr = {rs}
+    elif op == 0x11:
+        fmt = rs
+        if fmt in (4, 6):  # mtc1 ctc1
+            gpr = {rt}
+        elif fmt == 0:  # mfc1
+            fpr = {(w >> 11) & 31}
+        elif fmt in (0x10, 0x14):
+            funct = w & 0x3F
+            fs = (w >> 11) & 31
+            fpr = {fs} if funct in (4, 5, 6, 7, 0x20, 0x24) else {fs, rt}
+    gpr.discard(0)
+    return gpr, fpr
+
+
+def live_args(words):
+    """(integer argument registers, float argument registers) the function reads before it
+    writes them, in a linear pass (a call clobbers them all). Branches make it approximate:
+    a write on one path hides a read on another, so this can only miss arguments."""
+    seen_g, seen_f, int_in, fp_in = set(), set(), set(), set()
+    call = False
+    for w in words:
+        g, f = reads(w)
+        int_in |= {r for r in g if r in INT_ARGS and r not in seen_g}
+        fp_in |= {r for r in f if r in FLOAT_ARGS and r not in seen_f}
+        if call:  # the delay slot ran: now the callee clobbers
+            seen_g |= CALL_CLOBBER
+            seen_f |= FLOAT_CLOBBER
+            call = False
+        wr = written(w)
+        if wr:
+            seen_g.add(wr)
+        fw = fp_written(w)
+        if fw is not None:
+            seen_f.add(fw)
+        op = w >> 26
+        if op == 3 or (op == 0 and (w & 0x3F) == 0x09):
+            call = True
+    return sorted(int_in), sorted(fp_in)
+
+
+def _callee(w, addr):
+    return ((w & 0x3FFFFFF) << 2) | (addr & 0xF0000000)
+
+
+def _block_starts(words):
+    """Indexes where a straight-line run may be entered: branch targets and after jumps."""
+    starts = {0}
+    for i, w in enumerate(words):
+        op = w >> 26
+        if op in (4, 5, 6, 7, 0x14, 0x15, 0x16, 0x17) or op == 1 or (op == 0x11 and (w >> 21) & 31 == 8):
+            t = i + 1 + sext16(w & 0xFFFF)
+            if 0 <= t < len(words):
+                starts.add(t)
+            starts.add(i + 2)
+        elif op == 2 or (op == 0 and (w & 0x3F) == 0x08):
+            starts.add(i + 2)
+    return starts
+
+
+def return_type(addr, funcs, memo=None, depth=0):
+    """'void', 's32' or 'f32' from the code, or None when it does not say: the last write of $v0
+    or $f0 before each `jr $ra` (a call whose result is left in place votes with the callee's
+    type; a tail call `j` takes the callee's). Functions that never write $v0/$f0 and call
+    nothing return void."""
+    memo = {} if memo is None else memo
+    if addr in memo:
+        return memo[addr]
+    memo[addr] = None  # recursion guard
+    words = funcs.get(addr)
+    if not words:
+        return None
+    words = list(words)
+    while words and not words[-1]:
+        words.pop()
+    starts = _block_starts(words)
+    votes = Counter()
+    any_v0 = any(written(w) == V0 for w in words)
+    any_f0 = any(fp_written(w) == 0 for w in words)
+    any_call = any(w >> 26 == 3 or (w >> 26 == 0 and (w & 0x3F) == 0x09) for w in words)
+    for i, w in enumerate(words):
+        tail = w >> 26 == 2
+        if w != JR_RA and not tail:
+            continue
+        if tail:
+            if depth < 4:
+                t = return_type(_callee(w, addr), funcs, memo, depth + 1)
+                if t:
+                    votes[t] += 1
+            continue
+        # backwards from the delay slot to the start of the run
+        j = min(i + 1, len(words) - 1)
+        while j >= 0:
+            x = words[j]
+            if j != i + 1 and (x >> 26 == 3) and j + 1 <= i:
+                if depth < 4:
+                    t = return_type(_callee(x, addr), funcs, memo, depth + 1)
+                    if t:
+                        votes[t] += 1
+                break
+            if written(x) == V0:
+                votes["s32"] += 1
+                break
+            if fp_written(x) == 0:
+                votes["f32"] += 1
+                break
+            if j in starts and j != i + 1:
+                break
+            j -= 1
+    if votes["f32"] and not votes["s32"]:
+        out = "f32"
+    elif votes["s32"] and not votes["f32"]:
+        out = "s32"
+    elif votes["s32"] or votes["f32"]:
+        out = None
+    elif votes["void"] or not (any_v0 or any_f0 or any_call):
+        out = "void"
+    else:
+        out = None
+    memo[addr] = out
+    return out
+
+
+def result_uses(funcs):
+    """{callee: Counter('v0'|'f0'|'none')}: what each call site does with the result. After the
+    delay slot, the first read of $v0/$f0 before it is written counts as a use; a write, another
+    call or the end of the run counts as none (a `jr $ra` first says nothing: the caller may
+    return it)."""
+    uses = defaultdict(Counter)
+    for addr, words in funcs.items():
+        starts = None
+        for i, w in enumerate(words):
+            if w >> 26 != 3:
+                continue
+            callee = _callee(w, addr)
+            got = "none"
+            for k in range(i + 2, min(len(words), i + 40)):
+                x = words[k]
+                g, f = reads(x)
+                if V0 in g:
+                    got = "v0"
+                    break
+                if 0 in f:
+                    got = "f0"
+                    break
+                if x == JR_RA:
+                    got = None
+                    break
+                if written(x) == V0 and x >> 26 != 3:
+                    break
+                if fp_written(x) == 0:
+                    break
+                op = x >> 26
+                if op in (2, 3) or (op == 0 and (x & 0x3F) in (0x08, 0x09)):
+                    break
+                if starts is None:
+                    starts = _block_starts(words)
+                if k in starts:
+                    break
+            if got:
+                uses[callee][got] += 1
+    return uses
+
+
+def result_type(addr, funcs, uses, memo):
+    """The return type a prototype should state: the callers' use of the result first (any
+    read of $f0 -> f32, of $v0 -> s32), else the callee's own code (void only when no caller
+    reads anything), else None."""
+    u = uses.get(addr, Counter())
+    own = return_type(addr, funcs, memo)
+    if u["f0"] and not u["v0"]:
+        return "f32"
+    if u["v0"] and not u["f0"]:
+        return "s32"
+    if u["v0"] or u["f0"]:
+        return None
+    if own == "f32":
+        return "f32" if not u["none"] else None
+    if own == "void" or (u["none"] >= 2 and own != "f32"):
+        return "void"
+    return own
+
+
 def all_functions():
     text_addr, text = match.load_text()
     out = {}
@@ -535,6 +778,215 @@ def render_struct(name, fields):
     return "\n".join(lines), pos
 
 
+# ---------------------------------------------------------------- GT HD prototypes
+
+GTHD_NAMES = os.path.join(ROOT, "config", "gthd_names.txt")
+GTHD_PROTOTYPES = os.path.join(ROOT, "config", "gthd_prototypes.json")
+# GT HD's C types as this project spells them (C, C++). PS3 `long` is 32-bit (ILP32 lv2 ABI);
+# `bool` is 4 bytes in g++ 2.96 on the EE (knowledge/runtime-types.md): an int in C.
+GTHD_PRIMS = {"int": ("s32", "s32"), "unsigned int": ("u32", "u32"), "float": ("f32", "f32"),
+              "bool": ("s32", "bool"), "char": ("char", "char"), "signed char": ("s8", "s8"),
+              "unsigned char": ("u8", "u8"), "short": ("s16", "s16"), "unsigned short": ("u16", "u16"),
+              "long": ("s32", "s32"), "unsigned long": ("u32", "u32"), "long long": ("s64", "s64"),
+              "unsigned long long": ("u64", "u64"), "double": ("f64", "f64"), "void": ("void", "void")}
+# Static member functions (Itanium names do not tell them from methods): the code confirms
+# both (InitClass reads only $a0, its hClass*; GetClassID reads nothing).
+GTHD_STATIC = {"InitClass", "GetClassID"}
+SIG = re.compile(r"^(?P<qual>.*)::(?P<name>~?\w+)\((?P<params>.*)\)(?P<const> const)?$")
+
+
+def split_template_params(text):
+    """Comma-separated parameters of a demangled signature, commas inside <> and () kept."""
+    out, depth, cur = [], 0, ""
+    for ch in text:
+        if ch == "," and depth == 0:
+            out.append(cur.strip())
+            cur = ""
+            continue
+        depth += (ch in "<(") - (ch in ">)")
+        cur += ch
+    if cur.strip():
+        out.append(cur.strip())
+    return out
+
+
+def gthd_class_map(gt4_classes):
+    """{GT HD class name: GT4 class name} for the classes the two games share (the PS3 twins of
+    PS2 classes included)."""
+    out = {c: c for c in gt4_classes}
+    if os.path.exists(GTHD_PROTOTYPES):
+        for k, v in json.load(open(GTHD_PROTOTYPES, encoding="utf-8")).items():
+            if v.get("gthd_class"):
+                out[v["gthd_class"]] = k
+    for c in list(out):
+        if "PS3" in c and c.replace("PS3", "PS2") in gt4_classes:
+            out[c] = c.replace("PS3", "PS2")
+    return out
+
+
+def gthd_type(t, cmap, cxx=False):
+    """A GT HD parameter type as this project writes it: (type, GT4 class it points to or None),
+    or None when it has no PS2 equivalent this can state (a class passed by value). Pointers and
+    references to GT4 classes stay typed (`struct C *` in C, `C *` / `C &` in C++); to anything
+    else (GT HD-only classes, std::basic_string, PS3 types) they become `void *`; an enum-like
+    nested name in capitals (RaceBase::RACEMODE) is an int."""
+    t = re.sub(r"\s+", " ", t.strip())
+    ref = t.endswith("&")
+    if ref:
+        t = t[:-1].strip()
+    stars = 0
+    while t.endswith("*") or t.endswith("* const") or t.endswith("*const"):
+        t = re.sub(r"\*\s*(const)?$", "", t).strip()
+        stars += 1
+    const = bool(re.search(r"\bconst\b", t))
+    base = re.sub(r"\bconst\b", "", t).strip()
+    base = re.sub(r"\s+", " ", base)
+    ind = stars + (1 if ref else 0)
+    cq = "const " if const else ""
+    if base in GTHD_PRIMS:
+        b = GTHD_PRIMS[base][1 if cxx else 0]
+        if not ind:
+            return b, None
+        if b == "void" and ref:
+            return None
+        if cxx:
+            return f"{cq}{b} {'*' * stars}{'&' if ref else ''}", None
+        return f"{cq}{b} {'*' * ind}", None
+    cls = cmap.get(base)
+    if cls:
+        if not ind:
+            return None
+        if cxx:
+            return f"{cq}{cls} {'*' * stars}{'&' if ref else ''}", cls
+        return f"{cq}struct {cls} {'*' * ind}", cls
+    if not ind:
+        last = base.split("::")[-1]
+        if "::" in base and re.fullmatch(r"[A-Z][A-Z0-9_]+", last):
+            return "s32", None  # a nested enum
+        return None
+    return f"{cq}void {'*' * ind}", None
+
+
+def parse_gthd_signature(sig):
+    """(qualifier, method name, [parameter types], const) of `A::B::m(T, U) const`, or None."""
+    m = SIG.match(sig.strip())
+    if not m:
+        return None
+    params = m.group("params").strip()
+    plist = [] if params in ("", "void") else split_template_params(params)
+    return m.group("qual"), m.group("name"), plist, bool(m.group("const"))
+
+
+def gthd_functions(gt4_classes, levels=("high", "medium")):
+    """{address: {'qual', 'name', 'params', 'const', 'class' (GT4 class or None), 'confidence',
+    'symbol'}} from config/gthd_names.txt (not structors: their g++ 2.96 forms differ)."""
+    out = {}
+    if not os.path.exists(GTHD_NAMES):
+        return out
+    cmap = gthd_class_map(gt4_classes)
+    gthd_classes = set(cmap)
+    rows = []
+    for line in open(GTHD_NAMES, encoding="utf-8"):
+        if line.startswith("#") or not line.strip():
+            continue
+        f = line.rstrip("\n").split("\t")
+        if len(f) < 5 or f[2] not in levels:
+            continue
+        if f[2] == "medium" and f[3] != "yes":
+            continue  # a medium vtable pair: not applied, the alignment may be wrong
+        p = parse_gthd_signature(f[4])
+        if not p:
+            continue
+        rows.append((int(f[0], 16), f[1], f[2], p))
+        q, n = p[0], p[1]
+        if n.startswith("~") or n == q.split("::")[-1]:
+            gthd_classes.add(q)  # a structor's qualifier is a class
+    for addr, sym, conf, (q, n, plist, const) in rows:
+        if n.startswith("~") or n == q.split("::")[-1]:
+            continue
+        member = q in gthd_classes and n not in GTHD_STATIC
+        out[addr] = {"qual": q, "name": n, "params": plist, "const": const, "member": member,
+                     "class": cmap.get(q), "confidence": conf, "symbol": sym}
+    # every override of a slot takes the slot's signature: GT4 classes without a GT HD twin
+    # inherit the signatures of their ancestors' slots (single inheritance: slot k of a derived
+    # vtable is slot k of its base's)
+    for addr, s in slot_signatures(gt4_classes).items():
+        if addr not in out and not s["name"].startswith("~"):
+            out[addr] = dict(s, member=True, confidence="slot", symbol=None)
+    return out
+
+
+def slot_signatures(gt4_classes):
+    """{address: {'qual', 'name', 'params', 'const', 'class'}} for every function in a GT4
+    vtable slot whose signature config/gthd_prototypes.json gives for that class or its nearest
+    ancestor (high confidence only); 'class' is the vtable's class (the owner is found later)."""
+    if not os.path.exists(GTHD_PROTOTYPES):
+        return {}
+    protos = json.load(open(GTHD_PROTOTYPES, encoding="utf-8"))
+    slots = {c: {m["slot"]: m for m in v.get("methods", []) if "params" in m and m.get("confidence") == "high"}
+             for c, v in protos.items()}
+    out, seen = {}, defaultdict(set)
+    for cls, c in gt4_classes.items():
+        if not c.get("vtables"):
+            continue
+        chain, n = [], cls
+        while n and n not in chain:
+            chain.append(n)
+            b = gt4_classes.get(n, {}).get("bases", [])
+            n = b[0] if b else None
+        for k, addr in enumerate(c["vtables"][0]["methods"]):
+            if addr == 0x5BC5C0:  # __pure_virtual
+                continue
+            m = next((slots[a][k] for a in chain if k in slots.get(a, {})), None)
+            if not m:
+                continue
+            key = (m["name"], tuple(m["params"]), bool(m.get("const")))
+            seen[addr].add(key)
+            out[addr] = {"qual": cls, "name": m["name"], "params": list(m["params"]),
+                         "const": bool(m.get("const")), "class": cls}
+    # a function in slots with different signatures (shared stubs like `return 0`): left out
+    return {a: s for a, s in out.items() if len(seen[a]) == 1}
+
+
+def gthd_prototypes(gt4_classes, owners, funcs, uses):
+    """{func_ADDR: C prototype} from the GT HD signatures, checked against the code: the
+    function must not read an argument register the signature does not have (else GT4's
+    version differs: left out). `this` is `struct CLASS *` when the class is known (the RTTI
+    owner first, then the GT HD class), else `void *`. The return type comes from the code
+    (result_type), `s32` when it does not say."""
+    cmap = gthd_class_map(gt4_classes)
+    memo, out, dropped = {}, {}, Counter()
+    for addr, g in gthd_functions(gt4_classes).items():
+        words = funcs.get(addr)
+        if words is None:
+            continue
+        params = []
+        for t in g["params"]:
+            r = gthd_type(t, cmap)
+            if r is None:
+                params = None
+                break
+            params.append(r[0])
+        if params is None:
+            dropped["type"] += 1
+            continue
+        if g["member"]:
+            cls = owners.get(addr) or g["class"]
+            params.insert(0, f"struct {ident(cls)} *" if cls else "void *")
+        n_int = sum(1 for p in params if p not in ("f32", "f64"))
+        n_flt = sum(1 for p in params if p == "f32")
+        if any(p in ("s64", "u64", "f64") for p in params):
+            dropped["wide"] += 1  # 64-bit arguments take register pairs or GPRs: not checked here
+            continue
+        gi, gf = live_args(words)
+        if (gi and max(gi) - 4 >= n_int) or (gf and max(gf) - 12 >= n_flt):
+            dropped["args"] += 1
+            continue
+        ret = result_type(addr, funcs, uses, memo) or "s32"
+        out[f"func_{addr:08X}"] = f"{ret} func_{addr:08X}({', '.join(params) if params else 'void'});"
+    return out, dropped
+
+
 # ---------------------------------------------------------------- build
 
 def build():
@@ -543,7 +995,8 @@ def build():
     funcs = all_functions()
     vtable_addrs = {c["vtable"] for c in classes.values() if c["vtable"]}
     evidence, field_class, owners = mine(classes, owners, funcs)
-    protos, ndefs, conflicts, globs = collect_sources({a: ident(c) for a, c in owners.items()})
+    protos, defined, conflicts, globs = collect_sources({a: ident(c) for a, c in owners.items()})
+    ndefs = len(defined)
     structs, struct_sizes = {}, {}
     nfields = 0
     for name in classes:
@@ -554,6 +1007,17 @@ def build():
         structs[ident(name)] = text
         struct_sizes[ident(name)] = size
         nfields += len(fields)
+    # GT HD's signatures (config/gthd_names.txt) over the callers' guesses; a matched definition
+    # stays the exact prototype
+    gthd, dropped = ({}, Counter()) if os.environ.get("TYPES_DB_NO_GTHD") else \
+        gthd_prototypes(json.load(open(CLASSES)), owners, funcs, result_uses(funcs))
+    ngthd = 0
+    for name, proto in gthd.items():
+        if name not in defined:
+            # a pointer to a class whose layout is not known reads better as void * (m2c casts
+            # it per access) than as a 4-byte placeholder struct
+            protos[name] = re.sub(r"\bstruct (\w+) \*", lambda m: m.group(0) if m.group(1) in structs else "void *", proto)
+            ngthd += 1
     # a class pointer type in a prototype needs its struct: declare empty ones for the rest
     for name in classes:
         structs.setdefault(ident(name), f"struct {ident(name)} {{\n    char unk_0[4];\n}};")
@@ -577,7 +1041,8 @@ def build():
             f.write(globs[name] + "\n")
         for name in sorted(protos):
             f.write(protos[name] + "\n")
-    print(f"prototypes: {len(protos)} ({ndefs} from definitions, {len(conflicts)} with disagreeing callers)")
+    print(f"prototypes: {len(protos)} ({ndefs} from definitions, {ngthd} from GT HD signatures "
+          f"(left out: {dict(dropped)}), {len(conflicts)} with disagreeing callers)")
     print(f"globals: {len(globs)}")
     print(f"classes: {len(classes)}, functions with a class: {len(owners)} "
           f"({len(assign_owners(classes))} from RTTI), classes with fields: {sum(1 for s in db['fields'].values() if s)}, "
@@ -776,6 +1241,100 @@ def measure(sample=400, jobs=2, out=None, seed=1, take=0):
     report(rows)
 
 
+def context_draft(addr, out, mode="types"):
+    """The closest draft m2c makes with the current database's context alone (both register
+    namings, cpu_solve's corrections), as {'differ': N or None (no compile), 'match': bool}."""
+    import cpu_solve
+    path = os.path.join(out, f"{addr:08x}.c")
+    best = None
+    namings = [True] + ([False] if match.m2c_asm(addr) != match.gnu_asm(addr) else [])
+    for ee in namings:
+        try:
+            body = cpu_solve.draft(addr, ee=ee, out=out)
+        except Exception:
+            body = None
+        ctx = m2c_context(addr, mode, out, body if body and "M2C_ERROR" not in body else None)
+        if not ctx:
+            continue
+        try:
+            cbody = cpu_solve.draft(addr, ee=ee, context=ctx, out=out)
+        except Exception:
+            continue
+        if not cbody or "M2C_ERROR" in cbody:
+            continue
+        cbody = context_for(cbody, addr, mode) + cbody
+        for how, text in cpu_solve.variants(addr, cpu_solve.prepared(addr, cbody, path), ee, ctx, mode, out):
+            open(path, "w", newline="\n").write(cpu_solve.PRELUDE + text)
+            d = cpu_solve.differs_by(cpu_solve.judge(addr, path))
+            if best is None or d < best[0]:
+                best = (d, text, how)
+            if d == 0:
+                break
+        if best and best[0] == 0:
+            break
+    if best is None:
+        return {"differ": None, "match": False}
+    open(path, "w", newline="\n").write(cpu_solve.PRELUDE + best[1])
+    return {"differ": best[0] if best[0] < 10 ** 6 else None, "match": best[0] == 0, "how": best[2]}
+
+
+def measure_ab(sample_file, before, after, jobs=2, out=None, take=0):
+    """The context drafts of a fixed sample made with two databases (before: e.g. built with
+    TYPES_DB_NO_GTHD=1; after: the current one): differing instructions and matches per
+    function, in build/auto/gthd_bench/ab.jsonl (resumable)."""
+    global _db
+    from concurrent.futures import ThreadPoolExecutor
+    out = out or os.path.dirname(sample_file)
+    chosen = json.load(open(sample_file))
+    rows_path = os.path.join(out, "ab.jsonl")
+    rows = {}
+    if os.path.exists(rows_path):
+        for l in open(rows_path):
+            if l.strip():
+                r = json.loads(l)
+                rows[(r["addr"], r["side"])] = r
+    match.function_span(chosen[0])
+    for side, db in (("before", before), ("after", after)):
+        todo = [a for a in chosen if (f"{a:08x}", side) not in rows]
+        if take:
+            todo = todo[:take]
+        if not todo:
+            continue
+        _db = json.load(open(db))
+        d = os.path.join(out, side)
+        os.makedirs(d, exist_ok=True)
+        print(f"{side}: {len(todo)} functions", flush=True)
+        with open(rows_path, "a") as log, ThreadPoolExecutor(jobs) as ex:
+            for i, (a, r) in enumerate(zip(todo, ex.map(lambda a: context_draft(a, d), todo)), 1):
+                r = dict(r, addr=f"{a:08x}", side=side)
+                rows[(r["addr"], side)] = r
+                log.write(json.dumps(r) + "\n")
+                log.flush()
+                if i % 25 == 0:
+                    print(f"  {i}/{len(todo)}", flush=True)
+        _db = None
+    report_ab(list(rows.values()))
+
+
+def report_ab(rows):
+    by = defaultdict(dict)
+    for r in rows:
+        by[r["addr"]][r["side"]] = r
+    both = {a: v for a, v in by.items() if "before" in v and "after" in v}
+    big = 10 ** 6
+    def d(r):
+        return r["differ"] if r["differ"] is not None else None
+    closer = sum(1 for v in both.values() if d(v["after"]) is not None and (d(v["before"]) is None or d(v["after"]) < d(v["before"])))
+    farther = sum(1 for v in both.values() if d(v["before"]) is not None and (d(v["after"]) is None or d(v["after"]) > d(v["before"])))
+    comp = {s: sum(1 for v in both.values() if d(v[s]) is not None) for s in ("before", "after")}
+    tot = {s: sum(d(v[s]) for v in both.values() if d(v["before"]) is not None and d(v["after"]) is not None)
+           for s in ("before", "after")}
+    m = {s: sum(1 for v in both.values() if v[s]["match"]) for s in ("before", "after")}
+    print(f"{len(both)} functions: compiled before {comp['before']}, after {comp['after']}; matches before "
+          f"{m['before']}, after {m['after']}; closer {closer}, farther {farther}; differing instructions "
+          f"(both compiled) {tot['before']} -> {tot['after']}")
+
+
 def score(r):
     if r.get("result") == "match":
         return 0
@@ -822,6 +1381,21 @@ def main():
             print(f"  {off:>6} {f['type']:<24} {f['support']} for, {f['against']} against")
     elif len(sys.argv) >= 4 and sys.argv[1] == "context":
         sys.stdout.write(context_for(open(sys.argv[3]).read(), int(sys.argv[2], 16)))
+    elif len(sys.argv) >= 2 and sys.argv[1] == "ab":
+        import argparse
+        ap = argparse.ArgumentParser()
+        ap.add_argument("sample")
+        ap.add_argument("before")
+        ap.add_argument("after")
+        ap.add_argument("--jobs", type=int, default=2)
+        ap.add_argument("--take", type=int, default=0)
+        ap.add_argument("--report", action="store_true")
+        a = ap.parse_args(sys.argv[2:])
+        if a.report:
+            path = os.path.join(os.path.dirname(a.sample), "ab.jsonl")
+            report_ab([json.loads(l) for l in open(path) if l.strip()])
+        else:
+            measure_ab(a.sample, a.before, a.after, a.jobs, take=a.take)
     elif len(sys.argv) >= 2 and sys.argv[1] == "measure":
         import argparse
         ap = argparse.ArgumentParser()

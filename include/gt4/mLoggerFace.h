@@ -4,12 +4,26 @@
  * type_info 0x0088DDD0, type_info function 0x005D0790, structors 0x001BBB68, 0x001BBBC0
  * vtable 0x0065FCA0: 95 slots
  * size: not known; the fields seen reach 0xA8
+ * C++ (GT4_CXX): size 0xB0 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mLoggerFace_H
 #define GT4_mLoggerFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWidget.h"
+class hClass;
+
+class mLoggerFace : public mWidget {
+public:
+    s32 unkA0;
+    s32 unkA4;
+    char padA8[0x8];
+    static s32 GetClassID();  /* 0x001BBB30 */
+    static s32 InitClass(hClass *);  /* 0x001BBC50 */
+};
+#else
 struct mLoggerFace {
     s32 unk0;
     union {
@@ -28,6 +42,23 @@ struct mLoggerFace {
     s32 unkA0;
     s32 unkA4;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mLoggerFace__rc_class(struct mLoggerFace *);
+s32 mLoggerFace__rc_size(struct mLoggerFace *);
+s32 mLoggerFace__GetClassID(void);
+s32 mLoggerFace__getClassID(struct mLoggerFace *);
+s32 mLoggerFace__InitClass(struct hClass *);
+s32 mLoggerFace__onKeyPress(struct mLoggerFace *, struct mRenderContext *, struct mKeyPressEvent *);
+s32 mLoggerFace__deepCopy(struct mLoggerFace *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001BBBC0  mLoggerFace::~mLoggerFace() [high]

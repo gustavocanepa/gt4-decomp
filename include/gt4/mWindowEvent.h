@@ -4,12 +4,21 @@
  * type_info 0x0088E400, type_info function 0x005DF830, structors 0x0026BB40, 0x0026BB70
  * vtable 0x00667888: 51 slots
  * size: not known; the fields seen reach 0x20
+ * C++ (GT4_CXX): size 0x20 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mWindowEvent_H
 #define GT4_mWindowEvent_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mEvent.h"
+
+class mWindowEvent : public mEvent {
+public:
+    static s32 GetClassID();  /* 0x0026B9A8 */
+};
+#else
 struct mWindowEvent {
     s32 unk0;
     union {
@@ -21,6 +30,21 @@ struct mWindowEvent {
     char pad10[0xC];
     void *unk1C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mWindowEvent__rc_class(struct mWindowEvent *);
+s32 mWindowEvent__rc_size(struct mWindowEvent *);
+s32 mWindowEvent__GetClassID(void);
+s32 mWindowEvent__getClassID(struct mWindowEvent *);
+void mEvent__onEvent(struct mWindowEvent *, struct mRenderContext *, struct mWidget *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0026BB70  mWindowEvent::~mWindowEvent() [high]

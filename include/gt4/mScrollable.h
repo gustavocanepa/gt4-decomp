@@ -4,12 +4,28 @@
  * type_info 0x0088E910, type_info function 0x005EA250, structors 0x002D4830, 0x002D4870
  * vtable 0x006711C8: 107 slots
  * size: not known; the fields seen reach 0xBC
+ * C++ (GT4_CXX): size 0xBC (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mScrollable_H
 #define GT4_mScrollable_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mComposite.h"
+
+class mScrollable : public mComposite {
+public:
+    s32 unkB0;
+    s32 unkB4;
+    s32 unkB8;
+    virtual f32 getBeginPointRatio();  /* 103: mScrollable::getBeginPointRatio() */
+    virtual f32 getVolumeRatio();  /* 104: mScrollable::getVolumeRatio() */
+    virtual s32 canIncrement() const;  /* 105: mScrollable::canIncrement() const */
+    virtual s32 canDecrement() const;  /* 106: mScrollable::canDecrement() const */
+    static s32 GetClassID();  /* 0x002D4670 */
+};
+#else
 struct mScrollable {
     s32 unk0;
     union {
@@ -33,6 +49,25 @@ struct mScrollable {
     s32 unkB4;
     s32 unkB8;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mScrollable__rc_class(struct mScrollable *);
+s32 mScrollable__rc_size(struct mScrollable *);
+s32 mScrollable__GetClassID(void);
+s32 mScrollable__getClassID(struct mScrollable *);
+f32 mScrollable__getBeginPointRatio(struct mScrollable *);
+f32 mScrollable__getVolumeRatio(struct mScrollable *);
+s32 mScrollable__canIncrement(struct mScrollable *);
+s32 mScrollable__canDecrement(struct mScrollable *);
+void mScrollable__deepCopy(struct mScrollable *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002D4870  mScrollable::~mScrollable() [high]

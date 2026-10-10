@@ -4,16 +4,26 @@
  * type_info 0x0088E3C0, type_info function 0x005DEC90, structors 0x00207590, 0x00218C00, 0x00218E10, 0x00269940, 0x005DEC28
  * vtable 0x00667528: 4 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (not known: up to the last field seen), vptr at 0x0, fields left out (overlap, or in the base's part): 0x0
  */
 #ifndef GT4_MWidgetReader_H
 #define GT4_MWidgetReader_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/MReaderBase.h"
+
+class MWidgetReader : public MReaderBase {
+public:
+    s32 unk4;
+};
+#else
 struct MWidgetReader {
     s32 unk0;
     s32 unk4;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005DEC28

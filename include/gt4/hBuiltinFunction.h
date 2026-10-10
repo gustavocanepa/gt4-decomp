@@ -4,12 +4,21 @@
  * type_info 0x0088EEE0, type_info function 0x005F2808, structors 0x0032D160, 0x0032D1A0
  * vtable 0x00676AA8: 16 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_hBuiltinFunction_H
 #define GT4_hBuiltinFunction_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hFunctionValue.h"
+
+class hBuiltinFunction : public hFunctionValue {
+public:
+    void *unkC;
+};
+#else
 struct hBuiltinFunction {
     s32 unk0;
     union {
@@ -19,6 +28,20 @@ struct hBuiltinFunction {
     s32 unk8;
     void *unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hBuiltinFunction__rc_class(struct hBuiltinFunction *);
+s32 hBuiltinFunction__rc_size(struct hBuiltinFunction *);
+s32 hBuiltinFunction__call_const(struct hBuiltinFunction *, struct HObject *, s32, const struct HObject *);
+s32 hBuiltinFunction__call_const_2(struct hBuiltinFunction *, void *, s32, const struct HObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0032D1A0  hBuiltinFunction::~hBuiltinFunction() [high]

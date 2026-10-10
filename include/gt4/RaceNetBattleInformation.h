@@ -4,12 +4,55 @@
  * type_info 0x0088EFC0, type_info function 0x005F34F8, structors 0x00338658, 0x003386A0
  * vtable 0x00678C90: 21 slots
  * size: not known; the fields seen reach 0xABC
+ * C++ (GT4_CXX): size 0xAC0 (not known: up to the last field seen), vptr at 0x12C (introduced here), fields left out (overlap, or in the base's part): 0x12C
  */
 #ifndef GT4_RaceNetBattleInformation_H
 #define GT4_RaceNetBattleInformation_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+
+/* g++ 2.96 puts the vptr after the own fields of the class that introduces it; RaceNetBattleInformation has fields after 0x12C, so a base without RTTI introduced it */
+class RaceNetBattleInformation_vbase {
+public:
+    char pad0[0x98];
+    s64 unk98;
+    char padA0[0x70];
+    s64 unk110;
+    void *unk118;
+    char pad11C[0x10];
+    virtual s32 virtual_0(s32);  /* 0: parameters from the code */
+    virtual s32 virtual_1();  /* 1: parameters from the code */
+    virtual s32 virtual_2();  /* 2: parameters from the code */
+    virtual void virtual_3(s32);  /* 3: parameters from the code */
+    virtual s32 virtual_4();  /* 4: parameters from the code */
+    virtual s32 virtual_5();  /* 5: parameters from the code */
+    virtual s32 virtual_6();  /* 6: parameters from the code */
+    virtual s32 virtual_7();  /* 7: parameters from the code */
+    virtual s32 virtual_8();  /* 8: parameters from the code */
+    virtual void virtual_9(s32);  /* 9: parameters from the code */
+    virtual s32 virtual_10();  /* 10: parameters from the code */
+    virtual s32 virtual_11();  /* 11: parameters from the code */
+    virtual s32 virtual_12(s32);  /* 12: parameters from the code */
+    virtual s32 virtual_13(s32);  /* 13: parameters from the code */
+    virtual s32 virtual_14(s32, s32, s32);  /* 14: parameters from the code */
+    virtual s32 virtual_15(s32, s32, s32);  /* 15: parameters from the code */
+    virtual void virtual_16(s32);  /* 16: parameters from the code */
+    virtual s32 virtual_17();  /* 17: parameters from the code */
+    virtual s32 virtual_18();  /* 18: parameters from the code */
+    virtual s32 virtual_19(s32);  /* 19: parameters from the code */
+    virtual s32 virtual_20();  /* 20: parameters from the code */
+};
+
+class RaceNetBattleInformation : public RaceNetBattleInformation_vbase {
+public:
+    char pad130[0x980];
+    s64 unkAB0;
+    void *unkAB8;
+    char padABC[0x4];
+};
+#else
 struct RaceNetBattleInformation {
     char pad0[0x98];
     s64 unk98;
@@ -22,6 +65,7 @@ struct RaceNetBattleInformation {
     s64 unkAB0;
     void *unkAB8;
 };
+#endif
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x003386A0

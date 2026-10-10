@@ -4,12 +4,26 @@
  * type_info 0x0088E590, type_info function 0x005E5440, structors 0x00286EA0, 0x005E53B0
  * vtable 0x0066A150: 57 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x38 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x8
  */
 #ifndef GT4_mColorTransition_H
 #define GT4_mColorTransition_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mTransition.h"
+
+class mColorTransition : public mTransition {
+public:
+    union {
+        f32 unk20;
+        s32 unk20_s32;
+    };
+    char pad24[0x14];
+    static s32 GetClassID();  /* 0x00286E68 */
+};
+#else
 struct mColorTransition {
     s32 unk0;
     union {
@@ -30,6 +44,24 @@ struct mColorTransition {
         s32 unk20_s32;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mColorTransition__rc_class(struct mColorTransition *);
+s32 mColorTransition__rc_size(struct mColorTransition *);
+s32 mColorTransition__GetClassID(void);
+s32 mColorTransition__getClassID(struct mColorTransition *);
+s32 mColorTransition__panOut(struct mColorTransition *, struct mRenderContext *);
+f32 mColorTransition__panIn(struct mColorTransition *, struct mRenderContext *);
+s32 mColorTransition__panOutIn(struct mColorTransition *, struct mRenderContext *);
+s32 mColorTransition__end(struct mColorTransition *, struct mRenderContext *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E53B0  mColorTransition::~mColorTransition() [high]

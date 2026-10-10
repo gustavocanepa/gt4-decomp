@@ -4,12 +4,23 @@
  * type_info 0x0088E150, type_info function 0x005DA418, structors 0x0021B628, 0x0021B658
  * vtable 0x006640E8: 11 slots
  * size: not known; the fields seen reach 0x8
+ * C++ (GT4_CXX): size 0x8 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4
  */
 #ifndef GT4_mModelSet_H
 #define GT4_mModelSet_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mData.h"
+
+class mModelSet : public mData {
+public:
+    virtual s32 virtual_8();  /* 8: parameters from the code */
+    virtual s32 virtual_9(s32);  /* 9: parameters from the code */
+    virtual s32 virtual_10(s32, s32);  /* 10: parameters from the code */
+};
+#else
 struct mModelSet {
     s32 unk0;
     union {
@@ -17,6 +28,18 @@ struct mModelSet {
         s32 unk4_s32;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mModelSet__rc_class(struct mModelSet *);
+s32 mModelSet__rc_size(struct mModelSet *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x0021B658  mModelSet::~mModelSet() [high]

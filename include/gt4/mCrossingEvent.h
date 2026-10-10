@@ -4,12 +4,21 @@
  * type_info 0x0088E5C0, type_info function 0x005E5668, structors 0x00294640, 0x002951E8, 0x005E56B8, 0x005E56E8, 0x005E5910, 0x005E7EB0
  * vtable 0x0066A848: 51 slots
  * size: not known; the fields seen reach 0x20
+ * C++ (GT4_CXX): size 0x20 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mCrossingEvent_H
 #define GT4_mCrossingEvent_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mEvent.h"
+
+class mCrossingEvent : public mEvent {
+public:
+    static s32 GetClassID();  /* 0x0028B148 */
+};
+#else
 struct mCrossingEvent {
     s32 unk0;
     union {
@@ -21,6 +30,21 @@ struct mCrossingEvent {
     char pad10[0xC];
     void *unk1C;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mCrossingEvent__rc_class(struct mCrossingEvent *);
+s32 mCrossingEvent__rc_size(struct mCrossingEvent *);
+s32 mCrossingEvent__GetClassID(void);
+s32 mCrossingEvent__getClassID(struct mCrossingEvent *);
+s32 mCrossingEvent__dispatchEvent(struct mCrossingEvent *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005E56E8  mCrossingEvent::~mCrossingEvent() [high]

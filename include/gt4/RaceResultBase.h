@@ -4,18 +4,54 @@
  * type_info 0x006D6048, type_info function 0x005FE188, structors 0x003DEEA0, 0x005FE1C8, 0x005FE1E8
  * vtable 0x00683320: 8 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x10 (not known: up to the last field seen), vptr at 0xC (introduced here), fields left out (overlap, or in the base's part): 0xC
  */
 #ifndef GT4_RaceResultBase_H
 #define GT4_RaceResultBase_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+class RaceInput;
+
+class RaceResultBase {
+public:
+    s32 unk0;
+    s32 unk4;
+    s32 unk8;
+    virtual ~RaceResultBase();  /* 0: RaceResultBase::~RaceResultBase() */
+    virtual f32 init(void *, s32);  /* 1: RaceResultBase::init(RaceOrganization&, int) */
+    virtual void cleanup();  /* 2: RaceResultBase::cleanup() */
+    virtual f32 update(void *, RaceInput &);  /* 3: RaceResultBase::update(RaceOrganization&, RaceInput&) */
+    virtual void render(void *, void *);  /* 4: RaceResultBase::render(GSBuffer&, RaceOrganization&) */
+    virtual void goal(void *, s32);  /* 5: RaceResultBase::goal(RaceOrganization&, int) */
+    virtual s32 startResultSequence(void *);  /* 6: RaceResultBase::startResultSequence(RaceOrganization&) */
+    virtual s32 isResultStarting(s32);  /* 7: RaceResultBase::isResultStarting(int) */
+};
+#else
 struct RaceResultBase {
     s32 unk0;
     s32 unk4;
     s32 unk8;
     void *unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceResultBase__init(struct RaceResultBase *, void *, s32);
+s32 RaceResultBase__update(struct RaceResultBase *, void *, struct RaceInput *);
+s32 RaceResultBase__isResultStarting(struct RaceResultBase *, s32);
+s32 RaceResultBase__startResultSequence(struct RaceResultBase *, void *);
+void RaceResultBase__cleanup(struct RaceResultBase *);
+void RaceResultBase__render(struct RaceResultBase *, void *, void *);
+void RaceResultBase__goal(struct RaceResultBase *, void *, s32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FE1E8  RaceResultBase::~RaceResultBase() [high]

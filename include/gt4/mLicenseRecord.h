@@ -4,12 +4,22 @@
  * type_info 0x0088DC10, type_info function 0x005CB1D0, structors 0x00172968, 0x001729A8
  * vtable 0x0065C750: 49 slots
  * size: not known; the fields seen reach 0x10
+ * C++ (GT4_CXX): size 0x14 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mLicenseRecord_H
 #define GT4_mLicenseRecord_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hObject.h"
+
+class mLicenseRecord : public hObject {
+public:
+    char pad10[0x4];
+    static s32 GetClassID();  /* 0x00172640 */
+};
+#else
 struct mLicenseRecord {
     s32 unk0;
     union {
@@ -19,6 +29,20 @@ struct mLicenseRecord {
     s32 unk8;
     s32 unkC;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mLicenseRecord__rc_class(struct mLicenseRecord *);
+s32 mLicenseRecord__rc_size(struct mLicenseRecord *);
+s32 mLicenseRecord__GetClassID(void);
+s32 mLicenseRecord__getClassID(struct mLicenseRecord *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x001729A8  mLicenseRecord::~mLicenseRecord() [high]

@@ -4,12 +4,22 @@
  * type_info 0x0088EB50, type_info function 0x005EFEF0, structors 0x00307CA0, 0x00307D00
  * vtable 0x00674C00: 49 slots
  * size: not known; the fields seen reach 0x14
+ * C++ (GT4_CXX): size 0x1C (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_hModuleVariable_H
 #define GT4_hModuleVariable_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/hVariable.h"
+
+class hModuleVariable : public hVariable {
+public:
+    char pad14[0x8];
+    static s32 GetClassID();  /* 0x003078D0 */
+};
+#else
 struct hModuleVariable {
     s32 unk0;
     union {
@@ -20,6 +30,23 @@ struct hModuleVariable {
     s32 unkC;
     s32 unk10;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 hModuleVariable__rc_class(struct hModuleVariable *);
+s32 hModuleVariable__rc_size(struct hModuleVariable *);
+s32 hModuleVariable__GetClassID(void);
+s32 hModuleVariable__getClassID(struct hModuleVariable *);
+s32 hModuleVariable__evaluate(struct hModuleVariable *, struct HObject *);
+s32 hModuleVariable__assign(struct hModuleVariable *, const struct HObject *);
+s32 hModuleVariable__isValid(struct hModuleVariable *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00307D00  hModuleVariable::~hModuleVariable() [high]

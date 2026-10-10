@@ -4,12 +4,34 @@
  * type_info 0x0088E8C0, type_info function 0x005EA070, structors 0x002CF5D0, 0x002CF610
  * vtable 0x00670160: 103 slots
  * size: not known; the fields seen reach 0xC0
+ * C++ (GT4_CXX): size 0xC0 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mScrollBox_H
 #define GT4_mScrollBox_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mComposite.h"
+
+class mScrollBox : public mComposite {
+public:
+    void *unkB0;
+    union {
+        s32 unkB4;
+        void *unkB4_pvoid;
+    };
+    union {
+        s32 unkB8;
+        void *unkB8_pvoid;
+    };
+    union {
+        s32 unkBC;
+        void *unkBC_pvoid;
+    };
+    static s32 GetClassID();  /* 0x002CF598 */
+};
+#else
 struct mScrollBox {
     s32 unk0;
     union {
@@ -43,6 +65,21 @@ struct mScrollBox {
         void *unkBC_pvoid;
     };
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mScrollBox__rc_class(struct mScrollBox *);
+s32 mScrollBox__rc_size(struct mScrollBox *);
+s32 mScrollBox__GetClassID(void);
+s32 mScrollBox__getClassID(struct mScrollBox *);
+s32 mScrollBox__onInitialize(struct mScrollBox *, struct mRenderContext *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x002CF610  mScrollBox::~mScrollBox() [high]

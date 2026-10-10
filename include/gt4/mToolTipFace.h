@@ -4,12 +4,25 @@
  * type_info 0x0088E2D0, type_info function 0x005DCC68, structors 0x00248DD0, 0x00248ED0
  * vtable 0x00666678: 95 slots
  * size: not known; the fields seen reach 0x114
+ * C++ (GT4_CXX): size 0x154 (rc_size), vptr at 0x4, fields left out (overlap, or in the base's part): 0x4, 0x8
  */
 #ifndef GT4_mToolTipFace_H
 #define GT4_mToolTipFace_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/mWidget.h"
+
+class mToolTipFace : public mWidget {
+public:
+    char padA0[0x70];
+    s32 unk110;
+    char pad114[0x40];
+    static s32 GetClassID();  /* 0x00248D98 */
+    void setKey(const void *);  /* 0x00249B70 */
+};
+#else
 struct mToolTipFace {
     s32 unk0;
     union {
@@ -27,6 +40,22 @@ struct mToolTipFace {
     char pad94[0x7C];
     s32 unk110;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 mToolTipFace__rc_class(struct mToolTipFace *);
+s32 mToolTipFace__rc_size(struct mToolTipFace *);
+s32 mToolTipFace__GetClassID(void);
+s32 mToolTipFace__getClassID(struct mToolTipFace *);
+void mToolTipFace__setKey(struct mToolTipFace *, const void *);
+s32 mToolTipFace__deepCopy(struct mToolTipFace *, const struct hObject *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x00248ED0  mToolTipFace::~mToolTipFace() [high]

@@ -4,16 +4,37 @@
  * type_info 0x0088F540, type_info function 0x005F8D40, structors 0x0039AB68, 0x003A6FA8, 0x005F8CD8, 0x005F9E90, 0x005FA130
  * vtable 0x0067F4A0: 11 slots
  * size: not known; the fields seen reach 0x18
+ * C++ (GT4_CXX): size 0x18 (not known: up to the last field seen), vptr at 0x14, fields left out (overlap, or in the base's part): 0x14
  */
 #ifndef GT4_RaceSuggestedGearDisplay_H
 #define GT4_RaceSuggestedGearDisplay_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceDisplayObjectBase.h"
+
+class RaceSuggestedGearDisplay : public RaceDisplayObjectBase {
+public:
+    virtual void virtual_9();  /* 9: parameters from the code */
+    virtual f32 virtual_10(f32);  /* 10: GT HD (medium): RaceSuggestedGearDisplay::update(float); parameters from the code */
+};
+#else
 struct RaceSuggestedGearDisplay {
     char pad0[0x14];
     void *unk14;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+void RaceSuggestedGearDisplay__render_main(struct RaceSuggestedGearDisplay *);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005F8CD8  RaceSuggestedGearDisplay::~RaceSuggestedGearDisplay() [high]

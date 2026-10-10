@@ -4,12 +4,21 @@
  * type_info 0x0088F920, type_info function 0x005FE6F0, structors 0x003EC330
  * vtable 0x00683B90: 16 slots
  * size: not known; the fields seen reach 0x24
+ * C++ (GT4_CXX): size 0x24 (not known: up to the last field seen), vptr at 0x14
  */
 #ifndef GT4_RaceRoundTachometerBase_H
 #define GT4_RaceRoundTachometerBase_H
 
 #include "types.h"
 
+#if defined(__cplusplus) && defined(GT4_CXX)
+#include "gt4/RaceRoundMeterBase.h"
+
+class RaceRoundTachometerBase : public RaceRoundMeterBase {
+public:
+    s32 setRedZone(f32);  /* 0x003EC5C8 */
+};
+#else
 struct RaceRoundTachometerBase {
     s32 unk0;
     char pad4[0x10];
@@ -21,6 +30,17 @@ struct RaceRoundTachometerBase {
     s32 unk1C;
     s32 unk20;
 };
+#endif
+
+#ifdef GT4_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
+s32 RaceRoundTachometerBase__setRedZone(struct RaceRoundTachometerBase *, f32);
+#ifdef __cplusplus
+}
+#endif
+#endif /* GT4_DECLS */
 
 /* virtual functions (slot: address; the GT HD name when tools/gthd_names.py found it)
  *   0: 0x005FE688  RaceRoundTachometerBase::~RaceRoundTachometerBase() [high]
