@@ -9,6 +9,10 @@ CONFIG = tomllib.load(open(os.path.join(ROOT, "project.toml"), "rb"))
 
 _cache = {}
 
+# Short name of the game: names the build's working directory in WSL and the linked image, so
+# several projects (one per game) can share one Linux toolchain without touching each other.
+BASENAME = CONFIG["game"].get("basename", "gt4")
+
 
 def path(rel):
     return os.path.join(ROOT, rel)

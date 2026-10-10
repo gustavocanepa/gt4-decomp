@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Publish the progress report: regenerate progress/report.json (tools/report.py) and the README's
 numbers (tools/update_readme.py), then force-push the report, alone, to the `progress` branch,
-whose workflow uploads it as the artifact decomp.dev reads (SCUS-97328_report). The branch always
+whose workflow uploads it as the artifact decomp.dev reads (SERIAL_report, [game] serial in project.toml). The branch always
 holds a single commit, so reports never pile up in history.
 
     publish_progress.py [--check]      --check: only say whether a publish would be allowed
@@ -21,6 +21,7 @@ import sys
 import tempfile
 
 import match
+import project
 import report
 import update_readme
 
@@ -41,7 +42,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/upload-artifact@v4
         with:
-          name: SCUS-97328_report
+          name: {serial}_report
           path: report.json
 """
 
@@ -116,7 +117,7 @@ def main():
         json.dump(data, open(os.path.join(tmp, "report.json"), "w"), separators=(",", ":"))
         json.dump(meta, open(os.path.join(tmp, "report.meta.json"), "w"), indent=1)
         os.makedirs(os.path.join(tmp, ".github", "workflows"))
-        open(os.path.join(tmp, ".github", "workflows", "progress.yml"), "w", newline="\n").write(WORKFLOW)
+        open(os.path.join(tmp, ".github", "workflows", "progress.yml"), "w", newline="\n").write(WORKFLOW.replace("{serial}", project.CONFIG["game"]["serial"]))
         m = data["measures"]
         git("add", "-A", cwd=tmp)
         git("commit", "-q", "-m",
