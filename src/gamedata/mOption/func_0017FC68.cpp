@@ -1,5 +1,5 @@
-extern int D_00618A40;
+extern int mOption__ClassID_;
 
 void func_0017FC68(void) {
-    D_00618A40 = 0;
+    mOption__ClassID_ = 0;
 }

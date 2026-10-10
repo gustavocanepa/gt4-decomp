@@ -1,5 +1,5 @@
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 struct func_00437E50_arg0 {
     u32 unk0;

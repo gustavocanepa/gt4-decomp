@@ -16,7 +16,7 @@ struct Str {
 };
 
 extern Rep D_00659FA8;
-extern int D_006244D8[];
+extern int PDISTD__UNIT_MANAGER[];
 
 extern "C" char *func_005C2560(Rep *r);
 extern "C" s32 func_0057F260(const char *s);
@@ -37,7 +37,7 @@ extern "C" void MUnit__GetUnitOfVelocity(s32 *arg0) {
     s32 oldVal;
     const char *src;
     ps = &s;
-    src = func_00472680(D_006244D8);
+    src = func_00472680(PDISTD__UNIT_MANAGER);
     {
         Rep *r = &D_00659FA8;
         char *d;

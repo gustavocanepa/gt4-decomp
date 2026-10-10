@@ -1,5 +1,5 @@
-extern int D_0061871C;
+extern int mLoggerControl__ClassID_;
 
 void func_0011EA48(void) {
-    D_0061871C = 0;
+    mLoggerControl__ClassID_ = 0;
 }

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/ConcourseCallback.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 extern char ConcourseCallback__vtable[];
 s32 ConcourseCallback__structor_2(struct ConcourseCallback *arg0) {

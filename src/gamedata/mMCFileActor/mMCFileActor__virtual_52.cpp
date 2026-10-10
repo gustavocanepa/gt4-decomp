@@ -1,6 +1,6 @@
-extern void mFadeActor__virtual_52(void);
+extern void mFadeActor__update(void);
 
 void mMCFileActor__virtual_52(void)
 {
-    mFadeActor__virtual_52();
+    mFadeActor__update();
 }

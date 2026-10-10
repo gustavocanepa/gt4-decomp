@@ -1,5 +1,5 @@
-extern int D_00619148;
+extern int mRootWindow__ClassID_;
 
 void func_00232DB8(void) {
-    D_00619148 = 0;
+    mRootWindow__ClassID_ = 0;
 }

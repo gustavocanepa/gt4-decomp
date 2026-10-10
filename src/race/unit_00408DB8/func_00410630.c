@@ -2,7 +2,7 @@
 /* Built without strict aliasing: the load of arg0's first field waits for the three float stores. */
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 func_00385BD8(s32);                             /* extern */
 s32 func_00385BE8(s32);                             /* extern */

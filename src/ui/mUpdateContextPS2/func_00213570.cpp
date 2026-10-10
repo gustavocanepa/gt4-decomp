@@ -1,9 +1,9 @@
 typedef int s32;
 
-extern s32 D_0061901C;
+extern s32 mUpdateContextPS3__ClassID_;
 
 extern "C" void func_00213740(s32 arg0);
 
 extern "C" void func_00213570(void) {
-    func_00213740(D_0061901C);
+    func_00213740(mUpdateContextPS3__ClassID_);
 }

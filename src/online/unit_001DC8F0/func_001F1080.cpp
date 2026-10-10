@@ -1,4 +1,4 @@
-/* Returns basic_string<char>(buf) with the value read by func_004EF410(&D_00645440, key, buf, 0x80) when func_004EEAB0(&D_00645440, key) finds one, else basic_string<char>(D_006959D0). bastring.h members inline ((const char *) ctor = nilRep.grab() + assign(s, strlen(s))). func_004EF410 returns a value (unused): its $v0 result steers local-alloc away from $v0 for the nil-rep address. */
+/* Returns basic_string<char>(buf) with the value func_005AE2E8 by func_004EF410(&D_00645440, key, buf, 0x80) when func_004EEAB0(&D_00645440, key) finds one, else basic_string<char>(D_006959D0). bastring.h members inline ((const char *) ctor = nilRep.grab() + assign(s, strlen(s))). func_004EF410 returns a value (unused): its $v0 result steers local-alloc away from $v0 for the nil-rep address. */
 typedef unsigned int u32;
 typedef int s32;
 typedef unsigned int size_t;

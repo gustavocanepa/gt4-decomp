@@ -3,12 +3,12 @@ typedef void (*FnVoid)(void);
 
 extern "C" void func_0030C348(void);
 
-extern FnVoid D_00619DF8;
+extern FnVoid HOutput__Handler_;
 
 extern "C" void func_0030C350(s32 arg0) {
     if (arg0 != 0) {
-        D_00619DF8 = (FnVoid)arg0;
+        HOutput__Handler_ = (FnVoid)arg0;
         return;
     }
-    D_00619DF8 = func_0030C348;
+    HOutput__Handler_ = func_0030C348;
 }

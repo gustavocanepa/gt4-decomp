@@ -1,9 +1,9 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 func_00427820(void *);                      /* extern */
-s32 func_00427830(void *, s32, s32);        /* extern */
+s32 GT4_Motion__MotionSetPlayer__set(void *, s32, s32);        /* extern */
 s32 func_0042A0D0(void *, s32);                     /* extern */
 
 struct func_003EBBA0_arg0 {
@@ -16,7 +16,7 @@ void func_003EBBA0(struct func_003EBBA0_arg0 *arg0, s32 arg1, s32 arg2) {
     if ((arg1 != 0) && (arg2 != 0)) {
         arg0->unk4 = 0;
         func_00427820(sp);
-        func_00427830(sp, 0, arg1);
+        GT4_Motion__MotionSetPlayer__set(sp, 0, arg1);
         arg0->unk0 = func_0042A0D0(sp, arg2);
     }
 }

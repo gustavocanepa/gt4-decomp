@@ -81,7 +81,7 @@ struct Vec4 {
 
 extern "C" s32 func_003446B8(Car *);
 extern "C" s32 func_004515B0(Sub18 *);
-extern "C" s32 func_00366678(Car *);
+extern "C" s32 Automobile__getDrawMode(Car *);
 extern "C" void func_004A53F8(void);
 extern "C" void func_004A5400(void);
 extern "C" Vec4 *func_003917D8(void);
@@ -110,7 +110,7 @@ extern "C" void RaceCarModel__virtual_35(RaceCarModel *self, void *drawer, s32 a
     }
     params = car->holder->info->params;
     notY = func_004515B0(sub) ^ 1;
-    if (func_00366678(car) < 2) {
+    if (Automobile__getDrawMode(car) < 2) {
         return;
     }
     func_004A53F8();

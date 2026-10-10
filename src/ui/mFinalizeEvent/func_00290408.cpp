@@ -1,5 +1,5 @@
-extern int D_00619638;
+extern int mFinalizeEvent__ClassID_;
 
 void func_00290408(void) {
-    D_00619638 = 0;
+    mFinalizeEvent__ClassID_ = 0;
 }

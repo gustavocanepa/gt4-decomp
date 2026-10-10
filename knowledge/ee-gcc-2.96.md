@@ -281,6 +281,35 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - 0x70002000 scratchpad switches (004a5fe0, 004a5cc0, 004a4930...): `-fno-gcse` keeps the base in a
   register but our `ori` still fills the bounds-check delay slot; the original behaves as if the
   constant were one unsplit `li` (a 64-bit `long base` keeps lui/ori together but adds daddiu).
+- **More switch rules (2026-10-10, opus-jtbl2, 22 matches):**
+  - Code shared between arms (one block reached by `b` from several arms, or an arm that loads a
+    constant then `b`s into the middle of another arm) is usually cross-jumping of full copies:
+    write the whole statement in every arm (`if (0.25f < x) x -= f();` and `if (0.0f < x) x -= f();`).
+    The copies also count for register priorities, so they fix s-register swaps (004104b8).
+  - Several calls merged into one `jalr` at the end (args set per path, then `b` to a shared
+    `jalr`): write each call with its own trailing statements (`cb(...); busy = 0; cb = 0;`).
+    The function pointer register (v0/v1) follows the callee's return type: `void` lets v0 be
+    reused right after the call; an unused `int` result keeps v0 away (0053c880, 005262b0).
+  - A compare tree inside a jump-table function testing `beqz x; bltz x; slti x,9` = a tiny
+    `switch (x) { case 0: ...; case 1 ... 8: ... }` (GNU case range counts as one label).
+  - Arms each ending `jal f; b epilogue` in a function that looks void = it is declared with a
+    return value (GT HD prototype `s32`) and falls off the end; `void` turns them into sibling `j`.
+  - `if (r) return 0; return K;` after a call is if-converted to movn; the original's
+    `bnel v0,zero; daddu v0,zero; ori v0,K` comes from `if (cb) { ...; if (f() == 0) return K; } return 0;`
+    (the return-0 block has two predecessors, so ifcvt leaves it).
+  - `if (t == 3) return p + 2; return p;` keeps the bne; the ternary becomes movz (004772a8).
+  - `ldr` before `ldl` for an unaligned 8-byte load (struct passed by value) = `ee-gcc2.96-as2004`;
+    seen in the network code 0x536158/0x537770/0x53dac0. A 4-aligned 8-byte struct passed by value
+    is declared `typedef unsigned long long T __attribute__((aligned(4)));` (a two-int struct is
+    copied through the stack first).
+  - `lbu; addiu -1; sb` = `signed char` field decremented; `unsigned char` gives `addiu 0xFF`.
+  - `addu a0, idx, self` (index first) for an address passed to a call: write the integer sum
+    `(void *)(index * 0x24 + (int)self + 0x6C)`; `&self->block[index]` gives `addu a0, self, idx`.
+  - `-fno-strict-aliasing` shows up in switch handlers as reloads after stores (store to a stack
+    int forced before loads of other fields) in 00540bf8/0051e4f0/00389758-style code.
+  - Jump tables whose targets lie past the end of the function as the splitter cut it (001d2aa8,
+    0039f160, 00587c08: the arms after a tail `j` became separate "functions") cannot match until
+    the function boundaries are fixed.
 
 ## Calls and tail calls
 - Tail calls (C++ front end): a function ending in `j callee` (a jump, after restoring $ra) returns

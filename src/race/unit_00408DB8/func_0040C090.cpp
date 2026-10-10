@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 func_0040BAB0(f32 *, s32);                  /* extern */
 f32 func_0040BFE8(f32 *, s32, s32, f32);            /* extern */

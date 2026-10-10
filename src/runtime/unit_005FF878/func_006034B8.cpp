@@ -6,8 +6,8 @@ struct Obj {
     s64 unk98;
 };
 
-extern "C" s32 func_004472C0(Obj *arg0, s64 arg1);
+extern "C" s32 SPEC_DATABASE__RaceSpec__loadEnemyInfo(Obj *arg0, s64 arg1);
 
 extern "C" s32 func_006034B8(Obj *arg0) {
-    return func_004472C0(arg0, arg0->unk98);
+    return SPEC_DATABASE__RaceSpec__loadEnemyInfo(arg0, arg0->unk98);
 }

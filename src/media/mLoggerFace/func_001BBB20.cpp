@@ -1,5 +1,5 @@
-extern int D_00618CC0;
+extern int mLoggerFace__ClassID_;
 
 void func_001BBB20(void) {
-    D_00618CC0 = 0;
+    mLoggerFace__ClassID_ = 0;
 }

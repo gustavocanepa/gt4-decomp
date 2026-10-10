@@ -1,9 +1,9 @@
 #include "types.h"
 #include "gt4/RaceSinglePlayer.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
-s32 func_00109A50(void *, s32);                         /* extern */
+s32 GranTurismo4__GameObjectBase__delControl(void *, s32);                         /* extern */
 s32 RaceBasicWithRaceDisplay__structor_1(void *, s32);             /* extern */
 s32 SimplePause__structor_1(void *, s32);             /* extern */
 s32 RaceInput__structor_2(s32, s32);                /* extern */
@@ -16,7 +16,7 @@ void RaceSinglePlayer__structor_1(void *arg0, s32 arg1) {
 
     temp_s1 = arg0 + 0x123CC;
     ((struct RaceSinglePlayer *)arg0)->unk64 = (s32)RaceSinglePlayer__vtable;
-    func_00109A50(arg0, temp_s1);
+    GranTurismo4__GameObjectBase__delControl(arg0, temp_s1);
     RaceInput__structor_2(temp_s1, 2);
     func_0055FA30(arg0 + 0x1238C, 2);
     SimplePause__structor_1(arg0 + 0x12380, 2);

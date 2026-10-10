@@ -1,5 +1,5 @@
-extern int D_0061901C;
+extern int mUpdateContextPS3__ClassID_;
 
 void func_00213598(void) {
-    D_0061901C = 0;
+    mUpdateContextPS3__ClassID_ = 0;
 }

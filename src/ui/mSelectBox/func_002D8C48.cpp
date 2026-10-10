@@ -1,5 +1,5 @@
-extern int D_00619A18;
+extern int mSelectBox__ClassID_;
 
 void func_002D8C48(void) {
-    D_00619A18 = 0;
+    mSelectBox__ClassID_ = 0;
 }

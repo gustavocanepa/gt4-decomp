@@ -3,7 +3,7 @@
 #include "types.h"
 #include "gt4/filebuf.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
 s32 streambuf__structor_1(void *, s32);             /* extern */

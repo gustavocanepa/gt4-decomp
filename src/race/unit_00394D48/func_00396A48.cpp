@@ -1,8 +1,8 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
-s32 func_00396800(void *);                          /* extern */
+s32 CourseData__getRunway(void *);                          /* extern */
 s32 func_00397438();                            /* extern */
 s32 func_00457EF8(s32, s32);                    /* extern */
 
@@ -14,6 +14,6 @@ struct func_00396A48_arg0 {
 void func_00396A48(void *arg0) {
     func_00397438();
     if (((struct func_00396A48_arg0 *)arg0)->unk8C != 0) {
-        func_00457EF8(((struct func_00396A48_arg0 *)arg0)->unk8C, func_00396800(arg0));
+        func_00457EF8(((struct func_00396A48_arg0 *)arg0)->unk8C, CourseData__getRunway(arg0));
     }
 }

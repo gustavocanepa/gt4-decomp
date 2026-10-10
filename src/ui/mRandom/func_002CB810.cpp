@@ -1,9 +1,9 @@
 typedef int s32;
 
-extern s32 D_00619920;
+extern s32 mRandom__ClassID_;
 
-extern "C" void func_002CBB18(s32 arg0);
+extern "C" void mRandom__InitClass(s32 arg0);
 
 extern "C" void func_002CB810(void) {
-    func_002CBB18(D_00619920);
+    mRandom__InitClass(mRandom__ClassID_);
 }

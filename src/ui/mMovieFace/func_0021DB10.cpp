@@ -1,5 +1,5 @@
-extern int D_006190B0;
+extern int mMovieFace__ClassID_;
 
 void func_0021DB10(void) {
-    D_006190B0 = 0;
+    mMovieFace__ClassID_ = 0;
 }

@@ -1,9 +1,9 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 extern "C" {
-s32 func_00443ED0(s32, s64, s32, void *);   /* extern */
+s32 SPEC_DATABASE__DatabaseStorage__getRow(s32, s64, s32, void *);   /* extern */
 
 extern char D_006235A8[];
 struct func_00440170_arg0 {
@@ -19,7 +19,7 @@ void func_00440170(char *arg0, s32 arg1) {
     char *temp_a3;
 
     temp_a3 = arg0 + (((struct func_00440170_arg0 *)arg0)->unk490 * 0x178);
-    func_00443ED0((s32)D_006235A8, ((struct func_00440170_temp_a3 *)temp_a3)->unk100, arg1 + 0x13A, temp_a3);
+    SPEC_DATABASE__DatabaseStorage__getRow((s32)D_006235A8, ((struct func_00440170_temp_a3 *)temp_a3)->unk100, arg1 + 0x13A, temp_a3);
 }
 
 }

@@ -6,9 +6,9 @@ struct V {
     V(const V &o) { *(u128 *)this = *(const u128 *)&o; }
 } __attribute__((aligned(16)));
 struct Obj { V pos; V a; V b; V c; };
-extern "C" V func_00421E50(V *a, V *b);
+extern "C" V Numerical_Math__Quaternion__rotate(V *a, V *b);
 extern "C" V func_0041B898(Obj *o) {
-    V r = func_00421E50(&o->a, &o->c);
+    V r = Numerical_Math__Quaternion__rotate(&o->a, &o->c);
     r.x += o->pos.x;
     r.y += o->pos.y;
     r.z += o->pos.z;

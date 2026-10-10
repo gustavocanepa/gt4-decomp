@@ -1,5 +1,5 @@
-extern int D_00619130;
+extern int mRenderContext__ClassID_;
 
 void func_0022AC50(void) {
-    D_00619130 = 0;
+    mRenderContext__ClassID_ = 0;
 }

@@ -10,9 +10,9 @@ extern "C" u8 *func_00359510(int);
 extern "C" int func_00343C20(u8 *);
 extern "C" int func_00354E38(u8 *);
 extern "C" float func_0034C780(u8 *, int);
-extern "C" float func_0034C230(u8 *);
+extern "C" float DynamicsConductor__GetCourseLength(u8 *);
 extern "C" float func_00354E60(u8 *);
-extern "C" int func_00367D20(u8 *);
+extern "C" int TireWearParameters__isWearAvailable(u8 *);
 extern "C" int func_0035FA50(u8 *);
 
 extern "C" void func_00353218(u8 *p)
@@ -40,7 +40,7 @@ extern "C" void func_00353218(u8 *p)
     if (func_00354E38(p) != 0 && *(float *)(s + 0x4C8) > 500.0f) {
         float limit = func_0034C780(dc, 1);
         if (*(float *)(s + 0x4A4) < limit) {
-            float t = func_0034C230(dc);
+            float t = DynamicsConductor__GetCourseLength(dc);
             t = (limit - *(float *)(s + 0x4A4) + t)
                 / (*(float *)(s + 0x4C8) / *(float *)(s + 0x4C4)) * 1.05f;
             if (func_00354E60(p) < t)
@@ -48,7 +48,7 @@ extern "C" void func_00353218(u8 *p)
         }
     }
 
-    if (func_00367D20(sub) != 0) {
+    if (TireWearParameters__isWearAvailable(sub) != 0) {
         int j = 0;
         if (j < info[1]) {
             do {

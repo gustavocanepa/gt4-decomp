@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/mTextFace.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 void func_002452A8(void *, void *, void *);
 void *func_0025BF60(void *);

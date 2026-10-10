@@ -1,5 +1,5 @@
-extern int D_00619340;
+extern int mWatcher__ClassID_;
 
 void func_00254250(void) {
-    D_00619340 = 0;
+    mWatcher__ClassID_ = 0;
 }

@@ -1,6 +1,6 @@
 /* compiler: ee-gcc2.96-no-strict-aliasing */
-/* Reads the next character of a string-backed reader (string at +0, read position at +4), or -1 at
- * the end. The read goes through basic_string<char>'s non-const operator[] (gcc 2.96 bastring.h):
+/* Reads the next character of a string-backed reader (string at +0, func_005AE2E8 position at +4), or -1 at
+ * the end. The func_005AE2E8 goes through basic_string<char>'s non-const operator[] (gcc 2.96 bastring.h):
  * selfish() -> unique() -> alloc(length(), true) (func_005CB5A0) when the text is shared, then
  * rep()->selfish = true. Matches only with -fno-strict-aliasing (dat is reloaded after each store
  * through the Rep), like the library itself. */

@@ -27,7 +27,7 @@ extern s32 D_00659FB4;
 extern "C" void func_002FC8C8(void *, s32);
 extern "C" s32 func_002FE250(s32);
 extern "C" void func_002FC870(void *, s32);
-extern "C" void func_0042E478(s32, void *, s32);
+extern "C" void GranTurismo4__GetTimeString(s32, void *, s32);
 extern "C" char * func_005C2560(Rep *);
 extern "C" s32 func_0057F260(void *);
 extern "C" void func_005C2630(void *, s32, s32, void *, s32);
@@ -66,7 +66,7 @@ extern "C" void MUtility__GetTimeString(s32 *arg0, void *arg1, s32 arg2) {
         func_002FC870(buf0, 0x2);
     }
     p_s1 = buf1;
-    func_0042E478(v_s0, p_s1, 0x40);
+    GranTurismo4__GetTimeString(v_s0, p_s1, 0x40);
     p_s3 = &s6;
     {
         Rep *r = &D_00659FA8;

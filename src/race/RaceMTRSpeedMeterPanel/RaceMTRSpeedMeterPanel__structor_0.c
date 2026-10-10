@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/RaceMTRSpeedMeterPanel.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 func_003ACED0(void *);                      /* extern */
 s32 RaceDisplayObjectBase__structor_0();                            /* extern */

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/mMBox.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 extern char mMBox__vtable[];
 s32 mBox__structor_0(void *);

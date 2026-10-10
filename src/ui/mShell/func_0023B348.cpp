@@ -1,9 +1,9 @@
 typedef int s32;
 
-extern s32 D_00619190;
+extern s32 mShell__ClassID_;
 
-extern "C" void func_0023BD08(s32 arg0);
+extern "C" void mShell__InitClass(s32 arg0);
 
 extern "C" void func_0023B348(void) {
-    func_0023BD08(D_00619190);
+    mShell__InitClass(mShell__ClassID_);
 }

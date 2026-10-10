@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 f32 func_0036FFC0(f32 *p, f32 x) {
     f32 k = p[7] * p[4] * p[2] / p[3];

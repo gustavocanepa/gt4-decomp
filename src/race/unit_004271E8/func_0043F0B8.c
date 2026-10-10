@@ -1,5 +1,5 @@
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
 struct func_0043F0B8_arg0 {

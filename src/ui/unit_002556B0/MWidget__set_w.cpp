@@ -18,7 +18,7 @@ struct Arg3 {
 };
 
 extern "C" void func_00255110(s32 *buf);
-extern "C" void func_0025B3A0(s32 arg0, f32 arg1);
+extern "C" void mWidget__setWindowW(s32 arg0, f32 arg1);
 extern "C" void func_002550B8(s32 *buf, s32 arg1);
 
 extern "C" void MWidget__set_w(s32 arg0, s32 arg1, s32 arg2, Arg3 *arg3) {
@@ -33,6 +33,6 @@ extern "C" void MWidget__set_w(s32 arg0, s32 arg1, s32 arg2, Arg3 *arg3) {
     obj = arg3->obj;
     entry = obj->vtbl + 12;
     result = entry->fn((char *)obj + entry->delta);
-    func_0025B3A0(s1, result);
+    mWidget__setWindowW(s1, result);
     func_002550B8(buf, 2);
 }

@@ -52,6 +52,10 @@ function counts only when the judge says MATCH and the full build still hashes l
   of identical functions; `neartwin.py scan|apply --from ../TT` adapts the sources of near twins
   (offsets, constants, callees, globals, call order, store order, profile; `try ADDR OTHER` shows
   the steps). Every shared match counts for both games: run these before hand work.
+- Headers: `gen_headers.py` writes include/gt4/<Class>.h: the C struct (default), the C++ class with
+  base, vptr, virtual methods in slot order and GT HD names (`#define GT4_CXX` first: a virtual call
+  is then just `obj->method()`), the class's prototypes (`#define GT4_DECLS`). `test` checks layouts
+  on the compiler, `rejudge` the sources that use them (run both after regenerating).
 - Planning: `work_queue.py` (ranked work items), `attempts.py` (show/log/summary of the diary).
 - Diagnosis: `census.py` (why functions fail, ranked), `compiler_probe.py`, `coverage.py`.
 

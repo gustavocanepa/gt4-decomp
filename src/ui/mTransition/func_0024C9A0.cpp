@@ -1,5 +1,5 @@
-extern int D_00619248;
+extern int mTransition__ClassID_;
 
 void func_0024C9A0(void) {
-    D_00619248 = 0;
+    mTransition__ClassID_ = 0;
 }

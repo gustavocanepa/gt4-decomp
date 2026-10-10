@@ -1,4 +1,4 @@
-/* libio (GNU iostream library, gcc 2000-10-03 snapshot): _IO_getline (iogetline.c; a wrapper glued to _IO_getline_info)?.
+/* libio (GNU iostream library, gcc 2000-10-03 snapshot): _IO_getline (iogetline.c; a wrapper glued to func_00596640)?.
  * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 typedef int s32;
 

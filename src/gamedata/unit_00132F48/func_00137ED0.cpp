@@ -1,9 +1,9 @@
 typedef int s32;
 
-extern s32 D_00618878;
+extern s32 mCarFace__ClassID_;
 
-extern "C" void func_00139408(s32 arg0);
+extern "C" void mCarFace__InitClass(s32 arg0);
 
 extern "C" void func_00137ED0(void) {
-    func_00139408(D_00618878);
+    mCarFace__InitClass(mCarFace__ClassID_);
 }

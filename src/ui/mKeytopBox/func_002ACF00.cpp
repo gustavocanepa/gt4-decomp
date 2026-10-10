@@ -1,5 +1,5 @@
-extern int D_00619800;
+extern int mKeytopBox__ClassID_;
 
 void func_002ACF00(void) {
-    D_00619800 = 0;
+    mKeytopBox__ClassID_ = 0;
 }

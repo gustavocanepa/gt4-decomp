@@ -8,9 +8,9 @@ struct Obj {
     s64 unk78;
 };
 
-extern "C" void func_00447238(s32 arg0);
+extern "C" void SPEC_DATABASE__RaceSpec__setCourse(s32 arg0);
 
 extern "C" void func_003C0C20(Obj *arg0, s64 arg1) {
     arg0->unk78 = arg1;
-    func_00447238(arg0->unk70);
+    SPEC_DATABASE__RaceSpec__setCourse(arg0->unk70);
 }

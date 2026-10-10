@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/RaceLanControlManager.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 extern char RaceLanControlManager__vtable[];
 void func_0055ED40(void *, s32);

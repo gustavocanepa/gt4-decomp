@@ -1,5 +1,5 @@
-extern int D_00619C58;
+extern int hModuleVariable__ClassID_;
 
 void func_003078C0(void) {
-    D_00619C58 = 0;
+    hModuleVariable__ClassID_ = 0;
 }

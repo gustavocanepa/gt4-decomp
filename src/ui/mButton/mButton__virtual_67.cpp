@@ -1,4 +1,4 @@
-/* Calls mTextFace__virtual_67(a0), then a basic_string<char>(D_0069A890) temporary (nilRep.grab() + assign(s, strlen(s))) passed to func_003166B8, whose result goes to func_003069F8(a0, a0 + 0xB0, &v) and destroyed (rep()->release(): --ref, Rep::operator delete -> func_00326798(p, sizeof(Rep) + res, 4, heap name)); the value slot is 0x20 bytes in the original frame */
+/* Calls mTextFace__virtual_67(a0), then a basic_string<char>(D_0069A890) temporary (nilRep.grab() + assign(s, strlen(s))) passed to HSymID__GetID, whose result goes to func_003069F8(a0, a0 + 0xB0, &v) and destroyed (rep()->release(): --ref, Rep::operator delete -> func_00326798(p, sizeof(Rep) + res, 4, heap name)); the value slot is 0x20 bytes in the original frame */
 typedef unsigned int u32;
 typedef int s32;
 
@@ -15,7 +15,7 @@ extern "C" Heap *func_005C11A8(void);
 extern "C" void func_00326798(void *p, u32 n, u32 align, const char *name);
 extern char D_0069A890[];
 extern "C" void mTextFace__virtual_67(void *a);
-extern "C" s32 func_003166B8(String *s);
+extern "C" s32 HSymID__GetID(String *s);
 extern "C" void func_003069F8(void *obj, void *h, s32 *val);
 
 static inline char *grab(StringRep *r) {
@@ -54,7 +54,7 @@ extern "C" void mButton__virtual_67(char *a0) {
     String s;
     mTextFace__virtual_67(a0);
     construct(&s, D_0069A890);
-    v[0] = func_003166B8(&s);
+    v[0] = HSymID__GetID(&s);
     func_003069F8(a0, a0 + 0xB0, v);
     destroy(&s);
 }

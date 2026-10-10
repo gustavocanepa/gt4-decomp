@@ -14,7 +14,7 @@ extern char RacePhotoMode__tf[];
 extern char RacePS2Base__tf[];
 
 extern Node **func_00197788(void);
-extern int func_005C0FC8(int, void *, int, void *, void *, void *);
+extern int GT4MC__FileGT4GameData__loadInstance(int, void *, int, void *, void *, void *);
 
 int func_00197798(void)
 {
@@ -29,7 +29,7 @@ int func_00197798(void)
         temp_v1 = *temp_v0;
         if (temp_v1 != 0) {
             Unk64 *u = temp_v1->unk64;
-            var_v0 = func_005C0FC8(u->unk4, RacePhotoMode__tf, 0,
+            var_v0 = GT4MC__FileGT4GameData__loadInstance(u->unk4, RacePhotoMode__tf, 0,
                                     (char *)temp_v1 + u->unk0,
                                     RacePS2Base__tf, temp_v1);
         } else {

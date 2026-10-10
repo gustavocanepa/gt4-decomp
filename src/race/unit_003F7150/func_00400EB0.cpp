@@ -1,0 +1,45 @@
+struct Obj {
+    virtual void v000(int);
+    virtual void v001(int);
+    virtual void v002(int);
+    virtual void v003(int);
+    virtual void v004(int);
+    virtual void v005(int);
+    virtual void v006(int);
+    virtual void v007(int);
+    virtual void v008(int);
+    virtual void v009(int);
+    virtual void v010(int);
+    virtual void v011(int);
+    virtual void v012(int);
+    virtual void v013(int);
+    virtual void v014(int);
+    virtual void v015(int);
+    virtual void v016(int);
+    virtual void v017(int);
+    virtual void v018(int);
+    virtual void v019(int);
+    virtual void v020(int);
+    virtual void v021(int);
+    virtual void v022(int);
+    virtual void v023(int);
+    virtual void v024(int);
+    virtual void v025(int);
+    virtual void v026(int);
+    virtual void v027(int);
+    virtual void v028(int);
+    virtual void v029(int);
+    virtual void v030(int);
+    virtual void v031(int);
+    virtual void v032(int);
+    virtual void v033(int);
+    virtual void v034(int);
+    virtual void v035(int);
+    virtual void v036(int);
+    virtual void v037(int);
+    virtual void v038(int);
+};
+extern "C" int func_00400EB0(Obj *arg0, int a1, int arg2) {
+    arg0->v038(arg2);
+    return 1;
+}

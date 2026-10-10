@@ -1,5 +1,5 @@
-extern int D_00618F88;
+extern int mComposite__ClassID_;
 
 void func_00204EC8(void) {
-    D_00618F88 = 0;
+    mComposite__ClassID_ = 0;
 }

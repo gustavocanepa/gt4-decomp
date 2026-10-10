@@ -1,5 +1,5 @@
 extern int func_001F1368(void *arg0);
-extern void func_00215298(int arg0);
+extern void mUpdateContext__Sync(int arg0);
 extern int func_004F51C0(void *arg0);
 
 struct S_00645D18
@@ -19,7 +19,7 @@ extern S_00645570 D_00645570;
 int func_001F40E8(void *arg0)
 {
     while (!func_004F51C0(&D_00645570))
-        func_00215298(1);
+        mUpdateContext__Sync(1);
 
     if (func_001F1368(arg0) == 0)
     {

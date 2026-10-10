@@ -1,5 +1,5 @@
-extern int D_00619518;
+extern int mCallbackEvent__ClassID_;
 
 void func_00281C98(void) {
-    D_00619518 = 0;
+    mCallbackEvent__ClassID_ = 0;
 }

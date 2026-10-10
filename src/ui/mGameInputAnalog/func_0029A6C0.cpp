@@ -1,5 +1,5 @@
-extern int D_006196B0;
+extern int mGameInputAnalog__ClassID_;
 
 void func_0029A6C0(void) {
-    D_006196B0 = 0;
+    mGameInputAnalog__ClassID_ = 0;
 }

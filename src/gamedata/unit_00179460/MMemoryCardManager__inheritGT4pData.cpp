@@ -36,7 +36,7 @@ extern "C" void func_003285F8(s32 arg0);
 extern "C" void func_00179280(void *arg0, int arg1);
 extern "C" void *func_001792D8(void *arg0);
 extern "C" s32 func_001D4698(Obj *arg0);
-extern "C" const char *func_001CBF40(s32 arg0);
+extern "C" const char *GT4MC__getFileResultString(s32 arg0);
 
 static inline H *get(H **p) {
     return *p;
@@ -54,7 +54,7 @@ extern "C" void MMemoryCardManager__inheritGT4pData(s32 *arg0) {
     id = func_001D4698(get(buf)->p1C);
     func_00179280(buf, 2);
     ps = &s;
-    src = func_001CBF40(id);
+    src = GT4MC__getFileResultString(id);
     {
         Rep *r = &D_00659FA8;
         char *d;

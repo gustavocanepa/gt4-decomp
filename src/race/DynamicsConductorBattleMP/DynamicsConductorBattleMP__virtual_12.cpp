@@ -1,6 +1,6 @@
-extern void func_0034DA70(void);
+extern void DynamicsConductor__processCollision_Race(void);
 
 void DynamicsConductorBattleMP__virtual_12(void)
 {
-    func_0034DA70();
+    DynamicsConductor__processCollision_Race();
 }

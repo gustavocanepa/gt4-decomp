@@ -1,9 +1,9 @@
 typedef int s32;
 
-extern s32 D_006196C8;
+extern s32 mGameInputButton__ClassID_;
 
-extern "C" void func_0029AD10(s32 arg0);
+extern "C" void mGameInputButton__InitClass(s32 arg0);
 
 extern "C" void func_0029ACA0(void) {
-    func_0029AD10(D_006196C8);
+    mGameInputButton__InitClass(mGameInputButton__ClassID_);
 }

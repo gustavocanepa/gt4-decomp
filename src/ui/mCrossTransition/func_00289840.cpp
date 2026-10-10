@@ -1,5 +1,5 @@
-extern int D_006195A8;
+extern int mCrossTransition__ClassID_;
 
 void func_00289840(void) {
-    D_006195A8 = 0;
+    mCrossTransition__ClassID_ = 0;
 }

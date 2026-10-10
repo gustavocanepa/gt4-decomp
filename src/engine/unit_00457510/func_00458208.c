@@ -1,7 +1,7 @@
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
-s32 func_004580F0();                                /* extern */
+s32 VisionList__getVoronoi();                                /* extern */
 
 struct func_00458208_arg0 {
     char pad0[0x34];
@@ -9,5 +9,5 @@ struct func_00458208_arg0 {
 };
 
 u32 func_00458208(struct func_00458208_arg0 *arg0) {
-    return (u32) (func_004580F0() - arg0->unk34) >> 4;
+    return (u32) (VisionList__getVoronoi() - arg0->unk34) >> 4;
 }

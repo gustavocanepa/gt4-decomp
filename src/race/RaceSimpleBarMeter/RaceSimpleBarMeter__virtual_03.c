@@ -1,7 +1,0 @@
-#include "types.h"
-#include "gt4/RaceSimpleBarMeter.h"
-void *memcpy(void *, const void *, unsigned int);
-
-void RaceSimpleBarMeter__virtual_03(struct RaceSimpleBarMeter *arg0) {
-    arg0->unk1C = (f32) arg0->unk18;
-}

@@ -1,9 +1,9 @@
 typedef int s32;
 
-extern s32 D_00619A60;
+extern s32 mStorageEntry__ClassID_;
 
-extern "C" void func_002E11B0(s32 arg0);
+extern "C" void mStorageEntry__InitClass(s32 arg0);
 
 extern "C" void func_002E0B38(void) {
-    func_002E11B0(D_00619A60);
+    mStorageEntry__InitClass(mStorageEntry__ClassID_);
 }

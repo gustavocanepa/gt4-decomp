@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/PitmanCallback.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 extern char PitmanCallback__vtable[];
 s32 PitmanCallback__structor_2(struct PitmanCallback *arg0) {

@@ -1,7 +1,7 @@
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
-s32 func_002B5188();                            /* extern */
+s32 mListBox__setDragIcon();                            /* extern */
 
 struct func_002B5238_arg0 {
     char pad0[0x124];
@@ -13,7 +13,7 @@ struct func_002B5238_arg0 {
 };
 
 void func_002B5238(struct func_002B5238_arg0 *arg0) {
-    func_002B5188();
+    mListBox__setDragIcon();
     arg0->unk14C = 2;
     arg0->unk12C = (s32) arg0->unk124;
 }

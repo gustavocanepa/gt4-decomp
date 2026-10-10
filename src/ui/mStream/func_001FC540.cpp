@@ -1,5 +1,5 @@
-extern int D_00618E28;
+extern int mStream__ClassID_;
 
 void func_001FC540(void) {
-    D_00618E28 = 0;
+    mStream__ClassID_ = 0;
 }

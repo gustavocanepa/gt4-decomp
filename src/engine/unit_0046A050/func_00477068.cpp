@@ -1,0 +1,134 @@
+/* compiler: ee-gcc2.96-stl */
+/* Value setter, type 7 (map): a new reference-counted map object copied from another one. The
+   map is SGI STL's _Rb_tree<Str2, pair<const Str2, Val>> (include/stl/stl_tree.h) whose copy
+   constructor is inlined; _M_copy is func_006062F0 (same types as its source). */
+#include <stl_tree.h>
+
+extern "C" void *func_00575E60(int heap, int size);
+extern "C" void func_00575DA0(void *p, int size);
+
+
+struct Rep {
+    int len;
+    int cap;
+    int ref;
+    int sel;
+};
+
+struct HeapName {
+    const char *name;
+};
+
+extern "C" int func_00608D98(const void *self, const void *other, unsigned int pos, unsigned int n);
+extern "C" char *strobe__toUpper(Rep *rep);
+extern "C" void stl_unknown_release(void *p, int size);
+
+/* the game's string: libstdc++ v2 basic_string (knowledge/runtime-types.md); the pointer is func_005AE2E8 and
+   written as an int so the representation's counters can alias it */
+struct Str2 {
+    char *p;
+    Str2(const Str2 &o) {
+        int q = *(int *)&o.p;
+        Rep *r = (Rep *)(q - 0x10);
+        int d = q;
+        if (r->sel != 0) {
+            d = (int)strobe__toUpper(r);
+        } else {
+            r->ref = r->ref + 1;
+        }
+        *(int *)&p = d;
+    }
+    ~Str2() {
+        Rep *r = (Rep *)(*(int *)&p - 0x10);
+        if (--r->ref == 0) {
+            int size = r->cap + 0x10;
+            stl_unknown_release(r, size);
+        }
+    }
+    bool operator<(const Str2 &o) const { return func_00608D98(this, &o, 0, (unsigned int)-1) < 0; }
+};
+
+extern "C" void func_00476768(void *self, const void *other);
+extern "C" void stl_unknown_dtor(void *self, int in_charge);
+
+struct Val_00476768 {
+    int w[2];
+    Val_00476768(const Val_00476768 &o) { func_00476768(this, &o); }
+    ~Val_00476768() { stl_unknown_dtor(this, 2); }
+};
+
+/* gcc 2.96's type_info: the name first, the vtable pointer after it */
+struct TypeInfo {
+    const char *name;
+};
+
+/* typeid(T).name() of the types this source allocates, without typeid: the game's own __tf getter */
+template <class T> struct TypeTag;
+
+/* the game's allocator: every block is tagged with the name of its type */
+template <class T>
+class GameAlloc {
+public:
+    typedef size_t size_type;
+    typedef ptrdiff_t difference_type;
+    typedef T *pointer;
+    typedef const T *const_pointer;
+    typedef T &reference;
+    typedef const T &const_reference;
+    typedef T value_type;
+    template <class U> struct rebind { typedef GameAlloc<U> other; };
+    GameAlloc() throw() {}
+    GameAlloc(const GameAlloc &) throw() {}
+    template <class U> GameAlloc(const GameAlloc<U> &) throw() {}
+    ~GameAlloc() throw() {}
+    T *allocate(size_type n, const void * = 0) {
+        return (T *)func_00575E60(0x10, n * sizeof(T));
+    }
+    void deallocate(T *p, size_type n) {
+        func_00575DA0(p, n * sizeof(T));
+    }
+    size_type max_size() const throw() { return size_t(-1) / sizeof(T); }
+    void construct(T *p, const T &v) { new (p) T(v); }
+    void destroy(T *p) { p->~T(); }
+};
+
+typedef Str2 Key;
+typedef pair<const Str2, Val_00476768> Value;
+typedef _Rb_tree_node<Value> Node;
+
+typedef _Rb_tree<Key, Value, _Select1st<Value>, less<Key>, GameAlloc<Value> > Tree;
+
+struct Val { int type; int v; bool isObj() const { return type == 13; } };
+extern "C" void func_004768C0(Val *);
+extern "C" Val *func_00476768_v(Val *, const Val *) __asm__("func_00476768");
+extern "C" void func_004767E8(Val *);
+extern "C" int func_00477298(Val *);
+extern "C" int func_0047A858(int);
+extern "C" void *exception__structor_0(int size);
+
+struct Inner {
+    Tree tree;
+    int n;
+    void setN(int x) { n = x; }
+};
+
+struct Obj {
+    int ref;
+    Inner in;
+    Val val;
+    static void *operator new(size_t n) { return exception__structor_0(n); }
+    Obj(const Obj &o) : ref(0), in(o.in) {
+        func_00476768_v(&val, &o.val);
+        if (val.isObj()) {
+            func_004767E8(&val);
+            in.setN(func_0047A858(func_00477298(&val)));
+        }
+    }
+};
+
+extern "C" void func_00477068(Val *self, const Obj *src) {
+    int type = 7;
+    func_004768C0(self);
+    self->type = type;
+    self->v = (int)new Obj(*src);
+}

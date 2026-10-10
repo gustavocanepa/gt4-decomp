@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/ShowRoomCar.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 func_00575DC8(s32);
 extern char ShowRoomCar__vtable[];

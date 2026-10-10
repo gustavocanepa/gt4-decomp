@@ -19,7 +19,7 @@ struct Matcher {
     s32 found;
 };
 
-extern "C" s32 func_0025C1E8(s32);
+extern "C" s32 mWidget__getRootWindow(s32);
 extern "C" s32 func_0028EA18(Obj *);
 
 extern "C" s32 IfRootEvent__virtual_01(Matcher *self, Obj **ref) {
@@ -29,7 +29,7 @@ extern "C" s32 IfRootEvent__virtual_01(Matcher *self, Obj **ref) {
         Obj *o = *ref;
         VEntry *e = (VEntry *)((char *)o->vtbl + 0x50);
         if (e->fn((char *)o + e->delta) == self->kind) {
-            ok = func_0025C1E8(t) == self->id;
+            ok = mWidget__getRootWindow(t) == self->id;
         }
     }
     if (ok != 0) {

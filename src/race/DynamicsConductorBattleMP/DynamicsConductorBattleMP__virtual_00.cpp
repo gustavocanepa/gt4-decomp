@@ -1,6 +1,6 @@
-extern void func_00359238(void);
+extern void DynamicsConductor__ReportTimeDifference_Race(void);
 
 void DynamicsConductorBattleMP__virtual_00(void)
 {
-    func_00359238();
+    DynamicsConductor__ReportTimeDifference_Race();
 }

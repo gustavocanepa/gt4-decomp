@@ -1,15 +1,15 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
-s32 func_00265FF0(s32, s32);                    /* extern */
+s32 mWidget__setActive(s32, s32);                    /* extern */
 s32 func_00266200(s32, s32);                    /* extern */
 void *func_002B49B8(void *, s32);                   /* extern */
-s32 func_002B49D8();                                /* extern */
+s32 mListBox__get_total_item_count();                                /* extern */
 s32 func_002B4E78(void *, s32, s32);            /* extern */
 s32 func_002B4F40(void *, s32, s32);            /* extern */
-s32 func_002B5498(void *, s32);                     /* extern */
+s32 mListBox__getItemActive(void *, s32);                     /* extern */
 s32 func_002B5580(void *, s32);                     /* extern */
 s32 func_005769F0(s32);                     /* extern */
 s32 func_00576A28(s32);                     /* extern */
@@ -25,9 +25,9 @@ struct func_002B4FD8_arg0 {
 void func_002B4FD8(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_s1;
 
-    if ((arg1 >= 0) && (arg1 < func_002B49D8())) {
+    if ((arg1 >= 0) && (arg1 < mListBox__get_total_item_count())) {
         if (arg3 != 0) {
-            func_00265FF0(arg3, func_002B5498(arg0, arg1));
+            mWidget__setActive(arg3, mListBox__getItemActive(arg0, arg1));
             func_00266200(arg3, func_002B5580(arg0, arg1));
             func_002B4E78(arg0, arg2, arg3);
         }

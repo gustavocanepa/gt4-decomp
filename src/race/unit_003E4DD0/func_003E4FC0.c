@@ -1,8 +1,8 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
-s32 func_003E4F98(void *, s32 *, s32 *); /* extern */
+s32 RigidBodyManager__remove(void *, s32 *, s32 *); /* extern */
 
 struct func_003E4FC0_arg0 {
     char pad0[0x8];
@@ -20,7 +20,7 @@ void func_003E4FC0(struct func_003E4FC0_arg0 *arg0, s32 arg1) {
         do {
             temp_s0 = *var_a1;
             if (var_a1 == arg1) {
-                func_003E4F98(arg0, var_a1, var_s2);
+                RigidBodyManager__remove(arg0, var_a1, var_s2);
             } else {
                 var_s2 = var_a1;
             }

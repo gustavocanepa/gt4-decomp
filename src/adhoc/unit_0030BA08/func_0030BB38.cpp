@@ -1,11 +1,11 @@
 typedef int s32;
 struct Obj { s32 v; };
 static inline void ctor(Obj *const self, s32 n) { self->v = n; }
-extern Obj D_0083F5C8;
+extern Obj HSymbol__OP_MOD;
 extern Obj D_0083F5D0;
 extern Obj D_0083F5D8;
 extern Obj D_0083F5E0;
-extern Obj D_0083F5E8;
+extern Obj HSymbol__OP_NOT;
 extern Obj D_0083F5F0;
 extern Obj D_0083F5F8;
 extern Obj D_0083F600;
@@ -82,11 +82,11 @@ extern "C" void func_00325010(void *, void *, s32, void (*)(void), void (*)(void
 
 extern "C" void func_0030BB38(s32 init, s32 prio)
 {
-    if (prio == 0xFFFF && init == 1) ctor(&D_0083F5C8, 0x0);
+    if (prio == 0xFFFF && init == 1) ctor(&HSymbol__OP_MOD, 0x0);
     if (prio == 0xFFFF && init == 1) ctor(&D_0083F5D0, 0x1);
     if (prio == 0xFFFF && init == 1) ctor(&D_0083F5D8, 0x2);
     if (prio == 0xFFFF && init == 1) ctor(&D_0083F5E0, 0x3);
-    if (prio == 0xFFFF && init == 1) ctor(&D_0083F5E8, 0x4);
+    if (prio == 0xFFFF && init == 1) ctor(&HSymbol__OP_NOT, 0x4);
     if (prio == 0xFFFF && init == 1) ctor(&D_0083F5F0, 0x5);
     if (prio == 0xFFFF && init == 1) ctor(&D_0083F5F8, 0x6);
     if (prio == 0xFFFF && init == 1) ctor(&D_0083F600, 0x7);

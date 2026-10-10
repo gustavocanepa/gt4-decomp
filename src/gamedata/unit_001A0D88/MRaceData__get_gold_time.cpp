@@ -35,8 +35,8 @@ extern Rep D_00659FA8;
 
 extern "C" void func_001A0AF8(void *arg0, int arg1);
 extern "C" void func_001A0B50(void *arg0, void *arg1);
-extern "C" void *func_00447670(void *arg0);
-extern "C" void func_0042E478(void *arg0, char *buf, s32 size);
+extern "C" void *SPEC_DATABASE__RaceSpec__getBronzeTime(void *arg0);
+extern "C" void GranTurismo4__GetTimeString(void *arg0, char *buf, s32 size);
 extern "C" void func_00312318(void *arg0, int arg1);
 extern "C" void func_00314B20(void *arg0, void *arg1);
 extern "C" void func_003285A8(void *p);
@@ -61,7 +61,7 @@ extern "C" void MRaceData__get_gold_time(void **arg0, void *arg1) {
     Handle h;
     Str s;
     func_001A0B50(&h0, arg1);
-    func_0042E478(func_00447670(h0.p->sub), buf, 0x80);
+    GranTurismo4__GetTimeString(SPEC_DATABASE__RaceSpec__getBronzeTime(h0.p->sub), buf, 0x80);
     {
         Str *ps;
         Rep *r = &D_00659FA8;

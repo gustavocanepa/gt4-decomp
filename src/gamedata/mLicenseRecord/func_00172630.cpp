@@ -1,5 +1,5 @@
-extern int D_006189A0;
+extern int mLicenseRecord__ClassID_;
 
 void func_00172630(void) {
-    D_006189A0 = 0;
+    mLicenseRecord__ClassID_ = 0;
 }

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/mGameStats.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
 s32 func_005A4724(void *, void *, s32);         /* extern */

@@ -1,4 +1,4 @@
-/* libio (GNU iostream library, gcc 2000-10-03 snapshot): _IO_file_seek.
+/* libio (GNU iostream library, gcc 2000-10-03 snapshot): func_0059B838.
  * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 typedef int s32;
 

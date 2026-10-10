@@ -1,5 +1,5 @@
-extern int D_00618C78;
+extern int mEyetoyFace__ClassID_;
 
 void func_001B8B20(void) {
-    D_00618C78 = 0;
+    mEyetoyFace__ClassID_ = 0;
 }

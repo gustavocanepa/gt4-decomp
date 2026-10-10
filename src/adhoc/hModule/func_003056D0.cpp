@@ -4,7 +4,7 @@
  * copy constructors (Rep::grab), destructor (Rep::release), operator=(const basic_string &),
  * operator=(const char *) = assign = replace(0, npos, s, n), and
  * operator+(const basic_string &, const char *) = copy + append = replace(length(), 0, s, n).
- * strlen and func_00305570 (defined above in the unit) are declared throw(), as reorg saw them. */
+ * strlen and hModule__getName (defined above in the unit) are declared throw(), as reorg saw them. */
 typedef unsigned int u32;
 
 struct Heap { const char *name; };
@@ -71,14 +71,14 @@ inline String operator+(const String &lhs, const char *rhs) {
 
 extern char D_0069DC48[]; /* "." */
 extern "C" void *func_003055C8(void *node);
-extern "C" const char *func_00305570(void *node) throw();
+extern "C" const char *hModule__getName(void *node) throw();
 
 extern "C" String func_003056D0(void *node) {
     String r;
     if (func_003055C8(node)) {
-        r = func_003056D0(func_003055C8(node)) + D_0069DC48 + func_00305570(node);
+        r = func_003056D0(func_003055C8(node)) + D_0069DC48 + hModule__getName(node);
     } else {
-        r = func_00305570(node);
+        r = hModule__getName(node);
     }
     return r;
 }

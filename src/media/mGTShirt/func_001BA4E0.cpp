@@ -1,5 +1,5 @@
-extern int D_00618CA8;
+extern int mGTShirt__ClassID_;
 
 void func_001BA4E0(void) {
-    D_00618CA8 = 0;
+    mGTShirt__ClassID_ = 0;
 }

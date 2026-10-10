@@ -40,7 +40,7 @@ extern "C" s32 func_004454C0(Sub *arg0);
 extern "C" s32 func_004462E0(Sub *arg0);
 extern "C" s32 func_00446320(Sub *arg0);
 extern "C" void func_004468F8(Sub *arg0, s32 arg1);
-extern "C" s32 func_00447550(s32 arg0);
+extern "C" s32 SPEC_DATABASE__RaceSpec__getCourseType(s32 arg0);
 extern "C" void func_00449D58(Buf *arg0);
 extern "C" void func_00449D78(Buf *arg0, int arg1);
 extern "C" s32 func_00449E10(Buf *arg0, s32 arg1);
@@ -53,7 +53,7 @@ extern "C" void RaceLanBattle__virtual_91(Self *self) {
     s32 i;
     Buf buf;
 
-    switch (func_00447550(mgr->id)) {
+    switch (SPEC_DATABASE__RaceSpec__getCourseType(mgr->id)) {
     case 2:
         mode = 11;
         break;

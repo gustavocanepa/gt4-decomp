@@ -23,7 +23,7 @@ struct S00659988 {
 };
 
 extern s32 D_006184F0;
-extern char D_006244D8[];
+extern char PDISTD__UNIT_MANAGER[];
 extern "C" void func_004A0BE0(s32, s32);
 extern "C" s32 func_004390D0(void *);
 extern "C" void func_00472528(void *, s32);
@@ -48,7 +48,7 @@ struct func_004365B8_v_s1 {
 extern "C" void func_004365B8(s32 *arg0) {
     char *v_s1;
     s32 t1;
-    v_s1 = (char *)&D_006244D8;
+    v_s1 = (char *)&PDISTD__UNIT_MANAGER;
     func_004A0BE0((((struct func_004365B8_arg0 *)arg0)->unk18 << 1), (((struct func_004365B8_arg0 *)arg0)->unk1C << 1));
     t1 = func_004390D0((char *)arg0 + 0x24);
     D_006184F0 = t1;

@@ -1,5 +1,5 @@
-extern int D_006197D0;
+extern int mKeyReleaseEvent__ClassID_;
 
 void func_002AB490(void) {
-    D_006197D0 = 0;
+    mKeyReleaseEvent__ClassID_ = 0;
 }

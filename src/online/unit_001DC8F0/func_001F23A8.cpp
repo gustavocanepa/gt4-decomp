@@ -1,4 +1,4 @@
-/* Waits (func_00215298(1)) until func_004F1D18(&D_00645570, a2 == 0) succeeds; returns an empty string when func_001F1368(a1) is 0, else basic_string<char>(buf) filled by func_004F1F70(&D_00645570, buf, 0x400) (bastring.h: default ctor = nilRep.grab(), (const char *) ctor = grab + assign(s, strlen(s)), copy ctor = rep()->grab(), dtor = rep()->release() -> func_00326798(p, sizeof(Rep) + res, 4, heap name)) */
+/* Waits (mUpdateContext__Sync(1)) until func_004F1D18(&D_00645570, a2 == 0) succeeds; returns an empty string when func_001F1368(a1) is 0, else basic_string<char>(buf) filled by func_004F1F70(&D_00645570, buf, 0x400) (bastring.h: default ctor = nilRep.grab(), (const char *) ctor = grab + assign(s, strlen(s)), copy ctor = rep()->grab(), dtor = rep()->release() -> func_00326798(p, sizeof(Rep) + res, 4, heap name)) */
 typedef unsigned int u32;
 typedef int s32;
 
@@ -14,7 +14,7 @@ extern "C" u32 func_0057F260(const char *s);
 extern "C" Heap *func_005C11A8(void);
 extern "C" void func_00326798(void *p, u32 n, u32 align, const char *name);
 extern char D_00645570[];
-extern "C" void func_00215298(s32 a);
+extern "C" void mUpdateContext__Sync(s32 a);
 extern "C" s32 func_004F1D18(void *a, s32 b);
 extern "C" s32 func_001F1368(void *a);
 extern "C" void func_004F1F70(void *a, char *buf, s32 n);
@@ -58,7 +58,7 @@ static inline void destroy(String *str) { release(rep(str)); }
 extern "C" String *func_001F23A8(String *ret, void *a1, s32 a2) {
     char buf[0x400];
     while (!func_004F1D18(D_00645570, a2 == 0))
-        func_00215298(1);
+        mUpdateContext__Sync(1);
     if (func_001F1368(a1) == 0) {
         construct(ret);
         return ret;

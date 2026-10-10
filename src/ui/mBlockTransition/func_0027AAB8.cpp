@@ -33,7 +33,7 @@ extern "C" s32 func_0057F260(const char *s);
 extern "C" void *func_005C2630(Str *s, s32 pos, s32 n, const char *src, s32 len);
 extern "C" struct S00659988 *func_005C11A8(void);
 extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
-extern "C" int func_0024C9B0(void);
+extern "C" int mTransition__GetClassID(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 
 extern char D_0069A7C8[];
@@ -81,7 +81,7 @@ extern "C" void func_0027AAB8(Obj *arg0) {
             }
         }
     }
-    func_002F3A30(arg0, func_0024C9B0());
+    func_002F3A30(arg0, mTransition__GetClassID());
     func_00306780(arg0, D_00832AE0, MBlockTransition__global_00832AE0);
     func_002F36E0(arg0, D_00832AD8, MBlockTransition__global_00832AD8);
     {

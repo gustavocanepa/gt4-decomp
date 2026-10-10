@@ -1,7 +1,7 @@
 /* libio (GNU iostream library, gcc 2000-10-03 snapshot): streambuf::set_column.
  * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 struct func_00594240_arg0 {
     char pad0[0x48];

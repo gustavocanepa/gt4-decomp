@@ -1,6 +1,6 @@
-extern void func_003A9640(int);
+extern void Oscillator__update(int);
 
 void func_003BEE58(int arg0)
 {
-    func_003A9640(arg0 + 0x48);
+    Oscillator__update(arg0 + 0x48);
 }

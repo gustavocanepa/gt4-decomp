@@ -1,5 +1,5 @@
-extern int D_00618878;
+extern int mCarFace__ClassID_;
 
 void func_00137EF8(void) {
-    D_00618878 = 0;
+    mCarFace__ClassID_ = 0;
 }

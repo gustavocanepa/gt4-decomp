@@ -53,7 +53,7 @@ struct Rep {
     int sel;
 };
 
-extern "C" char *func_005D2B58(Rep *rep);
+extern "C" char *strobe__toUpper(Rep *rep);
 
 /* the game's string with the second allocator (knowledge/gt4.md, SGI STL section) */
 struct Str2 {
@@ -63,7 +63,7 @@ struct Str2 {
         Rep *r = (Rep *)(q - 0x10);
         int d = q;
         if (r->sel != 0) {
-            d = (int)func_005D2B58(r);
+            d = (int)strobe__toUpper(r);
         } else {
             r->ref = r->ref + 1;
         }

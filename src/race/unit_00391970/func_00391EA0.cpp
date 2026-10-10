@@ -1,5 +1,5 @@
-extern int D_006213F0;
+extern int RaceCarSound__narration_;
 
 int func_00391EA0(void) {
-    return D_006213F0;
+    return RaceCarSound__narration_;
 }

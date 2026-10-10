@@ -1,9 +1,9 @@
 typedef int s32;
 
-extern s32 D_00619E38;
+extern s32 hThreadGroup__ClassID_;
 
-extern "C" void func_00322BA0(s32 arg0);
+extern "C" void hThreadGroup__InitClass(s32 arg0);
 
 extern "C" void func_003227E8(void) {
-    func_00322BA0(D_00619E38);
+    hThreadGroup__InitClass(hThreadGroup__ClassID_);
 }

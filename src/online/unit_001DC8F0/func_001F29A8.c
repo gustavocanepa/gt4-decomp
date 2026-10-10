@@ -1,5 +1,5 @@
 int func_004F1BA0(void *, void *);
-void func_00215298(int);
+void mUpdateContext__Sync(int);
 void func_001F1368(void *);
 
 extern char D_00645570[];
@@ -24,7 +24,7 @@ void func_001F29A8(void *self) {
     params.d = 0;
     params.size = 0x40;
     while (func_004F1BA0(D_00645570, &params) == 0) {
-        func_00215298(1);
+        mUpdateContext__Sync(1);
     }
     func_001F1368(self);
 }

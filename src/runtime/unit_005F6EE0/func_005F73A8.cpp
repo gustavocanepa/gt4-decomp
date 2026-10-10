@@ -1,5 +1,5 @@
-extern char D_006214B0;
+extern char RaceCourse__model_arena_;
 
 void *func_005F73A8(void) {
-    return &D_006214B0;
+    return &RaceCourse__model_arena_;
 }

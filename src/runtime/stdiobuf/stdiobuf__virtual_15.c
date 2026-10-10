@@ -2,7 +2,7 @@
  * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 #include "types.h"
 #include "gt4/stdiobuf.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 func_005A31F0(s32);                         /* extern */
 

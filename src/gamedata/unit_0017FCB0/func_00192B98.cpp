@@ -1,5 +1,5 @@
-extern int D_00618A58;
+extern int mPhotoMapWindow__ClassID_;
 
 void func_00192B98(void) {
-    D_00618A58 = 0;
+    mPhotoMapWindow__ClassID_ = 0;
 }

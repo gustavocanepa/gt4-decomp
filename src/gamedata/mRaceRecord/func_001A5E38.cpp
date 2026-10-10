@@ -1,9 +1,9 @@
 typedef int s32;
 
-extern s32 D_00618B88;
+extern s32 mRaceRecord__ClassID_;
 
-extern "C" void func_001A6888(s32 arg0);
+extern "C" void mRaceRecord__InitClass(s32 arg0);
 
 extern "C" void func_001A5E38(void) {
-    func_001A6888(D_00618B88);
+    mRaceRecord__InitClass(mRaceRecord__ClassID_);
 }

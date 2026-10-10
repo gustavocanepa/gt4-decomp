@@ -22,7 +22,7 @@ struct S00659988 {
     const char *name;
 };
 
-extern char D_006244D8[];
+extern char PDISTD__UNIT_MANAGER[];
 extern Rep D_00659FA8;
 extern s32 D_00659FB4;
 extern "C" s32 func_00472898(void *);
@@ -72,7 +72,7 @@ extern "C" void MGame__getBspecDistance(s32 *arg0, void *arg1) {
     s32 *p_s0;
     s32 newVal;
     s32 oldVal;
-    v_s1 = (char *)&D_006244D8;
+    v_s1 = (char *)&PDISTD__UNIT_MANAGER;
     t1 = func_00472898(v_s1);
     p_s3 = buf8;
     v_s2 = t1;

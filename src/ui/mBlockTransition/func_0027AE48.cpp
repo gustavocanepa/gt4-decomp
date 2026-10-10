@@ -1,9 +1,9 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 func_0027AEB0();                            /* extern */
-s32 func_0027AEE0(void *);                      /* extern */
+s32 mBlockTransition__initialize_blocks(void *);                      /* extern */
 s32 func_00575DC8(s32);                             /* extern */
 
 struct func_0027AE48_arg0 {
@@ -23,5 +23,5 @@ void func_0027AE48(void *arg0) {
     if ((temp_s2 != 0) && (temp_s1 != 0)) {
         ((struct func_0027AE48_arg0 *)arg0)->unk38 = func_00575DC8(temp_s2 * temp_s1 * 0x1C);
     }
-    func_0027AEE0(arg0);
+    mBlockTransition__initialize_blocks(arg0);
 }

@@ -1,6 +1,6 @@
-extern void func_0034CE48(void);
+extern void DynamicsConductor__getEachEntrantInfo_TypicalRace(void);
 
 void DynamicsConductorBattleMP__virtual_28(void)
 {
-    func_0034CE48();
+    DynamicsConductor__getEachEntrantInfo_TypicalRace();
 }

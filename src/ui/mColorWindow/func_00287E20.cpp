@@ -1,5 +1,5 @@
-extern int D_00619590;
+extern int mColorWindow__ClassID_;
 
 void func_00287E20(void) {
-    D_00619590 = 0;
+    mColorWindow__ClassID_ = 0;
 }

@@ -23,7 +23,7 @@ extern "C" char *func_005C2560(Rep *rep);
 extern "C" HeapName *func_005C11A8(void);
 extern "C" void func_00326798(void *p, int size, int align, const char *name);
 
-/* the game's string: libstdc++ v2 basic_string (knowledge/runtime-types.md); the pointer is read and
+/* the game's string: libstdc++ v2 basic_string (knowledge/runtime-types.md); the pointer is func_005AE2E8 and
    written as an int so the representation's counters can alias it */
 struct Str {
     char *p;

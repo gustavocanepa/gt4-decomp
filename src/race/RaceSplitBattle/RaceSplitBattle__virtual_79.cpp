@@ -5,9 +5,9 @@ struct Obj_0032FC98 {
     s32 unkD80;
 };
 
-extern "C" void RacePS2Base__virtual_79(Obj_0032FC98 *arg0);
+extern "C" void RacePS2Base__raceEnd(Obj_0032FC98 *arg0);
 
 extern "C" void RaceSplitBattle__virtual_79(Obj_0032FC98 *arg0) {
-    RacePS2Base__virtual_79(arg0);
+    RacePS2Base__raceEnd(arg0);
     arg0->unkD80 = 1;
 }

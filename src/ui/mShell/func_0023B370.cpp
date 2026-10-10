@@ -1,5 +1,5 @@
-extern int D_00619190;
+extern int mShell__ClassID_;
 
 void func_0023B370(void) {
-    D_00619190 = 0;
+    mShell__ClassID_ = 0;
 }

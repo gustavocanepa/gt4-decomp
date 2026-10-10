@@ -319,3 +319,23 @@ What repeated:
   storing every argument register is an unused varargs function; a dead lhu before a word store is
   `(void)*(volatile u16 *)&s->w;`; `for (i = 0; i < n; i++) return &a[i];` explains an unfolded zero
   index. Open: nor-register reuse for long long &=/|=, 2.9 two-operand `mult $zero,v1,a0`.
+- Round seven (2026-10-10): `p = base; p += i;` keeps the base in its register (`&base[i]` gives
+  the other operand order); try `ee-gcc2.96-no-strict-aliasing` early whenever a load sits after a
+  store in the original or locals made from parameters get swapped s-registers; shifts and byte
+  stores to the stack without masks are a small byte struct returned in v0 and assigned to a local;
+  `mov.s $f12` against integer argument moves follows the declared order of mixed parameters; a copy
+  into an s-register right before a loop after the parameter was incremented is an indexed loop
+  `list[i]`; an OR with a hoisted -0x8000 is short arithmetic `x | 0x8000`; comparators passed by
+  value as one-byte structs need a real member; ee-gcc 2.9 keeps if/else arms in source order and
+  `if (!id) id++` gives movz. The retail libgcc fp-bit pack has no guard-bit rounding (modified
+  fp-bit, not the snapshot with NO_DENORMALS/NO_NANS).
+- Round eight (2026-10-10): the network/UPnP/XML library around 0x52xxxx-0x54xxxx is C, not C++ —
+  in C a local whose address is taken goes straight into the argument register; old
+  no-strict-aliasing near misses there were artefacts of compiling as C++. Callees defined earlier
+  in the same unit need throw(). `if (t == 8) X; else if (t == 7) X;` keeps separate tests (`||`
+  folds to a range check). Constant-indexed global pointer tables: one `extern T *D_x;` per element.
+  Early exits through `goto out;` to one `return status;`. An int (not unsigned) switch variable
+  lets `arr[req - K]` reuse the table's req*4. Two adjacent fields compared with `&&` fold into one
+  64-bit compare: write two returns. `__builtin_alloca(n)` matches, a VLA does not. Same stack
+  buffer for two handles = one `s32 buf[4]` passed to explicit ctor/dtor calls. Speex (BSD) is
+  linked around 0x56b778 (nb_decoder_ctl): a libmatch candidate.

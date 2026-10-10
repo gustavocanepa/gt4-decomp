@@ -25,7 +25,7 @@ struct S00659988 {
 extern Rep D_00659FA8;
 extern s32 D_00659FB4;
 extern "C" void * func_00174148(void *);
-extern "C" void func_001CC1C8(s32, void *);
+extern "C" void GT4MC__File__getDate(s32, void *);
 extern "C" char * func_005C2560(Rep *);
 extern "C" s32 func_0057F260(void *);
 extern "C" void * func_005C2630(void *, s32, s32, void *, s32);
@@ -57,7 +57,7 @@ extern "C" void MMemoryCardFile__get_date(s32 *arg0) {
     s32 oldVal;
     func_00174148(buf0);
     p_s0 = buf1;
-    func_001CC1C8(*(s32 *)((char *)buf0[0] + 0x10), p_s0);
+    GT4MC__File__getDate(*(s32 *)((char *)buf0[0] + 0x10), p_s0);
     p_s3 = &s3;
     {
         Rep *r = &D_00659FA8;

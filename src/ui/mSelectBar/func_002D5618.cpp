@@ -1,5 +1,5 @@
-extern int D_00619A00;
+extern int mSelectBar__ClassID_;
 
 void func_002D5618(void) {
-    D_00619A00 = 0;
+    mSelectBar__ClassID_ = 0;
 }

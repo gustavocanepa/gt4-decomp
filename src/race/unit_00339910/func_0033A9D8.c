@@ -1,8 +1,8 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
-s32 func_0045B0F8(void *);                      /* extern */
+s32 GT4Model__BinStreamReader__read8u(void *);                      /* extern */
 s32 func_0045B228(void *);                      /* extern */
 s32 func_0045B620(void *, void *);              /* extern */
 s32 func_0045B768(void *, void *, s32);     /* extern */
@@ -23,9 +23,9 @@ void func_0033A9D8(struct func_0033A9D8_arg0 *arg0) {
     temp_s1 = arg0->unk8 - frag1;
     func_0045B768(sp, arg0, (s32)D_0069F310);
     func_0045B620(sp, arg0);
-    func_0045B0F8(arg0);
+    GT4Model__BinStreamReader__read8u(arg0);
     func_0045B228(arg0);
     func_0045B228(arg0);
-    func_0045B0F8(arg0);
+    GT4Model__BinStreamReader__read8u(arg0);
     arg0->unk8 = (s32) (arg0->unk0 + temp_s1);
 }

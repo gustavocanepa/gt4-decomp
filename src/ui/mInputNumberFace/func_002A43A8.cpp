@@ -1,5 +1,5 @@
-extern int D_00619770;
+extern int mInputNumberFace__ClassID_;
 
 void func_002A43A8(void) {
-    D_00619770 = 0;
+    mInputNumberFace__ClassID_ = 0;
 }

@@ -1,5 +1,5 @@
-extern int D_00619E18;
+extern int hThread__ClassID_;
 
 void func_003186D0(void) {
-    D_00619E18 = 0;
+    hThread__ClassID_ = 0;
 }

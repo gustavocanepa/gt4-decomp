@@ -1,5 +1,5 @@
-extern int D_006195F0;
+extern int mEnterEvent__ClassID_;
 
 void func_0028D878(void) {
-    D_006195F0 = 0;
+    mEnterEvent__ClassID_ = 0;
 }

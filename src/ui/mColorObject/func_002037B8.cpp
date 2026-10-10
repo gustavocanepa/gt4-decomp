@@ -1,5 +1,5 @@
-extern int D_00618F70;
+extern int mColorObject__ClassID_;
 
 void func_002037B8(void) {
-    D_00618F70 = 0;
+    mColorObject__ClassID_ = 0;
 }

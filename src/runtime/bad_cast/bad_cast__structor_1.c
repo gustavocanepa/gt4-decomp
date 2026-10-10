@@ -2,7 +2,7 @@
  * licence: gcc-runtime (GPL with the GCC runtime exception, see THIRD_PARTY.md) */
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 extern char bad_cast__vtable[];
 s32 bad_cast__structor_1(s32 *arg0) {

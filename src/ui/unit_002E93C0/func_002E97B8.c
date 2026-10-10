@@ -1,8 +1,8 @@
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
-s32 func_0025B370();                            /* extern */
-s32 func_0025B3D0();                            /* extern */
+s32 mWidget__getWindowW();                            /* extern */
+s32 mWidget__getWindowH();                            /* extern */
 
 struct func_002E97B8_arg0 {
     char pad0[0xC4];
@@ -11,8 +11,8 @@ struct func_002E97B8_arg0 {
 
 void func_002E97B8(struct func_002E97B8_arg0 *arg0) {
     if (arg0->unkC4 != 0) {
-        func_0025B3D0();
+        mWidget__getWindowH();
         return;
     }
-    func_0025B370();
+    mWidget__getWindowW();
 }

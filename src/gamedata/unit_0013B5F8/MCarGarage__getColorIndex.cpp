@@ -25,7 +25,7 @@ struct S00659988 {
 extern "C" void func_0013BDC0(void *);
 extern "C" s32 func_00147D80(s32);
 extern "C" s32 func_00441248(s32);
-extern "C" s32 func_004458C8(s32);
+extern "C" s32 SPEC_DATABASE__CarEquipments__getVariationOrder(s32);
 extern "C" void func_002FE278(void *, s32);
 extern "C" void func_003285A8(s32);
 extern "C" void func_003285F8(s32);
@@ -40,7 +40,7 @@ extern "C" void MCarGarage__getColorIndex(s32 *arg0) {
     s32 oldVal;
     p_s2 = buf1;
     func_0013BDC0(p_s2);
-    func_002FE278(buf0, func_004458C8(func_00441248(func_00147D80(*p_s2))));
+    func_002FE278(buf0, SPEC_DATABASE__CarEquipments__getVariationOrder(func_00441248(func_00147D80(*p_s2))));
     if (arg0 != buf0) {
         newVal = buf0[0];
         if (newVal != 0) {

@@ -1,9 +1,9 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 extern "C" {
-s32 func_004A5348(s32);                     /* extern */
+s32 RaceEntryCar__update(s32);                     /* extern */
 s32 func_004A6100(f32, f32, f32, f32);          /* extern */
 s32 func_004A74B4(s32);                         /* extern */
 
@@ -16,9 +16,9 @@ struct func_003D6930_arg0 {
 };
 
 void func_003D6930(char *arg0) {
-    func_004A5348(2);
+    RaceEntryCar__update(2);
     func_004A74B4((s32)(arg0 + 4));
-    func_004A5348(0);
+    RaceEntryCar__update(0);
     func_004A6100(((struct func_003D6930_arg0 *)arg0)->unk44, ((struct func_003D6930_arg0 *)arg0)->unk48, ((struct func_003D6930_arg0 *)arg0)->unk4C, ((struct func_003D6930_arg0 *)arg0)->unk50);
 }
 

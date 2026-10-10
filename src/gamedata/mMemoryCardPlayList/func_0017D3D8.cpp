@@ -1,9 +1,9 @@
 typedef int s32;
 
-extern s32 D_00618A08;
+extern s32 mMemoryCardPlayList__ClassID_;
 
-extern "C" void func_0017DDF8(s32 arg0);
+extern "C" void mMemoryCardPlayList__InitClass(s32 arg0);
 
 extern "C" void func_0017D3D8(void) {
-    func_0017DDF8(D_00618A08);
+    mMemoryCardPlayList__InitClass(mMemoryCardPlayList__ClassID_);
 }

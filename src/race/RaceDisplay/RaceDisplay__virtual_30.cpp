@@ -1,6 +1,6 @@
-extern void func_0039C318(void);
+extern void RaceDisplay__init_starting_style_long_format(void);
 
 void RaceDisplay__virtual_30(void)
 {
-    func_0039C318();
+    RaceDisplay__init_starting_style_long_format();
 }

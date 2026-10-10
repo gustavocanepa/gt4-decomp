@@ -12,7 +12,7 @@ struct NodeB {
 extern char mCarFace__tf[];
 extern char RefCounter__tf[];
 
-extern void *func_005C0FC8(int, void *, int, void *, void *, void *);
+extern void *GT4MC__FileGT4GameData__loadInstance(int, void *, int, void *, void *, void *);
 extern void func_003285A8(void *);
 extern void func_003285F8(void *);
 
@@ -26,7 +26,7 @@ int func_00137E00(void **arg0, NodeB **arg1)
     temp_v1 = *arg1;
     if (temp_v1 != 0) {
         Unk64 *u = temp_v1->unk64;
-        var_s0 = func_005C0FC8(u->unk4, mCarFace__tf, 0,
+        var_s0 = GT4MC__FileGT4GameData__loadInstance(u->unk4, mCarFace__tf, 0,
                                 (char *)temp_v1 + u->unk0,
                                 RefCounter__tf, temp_v1);
     }

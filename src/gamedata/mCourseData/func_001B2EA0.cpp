@@ -1,9 +1,9 @@
 typedef int s32;
 
-extern s32 D_00618C30;
+extern s32 mCourseData__ClassID_;
 
-extern "C" void func_001B34D0(s32 arg0);
+extern "C" void mCourseData__InitClass(s32 arg0);
 
 extern "C" void func_001B2EA0(void) {
-    func_001B34D0(D_00618C30);
+    mCourseData__InitClass(mCourseData__ClassID_);
 }

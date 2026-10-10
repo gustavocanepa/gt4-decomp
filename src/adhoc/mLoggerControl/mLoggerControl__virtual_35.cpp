@@ -1,9 +1,9 @@
 typedef int s32;
 
-extern char D_0083F5E8[];
+extern char HSymbol__OP_NOT[];
 
-extern "C" void func_0030ADA0(s32 arg0, void *arg1, void *arg2);
+extern "C" void hObject__send(s32 arg0, void *arg1, void *arg2);
 
 extern "C" void mLoggerControl__virtual_35(void *arg0, void *arg1, s32 *arg2) {
-    func_0030ADA0(*arg2, arg1, D_0083F5E8);
+    hObject__send(*arg2, arg1, HSymbol__OP_NOT);
 }

@@ -1,5 +1,5 @@
-extern int D_006190E8;
+extern int mPipe__ClassID_;
 
 void func_002272C0(void) {
-    D_006190E8 = 0;
+    mPipe__ClassID_ = 0;
 }

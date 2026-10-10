@@ -99,3 +99,21 @@ needs = { "ee-gcc3.2-040921" = "https://github.com/decompme/compilers/releases/d
 dir = "~/.local/share/gt4/ee-gcc2.96"
 command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-gcse -Iinclude"
 archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
+
+# EXPERIMENTAL (opus-regmap, 2026-10-10): the game's flags without the first scheduling pass
+# (sched1, which runs before register allocation): pseudo lifetimes and argument copies stay in
+# source order, so a value copied into an argument register after its last other use takes that
+# register directly. Found on 0x00484a90 (a constructor whose &member argument lives in $a2:
+# 13 -> 0 with -fno-strict-aliasing). It also matched 12 raw m2c drafts whose statement order is
+# the original's instruction order (003bc5a8 003c4008 00524920 00538068 00278630 005763b8
+# 00337918 0052f7b0/0052f7e8 00539be0 00540f38 0052f4a8) and 004a2930 (hand-written, 22 -> 0): the m2c ones may be a store-order shortcut
+# rather than the real flags; review before treating it as a real build profile.
+[compilers."ee-gcc2.96-nosched1"]
+dir = "~/.local/share/gt4/ee-gcc2.96"
+command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-schedule-insns -Iinclude"
+archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
+
+[compilers."ee-gcc2.96-nsa-nosched1"]
+dir = "~/.local/share/gt4/ee-gcc2.96"
+command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-strict-aliasing -fno-schedule-insns -Iinclude"
+archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"

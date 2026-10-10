@@ -10,7 +10,7 @@ then, decompressed:
     u16 hash size, hash, u16 hash size, hash, i32 section count, i32 entry,
     sections: i32 EE address, i32 size, data
 
-Usage: core2elf.py CORE.GT4 out.elf
+Usage: core2elf.py CORE.GT4 out.elf [--split=TEXT_END:DATA_START]
 """
 import struct
 import sys
@@ -147,10 +147,17 @@ def build_elf(entry, sections):
 
 
 def main():
-    if len(sys.argv) != 3:
+    args = [a for a in sys.argv[1:] if not a.startswith("--split=")]
+    split = [a[8:] for a in sys.argv[1:] if a.startswith("--split=")]
+    if len(args) != 2:
         sys.exit(__doc__)
+    sys.argv[1:] = args
     raw = open(sys.argv[1], "rb").read()
     flags, hashes, entry, sections = unpack_core(raw)
+    if split:  # --split=TEXT_END:DATA_START: one code+data section (CORE.GT3) as two segments
+        text_end, data_start = (int(x, 16) for x in split[0].split(":"))
+        (base, blob), = drop_duplicates(sections)
+        sections = [(base, blob[:text_end - base]), (data_start, blob[data_start - base:])]
     print(f"boot flags 0x{flags:04x}, entry 0x{entry:08x}, {len(sections)} sections")
     for i, h in enumerate(hashes):
         print(f"  hash {i}: {len(h)} bytes {h[:8].hex()}...")

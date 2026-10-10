@@ -1,5 +1,5 @@
-extern int D_00619488;
+extern int mBlurFace__ClassID_;
 
 void func_0027BD60(void) {
-    D_00619488 = 0;
+    mBlurFace__ClassID_ = 0;
 }

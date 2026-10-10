@@ -1,5 +1,5 @@
-extern int D_006193C0;
+extern int mXml__ClassID_;
 
 void func_0026C5F0(void) {
-    D_006193C0 = 0;
+    mXml__ClassID_ = 0;
 }

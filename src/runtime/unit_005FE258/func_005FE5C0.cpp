@@ -1,5 +1,5 @@
-extern int D_00621F20;
+extern int RaceSolitaire__disable_logger_;
 
 void func_005FE5C0(void) {
-    D_00621F20 = 0;
+    RaceSolitaire__disable_logger_ = 0;
 }

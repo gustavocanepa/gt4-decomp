@@ -1,5 +1,5 @@
-extern int D_00619C28;
+extern int hMethodObject__ClassID_;
 
 void func_00302C18(void) {
-    D_00619C28 = 0;
+    hMethodObject__ClassID_ = 0;
 }

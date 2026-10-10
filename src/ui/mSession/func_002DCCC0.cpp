@@ -1,5 +1,5 @@
-extern int D_00619A30;
+extern int mSession__ClassID_;
 
 void func_002DCCC0(void) {
-    D_00619A30 = 0;
+    mSession__ClassID_ = 0;
 }

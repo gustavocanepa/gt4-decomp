@@ -1,10 +1,10 @@
 extern "C" {
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
-s32 func_003C0FF0(...) throw();
+s32 RaceOrganization__getScore(...) throw();
 s32 func_004336D0(...) throw();
 s32 func_00433C10(...) throw();
 s32 func_004472A0(...) throw();
@@ -36,7 +36,7 @@ s32 func_00111E98(char *arg0) {
     }
     temp_s1 = ((struct func_00111E98_arg0 *)arg0)->unk6C;
     if ((M2C_FIELD(M2C_FIELD(*M2C_FIELD(((struct func_00111E98_temp_s1 *)temp_s1)->unk60, char ***, 8), char **, 0x18), u8 *, 0x5B6) != 0) && (var_a1 != 0)) {
-        temp_s0 = func_003C0FF0(temp_s1, 0);
+        temp_s0 = RaceOrganization__getScore(temp_s1, 0);
         func_004336D0(func_00433C10(*(s32 *)D_00622F4C + 0x14A30, func_004472A0(((struct func_00111E98_temp_s1 *)temp_s1)->unk70)), temp_s0);
     }
 }

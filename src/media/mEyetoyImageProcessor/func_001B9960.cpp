@@ -1,5 +1,5 @@
-extern int D_00618C90;
+extern int mEyetoyImageProcessor__ClassID_;
 
 void func_001B9960(void) {
-    D_00618C90 = 0;
+    mEyetoyImageProcessor__ClassID_ = 0;
 }

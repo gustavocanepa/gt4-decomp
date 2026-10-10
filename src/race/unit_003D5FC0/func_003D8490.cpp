@@ -1,6 +1,6 @@
 typedef int s32;
 
-extern "C" void func_003EC2B8(void *arg0, const char *arg1, s32 arg2);
+extern "C" void StrobeHandler__readFile(void *arg0, const char *arg1, s32 arg2);
 extern "C" void func_00473CC0(s32 arg0);
 extern "C" void func_003EBE80(s32 arg0);
 extern "C" void func_00472DE8(void *arg0);
@@ -27,7 +27,7 @@ extern "C" void func_003D8490(Obj *arg0, s32 arg1) {
 
     arg0->unk8 = arg1;
     if (arg0->unk0 == 0 && arg0->unk4 == 0) {
-        func_003EC2B8(&local1, "racemonitor.strb", 1);
+        StrobeHandler__readFile(&local1, "racemonitor.strb", 1);
         arg0->unk0 = local1.unk10;
         func_00473CC0(arg0->unk0);
         func_003EBE80(arg0->unk0);

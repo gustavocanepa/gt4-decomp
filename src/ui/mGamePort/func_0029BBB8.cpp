@@ -1,5 +1,5 @@
-extern int D_006196F8;
+extern int mGamePort__ClassID_;
 
 void func_0029BBB8(void) {
-    D_006196F8 = 0;
+    mGamePort__ClassID_ = 0;
 }

@@ -5,7 +5,7 @@ struct Handle {
 
 extern char D_00645570[];
 extern int func_004F2660(void *, int, int);
-extern void func_00215298(int);
+extern void mUpdateContext__Sync(int);
 extern int func_001F1368(void *);
 extern void func_001F2C88(Handle *, void *, int);
 extern "C" void func_002ED590(Handle *, int *);
@@ -25,7 +25,7 @@ Handle *func_001F2820(Handle *ret, void *ctx, int a, int b)
     int i;
 
     while (!func_004F2660(D_00645570, a, b))
-        func_00215298(1);
+        mUpdateContext__Sync(1);
     if (!func_001F1368(ctx)) {
         zero = 0;
         func_002ED590(ret, &zero);

@@ -1,7 +1,7 @@
-/* libio (GNU iostream library, gcc 2000-10-03 snapshot): _IO_sgetn.
+/* libio (GNU iostream library, gcc 2000-10-03 snapshot): func_00594D28.
  * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 struct func_00594D28_arg0_unk50 {
     char pad0[0x3C];

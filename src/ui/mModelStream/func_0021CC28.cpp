@@ -1,5 +1,5 @@
-extern int D_00619098;
+extern int mModelStream__ClassID_;
 
 void func_0021CC28(void) {
-    D_00619098 = 0;
+    mModelStream__ClassID_ = 0;
 }

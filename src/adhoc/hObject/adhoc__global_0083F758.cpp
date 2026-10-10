@@ -24,7 +24,7 @@ struct S00659988 {
 
 extern "C" void func_002F2A60(void *, void *);
 extern "C" s32 func_002F3A48(s32);
-extern "C" s32 func_0030AA08(s32, s32);
+extern "C" s32 hObject__isInstanceOf(s32, s32);
 extern "C" void func_002FE278(void *, s32);
 extern "C" void func_003285A8(s32);
 extern "C" void func_003285F8(s32);
@@ -41,7 +41,7 @@ extern "C" void adhoc__global_0083F758(s32 *arg0, void *arg1, s32 arg2, char **a
     s32 oldVal;
     func_002F2A60(buf0, arg3);
     v_s1 = *(s32 *)(char *)arg1;
-    t1 = func_0030AA08(v_s1, func_002F3A48(buf0[0]));
+    t1 = hObject__isInstanceOf(v_s1, func_002F3A48(buf0[0]));
     p_s1 = buf1;
     func_002FE278(p_s1, t1 != 0);
     if (arg0 != p_s1) {

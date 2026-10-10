@@ -34,7 +34,7 @@ extern "C" void *func_005C2630(Str *s, s32 pos, s32 n, const char *src, s32 len)
 extern "C" struct S00659988 *func_005C11A8(void);
 extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" bool func_003166F8(Str *s);
-extern "C" s32 func_003166B8(Str *s);
+extern "C" s32 HSymID__GetID(Str *s);
 extern "C" void func_002ECDE0(Tmp *arg0);
 extern "C" void func_002EA590(Tmp *arg0, s32 arg1);
 extern "C" void func_002FE2E0(Handle16 *arg0);
@@ -104,7 +104,7 @@ extern "C" s32 func_00329858(s32 *arg0, const char *arg1) {
             }
             ps->p = d;
             func_005C2630(ps, 0, -1, src, func_0057F260(src));
-            *pv = func_003166B8(ps);
+            *pv = HSymID__GetID(ps);
             func_003069F8(obj, ph1, pv);
             {
                 Rep *q = (Rep *)(ps->p - 0x10);

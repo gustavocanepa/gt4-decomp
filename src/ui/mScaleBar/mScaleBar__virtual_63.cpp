@@ -30,7 +30,7 @@ extern "C" void mSceneViewFace__virtual_63(void);
 extern "C" char * func_005C2560(Rep *);
 extern "C" s32 func_0057F260(void *);
 extern "C" void func_005C2630(void *, s32, s32, void *, s32);
-extern "C" s32 func_003166B8(void *);
+extern "C" s32 HSymID__GetID(void *);
 extern "C" void func_003069F8(void *, void *, void *);
 extern "C" struct S00659988 * func_005C11A8(void);
 extern "C" void func_00326798(void *, s32, s32, const char *);
@@ -68,7 +68,7 @@ extern "C" void mScaleBar__virtual_63(s32 *arg0) {
         p_s0->p = d;
     }
     func_005C2630(p_s0, 0, -0x1, v_s1, func_0057F260(v_s1));
-    t1 = func_003166B8(p_s0);
+    t1 = HSymID__GetID(p_s0);
     buf0[0] = t1;
     func_003069F8(arg0, (char *)arg0 + 0xf8, buf0);
     str_release(p_s0);
@@ -86,7 +86,7 @@ extern "C" void mScaleBar__virtual_63(s32 *arg0) {
         p_s0->p = d;
     }
     func_005C2630(p_s0, 0, -0x1, v_s1, func_0057F260(v_s1));
-    t2 = func_003166B8(p_s0);
+    t2 = HSymID__GetID(p_s0);
     buf0[0] = t2;
     func_003069F8(arg0, (char *)arg0 + 0xfc, buf0);
     str_release(p_s0);

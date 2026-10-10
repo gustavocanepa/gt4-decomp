@@ -27,7 +27,7 @@ extern "C" void func_00473380(s32, s32);
 extern "C" void func_004A1638(s32);
 extern "C" void func_004AB040(s32);
 extern "C" void func_00473750(s32, void *);
-extern "C" void func_004A5348(s32);
+extern "C" void RaceEntryCar__update(s32);
 extern "C" void func_004A74B4(s32);
 
 struct func_00478B30_arg0 {
@@ -55,7 +55,7 @@ extern "C" void func_00478B30(s32 *arg0, void *arg1, s32 arg2) {
     if (arg1 != 0) {
         func_00473750(((struct func_00478B30_arg0 *)arg0)->unk6E14, arg1);
     }
-    func_004A5348(0x2);
+    RaceEntryCar__update(0x2);
     func_004A74B4(arg2);
-    func_004A5348(0);
+    RaceEntryCar__update(0);
 }

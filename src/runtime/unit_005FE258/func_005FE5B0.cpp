@@ -1,7 +1,7 @@
 typedef int s32;
 
-extern s32 D_00621F20;
+extern s32 RaceSolitaire__disable_logger_;
 
 extern "C" void func_005FE5B0(void) {
-    D_00621F20 = 1;
+    RaceSolitaire__disable_logger_ = 1;
 }

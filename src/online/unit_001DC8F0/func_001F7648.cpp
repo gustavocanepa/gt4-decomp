@@ -6,7 +6,7 @@ extern int func_004F9410(void *, int);
 extern const char *func_001F15A0(void *);
 extern "C" int func_005A5A30(char *, int, const char *, ...);
 extern void func_00227BE0(int, char *);
-extern void func_00215298(int);
+extern void mUpdateContext__Sync(int);
 extern int func_001F1368(void *);
 
 int func_001F7648(char *ctx, int id)
@@ -15,7 +15,7 @@ int func_001F7648(char *ctx, int id)
     int result;
 
     while (!func_004F7D88(D_00645570, id))
-        func_00215298(1);
+        mUpdateContext__Sync(1);
     if (!func_001F1368(ctx)) {
         return 0;
     }

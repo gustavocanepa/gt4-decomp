@@ -1,5 +1,5 @@
-extern int D_00619830;
+extern int mListBox__ClassID_;
 
 void func_002AE8F0(void) {
-    D_00619830 = 0;
+    mListBox__ClassID_ = 0;
 }

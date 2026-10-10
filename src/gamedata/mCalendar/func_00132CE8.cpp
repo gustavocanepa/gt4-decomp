@@ -1,5 +1,5 @@
-extern int D_00618860;
+extern int mCalendar__ClassID_;
 
 void func_00132CE8(void) {
-    D_00618860 = 0;
+    mCalendar__ClassID_ = 0;
 }

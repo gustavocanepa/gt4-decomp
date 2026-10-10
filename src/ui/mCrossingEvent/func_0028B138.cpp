@@ -1,5 +1,5 @@
-extern int D_006195C0;
+extern int mCrossingEvent__ClassID_;
 
 void func_0028B138(void) {
-    D_006195C0 = 0;
+    mCrossingEvent__ClassID_ = 0;
 }

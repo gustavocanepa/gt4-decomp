@@ -24,12 +24,12 @@ struct S00659988 {
 
 extern char D_0069F308[];
 extern "C" void func_0045B4D8(void *, void *, void *);
-extern "C" void func_0045AF18(void *, s32);
+extern "C" void GT4Model__BinStreamWriter__write8u(void *, s32);
 extern "C" s32 func_003B5A20(void *, s32, s32, void *);
 extern "C" void func_0045B040(void *, s32);
 extern "C" s32 func_003B5AF8(void *, void *);
 extern "C" s32 func_003B5B80(void *, void *);
-extern "C" void func_0045AF38(void *, s32);
+extern "C" void GT4Model__BinStreamWriter__write8(void *, s32);
 extern "C" void func_0045B548(void *, void *);
 
 struct func_0033A1B0_arg1 {
@@ -42,12 +42,12 @@ extern "C" void func_0033A1B0(s32 *arg0, struct func_0033A1B0_arg1 *arg1, s32 ar
     s32 buf1[4];
     s32 *p_s1;
     func_0045B4D8(buf0, arg0, &D_0069F308);
-    func_0045AF18(arg0, 0x1);
+    GT4Model__BinStreamWriter__write8u(arg0, 0x1);
     p_s1 = buf1;
     func_0045B040(arg0, func_003B5A20(arg1, 0x1, arg2, p_s1));
     func_0045B040(arg0, func_003B5A20(arg1, 0, arg2, p_s1));
     func_0045B040(arg0, func_003B5AF8(arg1, p_s1));
     func_0045B040(arg0, func_003B5B80(arg1, p_s1));
-    func_0045AF38(arg0, arg1->unk345C);
+    GT4Model__BinStreamWriter__write8(arg0, arg1->unk345C);
     func_0045B548(buf0, arg0);
 }

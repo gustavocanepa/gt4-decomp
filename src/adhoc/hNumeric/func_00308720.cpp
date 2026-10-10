@@ -1,5 +1,5 @@
-extern int D_00619C70;
+extern int hNumeric__ClassID_;
 
 void func_00308720(void) {
-    D_00619C70 = 0;
+    hNumeric__ClassID_ = 0;
 }

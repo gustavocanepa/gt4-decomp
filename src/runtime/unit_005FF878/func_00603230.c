@@ -1,9 +1,9 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 void func_0043A408(s32 *, s32);              /* extern */
-s32 func_00444210(void *, s32);             /* extern */
+s32 SPEC_DATABASE__CarEquipments__setVariationOrder(void *, s32);             /* extern */
 s32 func_005C1628(s32 *);                       /* extern */
 
 extern char D_00688280[];
@@ -18,7 +18,7 @@ void func_00603230(s32 *arg0, s32 arg1) {
         if (temp_s1 != var_s0) {
             do {
                 var_s0 -= 0x178;
-                func_00444210(var_s0, 2);
+                SPEC_DATABASE__CarEquipments__setVariationOrder(var_s0, 2);
             } while (temp_s1 != var_s0);
         }
     }

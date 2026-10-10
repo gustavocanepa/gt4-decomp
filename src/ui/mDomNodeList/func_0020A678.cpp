@@ -1,5 +1,5 @@
-extern int D_00618FB8;
+extern int mDomNodeList__ClassID_;
 
 void func_0020A678(void) {
-    D_00618FB8 = 0;
+    mDomNodeList__ClassID_ = 0;
 }

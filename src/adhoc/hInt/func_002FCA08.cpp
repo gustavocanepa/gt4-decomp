@@ -1,5 +1,5 @@
-extern int D_00619BC8;
+extern int hInt__ClassID_;
 
 void func_002FCA08(void) {
-    D_00619BC8 = 0;
+    hInt__ClassID_ = 0;
 }

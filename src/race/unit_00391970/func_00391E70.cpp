@@ -1,5 +1,5 @@
-extern int D_006213EC;
+extern int RaceCarSound__dive_;
 
 int func_00391E70(void) {
-    return D_006213EC;
+    return RaceCarSound__dive_;
 }

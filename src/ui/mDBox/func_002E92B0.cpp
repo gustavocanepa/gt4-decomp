@@ -1,5 +1,5 @@
-extern int D_00619AF0;
+extern int mDBox__ClassID_;
 
 void func_002E92B0(void) {
-    D_00619AF0 = 0;
+    mDBox__ClassID_ = 0;
 }

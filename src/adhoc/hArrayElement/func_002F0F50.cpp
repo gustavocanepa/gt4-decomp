@@ -1,5 +1,5 @@
-extern int D_00619B20;
+extern int hArrayElement__ClassID_;
 
 void func_002F0F50(void) {
-    D_00619B20 = 0;
+    hArrayElement__ClassID_ = 0;
 }

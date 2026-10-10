@@ -5,8 +5,8 @@ struct Obj005FBAF8 {
     s32 unk80;
 };
 
-extern "C" void func_00394E70(s32 arg0);
+extern "C" void RaceCourse__clearData(s32 arg0);
 
 extern "C" void func_005FBAF8(struct Obj005FBAF8 *arg0) {
-    func_00394E70(arg0->unk80);
+    RaceCourse__clearData(arg0->unk80);
 }

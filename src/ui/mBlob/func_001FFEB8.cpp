@@ -1,5 +1,5 @@
-extern int D_00618F40;
+extern int mBlob__ClassID_;
 
 void func_001FFEB8(void) {
-    D_00618F40 = 0;
+    mBlob__ClassID_ = 0;
 }

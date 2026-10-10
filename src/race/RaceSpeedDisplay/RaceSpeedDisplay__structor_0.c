@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/RaceSpeedDisplay.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 RaceValueDisplayBase__structor_1();                            /* extern */
 

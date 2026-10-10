@@ -1,5 +1,5 @@
-extern int D_00619034;
+extern int mRenderContextPS3__ClassID_;
 
 void func_002157D8(void) {
-    D_00619034 = 0;
+    mRenderContextPS3__ClassID_ = 0;
 }

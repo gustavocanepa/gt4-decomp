@@ -1,4 +1,4 @@
-/* Calls IfWidget__structor_0(a0); when bit 0x10 of a0->0xE8 is set, passes basic_string<char>(func_00305570(a0)) to virtual entry 0x38 of a1; then releases a0->0xC8 (func_003286B8) and clears it (bastring.h: default ctor = nilRep.grab(), (const char *) ctor = grab + assign(s, strlen(s)), copy ctor = rep()->grab(), dtor = rep()->release() -> func_00326798(p, sizeof(Rep) + res, 4, heap name)) */
+/* Calls IfWidget__structor_0(a0); when bit 0x10 of a0->0xE8 is set, passes basic_string<char>(hModule__getName(a0)) to virtual entry 0x38 of a1; then releases a0->0xC8 (func_003286B8) and clears it (bastring.h: default ctor = nilRep.grab(), (const char *) ctor = grab + assign(s, strlen(s)), copy ctor = rep()->grab(), dtor = rep()->release() -> func_00326798(p, sizeof(Rep) + res, 4, heap name)) */
 typedef unsigned int u32;
 typedef int s32;
 
@@ -16,7 +16,7 @@ extern "C" void func_00326798(void *p, u32 n, u32 align, const char *name);
 struct VEntry { short delta; short index; void (*fn)(void *self, String *s); };
 struct Obj { s32 x; VEntry *vtbl; };
 extern "C" void IfWidget__structor_0(void *a);
-extern "C" const char *func_00305570(void *a);
+extern "C" const char *hModule__getName(void *a);
 extern "C" void func_003286B8(void *a);
 
 static inline char *grab(StringRep *r) {
@@ -60,7 +60,7 @@ extern "C" void mRootWindow__virtual_64(char *a0, Obj *a1) {
     void **slot = (void **)(a0 + 0xC8);
     if (*(s32 *)(a0 + 0xE8) & 0x10) {
         String s;
-        construct(&s, func_00305570(a0));
+        construct(&s, hModule__getName(a0));
         VEntry *e = a1->vtbl + 0x38;
         e->fn((char *)a1 + e->delta, &s);
         destroy(&s);

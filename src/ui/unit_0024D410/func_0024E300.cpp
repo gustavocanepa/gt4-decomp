@@ -1,5 +1,5 @@
-extern int D_00619260;
+extern int mUpdateContext__ClassID_;
 
 void func_0024E300(void) {
-    D_00619260 = 0;
+    mUpdateContext__ClassID_ = 0;
 }

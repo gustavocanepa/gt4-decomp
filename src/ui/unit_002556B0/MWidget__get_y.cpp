@@ -3,7 +3,7 @@ typedef float f32;
 
 extern "C" void func_002550B8(void *arg0, s32 arg1);
 extern "C" void func_00255110(void *arg0);
-extern "C" f32 func_0025B310(s32 arg0);
+extern "C" f32 mWidget__getWindowY(s32 arg0);
 extern "C" void func_002F7B68(s32 *arg0, s32 arg1);
 extern "C" void func_002F9360(s32 *arg0, f32 arg1);
 extern "C" void func_003285A8(s32 arg0);
@@ -18,7 +18,7 @@ extern "C" void MWidget__get_y(s32 *arg0) {
 
     func_00255110(sp);
     {
-        f32 t = func_0025B310(sp[0]);
+        f32 t = mWidget__getWindowY(sp[0]);
         p1 = sp10;
         func_002F9360(p1, t);
     }

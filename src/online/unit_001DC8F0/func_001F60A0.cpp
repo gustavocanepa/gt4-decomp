@@ -52,13 +52,13 @@ struct String {
 extern char D_00645570[];
 extern int func_004F3C00(void *, int);
 extern char *func_004F3EF8(void *, int);
-extern void func_00215298(int);
+extern void mUpdateContext__Sync(int);
 extern int func_001F1368(void *);
 
 String func_001F60A0(void *ctx, int id)
 {
     while (!func_004F3C00(D_00645570, id))
-        func_00215298(1);
+        mUpdateContext__Sync(1);
     if (!func_001F1368(ctx) || *(int *)(*(char **)(D_00645570 + 0x5A8) + 0x5B30) == 0) {
         return String();
     }

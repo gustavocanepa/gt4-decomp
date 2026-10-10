@@ -1,6 +1,6 @@
 int func_00579358(void);
 void func_005792E8(void *, int);
-float func_005792F0(void *, float, float);
+float mBlockTransition__getBlock(void *, float, float);
 void func_005A48D8(void *, int, int);
 void func_0052E510(void *);
 int func_0052E568(void *, void *);
@@ -63,7 +63,7 @@ int func_004F0590(Session *s, int wait) {
         request.callback_data = s;
         if (s->mode == 0) {
             request.server = s->server;
-            request.timeout = (int)func_005792F0(timer, 5000.0f, 6000.0f);
+            request.timeout = (int)mBlockTransition__getBlock(timer, 5000.0f, 6000.0f);
         }
         error = func_0052E568(&request, reply);
         if (error == 0) {

@@ -1,7 +1,0 @@
-typedef int s32;
-
-extern "C" void func_0025B578(void *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-
-extern "C" void func_0025B498(void *arg0, s32 arg1, s32 arg2) {
-    func_0025B578(arg0, (char *)arg0 + 0x34, 0, 0, arg1, arg2);
-}

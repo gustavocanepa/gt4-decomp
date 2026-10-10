@@ -1,7 +1,7 @@
 /* compiler: ee-gcc2.96-nosib */
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 func_0047D038();                                /* extern */
 s32 func_0047D080(s32, s32);                /* extern */

@@ -1,5 +1,5 @@
-extern int D_006189D0;
+extern int mMemoryCardFile__ClassID_;
 
 void func_00174288(void) {
-    D_006189D0 = 0;
+    mMemoryCardFile__ClassID_ = 0;
 }

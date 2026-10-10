@@ -1,9 +1,9 @@
 typedef int s32;
 
-extern s32 D_00618FA0;
+extern s32 mDomNode__ClassID_;
 
-extern "C" void func_00209F90(s32 arg0);
+extern "C" void mDomNode__InitClass(s32 arg0);
 
 extern "C" void func_00209088(void) {
-    func_00209F90(D_00618FA0);
+    mDomNode__InitClass(mDomNode__ClassID_);
 }

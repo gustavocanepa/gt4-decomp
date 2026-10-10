@@ -1,5 +1,5 @@
-extern int D_00619890;
+extern int mModelFace__ClassID_;
 
 void func_002BAC78(void) {
-    D_00619890 = 0;
+    mModelFace__ClassID_ = 0;
 }

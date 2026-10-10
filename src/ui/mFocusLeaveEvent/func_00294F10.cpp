@@ -1,5 +1,5 @@
-extern int D_00619680;
+extern int mFocusLeaveEvent__ClassID_;
 
 void func_00294F10(void) {
-    D_00619680 = 0;
+    mFocusLeaveEvent__ClassID_ = 0;
 }

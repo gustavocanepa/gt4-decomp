@@ -1,5 +1,5 @@
-extern "C" int func_0045B0F8(void);
+extern "C" int GT4Model__BinStreamReader__read8u(void);
 
 extern "C" int func_0045B1E0(void) {
-    return func_0045B0F8() != 0;
+    return GT4Model__BinStreamReader__read8u() != 0;
 }

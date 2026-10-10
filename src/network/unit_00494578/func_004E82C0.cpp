@@ -1,6 +1,6 @@
 /* compiler: ee-gcc2.96-no-strict-aliasing */
 /* pdistd-http: set the URL (a string of the second basic_string<char>
- * instantiation: nilRep D_00659E20, clone func_005D2B58, operator delete func_00575DA0). */
+ * instantiation: nilRep D_00659E20, clone strobe__toUpper, operator delete func_00575DA0). */
 typedef unsigned int u32;
 
 struct Rep2 {
@@ -18,7 +18,7 @@ struct Rep2 {
     }
 };
 
-extern "C" char *func_005D2B58(Rep2 *r);
+extern "C" char *strobe__toUpper(Rep2 *r);
 extern "C" void func_00575DA0(void *p);
 extern Rep2 D_00659E20;
 
@@ -26,7 +26,7 @@ inline void Rep2::operator delete(void *p, u32 n) { func_00575DA0(p); }
 
 inline char *Rep2::grab() {
     if (selfish)
-        return func_005D2B58(this);
+        return strobe__toUpper(this);
     ++ref;
     return data();
 }
@@ -34,7 +34,7 @@ inline char *Rep2::grab() {
 extern "C" u32 func_0057F260(const char *s);
 
 struct String2;
-extern "C" String2 *func_005D2C20(String2 *str, u32 pos, u32 n1, const char *s, u32 n2);
+extern "C" String2 *strobe__Any__setMember(String2 *str, u32 pos, u32 n1, const char *s, u32 n2);
 
 struct String2 {
     char *dat;
@@ -42,7 +42,7 @@ struct String2 {
     Rep2 *rep() const { return (Rep2 *)dat - 1; }
     String2(const char *s) : dat(D_00659E20.grab()) { assign(s); }
     ~String2() { rep()->release(); }
-    String2 &replace(u32 pos, u32 n1, const char *s, u32 n2) { return *func_005D2C20(this, pos, n1, s, n2); }
+    String2 &replace(u32 pos, u32 n1, const char *s, u32 n2) { return *strobe__Any__setMember(this, pos, n1, s, n2); }
     String2 &assign(const char *s, u32 n) { return replace(0, (u32)-1, s, n); }
     String2 &assign(const char *s) { return assign(s, func_0057F260(s)); }
     String2 &operator=(const String2 &str) {

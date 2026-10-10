@@ -1,5 +1,5 @@
-extern int D_006191D0;
+extern int mStorage__ClassID_;
 
 void func_00240560(void) {
-    D_006191D0 = 0;
+    mStorage__ClassID_ = 0;
 }

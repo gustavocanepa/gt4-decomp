@@ -1,11 +1,11 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
 s32 func_00458400(void *, void *, s32);         /* extern */
 f32 func_00458740(void *, s32);                         /* extern */
-s32 func_00458E08(void *, f32);                 /* extern */
+s32 GT4Model__CarData__offsetBrake(void *, f32);                 /* extern */
 s32 func_005A48D8(void *, s32, s32);        /* extern */
 
 struct func_00458780_temp_s0 {
@@ -20,7 +20,7 @@ void *func_00458780(void *arg0, s32 arg1) {
     struct func_00458780_temp_s0 *temp_s0;
 
     if (*M2C_FIELD(arg0, u16 **, 0x10) & 0x8000) {
-        func_00458E08(arg0, -func_00458740(arg0, 0));
+        GT4Model__CarData__offsetBrake(arg0, -func_00458740(arg0, 0));
         temp_v1 = M2C_FIELD(arg0, u16 **, 0x10);
         *temp_v1 &= 0x7FFF;
     }

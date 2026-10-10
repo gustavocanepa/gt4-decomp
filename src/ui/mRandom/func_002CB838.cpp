@@ -1,5 +1,5 @@
-extern int D_00619920;
+extern int mRandom__ClassID_;
 
 void func_002CB838(void) {
-    D_00619920 = 0;
+    mRandom__ClassID_ = 0;
 }

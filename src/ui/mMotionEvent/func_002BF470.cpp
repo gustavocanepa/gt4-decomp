@@ -1,5 +1,5 @@
-extern int D_006198A8;
+extern int mMotionEvent__ClassID_;
 
 void func_002BF470(void) {
-    D_006198A8 = 0;
+    mMotionEvent__ClassID_ = 0;
 }

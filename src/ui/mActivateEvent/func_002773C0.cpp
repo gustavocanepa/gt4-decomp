@@ -1,5 +1,5 @@
-extern int D_00619428;
+extern int mActivateEvent__ClassID_;
 
 void func_002773C0(void) {
-    D_00619428 = 0;
+    mActivateEvent__ClassID_ = 0;
 }

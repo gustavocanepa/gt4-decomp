@@ -1,5 +1,5 @@
-extern int D_00618940;
+extern int mGame__ClassID_;
 
 void func_0015F520(void) {
-    D_00618940 = 0;
+    mGame__ClassID_ = 0;
 }

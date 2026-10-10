@@ -1,5 +1,5 @@
-extern void mSceneViewFace__virtual_72(void);
+extern void mWidget__onKeyRelease(void);
 void mSliderBar__virtual_72(void)
 {
-    mSceneViewFace__virtual_72();
+    mWidget__onKeyRelease();
 }

@@ -1,5 +1,5 @@
-extern int D_00619100;
+extern int mProgress__ClassID_;
 
 void func_00228618(void) {
-    D_00619100 = 0;
+    mProgress__ClassID_ = 0;
 }

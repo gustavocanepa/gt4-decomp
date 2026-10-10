@@ -1,5 +1,5 @@
-extern int D_00619908;
+extern int mProgressFace__ClassID_;
 
 void func_002CA890(void) {
-    D_00619908 = 0;
+    mProgressFace__ClassID_ = 0;
 }

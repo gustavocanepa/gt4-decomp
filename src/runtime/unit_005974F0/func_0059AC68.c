@@ -1,8 +1,8 @@
-/* libio (GNU iostream library, gcc 2000-10-03 snapshot): _IO_file_init.
+/* libio (GNU iostream library, gcc 2000-10-03 snapshot): func_0059AC68.
  * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 void func_00594520();                            /* extern */
 

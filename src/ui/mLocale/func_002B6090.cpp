@@ -1,5 +1,5 @@
-extern int D_00619848;
+extern int mLocale__ClassID_;
 
 void func_002B6090(void) {
-    D_00619848 = 0;
+    mLocale__ClassID_ = 0;
 }

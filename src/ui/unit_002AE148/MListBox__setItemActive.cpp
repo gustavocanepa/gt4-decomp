@@ -13,7 +13,7 @@ struct VObj {
 
 extern "C" void func_002AE968(void *arg0, int arg1);
 extern "C" void func_002AE9C0(void *arg0, void *arg1);
-extern "C" void func_002B5500(char *arg0, s32 arg1, s32 arg2);
+extern "C" void mListBox__setItemActive(char *arg0, s32 arg1, s32 arg2);
 
 extern "C" void MListBox__setItemActive(s32 *arg0, void *arg1, s32 arg2, VObj **arg3) {
     char *h[4];
@@ -26,7 +26,7 @@ extern "C" void MListBox__setItemActive(s32 *arg0, void *arg1, s32 arg2, VObj **
             s32 a = e->fn((char *)o + e->delta);
             VObj *o2 = arg3[1];
             VEntry *e2 = (VEntry *)(o2->vtbl + 0x58);
-            func_002B5500(hv, a, e2->fn((char *)o2 + e2->delta) != 0);
+            mListBox__setItemActive(hv, a, e2->fn((char *)o2 + e2->delta) != 0);
         }
         func_002AE968(h, 2);
     }

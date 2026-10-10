@@ -1,7 +1,7 @@
 /* compiler: ee-gcc2.96-nsa-nosib */
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 extern char D_0064B70C[];
 struct func_00538988_var_v1 {

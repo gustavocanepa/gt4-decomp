@@ -1,8 +1,8 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
-void func_003557E8(void *);
+void AutomobileControl__clearPacket(void *);
 void func_0057AD40(void *);
 struct func_00345BE0_arg0 {
     char pad0[0x14];
@@ -22,7 +22,7 @@ void func_00345BE0(void *arg0) {
     ((struct func_00345BE0_arg0 *)arg0)->unk40 = 0;
     ((struct func_00345BE0_arg0 *)arg0)->unk44 = 0;
     ((struct func_00345BE0_arg0 *)arg0)->unk14 = 0;
-    func_003557E8((s8 *)arg0 + 0x18);
+    AutomobileControl__clearPacket((s8 *)arg0 + 0x18);
     if (((struct func_00345BE0_arg0 *)arg0)->unk48 == 0) {
         ((struct func_00345BE0_arg0 *)arg0)->unk38 = 1;
     }

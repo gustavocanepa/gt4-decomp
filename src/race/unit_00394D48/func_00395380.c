@@ -1,8 +1,8 @@
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
-void *func_00396800(s32);                           /* extern */
+void *CourseData__getRunway(s32);                           /* extern */
 
 struct func_00395380_arg0 {
     char pad0[0x4];
@@ -26,7 +26,7 @@ struct func_00395380_temp_v0 {
 void func_00395380(struct func_00395380_arg0 *arg0, struct func_00395380_arg1 *arg1, s32 arg2) {
     struct func_00395380_temp_v0 *temp_v0;
 
-    temp_v0 = M2C_FIELD((M2C_FIELD(func_00396800(arg0->unk4), s32 *, 0x9C) + (arg0->unkB0 << 5)), s32 *, 0x10) + (arg2 * 0x10);
+    temp_v0 = M2C_FIELD((M2C_FIELD(CourseData__getRunway(arg0->unk4), s32 *, 0x9C) + (arg0->unkB0 << 5)), s32 *, 0x10) + (arg2 * 0x10);
     arg1->unk0 = (f32) temp_v0->unk0;
     arg1->unk4 = (f32) temp_v0->unk4;
     arg1->unk8 = (f32) temp_v0->unk8;

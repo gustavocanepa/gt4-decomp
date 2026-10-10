@@ -33,7 +33,7 @@ extern "C" s32 func_0057F260(const char *s);
 extern "C" void *func_005C2630(Str *s, s32 pos, s32 n, const char *src, s32 len);
 extern "C" struct S00659988 *func_005C11A8(void);
 extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
-extern "C" int func_00204ED8(void);
+extern "C" int mComposite__GetClassID(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
 
 extern char D_0069AD88[];
@@ -79,7 +79,7 @@ extern "C" void func_002883F0(Obj *arg0) {
             }
         }
     }
-    func_002F3A30(arg0, func_00204ED8());
+    func_002F3A30(arg0, mComposite__GetClassID());
     func_00306780(arg0, D_008345E0, MColorWindow__global_008345E0);
     {
         Str *ps = &s;

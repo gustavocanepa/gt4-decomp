@@ -23,7 +23,7 @@ extern "C" void func_00346808(void *, s32);
 extern "C" void func_00346890(void *, s32);
 extern "C" void *func_00346A28(void *);
 extern "C" s32 func_005A48D8(void *, s32, s32);
-extern "C" void RaceFreeRun__virtual_153(void *);
+extern "C" void RaceSolitaire__prepareLogger(void *);
 extern "C" void func_0038B850(void *, void *);
 extern char RaceSolitaire__vtable[];
 extern char *D_00622F4C;
@@ -98,7 +98,7 @@ extern "C" void RaceSolitaire__structor_0(char *self) {
     F(self, s32, 0xF0F0) = 0;
     F(self, s32, 0xF100) = 0;
     F(self, s32, 0xF104) = 0;
-    RaceFreeRun__virtual_153(self);
+    RaceSolitaire__prepareLogger(self);
     return func_0038B850(self, mE440);
 }
 

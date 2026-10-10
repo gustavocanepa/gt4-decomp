@@ -1,5 +1,5 @@
-extern int D_00618790;
+extern int mQuickWork__ClassID_;
 
 void func_00124270(void) {
-    D_00618790 = 0;
+    mQuickWork__ClassID_ = 0;
 }

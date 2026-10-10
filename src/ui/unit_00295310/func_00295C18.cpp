@@ -1,5 +1,5 @@
-extern int D_00619698;
+extern int mFrameImageFace__ClassID_;
 
 void func_00295C18(void) {
-    D_00619698 = 0;
+    mFrameImageFace__ClassID_ = 0;
 }

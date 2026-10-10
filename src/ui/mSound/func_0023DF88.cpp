@@ -1,5 +1,5 @@
-extern int D_006191B0;
+extern int mSound__ClassID_;
 
 void func_0023DF88(void) {
-    D_006191B0 = 0;
+    mSound__ClassID_ = 0;
 }

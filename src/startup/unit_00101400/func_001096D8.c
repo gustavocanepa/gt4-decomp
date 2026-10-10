@@ -1,8 +1,8 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
-s32 CarIconMaker__virtual_03();                            /* extern */
+s32 GranTurismo4__GameObjectBase__sync();                            /* extern */
 s32 func_00574DA8(void *, s32);             /* extern */
 s32 func_005C1628(void *);                      /* extern */
 
@@ -14,7 +14,7 @@ struct func_001096D8_arg0 {
 
 void func_001096D8(struct func_001096D8_arg0 *arg0, s32 arg1) {
     arg0->unk64 = (s32)D_00659F18;
-    CarIconMaker__virtual_03();
+    GranTurismo4__GameObjectBase__sync();
     func_00574DA8(arg0, 2);
     if (arg1 & 1) {
         func_005C1628(arg0);

@@ -1,5 +1,5 @@
-extern int D_00618C48;
+extern int mDatabase__ClassID_;
 
 void func_001B4248(void) {
-    D_00618C48 = 0;
+    mDatabase__ClassID_ = 0;
 }

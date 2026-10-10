@@ -1,5 +1,5 @@
-extern int D_00619988;
+extern int mScrollArrow__ClassID_;
 
 void func_002D0700(void) {
-    D_00619988 = 0;
+    mScrollArrow__ClassID_ = 0;
 }

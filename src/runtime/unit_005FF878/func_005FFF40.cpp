@@ -1,7 +1,7 @@
 typedef int s32;
 
-extern "C" void func_00346138(s32 arg0);
+extern "C" void AutomobileControlRecord__Recorder__write(s32 arg0);
 
 extern "C" void func_005FFF40(s32 arg0) {
-    func_00346138(arg0 + 0xDC);
+    AutomobileControlRecord__Recorder__write(arg0 + 0xDC);
 }

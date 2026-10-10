@@ -1,7 +1,7 @@
 /* libio (GNU iostream library, gcc 2000-10-03 snapshot): PlotFile::cmd?.
  * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 func_00596F40(s8, s32);                     /* extern */
 

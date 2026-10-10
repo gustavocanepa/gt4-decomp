@@ -1,5 +1,5 @@
-extern int D_00618828;
+extern int mSceneViewFace__ClassID_;
 
 void func_0012B630(void) {
-    D_00618828 = 0;
+    mSceneViewFace__ClassID_ = 0;
 }

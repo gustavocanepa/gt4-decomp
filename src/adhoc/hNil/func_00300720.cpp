@@ -1,8 +1,8 @@
 typedef int s32;
 
 extern "C" s32 func_00324F98(void);
-extern s32 D_00619BF8;
+extern s32 hNil__ClassID_;
 
 extern "C" void func_00300720(void) {
-    D_00619BF8 = func_00324F98();
+    hNil__ClassID_ = func_00324F98();
 }

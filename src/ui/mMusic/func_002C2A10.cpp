@@ -1,5 +1,5 @@
-extern int D_006198D8;
+extern int mMusic__ClassID_;
 
 void func_002C2A10(void) {
-    D_006198D8 = 0;
+    mMusic__ClassID_ = 0;
 }

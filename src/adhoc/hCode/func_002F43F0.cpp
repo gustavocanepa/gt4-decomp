@@ -25,7 +25,7 @@ struct S00659988 {
 extern "C" void func_00319268(void *);
 extern "C" void func_002F4268(void *, void *);
 extern "C" void func_0030BB18(void *);
-extern "C" void func_00321F70(void *, s32, void *, void *, s32, void *);
+extern "C" void hThread__execCode(void *, s32, void *, void *, s32, void *);
 extern "C" void func_003285A8(s32);
 extern "C" void func_003285F8(s32);
 extern "C" void func_00309378(void *, s32);
@@ -50,7 +50,7 @@ extern "C" void func_002F43F0(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
     v_s0 = buf0[0];
     p_s4 = buf2;
     func_0030BB18(p_s5);
-    func_00321F70(p_s4, v_s0, p_s6, p_s5, arg2, arg3);
+    hThread__execCode(p_s4, v_s0, p_s6, p_s5, arg2, arg3);
     if (arg0 != p_s4) {
         newVal = *p_s4;
         if (newVal != 0) {

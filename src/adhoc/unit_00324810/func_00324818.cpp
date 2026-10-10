@@ -1,7 +1,7 @@
 struct S { char pad[0x10]; int unk10; };
-extern void func_003166D8(int);
+extern void HSymID__GetName(int);
 
 void func_00324818(S *arg0)
 {
-    func_003166D8(arg0->unk10);
+    HSymID__GetName(arg0->unk10);
 }

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/mVirtualFace.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 mWidget__structor_0();                            /* extern */
 s32 func_002FA120(s32);                         /* extern */

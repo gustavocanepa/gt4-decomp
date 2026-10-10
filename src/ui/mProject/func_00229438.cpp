@@ -1,5 +1,5 @@
-extern int D_00619118;
+extern int mProject__ClassID_;
 
 void func_00229438(void) {
-    D_00619118 = 0;
+    mProject__ClassID_ = 0;
 }

@@ -1,5 +1,5 @@
-extern int D_00619AA8;
+extern int mTextBoxFace__ClassID_;
 
 void func_002E4D18(void) {
-    D_00619AA8 = 0;
+    mTextBoxFace__ClassID_ = 0;
 }

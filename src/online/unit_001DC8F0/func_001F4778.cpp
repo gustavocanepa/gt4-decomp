@@ -16,7 +16,7 @@ extern NameId D_00696FD0[];
 extern NameId D_00697098[];
 extern "C" int func_0057F238(const char *, const char *);
 extern int func_004F5890(void *, Request *);
-extern void func_00215298(int);
+extern void mUpdateContext__Sync(int);
 extern int func_001F1368(void *);
 
 int func_001F4778(void *ctx, const char *kind_name, const char *type_name, int value)
@@ -50,6 +50,6 @@ int func_001F4778(void *ctx, const char *kind_name, const char *type_name, int v
     request.type = type;
     request.value = value;
     while (!func_004F5890(D_00645570, &request))
-        func_00215298(1);
+        mUpdateContext__Sync(1);
     return func_001F1368(ctx);
 }

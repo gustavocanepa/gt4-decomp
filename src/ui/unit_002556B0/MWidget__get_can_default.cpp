@@ -2,7 +2,7 @@ typedef int s32;
 
 extern "C" void func_002550B8(void *arg0, s32 arg1);
 extern "C" void func_00255110(void *arg0);
-extern "C" s32 func_00265FA8(s32 arg0);
+extern "C" s32 mWidget__canDefault(s32 arg0);
 extern "C" void func_002FC870(s32 *arg0, s32 arg1);
 extern "C" void func_002FE278(s32 *arg0, s32 arg1);
 extern "C" void func_003285A8(s32 arg0);
@@ -17,7 +17,7 @@ extern "C" void MWidget__get_can_default(s32 *arg0) {
 
     func_00255110(sp);
     {
-        s32 t = func_00265FA8(sp[0]);
+        s32 t = mWidget__canDefault(sp[0]);
         p1 = sp10;
         func_002FE278(p1, t);
     }

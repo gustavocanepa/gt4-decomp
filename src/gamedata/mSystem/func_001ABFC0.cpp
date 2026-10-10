@@ -1,5 +1,5 @@
-extern int D_00618BD0;
+extern int mSystem__ClassID_;
 
 void func_001ABFC0(void) {
-    D_00618BD0 = 0;
+    mSystem__ClassID_ = 0;
 }

@@ -1,6 +1,6 @@
-extern void func_003578B0(void);
+extern void DynamicsConductor__IssuePassingGate_Race(void);
 
 void DynamicsConductorBattleMP__virtual_17(void)
 {
-    func_003578B0();
+    DynamicsConductor__IssuePassingGate_Race();
 }

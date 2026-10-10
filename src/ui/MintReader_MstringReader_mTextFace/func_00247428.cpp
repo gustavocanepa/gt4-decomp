@@ -13,10 +13,10 @@ struct Obj {
     f32 unk58;
 };
 
-extern S_00624980 *D_00624980;
+extern S_00624980 *PDISTD__global_font_manager;
 
 extern "C" void func_00247428(Obj *arg0) {
-    S_00624980 *temp = D_00624980;
+    S_00624980 *temp = PDISTD__global_font_manager;
     arg0->unk54 = temp->unk3C;
     arg0->unk58 = temp->unk40;
 }

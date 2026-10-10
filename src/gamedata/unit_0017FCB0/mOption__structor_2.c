@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/mOption.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 hObject__structor_2(void *, s32);             /* extern */
 s32 func_004362E0(s32, s32);                /* extern */

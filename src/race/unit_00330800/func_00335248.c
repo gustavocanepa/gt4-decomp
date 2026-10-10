@@ -1,16 +1,16 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 func_00333560(void *, s32, s32, s32, s32, s32, f32, s32); /* extern */
 s32 func_00334FA8();                            /* extern */
 s32 func_0033AA58(void *, s32, s32, s32);   /* extern */
-s32 func_0045B0F8(void *);                          /* extern */
-s32 func_0045B118(void *);                          /* extern */
+s32 GT4Model__BinStreamReader__read8u(void *);                          /* extern */
+s32 GT4Model__BinStreamReader__read8(void *);                          /* extern */
 s32 func_0045B168(void *);                          /* extern */
 s32 func_0045B1E0(void *);                          /* extern */
-f32 func_0045B200(void *);                          /* extern */
-void func_0045B268(void *, void *, s32);     /* extern */
+f32 GT4Model__BinStreamReader__readFloat(void *);                          /* extern */
+void GT4Model__BinStreamReader__readArray(void *, void *, s32);     /* extern */
 s32 func_0045B620(void *, void *);              /* extern */
 s32 func_0045B740(void *, void *);              /* extern */
 s32 func_0045B768(void *, void *, s32);     /* extern */
@@ -77,30 +77,30 @@ void func_00335248(void *arg0, struct func_00335248_arg1 *arg1, s32 arg2, s32 ar
     ((struct func_00335248_arg0 *)arg0)->unk168 = 1;
     func_0045B768(sp, arg1, &D_0069F140);
     func_0045B620(sp, arg1);
-    temp_s6 = func_0045B0F8(arg1);
+    temp_s6 = GT4Model__BinStreamReader__read8u(arg1);
     temp_s3 = func_0045B168(arg1);
     temp_s2_2 = func_0045B168(arg1);
-    temp_s1_2 = func_0045B118(arg1);
-    temp_s0_3 = func_0045B118(arg1);
-    temp_f20 = func_0045B200(arg1);
+    temp_s1_2 = GT4Model__BinStreamReader__read8(arg1);
+    temp_s0_3 = GT4Model__BinStreamReader__read8(arg1);
+    temp_f20 = GT4Model__BinStreamReader__readFloat(arg1);
     func_00333560(arg0, arg2, temp_s3, temp_s2_2, temp_s1_2, temp_s0_3, temp_f20, func_0045B1E0(arg1));
-    ((struct func_00335248_arg0 *)arg0)->unk118 = func_0045B118(arg1);
+    ((struct func_00335248_arg0 *)arg0)->unk118 = GT4Model__BinStreamReader__read8(arg1);
     ((struct func_00335248_arg0 *)arg0)->unk124 = func_0045B1E0(arg1);
     if (temp_s6 >= 2) {
-        var_f0 = func_0045B200(arg1);
+        var_f0 = GT4Model__BinStreamReader__readFloat(arg1);
     } else {
         var_f0 = 0x1.0000000000000p+0f;
     }
     ((struct func_00335248_arg0 *)arg0)->unk120 = var_f0;
-    func_0045B268(arg1, arg0 + 0x128, 4);
-    func_0045B268(arg1, arg0 + 0x12C, 4);
+    GT4Model__BinStreamReader__readArray(arg1, arg0 + 0x128, 4);
+    GT4Model__BinStreamReader__readArray(arg1, arg0 + 0x12C, 4);
     if (temp_s6 > 0) {
-        func_0045B268(arg1, arg0 + 0x130, 4);
-        func_0045B268(arg1, arg0 + 0x134, 4);
-        func_0045B268(arg1, arg0 + 0x138, 4);
-        func_0045B268(arg1, arg0 + 0x13C, 4);
+        GT4Model__BinStreamReader__readArray(arg1, arg0 + 0x130, 4);
+        GT4Model__BinStreamReader__readArray(arg1, arg0 + 0x134, 4);
+        GT4Model__BinStreamReader__readArray(arg1, arg0 + 0x138, 4);
+        GT4Model__BinStreamReader__readArray(arg1, arg0 + 0x13C, 4);
     }
-    func_0045B268(arg1, arg0 + 0x144, 0x20);
+    GT4Model__BinStreamReader__readArray(arg1, arg0 + 0x144, 0x20);
     ((struct func_00335248_arg0 *)arg0)->unk164 = 1;
     func_0045B740(sp, arg1);
     func_0033AA58(arg1, arg2, arg3, 0);

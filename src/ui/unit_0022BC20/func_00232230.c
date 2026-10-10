@@ -1,5 +1,5 @@
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 s32 func_002319C0();                                /* extern */
 s32 mKeyPressEvent__structor_4(s32, s32, void *, s32);       /* extern */

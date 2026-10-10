@@ -1,5 +1,5 @@
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 u8 *func_0041B578(u8 *arg0, u8 *arg1) {
     u32 var_a2;

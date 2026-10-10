@@ -224,6 +224,22 @@ original has `$v0` = `$v0` was in use or conflicting at that point; `$a2` for a 
   argument, and a local for the field do not reproduce it (5-16 differ). The branch probabilities
   come from the `bp` pass (predict.c) and the dump `.12.bp` is the place to compare.
 
+### 8b. Functions that behave as if sched1 never ran (experimental profile ee-gcc2.96-nosched1)
+- Symptom: alloc_table shows a pseudo losing its suggested argument register because sched1
+  hoisted the argument copy (`$a2 = r95`) above the pseudo's other uses, or loads/param copies in an
+  order no source shape reproduces under the default flags. With `-fno-schedule-insns` the copy
+  stays at the call, becomes the pseudo's last use, and the pseudo takes the argument register.
+- Evidence: func_00484A90 (constructor passing `&l80`, 13 differ after a permutation search)
+  matched with `ee-gcc2.96-nsa-nosched1` plus the list-init store order prev, count, next (source
+  order is output order without sched1). func_004A2930 (22 -> 0) with `ee-gcc2.96-nosched1`. A
+  sweep of every unmatched cpu_solve draft with <= 14 differ under nosched1 matched 12 raw m2c
+  drafts (their statement order is retail's instruction order); those may be a store-order
+  shortcut rather than the real flags. Improved but open: 004796B8 (19 -> 2), 003EC2B8 (7 -> 4,
+  fixes the s0/s1 swap), 00447DD0 (5 -> 3), 004A2C58 (17 -> 4).
+- How to use: after the default profile plateaus on scheduling/allocation order, judge the draft
+  under both nosched1 profiles (`match.py check-many`); without sched1, write statements in the
+  original's instruction order.
+
 ### 9. Spill and frame slot order
 - Pass: reload1.c `alter_reg` assigns stack slots to spilled pseudos in increasing pseudo number
   (creation order); addressable locals get their slots at expansion (declaration order); the MIPS
@@ -275,6 +291,9 @@ original has `$v0` = `$v0` was in use or conflicting at that point; `$a2` for a 
 | func_004A4050 | 2 (local) | base 8 refs vs parameter 6 refs over one span | 8-ref parameter fixes the s-regs, not the shape | 10 differ, open |
 | func_003DDEC8 | 3 (local) | end tied with its quotient (10000) > step (3750) | step needs a 4th ref | 7 differ, open |
 | func_004A2D20 | 10 | cse folds the argument copy to the constant | (opaque base unknown) | open |
+| func_00484A90 | 8b | sched1 hoists the `$a2 = &l80` copy, &l80 loses `$a2` | ee-gcc2.96-nsa-nosched1 + store order | MATCH |
+| func_004A2930 | 8b | constant 0xFF loses `$v0` | ee-gcc2.96-nosched1 + `mask = 0; if (r) mask = 0xFF;` | MATCH |
+| func_005528A8 | 1 | result variable must be its own pseudo (a0), not the call result | `if (e != 0) ret = e; else { ret = 0; ... }` | MATCH |
 
 ## What a cheaper agent should do with this
 

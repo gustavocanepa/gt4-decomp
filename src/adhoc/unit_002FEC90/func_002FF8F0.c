@@ -1,9 +1,9 @@
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
-s8 func_002FF818();                                 /* extern */
+s8 HIO__read8();                                 /* extern */
 
 s32 func_002FF8F0(s32 arg0, s8 *arg1) {
-    *arg1 = func_002FF818();
+    *arg1 = HIO__read8();
     return arg0;
 }

@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 struct func_003FAD38_arg0 {
     s32 unk0;
@@ -16,7 +16,7 @@ struct func_003FAD38_temp_v0 {
 void func_003FAD38(struct func_003FAD38_arg0 *arg0) {
     struct func_003FAD38_temp_v0 *temp_v0;
 
-    func_003FABA0((s32) arg0, arg0->unk0, 0);
+    CameraSys__CameraControl__init((s32) arg0, arg0->unk0, 0);
     temp_v0 = arg0->unk4;
     if (temp_v0 != NULL) {
         arg0->unk14 = (s32) temp_v0->unk1C4;

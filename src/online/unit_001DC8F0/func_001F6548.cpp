@@ -3,7 +3,7 @@ extern char D_006959D0[];
 extern "C" char *func_005A609C(char *, const char *);
 extern "C" void func_005A6AB0(char *, const char *, int);
 extern int func_00500750(void *, void *);
-extern void func_00215298(int);
+extern void mUpdateContext__Sync(int);
 extern void func_001F1368(void *);
 
 struct GameRequest {
@@ -42,6 +42,6 @@ void func_001F6548(void *ctx, const char *name, const char *password, const char
     req.f194 = 0;
     req.f198 = 0;
     while (!func_00500750(D_00645570, &req))
-        func_00215298(1);
+        mUpdateContext__Sync(1);
     func_001F1368(ctx);
 }

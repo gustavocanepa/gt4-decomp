@@ -1,5 +1,5 @@
-extern int D_00619B80;
+extern int hFileIO__ClassID_;
 
 void func_002F66D0(void) {
-    D_00619B80 = 0;
+    hFileIO__ClassID_ = 0;
 }

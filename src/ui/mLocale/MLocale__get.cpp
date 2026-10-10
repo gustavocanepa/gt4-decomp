@@ -22,7 +22,7 @@ struct S00659988 {
     const char *name;
 };
 
-extern s32 D_00624978;
+extern s32 PDISTD__LOCALE;
 extern Rep D_00659FA8;
 extern s32 D_00659FB4;
 extern "C" s32 func_0048EDA0(s32);
@@ -52,7 +52,7 @@ extern "C" void MLocale__get(s32 *arg0) {
     Str *p_s2;
     s32 newVal;
     s32 oldVal;
-    v_s0 = func_0048EDA0(D_00624978);
+    v_s0 = func_0048EDA0(PDISTD__LOCALE);
     p_s2 = &s2;
     {
         Rep *r = &D_00659FA8;

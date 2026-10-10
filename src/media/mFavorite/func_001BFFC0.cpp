@@ -1,9 +1,9 @@
 typedef int s32;
 
-extern s32 D_00618CF0;
+extern s32 mFavorite__ClassID_;
 
-extern "C" void func_001C0778(s32 arg0);
+extern "C" void mFavorite__InitClass(s32 arg0);
 
 extern "C" void func_001BFFC0(void) {
-    func_001C0778(D_00618CF0);
+    mFavorite__InitClass(mFavorite__ClassID_);
 }

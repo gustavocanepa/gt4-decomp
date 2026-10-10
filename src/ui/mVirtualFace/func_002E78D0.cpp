@@ -1,5 +1,5 @@
-extern int D_00619AD8;
+extern int mVirtualFace__ClassID_;
 
 void func_002E78D0(void) {
-    D_00619AD8 = 0;
+    mVirtualFace__ClassID_ = 0;
 }

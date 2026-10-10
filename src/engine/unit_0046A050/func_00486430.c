@@ -1,5 +1,5 @@
 #include "types.h"
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 f32 func_00486430(f32 *arg0, f32 *arg1, f32 *arg2, f32 *arg3, f32 fparg0, f32 fparg1, f32 fparg2, f32 fparg3) {
     f32 temp_f1;

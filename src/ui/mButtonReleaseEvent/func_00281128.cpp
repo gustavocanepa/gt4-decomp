@@ -1,5 +1,5 @@
-extern int D_00619500;
+extern int mButtonReleaseEvent__ClassID_;
 
 void func_00281128(void) {
-    D_00619500 = 0;
+    mButtonReleaseEvent__ClassID_ = 0;
 }

@@ -1,10 +1,10 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
 void *func_0034C190(s32, s32);
-void func_003A3148(void *, void *);
+void RaceDisplayEventBase__put(void *, void *);
 void RaceDisplayInformationEvent__structor_0(void *);
 struct func_0035E000_arg0_unk84 {
     char pad0[0x70];
@@ -23,6 +23,6 @@ void func_0035E000(struct func_0035E000_arg0 *arg0, s32 arg1, s32 arg2) {
         RaceDisplayInformationEvent__structor_0(sp);
         sp[0] = arg1;
         sp[2] = arg2;
-        func_003A3148(sp, arg0);
+        RaceDisplayEventBase__put(sp, arg0);
     }
 }

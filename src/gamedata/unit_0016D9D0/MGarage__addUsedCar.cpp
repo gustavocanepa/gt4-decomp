@@ -29,7 +29,7 @@ extern "C" void * func_0016D848(void *, void *);
 extern "C" void func_0016D7F0(void *, s32);
 extern "C" s32 func_00146598(s32);
 extern "C" s32 func_00441280(s32);
-extern "C" s32 func_004458C8(s32);
+extern "C" s32 SPEC_DATABASE__CarEquipments__getVariationOrder(s32);
 extern "C" s32 func_00435800(s32, s32, s32, s32, s32);
 extern "C" void * func_002FE278(void *, s32);
 extern "C" void func_003285A8(s32);
@@ -66,7 +66,7 @@ extern "C" void MGarage__addUsedCar(s32 *arg0, void *arg1, s32 arg2, char **arg3
         v_s1 = (0x10000 + D_00622F4C);
         v_s1 = *(s32 *)((char *)v_s1 - 0x43d8);
         v_s0 = func_00146598(buf0[0]);
-        func_002FE278(p_s5, func_00435800(v_s3, v_s0, func_004458C8(func_00441280(v_s2)), v_s1, v_s4));
+        func_002FE278(p_s5, func_00435800(v_s3, v_s0, SPEC_DATABASE__CarEquipments__getVariationOrder(func_00441280(v_s2)), v_s1, v_s4));
         if (arg0 != p_s5) {
             newVal = *p_s5;
             if (newVal != 0) {

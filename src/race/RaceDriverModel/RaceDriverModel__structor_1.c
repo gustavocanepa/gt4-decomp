@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/RaceDriverModel.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 extern char RaceDriverModel__vtable[];
 void HumanModel__structor_1(void *, s32);

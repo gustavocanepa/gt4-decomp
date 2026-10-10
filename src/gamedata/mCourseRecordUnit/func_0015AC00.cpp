@@ -1,5 +1,5 @@
-extern int D_006188F8;
+extern int mCourseRecordUnit__ClassID_;
 
 void func_0015AC00(void) {
-    D_006188F8 = 0;
+    mCourseRecordUnit__ClassID_ = 0;
 }

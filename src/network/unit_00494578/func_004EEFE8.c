@@ -4,7 +4,7 @@ int func_004EF708(void *, void *, int);
 int func_004EF9A0(void *, int);
 
 typedef struct {
-    int open;
+    int func_005AE360;
     int pad[0x24];
     int state;
     int busy;
@@ -13,7 +13,7 @@ typedef struct {
 int func_004EEFE8(Device *dev, int mode) {
     char reply[0x10];
 
-    if (dev->open == 0) {
+    if (dev->func_005AE360 == 0) {
         return 0;
     }
     if (dev->busy != 0) {

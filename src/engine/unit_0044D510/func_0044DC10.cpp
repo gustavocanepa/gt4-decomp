@@ -6,10 +6,10 @@ struct Obj {
     f32 unk28;
 };
 
-extern struct Obj *D_00624980;
+extern struct Obj *PDISTD__global_font_manager;
 
 extern "C" void func_0044DC10(f32 fparg0, f32 fparg1) {
-    struct Obj *temp_v1 = D_00624980;
+    struct Obj *temp_v1 = PDISTD__global_font_manager;
     temp_v1->unk24 = fparg0;
     temp_v1->unk28 = fparg1;
 }

@@ -2,12 +2,24 @@
 """Game headers: include/<game>/<Class>.h (include/gt4/ here, include/tt/ in Tourist Trophy), one per
 class of config/classes.json, generated, never edited by hand.
 
-    gen_headers.py [--class NAME ...] [--all] [--check]
-        write the headers of the classes with a known field (or the named ones; --all: every class,
-        also those known only by their vtable); --check: exit 1 if a header is not what the inputs
-        say (nothing written)
+    gen_headers.py [--class NAME ...] [--check]
+        write the headers of every class (or the named ones); --check: exit 1 if a header is not
+        what the inputs say (nothing written)
     gen_headers.py show NAME       print one header
     gen_headers.py stats           classes, member sources, harvested fields, conflicts
+    gen_headers.py facts           config/class_layout.json: vptr offsets and sizes from the code
+    gen_headers.py test            compile all headers as C and C++ (GT4_CXX, GT4_DECLS) and check
+                                   sizeof, field offsets, vptr and vtable slots on the compiler
+    gen_headers.py convert CLASS... [--write] [--limit N]
+                                   sources' local declarations of those classes' functions replaced
+                                   by the headers' prototypes; written only on MATCH
+    gen_headers.py rejudge         judge every source that uses GT4_CXX / GT4_DECLS (after a regeneration)
+
+A source opts in: `#define GT4_CXX` before the include gives the C++ class (base class, own fields,
+the vptr where g++ 2.96 puts it, the virtual methods in slot order with GT HD names and parameter
+types, the non-virtual GT HD methods, padding to the size), `#define GT4_DECLS` the C prototypes of
+the class's functions under their symbol names. Without them a header is the C struct below, as
+before (the 1,100+ sources that include one do not change).
 
 What a header holds:
   - the class as a C struct (usable from .c and .cpp sources): the fields its member functions are
@@ -982,6 +994,26 @@ def convert(classes, targets, write=False, limit=0):
     return ok, tried
 
 
+
+def rejudge():
+    """Judge every source that turns the headers' C++ classes or prototypes on (#define
+    GT4_CXX / GT4_DECLS): after a regeneration they must all still match. Returns the failures."""
+    import subprocess
+    bad, n = [], 0
+    for addr, path in sorted(project.sources(refresh=True).items()):
+        text = open(path, encoding="utf-8", errors="replace").read()
+        if not re.search(r"^#define (%s|%s)\b" % (CXX, DECLS), text, re.M):
+            continue
+        n += 1
+        res = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "match.py"), "check", f"{addr:x}", path],
+                             capture_output=True, text=True)
+        if res.returncode != 0 or "MATCH" not in (res.stdout.splitlines() or [""])[0]:
+            bad.append(path)
+            print(f"  0x{addr:08X} {os.path.relpath(path, ROOT)}: {(res.stdout.strip().splitlines() or ['?'])[0][:90]}")
+    print(f"{n} sources use the headers' C++ classes or prototypes: {len(bad)} do not match")
+    return bad
+
+
 def wanted(classes, fields, a):
     if a.classes:
         return [c for c in a.classes if c in classes]
@@ -990,7 +1022,7 @@ def wanted(classes, fields, a):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("command", nargs="?", default="write", choices=["write", "show", "stats", "facts", "test", "convert"])
+    ap.add_argument("command", nargs="?", default="write", choices=["write", "show", "stats", "facts", "test", "convert", "rejudge"])
     ap.add_argument("names", nargs="*")
     ap.add_argument("--class", dest="classes", action="append")
     ap.add_argument("--all", action="store_true")
@@ -1012,6 +1044,8 @@ def main():
         return
     if a.command == "test":
         sys.exit(test_headers(classes))
+    if a.command == "rejudge":
+        sys.exit(1 if rejudge() else 0)
     if a.command == "convert":
         convert(classes, a.names, write=a.write, limit=a.limit)
         return

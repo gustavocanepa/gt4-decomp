@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 extern char D_006AD410[], D_006AD418[], D_006AD420[], D_006AD428[];
 struct func_00472828_p {

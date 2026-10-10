@@ -1,5 +1,5 @@
-extern int D_00619650;
+extern int mFlashFace__ClassID_;
 
 void func_00291A18(void) {
-    D_00619650 = 0;
+    mFlashFace__ClassID_ = 0;
 }

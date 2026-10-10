@@ -1,5 +1,5 @@
-extern int D_00618810;
+extern int mRaceCourseMapFace__ClassID_;
 
 void func_0012A140(void) {
-    D_00618810 = 0;
+    mRaceCourseMapFace__ClassID_ = 0;
 }

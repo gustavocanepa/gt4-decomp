@@ -5,8 +5,8 @@ struct S_00624980 {
     f32 unk24;
 };
 
-extern S_00624980 *D_00624980;
+extern S_00624980 *PDISTD__global_font_manager;
 
 extern "C" f32 func_0044DC30(void) {
-    return D_00624980->unk24;
+    return PDISTD__global_font_manager->unk24;
 }

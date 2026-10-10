@@ -26,7 +26,7 @@ extern Rep D_00659FA8;
 extern s32 D_00659FB4;
 extern "C" void func_001792D8(void *);
 extern "C" void func_00179280(void *, s32);
-extern "C" s32 func_001CBF40(s32);
+extern "C" s32 GT4MC__getFileResultString(s32);
 extern "C" char * func_005C2560(Rep *);
 extern "C" s32 func_0057F260(s32);
 extern "C" void func_005C2630(void *, s32, s32, s32, s32);
@@ -57,7 +57,7 @@ extern "C" void MMemoryCardManager__get_autoloadPlayListResult(s32 *arg0) {
     v_s0 = *(s32 *)((char *)*(s32 *)((char *)buf0[0] + 0x20) + 0x680);
     func_00179280(buf0, 0x2);
     p_s2 = &s2;
-    v_s0 = func_001CBF40(v_s0);
+    v_s0 = GT4MC__getFileResultString(v_s0);
     {
         Rep *r = &D_00659FA8;
         char *d;

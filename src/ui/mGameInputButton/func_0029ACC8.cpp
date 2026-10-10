@@ -1,5 +1,5 @@
-extern int D_006196C8;
+extern int mGameInputButton__ClassID_;
 
 void func_0029ACC8(void) {
-    D_006196C8 = 0;
+    mGameInputButton__ClassID_ = 0;
 }

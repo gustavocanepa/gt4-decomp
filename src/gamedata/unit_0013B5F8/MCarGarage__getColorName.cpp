@@ -27,7 +27,7 @@ extern s32 D_00659FB4;
 extern "C" void func_0013BDC0(void *);
 extern "C" s32 func_00147D80(s32);
 extern "C" s32 func_00441248(s32);
-extern "C" s32 func_004458C8(s32);
+extern "C" s32 SPEC_DATABASE__CarEquipments__getVariationOrder(s32);
 extern "C" void func_002FC8C8(void *, void *);
 extern "C" s32 func_002FE250(s32);
 extern "C" void func_002FC870(void *, s32);
@@ -66,7 +66,7 @@ extern "C" void MCarGarage__getColorName(s32 *arg0, void *arg1, s32 arg2, char *
     s32 oldVal;
     func_0013BDC0(buf0);
     v_s2 = func_00441248(func_00147D80(buf0[0]));
-    t1 = func_004458C8(v_s2);
+    t1 = SPEC_DATABASE__CarEquipments__getVariationOrder(v_s2);
     v_s1 = t1;
     if (arg2 > 0) {
         p_s4 = buf1;

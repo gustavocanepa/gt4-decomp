@@ -1,8 +1,8 @@
 /* compiler: ee-gcc2.96-no-strict-aliasing */
 /* Unless *(a1 + 0x188) is set: formats *(a1 + 0x1CC) into a buffer (func_0057DA20), builds
  * D_00695900 + String(a1 + 0x18C) + D_00695908 + String(buf) + D_00695910 and passes it, as a
- * string of the second basic_string instantiation (nilRep D_00659E20, clone func_005D2B58,
- * replace func_005D2C20, operator delete func_00575DA0), to func_004EC078(a0 + 0x10 + 0xA8).
+ * string of the second basic_string instantiation (nilRep D_00659E20, clone strobe__toUpper,
+ * replace strobe__Any__setMember, operator delete func_00575DA0), to func_004EC078(a0 + 0x10 + 0xA8).
  * gcc 2.96 bastring.h members inline: constructors, destructor, append, operator+, c_str(). */
 typedef unsigned int u32;
 
@@ -104,7 +104,7 @@ struct Rep2 {
     }
 };
 
-extern "C" char *func_005D2B58(Rep2 *r);
+extern "C" char *strobe__toUpper(Rep2 *r);
 extern "C" void func_00575DA0(void *p);
 extern Rep2 D_00659E20;
 
@@ -112,13 +112,13 @@ inline void Rep2::operator delete(void *p, u32 n) { func_00575DA0(p); }
 
 inline char *Rep2::grab() {
     if (selfish)
-        return func_005D2B58(this);
+        return strobe__toUpper(this);
     ++ref;
     return data();
 }
 
 struct String2;
-extern "C" String2 *func_005D2C20(String2 *str, u32 pos, u32 n1, const char *s, u32 n2);
+extern "C" String2 *strobe__Any__setMember(String2 *str, u32 pos, u32 n1, const char *s, u32 n2);
 
 struct String2 {
     char *dat;
@@ -126,7 +126,7 @@ struct String2 {
     Rep2 *rep() const { return (Rep2 *)dat - 1; }
     String2(const char *s) : dat(D_00659E20.grab()) { assign(s); }
     ~String2() { rep()->release(); }
-    String2 &replace(u32 pos, u32 n1, const char *s, u32 n2) { return *func_005D2C20(this, pos, n1, s, n2); }
+    String2 &replace(u32 pos, u32 n1, const char *s, u32 n2) { return *strobe__Any__setMember(this, pos, n1, s, n2); }
     String2 &assign(const char *s, u32 n) { return replace(0, (u32)-1, s, n); }
     String2 &assign(const char *s) { return assign(s, func_0057F260(s)); }
 };

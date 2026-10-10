@@ -1,5 +1,5 @@
-extern int D_00619B68;
+extern int hException__ClassID_;
 
 void func_002F5640(void) {
-    D_00619B68 = 0;
+    hException__ClassID_ = 0;
 }

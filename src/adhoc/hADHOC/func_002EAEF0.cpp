@@ -24,7 +24,7 @@ struct S00659988 {
 
 extern Rep D_00659FA8;
 extern s32 D_00659FB4;
-extern "C" s32 func_00305570(s32);
+extern "C" s32 hModule__getName(s32);
 extern "C" char * func_005C2560(Rep *);
 extern "C" s32 func_0057F260(s32);
 extern "C" void func_005C2630(void *, s32, s32, s32, s32);
@@ -45,7 +45,7 @@ extern "C" void func_002EAEF0(s32 *arg0, void *arg1) {
     Str *p_s2;
     s32 v_s0;
     p_s2 = &s0;
-    v_s0 = func_00305570(*(s32 *)(char *)arg1);
+    v_s0 = hModule__getName(*(s32 *)(char *)arg1);
     {
         Rep *r = &D_00659FA8;
         char *d;

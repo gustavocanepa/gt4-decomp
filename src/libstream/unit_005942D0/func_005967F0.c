@@ -1,4 +1,4 @@
-/* libio (GNU iostream library, gcc 2000-10-03 snapshot): _IO_seekoff.
+/* libio (GNU iostream library, gcc 2000-10-03 snapshot): func_005967F0.
  * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 typedef int s32;
 

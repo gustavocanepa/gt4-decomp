@@ -48,10 +48,10 @@ extern "C" void func_004A3230(s32);
 extern "C" void func_004AB040(s32);
 extern "C" void func_004A1638(s32);
 extern "C" void func_004A2808(s32, float);
-extern "C" void func_004A5348(s32);
+extern "C" void RaceEntryCar__update(s32);
 extern "C" void func_004A7454(void);
 extern "C" void func_004A5A90(float, float, float, float, float, float);
-extern "C" void func_004A19D8(s32);
+extern "C" void pglFrontFace(s32);
 extern "C" void mEnterEvent__structor_0(void *);
 extern "C" void func_00105C48(void *, void *, s32, s32, float, float, float, float);
 extern "C" void func_001055C0(void *);
@@ -104,12 +104,12 @@ extern "C" void mUpdateContextPS2__virtual_64(char *self)
     func_004A1638(0x11);
     func_004A1638(6);
     func_004A2808(0x44, 1.0f);
-    func_004A5348(1);
+    RaceEntryCar__update(1);
     func_004A7454();
     func_004A5A90(0.0f, 640.0f, 480.0f, 0.0f, 0.0f, 100.0f);
-    func_004A5348(0);
+    RaceEntryCar__update(0);
     func_004A7454();
-    func_004A19D8(0);
+    pglFrontFace(0);
     func_004AB040(5);
     func_004A2930(1, 1, 1, 0);
     if (n > 0) {

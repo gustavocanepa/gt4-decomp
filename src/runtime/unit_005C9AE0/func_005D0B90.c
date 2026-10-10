@@ -1,7 +1,7 @@
 /* compiler: ee-gcc2.96-nsa-nosib */
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 
 struct func_005D0B90_arg0 {
     char pad0[0x264];

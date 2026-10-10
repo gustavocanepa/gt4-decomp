@@ -18,7 +18,7 @@ struct VObj {
 
 extern "C" void func_002AE968(void *arg0, int arg1);
 extern "C" void func_002AE9C0(void *arg0, void *arg1);
-extern "C" s32 func_002B5498(void *a, s32 b);
+extern "C" s32 mListBox__getItemActive(void *a, s32 b);
 extern "C" void func_002FC870(void *arg0, int arg1);
 extern "C" void func_002FE278(void *arg0, bool arg1);
 extern "C" void func_003285A8(void *p);
@@ -38,7 +38,7 @@ extern "C" void MListBox__getItemActive(void **arg0, void *arg1, s32 arg2, VObj 
         bool b;
         func_002AE9C0(&o, arg1);
         op = o.p;
-        b = func_002B5498(op, vcall(*arg3)) != 0;
+        b = mListBox__getItemActive(op, vcall(*arg3)) != 0;
         ph = &h;
         func_002FE278(ph, b);
         if ((void *)arg0 != (void *)ph) {

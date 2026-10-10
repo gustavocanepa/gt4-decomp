@@ -22,7 +22,7 @@ struct S00659988 {
     const char *name;
 };
 
-extern s32 D_00624978;
+extern s32 PDISTD__LOCALE;
 extern "C" s32 func_0048EDD0(s32);
 extern "C" void func_002FE278(void *, s32);
 extern "C" void func_003285A8(s32);
@@ -33,7 +33,7 @@ extern "C" void MLocale__isPal(s32 *arg0) {
     s32 buf0[4];
     s32 newVal;
     s32 oldVal;
-    func_002FE278(buf0, ((unsigned)(func_0048EDD0(D_00624978) ^ 0x1) < 0x1));
+    func_002FE278(buf0, ((unsigned)(func_0048EDD0(PDISTD__LOCALE) ^ 0x1) < 0x1));
     if (arg0 != buf0) {
         newVal = buf0[0];
         if (newVal != 0) {

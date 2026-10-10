@@ -2,7 +2,7 @@ extern char D_00645570[];
 extern char D_006959D0[];
 extern "C" void func_005A6AB0(char *, const char *, int);
 extern int func_004F5F38(void *, void *);
-extern void func_00215298(int);
+extern void mUpdateContext__Sync(int);
 extern void func_001F1368(void *);
 
 struct Request {
@@ -36,6 +36,6 @@ void func_001F4BD8(void *ctx, const char *name, const char *text)
     func_005A6AB0(req.name, name, 0x40);
     func_005A6AB0(req.text, text ? text : D_006959D0, 0x20);
     while (!func_004F5F38(D_00645570, &req))
-        func_00215298(1);
+        mUpdateContext__Sync(1);
     func_001F1368(ctx);
 }

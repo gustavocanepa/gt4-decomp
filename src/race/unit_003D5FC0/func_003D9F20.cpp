@@ -28,7 +28,7 @@ struct MainObj {
     s32 unkA4;
 };
 
-extern "C" void func_003B6FD0(void *arg0);
+extern "C" void RaceEntryBase__sortByRank(void *arg0);
 extern "C" void func_003D8AC0(void *arg0, s32 arg1);
 extern "C" StructE *func_003D8CB8(void *arg0, s32 arg1);
 extern "C" StructE *func_003D8D08(void *arg0);
@@ -36,7 +36,7 @@ extern "C" StructE *func_003D8D08(void *arg0);
 extern "C" void func_003D9F20(MainObj *arg0) {
     StructE *v0;
 
-    func_003B6FD0(arg0->unkC->unk60);
+    RaceEntryBase__sortByRank(arg0->unkC->unk60);
     v0 = func_003D8CB8(arg0, arg0->unkC->unk60->unk8[arg0->unk64]);
     if (v0 == 0) {
         v0 = func_003D8D08(arg0);

@@ -1,5 +1,5 @@
-extern int D_006197B8;
+extern int mKeyPressEvent__ClassID_;
 
 void func_002AA738(void) {
-    D_006197B8 = 0;
+    mKeyPressEvent__ClassID_ = 0;
 }

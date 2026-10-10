@@ -10,8 +10,8 @@ struct Obj {
     Inner *unk14;
 };
 
-extern "C" Obj *D_00624980;
+extern "C" Obj *PDISTD__global_font_manager;
 
 extern "C" u8 func_0044E3F8(void) {
-    return D_00624980->unk14->unkD;
+    return PDISTD__global_font_manager->unk14->unkD;
 }

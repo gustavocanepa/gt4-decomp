@@ -1,5 +1,5 @@
-extern int D_006199A0;
+extern int mScrollBase__ClassID_;
 
 void func_002D0D10(void) {
-    D_006199A0 = 0;
+    mScrollBase__ClassID_ = 0;
 }

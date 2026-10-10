@@ -1,11 +1,11 @@
 extern "C" {
 #include "types.h"
 #define NULL 0
-void *memcpy(void *, const void *, unsigned int);
+void *func_005A4724(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
 s32 func_00394BC8(...) throw();
-void func_00394E70(...) throw();
+void RaceCourse__clearData(...) throw();
 
 struct func_003C7050_arg0 {
     char pad0[0x6C];
@@ -15,7 +15,7 @@ struct func_003C7050_arg0 {
 };
 
 void func_003C7050(char *arg0) {
-    func_00394E70(M2C_FIELD(((struct func_003C7050_arg0 *)arg0)->unk6C, s32 *, 0x80));
+    RaceCourse__clearData(M2C_FIELD(((struct func_003C7050_arg0 *)arg0)->unk6C, s32 *, 0x80));
     if (((struct func_003C7050_arg0 *)arg0)->unk1E654 == 0) {
         ((struct func_003C7050_arg0 *)arg0)->unk1E654 = func_00394BC8();
     }

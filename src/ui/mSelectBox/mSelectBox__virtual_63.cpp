@@ -1,5 +1,5 @@
 /* compiler: ee-gcc2.96-no-strict-aliasing */
-/* mSelectBox virtual 63: refreshes the base (mSceneViewFace__virtual_63), copies two floats from the linked object (func_00206868) into +0xE4/+0xE8, then passes func_003166B8(basic_string<char>(D_0069CE08)) to func_003069F8(this, this + 0xF4, &v). bastring.h members inline (ctor = nilRep.grab() + assign(s, strlen(s)), dtor = rep()->release() -> Rep::operator delete -> deallocate(p, sizeof(Rep) + res)); needs -fno-strict-aliasing for the register choice of the grab. */
+/* mSelectBox virtual 63: refreshes the base (mSceneViewFace__virtual_63), copies two floats from the linked object (func_00206868) into +0xE4/+0xE8, then passes HSymID__GetID(basic_string<char>(D_0069CE08)) to func_003069F8(this, this + 0xF4, &v). bastring.h members inline (ctor = nilRep.grab() + assign(s, strlen(s)), dtor = rep()->release() -> Rep::operator delete -> deallocate(p, sizeof(Rep) + res)); needs -fno-strict-aliasing for the register choice of the grab. */
 typedef unsigned int u32;
 typedef int s32;
 typedef unsigned int size_t;
@@ -51,19 +51,19 @@ inline void Rep::operator delete(void *ptr) {
 extern char D_0069CE08[];
 extern "C" void mSceneViewFace__virtual_63(void *a);
 extern "C" void *func_00206868(void *a);
-extern "C" float func_0025B370(void *a);
-extern "C" float func_0025B3D0(void *a);
-extern "C" s32 func_003166B8(String *s);
+extern "C" float mWidget__getWindowW(void *a);
+extern "C" float mWidget__getWindowH(void *a);
+extern "C" s32 HSymID__GetID(String *s);
 extern "C" void func_003069F8(void *obj, void *h, s32 *val);
 extern "C" void mSelectBox__virtual_63(char *a0) {
     s32 v[8];
     mSceneViewFace__virtual_63(a0);
     void *o = func_00206868(a0);
     if (o) {
-        *(float *)(a0 + 0xE4) = func_0025B370(o);
-        *(float *)(a0 + 0xE8) = func_0025B3D0(o);
+        *(float *)(a0 + 0xE4) = mWidget__getWindowW(o);
+        *(float *)(a0 + 0xE8) = mWidget__getWindowH(o);
     }
     String s(D_0069CE08);
-    v[0] = func_003166B8(&s);
+    v[0] = HSymID__GetID(&s);
     func_003069F8(a0, a0 + 0xF4, v);
 }

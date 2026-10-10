@@ -165,6 +165,44 @@ units:
   the data layout (GT HD's .data/.bss are per unit in link order too: the named neighbours of a
   paired global, at the same distance here) would extend it.
 
+## Headers and drafts from the GT HD prototypes (tools/gen_headers.py, types_db.py, 2026-10-10)
+
+- g++ 2.96 layout, checked on the compiler: the vptr goes after the own fields of the class that
+  introduces virtual functions (`{int a; virtual f(); int b;}`: a 0, b 4, vptr 8); a derived class
+  starts at sizeof(base) and shares the base's vptr; a vtable call is `lw vptr; addu 8*(slot+1);
+  lh delta; lw fn; jalr` (knowledge/runtime-types.md). So a class whose own fields lie after its
+  vptr (RaceBase: vptr 0x64, fields to 0xD98; RefCounter-derived script classes) had a base that
+  introduced it without RTTI (GT HD: GameObjectPS3 under RaceBase): the headers declare that base
+  as `<Class>_vbase` (20 classes).
+- Float arguments go to $f12.. counted apart from the integer ones ($a0-$a3, $t0-$t3): checked.
+- Sizes: `rc_size` (slot 4 of RefCounter classes) is `return sizeof(*this)` where a class
+  overrides it (250 classes); the constant allocation before a structor call agrees on 198 of 199
+  classes, the exception being a base allocated through its derived classes' inlined constructors
+  (RefCounter: 8 bytes, allocations of 32), so allocations are used only for leaf classes.
+- Return types are not in Itanium names; they come from the code (types_db.result_type). Matched
+  sources disagree with a naive "last write of $v0" often (v0 is a temporary right before
+  returns); callers reading the result after the call are the better witness.
+- GT HD signatures fit GT4 far from always: of ~900 functions with a high/applied signature, 263
+  read an argument register the signature does not have (the method changed in two years, or a
+  hidden return-by-value pointer: `toString() const` reads $a1).
+- Reach: almost every GT HD-named function is already matched (small virtuals), so the new
+  prototypes touch few unmatched functions: ~600 prototypes, 779 unmatched functions up to 2 KB
+  whose m2c context changed. On the fixed 300-function sample: 151 -> 154 compiling context drafts,
+  5 closer, 1 farther, no match; over the 779: 91 closer drafts (491 differing instructions fewer),
+  22 newly compiling, no match. The drafts' distance on medium functions is dominated by register
+  allocation and scheduling, which types do not change.
+- Byte-neutral proof: 157 matched sources of RaceBase/hObject/mWidget callers now take those
+  classes' prototypes from the headers (GT4_DECLS) and 51 call virtual methods through the C++
+  classes (GT4_CXX: the 50 script-class registration functions call `hModule::setName` as
+  `((hModule *)c)->setName(&s)`, RaceLicense__virtual_152 calls `getLoggerBuffer()`): all MATCH.
+- Tourist Trophy: 620 GT HD names reach its twins (import_names.py gthd), so sources copied from
+  GT4 with GT HD names resolve there; its classes have no RTTI table yet, so no headers.
+
+Next: embedded member objects (RaceABMonitor's +0x20/+0x50 subobjects with their own vptrs) typed
+in the C structs so m2c can follow virtual calls on them; typed vtable structs in the m2c context
+(only ~10% of compiled medium drafts make indirect calls); more `convert` classes; real C++ method
+sources (they need mangled-name aliases in symbol_addrs.txt for the judge).
+
 ## Open
 
 - The 171 medium vtable pairs and 116 low call-graph pairs need another witness (a second

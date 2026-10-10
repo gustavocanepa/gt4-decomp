@@ -1,5 +1,5 @@
-extern int D_00618FA0;
+extern int mDomNode__ClassID_;
 
 void func_002090B0(void) {
-    D_00618FA0 = 0;
+    mDomNode__ClassID_ = 0;
 }

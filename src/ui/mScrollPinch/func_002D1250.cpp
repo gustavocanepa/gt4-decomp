@@ -1,5 +1,5 @@
-extern int D_006199B8;
+extern int mScrollPinch__ClassID_;
 
 void func_002D1250(void) {
-    D_006199B8 = 0;
+    mScrollPinch__ClassID_ = 0;
 }

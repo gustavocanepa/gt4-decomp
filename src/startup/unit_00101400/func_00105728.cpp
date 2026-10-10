@@ -24,7 +24,7 @@ struct S00659988 {
 
 extern "C" void func_0049FE28(void);
 extern "C" void func_004A4910(void);
-extern "C" s32 func_00105830(void *);
+extern "C" s32 GSBuffer__getBufferWidth(void *);
 extern "C" void func_004A4100(s32, s32, s32, s32);
 extern "C" void func_004A4418(s32, s32);
 extern "C" void func_004A4810(s32, s32, s32);
@@ -43,7 +43,7 @@ struct func_00105728_arg0 {
 extern "C" void func_00105728(s32 *arg0) {
     func_0049FE28();
     func_004A4910();
-    func_004A4100(0, *(s32 *)(char *)arg0, ((struct func_00105728_arg0 *)arg0)->unk4, func_00105830(arg0));
+    func_004A4100(0, *(s32 *)(char *)arg0, ((struct func_00105728_arg0 *)arg0)->unk4, GSBuffer__getBufferWidth(arg0));
     func_004A4418((((struct func_00105728_arg0 *)arg0)->unk10 + ((struct func_00105728_arg0 *)arg0)->unk18), (((struct func_00105728_arg0 *)arg0)->unk14 + ((struct func_00105728_arg0 *)arg0)->unk1C));
     func_004A4810(0, 0, (((struct func_00105728_arg0 *)arg0)->unk10 + ((struct func_00105728_arg0 *)arg0)->unk18) - 0x1);
     func_004A4810(0x1, 0, (((struct func_00105728_arg0 *)arg0)->unk14 + ((struct func_00105728_arg0 *)arg0)->unk1C) - 0x1);

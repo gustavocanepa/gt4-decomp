@@ -1,5 +1,5 @@
-extern int D_00618BB8;
+extern int mSlideShowFace__ClassID_;
 
 void func_001AA238(void) {
-    D_00618BB8 = 0;
+    mSlideShowFace__ClassID_ = 0;
 }

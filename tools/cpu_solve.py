@@ -6,7 +6,7 @@ compiler), m2c writes compilable C (`--valid-syntax`), which is compiled as C an
 goes to src/func_ADDR.c; a near miss (few differing instructions) is kept for the permuter
 (tools/permute_cpu.py); the rest is listed for the language models. No model is called.
 
-    cpu_solve.py [--jobs 3] [--max-bytes 2048] [--limit N] [--context types]
+    cpu_solve.py [--jobs 3] [--max-bytes 2048] [--limit N] [--context types] [--only FILE]
 
 --context adds drafts made with the type database (tools/types_db.py build first): m2c then
 calls known functions with their real prototypes and reads class fields with their real
@@ -431,6 +431,9 @@ def main():
     ap.add_argument("--shard", default="0/1", help="K/N: only every N-th function, starting at K")
     ap.add_argument("--context", choices=["protos", "types"],
                     help="also draft with tools/types_db.py's context (known prototypes, or everything)")
+    ap.add_argument("--only", metavar="FILE",
+                    help="only these functions (hex addresses, one per line), retried whatever their last "
+                         "result says: e.g. those whose context a new type database changed")
     ap.add_argument("--context-only", action="store_true",
                     help="with --context --retry: keep the earlier draft, add only the context drafts "
                          "(half the work); functions whose last result already used this context are skipped")
@@ -452,13 +455,17 @@ def main():
         tried = {k for k, r in latest.items()
                  if not (a_retry and r["result"] in ("differs", "does not compile", "m2c could not decompile it"))
                  or (a.context_only and r.get("ctx") == a.context)} | recent
+    only = None
+    if a.only:
+        only = {int(x, 16) for x in open(a.only).read().split() if x.strip()}
+        tried = set()
     done = autoloop.done_addrs()
     asm_only = inventory.asm_functions()
     text_addr, text = match.load_text()
     todo = []
     for r in csv.DictReader(open(match.FUNCTIONS)):
         addr = int(r["address"], 16)
-        if addr in done or addr in asm_only or f"{addr:08x}" in tried:
+        if addr in done or addr in asm_only or f"{addr:08x}" in tried or (only is not None and addr not in only):
             continue
         words = match.trim_padding(match.words_at(text_addr, text, addr, int(r["max_size"])))
         if len(words) * 4 > a.max_bytes or autoloop.other_compiler(words):

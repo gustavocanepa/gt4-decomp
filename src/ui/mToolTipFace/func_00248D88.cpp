@@ -1,5 +1,5 @@
-extern int D_00619218;
+extern int mToolTipFace__ClassID_;
 
 void func_00248D88(void) {
-    D_00619218 = 0;
+    mToolTipFace__ClassID_ = 0;
 }

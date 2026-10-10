@@ -1,5 +1,5 @@
-extern int D_00619178;
+extern int mScriptEvent__ClassID_;
 
 void func_00239E90(void) {
-    D_00619178 = 0;
+    mScriptEvent__ClassID_ = 0;
 }
