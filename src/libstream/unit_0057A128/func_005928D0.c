@@ -1,3 +1,5 @@
+/* libio (GNU iostream library, gcc 2000-10-03 snapshot): ostream::operator<<(long).
+ * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 typedef int s32; typedef unsigned char u8; typedef unsigned long long u64;
 
 struct Ios {

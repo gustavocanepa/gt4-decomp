@@ -7,7 +7,7 @@ sha1: 38cc7f0d7841d1b75e76ad3678efd813386f65ce
 options:
   basename: gt4
   base_path: ..
-  target_path: build/splat/CORE.GT4.rom
+  target_path: build/splat/gt4.rom
   elf_path: build/splat/gt4.elf
   platform: ps2
   compiler: EEGCC

@@ -9,6 +9,10 @@ CONFIG = tomllib.load(open(os.path.join(ROOT, "project.toml"), "rb"))
 
 _cache = {}
 
+# Short name of the game: names the build's working directory in WSL and the linked image, so
+# several projects (one per game) can share one Linux toolchain without touching each other.
+BASENAME = CONFIG["game"].get("basename", "gt4")
+
 
 def path(rel):
     return os.path.join(ROOT, rel)
@@ -54,7 +58,7 @@ def compiler_command(name=None):
     directory = c["dir"].replace("~", "$HOME", 1)
     # GT4_COMPILER_COMMAND overrides the project compiler's command (for experiments with flags).
     command = c["command"] if name else os.environ.get("GT4_COMPILER_COMMAND", c["command"])
-    # {tools}: this repository's tools/ directory as Linux/WSL sees it (wrappers such as cc_rf.sh)
+    # {tools}: this repository's tools/ directory as Linux/WSL sees it (wrappers such as cc_as.sh)
     tools = os.path.dirname(os.path.abspath(__file__))
     if os.name == "nt":
         tools = "/mnt/" + tools[0].lower() + tools[2:].replace("\\", "/")

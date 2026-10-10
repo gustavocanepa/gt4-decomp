@@ -1,6 +1,6 @@
 ---
 name: gt4-decomp
-description: Compact orientation for working on the Gran Turismo 4 matching decompilation in E:\PROJECTS\GT4 — the judge, compilers, source layout, tools by purpose, the rules, and which knowledge file answers which question. Load this first in any GT4 decomp task instead of reading all of TOOLS.md and knowledge/.
+description: Compact orientation for working on the Gran Turismo 4 matching decompilation in ../GT4 — the judge, compilers, source layout, tools by purpose, the rules, and which knowledge file answers which question. Load this first in any GT4 decomp task instead of reading all of TOOLS.md and knowledge/.
 ---
 
 # GT4 decomp in five minutes
@@ -48,13 +48,17 @@ function counts only when the judge says MATCH and the full build still hashes l
   with another compiler).
 - Families/generators: `families.py`, `static_init.py`, `registration.py`, `accessors.py`,
   `siblings.py`, `stl.py`, `libmatch.py` (third-party code from public source, THIRD_PARTY.md).
+- Sister game (../TT, same tools): `crossgame.py apply --from ../TT` copies the sources
+  of identical functions; `neartwin.py scan|apply --from ../TT` adapts the sources of near twins
+  (offsets, constants, callees, globals, call order, store order, profile; `try ADDR OTHER` shows
+  the steps). Every shared match counts for both games: run these before hand work.
 - Planning: `work_queue.py` (ranked work items), `attempts.py` (show/log/summary of the diary).
 - Diagnosis: `census.py` (why functions fail, ranked), `compiler_probe.py`, `coverage.py`.
 
 ## Recipes that worked (read the knowledge section before re-deriving)
 - Repeated code → understand one member, write a generator (static_init, registration, accessors).
 - Library code → find the exact public source of the era (GCC 2000-10-03 tree at
-  E:\PROJECTS\gcc-20001003: libstdc++/std/bastring.*, libstdc++/stl/), keep the library's own
+  the gcc 2000-10-03 snapshot (../gcc-20001003, outside the repository): libstdc++/std/bastring.*, libstdc++/stl/), keep the library's own
   inline helpers nested as in its headers (each inline level shows in the register choice), and
   compile with -fno-strict-aliasing.
 - Near misses → group failures by diff kind (census.py), turn the biggest group into a rule.

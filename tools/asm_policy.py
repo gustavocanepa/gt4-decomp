@@ -18,7 +18,7 @@ FILE_SCOPE = re.compile(r'^(?:__asm__|asm)\s*\(', re.M)
 
 def violations(src):
     out = []
-    if re.search(r'\.word\b', src):
+    if re.search(r'(?<![\w)\]])\.word\b', src):  # not a member access such as state.word
         out.append("raw instruction words (.word)")
     if FILE_SCOPE.search(src) or re.search(r'\.globl|glabel', src):
         out.append("file-scope assembly")

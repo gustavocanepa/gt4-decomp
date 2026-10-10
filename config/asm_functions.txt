@@ -26,6 +26,7 @@
 0058b290 kernel-call stub
 0058b2a0 kernel-call stub
 0058b2a8 kernel-call stub
+0058b320 SDK debug break stubs (break 0,1 + code 0xC-0x13)
 0058b360 kernel-call stub
 005c1ce0 kernel-call stub
 005c1ce8 kernel-call stub

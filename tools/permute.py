@@ -47,7 +47,7 @@ RUN_SH = """#!/usr/bin/env bash
 # Prepare the permuter directory on the Linux filesystem, then run it for a while. The directory
 # is this run's alone (two runs on one function do not clobber each other) and goes at the end.
 set -eo pipefail
-dir="$HOME/.local/share/gt4/perm/{name}"
+dir="$HOME/.local/share/{basename}/perm/{name}"
 rm -rf "$dir"; mkdir -p "$dir"
 trap 'rm -rf "$dir"' EXIT
 cp "{src_dir}/target.s" "{src_dir}/compile.sh" "{src_dir}/settings.toml" "$dir/"
@@ -110,7 +110,7 @@ def main():
     for leftover in ("result.c",):
         if os.path.exists(os.path.join(work, leftover)):
             os.remove(os.path.join(work, leftover))
-    script = RUN_SH.format(name=f"{name}_{token}", src_dir=to_wsl(work), seconds=a.seconds, jobs=a.jobs,
+    script = RUN_SH.format(basename=project.BASENAME, name=f"{name}_{token}", src_dir=to_wsl(work), seconds=a.seconds, jobs=a.jobs,
                            as_flags=project.CONFIG["cpu"]["as_flags"])
     open(os.path.join(work, "run.sh"), "w", newline="\n").write(script)
 

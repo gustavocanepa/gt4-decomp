@@ -6,6 +6,9 @@ through this table, so sources may call functions and globals by their real name
 Names come from:
   config/symbol_addrs.txt   tools/rtti.py: Class__virtual_NN, Class__structor_N, Class__tf (code)
                             and Class__vtable (data), as `name = 0xADDR; // type:func|data`
+  config/libs/*_symbols.txt tools/libmatch.py's libraries: real (C and mangled C++) names of library
+                            functions and data, e.g. libio's `tellg__7istream`; like stl_symbols.txt
+                            they resolve but never name an address
   config/adhoc_methods.txt  tools/registration.py: `Class method 0xADDR`, the native methods the
                             script engine registers, used as Class__method
 
@@ -31,6 +34,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SYMBOL_ADDRS = os.path.join(ROOT, "config", "symbol_addrs.txt")
 ADHOC = os.path.join(ROOT, "config", "adhoc_methods.txt")
 STL = os.path.join(ROOT, "config", "stl_symbols.txt")  # tools/stl.py: mangled names of STL instantiations
+# tools/libmatch.py: names of third-party library functions and data (libio's mangled C++ names)
+LIB_SYMBOLS = os.path.join(ROOT, "config", "libs")
 CLASSES = os.path.join(ROOT, "config", "classes.json")
 
 # func_ADDR / D_ADDR / jtbl_ADDR, with an optional C++ mangling suffix (func_00100230__Fv).
@@ -63,16 +68,18 @@ def _load():
         for cname, c in json.load(open(CLASSES)).items():
             bases[cname] = list(c.get("bases", []))
     rtti = {}
-    for path in (SYMBOL_ADDRS, STL):
+    libs = sorted(os.path.join(LIB_SYMBOLS, f) for f in os.listdir(LIB_SYMBOLS)
+                  if f.endswith("_symbols.txt")) if os.path.isdir(LIB_SYMBOLS) else []
+    for path in [SYMBOL_ADDRS, STL] + libs:
         if not os.path.exists(path):
             continue
         for line in open(path):
-            m = re.match(r"\s*([A-Za-z_]\w*)\s*=\s*0x([0-9A-Fa-f]+)\s*;.*type:(func|data)", line)
+            m = re.match(r"\s*([A-Za-z_$][\w$]*)\s*=\s*0x([0-9A-Fa-f]+)\s*;.*type:(func|data)", line)
             if m:
                 addr, kind = int(m.group(2), 16), m.group(3)
                 t.names[m.group(1)] = (addr, kind)
                 t.kinds[addr] = kind
-                if path == STL:  # mangled template names resolve, but never name an address (or a file)
+                if path != SYMBOL_ADDRS:  # mangled template/library names resolve, but never name an address (or a file)
                     continue
                 t.by_addr.setdefault(addr, []).append(m.group(1))
                 rtti.setdefault(addr, []).append(m.group(1))
@@ -142,6 +149,9 @@ def _demangled(sym):
     m = re.match(r"^_[$.]_(\d+)(\w+)$", sym)         # destructor: _$_10MCarGarage
     if m and len(m.group(2)) >= int(m.group(1)):
         out.append(m.group(2)[:int(m.group(1))] + "__dtor")
+    m = re.match(r"^_vt[$.](\d+)(\w+)$", sym)        # vtable: _vt$10MCarGarage (real C++ ctors)
+    if m and len(m.group(2)) == int(m.group(1)):
+        out.append(m.group(2) + "__vtable")
     for m in re.finditer(r"__(?=[FH])", sym):        # plain function: name__Fv
         out.append(sym[:m.start()])
     for m in re.finditer(r"__(?=Q\d|\d)", sym):      # member: method__10MCarGarageiPv

@@ -3,7 +3,13 @@
 
 [game]
 name = "Gran Turismo 4 (NTSC-U, SCUS-97328 v1.01)"
+serial = "SCUS-97328"
+# Short name: the WSL working directories and the linked image (tools/project.py BASENAME).
+basename = "gt4"
 executable = "orig/SCUS-97328/files/CORE.GT4"
+# The executable as an ELF (tools/core2elf.py): what splat splits and the build compares with.
+elf = "orig/SCUS-97328/CORE.GT4.elf"
+splat_config = "config/gt4.yaml"
 # tools/loaders/<loader>.py must define load(path) -> (entry, [(address, bytes), ...])
 loader = "gt4_core"
 
@@ -67,23 +73,29 @@ dir = "~/.local/share/gt4/compilers/ee-gcc2.96-nosib"
 command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-optimize-sibling-calls"
 archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
 
-# Library code assembled by a tool that expands gcc's unaligned-access macros (uld/usd/ulw/usw)
-# right half first (ldr before ldl; GNU as does left first): gcc -S, tools/rf_as.py, then as.
-[compilers."ee-gcc2.96-nsa-nosib-rf"]
+# Code assembled with a later EE binutils, the one in Sony's ee-gcc 3.2 (2004-09-21) toolchain, while
+# the compiler stays 2.96 (tools/cc_as.sh: gcc -S, then that ee-as). That assembler expands gcc's
+# unaligned-access macros (uld/usd/ulw/usw) right half first (ldr before ldl), as all of the library
+# code around 0x5547e8+ has it, and it does not have the 2.96 gas bug that gave an indexed global's
+# lui the opcode of its load (0x001f6c58). Verified on every source that needed the old text rewrites
+# (rf_as.py, hilo_as.py, now removed): 207 of 207 compile identically; game code built with the 2.96
+# assembler does not (build/auto/as_test.py), so this is a per-object property, not a project one.
+[compilers."ee-gcc2.96-nsa-nosib-as2004"]
 dir = "~/.local/share/gt4/compilers/ee-gcc2.96-nsa-nosib"
-command = "bash {tools}/cc_rf.sh \"{dir}/bin/ee-gcc -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-strict-aliasing -fno-optimize-sibling-calls\""
+command = "bash {tools}/cc_as.sh \"$HOME/.local/share/gt4/compilers/ee-gcc3.2-040921/bin/ee-as\" \"{dir}/bin/ee-gcc -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-strict-aliasing -fno-optimize-sibling-calls\""
 archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
+needs = { "ee-gcc3.2-040921" = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc3.2-040921.tar.xz" }
 
-# The game's flags (and the library flags) with gcc's symbolic load/store macros written out before
-# assembling (tools/hilo_as.py): the project's gas sometimes gives the macro's lui the opcode of the
-# load it ends with (`lw rX, 0(rX)` carrying R_MIPS_HI16) after a `.p2align 3,,7` frag, e.g. an
-# indexed global array D_X[i] right after a branch (found on 0x001f6c58).
-[compilers."ee-gcc2.96-hilo"]
+[compilers."ee-gcc2.96-as2004"]
 dir = "~/.local/share/gt4/ee-gcc2.96"
-command = "bash {tools}/cc_hilo.sh \"{dir}/bin/ee-gcc -B {dir}/bin/ee- -O2 -G0 -fno-exceptions\""
+command = "bash {tools}/cc_as.sh \"$HOME/.local/share/gt4/compilers/ee-gcc3.2-040921/bin/ee-as\" \"{dir}/bin/ee-gcc -B {dir}/bin/ee- -O2 -G0 -fno-exceptions\""
 archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"
+needs = { "ee-gcc3.2-040921" = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc3.2-040921.tar.xz" }
 
-[compilers."ee-gcc2.96-nsa-hilo"]
-dir = "~/.local/share/gt4/compilers/ee-gcc2.96-no-strict-aliasing"
-command = "bash {tools}/cc_hilo.sh \"{dir}/bin/ee-gcc -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-strict-aliasing\""
+# The game's flags without global common-subexpression elimination: the 0x70002000 scratchpad
+# code (around 0x4a0000-0x4a8000) keeps the base address in one register across branches and
+# calls, which only -fno-gcse reproduces (found on 0x004a0690: 23 -> 3 differing instructions).
+[compilers."ee-gcc2.96-nogcse"]
+dir = "~/.local/share/gt4/ee-gcc2.96"
+command = "{dir}/bin/ee-gcc -c -B {dir}/bin/ee- -O2 -G0 -fno-exceptions -fno-gcse"
 archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz"

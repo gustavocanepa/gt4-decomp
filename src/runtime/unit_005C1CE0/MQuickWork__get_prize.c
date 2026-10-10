@@ -1,4 +1,4 @@
-/* compiler: ee-gcc2.96-nsa-nosib-rf */
+/* compiler: ee-gcc2.96-nsa-nosib-as2004 */
 
 typedef struct { short delta; short index; int pfn; } Pmf;
 

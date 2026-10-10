@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
-"""Turn a retail GT4 CORE.GT4 into a MIPS ELF that Ghidra, splat and objdiff can load.
+"""Turn a Polyphony Digital PS2 CORE executable (CORE.GT4, CORE.TT) into a MIPS ELF that Ghidra,
+splat and objdiff can load.
 
-Layout (gt-modding-hub, "PS2 Executables (CORE)"); retail GT4 has no encryption layer:
+Layout (gt-modding-hub, "PS2 Executables (CORE)"). Retail GT4 has no encryption layer; Tourist
+Trophy (and GT4 Online) wrap the file in one: u8[8] IV, Salsa20 data, u32 CRC at the end, with the
+16-byte key "PolyphonyDigital" (stored in the executable XORed with 0x55). Inside:
     u16 boot flags, u32 decompressed size, raw deflate data
 then, decompressed:
     u16 hash size, hash, u16 hash size, hash, i32 section count, i32 entry,
@@ -14,7 +17,44 @@ import sys
 import zlib
 
 
+SALSA20_KEY = b"PolyphonyDigital"
+
+
+def _salsa20_block(key, iv, counter):
+    """One 64-byte Salsa20/20 keystream block for a 16-byte key ("expand 16-byte k")."""
+    def rotl(v, c):
+        return ((v << c) & 0xFFFFFFFF) | (v >> (32 - c))
+
+    k, c = struct.unpack("<4I", key), struct.unpack("<4I", b"expand 16-byte k")
+    n = struct.unpack("<2I", iv)
+    state = [c[0], *k, c[1], n[0], n[1], counter & 0xFFFFFFFF, counter >> 32, c[2], *k, c[3]]
+    x = state[:]
+    for _ in range(10):
+        for a, b, cc, d in ((0, 4, 8, 12), (5, 9, 13, 1), (10, 14, 2, 6), (15, 3, 7, 11),
+                            (0, 1, 2, 3), (5, 6, 7, 4), (10, 11, 8, 9), (15, 12, 13, 14)):
+            x[b] ^= rotl((x[a] + x[d]) & 0xFFFFFFFF, 7)
+            x[cc] ^= rotl((x[b] + x[a]) & 0xFFFFFFFF, 9)
+            x[d] ^= rotl((x[cc] + x[b]) & 0xFFFFFFFF, 13)
+            x[a] ^= rotl((x[d] + x[cc]) & 0xFFFFFFFF, 18)
+    return struct.pack("<16I", *[(x[i] + state[i]) & 0xFFFFFFFF for i in range(16)])
+
+
+def decrypt(raw):
+    """The compressed CORE inside an encrypted one: Salsa20 over raw[8:-4], IV raw[:8]."""
+    iv, body = raw[:8], raw[8:-4]
+    stream = b"".join(_salsa20_block(SALSA20_KEY, iv, i) for i in range((len(body) + 63) // 64))
+    return (int.from_bytes(body, "little") ^ int.from_bytes(stream[:len(body)], "little")).to_bytes(len(body), "little")
+
+
 def unpack_core(raw):
+    """(boot flags, hashes, entry, [(address, bytes)]) of a CORE file, encrypted or not."""
+    try:
+        return _unpack_plain(raw)
+    except (zlib.error, SystemExit, struct.error):
+        return _unpack_plain(decrypt(raw))
+
+
+def _unpack_plain(raw):
     flags, size = struct.unpack_from("<HI", raw, 0)
     inflater = zlib.decompressobj(-15)
     data = inflater.decompress(raw[6:])

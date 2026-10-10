@@ -262,7 +262,81 @@ def m2c_asm(addr, count=None):
     """gnu_asm with the EE's register names for m2c's mipsee target: rabbitizer prints o32 names,
     where $8-$11 are $t0-$t3, but on the EE they are the argument registers $a4-$a7 (and $12-$15
     are $t0-$t3). Fed o32 names, m2c lost arguments 5-8 ("Read from unset register $t0")."""
-    return re.sub(r"\$(t[0-7])\b", lambda m: "$" + EE_NAMES[m.group(1)], gnu_asm(addr, count))
+    return re.sub(r"\$(t[0-7])\b", lambda m: "$" + EE_NAMES[m.group(1)], with_jump_tables(gnu_asm(addr, count)))
+
+
+def read_word(vaddr):
+    """The 32-bit word at vaddr in any loaded section of the executable, or None."""
+    for base, blob in project.load_image()[1]:
+        if base <= vaddr <= base + len(blob) - 4:
+            return struct.unpack_from("<I", blob, vaddr - base)[0]
+    return None
+
+
+def with_jump_tables(asm):
+    """gnu_asm text with each switch jump table made visible to m2c: the `lui`/`lw` that load the
+    table become %hi/%lo of a jtbl_ADDR symbol, the table's words follow in .rodata as `.word .L`
+    labels, and every case target gets its label. Without the table m2c gives up on the function
+    ("jump table is not provided"), which is what kept the big switch functions out of the drafts."""
+    lines = asm.splitlines()
+    ins = []  # (line index, pc, mnemonic, operands)
+    for i, l in enumerate(lines):
+        m = re.match(r"/\* ([0-9A-F]{8}) [0-9A-F]{8} \*/\s+(\S+)\s*(.*)", l)
+        if m:
+            ins.append((i, int(m.group(1), 16), m.group(2), [o.strip() for o in m.group(3).split(",")]))
+    if not ins:
+        return asm
+    start, end = ins[0][1], ins[-1][1] + 4
+    tables, edits = {}, {}
+    for k, (i, pc, mn, ops) in enumerate(ins):
+        if mn != "jr" or ops[0] == "$ra":
+            continue
+        reg, lw, lui, bound = ops[0], None, None, None
+        for j in range(k - 1, max(-1, k - 12), -1):
+            _, _, mn2, ops2 = ins[j]
+            if lw is None and mn2 == "lw" and ops2[0] == reg:
+                mo = re.match(r"(-?0x[0-9A-Fa-f]+|-?\d+)\((\$\w+)\)", ops2[1])
+                if not mo:
+                    break
+                lw, base = (j, int(mo.group(1), 0), mo.group(2)), mo.group(2)
+            elif lw is not None and lui is None and mn2 == "lui" and ops2[0] == lw[2]:
+                lui = (j, int(ops2[1], 0))
+            elif mn2 == "sltiu" and bound is None:
+                bound = int(ops2[2], 0)
+        if lw is None or lui is None:
+            continue
+        table = ((lui[1] << 16) + lw[1]) & 0xFFFFFFFF
+        targets = []
+        while bound is None or len(targets) < bound:
+            w = read_word(table + 4 * len(targets))
+            if w is None or not start <= w < end or w & 3:
+                break
+            targets.append(w)
+        if not targets:
+            continue
+        name = f"jtbl_{table:08X}"
+        tables[name] = targets
+        edits[ins[lui[0]][0]] = ("lui", f"{ins[lui[0]][3][0]}, %hi({name})")
+        edits[ins[lw[0]][0]] = ("lw", f"{ins[lw[0]][3][0]}, %lo({name})({lw[2]})")
+    if not tables:
+        return asm
+    labelled = {int(m.group(1), 16) for m in re.finditer(r"^\.L([0-9A-F]{8}):", asm, re.M)}
+    wanted = {t for ts in tables.values() for t in ts} - labelled
+    out = []
+    for i, l in enumerate(lines):
+        m = re.match(r"/\* ([0-9A-F]{8}) ", l)
+        if m and int(m.group(1), 16) in wanted:
+            out.append(f".L{int(m.group(1), 16):08X}:")
+        if i in edits:
+            mn, ops = edits[i]
+            l = re.sub(r"\*/\s+.*$", f"*/  {mn:<11} {ops}", l)
+        out.append(l)
+    out += ["", ".section .rodata"]
+    for name, ts in tables.items():
+        out.append(f"glabel {name}")
+        out += [f".word .L{t:08X}" for t in ts]
+    out.append(".section .text")
+    return "\n".join(out) + "\n"
 
 
 def cmd_asm(addr):
@@ -299,6 +373,13 @@ def link_problem(addr, src):
 
 
 def cmd_check(addr, src):
+    # Inline assembly beyond single instructions (and raw words) is not decompiled code: such a
+    # source is refused before it is compiled, so no tool or agent can keep it as a match.
+    import asm_policy
+    bad = asm_policy.violations(open(src, encoding="utf-8", errors="replace").read())
+    if bad:
+        print(f"REFUSED by tools/asm_policy.py: {'; '.join(bad)}")
+        sys.exit(1)
     text_addr, text = load_text()
     target = trim_padding(words_at(text_addr, text, addr, function_span(addr)))
     obj = compile_c(src)

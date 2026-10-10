@@ -12,6 +12,8 @@ where it is expected) and the files under `src/` are derived from it mechanicall
 | Expat (James Clark's XML parser) | 1.95.7 (2003-10-20) | MIT (see below) | 0x4ce828-0x4e6bd8, 323 functions, 98.5 KB | https://github.com/libexpat/libexpat/tree/R_1_95_7/expat |
 | newlib (Cygnus/Red Hat embedded C library) | 1.9.0 (2001-03; the PS2 toolchain's libc) | BSD-style per file, COPYING.NEWLIB (see below) | libc and libm in the library region (string, stdio, stdlib, ctype, reent around 0x5a2000-0x5b7000) | https://sourceware.org/pub/newlib/newlib-1.9.0.tar.gz |
 | SGI STL headers (libstdc++ v2 of gcc 2.96, snapshot 2000-10-03) | stl_*.h, type_traits.h | HP/SGI permissive notice (see below) | template instantiations in the library region (0x5d5000-0x60f000: rb-tree members of `map<basic_string, T>`) | gcc-20001003/libstdc++/stl/ |
+| GNU libio (iostream/streambuf of libstdc++ v2) | 2.8.0, gcc snapshot 2000-10-03 | GPLv2 with the libio special exception (see below); marked `licence: libio` | 0x591248-0x59bee8 (its objects), 0x614068-0x616370 (out-of-line copies of its inline members and its classes' type_info functions) | gcc-20001003/libio/ |
+| GCC runtime (libgcc.a of gcc 2.96: libgcc2.c, fp-bit.c, frame.c, the C++ runtime cp/tinfo*.cc, exception.cc, new*.cc) | gcc snapshot 2000-10-03 | GPL with the GCC runtime/linking exceptions (see below); marked `licence: gcc-runtime` | 0x5ba060-0x5c1ce0, 0x616370-0x616f24 | gcc-20001003/gcc/ |
 
 ## Expat 1.95.7
 
@@ -69,6 +71,88 @@ to use, copy, modify and distribute provided the entire notice is included) and 
 Microsystems, Inc. business. Permission to use, copy, modify, and distribute this software is freely
 granted, provided that this notice is preserved."). Files touched by DJ Delorie (`mktemp.c`,
 `getenv*.c`, `putenv*.c`, `setenv*.c`), whose terms are in a separate `copying.dj`, are left out.
+
+## Code that a build can leave out: `licence:` markers
+
+The owner's decision for the GPL-derived libraries below: their sources stay in `src/` and count
+toward the total, but each carries a `licence: NAME` line in its first 8 lines, and
+`python tools/build.py --without NAME` (repeatable) leaves those sources out. The image still
+matches: the functions they stood for then come from splat's assembly like any unmatched function,
+and every name the other sources call them by resolves to the same address
+(`config/libs/libio_symbols.txt`, read by tools/symbols.py, gives libio's mangled C++ and C names
+their addresses).
+
+## GNU libio 2.8.0 (gcc snapshot 2000-10-03)
+
+The game's iostream library is libio as libstdc++ v2 shipped it in the gcc snapshot the compiler
+was built from (`Libgcc_2_96_ee_001003_1`): libstdc++'s `iostream.list` (libio's IO_OBJECTS,
+IOSTREAM_OBJECTS and OSPRIM_OBJECTS). `config/libs/libio.toml` describes the staged tree (libio's
+top-level sources, newlib 1.9.0's headers as the PS2 toolchain configured it, and a hand-written
+`_G_config.h` for the EE: 64-bit `long`, so `off_t`, `fpos_t` and `ssize_t` are 64-bit; the
+game's `_IO_FILE` has its 8-byte `_offset` at 0x40 and the C++ vtable pointer at 0x50). Built like
+Sony's other libraries, C as C and the `.cc` files as C++.
+
+Where it is: its objects at 0x591248-0x59bee8 (iostream.cc, isgetline.cc, isscan.cc, sbscan.cc,
+stdstreams.cc, streambuf.cc, genops.c, iovfscanf.c, iopadn.c, iogetline.c, ioseekoff.c,
+ioseekpos.c, outfloat.c, ioungetc.c, iogetc.c, ioputc.c, filebuf.cc, ioassign.cc, filedoalloc.c,
+floatconv.c, fileops.c, stdiostream.cc), and the out-of-line copies of its inline members with its
+classes' type_info functions at 0x614068-0x616370 (grouped class by class: ostream, istream,
+iostream, the `_withassign` streams, ios, streambuf, filebuf, `_ios_fields`, `_IO_FILE`, stdiobuf,
+istdiostream, ostdiostream). `python tools/libmatch.py scan libio` finds 209 of its functions
+byte for byte (23.3 KB); 83 sources in `src/` were written from the unmodified source by
+`libmatch.py emit libio` (each starts with a comment naming libio, the function and its file, the
+`licence: libio` line, then the file's own notice; floatconv.c's sources also keep David M. Gay's
+notice, which that file carries for its dtoa code), 6 more need the nothrow stubs and wait in
+`build/libmatch/pending/`. The other libio functions in `src/` (262 sources, written by agents from
+the assembly) carry the same marker after a first comment naming the libio function; all 345 are
+judged MATCH. `iovfscanf.c`'s and `outfloat.c`'s code descends from 4.4BSD (their own notice is the
+FSF one above), and `ioputc.c` carries the GNU C Library's LGPL notice.
+
+The libio notice (each file carries it, with its own years):
+
+Copyright (C) 1993, 1995, 1997, 1998 Free Software Foundation, Inc. This file is part of the GNU IO
+Library. This library is free software; you can redistribute it and/or modify it under the terms
+of the GNU General Public License as published by the Free Software Foundation; either version 2,
+or (at your option) any later version. [...]
+
+As a special exception, if you link this library with files compiled with a GNU compiler to produce
+an executable, this does not cause the resulting executable to be covered by the GNU General Public
+License. This exception does not however invalidate any other reasons why the executable file might
+be covered by the GNU General Public License.
+
+Building without it: `python tools/build.py --without libio` leaves out every source whose first 8
+lines hold `licence: libio`.
+
+## GCC runtime (libgcc.a of the gcc snapshot 2000-10-03)
+
+libgcc.a as the game's compiler built it, at 0x5ba060-0x5c1ce0: libgcc2.c (`__muldi3`,
+`__udivdi3`, `__umoddi3`, `__negdi2`, `__cmpdi2`, `__ucmpdi2`, `__gcc_bcmp`, the exception-handling
+support), config/fp-bit.c (soft float: `__addsf3`...), frame.c (`search_fdes`...) and the C++ runtime
+that gcc 2.96 puts in libgcc.a (cp/tinfo.cc, tinfo2.cc, exception.cc, new*.cc: the type_info
+classes, `__user_type_info::do_upcast`, `__is_pointer`, `__cplus_type_matcher`, terminate...), plus
+the out-of-line copies of the runtime classes' members and their type_info functions at
+0x616370-0x616f24 (type_info, the `__*_type_info` classes, exception, bad_alloc, bad_cast,
+bad_typeid, bad_exception). The 123 sources of it in `src/` (written from the assembly) carry
+`licence: gcc-runtime` after a first comment naming the function where it is known; all judged
+MATCH. libgcc2.c, fp-bit.c and frame.c say:
+
+In addition to the permissions in the GNU General Public License, the Free Software Foundation
+gives you unlimited permission to link the compiled version of this file into combinations with
+other programs, and to distribute those combinations without any restriction coming from the use of
+this file. (The General Public License restrictions do apply in other respects; for example, they
+cover modification of the file, and distribution when not linked into a combine executable.)
+
+and the C++ runtime files (cp/tinfo.cc, tinfo2.cc, exception.cc, new*.cc):
+
+As a special exception, you may use this file as part of a free software library without
+restriction. Specifically, if other files instantiate templates or use macros or inline functions
+from this file, or you compile this file and link it with other files to produce an executable,
+this file does not by itself cause the resulting executable to be covered by the GNU General Public
+License. This exception does not however invalidate any other reasons why the executable file
+might be covered by the GNU General Public License.
+
+Building without it: `python tools/build.py --without gcc-runtime` (both:
+`--without libio --without gcc-runtime`).
 
 ## Identified but not redistributable (no code added)
 

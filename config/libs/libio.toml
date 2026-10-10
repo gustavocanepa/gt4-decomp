@@ -1,0 +1,39 @@
+# GNU libio (the iostream/streambuf library of libstdc++ v2), as shipped in the gcc snapshot of
+# 2000-10-03 that the game's compiler (ee-gcc 2.96, `Libgcc_2_96_ee_001003_1`) was built from.
+# Source: gcc-20001003/libio (libio 2.8.0 of libstdc++ 2.90.x); the staged copy in
+# ../gt4-thirdparty/libio-20001003/gt4 is outside the repository: libio's top-level .c/.cc/.h,
+# newlib 1.9.0's headers (the PS2 toolchain's libc, as libio was configured against it) and a
+# hand-written _G_config.h for the EE (64-bit `long`: off_t, fpos_t, ssize_t are 64-bit).
+# Only the per-function sources libmatch.py writes are committed; each carries the libio notice
+# and the line `licence: libio`, so `python tools/build.py --without libio` can leave them out
+# (THIRD_PARTY.md).
+version = "2.8.0 (gcc 2000-10-03 snapshot)"
+license = "GPLv2 with the libio special exception (see each file's notice)"
+url = "https://gcc.gnu.org/ (gcc snapshot 2000-10-03, directory libio/)"
+source = "../gt4-thirdparty/libio-20001003/gt4"
+compiler = "ee-gcc2.96-no-strict-aliasing"
+defines = []
+range = ["0x54dbb8", "0x617a14"]
+# libstdc++'s iostream.list: libio's IO_OBJECTS, IOSTREAM_OBJECTS and OSPRIM_OBJECTS (Makefile.in).
+files = [
+    "filedoalloc.c", "floatconv.c", "genops.c", "fileops.c", "iovfprintf.c", "iovfscanf.c",
+    "ioignore.c", "iopadn.c", "iofgetpos.c", "iofread.c", "iofscanf.c", "iofsetpos.c",
+    "iogetdelim.c", "iogetline.c", "ioprintf.c", "ioseekoff.c", "ioseekpos.c", "outfloat.c",
+    "strops.c", "iofclose.c", "iopopen.c", "ioungetc.c", "peekc.c", "iogetc.c", "ioputc.c",
+    "iofeof.c", "ioferror.c",
+    "builtinbuf.cc", "filebuf.cc", "fstream.cc", "indstream.cc", "ioassign.cc", "ioextend.cc",
+    "iomanip.cc", "iostream.cc", "isgetline.cc", "isgetsb.cc", "isscan.cc", "osform.cc",
+    "procbuf.cc", "sbform.cc", "sbgetline.cc", "sbscan.cc", "stdiostream.cc", "stdstrbufs.cc",
+    "stdstreams.cc", "stream.cc", "streambuf.cc", "strstream.cc", "PlotFile.cc", "SFile.cc",
+    "parsestream.cc", "pfstream.cc", "editbuf.cc",
+    "ioprims.c", "iostrerror.c", "cleanup.c",
+]
+# Emitting: each header once (newlib's headers are pulled in dozens of times), inline functions kept
+# whole (gcc inlines them), David M. Gay's notice in floatconv.c kept beside the libio one, and the
+# marker build.py --without libio looks for in a source's first 8 lines.
+include_once = true
+keep_inline = true
+keep_notices = ["The author of this software is David M. Gay"]
+false_macros = ["0", "_G_CLOG_CONFLICT", "_G_HAVE_PRINTF_FP", "_G_HAVE_LONG_DOUBLE_IO", "KR_headers"]  # 0 or undefined here: `#if` blocks left out (iostream.h's __asm__ label, floatconv.c's K&R heads, iostream.cc's long double and printf_fp variants)
+extern_objects = ["io_defs__", "use_stdiobuf"]  # streambuf.cc's cleanup object, stdstreams.cc's flag
+marker = "licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md)"

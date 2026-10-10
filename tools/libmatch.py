@@ -320,14 +320,14 @@ def cmd_scan(cfg, extra_defines):
                 total_found += 1
                 bytes_found += r["size"]
                 taken[addr] = r["name"]
-                entry = {"file": f, "address": f"{addr:08x}", "size": r["size"], "status": "found",
+                entry = {"file": f, "address": f"{addr:08x}", "size": r["size"], "status": "found", "offset": r["offset"],
                          "refs": {s: f"{a:08x}" for s, a in r.get("refs", {}).items()}}
                 print(f"  {addr:08x} {r['size']:5d}  {r['name']}")
             else:
                 lo = max([x["found"][0] + x["size"] for x in results[:k] if len(x["found"]) == 1], default=0)
                 hi = min([x["found"][0] for x in results[k + 1:] if len(x["found"]) == 1], default=1 << 32)
                 near = closest(r, candidates, lo, hi)
-                entry = {"file": f, "size": r["size"], "status": "missing"}
+                entry = {"file": f, "size": r["size"], "status": "missing", "offset": r["offset"]}
                 if near:
                     entry["closest"] = f"{near[0]:08x}"
                     entry["closest_diff"] = near[1]
@@ -345,9 +345,10 @@ def cmd_scan(cfg, extra_defines):
 
 # ---------------------------------------------------------------- flattening the source
 
-def strip_comments(text, keep_first=True):
-    """Remove comments (the first one of the file kept: the license header), keeping the newlines
-    so line numbers stay meaningful."""
+def strip_comments(text, keep_first=True, keep=()):
+    """Remove comments (the first one of the file kept: the license header, and any comment holding
+    one of the `keep` texts: a second notice, e.g. David M. Gay's in libio's floatconv.c), keeping
+    the newlines so line numbers stay meaningful."""
     out = []
     i, n = 0, len(text)
     first = keep_first
@@ -361,7 +362,8 @@ def strip_comments(text, keep_first=True):
             i = j + 1
         elif text.startswith("/*", i):
             j = text.index("*/", i + 2) + 2
-            out.append(text[i:j] if first else "\n" * text.count("\n", i, j))
+            out.append(text[i:j] if first or any(k in text[i:j] for k in keep)
+                       else "\n" * text.count("\n", i, j))
             first = False
             i = j
         elif text.startswith("//", i):
@@ -380,18 +382,37 @@ def strip_comments(text, keep_first=True):
 INCLUDE = re.compile(r'^\s*#\s*include\s*([<"])([^>"]+)[>"]')
 
 
-def flatten(cfg, name, depth=0):
-    """The file with the library's own includes (and the shim headers) inlined: [(line, origin)]."""
+def flatten(cfg, name, depth=0, seen=None, conditional=False):
+    """The file with the library's own includes (and the shim headers) inlined: [(line, origin)].
+    With `include_once` in the config, a header already inlined is not inlined again (its include
+    guard would make it empty): libio's sources pull in newlib's headers dozens of times. Only an
+    include outside every #if (include guards aside) counts: one in a block the compiler skips
+    must not hide the header from a later include that is compiled."""
+    if seen is None:
+        seen = set()
     for base in ([cfg["source"]] if name.endswith(".c") or depth == 0 else [cfg["source"], SHIM]):
         path = os.path.join(base, name)
         if os.path.exists(path):
             break
     else:
         return None
-    text = strip_comments(open(path, encoding="utf-8", errors="replace").read(), keep_first=base == cfg["source"])
+    text = strip_comments(open(path, encoding="utf-8", errors="replace").read(), keep_first=base == cfg["source"],
+                          keep=tuple(cfg.get("keep_notices", ())))
     out = []
     in_header = False  # inside the kept first comment (newlib's documentation shows `#include`s)
-    for i, line in enumerate(text.split("\n")):
+    text_lines = text.split("\n")
+    opened = []  # for every open #if of this file: 1, or 0 for an include guard
+    for i, line in enumerate(text_lines):
+        c = re.match(r"^\s*#\s*(if|ifdef|ifndef|endif)\b\s*(\w*)", line)
+        if c and c.group(1) == "endif":
+            if opened:
+                opened.pop()
+        elif c:
+            nxt = [l for l in text_lines[i + 1:i + 30] if l.strip()][:6]
+            guard = c.group(1) == "ifndef" and any(re.match(r"^\s*#\s*define\s+" + c.group(2) + r"\b", l)
+                                                   for l in nxt)
+            opened.append(0 if guard else 1)
+        level = sum(opened)
         m = None if in_header else INCLUDE.match(line)
         if "/*" in line and "*/" not in line[line.index("/*"):]:
             in_header = True
@@ -399,7 +420,12 @@ def flatten(cfg, name, depth=0):
             in_header = False
         inner = None
         if m and depth < 8:
-            inner = flatten(cfg, m.group(2), depth + 1)
+            if cfg.get("include_once") and m.group(2) in seen:
+                out.append(("", f"{name}:{i + 1}"))
+                continue
+            inner = flatten(cfg, m.group(2), depth + 1, seen, conditional or level > 0)
+            if inner is not None and not (conditional or level > 0):
+                seen.add(m.group(2))
         if inner is not None:
             out += inner
         else:
@@ -427,9 +453,10 @@ class Definition:
 
 MACRO_DEF = re.compile(r"^\s*#\s*define\s+(\w+)\((\w+)\)\s*(.*)$")
 MACRO_UNDEF = re.compile(r"^\s*#\s*undef\s+(\w+)")
-EXTERN_C = re.compile(r'\s*extern\s+"C"\s*\{')
+EXTERN_C = re.compile(r'\s*extern\s+"C(?:\+\+)?"\s*\{')  # also libio's `extern "C++" {`
 # An old-style definition's head: `name (a, b)` followed by the parameter declarations (newlib).
 KNR_HEAD = re.compile(r"\b\w+\s*\(\s*(?:\w+\s*,\s*)*\w+\s*\)\s*(?:[^;{}=]+;\s*)+$")
+KNR_PARAMS = re.compile(r"\(\s*(?:\w+\s*,\s*)*\w+\s*\)\s*(?:[^;{}=]+;\s*)+$")
 
 
 def expand_name(macros, text):
@@ -580,7 +607,126 @@ def find_definitions(lines):
     return defs
 
 
+# ---------------------------------------------------------------- C++ definitions (libio)
+
+CXX_EXTS = (".cc", ".cpp", ".cxx", ".C")
+# gcc 2.96 (old ABI) operator codes: __ls__7ostreamc is ostream::operator<<(char)
+OPERATORS = {"ls": "<<", "rs": ">>", "as": "=", "eq": "==", "ne": "!=", "lt": "<", "gt": ">",
+             "le": "<=", "ge": ">=", "vc": "[]", "cl": "()", "nt": "!", "pl": "+", "mi": "-",
+             "ml": "*", "dv": "/", "md": "%", "ad": "&", "or": "|", "er": "^", "co": "~",
+             "aa": "&&", "oo": "||", "pp": "++", "mm": "--", "rf": "->", "apl": "+=", "ami": "-=",
+             "aml": "*=", "adv": "/=", "amd": "%=", "aad": "&=", "aor": "|=", "aer": "^=",
+             "als": "<<=", "ars": ">>=", "nw": "new", "dl": "delete", "vn": "new[]", "vd": "delete[]"}
+
+
+def is_cxx(path):
+    return path.endswith(CXX_EXTS)
+
+
+def mangled_class(rest):
+    """The class a gcc 2.96 mangled qualifier names (`7istream...`, `Q23ios8seek_dir...`), or None."""
+    q = re.match(r"Q(\d)", rest)
+    pos, parts = (q.end() if q else 0), []
+    for _ in range(int(q.group(1)) if q else 1):
+        n = re.match(r"\d+", rest[pos:])
+        if not n:
+            return None
+        pos += n.end()
+        parts.append(rest[pos:pos + int(n.group(0))])
+        pos += int(n.group(0))
+    return "::".join(parts)
+
+
+def mangled_key(sym):
+    """(class or None, function name) of a gcc 2.96 mangled C++ symbol, e.g.
+    `__rs__7istreamRc` -> ("istream", "operator>>"), `_$_7filebuf` -> ("filebuf", "~filebuf");
+    a plain C name gives (None, name)."""
+    m = re.match(r"^_[$.]_(.+)$", sym)
+    if m:
+        cls = mangled_class(m.group(1))
+        return (cls, "~" + cls.split("::")[-1]) if cls else (None, sym)
+    m = re.match(r"^__(?=\d|Q\d)(.+)$", sym)
+    if m:
+        cls = mangled_class(m.group(1))
+        return (cls, cls.split("::")[-1]) if cls else (None, sym)
+    m = re.match(r"^__([a-z]+)__(.*)$", sym)
+    if m and m.group(1) in OPERATORS:
+        name, rest = "operator" + OPERATORS[m.group(1)], m.group(2)
+    else:
+        m = re.search(r"(?<=.)__(?=[0-9QFC])", sym)
+        if not m:
+            return (None, sym)
+        name, rest = sym[:m.start()], sym[m.end():]
+    if rest.startswith("F"):
+        return (None, name)
+    if re.match(r"C(?=\d|Q\d)", rest):
+        rest = rest[1:]
+    return (mangled_class(rest), name)
+
+
+CXX_DECLARATOR = re.compile(r"((?:\w+\s*::\s*)*)(~\s*\w+|operator\s*(?:\(\s*\)|\[\s*\]|new\b|delete\b|[^\w\s(]+)|\w+)\s*\(")
+
+
+def cxx_key(sig):
+    """(class or None, function name) of a C++ definition's head, the form mangled_key gives."""
+    m = CXX_DECLARATOR.search(re.sub(r"\s+", " ", sig))
+    if not m:
+        return (None, None)
+    cls = re.sub(r"\s", "", m.group(1)).rstrip(":") or None
+    return (cls, re.sub(r"\s", "", m.group(2)))
+
+
+def is_inline(sig):
+    return re.search(r"\b(?:inline|__inline__|__inline)\b", sig) is not None
+
+
+def cxx_target(defs, lines, report, name):
+    """The definition of the mangled function `name`: the out-of-line definitions with its class and
+    name, paired in source order with the object's functions of that class and name (gcc emits
+    them in source order), so overloads (operator>> for every type) find their own."""
+    entry = report["functions"][name]
+    key = mangled_key(name)
+    mine = [d for d in defs if d.kind == "func" and not is_inline(d.signature(lines))
+            and cxx_key(d.signature(lines)) == key]
+    same = sorted((e.get("offset", 0), n) for n, e in report["functions"].items()
+                  if e["file"] == entry["file"] and mangled_key(n) == key)
+    if len(mine) != len(same):
+        return None
+    return mine[[n for _, n in same].index(name)]
+
+
 # ---------------------------------------------------------------- emitting one function
+
+COND = re.compile(r"^\s*#\s*(if|ifdef|ifndef|elif|else|endif)\b\s*(\w*)\s*$")
+
+
+def drop_false_blocks(lines, macros):
+    """`#if MACRO` blocks of the config's `false_macros` (0 or undefined in this build) removed, their
+    #else part kept: libio's iostream.h holds a file-scope __asm__ label for a conflict that the
+    PS2 build does not have, which the judge's assembly policy would refuse."""
+    if not macros:
+        return lines
+    out, stack = [], []  # stack: for every open #if, "drop", "keep-else" or None (not ours)
+    for line, origin in lines:
+        m = COND.match(line)
+        kind = m.group(1) if m else re.match(r"^\s*#\s*(if|ifdef|ifndef|elif|else|endif)\b", line)
+        kind = kind if isinstance(kind, str) or kind is None else kind.group(1)
+        dropping = any(s == "drop" for s in stack)
+        if kind in ("if", "ifdef") and m and m.group(2) in macros:
+            stack.append("drop")
+            continue
+        if kind in ("if", "ifdef", "ifndef"):
+            stack.append(None)
+        elif kind == "else" and stack and stack[-1] in ("drop", "keep-else"):
+            stack[-1] = "keep-else" if stack[-1] == "drop" else "drop"
+            continue
+        elif kind == "endif" and stack:
+            if stack.pop() in ("drop", "keep-else"):
+                continue
+        if not dropping:
+            out.append((line, origin))
+    return out
+
 
 def symbol_name(addr, is_func):
     return f"func_{addr:08X}" if is_func else f"D_{addr:08X}"
@@ -607,8 +753,13 @@ def emit_source(cfg, report, names, stubs=False, pad=False):
     if not all(e and e["status"] == "found" for e in entries):
         return None
     lines = expand_function_macros(flatten(cfg, entries[0]["file"]))
+    lines = drop_false_blocks(lines, cfg.get("false_macros", ()))
     defs = find_definitions(lines)
-    targets = [next((d for d in defs if d.kind == "func" and d.name == n), None) for n in names]
+    cxx = is_cxx(entries[0]["file"])
+    if cxx:
+        targets = [cxx_target(defs, lines, report, n) for n in names]
+    else:
+        targets = [next((d for d in defs if d.kind == "func" and d.name == n), None) for n in names]
     if None in targets:
         return None
     first = targets[0]
@@ -628,16 +779,27 @@ def emit_source(cfg, report, names, stubs=False, pad=False):
             if m:
                 local_statics[m.group(1)] = int(a, 16)
     defines = {}
-    for s, a in known.items():
-        if "." in s:
+    # C++: no renames (a #define cannot rename a mangled symbol, and a C name such as __overflow
+    # may also be a C++ function's); the judge and the build resolve the mangled names through
+    # config/libs/NAME_symbols.txt (tools/symbols.py).
+    for s, a in ({} if cxx else known).items():
+        if "." in s or "$" in s:
             continue
         defines[s] = symbol_name(a, s in funcs)
     for n, e in zip(names, entries):
-        defines[n] = f"func_{int(e['address'], 16):08X}"
+        if not cxx:
+            defines[n] = f"func_{int(e['address'], 16):08X}"
 
-    what = ", ".join(names)
+    if cxx:
+        what = ", ".join("::".join(p for p in cxx_key(t.signature(lines)) if p) + "()" for t in targets)
+        what += f" ({', '.join(names)})"
+    else:
+        what = ", ".join(names)
     head = [f"/* {cfg['name']} {cfg.get('version', '')}: {what} from {entries[0]['file']}, placed at 0x{addr:08x} by",
             " * tools/libmatch.py. Third-party code, see THIRD_PARTY.md for its license and origin. */"]
+    if cfg.get("marker"):  # e.g. `licence: libio (...)`, which build.py --without reads
+        head[-1] = head[-1][:-3].rstrip()
+        head.append(f" * {cfg['marker']} */")
     out = []
     i = 0
     by_start = {d.sig_start: d for d in defs}
@@ -651,8 +813,16 @@ def emit_source(cfg, report, names, stubs=False, pad=False):
         if d.kind == "func" and d in targets:
             out.append(sig)
             out += localize_statics(d.body(lines), local_statics, known)
+        elif d.kind == "func" and (cfg.get("keep_inline") or cxx) and is_inline(sig):
+            out += [l for l, _ in lines[d.sig_start:d.body_end + 1]]
+        elif d.kind == "func" and cxx and (cxx_key(sig)[0] or "::" in sig):
+            pass
         elif d.kind == "func" and stubs and d.sig_start < first.sig_start:
             out.append(f"__attribute__((section(\"{STUB_SECTION}\"))) {sig.strip()} {{ }}")
+        elif d.kind == "func" and KNR_HEAD.search(sig.strip()):
+            # an old-style definition (libio's): declared without its parameters, so the header's
+            # prototype stays the one in force
+            out.append(KNR_PARAMS.sub("()", sig.strip()) + ";")
         elif d.kind == "func":
             out.append(sig.rstrip() + ";")
         elif d.kind == "data":
@@ -660,11 +830,17 @@ def emit_source(cfg, report, names, stubs=False, pad=False):
             # judge only notes the reference); a definition would drag its initializer's functions in.
             body = "\n".join(d.body(lines))
             out.append(extern_declaration(sig, body))
-            if d.name in known:
+            if d.name in known and not cxx:
                 defines[d.name] = symbol_name(known[d.name], False)
         else:
             out += [l for l, _ in lines[d.sig_start:d.body_end + 1]]
         i = d.body_end + 1
+    # Objects the config names (`extern_objects`: a global whose constructor or destructor would
+    # bring a static initializer along, a static int) become declarations, as tables do above.
+    for name in cfg.get("extern_objects", ()):
+        decl = re.compile(r"^(?:static\s+)?([A-Za-z_][\w:<>]*(?:\s+[A-Za-z_][\w:<>]*)*[\s*&]+)"
+                          + re.escape(name) + r"\s*(?:=[^;]*)?;\s*$")  # at file scope: column 0
+        out = [decl.sub(lambda m: f"extern {m.group(1).strip()} {name};", l) for l in out]
     # The defines come first: the library's configuration, then the symbols with known addresses
     # (some decided while walking: data tables).
     head += ["#define " + d.replace("=", " ", 1) for d in cfg.get("defines", [])]
@@ -734,10 +910,10 @@ def localize_statics(body, local_statics, known):
     return "".join(out).split("\n")
 
 
-def judge(addr, text):
+def judge(addr, text, ext=".c"):
     """match.py check on the text (a `/* compiler: NAME */` first line picks that compiler)."""
     os.makedirs(os.path.join(OUT, "work"), exist_ok=True)
-    path = os.path.join(OUT, "work", f"{addr:08x}.c")
+    path = os.path.join(OUT, "work", f"{addr:08x}{ext}")
     open(path, "w", newline="\n").write(text)
     res = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "match.py"), "check", f"{addr:x}", path],
                          capture_output=True, text=True)
@@ -796,6 +972,7 @@ def cmd_emit(cfg, jobs, only=None):
 
     def work(item):
         names, addr = item
+        ext = ".cpp" if is_cxx(report["functions"][names[0]]["file"]) else ".c"
         first_log = None
         for st, pd, cc in attempts:
             text = emit_source(cfg, report, names, stubs=st, pad=pd)
@@ -803,16 +980,16 @@ def cmd_emit(cfg, jobs, only=None):
                 return names, addr, "no", "no definition found in the flattened source"
             if cc:
                 text = f"/* compiler: {cc} */\n" + text
-            ok, log, _ = judge(addr, text)
+            ok, log, _ = judge(addr, text, ext)
             first_log = first_log or log
             if not ok:
                 continue
             if st:
                 os.makedirs(pending, exist_ok=True)
                 text = "/* needs: nothrow stubs for the functions defined earlier */\n" + text
-                open(os.path.join(pending, f"func_{addr:08X}.c"), "w", newline="\n").write(text)
+                open(os.path.join(pending, f"func_{addr:08X}{ext}"), "w", newline="\n").write(text)
                 return names, addr, "pending", "nothrow stubs for the functions defined earlier"
-            open(os.path.join(ROOT, "src", f"func_{addr:08X}.c"), "w", newline="\n").write(text)
+            open(os.path.join(ROOT, "src", f"func_{addr:08X}{ext}"), "w", newline="\n").write(text)
             return names, addr, "MATCH" + (f" ({cc})" if cc else "") + (" (rodata pad)" if pd else ""), log
         return names, addr, "no", first_log
 

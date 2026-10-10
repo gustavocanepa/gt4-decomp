@@ -2,7 +2,7 @@
 """Full build: link every matched function at its original address into one ELF and compare the
 result with the original executable, byte for byte.
 
-    build.py [--jobs 4] [--keep-going] [--limit N] [--compile-only]
+    build.py [--jobs 4] [--keep-going] [--limit N] [--compile-only] [--without LICENCE]
 
 Every function source under src/ (project.sources: flat src/func_ADDR.* or organized by
 tools/layout.py) is compiled with the game's compiler and linked, with the real addresses of
@@ -16,7 +16,7 @@ This closes the gap left by match.py, which compares one function at a time and,
 carry a relocation, only the opcode and registers: here every relocation is resolved by the linker,
 so a function that points at the wrong global fails.
 
-Outputs (all in build/full/): gt4.elf, report.json (per-function status) and, on the screen, a
+Outputs (all in build/full/): BASENAME.elf (project.toml), report.json (per-function status) and, on the screen, a
 summary plus every function that does not survive the link.
 """
 import argparse
@@ -37,8 +37,9 @@ import symbols
 
 ROOT = match.ROOT
 OUT = os.path.join(ROOT, "build", "full")
-WSL_DIR = "$HOME/.local/share/gt4/full"
-ELF = os.path.join(ROOT, "orig", "SCUS-97328", "CORE.GT4.elf")
+WSL_DIR = f"$HOME/.local/share/{project.BASENAME}/full"
+ELF = project.path(project.CONFIG["game"]["elf"])
+IMAGE = f"{project.BASENAME}.elf"
 SYMBOL = symbols.GENERIC  # the generic names; symbols.address_of resolves the real names too
 # Sections a compiled function may bring along without changing the image.
 HARMLESS = {".text", ".reginfo", ".mdebug", ".mdebug.eabi64", ".comment", ".pdr", ".gnu.attributes",
@@ -207,6 +208,10 @@ def main():
     ap.add_argument("--compile-only", action="store_true", help="stop after the compile step")
     ap.add_argument("--incbin", action="store_true",
                     help="fill undecompiled code with raw bytes even if splat's assembly is there")
+    ap.add_argument("--without", action="append", default=[], metavar="LICENCE",
+                    help="leave out the sources marked `licence: LICENCE` (e.g. libio, see "
+                         "THIRD_PARTY.md): their functions come from splat's assembly and the "
+                         "image still matches; such a build is never published")
     a = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
     # The previous proof goes first: a build that fails on the way leaves no report or image that
@@ -214,7 +219,7 @@ def main():
     # --compile-only run writes no new one, so it keeps the last (publish_progress.py still
     # refuses it once any source is newer than it).
     if not a.compile_only:
-        for stale in ("report.json", "gt4.elf", "built_text.bin", "built_data.bin"):
+        for stale in ("report.json", IMAGE, "built_text.bin", "built_data.bin"):
             if os.path.exists(os.path.join(OUT, stale)):
                 os.remove(os.path.join(OUT, stale))
 
@@ -224,6 +229,14 @@ def main():
     open(os.path.join(OUT, "data.bin"), "wb").write(elf[data_off:data_off + data_size])
 
     sources = project.sources(refresh=True)  # {address: path}
+    if a.without:
+        def licence(path):
+            with open(path, encoding="utf-8", errors="replace") as f:
+                m = re.search(r"licence: ([\w.+-]+)", "".join(f.readline() for _ in range(8)))
+            return m.group(1) if m else None
+        left_out = {addr for addr, path in sources.items() if licence(path) in a.without}
+        sources = {addr: path for addr, path in sources.items() if addr not in left_out}
+        print(f"  --without {', '.join(a.without)}: {len(left_out)} sources left out", flush=True)
     starts = set(sources)
     with open(match.FUNCTIONS) as f:
         for row in csv.DictReader(f):
@@ -455,10 +468,10 @@ mips-linux-gnu-as {project.CONFIG['cpu']['as_flags']} gaps.s -o gaps.o 2>&1 | gr
     wsl(f"""
 d="{WSL_DIR}"
 cd "$d"
-mips-linux-gnu-ld -EL -e 0x100008 -T link.ld -o gt4.elf --no-check-sections
-mips-linux-gnu-objcopy -O binary --only-section=.text gt4.elf built_text.bin
-mips-linux-gnu-objcopy -O binary --only-section=.data gt4.elf built_data.bin
-cp gt4.elf built_text.bin built_data.bin {to_wsl(OUT)}/
+mips-linux-gnu-ld -EL -e 0x{project.load_image()[0]:x} -T link.ld -o {IMAGE} --no-check-sections
+mips-linux-gnu-objcopy -O binary --only-section=.text {IMAGE} built_text.bin
+mips-linux-gnu-objcopy -O binary --only-section=.data {IMAGE} built_data.bin
+cp {IMAGE} built_text.bin built_data.bin {to_wsl(OUT)}/
 """)
     built_text = open(os.path.join(OUT, "built_text.bin"), "rb").read()
     built_data = open(os.path.join(OUT, "built_data.bin"), "rb").read()
@@ -482,7 +495,7 @@ cp gt4.elf built_text.bin built_data.bin {to_wsl(OUT)}/
     # from it (tools/report.py, publish_progress.py) can say what it describes and refuse a stale
     # or partial build.
     report = {"generated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-              "commit": commit, "dirty": dirty, "partial": bool(a.limit),
+              "commit": commit, "dirty": dirty, "partial": bool(a.limit or a.without),
               "sources": len(sources), "orphan_sources": orphans, "duplicate_sources": duplicates,
               "text_sha1": sha(built_text), "data_sha1": sha(built_data),
               "text_matches": text_ok, "data_matches": data_ok,

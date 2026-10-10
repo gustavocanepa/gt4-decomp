@@ -1,4 +1,4 @@
-/* compiler: ee-gcc2.96-hilo */
+/* compiler: ee-gcc2.96-as2004 */
 extern char D_00645570[];
 extern const char *D_00618DE0[];
 extern char *func_004F9F70(void *);
