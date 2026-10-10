@@ -1,3 +1,5 @@
+/* libio (GNU iostream library, gcc 2000-10-03 snapshot): the type_info function of libio's class ostdiostream (compiler-generated from its declaration).
+ * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 typedef int s32;
 
 extern "C" void ostream__tf();

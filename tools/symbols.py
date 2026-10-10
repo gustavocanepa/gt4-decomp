@@ -6,6 +6,9 @@ through this table, so sources may call functions and globals by their real name
 Names come from:
   config/symbol_addrs.txt   tools/rtti.py: Class__virtual_NN, Class__structor_N, Class__tf (code)
                             and Class__vtable (data), as `name = 0xADDR; // type:func|data`
+  config/libs/*_symbols.txt tools/libmatch.py's libraries: real (C and mangled C++) names of library
+                            functions and data, e.g. libio's `tellg__7istream`; like stl_symbols.txt
+                            they resolve but never name an address
   config/adhoc_methods.txt  tools/registration.py: `Class method 0xADDR`, the native methods the
                             script engine registers, used as Class__method
 

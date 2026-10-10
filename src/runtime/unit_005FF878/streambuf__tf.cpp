@@ -1,3 +1,5 @@
+/* libio (GNU iostream library, gcc 2000-10-03 snapshot): the type_info function of libio's class streambuf (compiler-generated from its declaration).
+ * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 typedef unsigned int u32;
 
 extern "C" void _IO_FILE__tf();

@@ -329,7 +329,7 @@ def safe(args):
 # the right half then the left half of the SAME access kind on one register (`ldr X` then `sdl X`
 # is a left-first load followed by its left-first store: 130 such functions were wrongly excluded)
 RIGHT_FIRST = re.compile(r"\b([ls])([dw])r\s+(\$\w+), [^\n]*\n[^\n]*\b\1\2l\s+\3,")
-RF_COMPILER = "ee-gcc2.96-nsa-nosib-rf"  # tools/cc_rf.sh: gcc -S, tools/rf_as.py, as
+RF_COMPILER = "ee-gcc2.96-nsa-nosib-as2004"  # tools/cc_as.sh: gcc -S, then the 2004 ee-as
 
 
 def right_first(asm):
