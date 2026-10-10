@@ -1,3 +1,4 @@
+#include "gt4/mModelSetPS2.h"
 typedef int s32;
 
 extern "C" void func_00575DA0(void *arg0);
@@ -6,10 +7,10 @@ extern "C" void mModelSet__structor_1(void *, s32);
 
 extern void *mModelSetPS2__vtable;
 
-extern "C" void mModelSetPS2__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 4) = &mModelSetPS2__vtable;
-    if (*(void **)((char *)arg0 + 0xC) != 0) {
-        func_00575DA0(*(void **)((char *)arg0 + 8));
+extern "C" void mModelSetPS2__structor_1(struct mModelSetPS2 *arg0, s32 arg1) {
+    arg0->unk4 = &mModelSetPS2__vtable;
+    if (arg0->unkC_pvoid != 0) {
+        func_00575DA0(arg0->unk8_pvoid);
     }
     mModelSet__structor_1(arg0, 0);
     if (arg1 & 1) {

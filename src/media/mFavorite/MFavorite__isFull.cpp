@@ -29,6 +29,12 @@ extern "C" void func_003285A8(s32);
 extern "C" void func_003285F8(s32);
 extern "C" void func_002FC870(void *, s32);
 
+struct MFavorite__isFull_v_s0 {
+    char pad0[0x8];
+    s32 unk8;
+    s32 unkC;
+};
+
 extern "C" void MFavorite__isFull(s32 *arg0) {
     s32 buf0[4];
     s32 v_s0;
@@ -37,7 +43,7 @@ extern "C" void MFavorite__isFull(s32 *arg0) {
     func_001BFEA8(buf0);
     v_s0 = *(s32 *)((char *)buf0[0] + 0x10);
     func_001BFE50(buf0, 0x2);
-    func_002FE278(buf0, !(*(s32 *)((char *)v_s0 + 0xc) < *(s32 *)((char *)v_s0 + 0x8)));
+    func_002FE278(buf0, !(((struct MFavorite__isFull_v_s0 *)v_s0)->unkC < ((struct MFavorite__isFull_v_s0 *)v_s0)->unk8));
     if (arg0 != buf0) {
         newVal = buf0[0];
         if (newVal != 0) {

@@ -283,3 +283,39 @@ What repeated:
 - Still open after the rules: a run of zero stores whose field set changed (the one-to-one literal
   map is wrong under reordering; regenerate the run from the original's offsets), `&p->f` vs `p->g`
   argument shapes, a statement added or removed.
+- Round four (2026-10-10): `ee-gcc2.96-no-strict-aliasing` whenever, against the original, float or
+  pointer stores move above int stores or a load moves above a store (also in game code); nops inside
+  small loops point at the `ee-gcc2.96-as2004` profile (the 2004 assembler); a plain indexed loop
+  with a call gives the `lw; nop` preheader and the countdown, a bound read in the condition with
+  no call gives `lw; daddu; nop`; registers skipped in a tail call are pass-through parameters; a
+  small class returned through a hidden pointer needs a declared copy constructor (a destructor
+  alone still returns in v0); old-ABI `dynamic_cast<T&>` is an explicit `__dynamic_cast`, a
+  noreturn `__throw_bad_cast` and a real virtual call; in ee-gcc 2.9 `lui 0xFFFF; ori 0xFFFF` is an
+  unsigned compare with 0xFFFFFFFF. Store-order search with blocks: build/scratch/os2d/permsearch.py.
+- Round five (2026-10-10): when registers are shifted against the original (a temporary in a3,
+  saved registers swapped), look for a callee that takes the caller's own parameters unchanged and
+  add them — and the reverse, a spurious extra argument swaps saved registers; `lwr` before `lwl`
+  means the 2004 assembler (`ee-gcc2.96-as2004`), also for expat's jump tables at .rodata offset 0;
+  bool is 4 bytes, a flag stored with sb is unsigned char; an STL tree find returns its iterator in
+  v0 when the iterator class has no copy constructor, through a hidden pointer when it has one; a
+  countdown loop ending in bgez is a user count-up loop the compiler reversed; one int local reused
+  in both branches fixes float register allocation; `float sc[4]` with an inline
+  `sincos(const float&)` reproduces the rotation family (0x4251C8...). Switch rules: see
+  knowledge/ee-gcc-2.96.md "Switch and jump tables".
+- Round six (2026-10-10): a branch whose target skips an argument copy already in its delay slot
+  means the callee takes fewer arguments (check its real arity); store order is solved mechanically
+  by tagging statements and applying the inverse emission permutation
+  (build/scratch/os2e/invperm.py); a `const T&` bound to a by-value return keeps the temporary's
+  address in an s-register; by-value argument temporaries sit above the hidden-return temporary,
+  an addressed parameter takes sp+0; `int i = 1` used as an index gives `li 4; addu`, a mask kept in
+  a variable a shared `li 0x3F`; a one-byte tag struct passed by value is reloaded with lbu, an
+  empty struct is passed as 0; a plain trailing call inside a C++ constructor still becomes `j`.
+  Register-only differences: use knowledge/gcc296-codegen-map.md and tools/alloc_table.py first.
+- Small near misses (Sonnet, 143 matches): an element address in its own local (`e = &t[i]`) flips
+  addu to base-first; a literal table address `((T*)0x6211A0)[i]` lets the load fill the jr delay
+  slot where an extern array symbol does not (not universal: an extern scalar byte matched once);
+  `char *p = D_x; return p + k;` keeps separate lui/addiu; constructors storing the vptr mid-object
+  use a base `struct B0 { virtual ~B0(); }`; long long operands fix daddu/and operand order; a stub
+  storing every argument register is an unused varargs function; a dead lhu before a word store is
+  `(void)*(volatile u16 *)&s->w;`; `for (i = 0; i < n; i++) return &a[i];` explains an unfolded zero
+  index. Open: nor-register reuse for long long &=/|=, 2.9 two-operand `mult $zero,v1,a0`.

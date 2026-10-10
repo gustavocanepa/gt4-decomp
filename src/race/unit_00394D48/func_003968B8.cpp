@@ -27,40 +27,62 @@ extern s32 D_006214DC;
 extern char D_006A03C0[];
 extern "C" void func_00454698(s32, s32, void *, s32);
 
+struct func_003968B8_arg0 {
+    char pad0[0x4];
+    s32 unk4;
+    char pad8[0xC];
+    s32 unk14;
+    char pad18[0xC];
+    s32 unk24;
+    char pad28[0xC];
+    s32 unk34;
+    char pad38[0xC];
+    s32 unk44;
+    char pad48[0xC];
+    s32 unk54;
+    s32 unk58;
+    s32 unk5C;
+    s32 unk60;
+    char pad64[0x48];
+    s32 unkAC;
+    char padB0[0x28];
+    s32 unkD8;
+};
+
 extern "C" void func_003968B8(s32 *arg0) {
     D_006214D8 = 0;
     D_006214DC = 0;
-    if (*(s32 *)((char *)arg0 + 0x4) != 0) {
-        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x4)) + 0x7c)), *(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x4)) + 0x7c), &D_006A03C0, 0x2);
+    if (((struct func_003968B8_arg0 *)arg0)->unk4 != 0) {
+        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk4) + 0x7c)), *(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk4) + 0x7c), &D_006A03C0, 0x2);
     }
-    if (*(s32 *)((char *)arg0 + 0x14) != 0) {
-        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x14)) + 0x7c)), *(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x14)) + 0x7c), &D_006A03C0, 0x2);
+    if (((struct func_003968B8_arg0 *)arg0)->unk14 != 0) {
+        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk14) + 0x7c)), *(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk14) + 0x7c), &D_006A03C0, 0x2);
     }
-    if (*(s32 *)((char *)arg0 + 0x24) != 0) {
-        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x24)) + 0x7c)), *(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x24)) + 0x7c), &D_006A03C0, 0x2);
+    if (((struct func_003968B8_arg0 *)arg0)->unk24 != 0) {
+        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk24) + 0x7c)), *(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk24) + 0x7c), &D_006A03C0, 0x2);
     }
-    if (*(s32 *)((char *)arg0 + 0x34) != 0) {
-        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x34)) + 0x7c)), *(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x34)) + 0x7c), &D_006A03C0, 0x2);
+    if (((struct func_003968B8_arg0 *)arg0)->unk34 != 0) {
+        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk34) + 0x7c)), *(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk34) + 0x7c), &D_006A03C0, 0x2);
     }
-    if (*(s32 *)((char *)arg0 + 0x44) != 0) {
-        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x44)) + 0x7c)), *(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x44)) + 0x7c), &D_006A03C0, 0x2);
+    if (((struct func_003968B8_arg0 *)arg0)->unk44 != 0) {
+        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk44) + 0x7c)), *(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk44) + 0x7c), &D_006A03C0, 0x2);
     }
-    if (*(s32 *)((char *)arg0 + 0x54) != 0) {
-        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x54)) + 0x7c)), *(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x54)) + 0x7c), &D_006A03C0, 0x2);
+    if (((struct func_003968B8_arg0 *)arg0)->unk54 != 0) {
+        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk54) + 0x7c)), *(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk54) + 0x7c), &D_006A03C0, 0x2);
     }
-    if (*(s32 *)((char *)arg0 + 0x58) != 0) {
-        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x58)) + 0x7c)), *(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x58)) + 0x7c), &D_006A03C0, 0x2);
+    if (((struct func_003968B8_arg0 *)arg0)->unk58 != 0) {
+        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk58) + 0x7c)), *(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk58) + 0x7c), &D_006A03C0, 0x2);
     }
-    if (*(s32 *)((char *)arg0 + 0x5c) != 0) {
-        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x5c)) + 0x7c)), *(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x5c)) + 0x7c), &D_006A03C0, 0x2);
+    if (((struct func_003968B8_arg0 *)arg0)->unk5C != 0) {
+        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk5C) + 0x7c)), *(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk5C) + 0x7c), &D_006A03C0, 0x2);
     }
-    if (*(s32 *)((char *)arg0 + 0x60) != 0) {
-        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x60)) + 0x7c)), *(s32 *)((char *)(*(s32 *)((char *)arg0 + 0x60)) + 0x7c), &D_006A03C0, 0x2);
+    if (((struct func_003968B8_arg0 *)arg0)->unk60 != 0) {
+        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk60) + 0x7c)), *(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unk60) + 0x7c), &D_006A03C0, 0x2);
     }
-    if (*(s32 *)((char *)arg0 + 0xac) != 0) {
-        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(*(s32 *)((char *)arg0 + 0xac)) + 0x7c)), *(s32 *)((char *)(*(s32 *)((char *)arg0 + 0xac)) + 0x7c), &D_006A03C0, 0x2);
+    if (((struct func_003968B8_arg0 *)arg0)->unkAC != 0) {
+        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unkAC) + 0x7c)), *(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unkAC) + 0x7c), &D_006A03C0, 0x2);
     }
-    if (*(s32 *)((char *)arg0 + 0xd8) != 0) {
-        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(*(s32 *)((char *)arg0 + 0xd8)) + 0x7c)), *(s32 *)((char *)(*(s32 *)((char *)arg0 + 0xd8)) + 0x7c), &D_006A03C0, 0x2);
+    if (((struct func_003968B8_arg0 *)arg0)->unkD8 != 0) {
+        func_00454698(*(s32 *)(char *)(*(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unkD8) + 0x7c)), *(s32 *)((char *)(((struct func_003968B8_arg0 *)arg0)->unkD8) + 0x7c), &D_006A03C0, 0x2);
     }
 }

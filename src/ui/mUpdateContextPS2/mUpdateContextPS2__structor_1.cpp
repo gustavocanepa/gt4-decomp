@@ -1,3 +1,4 @@
+#include "gt4/mUpdateContextPS2.h"
 typedef int s32;
 
 extern void *mUpdateContextPS2__vtable;
@@ -27,7 +28,7 @@ static inline void member_0(char *m) {
 }
 
 extern "C" void mUpdateContextPS2__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mUpdateContextPS2__vtable;
+    ((struct mUpdateContextPS2 *)arg0)->unk4 = &mUpdateContextPS2__vtable;
     member_0((char *)arg0 + 0x424);
     func_00105280((char *)arg0 + 0x3e4, 0x2);
     if ((char *)arg0 + 0x1a0 != 0) {

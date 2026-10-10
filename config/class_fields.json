@@ -1,0 +1,4709 @@
+{
+ "CarIconMaker": {
+  "0x5C": [
+   "s32 unk5C"
+  ],
+  "0x60": [
+   "s32 unk60"
+  ],
+  "0x64": [
+   "void *unk64"
+  ],
+  "0x68": [
+   "s32 unk68"
+  ]
+ },
+ "CompatibleModel": {
+  "0x4C": [
+   "s32 (*unk4C)(s32)"
+  ],
+  "0x50": [
+   "s32 unk50"
+  ],
+  "0x54": [
+   "s32 (*unk54)(s32)"
+  ],
+  "0x58": [
+   "s32 unk58"
+  ]
+ },
+ "Concourse": {
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ]
+ },
+ "ConcourseCallback": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "DevelopCamera": {
+  "0x9C0": [
+   "f32 unk9C0"
+  ],
+  "0x9D4": [
+   "f32 unk9D4"
+  ],
+  "0xAC0": [
+   "f32 unkAC0"
+  ],
+  "0xAC4": [
+   "f32 unkAC4"
+  ],
+  "0xAC8": [
+   "u8 unkAC8"
+  ],
+  "0xAC9": [
+   "u8 unkAC9"
+  ],
+  "0xBFD": [
+   "u8 unkBFD"
+  ],
+  "0xC21": [
+   "u8 unkC21"
+  ]
+ },
+ "DriverCallback": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "DynamicsConductor": {
+  "0x10140": [
+   "s32 unk10140"
+  ]
+ },
+ "DynamicsConductorBattle2P": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0xCBD8": [
+   "s32 unkCBD8"
+  ],
+  "0xF83A": [
+   "u8 unkF83A"
+  ],
+  "0xF898": [
+   "s32 unkF898"
+  ],
+  "0xF8C0": [
+   "s32 unkF8C0"
+  ],
+  "0x10140": [
+   "void *unk10140"
+  ]
+ },
+ "DynamicsConductorBattleMP": {
+  "0xF83A": [
+   "u8 unkF83A"
+  ],
+  "0x10140": [
+   "void *unk10140"
+  ]
+ },
+ "DynamicsConductorFreePractice": {
+  "0x10140": [
+   "void *unk10140"
+  ]
+ },
+ "DynamicsConductorFreeRun": {
+  "0x10140": [
+   "void *unk10140"
+  ]
+ },
+ "DynamicsConductorLicense": {
+  "0xF81A": [
+   "u8 unkF81A"
+  ],
+  "0xF866": [
+   "u8 unkF866"
+  ],
+  "0xF86C": [
+   "s16 unkF86C"
+  ],
+  "0x10140": [
+   "void *unk10140"
+  ]
+ },
+ "DynamicsConductorMachineTest": {
+  "0x10140": [
+   "void *unk10140"
+  ]
+ },
+ "DynamicsConductorMission": {
+  "0xF83A": [
+   "u8 unkF83A"
+  ]
+ },
+ "DynamicsConductorSinglePlayer": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0xCBE4": [
+   "s8 unkCBE4"
+  ],
+  "0xF83A": [
+   "u8 unkF83A"
+  ],
+  "0xF884": [
+   "s16 unkF884"
+  ],
+  "0xF886": [
+   "u8 unkF886"
+  ],
+  "0xF887": [
+   "u8 unkF887"
+  ],
+  "0x10140": [
+   "void *unk10140"
+  ]
+ },
+ "EngineSound": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ],
+  "0x1C": [
+   "void * unk1C"
+  ],
+  "0x20": [
+   "void * unk20"
+  ]
+ },
+ "EyeToyPS2": {
+  "0x298": [
+   "s32 unk298"
+  ]
+ },
+ "FileInstrumentStream": {
+  "0x20": [
+   "void *unk20"
+  ]
+ },
+ "GTSOUNDINSTRUMENT": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "void *unk8"
+  ],
+  "0xC": [
+   "void *unkC"
+  ],
+  "0x10": [
+   "void *unk10"
+  ],
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x18": [
+   "void *unk18"
+  ],
+  "0x1C": [
+   "void *unk1C"
+  ]
+ },
+ "GTSOUNDINSTRUMENTJAM": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ],
+  "0x1C": [
+   "s32 unk1C",
+   "void * unk1C"
+  ],
+  "0x20": [
+   "s32 unk20"
+  ]
+ },
+ "HModuleFrame": {
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x20": [
+   "s32 unk20"
+  ]
+ },
+ "HumanModel": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x6B0": [
+   "s32 *unk6B0",
+   "s32 unk6B0"
+  ],
+  "0x7DC": [
+   "s32 unk7DC"
+  ]
+ },
+ "IfWidget": {
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "Ipic": {
+  "0x18": [
+   "s32 unk18"
+  ]
+ },
+ "LicenseConcourse": {
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x80": [
+   "s32 unk80"
+  ]
+ },
+ "MColorReader": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "MRectangleReader": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "MRegionReader": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "MTRGeometry": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "MVector3Reader": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "MVectorReader": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "MWidgetReader": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "MboolReader": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "MenuControl": {
+  "0xD0": [
+   "void *unkD0"
+  ]
+ },
+ "MfloatReader": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "MintReader": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "MstringReader": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "NormalCarGeometry": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "PGLXshapeBuilder": {
+  "0x298": [
+   "s32 unk298"
+  ],
+  "0x98C": [
+   "void *unk98C"
+  ]
+ },
+ "ParticleManager": {
+  "0x0": [
+   "void *unk0"
+  ],
+  "0x3AC": [
+   "s32 unk3AC",
+   "void *unk3AC"
+  ]
+ },
+ "PauseBase": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x8": [
+   "void *unk8"
+  ]
+ },
+ "PhotoModeInput": {
+  "0xD0": [
+   "s32 unkD0"
+  ],
+  "0xD8": [
+   "s32 unkD8"
+  ]
+ },
+ "PitmanCallback": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "PitmenData": {
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x6C": [
+   "s32 unk6C"
+  ]
+ },
+ "PropNameSearcher": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "RaceABMonitor": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceArcadeDemo": {
+  "0x64": [
+   "s32 unk64"
+  ]
+ },
+ "RaceArcadeDemoInformation": {
+  "0x12C": [
+   "s32 unk12C",
+   "void *unk12C"
+  ],
+  "0x2C0": [
+   "s64 unk2C0"
+  ],
+  "0x2C8": [
+   "s32 unk2C8"
+  ]
+ },
+ "RaceArcadeInformation": {
+  "0x12C": [
+   "char *unk12C",
+   "void *unk12C"
+  ]
+ },
+ "RaceArcadeSingle": {
+  "0x64": [
+   "void *unk64"
+  ]
+ },
+ "RaceBGMBase": {
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "RaceBGMPS2": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "RaceBarMeter": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceBase": {
+  "0x64": [
+   "s32 unk64"
+  ],
+  "0x6C": [
+   "void *unk6C"
+  ],
+  "0xCC8": [
+   "u32 unkCC8"
+  ],
+  "0xD1C": [
+   "s32 unkD1C"
+  ],
+  "0xD38": [
+   "s32 unkD38"
+  ],
+  "0xD3C": [
+   "f32 unkD3C"
+  ],
+  "0xD4C": [
+   "s32 unkD4C"
+  ],
+  "0xD58": [
+   "s32 unkD58"
+  ],
+  "0xD5C": [
+   "s32 unkD5C"
+  ],
+  "0xD68": [
+   "s32 unkD68"
+  ]
+ },
+ "RaceBasic": {
+  "0x64": [
+   "void *unk64"
+  ],
+  "0xE400": [
+   "void *unkE400"
+  ],
+  "0xE404": [
+   "void *unkE404"
+  ],
+  "0xE408": [
+   "void *unkE408"
+  ],
+  "0xE40C": [
+   "void *unkE40C"
+  ],
+  "0xE410": [
+   "void *unkE410"
+  ],
+  "0xE414": [
+   "void *unkE414"
+  ],
+  "0xE418": [
+   "void *unkE418"
+  ],
+  "0xE41C": [
+   "void *unkE41C"
+  ],
+  "0xE420": [
+   "void *unkE420"
+  ],
+  "0xE424": [
+   "void *unkE424"
+  ]
+ },
+ "RaceBasicWithRaceDisplay": {
+  "0x64": [
+   "s32 unk64"
+  ]
+ },
+ "RaceBattleTachometer": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceCapacityMonitor": {
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x18": [
+   "void *unk18"
+  ],
+  "0x1C": [
+   "void *unk1C"
+  ],
+  "0x20": [
+   "void *unk20"
+  ],
+  "0x24": [
+   "void *unk24"
+  ]
+ },
+ "RaceCarIconDisplay": {
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ],
+  "0x1C": [
+   "s32 unk1C"
+  ],
+  "0x20": [
+   "s32 unk20"
+  ],
+  "0x24": [
+   "s32 unk24"
+  ]
+ },
+ "RaceCarModel": {
+  "0x1668": [
+   "s32 unk1668"
+  ],
+  "0x166C": [
+   "s32 unk166C"
+  ],
+  "0x1670": [
+   "s32 unk1670"
+  ],
+  "0x1674": [
+   "s32 unk1674"
+  ],
+  "0x1680": [
+   "s32 unk1680"
+  ]
+ },
+ "RaceChampionshipInformation": {
+  "0x12C": [
+   "void *unk12C"
+  ],
+  "0x170": [
+   "s32 unk170"
+  ]
+ },
+ "RaceCrewModel": {
+  "0x7DC": [
+   "s32 unk7DC",
+   "void *unk7DC"
+  ]
+ },
+ "RaceDigitalSpeedmeter": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceDisplay": {
+  "0xC": [
+   "s32 unkC"
+  ],
+  "0x24": [
+   "s32 unk24"
+  ],
+  "0x2F": [
+   "s8 unk2F"
+  ],
+  "0x30": [
+   "s32 unk30"
+  ],
+  "0xBC": [
+   "f32 unkBC"
+  ]
+ },
+ "RaceDisplayCheckPointEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ]
+ },
+ "RaceDisplayDiffEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ]
+ },
+ "RaceDisplayGeneralTimeEvent": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ]
+ },
+ "RaceDisplayInformationEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "RaceDisplayLapTimeEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "RaceDisplayMessageEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ]
+ },
+ "RaceDisplaySpeedEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "RaceDriverModel": {
+  "0x7DC": [
+   "s32 unk7DC"
+  ]
+ },
+ "RaceEntryBase": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x1C": [
+   "s32 unk1C"
+  ],
+  "0x20": [
+   "s32 unk20",
+   "void *unk20"
+  ]
+ },
+ "RaceEntryCar": {
+  "0x2890": [
+   "void *unk2890"
+  ],
+  "0x35CC": [
+   "void *unk35CC"
+  ]
+ },
+ "RaceEntryInformation": {
+  "0x178": [
+   "s32 unk178"
+  ],
+  "0x17C": [
+   "void *unk17C"
+  ]
+ },
+ "RaceEventDisplay": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceEventQueue": {
+  "0x828": [
+   "void *unk828"
+  ]
+ },
+ "RaceFreeRun": {
+  "0x6C": [
+   "s32 unk6C"
+  ],
+  "0x70": [
+   "s32 unk70"
+  ],
+  "0xD58": [
+   "s32 unkD58"
+  ],
+  "0xCF4C": [
+   "f32 unkCF4C"
+  ],
+  "0x24698": [
+   "s32 unk24698"
+  ],
+  "0x246A0": [
+   "s32 unk246A0"
+  ],
+  "0x246A4": [
+   "s32 unk246A4"
+  ]
+ },
+ "RaceFreeRunInformation": {
+  "0x12C": [
+   "char *unk12C",
+   "void *unk12C"
+  ]
+ },
+ "RaceFuelMeter": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceGTmodeInformation": {
+  "0x118": [
+   "s32 unk118"
+  ],
+  "0x12C": [
+   "s32 unk12C",
+   "void *unk12C"
+  ],
+  "0x130": [
+   "char unk130[1]"
+  ],
+  "0x2A8": [
+   "s32 unk2A8"
+  ]
+ },
+ "RaceGasMileageDisplay": {
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x68": [
+   "s32 unk68"
+  ]
+ },
+ "RaceIndicator": {
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x38": [
+   "void *unk38"
+  ],
+  "0x3C": [
+   "void *unk3C"
+  ],
+  "0x40": [
+   "char unk40"
+  ]
+ },
+ "RaceInformation": {
+  "0x12C": [
+   "s32 unk12C"
+  ]
+ },
+ "RaceInput": {
+  "0xD0": [
+   "void *unkD0",
+   "s32 unkD0"
+  ],
+  "0x144": [
+   "void *unk144"
+  ],
+  "0x148": [
+   "void *unk148"
+  ],
+  "0x14C": [
+   "void *unk14C"
+  ],
+  "0x194": [
+   "void *unk194"
+  ],
+  "0x19C": [
+   "void *unk19C"
+  ],
+  "0x1C4": [
+   "void *unk1C4"
+  ],
+  "0x1C8": [
+   "void *unk1C8"
+  ],
+  "0x1CC": [
+   "void *unk1CC"
+  ],
+  "0x1D0": [
+   "void *unk1D0"
+  ],
+  "0x1D4": [
+   "void *unk1D4"
+  ],
+  "0x1D8": [
+   "void *unk1D8"
+  ],
+  "0x1DC": [
+   "void *unk1DC"
+  ]
+ },
+ "RaceInputLan": {
+  "0xD0": [
+   "void *unkD0"
+  ],
+  "0x1D0": [
+   "s32 unk1D0"
+  ]
+ },
+ "RaceLanBattle": {
+  "0x6C": [
+   "s32 unk6C"
+  ],
+  "0xE444": [
+   "s32 unkE444"
+  ],
+  "0xE448": [
+   "s32 unkE448"
+  ],
+  "0xE44C": [
+   "s32 unkE44C"
+  ],
+  "0xE458": [
+   "s32 unkE458"
+  ],
+  "0xE460": [
+   "s64 unkE460"
+  ],
+  "0xE468": [
+   "s32 unkE468"
+  ],
+  "0xF370": [
+   "s32 unkF370"
+  ],
+  "0xF378": [
+   "s32 unkF378"
+  ],
+  "0xF388": [
+   "s32 unkF388"
+  ],
+  "0xF38C": [
+   "s32 unkF38C"
+  ],
+  "0x1FA54": [
+   "s32 unk1FA54"
+  ]
+ },
+ "RaceLanBattleInformation": {
+  "0x12C": [
+   "char *unk12C",
+   "void *unk12C"
+  ],
+  "0xAB0": [
+   "s64 unkAB0"
+  ]
+ },
+ "RaceLanControlManager": {
+  "0x3C": [
+   "s32 unk3C"
+  ],
+  "0x50": [
+   "s32 unk50"
+  ],
+  "0x64": [
+   "s32 unk64"
+  ],
+  "0x68": [
+   "s32 unk68"
+  ],
+  "0x6C": [
+   "s32 unk6C"
+  ]
+ },
+ "RaceLapTimesDisplay": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceLicense": {
+  "0x64": [
+   "char *unk64"
+  ],
+  "0xCC8": [
+   "u32 unkCC8"
+  ]
+ },
+ "RaceLicenseBGM": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x11E8": [
+   "s32 unk11E8"
+  ]
+ },
+ "RaceLicenseDisplay": {
+  "0x10": [
+   "s32 unk10"
+  ]
+ },
+ "RaceMTRGravityMeter": {
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ],
+  "0x1C": [
+   "s32 unk1C"
+  ],
+  "0x20": [
+   "s32 unk20"
+  ],
+  "0x24": [
+   "s32 unk24"
+  ]
+ },
+ "RaceMTRMeter": {
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ],
+  "0x1C": [
+   "s32 unk1C"
+  ],
+  "0x20": [
+   "s32 unk20"
+  ],
+  "0x24": [
+   "s32 unk24"
+  ],
+  "0x28": [
+   "s32 unk28"
+  ],
+  "0x2C": [
+   "s32 unk2C"
+  ],
+  "0x6C": [
+   "s32 unk6C"
+  ]
+ },
+ "RaceMTRMeterPanel": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceMTRMultiFunctionDisplay": {
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ]
+ },
+ "RaceMTRSpeedMeterPanel": {
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ],
+  "0x1C": [
+   "s32 unk1C"
+  ],
+  "0x24": [
+   "s32 unk24"
+  ],
+  "0x28": [
+   "s32 unk28"
+  ],
+  "0x2C": [
+   "s32 unk2C"
+  ],
+  "0x30": [
+   "s32 unk30"
+  ]
+ },
+ "RaceMachineTest": {
+  "0x64": [
+   "s32 unk64"
+  ],
+  "0x6C": [
+   "s32 unk6C"
+  ],
+  "0x70": [
+   "void *unk70"
+  ],
+  "0xD68": [
+   "s32 unkD68"
+  ]
+ },
+ "RaceMachineTestInformation": {
+  "0x118": [
+   "s32 unk118"
+  ],
+  "0x12C": [
+   "s32 unk12C",
+   "void *unk12C"
+  ],
+  "0x130": [
+   "char unk130[1]"
+  ]
+ },
+ "RaceMessageDisplay": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceMeterBase": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ],
+  "0x1C": [
+   "s32 unk1C"
+  ],
+  "0x20": [
+   "s32 unk20"
+  ]
+ },
+ "RaceMiniMap": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceMusicDisplay": {
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x18": [
+   "void *unk18"
+  ],
+  "0x1C": [
+   "void *unk1C"
+  ],
+  "0x20": [
+   "void *unk20"
+  ],
+  "0x24": [
+   "void *unk24"
+  ]
+ },
+ "RaceNetBattle": {
+  "0xCC8": [
+   "s32 unkCC8",
+   "u32 unkCC8"
+  ],
+  "0xE408": [
+   "s32 unkE408"
+  ],
+  "0xE40C": [
+   "s32 unkE40C"
+  ],
+  "0xE410": [
+   "s32 unkE410"
+  ],
+  "0xE414": [
+   "s32 unkE414"
+  ],
+  "0xE424": [
+   "s32 unkE424",
+   "void *unkE424"
+  ]
+ },
+ "RaceNetBattleInformation": {
+  "0x98": [
+   "s64 unk98"
+  ],
+  "0x110": [
+   "s64 unk110"
+  ],
+  "0x118": [
+   "void *unk118"
+  ],
+  "0x12C": [
+   "void *unk12C"
+  ],
+  "0xAB0": [
+   "s64 unkAB0"
+  ],
+  "0xAB8": [
+   "void *unkAB8"
+  ]
+ },
+ "RaceNetRallyBattle": {
+  "0x6C": [
+   "s32 unk6C"
+  ],
+  "0xCC8": [
+   "u32 unkCC8"
+  ],
+  "0xE448": [
+   "s32 unkE448"
+  ]
+ },
+ "RaceNetRallyBattleInformation": {
+  "0x12C": [
+   "char *unk12C",
+   "void *unk12C"
+  ]
+ },
+ "RaceNetSinglePlayer": {
+  "0x64": [
+   "void *unk64"
+  ]
+ },
+ "RaceNetSinglePlayerInformation": {
+  "0x12C": [
+   "char *unk12C",
+   "void *unk12C"
+  ]
+ },
+ "RaceOdometer": {
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ]
+ },
+ "RaceOnboardPanel": {
+  "0x2C": [
+   "f32 unk2C"
+  ],
+  "0x30": [
+   "f32 unk30"
+  ],
+  "0x34": [
+   "f32 unk34"
+  ],
+  "0x38": [
+   "f32 unk38"
+  ],
+  "0x84": [
+   "f32 unk84"
+  ],
+  "0xE0": [
+   "f32 unkE0"
+  ],
+  "0x97C": [
+   "f32 unk97C"
+  ],
+  "0x9D8": [
+   "s32 unk9D8"
+  ],
+  "0xA1A": [
+   "s16 unkA1A"
+  ],
+  "0xA74": [
+   "s8 unkA74"
+  ],
+  "0xACC": [
+   "s8 unkACC"
+  ],
+  "0xB24": [
+   "s32 unkB24"
+  ],
+  "0xC40": [
+   "f32 unkC40"
+  ]
+ },
+ "RaceOnboardTachometer": {
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x50": [
+   "f32 unk50"
+  ],
+  "0x54": [
+   "f32 unk54"
+  ],
+  "0x88C": [
+   "f32 unk88C"
+  ]
+ },
+ "RacePS2Base": {
+  "0x6C": [
+   "s32 unk6C"
+  ],
+  "0xD80": [
+   "s32 unkD80"
+  ],
+  "0xD84": [
+   "s32 (*unkD84)(s32, s32)"
+  ],
+  "0xD88": [
+   "s32 unkD88"
+  ],
+  "0xCF48": [
+   "f32 unkCF48"
+  ],
+  "0xCF4C": [
+   "f32 unkCF4C",
+   "s32 unkCF4C"
+  ],
+  "0xCF54": [
+   "f32 unkCF54"
+  ],
+  "0xCF60": [
+   "s32 unkCF60"
+  ],
+  "0xCFBC": [
+   "s32 unkCFBC"
+  ]
+ },
+ "RacePanel": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RacePause": {
+  "0xC": [
+   "s32 unkC"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ],
+  "0x20": [
+   "s32 unk20"
+  ],
+  "0x24": [
+   "s32 unk24"
+  ]
+ },
+ "RacePhotoDevelop": {
+  "0x2EF30": [
+   "s32 unk2EF30"
+  ],
+  "0x2EF3C": [
+   "s32 unk2EF3C"
+  ],
+  "0x2EF40": [
+   "s32 unk2EF40"
+  ]
+ },
+ "RacePhotoModeCameraManager": {
+  "0x9C0": [
+   "f32 unk9C0"
+  ],
+  "0x9D4": [
+   "f32 unk9D4"
+  ],
+  "0xC40": [
+   "s32 unkC40"
+  ],
+  "0xC44": [
+   "s32 unkC44"
+  ],
+  "0xE88": [
+   "f32 unkE88"
+  ],
+  "0xE8C": [
+   "f32 unkE8C"
+  ],
+  "0xE90": [
+   "f32 unkE90"
+  ],
+  "0xF84": [
+   "f32 unkF84"
+  ]
+ },
+ "RacePriusHybridDisplay": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RacePriusPanel": {
+  "0x6E": [
+   "s16 unk6E"
+  ],
+  "0xDC": [
+   "f32 unkDC"
+  ],
+  "0x148": [
+   "f32 unk148"
+  ],
+  "0x14C": [
+   "s32 unk14C"
+  ]
+ },
+ "RaceRankDisplay": {
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x18": [
+   "void *unk18"
+  ],
+  "0x1C": [
+   "void *unk1C"
+  ],
+  "0x20": [
+   "void *unk20"
+  ]
+ },
+ "RaceRefuelMeter": {
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x18": [
+   "void *unk18"
+  ],
+  "0x1C": [
+   "void *unk1C"
+  ],
+  "0x20": [
+   "void *unk20"
+  ],
+  "0x24": [
+   "void *unk24"
+  ]
+ },
+ "RaceReplayInformation": {
+  "0x12C": [
+   "void *unk12C"
+  ],
+  "0x130": [
+   "void *unk130"
+  ]
+ },
+ "RaceReplayModeDisplay": {
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x150": [
+   "s32 unk150"
+  ],
+  "0x154": [
+   "s32 unk154"
+  ]
+ },
+ "RaceResultBase": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "void *unkC"
+  ]
+ },
+ "RaceRichCountDisplay": {
+  "0x14": [
+   "s32 unk14"
+  ],
+  "0x68": [
+   "s32 unk68"
+  ],
+  "0x6C": [
+   "s32 unk6C"
+  ],
+  "0x70": [
+   "s32 unk70"
+  ],
+  "0x74": [
+   "s32 unk74"
+  ],
+  "0x78": [
+   "s8 unk78"
+  ]
+ },
+ "RaceShiftPositionDisplay": {
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceShiftTimingLampDisplay": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceSideGravityMeter": {
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ],
+  "0x28": [
+   "s32 unk28"
+  ]
+ },
+ "RaceSimpleBarMeter": {
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x18": [
+   "f32 unk18"
+  ],
+  "0x1C": [
+   "f32 unk1C"
+  ]
+ },
+ "RaceSimplePanel": {
+  "0x7A": [
+   "s16 unk7A"
+  ],
+  "0xA0": [
+   "f32 unkA0"
+  ],
+  "0xA4": [
+   "f32 unkA4"
+  ],
+  "0xC8": [
+   "f32 unkC8"
+  ],
+  "0xCC": [
+   "f32 unkCC"
+  ],
+  "0xE8": [
+   "s32 unkE8"
+  ],
+  "0x118": [
+   "f32 unk118"
+  ],
+  "0x178": [
+   "s8 unk178"
+  ],
+  "0x1D0": [
+   "s8 unk1D0"
+  ],
+  "0x2AC": [
+   "f32 unk2AC"
+  ]
+ },
+ "RaceSinglePlayer": {
+  "0x64": [
+   "s32 unk64"
+  ],
+  "0xCC8": [
+   "u32 unkCC8"
+  ]
+ },
+ "RaceSinglePlayerInformation": {
+  "0x118": [
+   "s32 unk118"
+  ],
+  "0x12C": [
+   "s32 unk12C",
+   "void *unk12C"
+  ],
+  "0x130": [
+   "char unk130[1]"
+  ]
+ },
+ "RaceSolitaire": {
+  "0x64": [
+   "void *unk64"
+  ],
+  "0xF0EC": [
+   "void *unkF0EC"
+  ],
+  "0xF100": [
+   "void *unkF100"
+  ]
+ },
+ "RaceSolitaireEntry": {
+  "0x20": [
+   "void *unk20"
+  ],
+  "0x54": [
+   "s32 unk54"
+  ],
+  "0x58": [
+   "s32 unk58"
+  ]
+ },
+ "RaceSolitaireInformation": {
+  "0x12C": [
+   "void *unk12C"
+  ],
+  "0x130": [
+   "char unk130[1]"
+  ]
+ },
+ "RaceSpeedDisplay": {
+  "0x14": [
+   "s32 unk14"
+  ],
+  "0x68": [
+   "f32 unk68"
+  ],
+  "0x6C": [
+   "s32 unk6C"
+  ]
+ },
+ "RaceSplitBattle": {
+  "0x64": [
+   "s32 unk64"
+  ]
+ },
+ "RaceSplitBattleInformation": {
+  "0xB0": [
+   "s32 unkB0"
+  ],
+  "0x110": [
+   "s64 unk110"
+  ],
+  "0x118": [
+   "s32 unk118"
+  ],
+  "0x11C": [
+   "s32 unk11C"
+  ],
+  "0x120": [
+   "s32 unk120"
+  ],
+  "0x124": [
+   "s32 unk124"
+  ],
+  "0x128": [
+   "s32 unk128"
+  ],
+  "0x12C": [
+   "s32 unk12C",
+   "void *unk12C"
+  ]
+ },
+ "RaceSplitDisplayBase": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "RaceSteeringDisplay": {
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x18": [
+   "void *unk18"
+  ],
+  "0x1C": [
+   "f32 unk1C",
+   "void *unk1C"
+  ],
+  "0x20": [
+   "f32 unk20"
+  ]
+ },
+ "RaceSuggestedGearDisplay": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceTexturePanel": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceTireWearDisplay": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RaceTooltipDisplay": {
+  "0x14": [
+   "s32 unk14"
+  ]
+ },
+ "RaceTraining": {
+  "0x137E8": [
+   "s32 unk137E8"
+  ]
+ },
+ "RaceTrainingBase": {
+  "0x64": [
+   "s32 unk64"
+  ],
+  "0xD68": [
+   "s32 unkD68"
+  ]
+ },
+ "RaceTrainingInformation": {
+  "0x12C": [
+   "char *unk12C",
+   "void *unk12C"
+  ]
+ },
+ "RaceValueDisplay": {
+  "0x14": [
+   "s32 unk14"
+  ],
+  "0x88": [
+   "s32 unk88"
+  ],
+  "0x8C": [
+   "s32 unk8C"
+  ]
+ },
+ "RaceValueDisplayBase": {
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "RebuildPropagate": {
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "RefCounter": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ]
+ },
+ "RelocatorBase": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ],
+  "0x10": [
+   "void *unk10"
+  ]
+ },
+ "ResultChampionship": {
+  "0xC": [
+   "s32 unkC",
+   "void *unkC"
+  ],
+  "0x560": [
+   "s32 unk560"
+  ]
+ },
+ "ResultLicense": {
+  "0xC": [
+   "s32 unkC"
+  ],
+  "0x580": [
+   "f32 unk580"
+  ]
+ },
+ "ResultLinkBattle": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0xC": [
+   "void *unkC"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x54": [
+   "s32 unk54"
+  ],
+  "0x5C": [
+   "s32 unk5C"
+  ],
+  "0x500": [
+   "f32 unk500"
+  ],
+  "0x504": [
+   "s32 unk504"
+  ],
+  "0x508": [
+   "s32 unk508"
+  ]
+ },
+ "RigidBodyManager": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ]
+ },
+ "ShowRoomCar": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s8 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "SimplePause": {
+  "0x8": [
+   "s32 unk8",
+   "void *unk8"
+  ]
+ },
+ "SparkParticle": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s16 unk8",
+   "u16 unk8"
+  ],
+  "0xA": [
+   "s16 unkA"
+  ],
+  "0xC": [
+   "f32 unkC"
+  ],
+  "0x10": [
+   "f32 unk10"
+  ],
+  "0x14": [
+   "f32 unk14"
+  ],
+  "0x18": [
+   "f32 unk18"
+  ],
+  "0x1C": [
+   "f32 unk1C"
+  ],
+  "0x20": [
+   "f32 unk20"
+  ],
+  "0x24": [
+   "f32 unk24"
+  ],
+  "0x28": [
+   "f32 unk28"
+  ],
+  "0x2C": [
+   "f32 unk2C"
+  ],
+  "0x30": [
+   "s32 unk30"
+  ],
+  "0x34": [
+   "f32 unk34"
+  ],
+  "0x38": [
+   "s32 unk38"
+  ],
+  "0x3C": [
+   "s32 unk3C"
+  ],
+  "0x40": [
+   "f32 unk40"
+  ],
+  "0x44": [
+   "f32 unk44"
+  ],
+  "0x48": [
+   "s32 unk48"
+  ],
+  "0x4C": [
+   "s32 unk4C"
+  ],
+  "0x50": [
+   "s32 unk50"
+  ],
+  "0x54": [
+   "s32 unk54"
+  ]
+ },
+ "_UnitArenaBase": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ],
+  "0x18": [
+   "void *unk18"
+  ]
+ },
+ "__array_type_info": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "__attr_type_info": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ]
+ },
+ "__builtin_type_info": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "__class_type_info": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ]
+ },
+ "__func_type_info": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "__pointer_type_info": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "__ptmd_type_info": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "__ptmf_type_info": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "__user_type_info": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ]
+ },
+ "filebuf": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ],
+  "0x38": [
+   "s32 unk38"
+  ],
+  "0x50": [
+   "void *unk50"
+  ]
+ },
+ "fpool": {
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x1C": [
+   "s32 unk1C"
+  ]
+ },
+ "hADHOC": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "hArray": {
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ]
+ },
+ "hArrayElement": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ]
+ },
+ "hAttribute": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ]
+ },
+ "hBuiltinAttribute": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0xC": [
+   "s32 (*unkC)(s32, s32, s32, s32)",
+   "s32 unkC"
+  ],
+  "0x10": [
+   "s32 unk10",
+   "void (*unk10)(void *, s32, s32, s32)"
+  ]
+ },
+ "hBuiltinFunction": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0xC": [
+   "void *unkC"
+  ]
+ },
+ "hBuiltinMethod": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0xC": [
+   "s32 (*unkC)(s32, s32, s32, s32)",
+   "void *unkC"
+  ]
+ },
+ "hBuiltinStatic": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ],
+  "0x10": [
+   "s32 unk10",
+   "void (*unk10)(void *, s32, s32)"
+  ]
+ },
+ "hClass": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x28": [
+   "s32 unk28"
+  ]
+ },
+ "hCode": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "hException": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "void * unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "void * unkC"
+  ],
+  "0x10": [
+   "void * unk10"
+  ]
+ },
+ "hFileIO": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xE8": [
+   "s32 unkE8"
+  ],
+  "0xEC": [
+   "void *unkEC"
+  ],
+  "0xF8": [
+   "void *unkF8"
+  ]
+ },
+ "hFloat": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "f32 unk10"
+  ]
+ },
+ "hFunctionObject": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "hFunctionValue": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "hIO": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ]
+ },
+ "hInst": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "hInt": {
+  "0x4": [
+   "void *unk4",
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "s32 unk10",
+   "void *unk10"
+  ]
+ },
+ "hLocalVariable": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ]
+ },
+ "hMethodObject": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "hMethodValue": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "hModule": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "hModuleVariable": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "hNil": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "hNumeric": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "hObject": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ]
+ },
+ "hScriptFunction": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "hScriptMethod": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "hStaticValue": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ]
+ },
+ "hString": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "void * unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "void * unkC"
+  ],
+  "0x10": [
+   "void * unk10"
+  ]
+ },
+ "hThread": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "hThreadGroup": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "hValue": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "hVariable": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ]
+ },
+ "mActivateEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mActor": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mAnchorActor": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ],
+  "0x18": [
+   "f32 unk18",
+   "void *unk18"
+  ],
+  "0x1C": [
+   "f32 unk1C",
+   "void *unk1C"
+  ],
+  "0x20": [
+   "s32 unk20",
+   "void *unk20"
+  ],
+  "0x24": [
+   "s32 unk24",
+   "void *unk24"
+  ]
+ },
+ "mArrayPush": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "void *unk8"
+  ]
+ },
+ "mAttributeDefine": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "mAttributePush": {
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mBlinkActor": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mBlob": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "s32 unk10",
+   "void *unk10"
+  ],
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ]
+ },
+ "mBlockTransition": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mBlurFace": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xA0": [
+   "s32 unkA0"
+  ],
+  "0xA4": [
+   "s32 unkA4"
+  ],
+  "0xA8": [
+   "s32 unkA8"
+  ]
+ },
+ "mBox": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xB0": [
+   "s32 unkB0"
+  ],
+  "0xB4": [
+   "s32 unkB4"
+  ],
+  "0xB8": [
+   "s32 unkB8"
+  ],
+  "0xBC": [
+   "s32 unkBC"
+  ]
+ },
+ "mButton": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mButtonActor": {
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x20": [
+   "s32 unk20"
+  ]
+ },
+ "mButtonEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x20": [
+   "s16 unk20"
+  ],
+  "0x24": [
+   "void *unk24"
+  ],
+  "0x28": [
+   "f32 unk28"
+  ],
+  "0x2C": [
+   "f32 unk2C"
+  ]
+ },
+ "mButtonPressEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x20": [
+   "s16 unk20"
+  ],
+  "0x24": [
+   "void *unk24"
+  ],
+  "0x28": [
+   "f32 unk28"
+  ],
+  "0x2C": [
+   "f32 unk2C"
+  ]
+ },
+ "mButtonReleaseEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x20": [
+   "s16 unk20"
+  ],
+  "0x24": [
+   "void *unk24"
+  ],
+  "0x28": [
+   "f32 unk28"
+  ],
+  "0x2C": [
+   "f32 unk2C"
+  ]
+ },
+ "mCalendar": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mCall": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "void *unk8"
+  ]
+ },
+ "mCallbackEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x20": [
+   "void *unk20"
+  ]
+ },
+ "mCancelEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mCarData": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mCarFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mCarGarage": {
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ]
+ },
+ "mCarModel": {
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x54": [
+   "s32 unk54"
+  ]
+ },
+ "mCarModelPS2": {
+  "0x2C": [
+   "f32 unk2C"
+  ],
+  "0x30": [
+   "f32 unk30"
+  ],
+  "0x34": [
+   "f32 unk34"
+  ],
+  "0x38": [
+   "f32 unk38"
+  ],
+  "0x44": [
+   "f32 unk44"
+  ],
+  "0x48": [
+   "f32 unk48"
+  ],
+  "0x54": [
+   "s32 unk54"
+  ]
+ },
+ "mChaseActor": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mClassDefine": {
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x1C": [
+   "s32 unk1C"
+  ]
+ },
+ "mColorChipFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mColorFace": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mColorObject": {
+  "0x4": [
+   "void *unk4",
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mColorTransition": {
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x20": [
+   "f32 unk20",
+   "s32 unk20"
+  ]
+ },
+ "mColorWindow": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mComm": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ],
+  "0x20": [
+   "s32 unk20"
+  ]
+ },
+ "mComposite": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xA0": [
+   "void *unkA0"
+  ],
+  "0xA4": [
+   "void *unkA4"
+  ],
+  "0xA8": [
+   "void *unkA8"
+  ],
+  "0xAC": [
+   "void *unkAC"
+  ]
+ },
+ "mCourseData": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mCourseRecord": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mCourseRecordUnit": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mCrossTransition": {
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x24": [
+   "f32 unk24"
+  ],
+  "0x3C": [
+   "s32 unk3C"
+  ]
+ },
+ "mCrossingEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mDBox": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC0": [
+   "void *unkC0"
+  ],
+  "0xC4": [
+   "void *unkC4"
+  ],
+  "0xC8": [
+   "void *unkC8"
+  ],
+  "0xCC": [
+   "void *unkCC"
+  ]
+ },
+ "mData": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "mDatabase": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mDefine": {
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mDemonstration": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mDnas": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x34": [
+   "s32 unk34"
+  ]
+ },
+ "mDnasInst": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mDomNode": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mDomNodeList": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mEnterEvent": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x1C": [
+   "void *unk1C"
+  ]
+ },
+ "mEyetoy": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mEyetoyFace": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xA8": [
+   "s32 unkA8"
+  ]
+ },
+ "mEyetoyFacePS2": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "mEyetoyImageProcessor": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mEyetoyPS2": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x10": [
+   "s32 unk10",
+   "void *unk10"
+  ],
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ],
+  "0x18": [
+   "s32 unk18",
+   "void *unk18"
+  ],
+  "0x1C": [
+   "s32 unk1C",
+   "void *unk1C"
+  ]
+ },
+ "mFBox": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mFadeActor": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x18": [
+   "void *unk18"
+  ],
+  "0x1C": [
+   "void *unk1C"
+  ],
+  "0x20": [
+   "void *unk20"
+  ],
+  "0x24": [
+   "f32 unk24"
+  ],
+  "0x28": [
+   "void *unk28"
+  ],
+  "0x2C": [
+   "void *unk2C"
+  ],
+  "0x30": [
+   "void *unk30"
+  ],
+  "0x34": [
+   "void *unk34"
+  ],
+  "0x38": [
+   "void *unk38"
+  ],
+  "0x3C": [
+   "void *unk3C"
+  ]
+ },
+ "mFavorite": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mFinalizeEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mFlash": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mFlashFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mFlashPS2": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0xC": [
+   "s32 unkC",
+   "void *unkC"
+  ],
+  "0x10": [
+   "s32 unk10",
+   "void *unk10"
+  ],
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ],
+  "0x18": [
+   "void *unk18"
+  ],
+  "0x1C": [
+   "s32 unk1C",
+   "void *unk1C"
+  ]
+ },
+ "mFocusEnterEvent": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mFocusLeaveEvent": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mFrameImageFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mFunctionDefine": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "mFunctionEvent": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mGTShirt": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mGTShirtPS2": {
+  "0x23C": [
+   "s32 unk23C"
+  ],
+  "0x240": [
+   "s32 unk240"
+  ],
+  "0x248": [
+   "f32 unk248"
+  ],
+  "0x24C": [
+   "f32 unk24C"
+  ],
+  "0x25C": [
+   "s32 unk25C"
+  ],
+  "0x278": [
+   "s32 unk278"
+  ],
+  "0x27C": [
+   "s32 unk27C"
+  ],
+  "0x280": [
+   "s32 unk280"
+  ],
+  "0x284": [
+   "s32 unk284"
+  ],
+  "0x2AC": [
+   "s32 unk2AC"
+  ]
+ },
+ "mGame": {
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ]
+ },
+ "mGameInputAnalog": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mGameInputButton": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mGameInputData": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mGamePort": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mGameStats": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mGarage": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mGpb": {
+  "0x4": [
+   "void *unk4",
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mGraphFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mHBox": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mHttp": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mImage": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "mImageFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mImagePS2": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ],
+  "0x14": [
+   "s32 unk14",
+   "void *unk14"
+  ],
+  "0x18": [
+   "f32 unk18"
+  ],
+  "0x1C": [
+   "f32 unk1C"
+  ],
+  "0x20": [
+   "void *unk20"
+  ]
+ },
+ "mImport": {
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ]
+ },
+ "mInputNumberFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x108": [
+   "s32 unk108"
+  ],
+  "0x11C": [
+   "s32 unk11C"
+  ]
+ },
+ "mInputTextFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mIntConst": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "void *unk8"
+  ]
+ },
+ "mJump": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8",
+   "void *unk8"
+  ]
+ },
+ "mJumpNotZero": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8",
+   "void *unk8"
+  ]
+ },
+ "mJumpZero": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8",
+   "void *unk8"
+  ]
+ },
+ "mKeyEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x20": [
+   "void *unk20"
+  ],
+  "0x24": [
+   "void *unk24"
+  ],
+  "0x28": [
+   "f32 unk28"
+  ],
+  "0x2C": [
+   "f32 unk2C"
+  ]
+ },
+ "mKeyPressEvent": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mKeyReleaseEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x20": [
+   "void *unk20"
+  ],
+  "0x24": [
+   "void *unk24"
+  ],
+  "0x28": [
+   "f32 unk28"
+  ],
+  "0x2C": [
+   "f32 unk2C"
+  ]
+ },
+ "mKeyboardBox": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mKeytopBox": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xB0": [
+   "s32 unkB0"
+  ]
+ },
+ "mLeaveEvent": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mLicenseRecord": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mLicenseRecordUnit": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mListAssign": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "void *unk8"
+  ]
+ },
+ "mListBox": {
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x124": [
+   "s32 unk124"
+  ],
+  "0x12C": [
+   "s32 unk12C"
+  ]
+ },
+ "mListItem": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "mLocalDefine": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "mLocale": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mLocalizedText": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "mLoggerControl": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x78": [
+   "void *unk78"
+  ],
+  "0x2A0": [
+   "void *unk2A0"
+  ],
+  "0x2B4": [
+   "void *unk2B4"
+  ]
+ },
+ "mLoggerFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xA0": [
+   "s32 unkA0"
+  ],
+  "0xA4": [
+   "s32 unkA4"
+  ]
+ },
+ "mLogicalAnd": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8",
+   "void *unk8"
+  ]
+ },
+ "mLogicalOr": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8",
+   "void *unk8"
+  ]
+ },
+ "mMBox": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC0": [
+   "s32 unkC0"
+  ],
+  "0xC4": [
+   "s32 unkC4"
+  ],
+  "0xC8": [
+   "s32 unkC8"
+  ]
+ },
+ "mMCFileActor": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mMagnifyActor": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x18": [
+   "f32 unk18"
+  ],
+  "0x1C": [
+   "f32 unk1C"
+  ],
+  "0x20": [
+   "f32 unk20"
+  ],
+  "0x24": [
+   "f32 unk24"
+  ],
+  "0x28": [
+   "f32 unk28"
+  ],
+  "0x2C": [
+   "void *unk2C"
+  ],
+  "0x30": [
+   "void *unk30"
+  ],
+  "0x34": [
+   "f32 unk34"
+  ]
+ },
+ "mManager": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mMemoryCardFile": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "void *unk10"
+  ],
+  "0x14": [
+   "void *unk14"
+  ]
+ },
+ "mMemoryCardManager": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x18": [
+   "void *unk18"
+  ],
+  "0x1C": [
+   "void *unk1C"
+  ],
+  "0x20": [
+   "void *unk20"
+  ],
+  "0x24": [
+   "void *unk24"
+  ]
+ },
+ "mMemoryCardPlayList": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "void *unk10"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ]
+ },
+ "mMemorycardProgress": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mMethodDefine": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "mModelFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mModelMotion": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "void *unk8"
+  ],
+  "0xC": [
+   "void *unkC"
+  ]
+ },
+ "mModelSet": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "mModelSetPS2": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8",
+   "void *unk8"
+  ],
+  "0xC": [
+   "s32 unkC",
+   "void *unkC"
+  ]
+ },
+ "mModelStream": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x28": [
+   "s32 unk28"
+  ]
+ },
+ "mModuleDefine": {
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ]
+ },
+ "mMotionEvent": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x20": [
+   "f32 unk20"
+  ],
+  "0x24": [
+   "f32 unk24"
+  ]
+ },
+ "mMoveActor": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mMovie": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "mMovieFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mMoviePS2": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC": [
+   "s32 unkC"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ]
+ },
+ "mMusic": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mNetConf": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mNetConfPS2": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x50": [
+   "s32 unk50"
+  ],
+  "0x114": [
+   "s32 unk114"
+  ],
+  "0x198": [
+   "s32 unk198"
+  ],
+  "0x1DC": [
+   "s32 unk1DC"
+  ],
+  "0x1E0": [
+   "s32 unk1E0"
+  ],
+  "0x264": [
+   "s32 unk264"
+  ],
+  "0x268": [
+   "void *unk268",
+   "s32 unk268"
+  ],
+  "0x26C": [
+   "s32 unk26C",
+   "void *unk26C"
+  ],
+  "0x270": [
+   "char unk270"
+  ],
+  "0x370": [
+   "char unk370"
+  ]
+ },
+ "mNetwork": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mNop": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "void *unk8"
+  ]
+ },
+ "mOption": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "s32 unk10",
+   "void *unk10"
+  ]
+ },
+ "mOptionMenu": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC0": [
+   "s32 unkC0"
+  ],
+  "0xC4": [
+   "s32 unkC4"
+  ],
+  "0xFC": [
+   "s32 unkFC"
+  ]
+ },
+ "mPhotoMapWindow": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xAC": [
+   "s32 unkAC"
+  ]
+ },
+ "mPhotoRenderFace": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mPhotoViewFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mPipe": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mPlayList": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mPlayerStats": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x4F": [
+   "char unk4F"
+  ],
+  "0x6F": [
+   "char unk6F"
+  ],
+  "0x8F": [
+   "char unk8F"
+  ],
+  "0xCF": [
+   "char unkCF"
+  ],
+  "0x10F": [
+   "char unk10F"
+  ]
+ },
+ "mPresent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mPrint": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "void *unk8"
+  ]
+ },
+ "mProgress": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mProgressFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xF8": [
+   "s32 unkF8"
+  ],
+  "0xFC": [
+   "f32 unkFC"
+  ]
+ },
+ "mProject": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mQuickWork": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mRaceCourseMapFace": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "mRaceCourseMapFacePS2": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC8": [
+   "s32 unkC8",
+   "void *unkC8"
+  ],
+  "0xCC": [
+   "void *unkCC"
+  ],
+  "0xD0": [
+   "void *unkD0"
+  ],
+  "0xD4": [
+   "void *unkD4"
+  ],
+  "0xD8": [
+   "f32 unkD8",
+   "void *unkD8"
+  ],
+  "0xDC": [
+   "f32 unkDC",
+   "void *unkDC"
+  ],
+  "0xE0": [
+   "void *unkE0"
+  ],
+  "0xE4": [
+   "void *unkE4"
+  ]
+ },
+ "mRaceData": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mRaceRecord": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mRaceRecordUnit": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mRandom": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mRenderContext": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mRenderContextPS2": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x1D9C": [
+   "s32 unk1D9C"
+  ],
+  "0x1DA4": [
+   "s32 unk1DA4"
+  ],
+  "0x1DA8": [
+   "s32 unk1DA8"
+  ]
+ },
+ "mRootWindow": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mRotateActor": {
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ],
+  "0x18": [
+   "f32 unk18"
+  ],
+  "0x1C": [
+   "f32 unk1C"
+  ],
+  "0x20": [
+   "f32 unk20"
+  ],
+  "0x34": [
+   "s32 unk34"
+  ]
+ },
+ "mRunViewer": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mScaleBar": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xC4": [
+   "f32 unkC4"
+  ]
+ },
+ "mSceneViewFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xA0": [
+   "void *unkA0"
+  ],
+  "0xA4": [
+   "void *unkA4"
+  ],
+  "0xA8": [
+   "void *unkA8"
+  ],
+  "0xB0": [
+   "void *unkB0"
+  ],
+  "0xB4": [
+   "void *unkB4"
+  ],
+  "0xB8": [
+   "void *unkB8"
+  ]
+ },
+ "mScriptEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mScriptWatcher": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x24": [
+   "s32 unk24"
+  ]
+ },
+ "mScrollArrow": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xB0": [
+   "s32 unkB0"
+  ]
+ },
+ "mScrollBase": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xB0": [
+   "s32 unkB0"
+  ]
+ },
+ "mScrollBox": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xB0": [
+   "void *unkB0"
+  ],
+  "0xB4": [
+   "s32 unkB4",
+   "void *unkB4"
+  ],
+  "0xB8": [
+   "s32 unkB8",
+   "void *unkB8"
+  ],
+  "0xBC": [
+   "s32 unkBC",
+   "void *unkBC"
+  ]
+ },
+ "mScrollPinch": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xB0": [
+   "s32 unkB0"
+  ],
+  "0xB4": [
+   "s32 unkB4"
+  ]
+ },
+ "mScrollWindow": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xB0": [
+   "void *unkB0"
+  ],
+  "0xB4": [
+   "f32 unkB4"
+  ],
+  "0xB8": [
+   "void *unkB8"
+  ],
+  "0xBC": [
+   "void *unkBC"
+  ],
+  "0xC0": [
+   "void *unkC0"
+  ]
+ },
+ "mScrollable": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xB0": [
+   "s32 unkB0"
+  ],
+  "0xB4": [
+   "s32 unkB4"
+  ],
+  "0xB8": [
+   "s32 unkB8"
+  ]
+ },
+ "mSelectBar": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xE4": [
+   "f32 unkE4"
+  ],
+  "0xE8": [
+   "f32 unkE8"
+  ],
+  "0xF0": [
+   "void *unkF0"
+  ]
+ },
+ "mSelectBox": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xF0": [
+   "void *unkF0"
+  ]
+ },
+ "mSession": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mSetState": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8",
+   "void *unk8"
+  ]
+ },
+ "mShell": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mSlideShowFace": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xA0": [
+   "s32 unkA0"
+  ],
+  "0xA4": [
+   "s32 unkA4"
+  ],
+  "0xA8": [
+   "s32 unkA8"
+  ],
+  "0xAC": [
+   "s32 unkAC"
+  ],
+  "0x1F50": [
+   "s32 unk1F50"
+  ]
+ },
+ "mSliderBar": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mSound": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mStaticDefine": {
+  "0x4": [
+   "void *unk4"
+  ]
+ },
+ "mStorage": {
+  "0x4": [
+   "void *unk4",
+   "s32 unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "s32 unk10",
+   "void *unk10"
+  ]
+ },
+ "mStorageEntry": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mStorageHD": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mStorageMC": {
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ]
+ },
+ "mStream": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "void *unk10"
+  ],
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x18": [
+   "void *unk18"
+  ],
+  "0x1C": [
+   "void *unk1C"
+  ],
+  "0x20": [
+   "void *unk20"
+  ],
+  "0x24": [
+   "void *unk24"
+  ]
+ },
+ "mStringPush": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "void *unk8"
+  ]
+ },
+ "mSwitchActor": {
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mSystem": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mTextActor": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x18": [
+   "void *unk18"
+  ],
+  "0x1C": [
+   "void *unk1C"
+  ],
+  "0x20": [
+   "void *unk20"
+  ]
+ },
+ "mTextBoxFace": {
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x3AC": [
+   "s32 unk3AC"
+  ],
+  "0x3B0": [
+   "s32 unk3B0"
+  ],
+  "0x3BC": [
+   "f32 unk3BC"
+  ]
+ },
+ "mTextFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0xAC": [
+   "f32 unkAC"
+  ],
+  "0x108": [
+   "void *unk108"
+  ],
+  "0x10C": [
+   "void *unk10C"
+  ],
+  "0x110": [
+   "void *unk110"
+  ],
+  "0x114": [
+   "s32 unk114",
+   "void *unk114"
+  ],
+  "0x118": [
+   "f32 unk118",
+   "void *unk118"
+  ],
+  "0x11C": [
+   "f32 unk11C",
+   "void *unk11C"
+  ]
+ },
+ "mToolTipFace": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x110": [
+   "s32 unk110"
+  ]
+ },
+ "mTransform": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mTransition": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "void *unk10"
+  ],
+  "0x14": [
+   "void *unk14"
+  ],
+  "0x18": [
+   "s32 unk18",
+   "void *unk18"
+  ],
+  "0x1C": [
+   "void *unk1C"
+  ]
+ },
+ "mTryCatch": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8",
+   "void *unk8"
+  ]
+ },
+ "mUndef": {
+  "0x4": [
+   "s32 unk4"
+  ]
+ },
+ "mUnit": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mUpdateContext": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mUpdateContextPS2": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mUsedCar": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mUtility": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mVBox": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mVariablePush": {
+  "0x4": [
+   "s32 unk4"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ]
+ },
+ "mVirtualFace": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mWatcher": {
+  "0x4": [
+   "s32 unk4",
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x10": [
+   "s32 unk10"
+  ],
+  "0x14": [
+   "s32 unk14"
+  ],
+  "0x18": [
+   "s32 unk18"
+  ]
+ },
+ "mWidget": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x2C": [
+   "void *unk2C"
+  ],
+  "0x90": [
+   "void *unk90"
+  ]
+ },
+ "mWindowContext": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mWindowContextPS2": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mWindowEvent": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ]
+ },
+ "mXml": {
+  "0x4": [
+   "void *unk4"
+  ],
+  "0x8": [
+   "s32 unk8"
+  ],
+  "0x42C": [
+   "void *unk42C"
+  ]
+ },
+ "mpegif": {
+  "0x3CC": [
+   "void *unk3CC"
+  ],
+  "0x3D4": [
+   "void *unk3D4"
+  ],
+  "0x3D8": [
+   "void *unk3D8"
+  ],
+  "0x3DC": [
+   "void *unk3DC"
+  ],
+  "0x3E4": [
+   "void *unk3E4"
+  ],
+  "0x3E8": [
+   "void *unk3E8"
+  ],
+  "0x400": [
+   "void *unk400"
+  ],
+  "0x408": [
+   "void *unk408"
+  ]
+ },
+ "rbuf": {
+  "0x1C": [
+   "void *unk1C"
+  ],
+  "0x40": [
+   "void *unk40"
+  ]
+ },
+ "stdiobuf": {
+  "0x10": [
+   "void *unk10"
+  ],
+  "0x50": [
+   "void *unk50"
+  ],
+  "0x58": [
+   "s32 unk58"
+  ]
+ },
+ "streambuf": {
+  "0x50": [
+   "void *unk50"
+  ]
+ },
+ "type_info": {
+  "0x0": [
+   "s32 unk0"
+  ],
+  "0x4": [
+   "s32 unk4"
+  ]
+ }
+}

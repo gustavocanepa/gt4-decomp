@@ -1,5 +1,9 @@
-typedef signed char s8; typedef unsigned char u8; typedef short s16; typedef unsigned short u16;
-typedef int s32; typedef unsigned int u32; typedef long long s64;
-extern "C" s16 func_00604F20(void *a0) {
-    return *(s16 *)((char *)a0 + 12);
+#include "types.h"
+struct func_00604F20_a0 {
+    char pad0[0xC];
+    s16 unkC;
+};
+
+extern "C" s16 func_00604F20(struct func_00604F20_a0 *a0) {
+    return a0->unkC;
 }

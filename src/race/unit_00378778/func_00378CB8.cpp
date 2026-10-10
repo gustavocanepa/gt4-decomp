@@ -41,6 +41,11 @@ struct Self {
 
 extern "C" void *func_005A48D8(void *arg0, s32 arg1, s32 arg2);
 
+struct func_00378CB8_self {
+    char pad0[0x168];
+    u64 unk168;
+};
+
 extern "C" void func_00378CB8(struct Self *self) {
     s32 i;
     s32 j;
@@ -71,11 +76,11 @@ extern "C" void func_00378CB8(struct Self *self) {
         func_005A48D8(e->j, 0, 0xC);
         func_005A48D8(e->k, 0, 0xC);
     }
-    *(u64 *)((char *)self + 0x168) &= 0xFFFFFFFF00FFFFFFul;
+    ((struct func_00378CB8_self *)self)->unk168 &= 0xFFFFFFFF00FFFFFFul;
     func_005A48D8(self->vDC, 0, 0xC);
     self->xE8 = 1;
     self->x14C = 1.0f;
-    *(u64 *)((char *)self + 0x168) &= 0xFFFF00FFFFFFFFFFul;
+    ((struct func_00378CB8_self *)self)->unk168 &= 0xFFFF00FFFFFFFFFFul;
     self->xEC = 0;
     self->x140 = 0;
     self->x144 = 0;
@@ -87,5 +92,5 @@ extern "C" void func_00378CB8(struct Self *self) {
     for (k = 0; k < 6; k++) {
         self->buf[k] = 0;
     }
-    *(u64 *)((char *)self + 0x168) &= 0xFFFFFFFFFF00FFFFul;
+    ((struct func_00378CB8_self *)self)->unk168 &= 0xFFFFFFFFFF00FFFFul;
 }

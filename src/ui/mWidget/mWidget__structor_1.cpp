@@ -1,3 +1,4 @@
+#include "gt4/mWidget.h"
 typedef int s32;
 
 struct Rep { s32 len; s32 cap; s32 ref; s32 sel; };
@@ -32,14 +33,14 @@ static inline void member_0(char *m) {
 }
 
 extern "C" void mWidget__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mWidget__vtable;
-    func_00255058(*(void **)((char *)arg0 + 0x90));
+    ((struct mWidget *)arg0)->unk4 = &mWidget__vtable;
+    func_00255058(((struct mWidget *)arg0)->unk90);
     str_release((Str *)((char *)arg0 + 0x94));
     str_release((Str *)((char *)arg0 + 0x8c));
     member_0((char *)arg0 + 0x60);
     func_0026A118((char *)arg0 + 0x30, 0x2);
-    if (*(void **)((char *)arg0 + 0x2c) != 0) {
-        func_003286B8(*(void **)((char *)arg0 + 0x2c));
+    if (((struct mWidget *)arg0)->unk2C != 0) {
+        func_003286B8(((struct mWidget *)arg0)->unk2C);
     }
     hModule__structor_2(arg0, 0x0);
     if ((arg1 & 0x1) != 0) {

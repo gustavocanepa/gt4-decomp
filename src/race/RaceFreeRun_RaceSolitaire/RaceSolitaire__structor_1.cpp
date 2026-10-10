@@ -1,3 +1,4 @@
+#include "gt4/RaceSolitaire.h"
 typedef int s32;
 
 extern void *D_00620000;
@@ -19,14 +20,14 @@ static inline void vcall_0(char *o, s32 a0) {
 }
 
 extern "C" void RaceSolitaire__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x64) = &RaceSolitaire__vtable;
+    ((struct RaceSolitaire *)arg0)->unk64 = &RaceSolitaire__vtable;
     func_00109A50(arg0, (char *)arg0 + 0xe48c);
-    if (*(void **)((char *)arg0 + 0xf0ec) != 0) {
+    if (((struct RaceSolitaire *)arg0)->unkF0EC != 0) {
         if (*(void **)((char *)&D_00620000 + 0x1f20) == 0) {
-            func_00575DA0(*(void **)((char *)arg0 + 0xf0ec));
+            func_00575DA0(((struct RaceSolitaire *)arg0)->unkF0EC);
         }
     }
-    if (*(void **)((char *)arg0 + 0xf100) != 0) {
+    if (((struct RaceSolitaire *)arg0)->unkF100 != 0) {
         vcall_0((char *)*(void **)((char *)arg0 + 0xf100), 0x3);
     }
     func_003BDA40((char *)arg0 + 0xf058, 0x2);

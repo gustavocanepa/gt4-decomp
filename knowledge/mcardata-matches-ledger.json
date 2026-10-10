@@ -1,17 +1,17 @@
 {
-  "upstream": "b3ef5b7070e1fbc196dc365a31bb24d6677afe29",
-  "previous_revision": "2efb168dd79935fcad2a81153237d6fa911bf3e1",
-  "previous_count": 27,
-  "verified_count": 25,
-  "matched_instruction_bytes": 8376,
+  "upstream": "4797679311e1e02e4c446b38268373d2bcb0baa3",
+  "previous_revision": "3f9c129e746e823f9c48dca56bafd44de7b79588",
+  "previous_count": 25,
+  "verified_count": 23,
+  "matched_instruction_bytes": 8128,
   "upstream_retained": [
     {
-      "address": "0012E728",
-      "path": "src/gamedata/unit_0012D680/MCarData__GetCarNumericCode.cpp"
+      "address": "00447F48",
+      "path": "src/func_00447F48.cpp"
     },
     {
-      "address": "00447CA0",
-      "path": "src/func_00447CA0.cpp"
+      "address": "00448AD0",
+      "path": "src/func_00448AD0.cpp"
     }
   ],
   "sources": [
@@ -152,18 +152,6 @@
       "path": "src/race/unit_004271E8/func_004443A8.cpp",
       "source_sha256": "a1d700e14e01b98f7e23a0164ad267ddff15aa30742eb0cd7fe3873f34b2a10f",
       "matched_instruction_bytes": 152
-    },
-    {
-      "address": "00447F48",
-      "path": "src/race/unit_004271E8/func_00447F48.cpp",
-      "source_sha256": "4c65d0c5b79ee7ec58b8793e8f7d2d037063f5966e4a6d530e474835e210c285",
-      "matched_instruction_bytes": 132
-    },
-    {
-      "address": "00448AD0",
-      "path": "src/race/unit_004271E8/func_00448AD0.cpp",
-      "source_sha256": "e775ce500fdb34964a394ea974ada9405004f111701ce52c3f636db11d66cc5d",
-      "matched_instruction_bytes": 116
     }
   ],
   "hashes": {

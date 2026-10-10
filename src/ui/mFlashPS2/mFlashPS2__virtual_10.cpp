@@ -1,15 +1,7 @@
+#include "gt4/mFlashPS2.h"
 typedef int s32;
 
-struct Obj00272B38 {
-    char pad0[0xC];
-    s32 unkC;
-    s32 unk10;
-    s32 unk14;
-    char pad1[0x1C - 0x18];
-    s32 unk1C;
-};
-
-extern "C" s32 mFlashPS2__virtual_10(struct Obj00272B38 *arg0) {
+extern "C" s32 mFlashPS2__virtual_10(struct mFlashPS2 *arg0) {
     s32 var_v1;
 
     if (arg0->unk1C != 0) {

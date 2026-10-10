@@ -35,6 +35,11 @@ extern "C" void func_003285A8(s32);
 extern "C" void func_003285F8(s32);
 extern "C" void func_002FC870(void *, s32);
 
+struct MNetwork__get_network_enable_v_s0 {
+    char pad0[0x10];
+    s32 unk10;
+};
+
 extern "C" void MNetwork__get_network_enable(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
     s32 buf0[4];
     s32 buf1[4];
@@ -45,7 +50,7 @@ extern "C" void MNetwork__get_network_enable(s32 *arg0, void *arg1, s32 arg2, ch
     if (arg2 > 0) {
         func_001DC650(buf0);
         v_s0 = buf0[0];
-        *(s32 *)((char *)v_s0 + 0x10) = vcall_58((char *)*(s32 *)arg3) != 0;
+        ((struct MNetwork__get_network_enable_v_s0 *)v_s0)->unk10 = vcall_58((char *)*(s32 *)arg3) != 0;
         func_001DC5F8(buf0, 0x2);
     } else {
         p_s1 = buf1;

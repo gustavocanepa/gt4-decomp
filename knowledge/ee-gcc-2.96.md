@@ -238,6 +238,49 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - Same call written separately in several cases ending `break` can merge into one `jal`; computing
   the argument then calling once changes the whole dispatch.
 - Locals shared across switch arms (same register in each arm) are declared at function scope.
+  The reverse also holds: a pointer that sits in a different register in each arm is a separate
+  block-scoped local per case (`case 2: { int *p = ...; }`, 00552988).
+- **Rebuilding a switch from its table (2026-10-10, opus-jtbl, 70 matches):** write the arms in
+  arm-address order (gcc 2.96 keeps source order) with the labels the table words give
+  (build/scratch/os1c/rdwords.py VADDR N; selector bias from the `addiu` before the `sltiu`).
+  The table spans [lowest label, highest label]: when index 0 or the last index points at the
+  default arm, that end label was written explicitly (`case 0: default:`); when fewer than ~5
+  distinct labels would remain, the interior labels sharing the default arm (or an empty arm that
+  just breaks) were written too (`case 1: ... case 5: default:`, 0039ce60, 0039ccf0, 004a5cc0).
+  Generators: build/scratch/jtbl/gen_ret.py (return constants/strings/this+K per case),
+  gen_acc.py (accumulator `r = K; break;`), gen_native*.py (script natives, Handle temp + vtbl[11]).
+- `jr ra; li v0,K` per arm = `case: return K;`; `b end; li reg,K` per arm with the last arm falling
+  into `jr ra; move v0,reg` = accumulator `int r = init; switch {case: r = K; break;} return r;`
+  (init in the beqz delay slot). A float accumulator (`mtc1 $zero,$f0` at the top) works the same.
+- Two identical `return K` arms (explicit cases and `default:`) give `li v0,K` in its own block
+  before the epilogue plus a copy in the bounds-check `beql` slot; one merged arm schedules
+  `ld $ra` first (003a1030).
+- `slti x,HI; beql/beqz ..; slti x,LO; bnel ..` (or `slti 3; beqz; beql x,zero`) testing a two-value
+  range without folding into `addiu/sltiu` = a small `switch (x) { case 9: case 10: ... }`; the
+  same test written `if (x >= 9 && x < 11)` is range-folded, and `if (x < 3 && x != 0)` predicts
+  the branch differently (beqz instead of beql) (003e1c80, 0049d1a0).
+- `slti; xori 1; xori 0; movn` = `inlinePredicate() && x < K` where the predicate is a bool-returning
+  inline method (`bool isGe() const { return t() >= 13; }`); a plain `&&` is range-folded (00478a18).
+- A dead load at the start of an arm (`lbu v0,x; li v0,K`) = `if (f) a = K; else a = K;`: the two
+  arms are cross-jumped after reload and the load stays (0039ccf0).
+- An arm `b other_arm` landing in the middle of another arm's compare chain is cross-jumping of a
+  shared tail: rebuild the full condition per case (`c=='R'||c=='B'||c=='D'` jumping into case 3's
+  `c=='R'||c=='D'`, 001d2b50).
+- Order of derived locals matters: computing `type = k & 0x1F` up front (before unrelated stores)
+  lets `k` die early and reuse `$a0` as in the original (0049d080).
+- `andi 1; andi 0xff; bnez` = `(unsigned char)(x & 1) == 0`-style test; `andi; sltu $zero` flag =
+  `int f = 0; if (x & 2) f = 1;` (not `(x & 2) != 0`).
+- A run of stores whose order differs per arm: build/scratch/jtbl/perm_cases.py ADDR SRC permutes
+  each arm's statements; perm_lines.py ADDR SRC FIRST LAST permutes a line range (00472408, 001d2ca0).
+- Library jump tables at .rodata offset 0 (expat `*_cdataSectionTok`, `*_scanRef`,
+  `appendAttributeValue`, `big2_entityValueTok`): the gas 2.10 `lw $r, table($i)` bug breaks them;
+  `/* compiler: ee-gcc2.96-as2004 */` on the libmatch-emitted source matches (build/scratch/jtbl/libtry.py).
+- A base-class vptr store kept right before the derived one, with a 16-byte unused frame slot, is
+  a member container built with a default allocator argument (SGI `vector<T, InstanceAlloc>`,
+  ee-gcc2.96-stl); with a hand-written member the first vptr store disappears (001d3800).
+- 0x70002000 scratchpad switches (004a5fe0, 004a5cc0, 004a4930...): `-fno-gcse` keeps the base in a
+  register but our `ori` still fills the bounds-check delay slot; the original behaves as if the
+  constant were one unsplit `li` (a 64-bit `long base` keeps lui/ori together but adds daddiu).
 
 ## Calls and tail calls
 - Tail calls (C++ front end): a function ending in `j callee` (a jump, after restoring $ra) returns

@@ -33,6 +33,12 @@ extern "C" s32 func_00147D80(s32);
 extern "C" void func_00440FB8(s32, s32, s32, s32);
 extern "C" void func_0013BD68(void *, s32);
 
+struct MCarGarage__makeUsed_arg3 {
+    char pad0[0x4];
+    s32 unk4;
+    s32 unk8;
+};
+
 extern "C" void MCarGarage__makeUsed(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
     s32 buf0[4];
     s32 v_s4;
@@ -41,11 +47,11 @@ extern "C" void MCarGarage__makeUsed(s32 *arg0, void *arg1, s32 arg2, char **arg
     if (arg2 > 0) {
         v_s4 = -0x1;
         if (!((arg2 < 0x2))) {
-            v_s4 = vcall_58((char *)(*(s32 *)((char *)arg3 + 0x4)));
+            v_s4 = vcall_58((char *)(((struct MCarGarage__makeUsed_arg3 *)arg3)->unk4));
         }
         v_s2 = -0x1;
         if (!((arg2 < 0x3))) {
-            v_s2 = vcall_58((char *)(*(s32 *)((char *)arg3 + 0x8)));
+            v_s2 = vcall_58((char *)(((struct MCarGarage__makeUsed_arg3 *)arg3)->unk8));
         }
         v_s0 = vcall_58((char *)(*(s32 *)(char *)arg3));
         func_0013BDC0(buf0, arg1);

@@ -1,3 +1,4 @@
+#include "gt4/hModule.h"
 typedef int s32;
 
 extern void *hModule__vtable;
@@ -20,10 +21,10 @@ static inline void member_0(char *m) {
 }
 
 extern "C" void hModule__structor_2(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &hModule__vtable;
+    ((struct hModule *)arg0)->unk4 = &hModule__vtable;
     member_0((char *)arg0 + 0x18);
-    if (*(void **)((char *)arg0 + 0x14) != 0) {
-        func_003286B8(*(void **)((char *)arg0 + 0x14));
+    if (((struct hModule *)arg0)->unk14 != 0) {
+        func_003286B8(((struct hModule *)arg0)->unk14);
     }
     hObject__structor_2(arg0, 0x0);
     if ((arg1 & 0x1) != 0) {

@@ -277,7 +277,7 @@ def attempt(addr, compiler, verbose=False):
     if row["result"] in ("match", "m2c could not decompile it"):
         return row
     text = open(path).read()
-    text = text[len(cpu_solve.PRELUDE):] if text.startswith(cpu_solve.PRELUDE) else text
+    text = cpu_solve.strip_prelude(text, cpu_solve.PRELUDE) or cpu_solve.strip_prelude(text) or text
     best = (row.get("differ", 10 ** 6), "plain:" + row["how"], text)
     for elem in ("char", "u16", "u32"):
         blk = with_blocks(text, elem)

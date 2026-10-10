@@ -33,7 +33,17 @@ extern "C" void func_003B6B58(void *, s32);
 extern "C" s32 func_0045B118(void *);
 extern "C" void func_0045B740(void *, void *);
 
-extern "C" void func_0033A8C0(s32 *arg0, void *arg1) {
+struct func_0033A8C0_arg1 {
+    char pad0[0x345C];
+    s32 unk345C;
+};
+
+struct func_0033A8C0_arg0 {
+    char pad0[0x8];
+    s32 unk8;
+};
+
+extern "C" void func_0033A8C0(s32 *arg0, struct func_0033A8C0_arg1 *arg1) {
     s32 buf0[4];
     s32 v_s3;
     s32 v_s0;
@@ -41,7 +51,7 @@ extern "C" void func_0033A8C0(s32 *arg0, void *arg1) {
     s32 v_s2;
     func_0045B620(buf0, arg0);
     if (func_0045B348(buf0, &D_0069F308) == 0) {
-        *(s32 *)((char *)arg0 + 0x8) = (*(s32 *)(char *)arg0 + buf0[1]);
+        ((struct func_0033A8C0_arg0 *)arg0)->unk8 = (*(s32 *)(char *)arg0 + buf0[1]);
     } else {
         v_s3 = func_0045B0F8(arg0);
         v_s0 = func_0045B228(arg0);
@@ -53,7 +63,7 @@ extern "C" void func_0033A8C0(s32 *arg0, void *arg1) {
         func_003B6B38(arg1, v_s1);
         func_003B6B58(arg1, v_s2);
         if (v_s3 > 0) {
-            *(s32 *)((char *)arg1 + 0x345c) = func_0045B118(arg0);
+            arg1->unk345C = func_0045B118(arg0);
         }
         func_0045B740(buf0, arg0);
     }

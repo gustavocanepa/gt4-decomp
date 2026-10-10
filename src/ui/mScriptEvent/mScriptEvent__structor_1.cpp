@@ -1,3 +1,4 @@
+#include "gt4/mScriptEvent.h"
 typedef int s32;
 
 struct Rep { s32 len; s32 cap; s32 ref; s32 sel; };
@@ -20,7 +21,7 @@ static inline void str_release(Str *s) {
 
 
 extern "C" void mScriptEvent__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mScriptEvent__vtable;
+    ((struct mScriptEvent *)arg0)->unk4 = &mScriptEvent__vtable;
     func_002ED5C0((char *)arg0 + 0x24, 0x2);
     str_release((Str *)((char *)arg0 + 0x20));
     mEvent__structor_1(arg0, 0x0);

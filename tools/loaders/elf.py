@@ -12,5 +12,7 @@ def load(path):
     for i in range(phnum):
         kind, offset, vaddr, _, filesz = struct.unpack_from("<5I", data, phoff + i * phentsize)
         if kind == 1:  # PT_LOAD
-            sections.append((vaddr, data[offset:offset + filesz]))
+            blob = data[offset:offset + filesz]
+            # whole words: a single code+data segment (CORE.GT3) may end mid-word
+            sections.append((vaddr, blob + bytes(-len(blob) % 4)))
     return entry, sections

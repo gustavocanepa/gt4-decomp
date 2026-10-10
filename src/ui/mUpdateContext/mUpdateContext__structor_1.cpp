@@ -1,3 +1,4 @@
+#include "gt4/mUpdateContext.h"
 typedef int s32;
 
 extern "C" void func_00203118(void *arg0, s32 arg1);
@@ -19,7 +20,7 @@ static inline void kill_b(Node *q) { func_005DD1F8(q); void *p = q->p; func_0032
 static inline void kill_c(Node *q) { func_005DD168(q); void *p = q->p; func_00326798(p, 0xC, 4, *func_005DD7F0()); }
 
 extern "C" void mUpdateContext__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 4) = &mUpdateContext__vtable;
+    ((struct mUpdateContext *)arg0)->unk4 = &mUpdateContext__vtable;
     func_00203118((char *)arg0 + 0x118, 2);
     func_00574DA8((char *)arg0 + 0xE8, 2);
     kill_a((Node *)((char *)arg0 + 0xCC));

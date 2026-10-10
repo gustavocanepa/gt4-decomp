@@ -27,6 +27,11 @@ extern "C" s32 func_00445518(void *);
 extern "C" s32 func_00445548(void *);
 extern "C" void func_003923D0(void *, s32, s32);
 
+struct func_003B5D90_arg0 {
+    char pad0[0x28FC];
+    s32 unk28FC;
+};
+
 extern "C" void func_003B5D90(s32 *arg0) {
     char *v_s3;
     char *v_s2;
@@ -34,9 +39,9 @@ extern "C" void func_003B5D90(s32 *arg0) {
     v_s3 = (char *)arg0 + 0x2900;
     v_s2 = (char *)arg0 + 0x20;
     func_003923A0(v_s3);
-    if (*(s32 *)((char *)arg0 + 0x28fc) == 0) {
+    if (((struct func_003B5D90_arg0 *)arg0)->unk28FC == 0) {
         v_s0 = func_00445518(v_s2);
         func_003923D0(v_s3, v_s0, func_00445548(v_s2));
-        *(s32 *)((char *)arg0 + 0x28fc) = 0x1;
+        ((struct func_003B5D90_arg0 *)arg0)->unk28FC = 0x1;
     }
 }

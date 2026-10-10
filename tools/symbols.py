@@ -5,7 +5,9 @@ through this table, so sources may call functions and globals by their real name
 
 Names come from:
   config/symbol_addrs.txt   tools/rtti.py: Class__virtual_NN, Class__structor_N, Class__tf (code)
-                            and Class__vtable (data), as `name = 0xADDR; // type:func|data`
+                            and Class__vtable (data), as `name = 0xADDR; // type:func|data`;
+                            tools/gthd_names.py --apply: Class__method names from Gran Turismo
+                            HD, tagged `// type:func gthd`, in a block of their own
   config/libs/*_symbols.txt tools/libmatch.py's libraries: real (C and mangled C++) names of library
                             functions and data, e.g. libio's `tellg__7istream`; like stl_symbols.txt
                             they resolve but never name an address
@@ -18,8 +20,8 @@ function), `method__NClass...` (member of Class, also Q2-nested names), `__NClas
 (constructor and destructor): they resolve through Class__method, Class__ctor, Class__dtor.
 
 The canonical name of an address (`name_of`) is the script-engine method name when there is one
-(what scripts call), else the RTTI name: a constructor/destructor over a vtable slot over the
-type_info function, and when several classes claim the same function, the class that is an
+(what scripts call), else the RTTI name: a constructor/destructor over a GT HD name over a
+vtable slot over the type_info function, and when several classes claim the same function, the class that is an
 ancestor of the others (else the first by name). Addresses without a name stay func_ADDR / D_ADDR.
 
     symbols.py NAME|ADDR...     what each resolves to, with every alias
@@ -45,7 +47,7 @@ TOKEN = re.compile(r"\b(func|D|jtbl)_([0-9A-Fa-f]{8})\b(?!\w)")
 STRING = r'"(?:[^"\\\n]|\\.)*"'
 CHAR = r"'(?:[^'\\\n]|\\.)*'"
 RTTI_SUFFIX = re.compile(r"^(.+?)__(virtual_\d+|structor_\d+|tf|vtable\d*)$")
-_RANK = {"structor": 0, "virtual": 1, "tf": 2, "vtable": 3}
+_RANK = {"structor": 0, "gthd": 0.5, "virtual": 1, "tf": 2, "vtable": 3}
 
 _table = None
 
@@ -68,6 +70,7 @@ def _load():
         for cname, c in json.load(open(CLASSES)).items():
             bases[cname] = list(c.get("bases", []))
     rtti = {}
+    gthd = set()  # names from Gran Turismo HD (tools/gthd_names.py): above Class__virtual_NN
     libs = sorted(os.path.join(LIB_SYMBOLS, f) for f in os.listdir(LIB_SYMBOLS)
                   if f.endswith("_symbols.txt")) if os.path.isdir(LIB_SYMBOLS) else []
     for path in [SYMBOL_ADDRS, STL] + libs:
@@ -83,6 +86,8 @@ def _load():
                     continue
                 t.by_addr.setdefault(addr, []).append(m.group(1))
                 rtti.setdefault(addr, []).append(m.group(1))
+                if re.search(r"type:func gthd\b", line):
+                    gthd.add(m.group(1))
     if os.path.exists(ADHOC):
         for line in open(ADHOC):
             p = line.split()
@@ -115,6 +120,8 @@ def _load():
         return out
 
     def rank(name):
+        if name in gthd:
+            return (_RANK["gthd"], "", name)
         m = RTTI_SUFFIX.match(name)
         cls, suffix = (m.group(1), m.group(2)) if m else (name, "")
         kind = re.sub(r"\d+", "", suffix).rstrip("_")
@@ -170,6 +177,8 @@ def _demangled(sym):
             pos += ln
         if parts and method:
             out.append("::".join(parts) + "__" + method)
+            if len(parts) > 1:  # GT HD names nested classes Outer__Inner__method
+                out.append("__".join(parts) + "__" + method)
             out.append(parts[-1] + "__" + method)
     return out
 

@@ -33,6 +33,11 @@ extern "C" s32 func_00147D80(s32);
 extern "C" void func_0043F368(s32, s32, s32);
 extern "C" void func_0013BD68(void *, s32);
 
+struct MCarGarage__getParts_arg3 {
+    char pad0[0x4];
+    s32 unk4;
+};
+
 extern "C" void MCarGarage__getParts(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
     s32 buf0[4];
     s32 v_s1;
@@ -40,7 +45,7 @@ extern "C" void MCarGarage__getParts(s32 *arg0, void *arg1, s32 arg2, char **arg
     if (arg2 >= 0x2) {
         func_0013BDC0(buf0);
         v_s1 = vcall_58((char *)(*(s32 *)(char *)arg3));
-        v_s0 = vcall_58((char *)(*(s32 *)((char *)arg3 + 0x4)));
+        v_s0 = vcall_58((char *)(((struct MCarGarage__getParts_arg3 *)arg3)->unk4));
         func_0043F368(func_00147D80(buf0[0]), v_s1, v_s0);
         func_0013BD68(buf0, 0x2);
     }

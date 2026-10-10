@@ -47,6 +47,11 @@ extern void *MfloatReader__vtable[];
 extern void *MintReader__vtable[];
 extern "C" s32 MWidgetReader__structor_0(char *a0, void *a1);
 
+struct MfloatReader__structor_11_pcb {
+    char pad0[0x4];
+    char *unk4;
+};
+
 extern "C" s32 MfloatReader__structor_11(char *a0, void *a1)
 {
     if (MWidgetReader__structor_0(a0, a1))
@@ -57,7 +62,7 @@ extern "C" s32 MfloatReader__structor_11(char *a0, void *a1)
         char *p = (char *)(&u.l0.v);
         Cb *pcb = &u.l0.cb;
         pcb->vtbl = MintReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MfloatReader__structor_11_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.l0.t, pcb);
         pcb->vtbl = MintReader__vtable;
         MReaderBase__structor_0(pcb, 0);
@@ -72,7 +77,7 @@ extern "C" s32 MfloatReader__structor_11(char *a0, void *a1)
         char *p = (char *)(a0 + 0xB4);
         Cb *pcb = &u.l1.cb;
         pcb->vtbl = MfloatReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MfloatReader__structor_11_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.l1.t, pcb);
         pcb->vtbl = MfloatReader__vtable;
         MReaderBase__structor_0(pcb, 0);
@@ -86,7 +91,7 @@ extern "C" s32 MfloatReader__structor_11(char *a0, void *a1)
         char *p = (char *)(a0 + 0xB8);
         Cb *pcb = &u.l2.cb;
         pcb->vtbl = MfloatReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MfloatReader__structor_11_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.l2.t, pcb);
         pcb->vtbl = MfloatReader__vtable;
         MReaderBase__structor_0(pcb, 0);

@@ -1,3 +1,4 @@
+#include "gt4/mMovieFace.h"
 typedef int s32;
 
 extern "C" void func_00575DA0(void *arg0);
@@ -9,7 +10,7 @@ extern "C" void mImageFace__structor_1(void *, s32);
 extern void *mMovieFace__vtable;
 
 extern "C" void mMovieFace__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 4) = &mMovieFace__vtable;
+    ((struct mMovieFace *)arg0)->unk4 = &mMovieFace__vtable;
     func_0021D828((char *)arg0 + 0x114, 2);
     func_002207B0((char *)arg0 + 0xF0, 2);
     mImageFace__structor_1(arg0, 0);

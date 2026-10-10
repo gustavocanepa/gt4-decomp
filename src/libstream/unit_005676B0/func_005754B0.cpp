@@ -26,6 +26,13 @@ extern "C" void func_00576788(void);
 extern "C" s32 func_00575620(void *, void *);
 extern "C" void func_005767C0(void *);
 
+struct func_005754B0_arg0 {
+    char pad0[0x4C];
+    s32 unk4C;
+    char pad50[0x4];
+    s32 unk54;
+};
+
 extern "C" s32 func_005754B0(s32 *arg0, void *arg1) {
     s32 v_s0;
     s32 t1;
@@ -33,10 +40,10 @@ extern "C" s32 func_005754B0(s32 *arg0, void *arg1) {
     t1 = func_00575620(arg0, arg1);
     v_s0 = 0;
     if (t1 >= 0) {
-        v_s0 = *(s32 *)((char *)((*(s32 *)((char *)arg0 + 0x4c) + (t1 << 3))) + 0x4) + 0x4;
-        if (((*(s32 *)(char *)(*(s32 *)((char *)((*(s32 *)((char *)arg0 + 0x4c) + (t1 << 3))) + 0x4)) ^ 0x1) & 0x1) != 0) {
-            *(s32 *)(char *)(*(s32 *)((char *)((*(s32 *)((char *)arg0 + 0x4c) + (t1 << 3))) + 0x4)) = (*(s32 *)(char *)(*(s32 *)((char *)((*(s32 *)((char *)arg0 + 0x4c) + (t1 << 3))) + 0x4)) | 0x1);
-            *(s32 *)((char *)arg0 + 0x54) = *(s32 *)((char *)arg0 + 0x54) + 0x1;
+        v_s0 = *(s32 *)((char *)((((struct func_005754B0_arg0 *)arg0)->unk4C + (t1 << 3))) + 0x4) + 0x4;
+        if (((*(s32 *)(char *)(*(s32 *)((char *)((((struct func_005754B0_arg0 *)arg0)->unk4C + (t1 << 3))) + 0x4)) ^ 0x1) & 0x1) != 0) {
+            *(s32 *)(char *)(*(s32 *)((char *)((((struct func_005754B0_arg0 *)arg0)->unk4C + (t1 << 3))) + 0x4)) = (*(s32 *)(char *)(*(s32 *)((char *)((((struct func_005754B0_arg0 *)arg0)->unk4C + (t1 << 3))) + 0x4)) | 0x1);
+            ((struct func_005754B0_arg0 *)arg0)->unk54 = ((struct func_005754B0_arg0 *)arg0)->unk54 + 0x1;
         }
     }
     func_005767C0(arg0);

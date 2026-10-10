@@ -1,3 +1,4 @@
+#include "gt4/mOptionMenu.h"
 typedef int s32;
 
 extern "C" void func_00575DA0(void *arg0);
@@ -8,7 +9,7 @@ extern "C" void mFBox__structor_1(void *, s32);
 extern void *mOptionMenu__vtable;
 
 extern "C" void mOptionMenu__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 4) = &mOptionMenu__vtable;
+    ((struct mOptionMenu *)arg0)->unk4 = &mOptionMenu__vtable;
     func_002F9B38((char *)arg0 + 0xD4, 2);
     func_002F9B38((char *)arg0 + 0xD0, 2);
     func_002F9B38((char *)arg0 + 0xCC, 2);

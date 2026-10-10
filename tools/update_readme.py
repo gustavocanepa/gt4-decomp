@@ -26,9 +26,15 @@ def render():
     commit = (meta.get("commit") or "")[:12]
     described = f", commit `{commit}`" if commit else ""
     matched_data, total_data = int(m["matched_data"]), int(m["total_data"])
+    # tools/clean_report.py, stored by tools/report.py; a report made before it has no such line
+    c = meta.get("clean")
+    clean = (f"  Clean source: {c['clean_percent']:.1f}% of the {c['sources']:,} function sources are free of m2c\n"
+             f"  macros, raw offset casts, temp_/var_ names and pasted headers (`tools/clean_report.py`).\n") if c else ""
     return (
         f"- **Progress ({when}{described}): {m['matched_functions']:,} of {m['total_functions']:,} functions match "
-        f"({m['matched_functions_percent']:.1f}%), {m['matched_code_percent']:.1f}% of the code bytes.**\n"
+        f"({m['matched_functions_percent']:.1f}%), {m['matched_code_percent']:.1f}% of the code bytes"
+        + (f"; {c['clean_percent']:.1f}% of the sources are clean" if c else "") + ".**\n"
+        + clean +
         f"  The live numbers are on the `progress` branch (objdiff report format); this paragraph is written by\n"
         f"  `tools/update_readme.py` from `progress/report.json`, never by hand.\n"
         f"- **The full build reproduces the original executable** (both loaded segments, SHA-1 checked):\n"

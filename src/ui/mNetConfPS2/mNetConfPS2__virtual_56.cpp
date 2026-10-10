@@ -1,5 +1,5 @@
-typedef signed char s8; typedef unsigned char u8; typedef short s16; typedef unsigned short u16;
-typedef int s32; typedef unsigned int u32; typedef long long s64;
-extern "C" void mNetConfPS2__virtual_56(void *a0, s32 a1) {
-    *(s32 *)((char *)a0 + 476) = a1;
+#include "types.h"
+#include "gt4/mNetConfPS2.h"
+extern "C" void mNetConfPS2__virtual_56(struct mNetConfPS2 *a0, s32 a1) {
+    a0->unk1DC = a1;
 }

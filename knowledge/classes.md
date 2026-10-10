@@ -3,7 +3,7 @@
 The engine's class list, recovered from the g++ RTTI that the executable carries: `config/classes.json`
 has 509 classes (490 with a vtable), `config/symbol_addrs.txt` has 5,458 function names derived from them
 (`Class__virtual_NN`, `Class__structor_N`, `Class__tf`) plus the vtable addresses, and `tools/rtti.py` writes the
-type-name list to `build/rtti_names.txt` (generated, not in the repository). Everything on this page is derived from those files plus the matched sources in `src/`;
+type-name list to `build/rtti_names.txt` (generated, not in the repository). Real method names and parameter types for most of these classes come from Gran Turismo HD's symbols (`tools/gthd_names.py`, `config/gthd_names.txt`, `config/gthd_prototypes.json`; see [gthd.md](gthd.md)). Everything on this page is derived from those files plus the matched sources in `src/`;
 where a purpose is guessed from a name or from the shape of the code it says **inferred**.
 The big picture (subsystems, address ranges, how they connect) is in [architecture.md](architecture.md);
 the script side is in [script-engine.md](script-engine.md) and the basic types in [runtime-types.md](runtime-types.md).

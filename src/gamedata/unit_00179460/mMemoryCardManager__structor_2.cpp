@@ -1,3 +1,4 @@
+#include "gt4/mMemoryCardManager.h"
 typedef int s32;
 
 extern void *mMemoryCardManager__vtable;
@@ -29,19 +30,19 @@ static inline void member_1(char *m) {
 }
 
 extern "C" void mMemoryCardManager__structor_2(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mMemoryCardManager__vtable;
+    ((struct mMemoryCardManager *)arg0)->unk4 = &mMemoryCardManager__vtable;
     member_0((char *)arg0 + 0x20);
     member_1((char *)arg0 + 0x1c);
-    if (*(void **)((char *)arg0 + 0x24) != 0) {
+    if (((struct mMemoryCardManager *)arg0)->unk24 != 0) {
         vcall_1((char *)*(void **)((char *)arg0 + 0x24), 0x3);
     }
-    if (*(void **)((char *)arg0 + 0x20) != 0) {
-        func_001D2518(*(void **)((char *)arg0 + 0x20), 0x3);
+    if (((struct mMemoryCardManager *)arg0)->unk20 != 0) {
+        func_001D2518(((struct mMemoryCardManager *)arg0)->unk20, 0x3);
     }
-    if (*(void **)((char *)arg0 + 0x1c) != 0) {
+    if (((struct mMemoryCardManager *)arg0)->unk1C != 0) {
         vcall_0((char *)*(void **)((char *)arg0 + 0x1c), 0x3);
     }
-    if (*(void **)((char *)arg0 + 0x18) != 0) {
+    if (((struct mMemoryCardManager *)arg0)->unk18 != 0) {
         vcall_1((char *)*(void **)((char *)arg0 + 0x18), 0x3);
     }
     func_00228480((char *)arg0 + 0x10, 0x2);

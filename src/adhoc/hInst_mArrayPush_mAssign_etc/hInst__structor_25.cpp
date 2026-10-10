@@ -26,10 +26,16 @@ static inline void str_release(char *p) {
     }
 }
 
-extern "C" void hInst__structor_25(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 4) = &mStringConst__vtable;
-    str_release(*(char **)((char *)arg0 + 8));
-    *(void **)((char *)arg0 + 4) = &hInst__vtable;
+struct hInst__structor_25_arg0 {
+    char pad0[0x4];
+    void *unk4;
+    char *unk8;
+};
+
+extern "C" void hInst__structor_25(struct hInst__structor_25_arg0 *arg0, s32 arg1) {
+    arg0->unk4 = &mStringConst__vtable;
+    str_release(arg0->unk8);
+    arg0->unk4 = &hInst__vtable;
     RefCounter__structor_2(arg0, 0);
     if (arg1 & 1) {
         return func_00326798(arg0, 0xC, 4, "RefCounter");

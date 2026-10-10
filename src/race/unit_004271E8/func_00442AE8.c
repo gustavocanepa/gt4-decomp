@@ -1,103 +1,57 @@
-typedef signed char s8; typedef unsigned char u8; typedef short s16; typedef unsigned short u16;
-typedef int s32; typedef unsigned int u32; typedef long long s64; typedef unsigned long long u64;
-typedef float f32; typedef double f64;
+#include "types.h"
 void *memcpy(void *, const void *, unsigned int);
-/*
- * This header contains macros emitted by m2c in "valid syntax" mode,
- * which can be enabled by passing `--valid-syntax` on the command line.
- *
- * In this mode, unhandled types and expressions are emitted as macros so
- * that the output is compilable without human intervention.
- */
 
-#ifndef M2C_MACROS_H
-#define M2C_MACROS_H
+struct func_00442AE8_arg1 {
+    char pad0[0xBD];
+    u8 unkBD;
+    char padBE[0x2];
+    u8 unkC0;
+    u8 unkC1;
+    u8 unkC2;
+    u8 unkC3;
+    u8 unkC4;
+    u8 unkC5;
+    u8 unkC6;
+    u8 unkC7;
+    u8 unkC8;
+    u8 unkC9;
+    u8 unkCA;
+    u8 unkCB;
+    u8 unkCC;
+    u8 unkCD;
+    u8 unkCE;
+    u8 unkCF;
+    char padD0[0x3A];
+    u16 unk10A;
+    u8 unk10C;
+};
+struct func_00442AE8_arg2 {
+    char pad0[0x4];
+    u16 unk4;
+    u16 unk6;
+    char pad8[0x1];
+    u8 unk9;
+    u8 unkA;
+};
 
-/* Unknown types */
-typedef s32 M2C_UNK;
-typedef s8  M2C_UNK8;
-typedef s16 M2C_UNK16;
-typedef s32 M2C_UNK32;
-typedef s64 M2C_UNK64;
-
-/* Unknown field access, like `*(type_ptr) &expr->unk_offset` */
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
-/* Bitwise (reinterpret) cast */
-#define M2C_BITWISE(type, expr) ((type)(expr))
-
-/* Unaligned reads */
-#define M2C_LWL(expr) (expr)
-#define M2C_FIRST3BYTES(expr) (expr)
-#define M2C_UNALIGNED32(expr) (expr)
-
-/* Unhandled instructions */
-#define M2C_ERROR(desc) (0)
-#define M2C_TRAP_IF(cond) (0)
-#define M2C_BREAK() (0)
-#define M2C_SYNC() (0)
-#define M2C_DCACHE_CLEAN(addr) (0)
-#define M2C_DCACHE_INVALIDATE(addr) (0)
-#define M2C_DCACHE_CLEAN_INVALIDATE(addr) (0)
-#define M2C_DCACHE_BLOCK_SETZERO(addr) (0)
-#define M2C_DCACHE_BLOCK_SETZERO_LOCKED(addr) (0)
-#define M2C_ICACHE_INVALIDATE(addr) (0)
-#define M2C_PREFETCH(addr) (0)
-#define M2C_PREFETCH_STORE(addr) (0)
-
-#define GLUE_F64(a, b) (0.0)
-#define MULT_HI(a, b) (0)
-#define MULTU_HI(a, b) (0)
-#define DMULT_HI(a, b) (0)
-#define DMULTU_HI(a, b) (0)
-#define CLZ(x) (0)
-#define REVERSE_BITS(x) (0)
-#define ROTATE_RIGHT(x, shift) (0)
-#define ARM_RRX(x, carry) (0)
-#define BSWAP32(x) (0)
-#define BSWAP16(x) (0)
-#define BSWAP16X2(x) (0)
-
-/* Carry/overflow bits from partially-implemented instructions */
-#define M2C_CARRY 0
-#define M2C_OVERFLOW(a) (0)
-
-/* Memcpy patterns */
-#define M2C_MEMCPY_ALIGNED memcpy
-#define M2C_MEMCPY_UNALIGNED memcpy
-#define M2C_STRUCT_COPY memcpy
-
-/* Sh2 control register loads/stores */
-#define M2C_LOAD_SR() (0)
-#define M2C_LOAD_GBR() (0)
-#define M2C_LOAD_VBR() (0)
-#define M2C_STORE_SR(a)
-#define M2C_STORE_GBR(a)
-#define M2C_STORE_VBR(a)
-
-#define M2C_CMP_STR(a, b) (0)
-#define M2C_TAS_B(a) (0)
-
-#endif
-
-void func_00442AE8(M2C_UNK arg0, void *arg1, void *arg2) {
-    M2C_FIELD(arg1, u8 *, 0xC0) = (u8) (M2C_FIELD(arg1, u8 *, 0xC0) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xC1) = (u8) (M2C_FIELD(arg1, u8 *, 0xC1) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xC2) = (u8) (M2C_FIELD(arg1, u8 *, 0xC2) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xC3) = (u8) (M2C_FIELD(arg1, u8 *, 0xC3) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xC4) = (u8) (M2C_FIELD(arg1, u8 *, 0xC4) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xC5) = (u8) (M2C_FIELD(arg1, u8 *, 0xC5) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xC6) = (u8) (M2C_FIELD(arg1, u8 *, 0xC6) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xC7) = (u8) (M2C_FIELD(arg1, u8 *, 0xC7) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xC8) = (u8) (M2C_FIELD(arg1, u8 *, 0xC8) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xC9) = (u8) (M2C_FIELD(arg1, u8 *, 0xC9) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xCA) = (u8) (M2C_FIELD(arg1, u8 *, 0xCA) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xCB) = (u8) (M2C_FIELD(arg1, u8 *, 0xCB) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xCC) = (u8) (M2C_FIELD(arg1, u8 *, 0xCC) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xCD) = (u8) (M2C_FIELD(arg1, u8 *, 0xCD) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xCE) = (u8) (M2C_FIELD(arg1, u8 *, 0xCE) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xCF) = (u8) (M2C_FIELD(arg1, u8 *, 0xCF) + M2C_FIELD(arg2, u8 *, 9));
-    M2C_FIELD(arg1, u8 *, 0xBD) = (u8) (M2C_FIELD(arg1, u8 *, 0xBD) + M2C_FIELD(arg2, u8 *, 0xA));
-    M2C_FIELD(arg1, u16 *, 0x10A) = (u16) ((s32) (M2C_FIELD(arg1, u16 *, 0x10A) * M2C_FIELD(arg2, u16 *, 4)) / 100);
-    M2C_FIELD(arg1, u8 *, 0x10C) = (u8) ((s32) (M2C_FIELD(arg1, u8 *, 0x10C) * M2C_FIELD(arg2, u16 *, 6)) / 100);
+void func_00442AE8(s32 arg0, struct func_00442AE8_arg1 *arg1, struct func_00442AE8_arg2 *arg2) {
+    arg1->unkC0 = (u8) (arg1->unkC0 + arg2->unk9);
+    arg1->unkC1 = (u8) (arg1->unkC1 + arg2->unk9);
+    arg1->unkC2 = (u8) (arg1->unkC2 + arg2->unk9);
+    arg1->unkC3 = (u8) (arg1->unkC3 + arg2->unk9);
+    arg1->unkC4 = (u8) (arg1->unkC4 + arg2->unk9);
+    arg1->unkC5 = (u8) (arg1->unkC5 + arg2->unk9);
+    arg1->unkC6 = (u8) (arg1->unkC6 + arg2->unk9);
+    arg1->unkC7 = (u8) (arg1->unkC7 + arg2->unk9);
+    arg1->unkC8 = (u8) (arg1->unkC8 + arg2->unk9);
+    arg1->unkC9 = (u8) (arg1->unkC9 + arg2->unk9);
+    arg1->unkCA = (u8) (arg1->unkCA + arg2->unk9);
+    arg1->unkCB = (u8) (arg1->unkCB + arg2->unk9);
+    arg1->unkCC = (u8) (arg1->unkCC + arg2->unk9);
+    arg1->unkCD = (u8) (arg1->unkCD + arg2->unk9);
+    arg1->unkCE = (u8) (arg1->unkCE + arg2->unk9);
+    arg1->unkCF = (u8) (arg1->unkCF + arg2->unk9);
+    arg1->unkBD = (u8) (arg1->unkBD + arg2->unkA);
+    arg1->unk10A = (u16) ((s32) (arg1->unk10A * arg2->unk4) / 100);
+    arg1->unk10C = (u8) ((s32) (arg1->unk10C * arg2->unk6) / 100);
 }

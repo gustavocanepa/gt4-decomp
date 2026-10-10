@@ -32,7 +32,12 @@ extern "C" s32 func_003B5B80(void *, void *);
 extern "C" void func_0045AF38(void *, s32);
 extern "C" void func_0045B548(void *, void *);
 
-extern "C" void func_0033A1B0(s32 *arg0, void *arg1, s32 arg2) {
+struct func_0033A1B0_arg1 {
+    char pad0[0x345C];
+    s32 unk345C;
+};
+
+extern "C" void func_0033A1B0(s32 *arg0, struct func_0033A1B0_arg1 *arg1, s32 arg2) {
     s32 buf0[4];
     s32 buf1[4];
     s32 *p_s1;
@@ -43,6 +48,6 @@ extern "C" void func_0033A1B0(s32 *arg0, void *arg1, s32 arg2) {
     func_0045B040(arg0, func_003B5A20(arg1, 0, arg2, p_s1));
     func_0045B040(arg0, func_003B5AF8(arg1, p_s1));
     func_0045B040(arg0, func_003B5B80(arg1, p_s1));
-    func_0045AF38(arg0, *(s32 *)((char *)arg1 + 0x345c));
+    func_0045AF38(arg0, arg1->unk345C);
     func_0045B548(buf0, arg0);
 }

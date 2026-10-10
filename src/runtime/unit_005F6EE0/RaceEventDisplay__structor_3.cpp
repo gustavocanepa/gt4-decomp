@@ -1,3 +1,4 @@
+#include "gt4/RaceEventDisplay.h"
 typedef int s32;
 
 extern void *RaceEventDisplay__vtable;
@@ -10,7 +11,7 @@ static inline void vcall_0(char *o, s32 a0) {
 }
 
 extern "C" void RaceEventDisplay__structor_3(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x14) = &RaceEventDisplay__vtable;
+    ((struct RaceEventDisplay *)arg0)->unk14 = &RaceEventDisplay__vtable;
     if ((char *)arg0 + 0x50 != 0) {
         char *p0 = (char *)arg0 + 0xad0;
         while ((char *)arg0 + 0x50 != p0) {

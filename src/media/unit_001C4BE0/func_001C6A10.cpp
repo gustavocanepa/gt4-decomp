@@ -28,6 +28,11 @@ extern "C" void func_004AE230(void *, void *, s32);
 extern "C" void func_005A4724(s32, s32, s32);
 extern "C" void func_00575DA0(s32);
 
+struct func_001C6A10_arg0 {
+    char pad0[0xBD0];
+    s32 unkBD0;
+};
+
 extern "C" s32 func_001C6A10(s32 *arg0, void *arg1, s32 arg2) {
     s32 buf0[4];
     s32 buf1[4];
@@ -42,7 +47,7 @@ extern "C" s32 func_001C6A10(s32 *arg0, void *arg1, s32 arg2) {
     v_s1 = buf4[2];
     v_s0 = (v_s1 < arg2);
     if (v_s0) {
-        func_005A4724(*(s32 *)((char *)arg0 + 0xbd0), buf5[0], v_s1);
+        func_005A4724(((struct func_001C6A10_arg0 *)arg0)->unkBD0, buf5[0], v_s1);
     } else {
         v_s1 = -0x1;
     }

@@ -1,3 +1,4 @@
+#include "gt4/mSelectBox.h"
 typedef int s32;
 
 extern "C" void func_00575DA0(void *arg0);
@@ -8,10 +9,10 @@ extern "C" void mScrollable__structor_1(void *, s32);
 extern void *mSelectBox__vtable;
 
 extern "C" void mSelectBox__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 4) = &mSelectBox__vtable;
-    void *p = *(void **)((char *)arg0 + 0xF0);
+    ((struct mSelectBox *)arg0)->unk4 = &mSelectBox__vtable;
+    void *p = ((struct mSelectBox *)arg0)->unkF0;
     if (p != 0) {
-        *(void **)((char *)arg0 + 0xF0) = 0;
+        ((struct mSelectBox *)arg0)->unkF0 = 0;
         func_00575DA0(p);
     }
     func_002F9B38((char *)arg0 + 0xF4, 2);

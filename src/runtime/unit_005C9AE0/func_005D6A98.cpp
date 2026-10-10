@@ -12,19 +12,29 @@ struct Mid {
 
 extern int func_005C2A50(void *, int, int, int);
 
+struct func_005D6A98_s1 {
+    char pad0[0x4];
+    struct Node *unk4;
+    struct Node *unk8;
+};
+struct func_005D6A98_s0 {
+    char pad0[0xC];
+    struct Node *unkC;
+};
+
 void **func_005D6A98(void **arg0, struct Mid *arg1, int arg2)
 {
     struct Node *s1 = (struct Node *)arg1->unk4;
-    struct Node *s0 = *(struct Node **)((char *)s1 + 4);
+    struct Node *s0 = ((struct func_005D6A98_s1 *)s1)->unk4;
 
     if (s0 != 0) {
         void *a0 = (char *)s0 + 0x10;
         do {
             if (func_005C2A50(a0, arg2, 0, -1) >= 0) {
                 s1 = s0;
-                s0 = *(struct Node **)((char *)s1 + 8);
+                s0 = ((struct func_005D6A98_s1 *)s1)->unk8;
             } else {
-                s0 = *(struct Node **)((char *)s0 + 0xC);
+                s0 = ((struct func_005D6A98_s0 *)s0)->unkC;
             }
             a0 = (char *)s0 + 0x10;
         } while (s0 != 0);

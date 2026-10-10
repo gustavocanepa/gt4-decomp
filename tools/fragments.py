@@ -86,7 +86,7 @@ def compile_lines(src):
     os.makedirs(os.path.join(ROOT, "build", "obj"), exist_ok=True)
     obj = os.path.join(ROOT, "build", "obj", f"lines_{os.getpid()}_{uuid.uuid4().hex}.o")
     rel = lambda p: os.path.relpath(os.path.abspath(p), ROOT).replace("\\", "/")
-    args = ["bash", "tools/lines_wsl.sh", rel(src), rel(obj), project.compiler_command()]
+    args = project.with_include_stamp(["bash", "tools/lines_wsl.sh", rel(src), rel(obj), project.compiler_command()])
     if os.name == "nt":
         cmd = ["wsl", "-d", "Ubuntu", "--cd", "/mnt/" + ROOT[0].lower() + ROOT[2:].replace("\\", "/"), "--"] + args
     else:
@@ -878,7 +878,7 @@ def attempt(addr, budget=30, per_kind=8, verbose=False, edits=None):
     """Hill-climb one near miss; (before, after, matched, steps, judges)."""
     edits = load_edits() if edits is None else edits
     draft = open(os.path.join(cpu_solve.OUT, f"{addr:08x}.c")).read()
-    body = draft[len(PRELUDE):] if draft.startswith(PRELUDE) else draft
+    body = cpu_solve.strip_prelude(draft) or draft
     work = os.path.join(OUT, "work")
     os.makedirs(work, exist_ok=True)
     path = os.path.join(work, f"{addr:08x}.c")

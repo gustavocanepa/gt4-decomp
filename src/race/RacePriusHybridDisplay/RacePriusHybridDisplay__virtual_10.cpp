@@ -25,11 +25,16 @@ struct S00659988 {
 extern "C" void func_003AA5D8(void *, void *, s32, s32, s32);
 extern "C" void func_003AA6E8(void *, s32, s32, s32, s32, s32, f32);
 
+struct RacePriusHybridDisplay__virtual_10_arg0 {
+    char pad0[0x20];
+    f32 unk20;
+};
+
 extern "C" void RacePriusHybridDisplay__virtual_10(s32 *arg0) {
     func_003AA5D8(arg0, (char *)arg0 + 0x28, 0xd, 0, 0x8);
     func_003AA5D8(arg0, (char *)arg0 + 0x4c, 0xc, 0, 0x8);
     func_003AA5D8(arg0, (char *)arg0 + 0x70, 0xb, 0, 0x8);
     func_003AA5D8(arg0, (char *)arg0 + 0x94, 0xa, 0x1, 0x1);
     func_003AA5D8(arg0, (char *)arg0 + 0xb8, 0xa, 0, 0x1);
-    func_003AA6E8(arg0, 0x9, 0, 0x8, 0x8000e3fa, 0x80202020, *(f32 *)((char *)arg0 + 0x20));
+    func_003AA6E8(arg0, 0x9, 0, 0x8, 0x8000e3fa, 0x80202020, ((struct RacePriusHybridDisplay__virtual_10_arg0 *)arg0)->unk20);
 }

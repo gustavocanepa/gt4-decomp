@@ -24,20 +24,28 @@ struct S00659988 {
 
 extern "C" void func_00538C68(void *);
 
+struct func_00542970_arg0 {
+    char pad0[0xC];
+    s32 unkC;
+    s32 unk10;
+    s32 unk14;
+    s32 unk18;
+};
+
 extern "C" void func_00542970(s32 *arg0) {
     s32 buf0[4];
     buf0[0] = (s32)arg0;
     if (arg0 != 0) {
-        if (*(s32 *)((char *)arg0 + 0xc) != 0) {
+        if (((struct func_00542970_arg0 *)arg0)->unkC != 0) {
             func_00538C68((char *)arg0 + 0xc);
         }
-        if (*(s32 *)((char *)arg0 + 0x18) != 0) {
+        if (((struct func_00542970_arg0 *)arg0)->unk18 != 0) {
             func_00538C68((char *)arg0 + 0x18);
         }
-        if (*(s32 *)((char *)arg0 + 0x10) != 0) {
+        if (((struct func_00542970_arg0 *)arg0)->unk10 != 0) {
             func_00538C68((char *)arg0 + 0x10);
         }
-        if (*(s32 *)((char *)arg0 + 0x14) != 0) {
+        if (((struct func_00542970_arg0 *)arg0)->unk14 != 0) {
             func_00538C68((char *)arg0 + 0x14);
         }
         func_00538C68(buf0);

@@ -77,7 +77,50 @@ def knowledge():
 
 SRC = os.path.join(ROOT, "src")
 SOURCE_EXTS = (".c", ".cpp")
+INCLUDE = os.path.join(ROOT, "include")
 _sources = {}
+
+_stamp = {}
+
+
+def include_stamp():
+    """A digest of include/ (every file's path, size and mtime), computed once per process: the
+    Linux side keeps one copy of include/ per stamp (tools/include_wsl.sh)."""
+    if "v" not in _stamp:
+        import hashlib
+        h = hashlib.sha1()
+        for dirpath, dirs, files in os.walk(INCLUDE):
+            dirs.sort()
+            for f in sorted(files):
+                st = os.stat(os.path.join(dirpath, f))
+                h.update(f"{os.path.relpath(os.path.join(dirpath, f), INCLUDE)}:{st.st_size}:{st.st_mtime_ns}\n".encode())
+        _stamp["v"] = h.hexdigest()[:16]
+    return _stamp["v"]
+
+
+def with_include_stamp(args):
+    """A Linux/WSL command line (list) run with INCLUDE_STAMP set (tools/include_wsl.sh)."""
+    return ["env", f"INCLUDE_STAMP={include_stamp()}"] + list(args)
+
+
+_QUOTED_INCLUDE = re.compile(r'^[ \t]*#[ \t]*include[ \t]*"([^"]+)"[^\n]*\n?', re.M)
+
+
+def inline_includes(text, seen=None):
+    """text with every `#include "NAME"` of a header in include/ replaced by the header itself
+    (recursively, each header once), for tools that need a self-contained file (the permuter)."""
+    seen = set() if seen is None else seen
+
+    def one(m):
+        p = os.path.join(INCLUDE, m.group(1).replace("/", os.sep))
+        if not os.path.isfile(p):
+            return m.group(0)
+        if p in seen:
+            return ""
+        seen.add(p)
+        body = open(p, encoding="utf-8").read()
+        return inline_includes(body if body.endswith("\n") else body + "\n", seen)
+    return _QUOTED_INCLUDE.sub(one, text)
 
 
 def source_address(path):

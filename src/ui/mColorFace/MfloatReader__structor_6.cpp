@@ -77,6 +77,11 @@ struct B2 {
     char pad1[56];
     s32 val;
 };
+struct MfloatReader__structor_6_pcb {
+    char pad0[0x4];
+    char *unk4;
+};
+
 extern "C" s32 MfloatReader__structor_6(char *a0, void *a1) {
     if (mSlideShowFace__virtual_61(a0))
         return 1;
@@ -87,7 +92,7 @@ extern "C" s32 MfloatReader__structor_6(char *a0, void *a1) {
         Cb *pcb = &u.b0.cb;
         char *p = a0 + 0xA0;
         pcb->vtbl = D_00669E18;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MfloatReader__structor_6_pcb *)pcb)->unk4 = p;
         r = func_0020FD38(a1, &u.b0.s, pcb);
         pcb->vtbl = D_00669E18;
         MReaderBase__structor_0(pcb, 0);
@@ -100,7 +105,7 @@ extern "C" s32 MfloatReader__structor_6(char *a0, void *a1) {
         Cb *pcb = &u.b1.cb;
         char *p = a0 + 0xB0;
         pcb->vtbl = MfloatReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MfloatReader__structor_6_pcb *)pcb)->unk4 = p;
         r = func_0020FD38(a1, &u.b1.s, pcb);
         pcb->vtbl = MfloatReader__vtable;
         MReaderBase__structor_0(pcb, 0);

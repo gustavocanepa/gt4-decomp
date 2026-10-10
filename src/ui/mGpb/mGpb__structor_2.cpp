@@ -1,3 +1,4 @@
+#include "gt4/mGpb.h"
 typedef int s32;
 
 extern "C" void func_00575DA0(void *arg0);
@@ -9,7 +10,7 @@ extern "C" void hObject__structor_2(void *, s32);
 extern void *mGpb__vtable;
 
 extern "C" void mGpb__structor_2(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 4) = &mGpb__vtable;
+    ((struct mGpb *)arg0)->unk4 = &mGpb__vtable;
     func_0048F448((char *)arg0 + 0x10);
     func_0048F2B0((char *)arg0 + 0x10, 2);
     hObject__structor_2(arg0, 0);

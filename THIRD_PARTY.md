@@ -14,6 +14,7 @@ where it is expected) and the files under `src/` are derived from it mechanicall
 | SGI STL headers (libstdc++ v2 of gcc 2.96, snapshot 2000-10-03) | stl_*.h, type_traits.h | HP/SGI permissive notice (see below) | template instantiations in the library region (0x5d5000-0x60f000: rb-tree members of `map<basic_string, T>`) | gcc-20001003/libstdc++/stl/ |
 | GNU libio (iostream/streambuf of libstdc++ v2) | 2.8.0, gcc snapshot 2000-10-03 | GPLv2 with the libio special exception (see below); marked `licence: libio` | 0x591248-0x59bee8 (its objects), 0x614068-0x616370 (out-of-line copies of its inline members and its classes' type_info functions) | gcc-20001003/libio/ |
 | GCC runtime (libgcc.a of gcc 2.96: libgcc2.c, fp-bit.c, frame.c, the C++ runtime cp/tinfo*.cc, exception.cc, new*.cc) | gcc snapshot 2000-10-03 | GPL with the GCC runtime/linking exceptions (see below); marked `licence: gcc-runtime` | 0x5ba060-0x5c1ce0, 0x616370-0x616f24 | gcc-20001003/gcc/ |
+| Mersenne Twister MT19937 (Matsumoto and Nishimura) | mt19937ar.c (2002/1/26) | BSD 3-clause (see below) | 0x579438-0x579708 (init_genrand, genrand_int32 and its refill, on a state object) | http://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/MT2002/emt19937ar.html |
 
 ## Expat 1.95.7
 
@@ -153,6 +154,34 @@ might be covered by the GNU General Public License.
 
 Building without it: `python tools/build.py --without gcc-runtime` (both:
 `--without libio --without gcc-runtime`).
+
+## Mersenne Twister MT19937
+
+src/func_00579438.c (`init_genrand`), src/func_005794C0.c and src/func_005795E0.c (`genrand_int32`,
+split into tempering and refill) come from the reference implementation mt19937ar.c (2002/1/26),
+written over a state object instead of the file's static arrays.
+
+Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura, All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions
+   and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of
+   conditions and the following disclaimer in the documentation and/or other materials provided
+   with the distribution.
+3. The names of its contributors may not be used to endorse or promote products derived from this
+   software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## Identified but not redistributable (no code added)
 

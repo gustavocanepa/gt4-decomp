@@ -1,5 +1,6 @@
-extern void func_00309CC0(void);
+#define GT4_DECLS
+#include "gt4/hObject.h"
 void func_0030BB00(void)
 {
-    func_00309CC0();
+    hObject__GetClassID();
 }

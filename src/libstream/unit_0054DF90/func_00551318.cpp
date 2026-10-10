@@ -27,13 +27,20 @@ extern "C" void func_00578500(s32);
 extern "C" void func_00576AD8(void *, s32);
 extern "C" void func_00578168(void *, s32, s32, s32, s32);
 
+struct func_00551318_v_s0 {
+    char pad0[0x40];
+    s32 unk40;
+    s32 unk44;
+    s32 unk48;
+};
+
 extern "C" void func_00551318(s32 *arg0, void *arg1, s32 arg2) {
     char *v_s0;
     v_s0 = (char *)&D_0086F8C0;
     func_00578500(*(s32 *)(char *)v_s0);
-    *(s32 *)((char *)v_s0 + 0x40) = (s32)arg0;
-    *(s32 *)((char *)v_s0 + 0x44) = (s32)arg1;
-    *(s32 *)((char *)v_s0 + 0x48) = arg2;
+    ((struct func_00551318_v_s0 *)v_s0)->unk40 = (s32)arg0;
+    ((struct func_00551318_v_s0 *)v_s0)->unk44 = (s32)arg1;
+    ((struct func_00551318_v_s0 *)v_s0)->unk48 = arg2;
     func_00576AD8(arg1, arg2);
     func_00578168(v_s0, 0x3, 0, 0, 0);
 }

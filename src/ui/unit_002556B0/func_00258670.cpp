@@ -1,3 +1,5 @@
+#define GT4_DECLS
+#include "gt4/hObject.h"
 typedef int s32;
 
 struct Rep {
@@ -33,9 +35,8 @@ extern "C" s32 func_0057F260(const char *s);
 extern "C" void *func_005C2630(Str *s, s32 pos, s32 n, const char *src, s32 len);
 extern "C" struct S00659988 *func_005C11A8(void);
 extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
-extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
-extern "C" int func_00304360(void);
+extern "C" int hModule__GetClassID(void);
 extern "C" void func_002F3818(Obj *arg0, Str *arg1, void (*arg2)(void));
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
 extern char D_00699970[];
@@ -169,7 +170,7 @@ extern "C" void func_00258670(Obj *arg0) {
             }
         }
     }
-    func_002F3A30(arg0, func_00304360());
+    func_002F3A30(arg0, hModule__GetClassID());
     {
         Str *ps = &s;
         const char *src = D_00699978;

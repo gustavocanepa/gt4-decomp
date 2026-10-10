@@ -1,3 +1,6 @@
+#define GT4_DECLS
+#include "gt4/hObject.h"
+#include "gt4/mWidget.h"
 typedef int s32;
 
 struct Rep {
@@ -33,9 +36,7 @@ extern "C" s32 func_0057F260(const char *s);
 extern "C" void *func_005C2630(Str *s, s32 pos, s32 n, const char *src, s32 len);
 extern "C" struct S00659988 *func_005C11A8(void);
 extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
-extern "C" int func_00309CC0(void);
 extern "C" void func_002F3A30(Obj *arg0, s32 arg1);
-extern "C" int func_00255260(void);
 extern "C" void func_002F3860(Obj *arg0, Str *arg1, void (*arg2)(void), void (*arg3)(void));
 extern "C" void func_00306780(Obj *arg0, void *arg1, void (*arg2)(void));
 extern char D_006937C0[];
@@ -50,7 +51,7 @@ extern "C" void MEyetoyFace__get_device(void);
 extern "C" void MEyetoyFace__set_processor(void);
 extern "C" void MEyetoyFace__set_mirror(void);
 
-extern "C" void func_001B8D18(Obj *arg0) {
+extern "C" void mEyetoyFace__InitClass(Obj *arg0) {
     Str s;
     {
         Str *ps = &s;
@@ -77,7 +78,7 @@ extern "C" void func_001B8D18(Obj *arg0) {
             }
         }
     }
-    func_002F3A30(arg0, func_00255260());
+    func_002F3A30(arg0, mWidget__GetClassID());
     func_00306780(arg0, D_008273C0, MEyetoyFace__global_008273C0);
     func_00306780(arg0, D_008273B8, MLoggerControl__global_008212E8);
     {

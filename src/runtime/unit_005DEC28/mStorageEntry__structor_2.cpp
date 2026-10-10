@@ -1,11 +1,12 @@
+#include "gt4/mStorageEntry.h"
 typedef int s32;
 
 extern void *mStorageEntry__vtable;
 extern "C" void hObject__structor_2(void *, s32);
 extern "C" void func_00326798(void *, s32, s32, const char *);
 
-extern "C" void mStorageEntry__structor_2(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &mStorageEntry__vtable;
+extern "C" void mStorageEntry__structor_2(struct mStorageEntry *arg0, s32 arg1) {
+    arg0->unk4 = &mStorageEntry__vtable;
     hObject__structor_2(arg0, 0x0);
     if ((arg1 & 0x1) != 0) {
         return func_00326798(arg0, 0xb8, 0x4, "RefCounter");

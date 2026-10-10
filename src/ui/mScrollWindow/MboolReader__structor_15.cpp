@@ -58,6 +58,11 @@ static inline void rep_delete(void *ptr) { deallocate(ptr, sizeof(StringRep) + (
 static inline void release(StringRep *r) { if (--r->ref == 0) rep_delete(r); }
 static inline void destroy(String *str) { release(rep(str)); }
 
+struct MboolReader__structor_15_pcb {
+    char pad0[0x4];
+    char *unk4;
+};
+
 extern "C" s32 MboolReader__structor_15(char *a0, void *a1) {
     if (MWidgetReader__structor_0(a0))
         return 1;
@@ -70,7 +75,7 @@ extern "C" s32 MboolReader__structor_15(char *a0, void *a1) {
         Cb *pcb = cb;
         char *p = a0 + 0xB4;
         pcb->vtbl = MfloatReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MboolReader__structor_15_pcb *)pcb)->unk4 = p;
         r = func_0020FD38(a1, s, pcb);
         pcb->vtbl = MfloatReader__vtable;
         MReaderBase__structor_0(pcb, 0);
@@ -83,7 +88,7 @@ extern "C" s32 MboolReader__structor_15(char *a0, void *a1) {
         Cb *pcb = &cb2;
         char *p = a0 + 0xB8;
         pcb->vtbl = MboolReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MboolReader__structor_15_pcb *)pcb)->unk4 = p;
         r = func_0020FD38(a1, s, pcb);
         pcb->vtbl = MboolReader__vtable;
         MReaderBase__structor_0(pcb, 0);

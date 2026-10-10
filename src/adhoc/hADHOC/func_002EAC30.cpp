@@ -31,6 +31,11 @@ extern "C" void func_005767C0(void *);
 extern "C" void func_003041A0(void *, void *);
 extern "C" void func_003041B8(void *, s32);
 
+struct func_002EAC30_v_s0 {
+    u8 pad0[0x4];
+    s32 unk4;
+};
+
 extern "C" void * func_002EAC30(s32 *arg0, void *arg1, s32 arg2) {
     s32 buf0[4];
     s32 buf1[4];
@@ -45,8 +50,8 @@ extern "C" void * func_002EAC30(s32 *arg0, void *arg1, s32 arg2) {
     func_005EAF80(buf0, v_s0, arg2);
     p_s1 = buf1;
     func_00306E80(p_s1);
-    buf2[0] = *(s32 *)((char *)v_s0 + 0x4);
-    if (buf0[0] != *(s32 *)((char *)v_s0 + 0x4)) {
+    buf2[0] = ((struct func_002EAC30_v_s0 *)v_s0)->unk4;
+    if (buf0[0] != ((struct func_002EAC30_v_s0 *)v_s0)->unk4) {
         if ((char *)p_s1 != (char *)(buf0[0] + 0x14)) {
             v_s0_s32 = *(s32 *)(char *)(buf0[0] + 0x14);
             if (v_s0_s32 != 0) {

@@ -60,6 +60,11 @@ static inline void destroy(String *str) { release(rep(str)); }
 
 struct A { String s[8]; Cb cb; };
 struct B { Cb cb; s32 pad[10]; s32 val[4]; String s; };
+struct MintReader__structor_8_pcb {
+    char pad0[0x4];
+    char *unk4;
+};
+
 extern "C" s32 MintReader__structor_8(char *a0, void *a1) {
     if (MWidgetReader__structor_0(a0))
         return 1;
@@ -70,7 +75,7 @@ extern "C" s32 MintReader__structor_8(char *a0, void *a1) {
         Cb *pcb = &u.a.cb;
         char *p = a0 + 0xB0;
         pcb->vtbl = D_00669E18;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MintReader__structor_8_pcb *)pcb)->unk4 = p;
         r = func_0020FD38(a1, u.a.s, pcb);
         pcb->vtbl = D_00669E18;
         MReaderBase__structor_0(pcb, 0);

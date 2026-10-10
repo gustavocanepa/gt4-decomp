@@ -1,5 +1,9 @@
-typedef signed char s8; typedef unsigned char u8; typedef short s16; typedef unsigned short u16;
-typedef int s32; typedef unsigned int u32; typedef long long s64;
-extern "C" void func_005DD738(void *a0) {
-    *(s32 *)((char *)a0 + 224) = 0;
+#include "types.h"
+struct func_005DD738_a0 {
+    char pad0[0xE0];
+    s32 unkE0;
+};
+
+extern "C" void func_005DD738(struct func_005DD738_a0 *a0) {
+    a0->unkE0 = 0;
 }

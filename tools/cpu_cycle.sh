@@ -12,11 +12,10 @@ jobs=${2:-2}
 count() { python -c "import autoloop; print(len(autoloop.done_addrs()))"; }
 say() { echo "== $* $(date +%H:%M)" >> $log; }
 start=$(count); say "cycle start: $start functions"
-if [ -s ../build/auto/cpu/results.jsonl ]; then
-    python cpu_solve.py --retry --context types --context-only --max-bytes 512 --jobs $jobs 2>&1 | tail -1 >> $log; say "m2c with type context"
-else
-    python cpu_solve.py --max-bytes 512 --jobs $jobs 2>&1 | tail -1 >> $log; say "m2c first drafts"
-fi
+# first drafts for every small function not drafted yet (resumable), then the retries with the
+# type context the matched sources have added since
+python cpu_solve.py --max-bytes 512 --jobs $jobs 2>&1 | tail -1 >> $log; say "m2c first drafts"
+python cpu_solve.py --retry --context types --context-only --max-bytes 512 --jobs $jobs 2>&1 | tail -1 >> $log; say "m2c with type context"
 python fragments.py apply --jobs $jobs --max-differ 12 2>&1 | tail -1 >> $log; say "fragments"
 python near_fix.py --jobs $jobs 2>&1 | tail -1 >> $log; say near_fix
 python dedup_all.py --jobs $jobs 2>&1 | tail -1 >> $log; say copies

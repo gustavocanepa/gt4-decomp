@@ -1,13 +1,9 @@
+#include "gt4/mPhotoViewFace.h"
 typedef int s32;
-
-struct Obj {
-    char pad[8];
-    s32 unk8;
-};
 
 extern "C" int func_001BD098(void) throw();
 
-extern "C" void mPhotoViewFace__virtual_09(struct Obj *arg0) {
+extern "C" void mPhotoViewFace__virtual_09(struct mPhotoViewFace *arg0) {
     s32 temp_v0 = arg0->unk8;
 
     if (temp_v0 == 0) {

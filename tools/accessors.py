@@ -77,6 +77,20 @@ class GiveUp(Exception):
     pass
 
 
+def float_literal(bits):
+    """The C float literal for an IEEE-754 single bit pattern: decimal when it round-trips, else hex."""
+    import struct
+    raw = struct.pack("<I", bits & 0xFFFFFFFF)
+    v = struct.unpack("<f", raw)[0]
+    if v != v or v in (float("inf"), float("-inf")):
+        return f"(f32)0x{bits & 0xFFFFFFFF:08x}"
+    for digits in range(1, 10):
+        r = "%.*g" % (digits, v)
+        if "e" not in r and struct.pack("<f", float(r)) == raw:
+            return (r if "." in r else r + ".0") + "f"
+    return float.hex(v) + "f"
+
+
 class Val:
     """An expression with its C type; `call` marks a side effect (must not be reordered)."""
 
@@ -86,6 +100,8 @@ class Val:
     def c(self, typ=None):
         if typ is None or (typ == self.typ and typ != "ptr"):
             return self.text
+        if typ == "f32" and getattr(self, "bits", None) is not None:
+            return float_literal(self.bits)           # an int constant moved with mtc1: the bit pattern is the float
         if typ == "ptr":
             if self.text.startswith("(char *)"):
                 return self.text
@@ -195,9 +211,12 @@ class Func:
     # ---------------------------------------------------------------- analysis of the frame
     def scan_frame(self):
         ins = self.ins
-        if not (ins[0].op == 0x09 and ins[0].rs == SP and ins[0].rt == SP and ins[0].simm < 0):
+        f0 = next((k for k in range(min(4, self.n)) if ins[k].op == 0x09 and ins[k].rs == SP and ins[k].rt == SP
+                   and ins[k].simm < 0), None)
+        if f0 is None or any(ins[k].op in (2, 3, 4, 5, 6, 7, 0x14, 0x15, 1) or SP in ins[k].gpr_reads() | ins[k].gpr_writes()
+                             for k in range(f0)):
             raise GiveUp("no frame")
-        self.frame = -ins[0].simm
+        self.frame = -ins[f0].simm
         # epilogue: ld restores + jr ra + addiu sp
         if not (ins[-2].w == 0x03E00008 and ins[-1].op == 0x09 and ins[-1].rt == SP):
             raise GiveUp("no plain epilogue")
@@ -266,6 +285,9 @@ class Func:
             return self.slot_addr(0)
         if r not in self.regs:
             if 4 <= r <= 7 and self.first_call:
+                self.args_used = max(self.args_used, r - 3)
+                return Val(f"arg{r - 4}", ARG_TYPES[r - 4])
+            if 8 <= r <= 11 and self.first_call:                 # $t0-$t3 carry arguments 5-8 on the EE
                 self.args_used = max(self.args_used, r - 3)
                 return Val(f"arg{r - 4}", ARG_TYPES[r - 4])
             raise GiveUp(f"read of unset register ${REG[r]}")
@@ -362,7 +384,7 @@ class Func:
                 ints.append(self.get(r))
             else:
                 raise GiveUp(f"argument ${REG[r]} not set")
-        floats = [self.fregs[r] for r in self.fwritten if r in self.fregs]
+        floats = [self.fregs[r] for r in sorted(self.fwritten) if r in self.fregs and 12 <= r <= 19]   # $f12-$f19 carry float arguments
         return ints, floats
 
     def after_call(self, ret, use=None):
@@ -383,25 +405,30 @@ class Func:
     def result_use(self, i):
         """Which result register of the call at i is read before being overwritten: "v0", "f0" or None."""
         k = i + 2
+        v_alive = f_alive = True          # each result register stays a candidate until it is overwritten
         while k < self.n:
             a = self.ins[k]
-            if V0 in a.gpr_reads():
+            if v_alive and V0 in a.gpr_reads():
                 return "v0"
-            if F0 in a.fpr_reads():
+            if f_alive and F0 in a.fpr_reads():
                 return "f0"
-            if V0 in a.gpr_writes() or F0 in a.fpr_writes():
+            if V0 in a.gpr_writes():
+                v_alive = False
+            if F0 in a.fpr_writes():
+                f_alive = False
+            if not (v_alive or f_alive):
                 return None
             if a.op in (2, 3) or a.op == 0 and a.fn == 9:
                 # the delay slot still runs before the call
                 b = self.ins[k + 1]
-                if V0 in b.gpr_reads():
+                if v_alive and V0 in b.gpr_reads():
                     return "v0"
-                if F0 in b.fpr_reads():
+                if f_alive and F0 in b.fpr_reads():
                     return "f0"
                 return None
             if a.op in (0x04, 0x05, 0x06, 0x07, 0x14, 0x15, 0x16, 0x17, 1) and not (a.rs == ZERO and a.rt == ZERO):
                 b = self.ins[k + 1]
-                return "v0" if V0 in b.gpr_reads() else None
+                return "v0" if v_alive and V0 in b.gpr_reads() else None
             k += 1
         return None
 
@@ -421,26 +448,59 @@ class Func:
 
     # ---------------------------------------------------------------- idioms
     def try_vcall(self, i):
-        """lw vt,4(obj); addiu e,vt,SLOT; lh d,0(e); lw fn,4(e); jalr fn; addu aN,obj,d"""
+        """lw vt,4(obj); addiu e,vt,SLOT; lh d,0(e); lw fn,4(e); jalr fn; addu aN,obj,d
+        The scheduler may interleave unrelated instructions between the first and the jalr (a target
+        load, an argument move): they are executed first, in order, when they neither read nor write
+        the sequence's registers (and do not write obj)."""
         ins = self.ins
         a = ins[i]
-        if not (a.op == 0x23 and a.imm == 4) or i + 5 >= self.n:
+        if not (a.op == 0x23 and a.imm == 4):
             return None
-        seq = ins[i:i + 6]
-        if not (seq[1].op == 0x09 and seq[1].rs == a.rt and seq[2].op == 0x21 and seq[2].rs == seq[1].rt
-                and seq[2].imm == 0 and seq[3].op == 0x23 and seq[3].rs == seq[1].rt and seq[3].imm == 4
-                and seq[4].op == 0 and seq[4].fn == 9 and seq[4].rs == seq[3].rt
-                and seq[5].op == 0 and seq[5].fn == 0x21 and seq[5].rs == a.rs and seq[5].rt == seq[2].rt):
+        vt, obj_reg = a.rt, a.rs
+        defs = {vt}
+        e = d = fn = slot = None
+        extra = []
+        jalr = None
+        k = i + 1
+        limit = min(self.n - 1, i + 14)
+        while k < limit:
+            b = ins[k]
+            if e is None and b.op == 0x09 and b.rs == vt:
+                e, slot = b.rt, b.simm
+                defs.add(e)
+            elif e is not None and d is None and b.op == 0x21 and b.rs == e and b.imm == 0:
+                d = b.rt
+                defs.add(d)
+            elif e is not None and fn is None and b.op == 0x23 and b.rs == e and b.imm == 4:
+                fn = b.rt
+                defs.add(fn)
+            elif d is not None and fn is not None and b.op == 0 and b.fn == 9 and b.rs == fn:
+                jalr = k
+                break
+            else:
+                if (b.op in (2, 3, 4, 5, 6, 7, 0x14, 0x15, 0x16, 0x17, 1) or (b.op == 0 and b.fn in (8, 9))):
+                    return None
+                if (b.gpr_reads() & defs) or (b.gpr_writes() & (defs | {obj_reg})):
+                    return None
+                if b.op == 0x39 or b.op == 0x31 or b.op == 0x11:
+                    return None
+                extra.append(k)
+            k += 1
+        if jalr is None:
             return None
-        slot = seq[1].simm
-        obj = self.get(a.rs)
-        dest = seq[5].rd
+        addu = ins[jalr + 1]
+        if not (addu.op == 0 and addu.fn == 0x21 and addu.rs == obj_reg and addu.rt == d):
+            return None
+        for j in extra:
+            self.exec_index(j)
+        obj = self.get(obj_reg)
+        dest = addu.rd
         if dest == A0:
             # plain virtual call: result in v0/f0, the type is decided by the first use
             name = f"vcall_{slot:x}"
             self.flush_calls()
             text = f"{name}({obj.c('ptr')})"
-            use = self.result_use(i + 4)
+            use = self.result_use(jalr)
             ret = {"v0": "s32", "f0": "f32", None: "void"}[use]
             self.after_call(Val(text, ret if use else "s32", True), use)
             self.vcall_slots[name] = (slot, ret)
@@ -454,7 +514,7 @@ class Func:
             self.vcall_slots[name] = (slot, "ret")
         else:
             return None
-        return i + 6
+        return jalr + 2
 
     def try_assign(self, i):
         """if (arg0 != pw) { newVal = *pw; if (newVal) retain; oldVal = *arg0; if (oldVal) release; *arg0 = newVal; }"""
@@ -477,12 +537,13 @@ class Func:
             elif s.op != op or (op == 3 and (s.w & 0x3FFFFFF) << 2 != extra):
                 return None
         x, y = self.get(a.rs), self.get(a.rt)
-        if x.text == "arg0":
+        if re.fullmatch(r"arg[01]", x.text):
             arg, pw = x, y
-        elif y.text == "arg0":
+        elif re.fullmatch(r"arg[01]", y.text):
             arg, pw = y, x
         else:
             return None
+        an = arg.text                                          # the result handle: arg0, or arg1 of the adhoc methods
         self.flush_calls()
         self.locals.setdefault("newVal", "s32")
         self.locals.setdefault("oldVal", "s32")
@@ -491,17 +552,17 @@ class Func:
         self.used_syms.update({RETAIN, RELEASE})
         self.protos.setdefault(f"func_{RETAIN:08X}", ["void", ["s32"]])
         self.protos.setdefault(f"func_{RELEASE:08X}", ["void", ["s32"]])
-        self.emit(f"if (arg0 != {pw.c()}) {{")
+        self.emit(f"if ({an} != {pw.c()}) {{")
         self.indent += 1
         self.emit(f"newVal = {deref};")
         self.emit("if (newVal != 0) {")
         self.emit(f"    func_{RETAIN:08X}(newVal);")
         self.emit("}")
-        self.emit("oldVal = *arg0;")
+        self.emit(f"oldVal = {'*arg0' if an == 'arg0' else '*(s32 *)' + an};")
         self.emit("if (oldVal != 0) {")
         self.emit(f"    func_{RELEASE:08X}(oldVal);")
         self.emit("}")
-        self.emit("*arg0 = newVal;")
+        self.emit(f"{'*arg0' if an == 'arg0' else '*(s32 *)' + an} = newVal;")
         self.indent -= 1
         self.emit("}")
         self.after_call(Val("0", "s32"))
@@ -834,7 +895,13 @@ class Func:
         if op == 0x11:                                             # COP1
             fmt = a.rs
             if fmt == 4:                                           # mtc1
-                self.setf(a.fs, Val(self.get(a.rt).c("s32"), "s32"))
+                src = self.get(a.rt)
+                val = Val(src.c("s32"), "s32")
+                if re.fullmatch(r"0x[0-9a-f]+", src.text):
+                    val.bits = int(src.text, 16)
+                elif src.text == "0":
+                    val.bits = 0
+                self.setf(a.fs, val)
                 return
             if fmt == 0:                                           # mfc1
                 self.set_maybe_local(a.rt, Val(self.fregs[a.fs].c("f32"), "f32"))
@@ -1020,11 +1087,14 @@ class Func:
         cond = self.cond_text(a, x, y)
         # if/else: the then arm ends with `b join`
         then_end, then_extra, else_rng, join = t, None, None, t
-        if t - 2 >= i + 2 and ins[t - 2].op == 4 and ins[t - 2].rs == ZERO and ins[t - 2].rt == ZERO:
-            jn = (ins[t - 2].target() - self.addr) // 4
+        pad = 1 if (t - 3 >= i + 2 and ins[t - 1].is_nop() and ins[t - 3].op == 4 and ins[t - 3].rs == ZERO
+                    and ins[t - 3].rt == ZERO) else 0           # an alignment nop between the arms
+        bt = t - 2 - pad
+        if bt >= i + 2 and ins[bt].op == 4 and ins[bt].rs == ZERO and ins[bt].rt == ZERO:
+            jn = (ins[bt].target() - self.addr) // 4
             if t < jn <= end:
-                then_end, join = t - 2, jn
-                d = t - 1
+                then_end, join = bt, jn
+                d = bt + 1
                 if not ins[d].is_nop():
                     if jn - 1 >= t and ins[jn - 1].w == ins[d].w:
                         join = jn - 1                    # delay slot = copy of the join's first insn
@@ -1048,6 +1118,8 @@ class Func:
         self.indent -= 1
         st_then = self.state()
         st_else = pre
+        at_then_end = len(self.body)
+        at_else_end = None
         if else_rng is not None:
             self.restore(pre)
             self.emit("} else {")
@@ -1060,12 +1132,42 @@ class Func:
             if len(self.body) == n_else:
                 self.body[-1] = (self.indent, "}")       # nothing visible: no else
             else:
+                at_else_end = len(self.body)
                 self.emit("}")
             st_else = self.state()
         else:
             self.emit("}")
+        merged = self.merge_saved(st_then, st_else, at_then_end, at_else_end)
         self.merge(st_then, st_else)
+        for r, v in merged.items():
+            self.regs[r] = v
+            self.written.add(r)
         return join
+
+    def merge_saved(self, st_then, st_else, at_then_end, at_else_end):
+        """A saved register ($s0-$s7) that both arms set to different values becomes a local assigned at the
+        end of each arm (the C source was `x = c ? a : b` or an if/else assigning x)."""
+        if at_else_end is None or st_then[5] or st_else[5]:
+            return {}
+        out = {}
+        ins_else, ins_then = [], []
+        for r in range(16, 24):
+            vt, ve = st_then[0].get(r), st_else[0].get(r)
+            if vt is None or ve is None or vt.text == ve.text or vt.call or ve.call:
+                continue
+            if r not in st_then[2] or r not in st_else[2]:
+                continue
+            typ = vt.typ if vt.typ == ve.typ else "s32"
+            name = f"m_{REG[r]}"
+            self.locals.setdefault(name, C_TYPES[typ])
+            ind = self.indent + 1
+            ins_then.append((ind, f"{name} = {vt.c(typ if typ == 'ptr' else None)};"))
+            ins_else.append((ind, f"{name} = {ve.c(typ if typ == 'ptr' else None)};"))
+            out[r] = Val(name, typ)
+        if out:
+            self.body[at_else_end:at_else_end] = ins_else
+            self.body[at_then_end:at_then_end] = ins_then
+        return out
 
     def reset_regs(self, keep):
         """Entering the second arm: only the prologue's registers are known."""
@@ -1168,7 +1270,7 @@ class Func:
         ins = self.ins
         # a nested argc test (`else if (arg2 == 1)`) at the start of the second arm
         k = target
-        if (ins[k].op == 0x09 and ins[k].rs == ZERO and ins[k + 1].op == 0x05 and ins[k + 1].rs == 6
+        if (ins[k].op == 0x09 and ins[k].rs == ZERO and ins[k + 1].op in (0x05, 0x15) and ins[k + 1].rs == 6
                 and ins[k + 1].rt == ins[k].rt and (ins[k + 1].target() - self.addr) // 4 >= self.epilogue_start):
             self.exec_one(ins[k])
             self.emit(f"if (arg2 == {ins[k].simm}) {{")
@@ -1224,7 +1326,7 @@ static inline void str_release(Str *s) {{
         func_{STR_RELEASE_FN:08X}(q, size, 4, func_{STR_ALLOC_NAME:08X}()->name);
     }}
 }}""")
-        params = ["s32 *arg0", "void *arg1", "s32 arg2", "char **arg3"][:max(1, self.args_used)]
+        params = ["s32 *arg0", "void *arg1", "s32 arg2", "char **arg3", "s32 *arg4", "s32 *arg5", "s32 *arg6", "s32 *arg7"][:max(1, self.args_used)]
         out.append(f'\nextern "C" {self.ret_type} func_{self.addr:08X}({", ".join(params)}) {{')
         for off in sorted(self.slots):
             if self.slot_types[off] == "Str":
@@ -1239,7 +1341,7 @@ static inline void str_release(Str *s) {{
         return "\n".join(out) + "\n"
 
 
-ARG_TYPES = ["ptr", "ptr", "s32", "ptr"]
+ARG_TYPES = ["ptr", "ptr", "s32", "ptr", "ptr", "ptr", "ptr", "ptr"]
 
 
 def judge(addr, text):

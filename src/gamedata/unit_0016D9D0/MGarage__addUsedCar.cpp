@@ -37,6 +37,11 @@ extern "C" void func_003285F8(s32);
 extern "C" void func_002FC870(void *, s32);
 extern "C" void func_0013BD68(void *, s32);
 
+struct MGarage__addUsedCar_v_s2 {
+    char pad0[0x4A0];
+    s32 unk4A0;
+};
+
 extern "C" void MGarage__addUsedCar(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
     s32 buf0[4];
     s32 buf1[4];
@@ -54,7 +59,7 @@ extern "C" void MGarage__addUsedCar(s32 *arg0, void *arg1, s32 arg2, char **arg3
         t1 = func_00147D80(buf0[0]);
         p_s5 = buf1;
         v_s2 = t1;
-        v_s4 = *(s32 *)((char *)v_s2 + 0x4a0);
+        v_s4 = ((struct MGarage__addUsedCar_v_s2 *)v_s2)->unk4A0;
         func_0016D848(p_s5, arg1);
         v_s3 = *(s32 *)((char *)(*p_s5) + 0x10);
         func_0016D7F0(p_s5, 0x2);

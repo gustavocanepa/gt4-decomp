@@ -55,6 +55,11 @@ extern void *MstringReader__vtable[];
 extern void *MboolReader__vtable[];
 extern void *MintReader__vtable[];
 
+struct MboolReader__structor_4_pcb {
+    char pad0[0x4];
+    char *unk4;
+};
+
 extern "C" s32 MboolReader__structor_4(char *a0, void *a1)
 {
     Str s;
@@ -65,7 +70,7 @@ extern "C" s32 MboolReader__structor_4(char *a0, void *a1)
         char *p = (char *)(a0);
         Cb *pcb = &u.l0.cb;
         pcb->vtbl = MstringReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MboolReader__structor_4_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.l0.t, pcb);
         pcb->vtbl = MstringReader__vtable;
         MReaderBase__structor_0(pcb, 0);
@@ -80,7 +85,7 @@ extern "C" s32 MboolReader__structor_4(char *a0, void *a1)
         char *p = (char *)(a0 + 0x4);
         Cb *pcb = &u.l1.cb;
         pcb->vtbl = MintReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MboolReader__structor_4_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.l1.t, pcb);
         pcb->vtbl = MintReader__vtable;
         MReaderBase__structor_0(pcb, 0);
@@ -95,7 +100,7 @@ extern "C" s32 MboolReader__structor_4(char *a0, void *a1)
         char *p = (char *)(a0 + 0x8);
         Cb *pcb = &u.l2.cb;
         pcb->vtbl = MintReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MboolReader__structor_4_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.l2.t, pcb);
         pcb->vtbl = MintReader__vtable;
         MReaderBase__structor_0(pcb, 0);
@@ -110,7 +115,7 @@ extern "C" s32 MboolReader__structor_4(char *a0, void *a1)
         char *p = (char *)(a0 + 0xC);
         Cb *pcb = &u.l3.cb;
         pcb->vtbl = MboolReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MboolReader__structor_4_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.l3.t, pcb);
         pcb->vtbl = MboolReader__vtable;
         MReaderBase__structor_0(pcb, 0);
@@ -125,7 +130,7 @@ extern "C" s32 MboolReader__structor_4(char *a0, void *a1)
         char *p = (char *)(a0 + 0x10);
         Cb *pcb = &u.l0.cb;
         pcb->vtbl = MboolReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MboolReader__structor_4_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.l0.t, pcb);
         pcb->vtbl = MboolReader__vtable;
         MReaderBase__structor_0(pcb, 0);
@@ -140,7 +145,7 @@ extern "C" s32 MboolReader__structor_4(char *a0, void *a1)
         char *p = (char *)(a0 + 0x14);
         Cb *pcb = &u.l0.cb;
         pcb->vtbl = MboolReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MboolReader__structor_4_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.l0.t, pcb);
         pcb->vtbl = MboolReader__vtable;
         MReaderBase__structor_0(pcb, 0);
@@ -155,7 +160,7 @@ extern "C" s32 MboolReader__structor_4(char *a0, void *a1)
         char *p = (char *)(&u.l4.v);
         Cb *pcb = &u.l4.cb;
         pcb->vtbl = MintReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MboolReader__structor_4_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.l4.t, pcb);
         pcb->vtbl = MintReader__vtable;
         MReaderBase__structor_0(pcb, 0);
@@ -171,7 +176,7 @@ extern "C" s32 MboolReader__structor_4(char *a0, void *a1)
         char *p = (char *)(a0 + 0x18);
         Cb *pcb = &u.l0.cb;
         pcb->vtbl = MboolReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MboolReader__structor_4_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.l0.t, pcb);
         pcb->vtbl = MboolReader__vtable;
         MReaderBase__structor_0(pcb, 0);
@@ -186,7 +191,7 @@ extern "C" s32 MboolReader__structor_4(char *a0, void *a1)
         char *p = (char *)(a0 + 0x1C);
         Cb *pcb = &u.l0.cb;
         pcb->vtbl = MintReader__vtable;
-        *(char **)((char *)pcb + 4) = p;
+        ((struct MboolReader__structor_4_pcb *)pcb)->unk4 = p;
         s32 r = func_0020FD38(a1, &u.l0.t, pcb);
         pcb->vtbl = MintReader__vtable;
         MReaderBase__structor_0(pcb, 0);

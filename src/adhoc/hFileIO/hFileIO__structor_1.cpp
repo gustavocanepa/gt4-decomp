@@ -1,3 +1,4 @@
+#include "gt4/hFileIO.h"
 typedef int s32;
 
 struct Rep { s32 len; s32 cap; s32 ref; s32 sel; };
@@ -22,11 +23,11 @@ static inline void str_release(Str *s) {
 
 
 extern "C" void hFileIO__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 0x4) = &hFileIO__vtable;
+    ((struct hFileIO *)arg0)->unk4 = &hFileIO__vtable;
     hFileIO__virtual_53(arg0);
-    if (*(void **)((char *)arg0 + 0xf8) != 0) {
-        if (*(void **)((char *)arg0 + 0xec) != 0) {
-            func_005C1648(*(void **)((char *)arg0 + 0xec));
+    if (((struct hFileIO *)arg0)->unkF8 != 0) {
+        if (((struct hFileIO *)arg0)->unkEC != 0) {
+            func_005C1648(((struct hFileIO *)arg0)->unkEC);
         }
     }
     func_004AFE60((char *)arg0 + 0x18, 0x2);

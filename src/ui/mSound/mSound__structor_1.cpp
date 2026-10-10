@@ -1,3 +1,4 @@
+#include "gt4/mSound.h"
 typedef int s32;
 
 extern "C" void func_00575DA0(void *arg0);
@@ -9,7 +10,7 @@ extern "C" void hObject__structor_2(void *, s32);
 extern void *mSound__vtable;
 
 extern "C" void mSound__structor_1(void *arg0, s32 arg1) {
-    *(void **)((char *)arg0 + 4) = &mSound__vtable;
+    ((struct mSound *)arg0)->unk4 = &mSound__vtable;
     func_0023F890(arg0);
     func_002C2878((char *)arg0 + 0x14, 2);
     func_002C2878((char *)arg0 + 0x10, 2);

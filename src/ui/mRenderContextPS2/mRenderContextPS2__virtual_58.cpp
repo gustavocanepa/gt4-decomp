@@ -1,5 +1,5 @@
-typedef signed char s8; typedef unsigned char u8; typedef short s16; typedef unsigned short u16;
-typedef int s32; typedef unsigned int u32; typedef long long s64;
-extern "C" void mRenderContextPS2__virtual_58(void *a0) {
-    *(s32 *)((char *)a0 + 7580) = 0;
+#include "types.h"
+#include "gt4/mRenderContextPS2.h"
+extern "C" void mRenderContextPS2__virtual_58(struct mRenderContextPS2 *a0) {
+    a0->unk1D9C = 0;
 }

@@ -1,13 +1,8 @@
+#include "gt4/mTextBoxFace.h"
 typedef int s32;
 typedef float f32;
 
-struct Obj002E57A0 {
-    char pad0[0x3AC];
-    s32 unk3AC;
-    s32 unk3B0;
-};
-
-extern "C" f32 mTextBoxFace__virtual_104(struct Obj002E57A0 *arg0) {
+extern "C" f32 mTextBoxFace__virtual_104(struct mTextBoxFace *arg0) {
     f32 var_f0;
 
     var_f0 = (f32)arg0->unk3B0 / (f32)arg0->unk3AC;
