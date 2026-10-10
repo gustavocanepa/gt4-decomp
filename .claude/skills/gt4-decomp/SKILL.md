@@ -48,6 +48,10 @@ function counts only when the judge says MATCH and the full build still hashes l
   with another compiler).
 - Families/generators: `families.py`, `static_init.py`, `registration.py`, `accessors.py`,
   `siblings.py`, `stl.py`, `libmatch.py` (third-party code from public source, THIRD_PARTY.md).
+- Sister game (E:\PROJECTS\TT, same tools): `crossgame.py apply --from ../TT` copies the sources
+  of identical functions; `neartwin.py scan|apply --from ../TT` adapts the sources of near twins
+  (offsets, constants, callees, globals, call order, store order, profile; `try ADDR OTHER` shows
+  the steps). Every shared match counts for both games: run these before hand work.
 - Planning: `work_queue.py` (ranked work items), `attempts.py` (show/log/summary of the diary).
 - Diagnosis: `census.py` (why functions fail, ranked), `compiler_probe.py`, `coverage.py`.
 

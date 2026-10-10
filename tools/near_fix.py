@@ -83,6 +83,11 @@ def addresses(body, diffs):
         if left[:1] == ["addiu"] and right[:1] == ["ori"] and \
                 int(left[-1], 16) & 0xFFFF == int(right[-1], 16) & 0xFFFF:
             lows.add(int(right[-1], 16) & 0xFFFF)
+    # the two halves need not sit on the same row: the scheduler moves the %lo add around
+    lo_imm = lambda t: int(t[-1], 16) & 0xFFFF if len(t) == 4 and re.match(r"-?0x[0-9A-Fa-f]+$", t[-1]) else None
+    orig_lo = {lo_imm(l) for l, _ in diffs if l[:1] == ["addiu"] and len(l) == 4 and l[1] == l[2]}
+    mine_lo = {lo_imm(r) for _, r in diffs if r[:1] == ["ori"] and len(r) == 4 and r[1] == r[2]}
+    lows |= (orig_lo & mine_lo) - {None}
     if not lows:
         return None
     names = []
@@ -472,8 +477,61 @@ def void_returns(body):
         yield declare(head, names) + "{" + rest
 
 
-def judge(addr, path, body):
-    open(path, "w", newline="\n").write(cpu_solve.PRELUDE + body)
+def permuted_stores(body, diffs):
+    """The body with its store statements reordered so the compiled order is the original's, when
+    the diff only permutes stores (the same lines on both sides) and every store of the diff names
+    exactly one statement: the output position of a statement depends on its source position, so
+    the statements are permuted by the inverse map (build/scratch/opus3/perm_fix.py's rule, which
+    the shared-function agents used on constructor bodies). None when it does not apply."""
+    if not diffs or not all(l and r and l[0] in STORES and r[0] in STORES for l, r in diffs):
+        return None
+    if sorted(map(tuple, (l for l, _ in diffs))) != sorted(map(tuple, (r for _, r in diffs))):
+        return None
+    head, brace, rest = body.partition("{")
+    lines = rest.split("\n")
+    idx = [i for i, l in enumerate(lines) if STORE_LINE.match(l)]
+
+    def statement(tok):
+        m = re.match(r"(-?0x[0-9A-Fa-f]+|-?\d+)\(", tok[-1])
+        if not m:
+            return None
+        hits = [i for i in idx if _names_offset(lines[i], int(m.group(1), 0))]
+        return hits[0] if len(hits) == 1 else None
+    orig = [statement(l) for l, _ in diffs]
+    mine = [statement(r) for _, r in diffs]
+    if None in orig or None in mine or len(set(orig)) != len(orig) or set(orig) != set(mine):
+        return None
+    out = list(lines)
+    for stmt in sorted(set(mine)):  # the source position whose statement lands k-th gets the original's k-th
+        out[stmt] = lines[orig[mine.index(stmt)]]
+    return head + brace + "\n".join(out) if out != lines else None
+
+
+LOADS = {"lw", "lh", "lb", "lhu", "lbu", "ld", "lq", "lwc1", "ldc1", "lwu"}
+SDK_29 = (0x3AC140, 0x5B9AF0)
+
+
+def profiles_for(addr, diffs):
+    """Compiler profiles (project.toml [compilers] names) worth a judge call for this diff:
+    `jal`+epilogue where mine has a sibling `j` (or the reverse) -> no sibling calls; loads and
+    stores in another order with nothing else wrong -> no strict aliasing (a load may not move
+    above a store of another type there); both together; SDK code of the ee-gcc 2.9 range."""
+    import project
+    known = set(project.compilers())
+    ops = lambda side: [x[0] for x in side if x]
+    lo, ro = ops(l for l, _ in diffs), ops(r for _, r in diffs)
+    out = []
+    if ("j" in lo) != ("j" in ro) and "jal" in lo + ro:  # a sibling call on one side only
+        out += ["ee-gcc2.96-nosib", "ee-gcc2.96-nsa-nosib"]
+    if lo and sorted(lo) == sorted(ro) and set(lo) & LOADS and set(lo) & STORES:
+        out += ["ee-gcc2.96-no-strict-aliasing", "ee-gcc2.96-nsa-nosib"]
+    if SDK_29[0] <= addr < SDK_29[1]:
+        out.append("ee-gcc2.9-991111")
+    return [p for p in dict.fromkeys(out) if p in known]
+
+
+def judge(addr, path, body, marker=None):
+    open(path, "w", newline="\n").write((f"/* compiler: {marker} */\n" if marker else "") + cpu_solve.PRELUDE + body)
     res = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "match.py"), "check", f"{addr:x}", path],
                          capture_output=True, text=True)
     return res.returncode == 0 and "could not be checked" not in res.stdout, res.stdout
@@ -483,7 +541,7 @@ def attempt(addr):
     draft = open(os.path.join(cpu_solve.OUT, f"{addr:08x}.c")).read()
     body = draft[len(cpu_solve.PRELUDE):] if draft.startswith(cpu_solve.PRELUDE) else draft
     path = os.path.join(OUT, f"{addr:08x}.c")
-    tries = 0
+    tries, how = 0, ""
     body = cpu_solve.exact_floats(body)
     ok, verdict = judge(addr, path, body)
     tries += 1
@@ -512,6 +570,20 @@ def attempt(addr):
         for variant in list(member_arrays(body))[:16]:
             ok, verdict = judge(addr, path, variant)
             tries += 1
+            if ok:
+                break
+    if not ok:
+        diffs = diff_lines(verdict)
+        for _ in range(3):  # the inverse map, iterated while it changes the order
+            variant = permuted_stores(body, diffs)
+            if not variant:
+                break
+            ok2, verdict2 = judge(addr, path, variant)
+            tries += 1
+            how = "permuted_stores"
+            if ok2 or differ(verdict2) < differ(verdict):
+                body, ok, verdict = variant, ok2, verdict2
+                diffs = diff_lines(verdict)
             if ok:
                 break
     if not ok:
@@ -556,18 +628,25 @@ def attempt(addr):
                 tries += 1
                 if ok:
                     break
+    if not ok:  # the same best body under another compiler profile the diff points at
+        for marker in profiles_for(addr, diff_lines(verdict)):
+            ok, verdict = judge(addr, path, body, marker)
+            tries += 1
+            if ok:
+                how = f"profile {marker}"
+                break
     if ok:
         dest = os.path.join(ROOT, "src", f"func_{addr:08X}.c")
         if not project.source_for(addr):
             open(dest, "w", newline="\n").write(open(path).read())
-    return addr, ok, tries
+    return addr, ok, tries, how
 
 
 def safe(addr):
     try:
         return attempt(addr)
     except Exception:  # one bad draft must not stop the run
-        return addr, False, 0
+        return addr, False, 0, ""
 
 
 def main():
@@ -577,9 +656,12 @@ def main():
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--max-fraction", type=float, default=0.0,
                     help="also take drafts of any size whose differ/of is at most this (big functions)")
+    ap.add_argument("--retry", action="store_true", help="functions in tried.txt again (after a new rule)")
+    ap.add_argument("--addrs", help="only the addresses listed in this file (one per line, hex)")
     a = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
-    tried = set(open(TRIED).read().split()) if os.path.exists(TRIED) else set()
+    tried = set(open(TRIED).read().split()) if os.path.exists(TRIED) and not a.retry else set()
+    only = {f"{int(x, 16):08x}" for x in open(a.addrs).read().split() if not x.startswith("#")} if a.addrs else None
     latest = {}
     for line in open(cpu_solve.RESULTS):
         if line.strip():
@@ -589,14 +671,16 @@ def main():
     todo = []
     for name, r in latest.items():
         addr = int(name, 16)
-        if r["result"] != "differs" or addr in done or name in tried or                 (r["differ"] > a.max_differ and r["differ"] > a.max_fraction * r.get("of", 0)):
+        if only is not None and name not in only:
+            continue
+        if r["result"] != "differs" or addr in done or name in tried or \
+                (r["differ"] > a.max_differ and r["differ"] > a.max_fraction * r.get("of", 0)):
             continue
         draft = os.path.join(cpu_solve.OUT, f"{name}.c")
         if not os.path.exists(draft):
             continue
-        text = open(draft).read()
-        # only drafts a rule can change: float literals, address-like literals, or a short miss
-        if FLOAT.search(text.split("#endif", 1)[-1]) or HEX.search(text) or r["differ"] <= 2 or                 r["differ"] <= a.max_fraction * r.get("of", 0):
+        # every near miss up to --max-differ: the permutation and profile rules read only the diff
+        if True:
             todo.append((r["differ"], addr))
     todo = [x for _, x in sorted(todo)]
     if a.limit:
@@ -604,13 +688,14 @@ def main():
     print(f"{len(todo)} near misses to fix by rule", flush=True)
     hits, t0 = 0, time.time()
     with ThreadPoolExecutor(a.jobs) as pool, open(TRIED, "a") as log:
-        for i, (addr, ok, tries) in enumerate(pool.map(safe, todo), 1):
+        for i, (addr, ok, tries, how) in enumerate(pool.map(safe, todo), 1):
             log.write(f"{addr:08x}\n")
             log.flush()
             if ok:
                 hits += 1
+                print(f"0x{addr:08x}: MATCH{f' ({how})' if how else ''}", flush=True)
                 with open(autoloop.LOG, "a") as f:
-                    f.write(json.dumps({"addr": f"{addr:08x}", "matched": True, "effort": "near_fix",
+                    f.write(json.dumps({"addr": f"{addr:08x}", "matched": True, "effort": "near_fix" + (f":{how}" if how else ""),
                                         "time": time.strftime("%Y-%m-%d %H:%M:%S")}) + "\n")
             if i % 100 == 0:
                 print(f"{i}/{len(todo)} matched {hits} ({(time.time() - t0) / 60:.0f} min)", flush=True)

@@ -266,3 +266,20 @@ What repeated:
   00582fc0). libio (`_IO_init` 00594fb8 matches) awaits a licence decision (GPLv2 + exception).
   Helpers worth turning into tools: build/scratch/os2b/climb.py (store-order hill climb),
   build/scratch/opus3/perm_fix.py, build/scratch/os1b/callers.py.
+
+## Near twins between the games, as a tool (tools/neartwin.py, 2026-10-09)
+- 3,252 open TT functions have a matched GT4 function whose masked words (immediates, offsets and
+  addresses hidden) are >= 75% the same (1,393 at ~100%); 1,100 open GT4 functions have such a TT
+  twin. The agents' near1/near2 scripts (build/scratch/near1, near2) became tools/neartwin.py; on a
+  random sample 41% of the TT pairs and 11% of the GT4 pairs matched by rules alone.
+- What the adaptation needs beyond crossgame.py's renames: literals moved by the diff (one occurrence
+  of several must be tried in turn: `0xf4` is both a store and a load in one function), a callee of
+  one game that stands for two in the other (two handle constructors: rename per call site, not per
+  symbol), the inverse permutation of a run of stores, near_fix's passed-through `this` with the
+  literal rules re-run afterwards, and the no-sibcall profile for TT's call wrappers of GT4's
+  func_001010E0 family (`jal` + epilogue where GT4 has `j`).
+- match.suggest_renames must be filtered to real addresses when the twin's code differs at a call
+  (otherwise it proposes func_0EC400A0-style nonsense from the instruction delta).
+- Still open after the rules: a run of zero stores whose field set changed (the one-to-one literal
+  map is wrong under reordering; regenerate the run from the original's offsets), `&p->f` vs `p->g`
+  argument shapes, a statement added or removed.
