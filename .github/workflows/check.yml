@@ -37,6 +37,13 @@ jobs:
             mkdir -p ~/.local/share/gt4/compilers/"$name"
             curl -sL "$url" | tar -xJ -C ~/.local/share/gt4/compilers/"$name"
             echo "installed $name"
+            # tools a profile needs besides its compiler (e.g. a later assembler), by name and archive
+            python3 -c "import tomllib,sys; [print(k, v) for k, v in tomllib.load(open('project.toml','rb'))['compilers'][sys.argv[1]].get('needs', {}).items()]" "$name" |
+              while read -r need url; do
+                [ -d ~/.local/share/gt4/compilers/"$need" ] && continue
+                mkdir -p ~/.local/share/gt4/compilers/"$need"
+                curl -sL "$url" | tar -xJ -C ~/.local/share/gt4/compilers/"$need" && echo "installed $need (needed by $name)"
+              done
           done
       - name: Every source compiles (with the compiler its first line names, else ee-gcc 2.96)
         run: |
@@ -58,7 +65,7 @@ jobs:
               [ -n "$cmd" ] || { echo "::error file=$f::unknown compiler $name"; fail=1; continue; }
             fi
             n=$((n + 1))
-            # eval: a command may quote its own arguments (wrappers such as cc_rf.sh)
+            # eval: a command may quote its own arguments (wrappers such as cc_as.sh)
             eval "$cmd \"\$f\" -o /tmp/obj/$n.o" \
               || { echo "::error file=$f::does not compile"; fail=1; }
           done < /tmp/sources.txt

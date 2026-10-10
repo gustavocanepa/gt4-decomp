@@ -1,4 +1,6 @@
 /* compiler: ee-gcc2.96-no-strict-aliasing */
+/* GCC runtime (gcc 2000-10-03 snapshot, libgcc.a): search_fdes (frame.c).
+ * licence: gcc-runtime (GPL with the GCC runtime exception, see THIRD_PARTY.md) */
 /* libgcc frame-dwarf2.c search_fdes: find the FDE whose range holds pc. */
 typedef unsigned int uword;
 typedef int sword;

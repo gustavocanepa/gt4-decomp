@@ -1,3 +1,5 @@
+/* GCC runtime (gcc 2000-10-03 snapshot, libgcc.a): __gcc_bcmp (libgcc2.c).
+ * licence: gcc-runtime (GPL with the GCC runtime exception, see THIRD_PARTY.md) */
 typedef int s32;
 typedef unsigned char u8;
 

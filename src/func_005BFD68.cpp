@@ -1,4 +1,6 @@
 /* compiler: ee-gcc2.96-no-strict-aliasing */
+/* GCC runtime (gcc 2000-10-03 snapshot, libgcc.a): __user_type_info::do_upcast (cp/tinfo.cc).
+ * licence: gcc-runtime (GPL with the GCC runtime exception, see THIRD_PARTY.md) */
 /* gcc 2.96 libstdc++ tinfo.cc __user_type_info::do_upcast: when this type is the target
    (type_info::operator== is func_005BFB00), fill the upcast_result and return contained_p(). */
 struct upcast_result {

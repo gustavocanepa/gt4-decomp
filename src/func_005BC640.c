@@ -1,4 +1,6 @@
 /* compiler: ee-gcc2.96-no-strict-aliasing */
+/* GCC runtime (gcc 2000-10-03 snapshot, libgcc.a): new_eh_context? (libgcc2.c, exception handling).
+ * licence: gcc-runtime (GPL with the GCC runtime exception, see THIRD_PARTY.md) */
 typedef struct {
     int m0;
     char *m4;

@@ -1,3 +1,5 @@
+/* libio (GNU iostream library, gcc 2000-10-03 snapshot): istream::operator>>.
+ * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 extern "C" int func_00591A78(int arg0, long long *out0, int *out1);
 
 extern "C" int func_00591F68(int arg0, long long *arg1) {

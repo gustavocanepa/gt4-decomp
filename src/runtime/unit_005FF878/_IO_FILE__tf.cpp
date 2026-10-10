@@ -1,3 +1,5 @@
+/* libio (GNU iostream library, gcc 2000-10-03 snapshot): the type_info function of libio's class _IO_FILE (compiler-generated from its declaration).
+ * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 extern "C" void func_005BFB88(void *a0, void *a1);
 
 

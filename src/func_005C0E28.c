@@ -1,3 +1,5 @@
+/* GCC runtime (gcc 2000-10-03 snapshot, libgcc.a): __is_pointer (cp/tinfo2.cc).
+ * licence: gcc-runtime (GPL with the GCC runtime exception, see THIRD_PARTY.md) */
 /* __is_pointer (gcc/cp/tinfo2.cc, old ABI): dynamic_cast<const __pointer_type_info *>(t) != 0,
    with the __dynamic_cast call (func_005C0FC8) spelled out. */
 struct VEntry { short delta; short index; void *pfn; };

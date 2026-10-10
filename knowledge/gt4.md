@@ -189,7 +189,7 @@ Known facts about Gran Turismo 4's code (learned while matching; add new ones as
   (0x5C1498, now in config/stl_symbols.txt), `delete p` of a polymorphic object is the vtable call.
 - Strings copied from literals with `ld`/`sd` (not `ldl`/`ldr`) mean an 8-aligned destination type:
   `struct {...} __attribute__((aligned(8)))` with `strcpy(s->field, "lit")` (func_004EE7C8, 004ED588).
-- `ee-gcc2.96-hilo` (tools/hilo_as.py): the project's gas gives an indexed-global macro's `lui` the
+- `ee-gcc2.96-as2004` (formerly `-hilo`, tools/hilo_as.py, now the real 2004 ee-as): the project's gas gives an indexed-global macro's `lui` the
   wrong opcode (`lw rX, 0(rX)` with R_MIPS_HI16) after a `.p2align 3,,7`; the marker writes the
   expansion out. Diff symptom: `! lui $a1, 0x62 | lw $a1, 0x62($a1)`. func_001F6C58.
 - Return types again: most near misses here were `$v0`/`$v1` swaps fixed by a callee's void/int

@@ -1,3 +1,5 @@
+/* GCC runtime (gcc 2000-10-03 snapshot, libgcc.a): __addsf3 (config/fp-bit.c).
+ * licence: gcc-runtime (GPL with the GCC runtime exception, see THIRD_PARTY.md) */
 /* libgcc fp-bit.c __addsf3 (single precision): unpack both operands, _fpadd_parts, pack */
 typedef float FLO_type;
 typedef unsigned int fractype;

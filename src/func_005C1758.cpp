@@ -1,3 +1,5 @@
+/* GCC runtime (gcc 2000-10-03 snapshot, libgcc.a): __cplus_type_matcher (cp/exception.cc).
+ * licence: gcc-runtime (GPL with the GCC runtime exception, see THIRD_PARTY.md) */
 /* __cplus_type_matcher (gcc/cp/exception.cc, old ABI): does the thrown object match this catch? */
 struct EhInfo { int pad[2]; void *value; void *type; char pad2[0x18]; void *original_value; };
 struct ExceptionTable { int pad; short language; };

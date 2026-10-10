@@ -388,7 +388,7 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   pointer-to-member in $t0) and every GNU ee-as we have expands them left half first (`ldl; ldr`).
   `ldr; ldl` (right first, 284 library functions incl. the 0x5c2b60.. PMF thunks) came from an
   assembler expanding those macros right first: marker `/* compiler: ee-gcc2.96-nsa-nosib-rf */`
-  (tools/cc_rf.sh + rf_as.py; func_005C2B60 matches as `f(a0, a1, a2, a3, D_pmf)` with a by-value
+  (now the `ee-gcc2.96-nsa-nosib-as2004` profile: the 2004 ee-as expands right first; func_005C2B60 matches as `f(a0, a1, a2, a3, D_pmf)` with a by-value
   `struct { short delta; short index; int pfn; }`). Detect it by an `xxr X` followed by `xxl X` of
   the same kind (`ldr X; sdl X` is just a left-first load then store); blockcopy.py routes them.
 - Long copies (0x40 bytes and more) become an aligned/unaligned dual loop; `memcpy(d, s, LITERAL)` is

@@ -16,4 +16,10 @@ int func_005BC2A0(DItype a, DItype b) {
     if (au.s.high < bu.s.high)
         return 0;
     else if (au.s.high > bu.s.high)
-        return 
+        return 2;
+    if ((USItype) au.s.low < (USItype) bu.s.low)
+        return 0;
+    else if ((USItype) au.s.low > (USItype) bu.s.low)
+        return 2;
+    return 1;
+}
