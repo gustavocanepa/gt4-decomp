@@ -1,0 +1,119 @@
+/* compiler: ee-gcc2.96-stl */
+/* map<Str2, Val>::operator[] (SGI STL stl_map.h) inlined; lower_bound and insert_unique stay out of line. */
+#include <stl_tree.h>
+
+extern "C" void *func_00575E60(int heap, int size);
+extern "C" void func_00575DA0(void *p);
+
+
+struct Rep {
+    int len;
+    int cap;
+    int ref;
+    int sel;
+};
+
+struct HeapName {
+    const char *name;
+};
+
+extern "C" int func_00608D98(const void *self, const void *other, unsigned int pos, unsigned int n);
+extern "C" char *func_005D2B58(Rep *rep);
+extern "C" void stl_unknown_release(void *p, int size);
+
+/* the game's string: libstdc++ v2 basic_string (knowledge/runtime-types.md) */
+struct Str2 {
+    char *p;
+    Rep *rep() const { return (Rep *)p - 1; }
+    static char *grab(Rep *r) {
+        if (r->sel)
+            return func_005D2B58(r);
+        ++r->ref;
+        return (char *)(r + 1);
+    }
+    Str2(const Str2 &o) : p(grab(o.rep())) {}
+    ~Str2() {
+        Rep *r = rep();
+        if (--r->ref == 0)
+            func_00575DA0(r);
+    }
+    bool operator<(const Str2 &o) const { return func_00608D98(this, &o, 0, (unsigned int)-1) < 0; }
+};
+
+extern "C" void func_00476768(void *self, const void *other);
+extern "C" void stl_unknown_dtor(void *self, int in_charge);
+
+extern "C" void func_004768C0(void *self);
+
+/* the script value (named after its copy constructor, as in the map's other members) */
+struct Val_00476768 {
+    int type;
+    int v;
+    Val_00476768() : type(1) {}
+    Val_00476768(const Val_00476768 &o) { func_00476768(this, &o); }
+    ~Val_00476768() { func_004768C0(this); }
+};
+
+/* gcc 2.96's type_info: the name first, the vtable pointer after it */
+struct TypeInfo {
+    const char *name;
+};
+
+/* typeid(T).name() of the types this source allocates, without typeid: the game's own __tf getter */
+template <class T> struct TypeTag;
+
+/* the game's allocator: every block is tagged with the name of its type */
+template <class T>
+class GameAlloc {
+public:
+    typedef size_t size_type;
+    typedef ptrdiff_t difference_type;
+    typedef T *pointer;
+    typedef const T *const_pointer;
+    typedef T &reference;
+    typedef const T &const_reference;
+    typedef T value_type;
+    template <class U> struct rebind { typedef GameAlloc<U> other; };
+    GameAlloc() throw() {}
+    GameAlloc(const GameAlloc &) throw() {}
+    template <class U> GameAlloc(const GameAlloc<U> &) throw() {}
+    ~GameAlloc() throw() {}
+    T *allocate(size_type n, const void * = 0) {
+        return (T *)func_00575E60(0x10, n * sizeof(T));
+    }
+    void deallocate(T *p, size_type n) {
+        func_00575DA0(p);
+    }
+    size_type max_size() const throw() { return size_t(-1) / sizeof(T); }
+    void construct(T *p, const T &v) { new (p) T(v); }
+    void destroy(T *p) { p->~T(); }
+};
+
+typedef Str2 Key;
+typedef Val_00476768 Val;
+typedef pair<const Str2, Val> Value;
+typedef _Rb_tree<Key, Value, _Select1st<Value>, less<Key>, GameAlloc<Value> > Tree;
+
+/* the tree's non-const lower_bound: a second copy of the code that config/stl_symbols.txt gives
+   this mangled name (0x0060BF18, an unsigned-key tree), so it is called by address here */
+extern "C" Tree::iterator func_00609360(Tree *t, const Key &k);
+
+/* map<Str2, Val>, with SGI STL's operator[] (include/stl/stl_map.h) */
+struct Map {
+    Tree _M_t;
+    typedef Tree::iterator iterator;
+    iterator end() { return _M_t.end(); }
+    less<Key> key_comp() const { return _M_t.key_comp(); }
+    iterator lower_bound(const Key &x) { return func_00609360(&_M_t, x); }
+    iterator insert(iterator position, const Value &x) { return _M_t.insert_unique(position, x); }
+    Val &operator[](const Key &k) {
+        iterator i = lower_bound(k);
+        if (i == end() || key_comp()(k, (*i).first))
+            i = insert(i, Value(k, Val()));
+        return (*i).second;
+    }
+};
+
+extern "C" Val &func_00481410(Map *m, const Str2 &k) {
+    return (*m)[k];
+}
