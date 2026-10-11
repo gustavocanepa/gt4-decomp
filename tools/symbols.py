@@ -258,6 +258,14 @@ def generic(sym):
     return f"D_{addr:08X}" if kind_of(sym) == "data" else f"func_{addr:08X}"
 
 
+# Functions gcc expands as builtins when called by these names (a constant memcpy becomes inline
+# loads/stores): a source's spelling (the name, or func_ADDR to force a real call) decides the
+# code, so renaming tools never rewrite these names or the addresses they stand for.
+BUILTINS = {"memcpy", "memset", "memcmp", "memmove", "strcpy", "strncpy", "strcmp", "strncmp",
+            "strlen", "strcat", "strchr", "strrchr", "abs", "fabs", "fabsf", "sqrt", "sqrtf",
+            "bzero", "bcopy", "bcmp", "alloca", "abort", "exit"}
+
+
 def rename_text(text, lookup=None):
     """Source text with every func_/D_ token replaced by its canonical name, string and character
     literals untouched. lookup(addr, kind) -> name or None; default: name_of."""
@@ -268,6 +276,8 @@ def rename_text(text, lookup=None):
         if not m.group(1) or m.group(1) == "jtbl":
             return m.group(0)
         new = lookup(int(m.group(2), 16), "func" if m.group(1) == "func" else "data")
+        if new in BUILTINS:  # func_ADDR here forces a real call: keep it
+            return m.group(0)
         return new or m.group(0)
     return pattern.sub(sub, text)
 
@@ -281,7 +291,7 @@ def generic_text(text):
 
     def sub(m):
         name = m.group(0)
-        if name in t.names:
+        if name in t.names and name not in BUILTINS:
             addr, kind = t.names[name]
             return f"func_{addr:08X}" if kind == "func" else f"D_{addr:08X}"
         return name
