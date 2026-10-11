@@ -1,6 +1,6 @@
 #include "types.h"
 #include "gt4/RaceReplayInformation.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
 s64 RaceReplayInformation__getRaceCode(struct RaceReplayInformation *arg0) {

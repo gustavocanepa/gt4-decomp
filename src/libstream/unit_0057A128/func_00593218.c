@@ -1,12 +1,12 @@
 /* libio (GNU iostream library, gcc 2000-10-03 snapshot): endl.
  * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
 s32 func_00593020(s32);                         /* extern */
 s32 func_00593080(void **);                     /* extern */
-s32 func_00596F40(s32, s32);                /* extern */
+s32 _IO_putc(s32, s32);                /* extern */
 
 struct func_00593218_temp_v1 {
     char pad0[0x4];
@@ -30,7 +30,7 @@ void **func_00593218(void **arg0) {
         var_a0 = 1;
     }
     if (var_a0 != 0) {
-        func_00596F40(0xA, M2C_FIELD(*arg0, s32 *, 0));
+        _IO_putc(0xA, M2C_FIELD(*arg0, s32 *, 0));
         func_00593080(arg0);
     }
     return arg0;

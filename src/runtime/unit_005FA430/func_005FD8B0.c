@@ -1,5 +1,5 @@
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 struct func_005FD8B0_arg0 {
     char pad0[0x1E66C];

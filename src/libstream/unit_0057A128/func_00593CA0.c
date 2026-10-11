@@ -9,11 +9,11 @@ struct Out {
     u8 flags;
 };
 
-extern s32 func_005956A0(s32 a, s32 b, s32 c, s32 *flags);
+extern s32 _IO_vfscanf(s32 a, s32 b, s32 c, s32 *flags);
 
 s32 func_00593CA0(s32 a, s32 b, s32 c, struct Out *out) {
     s32 flags = 0;
-    s32 r = func_005956A0(a, b, c, &flags);
+    s32 r = _IO_vfscanf(a, b, c, &flags);
     s32 f = flags;
     if (out) {
         out->flags |= f;

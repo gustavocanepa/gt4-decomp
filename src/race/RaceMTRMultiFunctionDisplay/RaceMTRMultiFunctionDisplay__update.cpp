@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 AutomaticFader__update(s32);                         /* extern */
 s32 RaceMTRMultiFunctionDisplay__update_auto_info(s32, f32);                    /* extern */

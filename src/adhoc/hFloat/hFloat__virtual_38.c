@@ -1,6 +1,6 @@
 #include "types.h"
 #include "gt4/hFloat.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_003285A8(s32);                         /* extern */
 s32 func_003285F8(s32);                         /* extern */

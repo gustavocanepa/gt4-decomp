@@ -3,11 +3,11 @@
 #include "types.h"
 #include "gt4/filebuf.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
 s32 streambuf__structor_1(void *, s32);             /* extern */
-s32 func_0059B038(void *, s32, s32);                    /* extern */
+s32 _IO_do_write(void *, s32, s32);                    /* extern */
 s32 func_005C1628(void *);                      /* extern */
 
 extern char filebuf__vtable[];
@@ -17,7 +17,7 @@ void filebuf__structor_3(struct filebuf *arg0, s32 arg1) {
     arg0->unk50 = (void *)(s32)filebuf__vtable;
     if (arg0->unk38 >= 0) {
         temp_a1 = arg0->unk10;
-        func_0059B038(arg0, temp_a1, arg0->unk14 - temp_a1);
+        _IO_do_write(arg0, temp_a1, arg0->unk14 - temp_a1);
         if (!(arg0->unk0 & 0x40)) {
             M2C_FIELD(arg0->unk50, s32 (**)(void *), 0x84)(arg0);
         }

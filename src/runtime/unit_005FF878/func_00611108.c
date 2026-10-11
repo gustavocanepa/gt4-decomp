@@ -1,7 +1,7 @@
 typedef int s32;
-void func_00575DA0(s32 a);
+void free(s32 a);
 void func_00611108(char *arg0) {
-    func_00575DA0(*(s32 *)(arg0 + 0));
+    free(*(s32 *)(arg0 + 0));
     *(s32 *)(arg0 + 0) = 0;
     *(s32 *)(arg0 + 4) = 0;
     *(s32 *)(arg0 + 8) = 0;

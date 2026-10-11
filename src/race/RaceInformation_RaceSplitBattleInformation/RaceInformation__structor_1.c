@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/RaceInformation.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 extern char RaceInformation__vtable[];
 void func_00446FC8(void *, s32);

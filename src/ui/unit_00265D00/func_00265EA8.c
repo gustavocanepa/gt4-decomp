@@ -1,5 +1,5 @@
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_00265DC8();                                /* extern */
 s32 func_00265F00(s32);                             /* extern */

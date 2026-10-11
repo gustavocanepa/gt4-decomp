@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/RaceSplitDisplayBase.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 extern char RaceSplitDisplayBase__vtable[];
 s32 RaceSplitDisplayBase__structor_0(struct RaceSplitDisplayBase *arg0) {

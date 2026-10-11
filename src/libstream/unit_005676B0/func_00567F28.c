@@ -1,5 +1,5 @@
-extern void func_005A47D4(void);
+extern void memmove(void);
 void func_00567F28(void)
 {
-    func_005A47D4();
+    memmove();
 }

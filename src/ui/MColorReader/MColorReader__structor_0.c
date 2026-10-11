@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/MColorReader.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 extern char MColorReader__vtable[];
 s32 MColorReader__structor_0(struct MColorReader *arg0, s32 arg1) {

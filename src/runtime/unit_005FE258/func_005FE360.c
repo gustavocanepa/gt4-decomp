@@ -1,7 +1,7 @@
 /* compiler: ee-gcc2.96-nsa-nosib */
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
 extern char D_006D6054[];

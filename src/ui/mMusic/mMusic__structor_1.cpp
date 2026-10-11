@@ -1,7 +1,7 @@
 #include "gt4/mMusic.h"
 typedef int s32;
 
-extern "C" void func_00575DA0(void *arg0);
+extern "C" void free(void *arg0);
 extern "C" void func_00326798(void *arg0, s32 arg1, s32 arg2, const char *arg3);
 extern "C" void func_002C3BA0(void *);
 extern "C" void hObject__structor_2(void *, s32);

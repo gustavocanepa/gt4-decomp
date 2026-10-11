@@ -1,7 +1,7 @@
 #define GT4_DECLS
 #include "gt4/mWidget.h"
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_00206868(s32);                             /* extern */
 s32 func_0025C300(s32);                             /* extern */

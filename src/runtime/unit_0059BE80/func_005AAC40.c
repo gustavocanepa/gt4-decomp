@@ -6,13 +6,13 @@ struct _reent {
 };
 
 extern int D_006D62F8; /* errno */
-extern int func_005AE268(int fd, void *buf, unsigned int cnt);
+extern int write(int fd, void *buf, unsigned int cnt);
 
 long func_005AAC40(struct _reent *ptr, int fd, void *buf, unsigned int cnt) {
     long ret;
 
     D_006D62F8 = 0;
-    if ((ret = func_005AE268(fd, buf, cnt)) == -1 && D_006D62F8 != 0)
+    if ((ret = write(fd, buf, cnt)) == -1 && D_006D62F8 != 0)
         ptr->_errno = D_006D62F8;
     return ret;
 }

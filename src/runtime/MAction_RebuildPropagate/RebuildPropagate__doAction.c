@@ -2,7 +2,7 @@
 #include "types.h"
 #include "gt4/RebuildPropagate.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_00234798(s32, s32);                    /* extern */
 s32 mWidget__GetClassID();                                /* extern */

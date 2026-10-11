@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_0060D7B8(s32 arg0, u32 arg1) {
     return arg1 > 0x0FFFFFF7U;

@@ -4,7 +4,7 @@ typedef int s32; typedef unsigned int u32; typedef long long s64; typedef unsign
 typedef float f32; typedef double f64;
 typedef int s128 __attribute__((mode(TI))); typedef unsigned int u128 __attribute__((mode(TI)));
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 /*
  * This header contains macros emitted by m2c in "valid syntax" mode,
  * which can be enabled by passing `--valid-syntax` on the command line.
@@ -66,9 +66,9 @@ typedef s64 M2C_UNK64;
 #define M2C_OVERFLOW(a) (0)
 
 /* Memcpy patterns */
-#define M2C_MEMCPY_ALIGNED func_005A4724
-#define M2C_MEMCPY_UNALIGNED func_005A4724
-#define M2C_STRUCT_COPY func_005A4724
+#define M2C_MEMCPY_ALIGNED memcpy
+#define M2C_MEMCPY_UNALIGNED memcpy
+#define M2C_STRUCT_COPY memcpy
 
 /* Sh2 control register loads/stores */
 #define M2C_LOAD_SR() (0)

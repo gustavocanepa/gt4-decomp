@@ -1,9 +1,9 @@
-extern "C" void func_00575DA0(void *p);
+extern "C" void free(void *p);
 
 struct Holder {
     int *p;
     Holder(int *q) : p(q) {}
-    ~Holder() { if (p) func_00575DA0(p); }
+    ~Holder() { if (p) free(p); }
 };
 
 struct Ctx {

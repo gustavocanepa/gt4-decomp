@@ -1,5 +1,5 @@
-extern int D_00658288;
+extern int _impure_ptr;
 
 int func_005A3130(void) {
-    return D_00658288;
+    return _impure_ptr;
 }

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "gt4/DevelopCamera.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 f32 DevelopCamera__virtual_48(struct DevelopCamera *arg0) {
     return arg0->unkAC4;

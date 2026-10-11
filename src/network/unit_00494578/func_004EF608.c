@@ -1,9 +1,9 @@
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_0056FA90(void *);                      /* extern */
 s32 func_0056FB50(void *, s32);                 /* extern */
-s32 func_00575DA0(s32);                         /* extern */
+s32 free(s32);                         /* extern */
 
 struct func_004EF608_arg0 {
     s32 unk0;
@@ -21,8 +21,8 @@ void func_004EF608(void *arg0) {
         func_0056FB50(temp_s1, ((struct func_004EF608_arg0 *)arg0)->unk7C);
         func_0056FA90(arg0 + 0x40);
         func_0056FA90(temp_s1);
-        func_00575DA0(((struct func_004EF608_arg0 *)arg0)->unk7C);
-        func_00575DA0(((struct func_004EF608_arg0 *)arg0)->unk80);
+        free(((struct func_004EF608_arg0 *)arg0)->unk7C);
+        free(((struct func_004EF608_arg0 *)arg0)->unk80);
         ((struct func_004EF608_arg0 *)arg0)->unk7C = 0;
         ((struct func_004EF608_arg0 *)arg0)->unk80 = 0;
     }

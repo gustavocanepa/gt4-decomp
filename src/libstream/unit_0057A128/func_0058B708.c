@@ -1,9 +1,9 @@
 /* compiler: ee-gcc2.9-991111 */
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
-s32 func_005A4724(s32, void *, u32);            /* extern */
+s32 memcpy(s32, void *, u32);            /* extern */
 s32 func_005A48D8(s32, s32, s32);           /* extern */
 
 struct func_0058B708_temp_s0 {
@@ -26,7 +26,7 @@ void func_0058B708(void *arg0) {
     struct func_0058B708_temp_s0 *temp_s0;
 
     temp_s0 = arg0 + ((struct func_0058B708_arg0 *)arg0)->unk1C;
-    func_005A4724(temp_s0->unk28, arg0 + temp_s0->unk24, temp_s0->unk30);
+    memcpy(temp_s0->unk28, arg0 + temp_s0->unk24, temp_s0->unk30);
     temp_a2 = temp_s0->unk34;
     temp_v1 = temp_s0->unk30;
     if (temp_v1 < temp_a2) {

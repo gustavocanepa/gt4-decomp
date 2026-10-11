@@ -1,6 +1,6 @@
 #include "types.h"
 #include "gt4/mTextBoxFace.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 f32 mTextBoxFace__getBeginPointRatio(struct mTextBoxFace *arg0) {
     f32 temp_f2;

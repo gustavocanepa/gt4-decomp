@@ -6,8 +6,8 @@ struct Obj {
     u64 unkA8;
 };
 
-extern Obj *D_00658288;
+extern Obj *_impure_ptr;
 
 extern "C" void func_005A55E8(u32 arg0) {
-    D_00658288->unkA8 = (u64)arg0;
+    _impure_ptr->unkA8 = (u64)arg0;
 }

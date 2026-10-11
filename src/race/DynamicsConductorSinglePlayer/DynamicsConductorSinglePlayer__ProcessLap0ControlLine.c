@@ -1,6 +1,6 @@
 #include "types.h"
 #include "gt4/DynamicsConductorSinglePlayer.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_00345228(void *);                      /* extern */
 void *func_0034C190();                              /* extern */

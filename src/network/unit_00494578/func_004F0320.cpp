@@ -1,7 +1,7 @@
 extern "C" {
 void func_004EFCC0(void *);
 void func_004F8790(void *);
-void func_00575DA0(void *);
+void free(void *);
 void *func_005A48D8(void *, int, unsigned int);
 void func_004F94F8(void *);
 void func_004F8CC8(void *);
@@ -47,7 +47,7 @@ extern "C" void func_004F0320(char *s) {
         FIELD(func_0060EBF0 *, 0x194) = 0;
     }
     if (FIELD(void *, 0x5A8) != 0) {
-        func_00575DA0(FIELD(void *, 0x5A8));
+        free(FIELD(void *, 0x5A8));
         FIELD(void *, 0x5A8) = 0;
     }
     func_005A48D8(s + 0x5AC, 0, 0x38);

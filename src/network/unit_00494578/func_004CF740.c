@@ -228,7 +228,7 @@
 #define externalSubset1 func_004D7870
 #define findEncoding func_004E6870
 #define findEncodingNS func_004E6A90
-#define func_00575DA0 D_00575DA0
+#define free free
 #define getAttributeId func_004D4EE8
 #define getContext func_004D5180
 #define getElementType func_004D6FB0
@@ -295,10 +295,10 @@
 #define little2_toUtf8 func_004DD178
 #define little2_updatePosition func_004E1488
 #define lookup func_004D60D8
-#define func_00575DC8 D_00575DC8
+#define malloc malloc
 #define memcmp D_0057F188
-#define func_005A4724 D_005A4724
-#define func_005A47D4 D_005A47D4
+#define memcpy memcpy
+#define memmove memmove
 #define func_005A48D8 D_005A48D8
 #define moveToFreeBindingList func_004CEC70
 #define namePages D_006BB600
@@ -428,8 +428,8 @@ typedef SHIM_PTRDIFF_T ptrdiff_t;
 #define offsetof(t, m) ((size_t)&((t *)0)->m)
 #endif
 
-void *func_005A4724(void *, const void *, size_t);
-void *func_005A47D4(void *, const void *, size_t);
+void *memcpy(void *, const void *, size_t);
+void *memmove(void *, const void *, size_t);
 void *func_005A48D8(void *, int, size_t);
 int memcmp(const void *, const void *, size_t);
 size_t strlen(const char *);
@@ -449,7 +449,7 @@ char *strcat(char *, const char *);
 ** Copyright 2000, Clark Cooper
 ** All rights reserved.
 **
-** This is func_00575DA0 software. You are permitted to copy, distribute, or modify
+** This is free software. You are permitted to copy, distribute, or modify
 ** it under the terms of the MIT/X license (contained in the COPYING file
 ** with this distribution.)
 */
@@ -482,8 +482,8 @@ typedef SHIM_PTRDIFF_T ptrdiff_t;
 #define offsetof(t, m) ((size_t)&((t *)0)->m)
 #endif
 
-void *func_005A4724(void *, const void *, size_t);
-void *func_005A47D4(void *, const void *, size_t);
+void *memcpy(void *, const void *, size_t);
+void *memmove(void *, const void *, size_t);
 void *func_005A48D8(void *, int, size_t);
 int memcmp(const void *, const void *, size_t);
 size_t strlen(const char *);
@@ -511,7 +511,7 @@ char *strcat(char *, const char *);
 ** Copyright 2000, Clark Cooper
 ** All rights reserved.
 **
-** This is func_00575DA0 software. You are permitted to copy, distribute, or modify
+** This is free software. You are permitted to copy, distribute, or modify
 ** it under the terms of the MIT/X license (contained in the COPYING file
 ** with this distribution.)
 **
@@ -620,10 +620,10 @@ typedef SHIM_PTRDIFF_T ptrdiff_t;
 #define offsetof(t, m) ((size_t)&((t *)0)->m)
 #endif
 
-void *func_00575DC8(size_t);
+void *malloc(size_t);
 void *realloc(void *, size_t);
 void *calloc(size_t, size_t);
-void func_00575DA0(void *);
+void free(void *);
 int atoi(const char *);
 long strtol(const char *, char **, int);
 void exit(int);
@@ -1183,9 +1183,9 @@ typedef char ICHAR;
 
 #ifndef HAVE_MEMMOVE
 #ifdef HAVE_BCOPY
-#define func_005A47D4(d,s,l) bcopy((s),(d),(l))
+#define memmove(d,s,l) bcopy((s),(d),(l))
 #else
-#error func_005A47D4 does not exist on this platform, nor is a substitute available
+#error memmove does not exist on this platform, nor is a substitute available
 #endif 
 #endif 
 
@@ -1986,7 +1986,7 @@ typedef struct {
   const XML_Char *base;
   const XML_Char *publicId;
   const XML_Char *notation;
-  XML_Bool func_005AE360;
+  XML_Bool open;
   XML_Bool is_param;
   XML_Bool is_internal; 
 } ENTITY;
@@ -2663,12 +2663,12 @@ XML_GetBuffer(XML_Parser parser, int len)
 #ifdef XML_CONTEXT_BYTES
       if (keep < bufferPtr - buffer) {
         int offset = (bufferPtr - buffer) - keep;
-        func_005A47D4(buffer, &buffer[offset], bufferEnd - bufferPtr + keep);
+        memmove(buffer, &buffer[offset], bufferEnd - bufferPtr + keep);
         bufferEnd -= offset;
         bufferPtr -= offset;
       }
 #else
-      func_005A47D4(buffer, bufferPtr, bufferEnd - bufferPtr);
+      memmove(buffer, bufferPtr, bufferEnd - bufferPtr);
       bufferEnd = buffer + (bufferEnd - bufferPtr);
       bufferPtr = buffer;
 #endif  
@@ -2692,7 +2692,7 @@ XML_GetBuffer(XML_Parser parser, int len)
         int keep = bufferPtr - buffer;
         if (keep > XML_CONTEXT_BYTES)
           keep = XML_CONTEXT_BYTES;
-        func_005A4724(newBuf, &bufferPtr[-keep], bufferEnd - bufferPtr + keep);
+        memcpy(newBuf, &bufferPtr[-keep], bufferEnd - bufferPtr + keep);
         FREE(buffer);
         buffer = newBuf;
         bufferEnd = buffer + (bufferEnd - bufferPtr) + keep;
@@ -2704,7 +2704,7 @@ XML_GetBuffer(XML_Parser parser, int len)
       }
 #else
       if (bufferPtr) {
-        func_005A4724(newBuf, bufferPtr, bufferEnd - bufferPtr);
+        memcpy(newBuf, bufferPtr, bufferEnd - bufferPtr);
         FREE(buffer);
       }
       bufferEnd = newBuf + (bufferEnd - bufferPtr);

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/hString.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 char * func_005C2560(void *);
 struct hString__virtual_02_arg1 {

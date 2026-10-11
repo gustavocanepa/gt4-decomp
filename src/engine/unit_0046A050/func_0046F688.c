@@ -1,7 +1,7 @@
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
-s32 func_00575DA0(s32);                         /* extern */
+s32 free(s32);                         /* extern */
 
 struct func_0046F688_arg0 {
     s32 unk0;
@@ -17,7 +17,7 @@ void func_0046F688(struct func_0046F688_arg0 *arg0) {
     temp_v0 = arg0->unkA68;
     arg0->unk0 = 0;
     if (temp_v0 != 0) {
-        func_00575DA0(temp_v0);
+        free(temp_v0);
     }
     arg0->unkA68 = 0;
 }

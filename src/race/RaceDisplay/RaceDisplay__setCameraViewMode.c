@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/RaceDisplay.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 typedef struct { s16 d; s16 pad; s32 (*fn)(void *); } E;
 void RaceDisplay__setCameraViewMode(struct RaceDisplay *arg0, s8 *arg1) {

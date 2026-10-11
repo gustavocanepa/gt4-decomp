@@ -10,10 +10,10 @@ struct Stream {
     struct Buf *buf;
 };
 
-extern int func_00596890(int fd, int off, int whence);
+extern int _IO_seekpos(int fd, int off, int whence);
 
 struct Stream *func_00592F28(struct Stream *s, int off) {
-    if (func_00596890(s->buf->fd, off, 2) == -1) {
+    if (_IO_seekpos(s->buf->fd, off, 2) == -1) {
         s->buf->state |= 4;
     }
     return s;

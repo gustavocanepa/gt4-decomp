@@ -12,7 +12,7 @@ struct func_00557838_Dev {
 
 extern char D_00655290[];
 extern "C" int func_00566FF8(void *ctx, int port, char *buf, int size);
-extern "C" void *func_005A4724(void *dst, const void *src, unsigned int n);
+extern "C" void *memcpy(void *dst, const void *src, unsigned int n);
 extern "C" char *func_005A5EF4(const char *s, int c);
 extern "C" void func_00556EA0(func_00557838_Dev *self) throw();
 extern "C" int func_00594470(const char *a, const char *b, unsigned int n);
@@ -29,7 +29,7 @@ extern "C" void func_00557838(func_00557838_Dev *self) {
         self->wp = self->line;
         return;
     }
-    func_005A4724(self->wp, buf, n);
+    memcpy(self->wp, buf, n);
     self->wp += n;
     if (func_005A5EF4((char *)self->line, '\n') == 0) return;
     if (self->line[0] == 'E') {

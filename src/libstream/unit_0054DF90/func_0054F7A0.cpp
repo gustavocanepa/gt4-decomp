@@ -1,9 +1,9 @@
 extern "C" {
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
-s32 func_00575DA0(...) throw();
+s32 free(...) throw();
 
 struct func_0054F7A0_arg0 {
     char pad0[0x4];
@@ -13,10 +13,10 @@ struct func_0054F7A0_arg0 {
 };
 
 void func_0054F7A0(char *arg0) {
-    func_00575DA0(((struct func_0054F7A0_arg0 *)arg0)->unkC);
-    func_00575DA0(((struct func_0054F7A0_arg0 *)arg0)->unk8);
-    func_00575DA0(((struct func_0054F7A0_arg0 *)arg0)->unk4);
-    func_00575DA0(arg0);
+    free(((struct func_0054F7A0_arg0 *)arg0)->unkC);
+    free(((struct func_0054F7A0_arg0 *)arg0)->unk8);
+    free(((struct func_0054F7A0_arg0 *)arg0)->unk4);
+    free(arg0);
 }
 
 }

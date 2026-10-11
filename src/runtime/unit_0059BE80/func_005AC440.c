@@ -6,13 +6,13 @@ struct _reent {
 };
 
 extern int D_006D62F8; /* errno */
-extern int func_005AE398(int a, void *b, int c);
+extern int lseek(int a, void *b, int c);
 
 int func_005AC440(struct _reent *ptr, int a, void *b, int c) {
     int ret;
 
     D_006D62F8 = 0;
-    if ((ret = func_005AE398(a, b, c)) == -1 && D_006D62F8 != 0)
+    if ((ret = lseek(a, b, c)) == -1 && D_006D62F8 != 0)
         ptr->_errno = D_006D62F8;
     return ret;
 }

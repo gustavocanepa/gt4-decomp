@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 u16 func_003F1E30(void *, s32);
 struct func_0036BEE0_arg0_unk10 {

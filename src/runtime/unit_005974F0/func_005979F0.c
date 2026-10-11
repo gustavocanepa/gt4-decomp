@@ -6,82 +6,82 @@
 #define Bfree func_00597970
 #define Binit func_005978E8
 #define Brealloc func_005979F0
-#define func_00595198 func_00595198
-#define func_00595338 func_00595338
-#define D_00657F90 D_00657F90
-#define func_00594F68 func_00594F68
-#define func_00595008 func_00595008
-#define func_00595530 func_00595530
-#define func_00595690 func_00595690
-#define func_00595680 func_00595680
-#define func_005950A0 func_005950A0
-#define func_00594F40 func_00594F40
-#define func_00594E70 func_00594E70
-#define func_00595688 func_00595688
-#define func_00595000 func_00595000
-#define func_00594B98 func_00594B98
-#define func_00594B90 func_00594B90
-#define func_00595698 func_00595698
-#define func_00594D50 func_00594D50
-#define func_00594BE8 func_00594BE8
-#define func_0059B038 func_0059B038
-#define func_00594B18 func_00594B18
-#define func_005999B8 func_005999B8
-#define func_0059AF50 func_0059AF50
-#define func_0059B868 func_0059B868
-#define func_0059ACA8 func_0059ACA8
-#define func_00597800 func_00597800
-#define func_0059AD70 func_0059AD70
-#define func_0059ADD8 func_0059ADD8
-#define func_0059AC68 func_0059AC68
-#define func_0059B288 func_0059B288
-#define func_0059B810 func_0059B810
-#define func_0059B838 func_0059B838
-#define func_0059B4D0 func_0059B4D0
-#define func_0059AFE8 func_0059AFE8
-#define func_0059B850 func_0059B850
-#define func_0059B410 func_0059B410
-#define func_0059B158 func_0059B158
-#define func_0059B880 func_0059B880
-#define func_0059B930 func_0059B930
-#define func_005951E8 func_005951E8
-#define func_00595270 func_00595270
-#define func_005946B0 func_005946B0
-#define func_00596EF0 func_00596EF0
-#define func_00596640 D_00596640
-#define func_00594FB8 func_00594FB8
-#define func_00595358 func_00595358
-#define func_00594550 func_00594550
-#define func_00594520 func_00594520
-#define D_00657ED8 D_00657ED8
-#define func_00595430 func_00595430
-#define func_00595420 func_00595420
-#define func_005968F0 func_005968F0
-#define func_00596520 func_00596520
-#define func_00615868 func_00615868
-#define func_00596F40 func_00596F40
-#define func_005953D8 func_005953D8
-#define func_00595468 func_00595468
-#define func_005967F0 func_005967F0
-#define func_00596890 func_00596890
-#define func_00594A88 func_00594A88
-#define func_00594D28 func_00594D28
-#define func_005950A8 func_005950A8
-#define D_00657D60 D_00657D60
-#define D_00657E78 D_00657E78
-#define D_00657CB0 D_00657CB0
-#define D_00657DB8 D_00657DB8
-#define D_00657D08 D_00657D08
-#define D_00657E18 D_00657E18
-#define func_00595128 func_00595128
-#define func_005945D0 func_005945D0
-#define func_00594608 func_00594608
-#define func_00594598 func_00594598
-#define func_005944B0 func_005944B0
-#define func_005952D8 func_005952D8
-#define func_00596EB0 func_00596EB0
-#define func_005954F8 func_005954F8
-#define func_005956A0 func_005956A0
+#define _IO_adjust_column _IO_adjust_column
+#define _IO_cleanup _IO_cleanup
+#define _IO_cleanup_registration_needed _IO_cleanup_registration_needed
+#define _IO_default_doallocate _IO_default_doallocate
+#define _IO_default_finish _IO_default_finish
+#define _IO_default_pbackfail _IO_default_pbackfail
+#define _IO_default_read _IO_default_read
+#define _IO_default_seek _IO_default_seek
+#define _IO_default_seekoff _IO_default_seekoff
+#define _IO_default_seekpos _IO_default_seekpos
+#define _IO_default_setbuf _IO_default_setbuf
+#define _IO_default_stat _IO_default_stat
+#define _IO_default_sync _IO_default_sync
+#define _IO_default_uflow _IO_default_uflow
+#define _IO_default_underflow _IO_default_underflow
+#define _IO_default_write _IO_default_write
+#define _IO_default_xsgetn _IO_default_xsgetn
+#define _IO_default_xsputn _IO_default_xsputn
+#define _IO_do_write _IO_do_write
+#define _IO_doallocbuf _IO_doallocbuf
+#define _IO_dtoa _IO_dtoa
+#define _IO_file_attach _IO_file_attach
+#define _IO_file_close _IO_file_close
+#define _IO_file_close_it _IO_file_close_it
+#define _IO_file_doallocate _IO_file_doallocate
+#define _IO_file_finish _IO_file_finish
+#define _IO_file_fopen _IO_file_fopen
+#define _IO_file_init _IO_file_init
+#define _IO_file_overflow _IO_file_overflow
+#define _IO_file_read _IO_file_read
+#define _IO_file_seek _IO_file_seek
+#define _IO_file_seekoff _IO_file_seekoff
+#define _IO_file_setbuf _IO_file_setbuf
+#define _IO_file_stat _IO_file_stat
+#define _IO_file_sync _IO_file_sync
+#define _IO_file_underflow _IO_file_underflow
+#define _IO_file_write _IO_file_write
+#define _IO_file_xsputn _IO_file_xsputn
+#define _IO_flush_all _IO_flush_all
+#define _IO_flush_all_linebuffered _IO_flush_all_linebuffered
+#define _IO_free_backup_area _IO_free_backup_area
+#define _IO_getc _IO_getc
+#define _IO_getline_info _IO_getline_info
+#define _IO_init _IO_init
+#define _IO_init_marker _IO_init_marker
+#define _IO_least_marker _IO_least_marker
+#define _IO_link_in _IO_link_in
+#define _IO_list_all _IO_list_all
+#define _IO_marker_delta _IO_marker_delta
+#define _IO_marker_difference _IO_marker_difference
+#define _IO_outfloat _IO_outfloat
+#define _IO_padn _IO_padn
+#define _IO_peekc_locked _IO_peekc_locked
+#define _IO_putc _IO_putc
+#define _IO_remove_marker _IO_remove_marker
+#define _IO_seekmark _IO_seekmark
+#define _IO_seekoff _IO_seekoff
+#define _IO_seekpos _IO_seekpos
+#define _IO_setb _IO_setb
+#define _IO_sgetn _IO_sgetn
+#define _IO_sputbackc _IO_sputbackc
+#define _IO_stderr_ _IO_stderr_
+#define _IO_stderr_buf _IO_stderr_buf
+#define _IO_stdin_ _IO_stdin_
+#define _IO_stdin_buf _IO_stdin_buf
+#define _IO_stdout_ _IO_stdout_
+#define _IO_stdout_buf _IO_stdout_buf
+#define _IO_sungetc _IO_sungetc
+#define _IO_switch_to_backup_area _IO_switch_to_backup_area
+#define _IO_switch_to_get_mode _IO_switch_to_get_mode
+#define _IO_switch_to_main_get_area _IO_switch_to_main_get_area
+#define _IO_un_link _IO_un_link
+#define _IO_unbuffer_all _IO_unbuffer_all
+#define _IO_ungetc _IO_ungetc
+#define _IO_unsave_markers _IO_unsave_markers
+#define _IO_vfscanf _IO_vfscanf
 #define func_005942D0 func_005942D0
 #define streambuf__structor_0 streambuf__structor_0
 #define func_00597558 func_00597558
@@ -116,8 +116,8 @@
 #define __static_initialization_and_destruction_0 func_00594400
 #define func_005949A8 func_005949A8
 #define func_005948D8 func_005948D8
-#define D_006D0E78 D_006D0E78
-#define D_00658288 D_00658288
+#define _ctype_ _ctype_
+#define _impure_ptr _impure_ptr
 #define func_00593DE0 func_00593DE0
 #define func_00593150 func_00593150
 #define func_00593DC0 func_00593DC0
@@ -125,14 +125,14 @@
 #define b2d func_00598480
 #define blanks D_006CFD00
 #define func_0059BE80 func_0059BE80
-#define D_00657BB8 D_00657BB8
-#define D_00657BF8 D_00657BF8
-#define D_00657C40 D_00657C40
-#define func_005AE388 D_005AE388
+#define cerr cerr
+#define cin cin
+#define clog clog
+#define close close
 #define func_00593570 func_00593570
 #define func_00597400 func_00597400
 #define cmp func_005981C0
-#define D_00657B78 D_00657B78
+#define cout cout
 #define d2b func_005985C8
 #define func_00594358 func_00594358
 #define func_00594340 func_00594340
@@ -142,17 +142,17 @@
 #define func_00594100 func_00594100
 #define func_00593218 func_00593218
 #define func_005931B8 func_005931B8
-#define func_005A31F0 D_005A31F0
-#define func_005A32F0 D_005A32F0
+#define fclose fclose
+#define fflush fflush
 #define func_00593020 func_00593020
 #define func_00593080 func_00593080
 #define func_00594250 func_00594250
 #define func_00594268 func_00594268
-#define func_00575DA0 D_00575DA0
+#define free free
 #define func_00593E18 func_00593E18
-#define func_005A3AB8 D_005A3AB8
-#define func_005AE458 D_005AE458
-#define func_005A4440 D_005A4440
+#define fseek fseek
+#define fstat fstat
+#define fwrite fwrite
 #define func_005937A0 func_005937A0
 #define func_00591388 func_00591388
 #define func_00594200 func_00594200
@@ -163,17 +163,17 @@
 #define func_00593EF0 func_00593EF0
 #define func_00596FA0 func_00596FA0
 #define func_005943D8 func_005943D8
-#define func_005AE450 D_005AE450
+#define isatty isatty
 #define lo0bits func_00597CD8
 #define func_00593288 func_00593288
 #define func_00593298 func_00593298
-#define func_005AE398 D_005AE398
+#define lseek lseek
 #define lshift func_00598058
-#define func_00575DC8 D_00575DC8
-#define func_005A4724 D_005A4724
-#define func_005A47D4 D_005A47D4
+#define malloc malloc
+#define memcpy memcpy
+#define memmove memmove
 #define multadd func_00597A70
-#define func_005AE360 D_005AE360
+#define open open
 #define func_00597340 func_00597340
 #define filebuf__virtual_01 filebuf__virtual_01
 #define stdiobuf__virtual_01 stdiobuf__virtual_01
@@ -181,7 +181,7 @@
 #define filebuf__virtual_04 filebuf__virtual_04
 #define func_00591458 func_00591458
 #define pow5mult func_00597FE0
-#define func_005AE2E8 D_005AE2E8
+#define read read
 #define func_00591620 func_00591620
 #define func_00591A78 func_00591A78
 #define func_005943A8 func_005943A8
@@ -235,11 +235,11 @@
 #define func_00593290 func_00593290
 #define func_005932A0 func_005932A0
 #define func_00594388 func_00594388
-#define D_00657B70 D_00657B70
+#define use_stdiobuf use_stdiobuf
 #define func_00593BF0 func_00593BF0
 #define func_00593CA0 func_00593CA0
 #define func_005943C0 func_005943C0
-#define func_005AE268 D_005AE268
+#define write write
 #define func_005932A8 func_005932A8
 #define func_00592418 func_00592418
 #define filebuf__virtual_06 filebuf__virtual_06
@@ -251,7 +251,7 @@
 /* 
 Copyright (C) 1993, 1994 Free Software Foundation
 
-This file is part of the GNU IO Library.  This library is func_00575DA0
+This file is part of the GNU IO Library.  This library is free
 software; you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the
 Free Software Foundation; either version 2, or (at your option)
@@ -263,7 +263,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this library; see the file COPYING.  If not, func_005AE268 to the Free
+along with this library; see the file COPYING.  If not, write to the Free
 Software Foundation, 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 As a special exception, if you link this library with files
@@ -275,7 +275,7 @@ the executable file might be covered by the GNU General Public License. */
 /* Copyright (C) 1993, 1997, 2000 Free Software Foundation, Inc.
    This file is part of the GNU IO Library.
 
-   This library is func_00575DA0 software; you can redistribute it and/or
+   This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2, or (at
    your option) any later version.
@@ -286,7 +286,7 @@ the executable file might be covered by the GNU General Public License. */
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this library; see the file COPYING.  If not, func_005AE268 to
+   along with this library; see the file COPYING.  If not, write to
    the Free Software Foundation, 59 Temple Place - Suite 330, Boston,
    MA 02111-1307, USA.
 
@@ -899,7 +899,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -933,19 +933,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -970,9 +970,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -2223,12 +2223,12 @@ struct _reent
 #define __ATTRIBUTE_IMPURE_PTR__
 #endif
 
-extern struct _reent *D_00658288 __ATTRIBUTE_IMPURE_PTR__;
+extern struct _reent *_impure_ptr __ATTRIBUTE_IMPURE_PTR__;
 
 void _reclaim_reent _PARAMS ((struct _reent *));
 
 #ifndef _REENT_ONLY
-#define _REENT D_00658288
+#define _REENT _impure_ptr
 #endif
 
 #ifdef __cplusplus
@@ -2394,7 +2394,7 @@ extern __IMPORT int _sys_nerr;
    This file is part of the GNU IO Library.
    Written by Per Bothner <bothner@cygnus.com>.
 
-   This library is func_00575DA0 software; you can redistribute it and/or
+   This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
    published by the Free Software Foundation; either version 2, or (at
    your option) any later version.
@@ -2405,7 +2405,7 @@ extern __IMPORT int _sys_nerr;
    General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this library; see the file COPYING.  If not, func_005AE268 to
+   along with this library; see the file COPYING.  If not, write to
    the Free Software Foundation, 59 Temple Place - Suite 330, Boston,
    MA 02111-1307, USA.
 
@@ -2709,23 +2709,23 @@ typedef struct _IO_FILE _IO_FILE;
 #endif
 
 #if defined(_G_IO_IO_FILE_VERSION) && _G_IO_IO_FILE_VERSION == 0x20001
-#define D_00657CB0 _IO_2_1_stdin_
-#define D_00657D08 _IO_2_1_stdout_
-#define D_00657D60 _IO_2_1_stderr_
+#define _IO_stdin_ _IO_2_1_stdin_
+#define _IO_stdout_ _IO_2_1_stdout_
+#define _IO_stderr_ _IO_2_1_stderr_
 #endif
 
 struct _IO_FILE_plus;
-extern struct _IO_FILE_plus D_00657CB0, D_00657D08, D_00657D60;
-#define _IO_stdin ((_IO_FILE*)(&D_00657CB0))
-#define _IO_stdout ((_IO_FILE*)(&D_00657D08))
-#define _IO_stderr ((_IO_FILE*)(&D_00657D60))
+extern struct _IO_FILE_plus _IO_stdin_, _IO_stdout_, _IO_stderr_;
+#define _IO_stdin ((_IO_FILE*)(&_IO_stdin_))
+#define _IO_stdout ((_IO_FILE*)(&_IO_stdout_))
+#define _IO_stderr ((_IO_FILE*)(&_IO_stderr_))
 
 typedef struct
 {
-  _IO_ssize_t (*func_005AE2E8) __PMT ((struct _IO_FILE *, void *, _IO_ssize_t));
-  _IO_ssize_t (*func_005AE268) __PMT ((struct _IO_FILE *, const void *, _IO_ssize_t));
+  _IO_ssize_t (*read) __PMT ((struct _IO_FILE *, void *, _IO_ssize_t));
+  _IO_ssize_t (*write) __PMT ((struct _IO_FILE *, const void *, _IO_ssize_t));
   _IO_off_t (*seek) __PMT ((struct _IO_FILE *, _IO_off_t, int));
-  int (*func_005AE388) __PMT ((struct _IO_FILE *));
+  int (*close) __PMT ((struct _IO_FILE *));
 } _IO_cookie_io_functions_t;
 
 struct _IO_cookie_file
@@ -2760,12 +2760,12 @@ extern int func_00594700 __P ((_IO_FILE *, int));
 #define _IO_feof_unlocked(__fp) (((__fp)->_flags & _IO_EOF_SEEN) != 0)
 #define _IO_ferror_unlocked(__fp) (((__fp)->_flags & _IO_ERR_SEEN) != 0)
 
-extern int func_00596EF0 __P ((_IO_FILE *__fp));
-extern int func_00596F40 __P ((int __c, _IO_FILE *__fp));
+extern int _IO_getc __P ((_IO_FILE *__fp));
+extern int _IO_putc __P ((int __c, _IO_FILE *__fp));
 extern int _IO_feof __P ((_IO_FILE *__fp));
 extern int _IO_ferror __P ((_IO_FILE *__fp));
 
-extern int func_00615868 __P ((_IO_FILE *__fp));
+extern int _IO_peekc_locked __P ((_IO_FILE *__fp));
 
 #define _IO_PENDING_OUTPUT_COUNT(_fp)	\
 	((_fp)->_IO_write_ptr - (_fp)->_IO_write_base)
@@ -2775,7 +2775,7 @@ extern void _IO_funlockfile __P ((_IO_FILE *));
 extern int _IO_ftrylockfile __P ((_IO_FILE *));
 
 #ifdef _IO_MTSAFE_IO
-# define _IO_peekc(_fp) func_00615868 (_fp)
+# define _IO_peekc(_fp) _IO_peekc_locked (_fp)
 #else
 # define _IO_peekc(_fp) _IO_peekc_unlocked (_fp)
 # define _IO_flockfile(_fp) 
@@ -2785,20 +2785,20 @@ extern int _IO_ftrylockfile __P ((_IO_FILE *));
 # define _IO_cleanup_region_end(_Doit) 
 #endif 
 
-extern int func_005956A0 __P ((_IO_FILE *, const char *, _IO_va_list, int *));
+extern int _IO_vfscanf __P ((_IO_FILE *, const char *, _IO_va_list, int *));
 extern int _IO_vfprintf __P ((_IO_FILE *, const char *, _IO_va_list));
-extern _IO_ssize_t func_00596520 __P ((_IO_FILE *, int, _IO_ssize_t));
-extern _IO_size_t func_00594D28 __P ((_IO_FILE *, void *, _IO_size_t));
+extern _IO_ssize_t _IO_padn __P ((_IO_FILE *, int, _IO_ssize_t));
+extern _IO_size_t _IO_sgetn __P ((_IO_FILE *, void *, _IO_size_t));
 
 #if defined(_G_IO_IO_FILE_VERSION) && _G_IO_IO_FILE_VERSION == 0x20001
-extern _IO_off64_t func_005967F0 __P ((_IO_FILE *, _IO_off64_t, int, int));
-extern _IO_off64_t func_00596890 __P ((_IO_FILE *, _IO_off64_t, int));
+extern _IO_off64_t _IO_seekoff __P ((_IO_FILE *, _IO_off64_t, int, int));
+extern _IO_off64_t _IO_seekpos __P ((_IO_FILE *, _IO_off64_t, int));
 #else
-extern _IO_off_t func_005967F0 __P ((_IO_FILE *, _IO_off_t, int, int));
-extern _IO_off_t func_00596890 __P ((_IO_FILE *, _IO_off_t, int));
+extern _IO_off_t _IO_seekoff __P ((_IO_FILE *, _IO_off_t, int, int));
+extern _IO_off_t _IO_seekpos __P ((_IO_FILE *, _IO_off_t, int));
 #endif
 
-extern void func_005946B0 __P ((_IO_FILE *));
+extern void _IO_free_backup_area __P ((_IO_FILE *));
 
 #ifdef __cplusplus
 }
@@ -2807,7 +2807,7 @@ extern void func_005946B0 __P ((_IO_FILE *));
 #endif 
 
 /* These emulate stdio functionality, but with a different name
-   (func_00596EB0 instead of ungetc), and using _IO_FILE instead of FILE. */
+   (_IO_ungetc instead of ungetc), and using _IO_FILE instead of FILE. */
 
 #ifdef __cplusplus
 extern "C" {
@@ -2835,7 +2835,7 @@ extern void _IO_setbuffer __P((_IO_FILE *, char*, _IO_size_t));
 extern int _IO_setvbuf __P((_IO_FILE*, char*, int, _IO_size_t));
 extern int _IO_sscanf __P((const char*, const char*, ...));
 extern int _IO_sprintf __P((char *, const char*, ...));
-extern int func_00596EB0 __P((int, _IO_FILE*));
+extern int _IO_ungetc __P((int, _IO_FILE*));
 extern int _IO_vsscanf __P((const char *, const char *, _IO_va_list));
 extern int _IO_vsprintf __P((char*, const char*, _IO_va_list));
 
@@ -2852,15 +2852,15 @@ extern int _IO_obstack_printf __P ((struct obstack *, const char *, ...));
 #endif
 #define _IO_clearerr(FP) ((FP)->_flags &= ~(_IO_ERR_SEEN|_IO_EOF_SEEN))
 #define _IO_fseek(__fp, __offset, __whence) \
-  (func_005967F0(__fp, __offset, __whence, _IOS_INPUT|_IOS_OUTPUT) == _IO_pos_BAD ? EOF : 0)
-#define _IO_rewind(FILE) (void)func_005967F0(FILE, 0, 0, _IOS_INPUT|_IOS_OUTPUT)
+  (_IO_seekoff(__fp, __offset, __whence, _IOS_INPUT|_IOS_OUTPUT) == _IO_pos_BAD ? EOF : 0)
+#define _IO_rewind(FILE) (void)_IO_seekoff(FILE, 0, 0, _IOS_INPUT|_IOS_OUTPUT)
 #define _IO_vprintf(FORMAT, ARGS) _IO_vfprintf(_IO_stdout, FORMAT, ARGS)
 #if _G_IO_IO_FILE_VERSION == 0x20001
 #define _IO_freopen(FILENAME, MODE, FP) \
-  (func_0059ACA8(FP), func_0059ADD8(FP, FILENAME, MODE, 0))
+  (_IO_file_close_it(FP), _IO_file_fopen(FP, FILENAME, MODE, 0))
 #else
 #define _IO_freopen(FILENAME, MODE, FP) \
-  (func_0059ACA8(FP), func_0059ADD8(FP, FILENAME, MODE))
+  (_IO_file_close_it(FP), _IO_file_fopen(FP, FILENAME, MODE))
 #endif
 #define _IO_fileno(FP) ((FP)->_fileno)
 extern _IO_FILE* _IO_popen __P((const char*, const char*));
@@ -3015,75 +3015,75 @@ struct _IO_FILE_plus
 };
 
 #if defined(_G_IO_IO_FILE_VERSION) && _G_IO_IO_FILE_VERSION == 0x20001
-extern _IO_off64_t func_005967F0 __P ((_IO_FILE *, _IO_off64_t, int, int));
-extern _IO_off64_t func_00596890 __P ((_IO_FILE *, _IO_off64_t, int));
+extern _IO_off64_t _IO_seekoff __P ((_IO_FILE *, _IO_off64_t, int, int));
+extern _IO_off64_t _IO_seekpos __P ((_IO_FILE *, _IO_off64_t, int));
 #else
-extern _IO_off_t func_005967F0 __P ((_IO_FILE *, _IO_off_t, int, int));
-extern _IO_off_t func_00596890 __P ((_IO_FILE *, _IO_off_t, int));
+extern _IO_off_t _IO_seekoff __P ((_IO_FILE *, _IO_off_t, int, int));
+extern _IO_off_t _IO_seekpos __P ((_IO_FILE *, _IO_off_t, int));
 #endif
 
-extern void func_00594598 __P ((_IO_FILE *));
-extern void func_005945D0 __P ((_IO_FILE *));
-extern int func_00594608 __P ((_IO_FILE *));
-extern void func_00594FB8 __P ((_IO_FILE *, int));
-extern int func_005950A8 __P ((_IO_FILE *, int));
-extern int func_00595128 __P ((_IO_FILE *));
-extern void func_005944B0 __P ((_IO_FILE *));
-extern void func_00594520 __P ((_IO_FILE *));
-extern void func_00594B18 __P ((_IO_FILE *));
-extern void func_005954F8 __P ((_IO_FILE *));
-extern void func_00594A88 __P ((_IO_FILE *, char *, char *, int));
-extern unsigned func_00595198 __P ((unsigned, const char *, int));
+extern void _IO_switch_to_main_get_area __P ((_IO_FILE *));
+extern void _IO_switch_to_backup_area __P ((_IO_FILE *));
+extern int _IO_switch_to_get_mode __P ((_IO_FILE *));
+extern void _IO_init __P ((_IO_FILE *, int));
+extern int _IO_sputbackc __P ((_IO_FILE *, int));
+extern int _IO_sungetc __P ((_IO_FILE *));
+extern void _IO_un_link __P ((_IO_FILE *));
+extern void _IO_link_in __P ((_IO_FILE *));
+extern void _IO_doallocbuf __P ((_IO_FILE *));
+extern void _IO_unsave_markers __P ((_IO_FILE *));
+extern void _IO_setb __P ((_IO_FILE *, char *, char *, int));
+extern unsigned _IO_adjust_column __P ((unsigned, const char *, int));
 #define _IO_sputn(__fp, __s, __n) _IO_XSPUTN (__fp, __s, __n)
 
-extern void func_00595358 __P ((struct _IO_marker *, _IO_FILE *));
-extern void func_005953D8 __P ((struct _IO_marker *));
-extern int func_00595420 __P ((struct _IO_marker *,
+extern void _IO_init_marker __P ((struct _IO_marker *, _IO_FILE *));
+extern void _IO_remove_marker __P ((struct _IO_marker *));
+extern int _IO_marker_difference __P ((struct _IO_marker *,
 				       struct _IO_marker *));
-extern int func_00595430 __P ((struct _IO_marker *));
-extern int func_00595468 __P ((_IO_FILE *, struct _IO_marker *, int));
+extern int _IO_marker_delta __P ((struct _IO_marker *));
+extern int _IO_seekmark __P ((_IO_FILE *, struct _IO_marker *, int));
 
-extern int func_00594B90 __P ((_IO_FILE *));
-extern int func_00594B98 __P ((_IO_FILE *));
-extern int func_00594F68 __P ((_IO_FILE *));
-extern void func_00595008 __P ((_IO_FILE *, int));
-extern int func_00595530 __P ((_IO_FILE *, int));
-extern _IO_FILE* func_00594E70 __P ((_IO_FILE *, char *, _IO_ssize_t));
-extern _IO_size_t func_00594BE8 __P ((_IO_FILE *, const void *,
+extern int _IO_default_underflow __P ((_IO_FILE *));
+extern int _IO_default_uflow __P ((_IO_FILE *));
+extern int _IO_default_doallocate __P ((_IO_FILE *));
+extern void _IO_default_finish __P ((_IO_FILE *, int));
+extern int _IO_default_pbackfail __P ((_IO_FILE *, int));
+extern _IO_FILE* _IO_default_setbuf __P ((_IO_FILE *, char *, _IO_ssize_t));
+extern _IO_size_t _IO_default_xsputn __P ((_IO_FILE *, const void *,
 					   _IO_size_t));
-extern _IO_size_t func_00594D50 __P ((_IO_FILE *, void *, _IO_size_t));
+extern _IO_size_t _IO_default_xsgetn __P ((_IO_FILE *, void *, _IO_size_t));
 #if defined(_G_IO_IO_FILE_VERSION) && _G_IO_IO_FILE_VERSION == 0x20001
-extern _IO_off64_t func_005950A0 __P ((_IO_FILE *,
+extern _IO_off64_t _IO_default_seekoff __P ((_IO_FILE *,
 					      _IO_off64_t, int, int));
-extern _IO_off64_t func_00594F40 __P ((_IO_FILE *,
+extern _IO_off64_t _IO_default_seekpos __P ((_IO_FILE *,
 					      _IO_off64_t, int));
 #else
-extern _IO_off_t func_005950A0 __P ((_IO_FILE *, _IO_off_t, int, int));
-extern _IO_off_t func_00594F40 __P ((_IO_FILE *, _IO_off_t, int));
+extern _IO_off_t _IO_default_seekoff __P ((_IO_FILE *, _IO_off_t, int, int));
+extern _IO_off_t _IO_default_seekpos __P ((_IO_FILE *, _IO_off_t, int));
 #endif
-extern _IO_ssize_t func_00595698 __P ((_IO_FILE *, const void *,
+extern _IO_ssize_t _IO_default_write __P ((_IO_FILE *, const void *,
 					   _IO_ssize_t));
-extern _IO_ssize_t func_00595690 __P ((_IO_FILE *, void *, _IO_ssize_t));
-extern int func_00595688 __P ((_IO_FILE *, void *));
+extern _IO_ssize_t _IO_default_read __P ((_IO_FILE *, void *, _IO_ssize_t));
+extern int _IO_default_stat __P ((_IO_FILE *, void *));
 #if defined(_G_IO_IO_FILE_VERSION) && _G_IO_IO_FILE_VERSION == 0x20001
-extern _IO_off64_t func_00595680 __P ((_IO_FILE *, _IO_off64_t, int));
+extern _IO_off64_t _IO_default_seek __P ((_IO_FILE *, _IO_off64_t, int));
 #else
-extern _IO_off_t func_00595680 __P ((_IO_FILE *, _IO_off_t, int));
+extern _IO_off_t _IO_default_seek __P ((_IO_FILE *, _IO_off_t, int));
 #endif
-extern int func_00595000 __P ((_IO_FILE *));
-#define _IO_default_close ((_IO_close_t) func_00595000)
+extern int _IO_default_sync __P ((_IO_FILE *));
+#define _IO_default_close ((_IO_close_t) _IO_default_sync)
 
 extern struct _IO_jump_t _IO_file_jumps;
 extern struct _IO_jump_t _IO_streambuf_jumps;
 extern struct _IO_jump_t _IO_proc_jumps;
 extern struct _IO_jump_t _IO_str_jumps;
-extern int func_0059B038 __P ((_IO_FILE *, const char *, _IO_size_t));
-extern int func_005951E8 __P ((void));
-extern void func_00595338 __P ((void));
-extern void func_00595270 __P ((void));
+extern int _IO_do_write __P ((_IO_FILE *, const char *, _IO_size_t));
+extern int _IO_flush_all __P ((void));
+extern void _IO_cleanup __P ((void));
+extern void _IO_flush_all_linebuffered __P ((void));
 
 #define _IO_do_flush(_f) \
-  func_0059B038(_f, (_f)->_IO_write_base, \
+  _IO_do_write(_f, (_f)->_IO_write_base, \
 	       (_f)->_IO_write_ptr-(_f)->_IO_write_base)
 #define _IO_in_put_mode(_fp) ((_fp)->_flags & _IO_CURRENTLY_PUTTING)
 #define _IO_mask_flags(fp, f, mask) \
@@ -3097,37 +3097,37 @@ extern void func_00595270 __P ((void));
 #define _IO_have_markers(fp) ((fp)->_markers != NULL)
 #define _IO_blen(fp) ((fp)->_IO_buf_end - (fp)->_IO_buf_base)
 
-extern int func_00597800 __P ((_IO_FILE *));
-extern _IO_FILE* func_0059AFE8 __P ((_IO_FILE *, char *, _IO_ssize_t));
+extern int _IO_file_doallocate __P ((_IO_FILE *));
+extern _IO_FILE* _IO_file_setbuf __P ((_IO_FILE *, char *, _IO_ssize_t));
 #if defined(_G_IO_IO_FILE_VERSION) && _G_IO_IO_FILE_VERSION == 0x20001
-extern _IO_off64_t func_0059B4D0 __P ((_IO_FILE *, _IO_off64_t, int, int));
-extern _IO_off64_t func_0059B838 __P ((_IO_FILE *, _IO_off64_t, int));
+extern _IO_off64_t _IO_file_seekoff __P ((_IO_FILE *, _IO_off64_t, int, int));
+extern _IO_off64_t _IO_file_seek __P ((_IO_FILE *, _IO_off64_t, int));
 #else
-extern _IO_off_t func_0059B4D0 __P ((_IO_FILE *, _IO_off_t, int, int));
-extern _IO_off_t func_0059B838 __P ((_IO_FILE *, _IO_off_t, int));
+extern _IO_off_t _IO_file_seekoff __P ((_IO_FILE *, _IO_off_t, int, int));
+extern _IO_off_t _IO_file_seek __P ((_IO_FILE *, _IO_off_t, int));
 #endif
-extern _IO_size_t func_0059B930 __P ((_IO_FILE *, const void *, _IO_size_t));
-extern int func_0059B850 __P ((_IO_FILE *, void *));
-extern int func_0059B868 __P ((_IO_FILE *));
-extern int func_0059B158 __P ((_IO_FILE *));
-extern int func_0059B288 __P ((_IO_FILE *, int));
+extern _IO_size_t _IO_file_xsputn __P ((_IO_FILE *, const void *, _IO_size_t));
+extern int _IO_file_stat __P ((_IO_FILE *, void *));
+extern int _IO_file_close __P ((_IO_FILE *));
+extern int _IO_file_underflow __P ((_IO_FILE *));
+extern int _IO_file_overflow __P ((_IO_FILE *, int));
 #define _IO_file_is_open(__fp) ((__fp)->_fileno >= 0)
-extern void func_0059AC68 __P ((_IO_FILE *));
-extern _IO_FILE* func_0059AF50 __P ((_IO_FILE *, int));
+extern void _IO_file_init __P ((_IO_FILE *));
+extern _IO_FILE* _IO_file_attach __P ((_IO_FILE *, int));
 extern _IO_FILE* _IO_file_open __P ((_IO_FILE *, const char *, int, int,
 				     int, int));
 #if _G_IO_IO_FILE_VERSION == 0x20001
-extern _IO_FILE* func_0059ADD8 __P ((_IO_FILE *, const char *, const char *,
+extern _IO_FILE* _IO_file_fopen __P ((_IO_FILE *, const char *, const char *,
 				      int));
 #else
-extern _IO_FILE* func_0059ADD8 __P ((_IO_FILE *, const char *, const char *));
+extern _IO_FILE* _IO_file_fopen __P ((_IO_FILE *, const char *, const char *));
 #endif
-extern _IO_ssize_t func_0059B880 __P ((_IO_FILE *, const void *,
+extern _IO_ssize_t _IO_file_write __P ((_IO_FILE *, const void *,
 					_IO_ssize_t));
-extern _IO_ssize_t func_0059B810 __P ((_IO_FILE *, void *, _IO_ssize_t));
-extern int func_0059B410 __P ((_IO_FILE *));
-extern int func_0059ACA8 __P ((_IO_FILE *));
-extern void func_0059AD70 __P ((_IO_FILE *, int));
+extern _IO_ssize_t _IO_file_read __P ((_IO_FILE *, void *, _IO_ssize_t));
+extern int _IO_file_sync __P ((_IO_FILE *));
+extern int _IO_file_close_it __P ((_IO_FILE *));
+extern void _IO_file_finish __P ((_IO_FILE *, int));
 
 extern _IO_FILE* _IO_proc_open __P ((_IO_FILE *, const char *, const char *));
 extern int _IO_proc_close __P ((_IO_FILE *));
@@ -3153,18 +3153,18 @@ extern int _IO_vsnprintf __P ((char *string, _IO_size_t maxlen,
 			       __const char *format, _IO_va_list args));
 
 extern _IO_size_t _IO_getline __P ((_IO_FILE *,char *, _IO_size_t, int, int));
-extern _IO_size_t func_00596640 __P ((_IO_FILE *,char *, _IO_size_t,
+extern _IO_size_t _IO_getline_info __P ((_IO_FILE *,char *, _IO_size_t,
 					 int, int, int *));
 extern _IO_ssize_t _IO_getdelim __P ((char **, _IO_size_t *, int, _IO_FILE *));
 extern double _IO_strtod __P ((const char *, char **));
-extern char *func_005999B8 __P ((double __d, int __mode, int __ndigits,
+extern char *_IO_dtoa __P ((double __d, int __mode, int __ndigits,
 			    int *__decpt, int *__sign, char **__rve));
-extern int func_005968F0 __P ((double __value, _IO_FILE *__sb, int __type,
+extern int _IO_outfloat __P ((double __value, _IO_FILE *__sb, int __type,
 			      int __width, int __precision, int __flags,
 			      int __sign_mode, int __fill));
 
-extern _IO_FILE *D_00657ED8;
-extern void (*D_00657F90) __PMT ((void));
+extern _IO_FILE *_IO_list_all;
+extern void (*_IO_cleanup_registration_needed) __PMT ((void));
 
 #ifndef EOF
 # define EOF (-1)
@@ -3209,7 +3209,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -3243,19 +3243,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -3280,9 +3280,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -3663,7 +3663,7 @@ struct	stat
 
 int	_EXFUN(chmod,( const char *__path, mode_t __mode ));
 int     _EXFUN(fchmod,(int __fd, mode_t __mode));
-int	_EXFUN(func_005AE458,( int __fd, struct stat *__sbuf ));
+int	_EXFUN(fstat,( int __fd, struct stat *__sbuf ));
 int	_EXFUN(mkdir,( const char *_path, mode_t __mode ));
 int	_EXFUN(mkfifo,( const char *__path, mode_t __mode ));
 int	_EXFUN(stat,( const char *__path, struct stat *__sbuf ));
@@ -3692,7 +3692,7 @@ int	_EXFUN(lstat,( const char *_path, struct stat *_sbuf ));
 #endif
 #endif 
 
-extern int func_005AE360 _PARAMS ((const char *, int, ...));
+extern int open _PARAMS ((const char *, int, ...));
 extern int creat _PARAMS ((const char *, mode_t));
 extern int fcntl _PARAMS ((int, int, ...));
 
@@ -3760,10 +3760,10 @@ extern int _fcntl _PARAMS ((int, int, ...));
 #else 
 
 # define FREE_BUF(_B, _S) \
-       func_00575DA0(_B)
+       free(_B)
 # define ALLOC_BUF(_B, _S, _R) \
        do {								      \
-	  (_B) = (char*)func_00575DC8(_S);					      \
+	  (_B) = (char*)malloc(_S);					      \
 	  if ((_B) == NULL)						      \
 	    return (_R);						      \
        } while (0)
@@ -3771,7 +3771,7 @@ extern int _fcntl _PARAMS ((int, int, ...));
 #endif 
 
 #ifndef OS_FSTAT
-# define OS_FSTAT func_005AE458
+# define OS_FSTAT fstat
 #endif
 struct stat;
 extern _IO_ssize_t _IO_read __P ((int, void *, _IO_size_t));
@@ -3859,7 +3859,7 @@ VTABLE_LABEL(builtinbuf_vtable, builtinbuf, 10)
 # define _IO_va_start(args, last) va_start(args)
 #endif
 
-extern struct _IO_fake_stdiobuf D_00657DB8, D_00657E18, D_00657E78;
+extern struct _IO_fake_stdiobuf _IO_stdin_buf, _IO_stdout_buf, _IO_stderr_buf;
 
 #if 1
 # define COERCE_FILE(FILE) 
@@ -4003,9 +4003,9 @@ typedef struct __sFILE FILE;
 
 #define	TMP_MAX		26
 
-#define	stdin	(D_00658288->_stdin)
-#define	stdout	(D_00658288->_stdout)
-#define	stderr	(D_00658288->_stderr)
+#define	stdin	(_impure_ptr->_stdin)
+#define	stdout	(_impure_ptr->_stdout)
+#define	stderr	(_impure_ptr->_stderr)
 
 #define _stdin_r(x)	((x)->_stdin)
 #define _stdout_r(x)	((x)->_stdout)
@@ -4024,8 +4024,8 @@ int	_EXFUN(rename, (const char *, const char *));
 char *	_EXFUN(tempnam, (const char *, const char *));
 FILE *	_EXFUN(tmpfile, (void));
 char *	_EXFUN(tmpnam, (char *));
-int	_EXFUN(func_005A31F0, (FILE *));
-int	_EXFUN(func_005A32F0, (FILE *));
+int	_EXFUN(fclose, (FILE *));
+int	_EXFUN(fflush, (FILE *));
 FILE *	_EXFUN(freopen, (const char *, const char *, FILE *));
 void	_EXFUN(setbuf, (FILE *, char *));
 int	_EXFUN(setvbuf, (FILE *, char *, int, size_t));
@@ -4050,9 +4050,9 @@ int	_EXFUN(putchar, (int));
 int	_EXFUN(puts, (const char *));
 int	_EXFUN(ungetc, (int, FILE *));
 size_t	_EXFUN(fread, (_PTR, size_t _size, size_t _n, FILE *));
-size_t	_EXFUN(func_005A4440, (const _PTR , size_t _size, size_t _n, FILE *));
+size_t	_EXFUN(fwrite, (const _PTR , size_t _size, size_t _n, FILE *));
 int	_EXFUN(fgetpos, (FILE *, fpos_t *));
-int	_EXFUN(func_005A3AB8, (FILE *, long, int));
+int	_EXFUN(fseek, (FILE *, long, int));
 int	_EXFUN(fsetpos, (FILE *, const fpos_t *));
 long	_EXFUN(ftell, ( FILE *));
 void	_EXFUN(rewind, (FILE *));
@@ -4268,14 +4268,14 @@ _PTR	_EXFUN(bsearch,(const _PTR __key,
 _PTR	_EXFUN(calloc,(size_t __nmemb, size_t __size));
 div_t	_EXFUN(div,(int __numer, int __denom));
 _VOID	_EXFUN(exit,(int __status) _ATTRIBUTE ((noreturn)));
-_VOID	_EXFUN(func_00575DA0,(_PTR));
+_VOID	_EXFUN(free,(_PTR));
 char *  _EXFUN(getenv,(const char *__string));
 char *	_EXFUN(_getenv_r,(struct _reent *, const char *__string));
 char *	_EXFUN(_findenv,(_CONST char *, int *));
 char *	_EXFUN(_findenv_r,(struct _reent *, _CONST char *, int *));
 long	_EXFUN(labs,(long));
 ldiv_t	_EXFUN(ldiv,(long __numer, long __denom));
-_PTR	_EXFUN(func_00575DC8,(size_t __size));
+_PTR	_EXFUN(malloc,(size_t __size));
 int	_EXFUN(mblen,(const char *, size_t));
 int	_EXFUN(_mblen_r,(struct _reent *, const char *, size_t, int *));
 int	_EXFUN(mbtowc,(wchar_t *, const char *, size_t));
@@ -4373,8 +4373,8 @@ extern "C" {
 
 _PTR 	 _EXFUN(memchr,(const _PTR, int, size_t));
 int 	 _EXFUN(memcmp,(const _PTR, const _PTR, size_t));
-_PTR 	 _EXFUN(func_005A4724,(_PTR, const _PTR, size_t));
-_PTR	 _EXFUN(func_005A47D4,(_PTR, const _PTR, size_t));
+_PTR 	 _EXFUN(memcpy,(_PTR, const _PTR, size_t));
+_PTR	 _EXFUN(memmove,(_PTR, const _PTR, size_t));
 _PTR	 _EXFUN(func_005A48D8,(_PTR, int, size_t));
 char 	*_EXFUN(strcat,(char *, const char *));
 char 	*_EXFUN(strchr,(const char *, int));
@@ -5342,7 +5342,7 @@ quorem
         (Bigint *b, Bigint *S);
 
  char *
-func_005999B8
+_IO_dtoa
         (double d, int mode, int ndigits, int *decpt, int *sign, char **rve);
 #endif 
 

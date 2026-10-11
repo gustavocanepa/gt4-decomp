@@ -23,7 +23,7 @@ struct S00659988 {
 };
 
 extern "C" s32 func_00579358(void);
-extern "C" void func_00575DC8(s32);
+extern "C" void malloc(s32);
 extern "C" s32 func_0043A490(void);
 extern "C" void func_001092D0(void);
 extern "C" void func_00103B80(void);
@@ -39,7 +39,7 @@ extern "C" void func_0010B268(void);
 
 extern "C" void func_00108BF8(s32 *arg0) {
     s32 v_s0;
-    func_00575DC8(((func_00579358() & 0x3f) + 0x1 << 4));
+    malloc(((func_00579358() & 0x3f) + 0x1 << 4));
     v_s0 = func_0043A490();
     func_001092D0();
     func_00103B80();

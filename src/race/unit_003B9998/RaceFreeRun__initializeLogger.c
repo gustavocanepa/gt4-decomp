@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/RaceFreeRun.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
 s32 DynamicsConductor__playbackOneLapReplay(s32, s32);                /* extern */

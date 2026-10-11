@@ -6,7 +6,7 @@ inline void *operator new(unsigned int, void *p) { return p; }
 
 /* The implicit copy constructor of a three-level class, inlined: the POD base's members are
    copied before the first vptr store, which is the reason for the POD base. The root class's
-   own vptr store is dead (overwritten before any func_005AE2E8) and disappears, so the two stores left
+   own vptr store is dead (overwritten before any read) and disappears, so the two stores left
    are those of the middle class (vtable 0x00686570) and of the class itself (0x00686518); the
    classes with no known names are named after their vtables so that _vt$10D_... resolves. */
 struct Pair_005FFC10 {

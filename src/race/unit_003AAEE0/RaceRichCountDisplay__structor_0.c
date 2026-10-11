@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/RaceRichCountDisplay.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 extern char RaceRichCountDisplay__vtable[];
 s32 RaceValueDisplayBase__structor_1(void *);

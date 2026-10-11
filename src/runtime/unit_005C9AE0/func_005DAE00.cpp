@@ -11,7 +11,7 @@ struct Vec {
     T *eos;
 };
 
-extern "C" void *func_005A47D4(void *dst, const void *src, s32 n);
+extern "C" void *memmove(void *dst, const void *src, s32 n);
 extern "C" Name *func_005DB330(void);
 extern "C" void *func_00326750(s32 size, s32 align, const char *name);
 extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
@@ -20,7 +20,7 @@ static inline T *value_type(T *const *) { return 0; }
 
 static inline T *ucopy_aux(T *first, T *last, T *result, T *) {
     s32 n = (char *)last - (char *)first;
-    func_005A47D4(result, first, n);
+    memmove(result, first, n);
     return (T *)((char *)result + n);
 }
 
@@ -48,7 +48,7 @@ static inline void deallocate(T *p, s32 n) {
 
 static inline T *copy_backward(T *first, T *last, T *result) {
     s32 n = last - first;
-    func_005A47D4(result - n, first, n * sizeof(T));
+    memmove(result - n, first, n * sizeof(T));
     return result - n;
 }
 

@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 struct func_00328B80_arg1 {
     u8 pad0[0x4];
@@ -22,7 +22,7 @@ void func_00328B80(struct func_00328B80_arg0 *arg0, struct func_00328B80_arg1 *a
     arg1->unk8 = 0;
     temp_v0 = arg0->unk38;
     if (temp_v0 != 0) {
-        func_00575DA0(temp_v0);
+        free(temp_v0);
     }
     arg0->unk38 = (s32) arg1;
     arg0->unk3C = (s32) (arg0->unk3C - arg0->unk44);

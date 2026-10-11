@@ -1,5 +1,5 @@
 /* compiler: ee-gcc2.96-no-strict-aliasing */
-/* pdistd-http: func_005AE388 a connection: clear the header map, the buffer and the request string (second basic_string<char>
+/* pdistd-http: close a connection: clear the header map, the buffer and the request string (second basic_string<char>
  * instantiation: replace strobe__Any__setMember) and the header map (an SGI _Rb_tree: clear() with
  * _M_erase func_0060D830 inline), then reopen. */
 typedef unsigned int u32;
@@ -48,7 +48,7 @@ struct Tree {
 extern char D_006BFF28[];
 extern "C" void func_004EB888(void *);
 extern "C" void func_0060D8E0(void *);
-extern "C" void func_00575DA0(void *);
+extern "C" void free(void *);
 
 struct Conn {
     char pad[0x4C];
@@ -65,7 +65,7 @@ extern "C" void func_004EA398(Conn *c) {
     c->headers.clear();
     func_0060D8E0(c->cookies);
     if (c->buffer) {
-        func_00575DA0(c->buffer);
+        free(c->buffer);
         c->buffer = 0;
     }
     c->request = D_006BFF28;

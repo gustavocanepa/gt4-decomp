@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 typedef struct { u8 pad[0x14]; s32 v[4]; } E;
 typedef struct { u8 pad[0x34]; s32 a; s32 b; s32 c; s32 d; s32 e; s32 pad2; E *arr; } T;

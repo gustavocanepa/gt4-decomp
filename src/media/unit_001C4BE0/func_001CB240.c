@@ -1,10 +1,10 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
-void func_00575DA0(s32);
+void free(s32);
 void func_001CB240(s32 *arg0) {
-    func_00575DA0(arg0[0]);
+    free(arg0[0]);
     arg0[0] = 0;
     arg0[1] = 0;
     arg0[2] = 0;

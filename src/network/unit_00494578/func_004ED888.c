@@ -6,7 +6,7 @@ int func_005A6AB0(void *, const char *, int);
 int func_00578168(void *, int, int, void *, int);
 char *func_00575E60(int, int);
 void func_00576B28(char *, int);
-void func_00575DA0(void *);
+void free(void *);
 
 typedef struct {
     char *buffer;
@@ -29,7 +29,7 @@ int func_004ED888(Conn *conn, int value, const char *name, char **buffer, int en
     }
     entry_size *= count;
     if (*buffer) {
-        func_00575DA0(*buffer);
+        free(*buffer);
         *buffer = 0;
     }
     *buffer = func_00575E60(0x40, entry_size);

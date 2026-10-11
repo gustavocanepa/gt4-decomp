@@ -9,8 +9,8 @@ extern "C" void func_0055AA28(Self *, s64, s32, s32, s32);
 
 static inline s32 getbyte(Stream *s) { return *s->p++; }
 
-// Without strict aliasing the stream store pins the loads around it: mode is func_005AE2E8 before the
-// byte, m28 after it (arguments are expanded right to left), which leaves $a1 func_00575DA0 for &self->s.
+// Without strict aliasing the stream store pins the loads around it: mode is read before the
+// byte, m28 after it (arguments are expanded right to left), which leaves $a1 free for &self->s.
 extern "C" void func_0055B478(Self *self) {
     s32 mode = self->m34 & 0xF;
     func_0055AA28(self, self->m28, mode, getbyte(&self->s), 0);

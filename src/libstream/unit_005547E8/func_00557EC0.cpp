@@ -1,9 +1,9 @@
 extern "C" {
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
-s32 func_00575DA0(...) throw();
+s32 free(...) throw();
 void func_00611108(...) throw();
 
 struct func_00557EC0_arg0 {
@@ -21,17 +21,17 @@ void func_00557EC0(char *arg0) {
     func_00611108(arg0 + 0x630);
     temp_v0 = ((struct func_00557EC0_arg0 *)arg0)->unk75C;
     if (temp_v0 != 0) {
-        func_00575DA0(temp_v0);
+        free(temp_v0);
     }
     temp_a0 = ((struct func_00557EC0_arg0 *)arg0)->unk760;
     ((struct func_00557EC0_arg0 *)arg0)->unk75C = 0;
     if (temp_a0 != 0) {
-        func_00575DA0(temp_a0);
+        free(temp_a0);
     }
     temp_a0_2 = ((struct func_00557EC0_arg0 *)arg0)->unk764;
     ((struct func_00557EC0_arg0 *)arg0)->unk760 = 0;
     if (temp_a0_2 != 0) {
-        func_00575DA0(temp_a0_2);
+        free(temp_a0_2);
     }
     ((struct func_00557EC0_arg0 *)arg0)->unk764 = 0;
 }

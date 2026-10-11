@@ -1,9 +1,9 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
-#define M2C_MEMCPY_ALIGNED func_005A4724
-#define M2C_MEMCPY_UNALIGNED func_005A4724
-#define M2C_STRUCT_COPY func_005A4724
+void *memcpy(void *, const void *, unsigned int);
+#define M2C_MEMCPY_ALIGNED memcpy
+#define M2C_MEMCPY_UNALIGNED memcpy
+#define M2C_STRUCT_COPY memcpy
 #include "m2c_macros.h"
 
 struct func_0043E680_arg0 {

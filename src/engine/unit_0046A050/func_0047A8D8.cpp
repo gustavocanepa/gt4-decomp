@@ -32,10 +32,10 @@ struct Rep2 {
 };
 
 extern "C" char *strobe__toUpper(Rep2 *r);
-extern "C" void func_00575DA0(void *p);
+extern "C" void free(void *p);
 extern Rep2 D_00659E20;
 
-inline void Rep2::operator delete(void *p, u32 n) { func_00575DA0(p); }
+inline void Rep2::operator delete(void *p, u32 n) { free(p); }
 
 inline char *Rep2::grab() {
     if (selfish)

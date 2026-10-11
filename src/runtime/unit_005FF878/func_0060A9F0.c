@@ -1,7 +1,7 @@
 /* compiler: ee-gcc2.96-no-strict-aliasing */
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 struct func_0060A9F0_arg1 {
     char pad0[0x14];

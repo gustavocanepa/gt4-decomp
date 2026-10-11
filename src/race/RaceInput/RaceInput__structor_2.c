@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/RaceInput.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_003467A0(void *, s32);             /* extern */
 s32 func_0043A108(void *, s32);             /* extern */

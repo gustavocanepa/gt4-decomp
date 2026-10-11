@@ -1,7 +1,7 @@
 /* compiler: ee-gcc2.96-stl */
 /* SGI STL __default_alloc_template<...>::_S_refill (stl_alloc.h), spelled out as a plain function:
    _S_chunk_alloc is func_00606020 and _S_free_list is D_00659E30; the non-threaded instance
-   (__STL_VOLATILE empty: a volatile func_00575DA0 list would not fold the %lo into the store). */
+   (__STL_VOLATILE empty: a volatile free list would not fold the %lo into the store). */
 union _Obj {
     union _Obj *_M_free_list_link;
     char _M_client_data[1];
@@ -29,7 +29,7 @@ extern "C" void *func_00605EA8(unsigned int __n)
     if (1 == __nobjs) return (__chunk);
     __my_free_list = D_00659E30 + _S_freelist_index(__n);
 
-    /* Build func_00575DA0 list in chunk */
+    /* Build free list in chunk */
     __result = (_Obj *)__chunk;
     *__my_free_list = __next_obj = (_Obj *)(__chunk + __n);
     for (__i = 1;; __i++) {

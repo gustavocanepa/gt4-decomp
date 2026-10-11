@@ -1,5 +1,5 @@
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 f32 func_0036A298(s32 arg0, s32 *arg1, f32 fparg0) {
     if (arg0 >= 0x2D0) {

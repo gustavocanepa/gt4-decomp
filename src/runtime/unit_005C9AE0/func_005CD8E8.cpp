@@ -1,5 +1,5 @@
 /* compiler: ee-gcc2.96-stl */
-extern "C" void func_00575DA0(void *p);
+extern "C" void free(void *p);
 
 template <class T> inline void swap(T &a, T &b)
 {
@@ -22,7 +22,7 @@ struct Vec : Alloc {
     ~Vec()
     {
         if (start)
-            func_00575DA0(start);
+            free(start);
     }
     void swap(Vec &x)
     {

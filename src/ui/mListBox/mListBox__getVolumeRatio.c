@@ -1,5 +1,5 @@
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 f32 mListBox__get_width();                                /* extern */
 f32 mListBox__getTotal(s32);                             /* extern */

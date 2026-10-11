@@ -2,7 +2,7 @@
 struct Msg { int from; int b; int a; int pad[3]; unsigned int len; unsigned char data[0xCC - 0x1C]; Msg *next; };
 struct Src { char pad[0x58]; int id; };
 struct Ctx { char pad[0x68]; int count; char pad2[0xE0 - 0x6C]; Msg **tail; char pad3[0x2230 - 0xE4]; int sema; };
-extern "C" void *func_005A4724(void *, const void *, unsigned int);
+extern "C" void *memcpy(void *, const void *, unsigned int);
 extern "C" void func_00574EE8(void *);
 
 extern "C" void func_00553FC8(Ctx *c, Src *s, int a, int b, const void *data, unsigned int len, Msg *m)
@@ -12,7 +12,7 @@ extern "C" void func_00553FC8(Ctx *c, Src *s, int a, int b, const void *data, un
     m->a = a;
     m->b = b;
     m->len = n;
-    if (n) func_005A4724(m->data, data, n);
+    if (n) memcpy(m->data, data, n);
     c->count++;
     m->next = 0;
     *c->tail = m;

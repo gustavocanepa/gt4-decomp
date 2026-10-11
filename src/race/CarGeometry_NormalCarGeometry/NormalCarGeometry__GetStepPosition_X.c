@@ -1,6 +1,6 @@
 #include "types.h"
 #include "gt4/NormalCarGeometry.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
 f32 func_0038CDE8(void *, f32);                     /* extern */

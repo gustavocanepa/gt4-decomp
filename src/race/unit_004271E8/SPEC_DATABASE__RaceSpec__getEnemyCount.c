@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 SPEC_DATABASE__RaceSpec__loadEnemyInfo(void *, s64);
 struct func_004473B0_arg0 {

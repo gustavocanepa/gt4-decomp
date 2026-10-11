@@ -1,6 +1,6 @@
 /* compiler: ee-gcc2.96-no-strict-aliasing */
 /* newlib _strtoul_r */
-extern const char D_006D0E78[];
+extern const char _ctype_[];
 
 unsigned long func_005A71A0(rptr, nptr, endptr, base)
     int *rptr;
@@ -16,7 +16,7 @@ unsigned long func_005A71A0(rptr, nptr, endptr, base)
 
     do {
         c = *s++;
-    } while ((D_006D0E78 + 1)[c] & 8);
+    } while ((_ctype_ + 1)[c] & 8);
     if (c == '-') {
         neg = 1;
         c = *s++;
@@ -32,10 +32,10 @@ unsigned long func_005A71A0(rptr, nptr, endptr, base)
     cutoff = (unsigned long)-1 / (unsigned long)base;
     cutlim = (unsigned long)-1 % (unsigned long)base;
     for (acc = 0, any = 0;; c = *s++) {
-        if ((D_006D0E78 + 1)[c] & 4)
+        if ((_ctype_ + 1)[c] & 4)
             c -= '0';
-        else if ((D_006D0E78 + 1)[c] & 3)
-            c -= ((D_006D0E78 + 1)[c] & 1) ? 'A' - 10 : 'a' - 10;
+        else if ((_ctype_ + 1)[c] & 3)
+            c -= ((_ctype_ + 1)[c] & 1) ? 'A' - 10 : 'a' - 10;
         else
             break;
         if (c >= base)

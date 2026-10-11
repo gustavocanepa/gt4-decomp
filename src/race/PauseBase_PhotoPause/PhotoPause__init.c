@@ -1,7 +1,7 @@
 /* compiler: ee-gcc2.96-nosched1 */
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 #include "m2c_macros.h"
 
 M2C_UNK PauseBase__clearTimeCount();                            /* extern */

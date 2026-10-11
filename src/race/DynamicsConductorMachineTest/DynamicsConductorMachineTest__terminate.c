@@ -1,5 +1,5 @@
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 DynamicsConductor__terminate();                            /* extern */
 s32 DynamicsConductor__updateSolitaire_atTermination(s32);                         /* extern */

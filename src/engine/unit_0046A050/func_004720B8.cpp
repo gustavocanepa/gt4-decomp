@@ -11,11 +11,11 @@ struct Buf {
     s32 unk1C;
 };
 
-extern "C" void func_00575DA0(void *p);
+extern "C" void free(void *p);
 
 extern "C" void func_004720B8(Buf *b) {
     if (b->data)
-        func_00575DA0(b->data);
+        free(b->data);
     b->unk0 = 0;
     b->unk4 = 0;
     b->data = 0;

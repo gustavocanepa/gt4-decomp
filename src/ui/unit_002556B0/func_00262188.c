@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 MintReader__structor_6(s32);                             /* extern */
 void func_00266458(void *, s32, s32);        /* extern */

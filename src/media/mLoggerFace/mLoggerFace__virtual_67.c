@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/mLoggerFace.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_0011FF38(s32, s32, void *);            /* extern */
 s32 mTextFace__virtual_67();                            /* extern */

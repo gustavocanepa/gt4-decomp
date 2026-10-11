@@ -82,7 +82,9 @@ def _load():
                 addr, kind = int(m.group(2), 16), m.group(3)
                 t.names[m.group(1)] = (addr, kind)
                 t.kinds[addr] = kind
-                if path != SYMBOL_ADDRS:  # mangled template/library names resolve, but never name an address (or a file)
+                # mangled template/library names resolve but never name an address (or a file); plain C
+                # library names (memcpy, strlen...) do, so sources keep calling them by name
+                if path != SYMBOL_ADDRS and ("__" in m.group(1) or "$" in m.group(1) or path == STL):
                     continue
                 t.by_addr.setdefault(addr, []).append(m.group(1))
                 rtti.setdefault(addr, []).append(m.group(1))

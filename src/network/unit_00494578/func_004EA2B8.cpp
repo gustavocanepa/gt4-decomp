@@ -46,7 +46,7 @@ struct Tree {
 };
 
 extern char D_006BFF28[];
-extern "C" int func_00575DC8(int);
+extern "C" int malloc(int);
 extern "C" void func_004EB830(void *);
 extern "C" void func_004EB7D0(void *);
 
@@ -73,7 +73,7 @@ extern "C" int func_004EA2B8(Http *h) {
     h->fE4 = 0;
     h->request = D_006BFF28;
     h->headers.clear();
-    h->buffer = func_00575DC8(h->heap);
+    h->buffer = malloc(h->heap);
     if (h->keep_alive == 0) {
         func_004EB830(h);
         return 1;

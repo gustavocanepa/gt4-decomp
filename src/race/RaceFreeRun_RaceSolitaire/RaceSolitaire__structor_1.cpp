@@ -4,7 +4,7 @@ typedef int s32;
 extern void *D_00620000;
 extern void *RaceSolitaire__vtable;
 extern "C" void GranTurismo4__GameObjectBase__delControl(void *, void *);
-extern "C" void func_00575DA0(void *);
+extern "C" void free(void *);
 extern "C" void func_003BDA40(void *, s32);
 extern "C" void func_003467A0(void *, s32);
 extern "C" void SPEC_DATABASE__CarEquipments__setVariationOrder(void *, s32);
@@ -24,7 +24,7 @@ extern "C" void RaceSolitaire__structor_1(void *arg0, s32 arg1) {
     GranTurismo4__GameObjectBase__delControl(arg0, (char *)arg0 + 0xe48c);
     if (((struct RaceSolitaire *)arg0)->unkF0EC != 0) {
         if (*(void **)((char *)&D_00620000 + 0x1f20) == 0) {
-            func_00575DA0(((struct RaceSolitaire *)arg0)->unkF0EC);
+            free(((struct RaceSolitaire *)arg0)->unkF0EC);
         }
     }
     if (((struct RaceSolitaire *)arg0)->unkF100 != 0) {

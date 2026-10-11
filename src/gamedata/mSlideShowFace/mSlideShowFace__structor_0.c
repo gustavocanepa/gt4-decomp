@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/mSlideShowFace.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_001C6AD0(void *);                      /* extern */
 s32 func_001C7208(void *);                      /* extern */

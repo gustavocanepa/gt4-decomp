@@ -50,8 +50,8 @@ struct VObj {
 extern "C" s32 func_00206880(struct Self *arg0);
 extern "C" void *func_00206868(struct Self *arg0);
 extern "C" void *func_0025C300(void *arg0);
-extern "C" void func_00575DA0(void *arg0);
-extern "C" u8 *func_00575DC8(s32 arg0);
+extern "C" void free(void *arg0);
+extern "C" u8 *malloc(s32 arg0);
 extern "C" void func_00309348(struct Handle16 *arg0, void **arg1);
 extern "C" void func_002FE278(struct Handle16 *arg0, s32 arg1);
 extern "C" void func_002FC870(struct Handle16 *arg0, s32 arg1);
@@ -68,9 +68,9 @@ extern "C" void func_002D8100(struct Self *self, struct VObj **arg1) {
             void *node;
             if (old != 0) {
                 self->flags = 0;
-                func_00575DA0(old);
+                free(old);
             }
-            self->flags = func_00575DC8(n);
+            self->flags = malloc(n);
             for (i = 0; i < n; i++) {
                 self->flags[i] = 0;
             }

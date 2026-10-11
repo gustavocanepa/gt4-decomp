@@ -6,13 +6,13 @@ struct _reent {
 };
 
 extern int D_006D62F8; /* errno */
-extern int func_005AE360(int a, void *b, int c);
+extern int open(int a, void *b, int c);
 
 int func_005A4998(struct _reent *ptr, int a, void *b, int c) {
     int ret;
 
     D_006D62F8 = 0;
-    if ((ret = func_005AE360(a, b, c)) == -1 && D_006D62F8 != 0)
+    if ((ret = open(a, b, c)) == -1 && D_006D62F8 != 0)
         ptr->_errno = D_006D62F8;
     return ret;
 }

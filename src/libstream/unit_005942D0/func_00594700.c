@@ -1,7 +1,7 @@
 /* libio (GNU iostream library, gcc 2000-10-03 snapshot): func_00594700.
  * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 struct func_00594700_arg0_unk50 {
     char pad0[0x14];

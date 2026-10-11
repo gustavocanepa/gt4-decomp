@@ -25,8 +25,8 @@ struct S00659988 {
 extern char D_00693D90[];
 extern "C" void func_0057DA20(void *, void *, void *);
 extern "C" void func_004AE230(void *, void *, s32);
-extern "C" void func_005A4724(s32, s32, s32);
-extern "C" void func_00575DA0(s32);
+extern "C" void memcpy(s32, s32, s32);
+extern "C" void free(s32);
 
 struct func_001C6A10_arg0 {
     char pad0[0xBD0];
@@ -47,10 +47,10 @@ extern "C" s32 func_001C6A10(s32 *arg0, void *arg1, s32 arg2) {
     v_s1 = buf4[2];
     v_s0 = (v_s1 < arg2);
     if (v_s0) {
-        func_005A4724(((struct func_001C6A10_arg0 *)arg0)->unkBD0, buf5[0], v_s1);
+        memcpy(((struct func_001C6A10_arg0 *)arg0)->unkBD0, buf5[0], v_s1);
     } else {
         v_s1 = -0x1;
     }
-    func_00575DA0(buf5[0]);
+    free(buf5[0]);
     return v_s1;
 }

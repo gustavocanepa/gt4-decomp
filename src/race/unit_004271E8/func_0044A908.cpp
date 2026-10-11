@@ -28,7 +28,7 @@ extern "C" s32 func_0044A830(void *, s32);
 extern "C" s32 func_0044A898(void *, s32);
 extern "C" s32 func_0044A860(void *, s32);
 extern "C" s32 func_0044A8D0(void *, s32);
-extern "C" void func_005A4724(s32, void *, s32);
+extern "C" void memcpy(s32, void *, s32);
 extern "C" void func_0044A810(void *);
 
 extern "C" void func_0044A908(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
@@ -44,6 +44,6 @@ extern "C" void func_0044A908(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
     *(s32 *)(char *)t2 = arg2;
     t3 = func_0044A860(arg0, v_s1);
     *(s32 *)(char *)t3 = 0x1;
-    func_005A4724(func_0044A8D0(arg0, v_s1), arg3, *(s32 *)(char *)arg0);
+    memcpy(func_0044A8D0(arg0, v_s1), arg3, *(s32 *)(char *)arg0);
     func_0044A810(arg0);
 }

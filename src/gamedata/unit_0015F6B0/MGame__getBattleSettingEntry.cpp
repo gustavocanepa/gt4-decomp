@@ -23,7 +23,7 @@ struct S00659988 {
 };
 
 extern "C" void func_0015F3E0(void *);
-extern "C" s32 func_00575DC8(s32);
+extern "C" s32 malloc(s32);
 extern "C" s32 func_00430878(s32);
 extern "C" void func_00200140(void *, s32, s32);
 extern "C" void func_003285A8(s32);
@@ -73,7 +73,7 @@ extern "C" void MGame__getBattleSettingEntry(s32 *arg0) {
     s32 oldVal;
     func_0015F3E0(buf0);
     v_s1 = *(s32 *)((char *)buf0[0] + 0x10);
-    v_s0 = func_00575DC8(0x24);
+    v_s0 = malloc(0x24);
     v_s2 = v_s1 + 0xd8;
     v_s1 = (0x38cb0 + v_s1);
     t1 = (func_00430878(v_s2) ^ 0x1);

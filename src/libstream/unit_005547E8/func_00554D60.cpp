@@ -10,7 +10,7 @@ struct Ring {
     int m28;
     int wp;
     int used;
-    int func_00575DA0;
+    int free;
 };
 extern "C" int func_005B72A8(void);
 extern "C" void func_005B72F8(void);
@@ -21,7 +21,7 @@ extern "C" void func_00554D60(Ring *r, Hdr *h)
     func_005B72A8();
     int n = h->size + 16;
     r->wp = (r->wp + n) & r->mask;
-    r->func_00575DA0 -= n;
+    r->free -= n;
     r->used += n;
     func_005B72F8();
     func_00554910(r, r->m4);

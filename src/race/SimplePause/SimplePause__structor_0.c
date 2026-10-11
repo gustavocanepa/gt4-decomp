@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/SimplePause.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 SimplePause__init(void *);                      /* extern */
 s32 PauseBase__structor_0();                            /* extern */

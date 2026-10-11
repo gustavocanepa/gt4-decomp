@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/SparkParticle.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 GT4Model__BinStreamReader__read8u(s32);                             /* extern */
 s32 GT4Model__BinStreamReader__read8(s32);                             /* extern */

@@ -3,7 +3,7 @@
 #include <stl_tree.h>
 
 extern "C" void *func_00575E60(int heap, int size);
-extern "C" void func_00575DA0(void *p);
+extern "C" void free(void *p);
 
 
 struct Rep {
@@ -35,7 +35,7 @@ struct Str2 {
     ~Str2() {
         Rep *r = rep();
         if (--r->ref == 0)
-            func_00575DA0(r);
+            free(r);
     }
     bool operator<(const Str2 &o) const { return func_00608D98(this, &o, 0, (unsigned int)-1) < 0; }
 };
@@ -82,7 +82,7 @@ public:
         return (T *)func_00575E60(0x10, n * sizeof(T));
     }
     void deallocate(T *p, size_type n) {
-        func_00575DA0(p);
+        free(p);
     }
     size_type max_size() const throw() { return size_t(-1) / sizeof(T); }
     void construct(T *p, const T &v) { new (p) T(v); }

@@ -1,5 +1,5 @@
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 SetHardCodedTireWearParameters(s32, s32);                        /* extern */
 s32 RaceOrganization__validArcadeOption(void *);                          /* extern */

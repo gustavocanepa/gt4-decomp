@@ -3,10 +3,10 @@
 typedef unsigned char u8;
 
 struct File { void *fd; char pad[0x16]; u8 flags; };
-int func_00596890(void *, int, int);
+int _IO_seekpos(void *, int, int);
 
 struct File **func_00591760(struct File **h, int mode) {
-    if (func_00596890((*h)->fd, mode, 1) == -1)
+    if (_IO_seekpos((*h)->fd, mode, 1) == -1)
         (*h)->flags |= 4;
     return h;
 }

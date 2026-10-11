@@ -1,4 +1,4 @@
-extern "C" void func_00575DA0(void *p);
+extern "C" void free(void *p);
 
 struct Alloc {
     Alloc() {}
@@ -11,7 +11,7 @@ struct Buffer {
     char *finish;
     char *end_of_storage;
     Buffer(const Alloc &a = Alloc()) : alloc(a), start(0), finish(0), end_of_storage(0) {}
-    ~Buffer() { if (start) func_00575DA0(start); }
+    ~Buffer() { if (start) free(start); }
     unsigned int size() const { return finish - start; }
 };
 

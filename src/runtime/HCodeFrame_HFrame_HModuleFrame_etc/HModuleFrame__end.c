@@ -1,6 +1,6 @@
 #include "types.h"
 #include "gt4/HModuleFrame.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 struct HModuleFrame__virtual_02_arg1 {
     char pad0[0x20];

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "gt4/type_info.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 extern char type_info__vtable[];
 s32 func_006163B0(struct type_info *arg0, s32 arg1) {

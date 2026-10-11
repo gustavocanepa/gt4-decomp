@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 f32 func_004683B8(f32 x) {
     f32 t = (x - 0x1.666666p-2f) / 0x1.199998p-1f;

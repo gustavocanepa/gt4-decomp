@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/mProgressFace.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 mWidget__setWindowW(void *, f32);                 /* extern */
 s32 mImageFace__virtual_68();                            /* extern */

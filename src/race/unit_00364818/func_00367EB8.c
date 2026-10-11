@@ -1,7 +1,7 @@
 /* compiler: ee-gcc2.96-nosib */
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 f32 func_00367EB8(f32 fparg0) {
     f32 var_f0;

@@ -1,7 +1,7 @@
 /* libio (GNU iostream library, gcc 2000-10-03 snapshot): ostream::operator<<.
  * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_00592418(void **, s32, s32);       /* extern */
 s32 func_00593020(s32);                         /* extern */

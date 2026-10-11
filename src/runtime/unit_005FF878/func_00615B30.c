@@ -2,7 +2,7 @@
  * licence: libio (GPLv2 with the libio special exception, see THIRD_PARTY.md) */
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_005C1628(void *);                      /* extern */
 s32 func_005C1648(s32);                         /* extern */

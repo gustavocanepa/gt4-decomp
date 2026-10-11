@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/hArray.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 u32 hArray__size();                                /* extern */
 s32 func_005DB110(s32, u32, u32);           /* extern */

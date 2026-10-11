@@ -3,7 +3,7 @@ typedef int s32;
 
 struct Link { s16 next; s16 pad; s32 m4; };
 struct Key { s32 key; s32 pad; };
-/* The key is func_005AE2E8 through a second view based at +4 (the original hoists t + 4 out of the loop
+/* The key is read through a second view based at +4 (the original hoists t + 4 out of the loop
    as its own base register), the link through the view based at +0. */
 struct Table { union { Link links[1]; struct { s32 pad; Key keys[1]; } k; } u; };
 

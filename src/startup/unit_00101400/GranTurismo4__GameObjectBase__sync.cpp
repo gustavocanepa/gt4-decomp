@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/CarIconMaker.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 GranTurismo4__GameObjectBase__stop();                            /* extern */
 s32 func_00576788(void *);                      /* extern */

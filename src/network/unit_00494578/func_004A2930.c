@@ -2,7 +2,7 @@
 typedef unsigned char u8;
 void func_004A2980(int mask, int g, int b, int a);
 
-/* Channel func_005AE268 mask from four enable bytes (r, g, b, a), passed on with the bytes. */
+/* Channel write mask from four enable bytes (r, g, b, a), passed on with the bytes. */
 void func_004A2930(int r, int g, int b, int a) {
     int mask = 0;
     if (r & 0xFF) mask = 0xFF;

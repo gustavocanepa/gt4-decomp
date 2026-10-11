@@ -31,7 +31,7 @@
 #define __umoddi3 __umoddi3
 #define _b2d func_005AD090
 #define _close_r func_005AADB0
-#define D_006D0E78 D_006D0E78
+#define _ctype_ _ctype_
 #define _d2b func_005AD228
 #define _exit D_00100220
 #define _fwalk func_005A43A8
@@ -39,7 +39,7 @@
 #define _getpid_r func_005A44C8
 #define _hi0bits func_005AC7E8
 #define _i2b func_005AC928
-#define D_00658288 D_00658288
+#define _impure_ptr _impure_ptr
 #define _lo0bits func_005AC868
 #define _lseek_r func_005AC440
 #define _lshift func_005ACC70
@@ -56,7 +56,7 @@
 #define _setlocale_r func_005AC358
 #define _snprintf_r func_005A5998
 #define _strtoul_r func_005A71A0
-#define _times D_00575DA0
+#define _times free
 #define _user_strerror func_00559AD8
 #define abort func_005A2E68
 #define abs func_005A2E80
@@ -74,14 +74,14 @@
 #define errno D_006D62F8
 #define exit func_005A3140
 #define fabsf func_005A2E20
-#define func_005A31F0 func_005A31F0
-#define func_005A32F0 func_005A32F0
+#define fclose fclose
+#define fflush fflush
 #define fileno func_005A3408
 #define finite func_005A2E48
 #define fputs func_005A3948
 #define fread func_005A3998
-#define func_005A3AB8 func_005A3AB8
-#define func_005A4440 func_005A4440
+#define fseek fseek
+#define fwrite fwrite
 #define isinf func_005AD550
 #define isnan func_005AD598
 #define labs func_005A44E0
@@ -89,8 +89,8 @@
 #define lflush func_005A5668
 #define localtime func_005ADB90
 #define memchr func_005A4644
-#define func_005A4724 func_005A4724
-#define func_005A47D4 func_005A47D4
+#define memcpy memcpy
+#define memmove memmove
 #define func_005A48D8 func_005A48D8
 #define puts func_005A4BD8
 #define qsort func_005A4BF8
@@ -1818,7 +1818,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -1852,19 +1852,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -1889,9 +1889,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -2453,7 +2453,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -2487,19 +2487,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -2524,9 +2524,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -4906,7 +4906,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -4940,19 +4940,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -4977,9 +4977,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -6085,12 +6085,12 @@ struct _reent
 #define __ATTRIBUTE_IMPURE_PTR__
 #endif
 
-extern struct _reent *D_00658288 __ATTRIBUTE_IMPURE_PTR__;
+extern struct _reent *_impure_ptr __ATTRIBUTE_IMPURE_PTR__;
 
 void _reclaim_reent _PARAMS ((struct _reent *));
 
 #ifndef _REENT_ONLY
-#define _REENT D_00658288
+#define _REENT _impure_ptr
 #endif
 
 #ifdef __cplusplus
@@ -6151,9 +6151,9 @@ typedef struct __sFILE FILE;
 
 #define	TMP_MAX		26
 
-#define	stdin	(D_00658288->_stdin)
-#define	stdout	(D_00658288->_stdout)
-#define	stderr	(D_00658288->_stderr)
+#define	stdin	(_impure_ptr->_stdin)
+#define	stdout	(_impure_ptr->_stdout)
+#define	stderr	(_impure_ptr->_stderr)
 
 #define _stdin_r(x)	((x)->_stdin)
 #define _stdout_r(x)	((x)->_stdout)
@@ -6172,8 +6172,8 @@ int	_EXFUN(rename, (const char *, const char *));
 char *	_EXFUN(tempnam, (const char *, const char *));
 FILE *	_EXFUN(tmpfile, (void));
 char *	_EXFUN(tmpnam, (char *));
-int	_EXFUN(func_005A31F0, (FILE *));
-int	_EXFUN(func_005A32F0, (FILE *));
+int	_EXFUN(fclose, (FILE *));
+int	_EXFUN(fflush, (FILE *));
 FILE *	_EXFUN(freopen, (const char *, const char *, FILE *));
 void	_EXFUN(setbuf, (FILE *, char *));
 int	_EXFUN(setvbuf, (FILE *, char *, int, size_t));
@@ -6198,9 +6198,9 @@ int	_EXFUN(putchar, (int));
 int	_EXFUN(puts, (const char *));
 int	_EXFUN(ungetc, (int, FILE *));
 size_t	_EXFUN(fread, (_PTR, size_t _size, size_t _n, FILE *));
-size_t	_EXFUN(func_005A4440, (const _PTR , size_t _size, size_t _n, FILE *));
+size_t	_EXFUN(fwrite, (const _PTR , size_t _size, size_t _n, FILE *));
 int	_EXFUN(fgetpos, (FILE *, fpos_t *));
-int	_EXFUN(func_005A3AB8, (FILE *, long, int));
+int	_EXFUN(fseek, (FILE *, long, int));
 int	_EXFUN(fsetpos, (FILE *, const fpos_t *));
 long	_EXFUN(ftell, ( FILE *));
 void	_EXFUN(rewind, (FILE *));
@@ -8013,7 +8013,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -8047,19 +8047,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -8084,9 +8084,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -8648,7 +8648,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -8682,19 +8682,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -8719,9 +8719,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -11101,7 +11101,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -11135,19 +11135,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -11172,9 +11172,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -12280,12 +12280,12 @@ struct _reent
 #define __ATTRIBUTE_IMPURE_PTR__
 #endif
 
-extern struct _reent *D_00658288 __ATTRIBUTE_IMPURE_PTR__;
+extern struct _reent *_impure_ptr __ATTRIBUTE_IMPURE_PTR__;
 
 void _reclaim_reent _PARAMS ((struct _reent *));
 
 #ifndef _REENT_ONLY
-#define _REENT D_00658288
+#define _REENT _impure_ptr
 #endif
 
 #ifdef __cplusplus
@@ -12335,14 +12335,14 @@ _PTR	_EXFUN(bsearch,(const _PTR __key,
 _PTR	_EXFUN(calloc,(size_t __nmemb, size_t __size));
 div_t	_EXFUN(div,(int __numer, int __denom));
 _VOID	_EXFUN(exit,(int __status) _ATTRIBUTE ((noreturn)));
-_VOID	_EXFUN(func_00575DA0,(_PTR));
+_VOID	_EXFUN(free,(_PTR));
 char *  _EXFUN(getenv,(const char *__string));
 char *	_EXFUN(_getenv_r,(struct _reent *, const char *__string));
 char *	_EXFUN(_findenv,(_CONST char *, int *));
 char *	_EXFUN(_findenv_r,(struct _reent *, _CONST char *, int *));
 long	_EXFUN(labs,(long));
 ldiv_t	_EXFUN(ldiv,(long __numer, long __denom));
-_PTR	_EXFUN(func_00575DC8,(size_t __size));
+_PTR	_EXFUN(malloc,(size_t __size));
 int	_EXFUN(mblen,(const char *, size_t));
 int	_EXFUN(_mblen_r,(struct _reent *, const char *, size_t, int *));
 int	_EXFUN(mbtowc,(wchar_t *, const char *, size_t));
@@ -13576,7 +13576,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -13610,19 +13610,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -13647,9 +13647,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -16387,12 +16387,12 @@ struct _reent
 #define __ATTRIBUTE_IMPURE_PTR__
 #endif
 
-extern struct _reent *D_00658288 __ATTRIBUTE_IMPURE_PTR__;
+extern struct _reent *_impure_ptr __ATTRIBUTE_IMPURE_PTR__;
 
 void _reclaim_reent _PARAMS ((struct _reent *));
 
 #ifndef _REENT_ONLY
-#define _REENT D_00658288
+#define _REENT _impure_ptr
 #endif
 
 #ifdef __cplusplus
@@ -18193,7 +18193,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -18227,19 +18227,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -18264,9 +18264,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -18828,7 +18828,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -18862,19 +18862,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -18899,9 +18899,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -21281,7 +21281,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -21315,19 +21315,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -21352,9 +21352,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -22460,12 +22460,12 @@ struct _reent
 #define __ATTRIBUTE_IMPURE_PTR__
 #endif
 
-extern struct _reent *D_00658288 __ATTRIBUTE_IMPURE_PTR__;
+extern struct _reent *_impure_ptr __ATTRIBUTE_IMPURE_PTR__;
 
 void _reclaim_reent _PARAMS ((struct _reent *));
 
 #ifndef _REENT_ONLY
-#define _REENT D_00658288
+#define _REENT _impure_ptr
 #endif
 
 #ifdef __cplusplus
@@ -22495,8 +22495,8 @@ typedef unsigned int wint_t;
 
 _PTR 	 _EXFUN(memchr,(const _PTR, int, size_t));
 int 	 _EXFUN(memcmp,(const _PTR, const _PTR, size_t));
-_PTR 	 _EXFUN(func_005A4724,(_PTR, const _PTR, size_t));
-_PTR	 _EXFUN(func_005A47D4,(_PTR, const _PTR, size_t));
+_PTR 	 _EXFUN(memcpy,(_PTR, const _PTR, size_t));
+_PTR	 _EXFUN(memmove,(_PTR, const _PTR, size_t));
 _PTR	 _EXFUN(func_005A48D8,(_PTR, int, size_t));
 char 	*_EXFUN(strcat,(char *, const char *));
 char 	*_EXFUN(strchr,(const char *, int));
@@ -23767,7 +23767,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -23801,19 +23801,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -23838,9 +23838,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -24463,7 +24463,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -24497,19 +24497,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -24534,9 +24534,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -25443,7 +25443,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -25477,19 +25477,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -25514,9 +25514,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -27234,7 +27234,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -27268,19 +27268,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -27305,9 +27305,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -29225,7 +29225,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -29259,19 +29259,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -29296,9 +29296,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -32866,7 +32866,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -32900,19 +32900,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -32937,9 +32937,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -33501,7 +33501,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -33535,19 +33535,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -33572,9 +33572,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -35086,7 +35086,7 @@ struct	stat
 
 int	_EXFUN(chmod,( const char *__path, mode_t __mode ));
 int     _EXFUN(fchmod,(int __fd, mode_t __mode));
-int	_EXFUN(func_005AE458,( int __fd, struct stat *__sbuf ));
+int	_EXFUN(fstat,( int __fd, struct stat *__sbuf ));
 int	_EXFUN(mkdir,( const char *_path, mode_t __mode ));
 int	_EXFUN(mkfifo,( const char *__path, mode_t __mode ));
 int	_EXFUN(stat,( const char *__path, struct stat *__sbuf ));
@@ -35115,7 +35115,7 @@ int	_EXFUN(lstat,( const char *_path, struct stat *_sbuf ));
 #endif
 #endif 
 
-extern int func_005AE360 _PARAMS ((const char *, int, ...));
+extern int open _PARAMS ((const char *, int, ...));
 extern int creat _PARAMS ((const char *, mode_t));
 extern int fcntl _PARAMS ((int, int, ...));
 
@@ -36513,7 +36513,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -36547,19 +36547,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -36584,9 +36584,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -39324,12 +39324,12 @@ struct _reent
 #define __ATTRIBUTE_IMPURE_PTR__
 #endif
 
-extern struct _reent *D_00658288 __ATTRIBUTE_IMPURE_PTR__;
+extern struct _reent *_impure_ptr __ATTRIBUTE_IMPURE_PTR__;
 
 void _reclaim_reent _PARAMS ((struct _reent *));
 
 #ifndef _REENT_ONLY
-#define _REENT D_00658288
+#define _REENT _impure_ptr
 #endif
 
 #ifdef __cplusplus
@@ -40597,7 +40597,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -40631,19 +40631,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -40668,9 +40668,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -41232,7 +41232,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -41266,19 +41266,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -41303,9 +41303,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE
@@ -42743,7 +42743,7 @@ int     _EXFUN(chown, (const char *__path, uid_t __owner, gid_t __group ));
 #ifdef __CYGWIN__
 int     _EXFUN(chroot, (const char *__path ));
 #endif
-int     _EXFUN(func_005AE388, (int __fildes ));
+int     _EXFUN(close, (int __fildes ));
 char    _EXFUN(*ctermid, (char *__s ));
 char    _EXFUN(*cuserid, (char *__s ));
 int     _EXFUN(dup, (int __fildes ));
@@ -42777,19 +42777,19 @@ uid_t   _EXFUN(getuid, (void ));
 #ifdef __CYGWIN__
 char    _EXFUN(*getwd, (char *__buf ));
 #endif
-int     _EXFUN(func_005AE450, (int __fildes ));
+int     _EXFUN(isatty, (int __fildes ));
 int     _EXFUN(lchown, (const char *__path, uid_t __owner, gid_t __group ));
 int     _EXFUN(link, (const char *__path1, const char *__path2 ));
 int	_EXFUN(nice, (int __nice_value ));
-off_t   _EXFUN(func_005AE398, (int __fildes, off_t __offset, int __whence ));
+off_t   _EXFUN(lseek, (int __fildes, off_t __offset, int __whence ));
 long    _EXFUN(pathconf, (const char *__path, int __name ));
 int     _EXFUN(pause, (void ));
 int     _EXFUN(pipe, (int __fildes[2] ));
-/* POSIX 1003.1b-1993 says func_005AE2E8() returns ssize_t */
+/* POSIX 1003.1b-1993 says read() returns ssize_t */
 #if defined(__rtems__)
-ssize_t	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+ssize_t	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #else
-int	_EXFUN(func_005AE2E8, (int __fildes, void *__buf, size_t __nbyte ));
+int	_EXFUN(read, (int __fildes, void *__buf, size_t __nbyte ));
 #endif
 int     _EXFUN(rmdir, (const char *__path ));
 #if defined(__rtems__)
@@ -42814,9 +42814,9 @@ char    _EXFUN(*ttyname, (int __fildes ));
 int     _EXFUN(unlink, (const char *__path ));
 
 #if defined(__rtems__)
-ssize_t     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+ssize_t     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #else
-int     _EXFUN(func_005AE268, (int __fildes, const void *__buf, size_t __nbyte ));
+int     _EXFUN(write, (int __fildes, const void *__buf, size_t __nbyte ));
 #endif
 
 #ifndef        _POSIX_SOURCE

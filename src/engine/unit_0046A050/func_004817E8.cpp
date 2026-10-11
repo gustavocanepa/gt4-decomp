@@ -24,7 +24,7 @@ struct S00659988 {
 
 extern "C" void func_00480EA0(s32);
 extern "C" void strobe__ActionInstance__doAction(void *, void *, s32, s32, void *, void *, void *);
-extern "C" void func_00575DA0(s32);
+extern "C" void free(s32);
 
 struct func_004817E8_arg3 {
     char pad0[0x164];
@@ -48,7 +48,7 @@ extern "C" void * func_004817E8(s32 *arg0, void *arg1, s32 arg2, char **arg3) {
     strobe__ActionInstance__doAction(arg0, arg1, *(s32 *)(char *)arg2, ((struct func_004817E8_arg2 *)arg2)->unk4, buf0, arg1, arg3);
     buf3[0] = buf0[1];
     if (buf0[1] != 0) {
-        func_00575DA0(buf0[1]);
+        free(buf0[1]);
     }
     return arg0;
 }

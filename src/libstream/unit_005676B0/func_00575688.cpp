@@ -1,7 +1,7 @@
 struct Entry { int id; void *data; };
 struct Table { char pad[0x30]; int next; char pad2[0x4C - 0x34]; Entry *entries; int count; };
 extern "C" int func_00575620(Table *, int);
-extern "C" void *func_005A47D4(void *, const void *, unsigned int);
+extern "C" void *memmove(void *, const void *, unsigned int);
 
 extern "C" Entry *func_00575688(Table *t)
 {
@@ -15,7 +15,7 @@ extern "C" Entry *func_00575688(Table *t)
     pos = ~pos;
     Entry *old = t->entries;
     t->entries = old - 1;
-    func_005A47D4(t->entries, old, pos * sizeof(Entry));
+    memmove(t->entries, old, pos * sizeof(Entry));
     t->count++;
     Entry *e = &t->entries[pos];
     e->id = id;

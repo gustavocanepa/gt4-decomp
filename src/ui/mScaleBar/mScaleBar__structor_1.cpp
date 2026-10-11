@@ -1,7 +1,7 @@
 #include "gt4/mScaleBar.h"
 typedef int s32;
 
-extern "C" void func_00575DA0(void *arg0);
+extern "C" void free(void *arg0);
 extern "C" void func_00326798(void *arg0, s32 arg1, s32 arg2, const char *arg3);
 extern "C" void func_002F9B38(void *, s32);
 extern "C" void mFBox__structor_1(void *, s32);

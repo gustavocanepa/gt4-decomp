@@ -2,7 +2,7 @@
 #include "gt4/mWidget.h"
 #include "types.h"
 #include "gt4/mSelectBar.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_00206868(void *);                          /* extern */
 s32 mSceneViewFace__virtual_63();                            /* extern */

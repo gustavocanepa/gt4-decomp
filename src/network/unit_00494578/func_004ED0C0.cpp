@@ -1,5 +1,5 @@
 extern "C" {
-void func_00575DA0(int);
+void free(int);
 int func_005B6638(int, int, int, void *);
 int func_005B6840(int);
 int func_005B68D0(const char *);
@@ -27,11 +27,11 @@ PdiNetcnf::~PdiNetcnf() {
     char buf[0x10];
 
     vtable = D_006895B8;
-    func_00575DA0(handles[0]);
-    if (handles[1] != 0) func_00575DA0(handles[1]);
-    if (handles[2] != 0) func_00575DA0(handles[2]);
-    if (handles[3] != 0) func_00575DA0(handles[3]);
-    if (handles[4] != 0) func_00575DA0(handles[4]);
+    free(handles[0]);
+    if (handles[1] != 0) free(handles[1]);
+    if (handles[2] != 0) free(handles[2]);
+    if (handles[3] != 0) free(handles[3]);
+    if (handles[4] != 0) free(handles[4]);
     if (opened != 0) {
         int h = func_005B68D0(D_006C0238);
         func_005B6638(h, 0, 0, buf);

@@ -4,7 +4,7 @@ struct Obj {
     char pad20[0x2C - 0x20];
     int offset;
     int f30;
-    int func_005AE360;
+    int open;
 };
 
 extern "C" int func_005B72A8(void);
@@ -12,7 +12,7 @@ extern "C" void func_005B72F8(void);
 
 extern "C" int func_00554CA0(Obj *o) {
     func_005B72A8();
-    if (o->func_005AE360 == 0) {
+    if (o->open == 0) {
         func_005B72F8();
         return 0;
     }

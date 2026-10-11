@@ -3,11 +3,11 @@ typedef int s32;
 extern s32 D_006214CC;
 extern char RaceCourse__model_arena_[];
 extern "C" void *func_00463840(char *);
-extern "C" void func_00575DA0(void *);
+extern "C" void free(void *);
 
 extern "C" void func_00394B80(void) {
     if (D_006214CC != 0) {
-        func_00575DA0(func_00463840(RaceCourse__model_arena_));
+        free(func_00463840(RaceCourse__model_arena_));
     }
     D_006214CC = 0;
 }

@@ -2,7 +2,7 @@
 /* basic_string<char>::replace(iterator i1, iterator i2, const char *j1, const char *j2), the member
  * template of gcc 2.96 libstdc++ v2 (std/bastring.h), for the second string instantiation
  * (allocator memalign(16, n) = func_00575E60, returning 0 for n == 0; deallocator
- * func_00575DA0(p)), with the library's inline helpers nested as in bastring.h: ibegin and
+ * free(p)), with the library's inline helpers nested as in bastring.h: ibegin and
  * Rep::operator[], check_realloc, Rep::create/frob_size/operator new, Rep::copy/move,
  * traits::assign per character, repup and Rep::release/operator delete. Returns *this. */
 typedef unsigned int u32;
@@ -11,9 +11,9 @@ struct StringRep { u32 len; u32 res; u32 ref; u32 selfish; };
 struct String { char *dat; };
 
 extern "C" void *func_00575E60(u32 align, u32 size);
-extern "C" void func_00575DA0(void *ptr);
-extern "C" void *func_005A4724(void *dst, const void *src, u32 n);
-extern "C" void *func_005A47D4(void *dst, const void *src, u32 n);
+extern "C" void free(void *ptr);
+extern "C" void *memcpy(void *dst, const void *src, u32 n);
+extern "C" void *memmove(void *dst, const void *src, u32 n);
 
 static inline char *rep_data(struct StringRep *r) { return (char *)(r + 1); }
 static inline struct StringRep *rep(struct String *str) { return (struct StringRep *)str->dat - 1; }
@@ -32,7 +32,7 @@ static inline void *rep_new(u32 n) {
 }
 
 static inline void rep_delete(struct StringRep *p) {
-    func_00575DA0(p);
+    free(p);
 }
 
 static inline struct StringRep *create(u32 extra) {
@@ -47,12 +47,12 @@ static inline struct StringRep *create(u32 extra) {
 
 static inline void rep_copy(struct StringRep *r, u32 pos, const char *s, u32 n) {
     if (n)
-        func_005A4724(rep_data(r) + pos, s, n);
+        memcpy(rep_data(r) + pos, s, n);
 }
 
 static inline void rep_move(struct StringRep *r, u32 pos, const char *s, u32 n) {
     if (n)
-        func_005A47D4(rep_data(r) + pos, s, n);
+        memmove(rep_data(r) + pos, s, n);
 }
 
 static inline void release(struct StringRep *r) {

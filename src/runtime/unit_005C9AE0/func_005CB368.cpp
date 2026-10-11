@@ -14,8 +14,8 @@ struct String { char *dat; };
 extern "C" struct Heap *func_005C11A8(void);
 extern "C" void *func_00326750(int size, int align, const char *name);
 extern "C" void func_00326798(void *ptr, int size, int align, const char *name);
-extern "C" void *func_005A4724(void *dst, const void *src, u32 n);
-extern "C" void *func_005A47D4(void *dst, const void *src, u32 n);
+extern "C" void *memcpy(void *dst, const void *src, u32 n);
+extern "C" void *memmove(void *dst, const void *src, u32 n);
 extern "C" void *func_005A48D8(void *dst, int c, u32 n);
 
 static inline char *rep_data(struct StringRep *r) { return (char *)(r + 1); }
@@ -48,12 +48,12 @@ static inline struct StringRep *create(u32 extra) {
 
 static inline void rep_copy(struct StringRep *r, u32 pos, const char *s, u32 n) {
     if (n)
-        func_005A4724(rep_data(r) + pos, s, n);
+        memcpy(rep_data(r) + pos, s, n);
 }
 
 static inline void rep_move(struct StringRep *r, u32 pos, const char *s, u32 n) {
     if (n)
-        func_005A47D4(rep_data(r) + pos, s, n);
+        memmove(rep_data(r) + pos, s, n);
 }
 
 static inline void release(struct StringRep *r) {

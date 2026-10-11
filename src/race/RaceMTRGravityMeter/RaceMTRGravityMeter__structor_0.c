@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/RaceMTRGravityMeter.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_003AC8C8(void *);                      /* extern */
 s32 RaceDisplayObjectBase__structor_0();                            /* extern */

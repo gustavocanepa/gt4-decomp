@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/RaceNetBattle.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 struct RaceNetBattle__virtual_132_temp_a0 {
     char pad0[0x28];

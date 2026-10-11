@@ -1,5 +1,5 @@
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 RaceChampionship__structor_0(s32);                         /* extern */
 s32 exception__structor_0(s32);                         /* extern */

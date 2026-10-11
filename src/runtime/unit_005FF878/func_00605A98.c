@@ -3,15 +3,15 @@
  * reallocates when check_realloc says so, keeping the text when save is set; the library's inline
  * helpers are nested as in bastring.h (check_realloc, Rep::create/frob_size/operator new,
  * Rep::copy, repup/Rep::release/operator delete) for the second string instantiation (allocator memalign(16, n) = func_00575E60, returning
- * 0 for n == 0; deallocator func_00575DA0(p)). */
+ * 0 for n == 0; deallocator free(p)). */
 typedef unsigned int u32;
 
 struct StringRep { u32 len; u32 res; u32 ref; u32 selfish; };
 struct String { char *dat; };
 
 extern void *func_00575E60(u32 align, u32 size);
-extern void func_00575DA0(void *ptr);
-extern void *func_005A4724(void *dst, const void *src, u32 n);
+extern void free(void *ptr);
+extern void *memcpy(void *dst, const void *src, u32 n);
 
 static inline char *rep_data(struct StringRep *r) { return (char *)(r + 1); }
 static inline struct StringRep *rep(struct String *str) { return (struct StringRep *)str->dat - 1; }
@@ -30,7 +30,7 @@ static inline void *rep_new(u32 n) {
 }
 
 static inline void rep_delete(struct StringRep *p) {
-    func_00575DA0(p);
+    free(p);
 }
 
 static inline struct StringRep *create(u32 extra) {
@@ -45,7 +45,7 @@ static inline struct StringRep *create(u32 extra) {
 
 static inline void rep_copy(struct StringRep *r, u32 pos, const char *s, u32 n) {
     if (n)
-        func_005A4724(rep_data(r) + pos, s, n);
+        memcpy(rep_data(r) + pos, s, n);
 }
 
 static inline void release(struct StringRep *r) {

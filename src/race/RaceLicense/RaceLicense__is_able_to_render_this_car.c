@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 RacePS2Base__is_able_to_render_this_car(s32, void *);
 s32 LicenseConcourse__isCameraPeriod(s32);

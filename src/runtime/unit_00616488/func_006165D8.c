@@ -3,7 +3,7 @@
 #include "types.h"
 #include "gt4/__user_type_info.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 extern char __user_type_info__vtable[];
 s32 func_006165D8(struct __user_type_info *arg0, s32 arg1) {

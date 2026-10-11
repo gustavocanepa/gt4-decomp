@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/mTransition.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 void mUpdateContext__Sync(s32);
 void mTransition__syncWait(struct mTransition *arg0) {

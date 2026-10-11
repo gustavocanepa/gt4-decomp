@@ -1,4 +1,4 @@
-/* Register allocation found by a random search over which fields are func_005AE2E8 into locals (build/scratch/os2c/perm36.py). */
+/* Register allocation found by a random search over which fields are read into locals (build/scratch/os2c/perm36.py). */
 typedef float f32;
 
 struct Obj_0036FD98 {

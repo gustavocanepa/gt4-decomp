@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/mRotateActor.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 mWidget__setRotate(s32, f32);                    /* extern */
 s32 func_002CDB30();                            /* extern */

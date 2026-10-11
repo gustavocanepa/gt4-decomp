@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/RaceCarModel.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_003B1840(void *);                      /* extern */
 

@@ -21,7 +21,7 @@ struct Val {
 };
 
 extern "C" void *func_00575E60(int align, int size);
-extern "C" void func_00575DA0(void *p);
+extern "C" void free(void *p);
 
 template <class T>
 class ValAlloc {
@@ -39,7 +39,7 @@ public:
     template <class U> ValAlloc(const ValAlloc<U> &) throw() {}
     ~ValAlloc() throw() {}
     T *allocate(size_type n, const void * = 0) { return (T *)func_00575E60(16, n * sizeof(T)); }
-    void deallocate(T *p, size_type) { func_00575DA0(p); }
+    void deallocate(T *p, size_type) { free(p); }
     size_type max_size() const throw() { return size_t(-1) / sizeof(T); }
     void construct(T *p, const T &v) { new (p) T(v); }
     void destroy(T *p) { p->~T(); }

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "gt4/mListBox.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 mWidget__onFocusLeave();                            /* extern */
 s32 mListBox__setFocusIndex(void *, s32);                 /* extern */

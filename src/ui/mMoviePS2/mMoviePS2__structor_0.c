@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/mMoviePS2.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 extern char mMoviePS2__vtable[];
 s32 mMovie__structor_0(void *);

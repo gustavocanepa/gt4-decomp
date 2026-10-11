@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_00333560(void *, s32, s32, s32, s32, s32, f32, s32); /* extern */
 s32 func_00334FA8();                            /* extern */
@@ -14,8 +14,8 @@ void GT4Model__BinStreamReader__readArray(void *, void *, s32);     /* extern */
 s32 func_0045B620(void *, void *);              /* extern */
 s32 func_0045B740(void *, void *);              /* extern */
 s32 func_0045B768(void *, void *, s32);     /* extern */
-s32 func_005A4724(s32, s32, s32);               /* extern */
-s32 func_005A47D4(s32, s32, s32);           /* extern */
+s32 memcpy(s32, s32, s32);               /* extern */
+s32 memmove(s32, s32, s32);           /* extern */
 s32 func_005CD6E8(void *, s32, s32, s8 *);      /* extern */
 
 extern char D_0069F140;
@@ -67,13 +67,13 @@ void func_00335248(void *arg0, struct func_00335248_arg1 *arg1, s32 arg2, s32 ar
     sp10 = 0;
     if (temp_v1 < temp_a0) {
         temp_s0_2 = temp_s0 + temp_v1;
-        func_005A47D4(temp_s0_2, temp_s1, 0);
+        memmove(temp_s0_2, temp_s1, 0);
         temp_s2->unk8 = (s32) (temp_s2->unk8 - (temp_s1 - temp_s0_2));
     } else {
         func_005CD6E8(temp_s2, temp_s1, temp_v1 - temp_a0, &sp10);
     }
     temp_a1 = arg1->unk0;
-    func_005A4724(temp_s2->unk4, temp_a1, arg1->unk4 - temp_a1);
+    memcpy(temp_s2->unk4, temp_a1, arg1->unk4 - temp_a1);
     ((struct func_00335248_arg0 *)arg0)->unk168 = 1;
     func_0045B768(sp, arg1, &D_0069F140);
     func_0045B620(sp, arg1);

@@ -1,9 +1,9 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 extern "C" {
-s32 func_00575DA0(s32);                         /* extern */
+s32 free(s32);                         /* extern */
 
 struct func_00470D60_arg0 {
     char pad0[0x8];
@@ -20,7 +20,7 @@ void func_00470D60(char *arg0) {
     do {
         temp_v0 = *var_s0;
         if (temp_v0 != 0) {
-            func_00575DA0(temp_v0);
+            free(temp_v0);
         }
         var_s1 -= 1;
         *var_s0 = 0;

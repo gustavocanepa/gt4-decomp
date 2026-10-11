@@ -1,13 +1,13 @@
 /* newlib 1.9.0 libc/stdlib/rand.c: rand(), compiled with strict aliasing (unlike most of newlib):
-   the D_00658288 load is kept across the store. The file has no notice of its own
+   the _impure_ptr load is kept across the store. The file has no notice of its own
    (COPYING.NEWLIB section 9, THIRD_PARTY.md). */
 struct _reent {
     char pad[0xA8];
     unsigned long long _rand_next; /* _new._reent._rand_next */
 };
 
-extern struct _reent *D_00658288; /* D_00658288 */
-#define _REENT D_00658288
+extern struct _reent *_impure_ptr; /* _impure_ptr */
+#define _REENT _impure_ptr
 #define RAND_MAX 0x7fffffff
 
 int func_005A5600(void)

@@ -9,7 +9,7 @@ struct StringRep { u32 len; u32 cap; u32 refs; u32 spare; };
 
 extern struct Heap *func_005C11A8(void);
 extern void *func_00326750(int size, int align, const char *name);
-extern void *func_005A4724(void *dst, const void *src, u32 n);
+extern void *memcpy(void *dst, const void *src, u32 n);
 
 static inline u32 frob_size(u32 s) {
     u32 i = 16;
@@ -36,7 +36,7 @@ static inline struct StringRep *create(u32 extra) {
 static inline char *data(struct StringRep *r) { return (char *)(r + 1); }
 static inline void copy(struct StringRep *r, u32 pos, const char *s, u32 n) {
     if (n)
-        func_005A4724(data(r) + pos, s, n);
+        memcpy(data(r) + pos, s, n);
 }
 char *func_005C2560(struct StringRep *src) {
     struct StringRep *p = create(src->len);

@@ -4,14 +4,14 @@ struct D_Node {
     D_Node *child;
 };
 
-extern "C" void func_00575DA0(void *);
+extern "C" void free(void *);
 
 extern "C" void func_0060BC08(int arg0, D_Node *node) {
     if (node) {
         do {
             func_0060BC08(arg0, node->child);
             D_Node *next = node->next;
-            func_00575DA0(node);
+            free(node);
             node = next;
         } while (node);
     }

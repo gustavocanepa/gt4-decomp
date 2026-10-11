@@ -1,6 +1,6 @@
 #include "types.h"
 #include "gt4/RaceFreeRun.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 f32 RacePS2Base__getMasterVolume();                                /* extern */
 

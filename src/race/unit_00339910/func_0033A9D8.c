@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 GT4Model__BinStreamReader__read8u(void *);                      /* extern */
 s32 func_0045B228(void *);                      /* extern */

@@ -1,7 +1,7 @@
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
-s32 func_005A47D4(s32, s32, s32);               /* extern */
+s32 memmove(s32, s32, s32);               /* extern */
 
 struct func_00575720_arg0 {
     char pad0[0x4C];
@@ -16,6 +16,6 @@ void func_00575720(struct func_00575720_arg0 *arg0, s32 arg1) {
     temp_a0 = arg0->unk4C;
     temp_a0_2 = temp_a0 + 8;
     arg0->unk4C = temp_a0_2;
-    func_005A47D4(temp_a0_2, temp_a0, ((s32) (arg1 - temp_a0) >> 3) * 8);
+    memmove(temp_a0_2, temp_a0, ((s32) (arg1 - temp_a0) >> 3) * 8);
     arg0->unk50 = (s32) (arg0->unk50 - 1);
 }

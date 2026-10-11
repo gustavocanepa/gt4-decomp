@@ -8,7 +8,7 @@ extern void *mpegif__vtable;
 extern "C" void func_00574EE8(void *);
 extern "C" void func_00578908(void *);
 extern "C" void func_0054F7A0(void *);
-extern "C" void func_00575DA0(void *);
+extern "C" void free(void *);
 extern "C" void func_005633A8(void);
 extern "C" void func_005ADCB0(void *);
 extern "C" void func_00578E98(void *, s32);
@@ -21,9 +21,9 @@ extern "C" void mpegif__structor_1(void *arg0, s32 arg1) {
     func_00574EE8((char *)arg0 + 0x320);
     func_00578908(((struct mpegif *)arg0)->unk3CC);
     func_0054F7A0(((struct mpegif *)arg0)->unk3E8);
-    func_00575DA0(((struct mpegif *)arg0)->unk3D4);
-    func_00575DA0(((struct mpegif *)arg0)->unk3D8);
-    func_00575DA0(((struct mpegif *)arg0)->unk3DC);
+    free(((struct mpegif *)arg0)->unk3D4);
+    free(((struct mpegif *)arg0)->unk3D8);
+    free(((struct mpegif *)arg0)->unk3DC);
     if (*(void **)((char *)&D_00650000 + -0x3b58) == 0) {
         func_005633A8();
     }

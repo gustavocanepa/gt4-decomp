@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/hBuiltinAttribute.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 void func_00309378(void *, s32);
 void *func_0030BB18(void *);

@@ -2,7 +2,7 @@
 /* Unless *(a1 + 0x188) is set: formats *(a1 + 0x1CC) into a buffer (func_0057DA20), builds
  * D_00695900 + String(a1 + 0x18C) + D_00695908 + String(buf) + D_00695910 and passes it, as a
  * string of the second basic_string instantiation (nilRep D_00659E20, clone strobe__toUpper,
- * replace strobe__Any__setMember, operator delete func_00575DA0), to func_004EC078(a0 + 0x10 + 0xA8).
+ * replace strobe__Any__setMember, operator delete free), to func_004EC078(a0 + 0x10 + 0xA8).
  * gcc 2.96 bastring.h members inline: constructors, destructor, append, operator+, c_str(). */
 typedef unsigned int u32;
 
@@ -105,10 +105,10 @@ struct Rep2 {
 };
 
 extern "C" char *strobe__toUpper(Rep2 *r);
-extern "C" void func_00575DA0(void *p);
+extern "C" void free(void *p);
 extern Rep2 D_00659E20;
 
-inline void Rep2::operator delete(void *p, u32 n) { func_00575DA0(p); }
+inline void Rep2::operator delete(void *p, u32 n) { free(p); }
 
 inline char *Rep2::grab() {
     if (selfish)

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gt4/mEyetoyFace.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_001B9D18(s32);                         /* extern */
 s32 func_001BEEF8(void *);                      /* extern */

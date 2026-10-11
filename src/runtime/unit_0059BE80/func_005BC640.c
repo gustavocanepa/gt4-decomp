@@ -7,12 +7,12 @@ typedef struct {
     char data[0xE8];
 } Obj_005BC640;
 
-void *func_00575DC8(int size);
+void *malloc(int size);
 void func_005BC5F0(void) __attribute__((noreturn));
 void *func_005A48D8(void *p, int c, int n);
 
 Obj_005BC640 *func_005BC640(void) {
-    Obj_005BC640 *p = func_00575DC8(sizeof(Obj_005BC640));
+    Obj_005BC640 *p = malloc(sizeof(Obj_005BC640));
     if (p == 0) {
         func_005BC5F0();
     }

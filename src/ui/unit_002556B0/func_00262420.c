@@ -1,5 +1,5 @@
 #include "types.h"
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 MboolReader__structor_8(void *);                          /* extern */
 s32 func_00265D10(s32, s32);                    /* extern */

@@ -12,7 +12,7 @@ struct Heap {
     Block *end;
 };
 
-// Is b a func_00575DA0 block of the heap: 16-byte aligned, inside [start, end), both tags -1. The tag
+// Is b a free block of the heap: 16-byte aligned, inside [start, end), both tags -1. The tag
 // constant as a local set one block ahead keeps one -1 register for both compares.
 extern "C" bool func_00612C70(Heap *h, Block *b) {
     if ((u32)b & 0xF)

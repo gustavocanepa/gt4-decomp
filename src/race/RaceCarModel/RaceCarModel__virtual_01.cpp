@@ -26,7 +26,7 @@ extern "C" s32 func_00450AD0(void *);
 extern "C" void func_003EDA10(s32);
 extern "C" void func_003EDA90(s32);
 extern "C" void func_0044F4B0(void);
-extern "C" void func_00575DA0(s32);
+extern "C" void free(s32);
 extern "C" void HumanModel__virtual_03(void *);
 
 struct RaceCarModel__virtual_01_arg0 {
@@ -51,7 +51,7 @@ extern "C" void RaceCarModel__virtual_01(s32 *arg0) {
         ((struct RaceCarModel__virtual_01_arg0 *)arg0)->unkC = 0;
     }
     if (((struct RaceCarModel__virtual_01_arg0 *)arg0)->unk14 != 0) {
-        func_00575DA0(((struct RaceCarModel__virtual_01_arg0 *)arg0)->unk14);
+        free(((struct RaceCarModel__virtual_01_arg0 *)arg0)->unk14);
         ((struct RaceCarModel__virtual_01_arg0 *)arg0)->unk14 = 0;
     }
     ((struct RaceCarModel__virtual_01_arg0 *)arg0)->unk1670 = 0;

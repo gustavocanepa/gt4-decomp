@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_0035BEB0(s32);                             /* extern */
 s32 Pitmen__is_tireman(s32);                             /* extern */

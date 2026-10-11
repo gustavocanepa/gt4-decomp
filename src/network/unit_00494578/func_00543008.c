@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 s32 func_00538830(s32);                             /* extern */
 s32 func_00538988();                                /* extern */
@@ -8,7 +8,7 @@ s32 func_00538B08(void *, s32);             /* extern */
 void *func_00542928();                              /* extern */
 s32 func_005429F0(s32, void *);                 /* extern */
 void *func_00542A28(s32, s32);                      /* extern */
-s32 func_005A4724(s32, s32, s32);           /* extern */
+s32 memcpy(s32, s32, s32);           /* extern */
 s32 func_005A48D8(s32, s32, s32);       /* extern */
 
 struct func_00543008_var_s0 {
@@ -43,7 +43,7 @@ s32 func_00543008(s32 arg0, s32 arg1, s32 arg2) {
             if (((struct func_00543008_var_s0 *)var_s0)->unkC == 0) {
                 func_00538B08(var_s0 + 0xC, 0x40);
             }
-            func_005A4724(((struct func_00543008_var_s0 *)var_s0)->unkC, arg2, 0x40);
+            memcpy(((struct func_00543008_var_s0 *)var_s0)->unkC, arg2, 0x40);
         }
         var_v0 = 0;
     }

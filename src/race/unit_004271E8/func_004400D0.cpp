@@ -1,6 +1,6 @@
 #include "types.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 extern "C" {
 s32 SPEC_DATABASE__DatabaseStorage__getRow(s32, s64, s32, void *);   /* extern */

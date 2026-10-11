@@ -3,7 +3,7 @@
 #include "types.h"
 #include "gt4/mScrollBox.h"
 #define NULL 0
-void *func_005A4724(void *, const void *, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
 
 void mWidget__virtual_70(void *, s32, s32);                     /* extern */
 s32 func_00265DC8(void *);                          /* extern */

@@ -23,7 +23,7 @@ struct S00659988 {
 };
 
 extern char D_0068FD80[];
-extern "C" void func_00575DA0(s32);
+extern "C" void free(s32);
 extern "C" void func_005A609C(void *, void *);
 extern "C" void func_005A5DC8(void *, void *);
 extern "C" void func_004AE230(void *, void *, s32);
@@ -46,7 +46,7 @@ extern "C" void func_001553C0(s32 *arg0, void *arg1, s32 arg2) {
     s32 buf8[4];
     s32 buf9[4];
     s32 buf10[4];
-    func_00575DA0(((struct func_001553C0_arg0 *)arg0)->unk89C);
+    free(((struct func_001553C0_arg0 *)arg0)->unk89C);
     ((struct func_001553C0_arg0 *)arg0)->unk89C = 0;
     if (arg2 != 0) {
         func_005A609C(buf0, arg1);

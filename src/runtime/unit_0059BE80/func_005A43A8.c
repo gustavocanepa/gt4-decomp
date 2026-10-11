@@ -18,7 +18,7 @@ struct Reent {
     struct StreamBlock first;
 };
 
-/* Calls fn on every func_005AE360 stream of every block, ORing the results. */
+/* Calls fn on every open stream of every block, ORing the results. */
 s32 func_005A43A8(struct Reent *r, s32 (*fn)(struct Stream *)) {
     struct Stream *s;
     s32 n;
