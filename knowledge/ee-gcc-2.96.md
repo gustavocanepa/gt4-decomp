@@ -107,6 +107,12 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   (00430A58).
 
 ## Statement order and scheduling
+- **Constants built only after earlier stores, never hoisted above them** (e.g. a GIF tag's
+  `ori 0x8000; dsll32` after the Packet bookkeeping `sw`s), = the later statements sit in a
+  `do { ... } while (0)` block, a packet macro's body. Its loop notes make the block's first insn a
+  sched1 barrier, so nothing moves across it in either direction (004A9020, 004A90A8, 004A9108;
+  without it 12-14 off). The GIF tag value itself is the SDK's `SCE_GIF_SET_TAG(nloop, eop, pre,
+  prim, flg, nreg)` with an `int nloop` (a u64 one swaps the `or` operands).
 - m2c lists its temporaries in its own order, not the original's: when the first differing lines
   are loads from another base register (`lw $v0, 0($s4); lw $v1, 4($s4)` before mine's
   `lw $s1, 8($s2)`), move the statement computing from that base first (a `size()` of the source
