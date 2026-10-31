@@ -120,6 +120,7 @@ __underflow = 0x005948D8; // type:func
 _ctype_ = 0x006D0E78; // type:data
 _impure_ptr = 0x00658288; // type:data
 _link_in__9streambuf = 0x00593DE0; // type:func
+_sb_readline__FP9streambufRlc = 0x005938B0; // type:func
 _skip_ws__7istream = 0x00593150; // type:func
 _un_link__9streambuf = 0x00593DC0; // type:func
 _vt$7filebuf = 0x0068A018; // type:data

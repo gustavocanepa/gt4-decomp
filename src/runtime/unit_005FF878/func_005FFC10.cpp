@@ -24,6 +24,7 @@ struct D_00686570 : Root_005FFC10 {
     s128 m30;
     f32 m40;
     f32 m44;
+    virtual void key(); /* declared only: the vtable stays the original's */
 };
 
 struct D_00686518 : D_00686570 {

@@ -14,6 +14,7 @@ public:
 class D_00688E18 : public B {
 public:
     virtual ~D_00688E18() {}
+    virtual void key(); /* declared only: the vtable stays the original's */
 };
 
 extern A D_00631880;

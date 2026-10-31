@@ -1,3 +1,7 @@
+/* Counts the peers by state; when one peer is selected and none is busy, notifies the selection and
+ * sends each ready peer (state 3 or 4) a 2-byte command through func_00527488 (flags 0xF000).
+ * The loop tests self->count directly (the hoisted load gives retail's copy), and the Packet keeps
+ * size/count in memory so loop.c does not hoist the constants. */
 struct Item { int state; char pad4[0x18]; int pending; char pad20[0x24]; };
 struct Self;
 typedef void (*SelectFn)(int, int, int, int);

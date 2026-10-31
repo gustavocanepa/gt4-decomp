@@ -18,12 +18,14 @@ struct Vec {
 };
 struct MEventFilter {
     virtual ~MEventFilter() {}
+    virtual void key(); /* declared only: the vtable stays the original's */
 };
 struct IfRootEvent : MEventFilter {
     void *widget;
     int type, handled;
     IfRootEvent(void *w, int t) : widget(w), type(t), handled(0) {}
     virtual ~IfRootEvent() {}
+    virtual void key(); /* declared only: the vtable stays the original's */
 };
 struct Handle { char *p; Handle() {} Handle(char *q) : p(q) {} };
 struct VE { short delta, index; int (*fn)(void *); };

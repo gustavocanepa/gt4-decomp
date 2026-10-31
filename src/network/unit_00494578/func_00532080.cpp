@@ -1,3 +1,6 @@
+/* Validates a typed message and sends it, payload plus a 2-byte {type, sub} header, either to the
+ * default peer (id 0xFFFF, through the Id that func_00535D78 returns) or to the given id. The Id
+ * is passed straight from the call: a named local would add a by-value copy. */
 struct Entry { void *ptr; int size; };
 struct Packet {
     Entry entries[8]; int size, count;
