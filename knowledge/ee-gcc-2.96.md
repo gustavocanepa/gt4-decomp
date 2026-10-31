@@ -30,6 +30,11 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - Register allocation and instruction order follow statement order: if only a few instructions
   differ, try reordering statements, introducing or removing a temporary, a pointer variable for a
   sub-struct, an inline helper, a different loop form, or signed/unsigned types.
+- **A constant and a loaded value in swapped `$v0`/`$v1` that no statement order fixes** (both
+  local pseudos, the constant hoisted by sched1 so it outlives the load): write the body as a
+  static inline taking the constant as a parameter (`set_(2, mask, notify, target)`). The inlined
+  parameter changes the pseudos' lengths and so their priority (0055C398: 8 off to MATCH; it did not
+  help its sibling 0055AA28, where the swapped pair is two loads).
 - Saved-register (`$s0`, `$s1`...) order is decided by priority = uses*log2(uses)/live length, not
   by declaration order. To swap two `$s` homes, change real uses or lifetimes, not declarations.
 - To push a value to a higher `$s` register: end its live range later or give it fewer uses; to
