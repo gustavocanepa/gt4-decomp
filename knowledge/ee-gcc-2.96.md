@@ -116,6 +116,16 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   The GIF tag value itself is the SDK's `SCE_GIF_SET_TAG(nloop, eop, pre, prim, flg, nreg)` with an
   `int nloop` (a u64 one swaps the `or` operands). In the same family, `p = c->top; p -= 4;
   if (flag) p -= 8;` keeps retail's separate -0x10 / -0x20 adds; `c->top - 4` folds them to -0x30.
+  The same barrier keeps a register copy below a call: sched1 moves pseudo copies across calls
+  freely, so `call(); do { } while (0); for (i = 0, mode = flag; ...)` keeps `mode = flag` after
+  the call (005B31F8, ee-gcc2.9-991111).
+- **A loop whose test loads into one register and copies it to the loop variable in the branch
+  delay slot** (`lw v0, 0(p); bnez v0; daddu a1, v0`) = `while (p[0] != 0) { code = p[0]; ... }`:
+  CSE merges the body's reload with the test's load. Loading `code` in the for header or the
+  condition gives a direct `lw a1` (00586AE0, 991111).
+- **SDK stores that keep source order around a stored `$gp`** (`daddu v0, gp; sw v0, 0x18(s2)`
+  followed by the other stores unchanged): every field is `int` (pointer or `void *` fields let
+  sched1 move the int stores past the gp store) (00590FD8).
 - m2c lists its temporaries in its own order, not the original's: when the first differing lines
   are loads from another base register (`lw $v0, 0($s4); lw $v1, 4($s4)` before mine's
   `lw $s1, 8($s2)`), move the statement computing from that base first (a `size()` of the source
