@@ -158,6 +158,9 @@ def main():
     m = re.search(r"\(original (\d+), mine \d+\)|MATCH \((\d+) instructions\)", judged)
     count = int(m.group(1) or m.group(2)) if m and not a.preserve_context else None
     asm = match.gnu_asm(addr, count).replace(".set noreorder\n.set noat\n", "")
+    # rabbitizer prints o32 names ($t0-$t7 = $8-$15) but the assembler runs with -mabi=eabi, where
+    # $t0-$t3 are $12-$15 and $t4-$t7 do not exist: spell the temporaries as numbers.
+    asm = re.sub(r"\$t([0-9])\b", lambda m: f"${8 + int(m.group(1)) if m.group(1) < '8' else 16 + int(m.group(1))}", asm)
     open(os.path.join(work, "target.s"), "w", newline="\n").write(PRELUDE + asm)
     prepare = 'cp "$1" "$work/candidate.c"'
     if a.preserve_context:
