@@ -119,6 +119,12 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   The same barrier keeps a register copy below a call: sched1 moves pseudo copies across calls
   freely, so `call(); do { } while (0); for (i = 0, mode = flag; ...)` keeps `mode = flag` after
   the call (005B31F8, ee-gcc2.9-991111).
+  It also pins stores that alias analysis lets sched1 move: a store to a distinct symbol (a
+  written-out local static's `guard = 1` hoisted above the object's field stores) stays put
+  when it and the registration call after it share one block (00329530); a list entry's
+  `state = 0` stays after the unlink stores (004AA6B8). A local's initialiser can sit in a block
+  of its own (`Buf *buf; do { buf = &s->buf; } while (0);`) to keep it last before an entry
+  jump, where reorg puts it in the delay slot (00558038). `regsearch.py` tries both wraps.
 - **A loop whose test loads into one register and copies it to the loop variable in the branch
   delay slot** (`lw v0, 0(p); bnez v0; daddu a1, v0`) = `while (p[0] != 0) { code = p[0]; ... }`:
   CSE merges the body's reload with the test's load. Loading `code` in the for header or the
