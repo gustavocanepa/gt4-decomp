@@ -161,6 +161,8 @@ def main():
     # rabbitizer prints o32 names ($t0-$t7 = $8-$15) but the assembler runs with -mabi=eabi, where
     # $t0-$t3 are $12-$15 and $t4-$t7 do not exist: spell the temporaries as numbers.
     asm = re.sub(r"\$t([0-9])\b", lambda m: f"${8 + int(m.group(1)) if m.group(1) < '8' else 16 + int(m.group(1))}", asm)
+    # The R5900's float-to-int (funct 0x24) is cvt.w.s to rabbitizer but trunc.w.s to gas -march=r5900.
+    asm = asm.replace("cvt.w.s ", "trunc.w.s ")
     open(os.path.join(work, "target.s"), "w", newline="\n").write(PRELUDE + asm)
     prepare = 'cp "$1" "$work/candidate.c"'
     if a.preserve_context:
