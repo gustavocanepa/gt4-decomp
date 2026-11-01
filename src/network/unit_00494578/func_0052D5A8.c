@@ -1,3 +1,6 @@
+/* Appends a packet's pieces to a ring-buffer message queue: into the current message when it is
+ * empty, otherwise as a new chained message. The size-check failure is a goto to a label after the
+ * final return: an inline `return 0x12D` makes sched1 hoist the $v0 store above the compare. */
 struct Piece { void *data; int len; };
 struct Pkt { struct Piece p[8]; unsigned int total; int count; };
 struct Msg { unsigned int len; struct Msg *next; char data[1]; };

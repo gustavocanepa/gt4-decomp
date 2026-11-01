@@ -11,6 +11,7 @@ class PropNameSearcher__vtable : public ResultBase {
 public:
     int value;
     PropNameSearcher__vtable() : value(0) {}
+    virtual void key(); /* declared only: the vtable stays the original's */
 };
 
 struct Key {

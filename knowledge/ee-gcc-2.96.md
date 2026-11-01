@@ -30,6 +30,11 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - Register allocation and instruction order follow statement order: if only a few instructions
   differ, try reordering statements, introducing or removing a temporary, a pointer variable for a
   sub-struct, an inline helper, a different loop form, or signed/unsigned types.
+- **A constant and a loaded value in swapped `$v0`/`$v1` that no statement order fixes** (both
+  local pseudos, the constant hoisted by sched1 so it outlives the load): write the body as a
+  static inline taking the constant as a parameter (`set_(2, mask, notify, target)`). The inlined
+  parameter changes the pseudos' lengths and so their priority (0055C398: 8 off to MATCH; it did not
+  help its sibling 0055AA28, where the swapped pair is two loads).
 - Saved-register (`$s0`, `$s1`...) order is decided by priority = uses*log2(uses)/live length, not
   by declaration order. To swap two `$s` homes, change real uses or lifetimes, not declarations.
 - To push a value to a higher `$s` register: end its live range later or give it fewer uses; to
@@ -88,7 +93,39 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - `s32 v = (u8)field` copied into a 32-bit local before `v == 1 || v == 2` avoids an `andi 0xff`
   and lets the compiler emit `addiu -1; sltiu 2`.
 
+- A copy of an argument register made at entry (`daddu $v0, $a0`, `mov.s $f0, $f12`) while the
+  original stays live into a later call = the body is an inline helper and the call passes the
+  caller's own value: `play(a, &a->tab, c, t)` with `play(Anim *self, Entry **tab, Ctx *c, float t)`.
+  Before chasing such copies, read the callee's matched source for its real prototype: extra
+  arguments (here an `int x` in `$t1` and `float t` in `$f12`) explain registers that look dead
+  (00474568).
+- A parameter or local stored to the stack on entry (`sw $a1, 0($sp)`) and reloaded later in a
+  function with no calls = its address was taken by an inlined reference helper. A pass-through
+  `static inline const int &ref(const int &x) { return x; }` around the uses in one condition
+  (`if (ref(cur) != 0 && ref(want) != ref(cur))`) gives the slots and keeps the test as branches;
+  an inline `bool ok(const int &, const int &)` gives the slots but evaluates the test to a value
+  (00430A58).
+
 ## Statement order and scheduling
+- **Constants built only after earlier stores, never hoisted above them** (e.g. a GIF tag's
+  `ori 0x8000; dsll32` after the Packet bookkeeping `sw`s), = the later statements sit in a
+  `do { ... } while (0)` block, a packet macro's body. Its loop notes make the block's first insn a
+  sched1 barrier, so nothing moves across it in either direction (004A9020, 004A90A8, 004A9108,
+  004A1FA8, 004A3910; without it 12-26 off). Pointers the original computes early (the tag's
+  `q = p + 4`) are computed before the blocks; a trailing `dirty |= bit` can be a block of its own.
+  The GIF tag value itself is the SDK's `SCE_GIF_SET_TAG(nloop, eop, pre, prim, flg, nreg)` with an
+  `int nloop` (a u64 one swaps the `or` operands). In the same family, `p = c->top; p -= 4;
+  if (flag) p -= 8;` keeps retail's separate -0x10 / -0x20 adds; `c->top - 4` folds them to -0x30.
+  The same barrier keeps a register copy below a call: sched1 moves pseudo copies across calls
+  freely, so `call(); do { } while (0); for (i = 0, mode = flag; ...)` keeps `mode = flag` after
+  the call (005B31F8, ee-gcc2.9-991111).
+- **A loop whose test loads into one register and copies it to the loop variable in the branch
+  delay slot** (`lw v0, 0(p); bnez v0; daddu a1, v0`) = `while (p[0] != 0) { code = p[0]; ... }`:
+  CSE merges the body's reload with the test's load. Loading `code` in the for header or the
+  condition gives a direct `lw a1` (00586AE0, 991111).
+- **SDK stores that keep source order around a stored `$gp`** (`daddu v0, gp; sw v0, 0x18(s2)`
+  followed by the other stores unchanged): every field is `int` (pointer or `void *` fields let
+  sched1 move the int stores past the gp store) (00590FD8).
 - m2c lists its temporaries in its own order, not the original's: when the first differing lines
   are loads from another base register (`lw $v0, 0($s4); lw $v1, 4($s4)` before mine's
   `lw $s1, 8($s2)`), move the statement computing from that base first (a `size()` of the source
@@ -124,6 +161,16 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   (allowed by tools/asm_policy.py); DIntr() is func_005B72A8 (handle retain/release 003285A8/003285F8).
 
 ## Branches, conditions and branch-likely
+- **`xori $v0, $v0, 0` on a compare result before a `movn`** (a no-op that no simple test produces) =
+  a negated `<=`: `if (!(v <= hi)) v = hi;` (slt plus the `<=` inversion plus the `!` inversion,
+  folded into an xori with 0 that combine keeps) (00558DB0).
+- **A branch-likely (`beql`/`bnel`) where the original has a plain branch with the same slot**
+  (the slot holds the target's first instruction, e.g. the epilogue's `ld $s0`): declare the
+  callees `throw()` (a C++ destructor too: `virtual ~B() throw() __asm__("func_ADDR")`). Without
+  it reorg sees the register live on the fall-through path and annuls the slot. One `throw()` on
+  the call right after the branch was enough (00564990, 00556BB8, both 1 off for several tiers).
+  It works the other way too: 00559808 needed `throw()` on the callee to get retail's `bnel`.
+  Whenever the only difference is a branch's likely bit, try `throw()` on each nearby callee.
 - **Byte tests in `$v1` instead of `$v0`** across a whole draft (`lbu $v1; beql $v1, $zero`) while
   the original tests in `$v0`: the draft is compiled as C, the game as C++. The same body as .cpp
   (`char *` instead of `void *` arithmetic, extern "C") takes `$v0` (func_003A78B8: 31 -> 25 differ,
@@ -194,6 +241,12 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   bitfield stores give `sb`.
 
 ## Loops
+- **Three induction registers in a 24-entry pool walk** (`$s0` += size field pointer, `$s1` countdown
+  from n-1, `$s2` += size byte offset with `addu $a0, base, $s2` for the call), where `$s1`/`$s2`
+  are set before a preceding call and `$s0` after it: the countdown and the offset are the
+  source's own variables initialised up front (`off = 0; i = n - 1;`, in that order for the
+  homes), the tested field is read through the global array with a separate index (loop.c
+  reduces that one), and the call argument is `(T *)((char *)pool + off)` (005596F8).
 - Counted loops: write the loop the way a programmer would, e.g. `for (i = 0; i < 125; i++)
   v = f(&obj->elems[i], v);` over an array (or `p++` as its own statement). The compiler itself
   turns it into a down-counting register plus a pointer stride; reproducing that counter by hand
@@ -220,6 +273,37 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - Biased negative offsets in a loop (`-0x1C($s0)`): pointer advanced alongside the counter with the
   loop starting at 1: `for (i = 1; i < n; i++, p++)`.
 - A loop around the final call (even one iteration) keeps that call `jal`, never `j`.
+- Peeled first iteration (its tests folded for `i = 0`) and then an unrotated loop
+  `i++; tests; body; b top` with the body's store in the `b` slot = `for (; i < N; i++) { if (a && b)
+  { body } else break; }` with `i = 0` set at its declaration. With `i = 0` only in the for-init the
+  guard keeps an unfolded `slt`; with all tests in the for condition the loop rotates to `bnel`
+  (004478F8).
+- A base address built before a loop and copied to a second register (`addiu $v1, $sp, 0x10` ...
+  `daddu $t0, $v1`) = loop.c hoisted an address the source computes inside the loop: index the
+  array member directly (`name.c[i]` through a union), not through a pointer local made before the
+  loop (004478F8). Same for `t->h->e` read inside an inline helper (00449190).
+- An up-counting loop that keeps `sll i, 3; addu base, i` (no cursor) and reloads a count field
+  every iteration although nothing is stored = no loop optimisation and no GCSE: write the loop
+  with `goto` (no loop notes, so no strength reduction) and use `ee-gcc2.96-nogcse`. A second
+  register holding a copy of the table base = a second pointer local for the inlined accessor
+  (`E *e = h->e; E *ke = e;`). 00449AF8: 30 -> MATCH.
+- Two saved registers holding the same stack address in a loop (`addiu $s4, $sp, 0x10;
+  daddu $s3, $s4`, one used by some calls, the other by the rest) = a pointer local to the object
+  declared just before the loop and used for some of the calls, the object itself (`&b`) for the
+  others; loop.c turns the in-loop `&b` into a copy of the pointer. Declared at function entry the
+  pointer is set too early; inside the body CSE merges the two (004BE980, 0022BC20).
+  If the original leaves the loop guard's `blez` delay slot empty (`nop`) with the `addiu` right
+  after it, the pointer is set after the copied loop test: `i = 0; if (i < count) { p = &b;
+  for (; i < count; i++) ... }` (0022BC20, 0022BCE0; `for (i = 0, p = &b; ...)` fills the slot).
+  The converse: retail's copied loop test `blez n` carrying a load in its slot with `i = 0` just
+  before it = the load is the last for-init expression, `for (s32 i = 0, pos = c->pos; i < n; i++)`
+  (reorg fills the slot with the insn right before the test); a separate `pos = c->pos;` statement
+  before the loop puts `i = 0` in the slot instead (005560C8).
+- A load sitting in the delay slot of the `bne` that splits an if/else (`bne ...; lw $a0, 0x24($s2)`)
+  may be one load per branch in the source (`if (c) { base = self->p24; ... } else { base =
+  self->p24; ... }`): reorg moves the fall-through copy into the slot and deletes the twin at the
+  target. In RTL that is one more reference to `self`, enough to swap two close saved-register
+  priorities (004BE980: self 3600 -> 4000 over a hoisted `&info` at 3636).
 
 ## Switch and jump tables
 - `sltu t, k, N; beqz t, default; sll; lw; jr` = jump table: needs about 5 or more distinct case
@@ -227,6 +311,9 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - Table entries that repeat (`L1, L2, L3, L3, L3`) = separate cases with identical bodies that were
   merged afterwards; write each case separately.
 - Low cases that do nothing still appear in the table: write them (`case 0: case 1: break;`).
+- Compare tree `beq k,1; slti k,2; beqz k; beq k,2; beq k,3` where cases 1-3 land on one body =
+  three separate identical `case` bodies (merged later by cross-jumping); `case 1: case 2: case 3:`
+  becomes a range test instead (00430A58).
 - Compare tree starting with `beq k, 1` then `slt k, 2` = small signed switch (probe); a `u32`
   selector with 0,1,2 gives a linear `beq` chain instead.
 - Arms ending `j $ra; li $v0, K` = `case X: return K;` (probe). Arms `b common; li $v,K` converging
@@ -401,6 +488,10 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - `bool` results are used as is (`$v0` tested directly, no `andi 0xff` after the call) (probe).
 - Use each callee's real return type: `void` vs `s32` vs pointer changes `$v0/$v1` choice, tail
   merging and even which branches get merged after the call.
+- Interrupt handlers ending `sync; ei; daddu $v0, $zero, $zero; ld $ra` use ee_kernel.h's
+  `ExitHandler()` (one `sync.l; ei` asm) before `return 0;`. Two separate `sync`/`ei` statements
+  put the `$v0` set after `ld $ra` instead, the 2-off residual several tiers stopped on
+  (00555290, 00557AF0, 0055EB08).
 
 ## Integer arithmetic, 64-bit and EE-specific instructions
 - 64-bit `sd`/`ld` save and restore registers; struct copies of 8-byte aligned data use `ld`/`sd`
@@ -475,6 +566,10 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   global struct `lui; lw %lo(sym+off)` (offset folded, probe). Declare `extern T D_XXXXXXXX;`.
 - One `lui/addiu` pair held in an `$s` register across calls = `T *w = &D_X;` once, used afterwards;
   rematerialised per use = direct `D_X.field` / `((T *)D_X)[i].x` accesses at each site.
+- `lui $sN; addiu $sN, %lo(D_X)` placed in or before the call whose result is stored with
+  `sw $v0, 0($sN)`, while neighbouring globals get `sw $v0, %lo(D_Y)($v1)`: the stored ones go
+  through a pointer, e.g. an inline `get(int *dst, int n) { *dst = read(n); }` called as
+  `get(&D_X, n)`; sched1 then hoists the address above the call (00563CC8).
 - `lui` shared but `addiu %lo` recomputed after a loop or if/else = second use through a pointer local
   (`p = (T *)D_X; ... p->x`).
 - Strings: a literal (`"text"`) lands in the file's own .rodata and match.py compares only opcode and
@@ -508,6 +603,13 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   `lbu` = `u8`; `slti` after the load = signed compare, `sltiu` = unsigned.
 
 ## C++ specifics: constructors, destructors, virtual calls, this-adjustment
+- **A matching source whose build status is "brings its own data: .gnu.linkonce.d._vt$..."** emits a
+  class's vtable because none of its virtual functions is a non-inline one declared in the class
+  (only inline destructors, or only inherited virtuals), or because the source defines the class's
+  first non-inline virtual (its destructor). Declare a virtual that is never defined first in
+  the class (`virtual void key();`): g++ 2.96 then only references `_vt$...`, which is the
+  original's data, and the code is unchanged. Eight judged-MATCH sources linked this way
+  (00101450, 00556BB8, 0022F400, 00394A98, 003A3070, 003CCA38, 004ADE08, 005FFC10).
 - Game code is C++ (old g++ ABI); we write extern "C" functions named `func_XXXXXXXX` taking `this`
   as an explicit first parameter, with plain structs. Non-extern "C" names are mangled
   (`name__<len>Class`, ctor `__<len>Class`, dtor `_$_<len>Class`, vtable `_vt$<len>Class`).

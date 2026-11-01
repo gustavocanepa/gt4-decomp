@@ -8,6 +8,7 @@ public:
 class D_00659B88 : public B {
 public:
     virtual ~D_00659B88() {}
+    virtual void key(); /* declared only: the vtable stays the original's */
 };
 
 extern D_00659B88 D_00617CB8;

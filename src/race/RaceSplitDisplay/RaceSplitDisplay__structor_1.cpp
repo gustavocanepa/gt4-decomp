@@ -61,6 +61,7 @@ struct Base {
 struct RaceSplitDisplay__vtable : Base {
     int field4;
     Display displays[2];
+    virtual void key(); /* declared only: the vtable stays the original's */
     virtual ~RaceSplitDisplay__vtable() __asm__("func_003A3070");
 };
 RaceSplitDisplay__vtable::~RaceSplitDisplay__vtable() {}

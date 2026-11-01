@@ -7,6 +7,7 @@ struct CarIconMaker : D_00659AC0 {
     char pad68[0x80 - 0x68];
     CarIconMaker(int id, void *owner, void *src) __asm__("func_00393A48");
     ~CarIconMaker() {}
+    virtual void key(); /* declared only: the vtable stays the original's */
     void make() __asm__("CarIconMaker__exec");
 };
 

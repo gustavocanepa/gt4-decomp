@@ -15,7 +15,11 @@ import data_lift
 
 class DataSourceTests(unittest.TestCase):
     def test_data_at_first_line_gives_the_address(self):
-        with tempfile.TemporaryDirectory(dir=Path(build.ROOT) / "build") as d:
+        # inside the repository (relpath across drives fails on Windows); build/ is not versioned,
+        # so a fresh checkout (CI) has to create it
+        scratch = Path(build.ROOT) / "build"
+        scratch.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch) as d:
             root = Path(d)
             (root / "a").mkdir()
             (root / "a" / "D_00620FA0.c").write_text('/* data-at: 0x00620FA0 */\nchar D_00620FA0[] = "x";\n')
