@@ -527,6 +527,9 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 
 ## Floats
 - sqrt is inline asm: `__asm__("sqrt.s %0, %1" : "=f"(r) : "f"(x))` (never a `sqrtf` call).
+- A saved-register swap from a priority tie (two pseudos with equal refs/length) can move when one
+  `int` variable is reused for two unrelated values (`value = c; *dst++ = value; ... value = done;
+  return value;`), func_004F2308. Run tools/permute.py on any near miss: it finds such reuses.
 - Every FPR after a call shifted up by one (retail never touches `$f0` again, copies the result
   with `mov.s $f3, $f0`) = the function returns that call's result as a float: `return s;` (and
   no `mov.s` before `jr`) (func_00489090). Computing a value at its store (`*angle = h + h;`) rather
