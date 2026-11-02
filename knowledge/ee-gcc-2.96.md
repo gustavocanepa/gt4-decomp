@@ -125,6 +125,10 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   `state = 0` stays after the unlink stores (004AA6B8). A local's initialiser can sit in a block
   of its own (`Buf *buf; do { buf = &s->buf; } while (0);`) to keep it last before an entry
   jump, where reorg puts it in the delay slot (00558038). `regsearch.py` tries both wraps.
+- **Reorg never moves a volatile store into a delay slot.** A `beql` whose likely slot holds a
+  store from the branch target (`beql s1, zero, L; sw zero, 0x204(s0)`, the target block deleted)
+  needs that store to be a plain one: with a volatile struct pointer, write that one store through
+  a non-volatile cast (`((Spr *)spr)->base = 0; goto done;`) and keep the rest volatile (004A1AB0).
 - **A loop whose test loads into one register and copies it to the loop variable in the branch
   delay slot** (`lw v0, 0(p); bnez v0; daddu a1, v0`) = `while (p[0] != 0) { code = p[0]; ... }`:
   CSE merges the body's reload with the test's load. Loading `code` in the for header or the
