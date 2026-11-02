@@ -26,13 +26,13 @@ to the other (`tools/crossgame.py`).
 - A first pilot matched 13 of 20 randomly picked functions by hand; see [PILOT.md](PILOT.md).
 - 14% of the functions are exact copies of another; one match settles a whole group.
 <!-- progress:start -->
-- **Progress (November 2026, commit `48b860bead9b`): 30,219 of 30,875 functions match (97.9%), 89.3% of the code bytes; 87.3% of the sources are clean.**
-  Clean source: 87.3% of the 30,220 function sources are free of m2c
+- **Progress (November 2026, commit `828799309bd3`): 30,220 of 30,875 functions match (97.9%), 89.3% of the code bytes; 87.3% of the sources are clean.**
+  Clean source: 87.3% of the 30,221 function sources are free of m2c
   macros, raw offset casts, temp_/var_ names and pasted headers (`tools/clean_report.py`).
   The live numbers are on the `progress` branch (objdiff report format); this paragraph is written by
   `tools/update_readme.py` from `progress/report.json`, never by hand.
 - **The full build reproduces the original executable** (both loaded segments, SHA-1 checked):
-  30,197 functions, 89.2% of the code bytes, are linked from C/C++
+  30,198 functions, 89.2% of the code bytes, are linked from C/C++
   source at their original addresses, and the rest is assembled from splat's disassembly of your own
   executable. 776,034 of 2,664,152 data bytes (29.13%; `.data` plus `.bss`)
   are byte-proven from source: the constants of 1,551 functions plus 15,266 typed
