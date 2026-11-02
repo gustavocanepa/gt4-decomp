@@ -119,6 +119,16 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   The same barrier keeps a register copy below a call: sched1 moves pseudo copies across calls
   freely, so `call(); do { } while (0); for (i = 0, mode = flag; ...)` keeps `mode = flag` after
   the call (005B31F8, ee-gcc2.9-991111).
+  It also pins stores that alias analysis lets sched1 move: a store to a distinct symbol (a
+  written-out local static's `guard = 1` hoisted above the object's field stores) stays put
+  when it and the registration call after it share one block (00329530); a list entry's
+  `state = 0` stays after the unlink stores (004AA6B8). A local's initialiser can sit in a block
+  of its own (`Buf *buf; do { buf = &s->buf; } while (0);`) to keep it last before an entry
+  jump, where reorg puts it in the delay slot (00558038). `regsearch.py` tries both wraps.
+- **Reorg never moves a volatile store into a delay slot.** A `beql` whose likely slot holds a
+  store from the branch target (`beql s1, zero, L; sw zero, 0x204(s0)`, the target block deleted)
+  needs that store to be a plain one: with a volatile struct pointer, write that one store through
+  a non-volatile cast (`((Spr *)spr)->base = 0; goto done;`) and keep the rest volatile (004A1AB0).
 - **A loop whose test loads into one register and copies it to the loop variable in the branch
   delay slot** (`lw v0, 0(p); bnez v0; daddu a1, v0`) = `while (p[0] != 0) { code = p[0]; ... }`:
   CSE merges the body's reload with the test's load. Loading `code` in the for header or the
@@ -527,6 +537,13 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 
 ## Floats
 - sqrt is inline asm: `__asm__("sqrt.s %0, %1" : "=f"(r) : "f"(x))` (never a `sqrtf` call).
+- A saved-register swap from a priority tie (two pseudos with equal refs/length) can move when one
+  `int` variable is reused for two unrelated values (`value = c; *dst++ = value; ... value = done;
+  return value;`), func_004F2308. Run tools/permute.py on any near miss: it finds such reuses.
+- Every FPR after a call shifted up by one (retail never touches `$f0` again, copies the result
+  with `mov.s $f3, $f0`) = the function returns that call's result as a float: `return s;` (and
+  no `mov.s` before `jr`) (func_00489090). Computing a value at its store (`*angle = h + h;`) rather
+  than updating it before a branch (`h += h;`) also moves sched1's hoisted address adds.
 - Float constants: `lui $at, HI; mtc1 $at, $fN` (plus `ori` when the low half is nonzero) = a literal
   (`0.5f`); `mtc1 $zero, $fN` = `0.0f` (probe). Write the literal, not a global.
 - cc1 truncates decimal float literals: `0.1f` is 0x3DCCCCCC, `0.2f` 0x3E4CCCCC (probe). Spell the

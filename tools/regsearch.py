@@ -6,12 +6,14 @@ independent instructions (knowledge/gcc296-codegen-map.md): gcc 2.96 allocates b
 (refs, lifetime, declaration order, first set) and schedules by dependence and source order. The
 byte-neutral source shapes that move those decisions are mechanical (the "recipes" another
 all-AI decomp used to close whole classes): local declaration order, operand order of commutative
-operators, a statement wrapped in its own block, a mirrored if/else. This hill-climbs over them:
-each round generates every single-step variant of the best source so far, judges them all in one
-batch (match.judge_many) and keeps the one with the fewest differing instructions; a MATCH is
-saved to src/ like any other match (never over an existing source) and logged in the diary.
+operators, a statement (or a local's initialiser) wrapped in its own block, a mirrored
+if/else. This hill-climbs over them: each round generates every single-step variant of the best
+source so far, judges them all in one batch (match.judge_many) and keeps the one with the fewest
+differing instructions; a MATCH is saved to src/ like any other match (never over an existing
+source) and logged in the diary.
 
     regsearch.py [--max-differ 12] [--rounds 4] [--limit N] [--jobs 2] [--addrs FILE]
+                 (FILE lines: ADDR, or ADDR DRAFT to start from that draft)
                  [--from-diary]   also take the best drafts the attempts diary names (abandoned
                                   functions whose notes say only registers/order differ)
 Work list by default: unmatched functions whose best m2c draft (build/auto/cpu/ADDR.c) differs by
@@ -38,6 +40,7 @@ DECL = re.compile(r"^(\s+)(?!return\b|if\b|for\b|while\b|do\b|switch\b|case\b|go
 OPERAND = r"(?:[A-Za-z_][\w]*(?:(?:\.|->)[A-Za-z_]\w*|\[[^\[\]]*\])*|0x[0-9A-Fa-f]+|\d+(?:\.\d*)?f?)"
 COMMUTE = re.compile(r"(?<![\w\)\]\.>])(" + OPERAND + r")\s*([+*&|^]|==|!=)\s*(" + OPERAND + r")(?![\w\(\[\.])")
 SIMPLE_STMT = re.compile(r"^(\s+)([^\s{}#][^{};]*;)\s*$")
+INIT_DECL = re.compile(r"^(\s+)((?:const\s+|struct\s+|unsigned\s+)*[A-Za-z_]\w*[\s*]+?\**)(\w+)\s*=\s*([^{};]+);\s*$")
 
 
 def score(report):
@@ -98,6 +101,15 @@ def variants(text, rng, cap=250):
             new = lines[:]
             new[i] = f"{m.group(1)}do {{ {m.group(2)} }} while (0);"
             out.add("\n".join(new))
+    # 3b. a local's initialiser moved into its own do { } while (0) (`T x = e;` -> `T x; do { x = e; }
+    #     while (0);`): the loop notes keep the set where it stands (func_00558038's entry jump)
+    for i, l in enumerate(lines):
+        m = INIT_DECL.match(l)
+        if m and m.group(2).split()[0] not in ("return", "goto", "case", "else", "do"):
+            ind, typ, name, init = m.groups()
+            new = lines[:]
+            new[i] = f"{ind}{typ.rstrip()} {name};\n{ind}do {{ {name} = {init}; }} while (0);"
+            out.add("\n".join(new))
     # 4. two adjacent simple statements swapped (independent ones only compile to the same logic;
     #    the judge rejects the others)
     for i in range(len(lines) - 1):
@@ -121,6 +133,8 @@ def work_list(a):
             if l.strip():
                 addr = int(l.split()[0], 16)
                 path = os.path.join(ROOT, "build", "auto", "cpu", f"{addr:08x}.c")
+                if len(l.split()) > 1:  # "ADDR FILE": that draft instead of the m2c one
+                    path = os.path.join(ROOT, l.split()[1])
                 if addr not in done and os.path.exists(path):
                     items[addr] = path
         return items
