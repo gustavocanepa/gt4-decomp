@@ -125,6 +125,13 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   `state = 0` stays after the unlink stores (004AA6B8). A local's initialiser can sit in a block
   of its own (`Buf *buf; do { buf = &s->buf; } while (0);`) to keep it last before an entry
   jump, where reorg puts it in the delay slot (00558038). `regsearch.py` tries both wraps.
+- **A count-down loop `li N; ... addiu k,-1; bnez k` over an ascending `for (i = 0; i < N; i++)`**
+  (instead of the known-iteration `li N-1; bgez`): loop.c must see the bound as a register. A local
+  `c = N` is not enough (gcse CONST-PROP puts N into the bottom `slt`, the `.08.gcse` dump says so);
+  setting it again inside the loop body (`... n++; c = N; }`) gives c two live sets, gcse leaves
+  it, loop.c reverses with the register start and cse2 folds it back to `li N` (003D25B0).
+- **A call followed by an explicit `return;` becomes a tail call (`j`); one that just falls off the
+  end of the function through an `if`/`else` stays a `jal` plus the shared epilogue** (003D25B0).
 - **Reorg never moves a volatile store into a delay slot.** A `beql` whose likely slot holds a
   store from the branch target (`beql s1, zero, L; sw zero, 0x204(s0)`, the target block deleted)
   needs that store to be a plain one: with a volatile struct pointer, write that one store through
