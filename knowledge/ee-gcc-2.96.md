@@ -132,6 +132,11 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   it, loop.c reverses with the register start and cse2 folds it back to `li N` (003D25B0).
 - **A call followed by an explicit `return;` becomes a tail call (`j`); one that just falls off the
   end of the function through an `if`/`else` stays a `jal` plus the shared epilogue** (003D25B0).
+- **`jal f; daddu s0, v0; beqz v0` (the test reads $v0, the kept copy is only returned later)** =
+  the callee returns a one-word struct (`struct Result { int value; }`), stored to a local and
+  tested through an inline `status(const Result *const x)`, returning `result.value` on the error
+  path (001CDE38, 001CDCC0, as the earlier 001CCC98). A plain `int r = f(); if (r)` tests the
+  saved copy (`beqz s0`).
 - **Reorg never moves a volatile store into a delay slot.** A `beql` whose likely slot holds a
   store from the branch target (`beql s1, zero, L; sw zero, 0x204(s0)`, the target block deleted)
   needs that store to be a plain one: with a volatile struct pointer, write that one store through
