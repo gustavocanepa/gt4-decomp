@@ -162,6 +162,9 @@ def main():
     # this processor"), so float-to-int functions never reached the permuter: keep those words raw.
     asm = re.sub(r"(/\* [0-9A-F]{8} ([0-9A-F]{8}) \*/)\s+cvt\.w\.s\b[^\n]*",
                  lambda m: f"{m.group(1)}  .word 0x{m.group(2)}", asm)
+    # rabbitizer prints o32 names, but -mabi=eabi gas reads $t0-$t3 as $12-$15 and has no $t4-$t7:
+    # $8-$15 assembled into other registers (or failed, `invalid operands`). Use the EE's names.
+    asm = re.sub(r"\$(t[0-7])\b", lambda m: "$" + match.EE_NAMES[m.group(1)], asm)
     open(os.path.join(work, "target.s"), "w", newline="\n").write(PRELUDE + asm)
     prepare = 'cp "$1" "$work/candidate.c"'
     if a.preserve_context:
