@@ -125,6 +125,13 @@ distribution, without step 1; the places that got stuck:
 - **`cpp`** is not in the WSL image; `tools/permute.py` needs it (`run.sh: cpp: command not found`).
   `setup_linux.sh` now installs it.
 
+- **m2c** (for `tools/cpu_solve.py`, `autoloop.py`, `swarm.py`) is not installed by any script: clone it
+  into `tools/ext/m2c` (gitignored) and apply the project's patches in this order:
+  `git clone https://github.com/matt-kempster/m2c tools/ext/m2c && cd tools/ext/m2c && for p in
+  unused-params passthrough-args ee-float-ops; do git apply ../../patches/m2c-$p.patch; done`, then
+  `pip install pycparser` in the venv. `tools/types_db.py build` (about a minute) before
+  `cpu_solve.py --context types`.
+
 Times: `splat.sh` 62 s, `find_functions.py` under a second, the first `build.py --jobs 2` 38 minutes
 (judge runs alongside it), ending in `.text OK  sha1 28422e7e20a6298224294255355487b9a22cef31` and
 `.data OK`.

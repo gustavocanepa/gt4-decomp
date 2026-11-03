@@ -1,0 +1,40 @@
+diff --git a/m2c/arch_mips.py b/m2c/arch_mips.py
+index 7579155..bded730 100644
+--- a/m2c/arch_mips.py
++++ b/m2c/arch_mips.py
+@@ -136,6 +136,9 @@ LENGTH_THREE: Set[str] = {
+     "add.s",
+     "sub.s",
+     "div.s",
++    "max.s",
++    "min.s",
++    "rsqrt.s",
+     "mul.s",
+     "add.d",
+     "sub.d",
+@@ -1603,6 +1606,10 @@ class MipsArch(Arch):
+         "neg.s": lambda a: UnaryOp("-", as_f32(a.reg(1)), type=Type.f32()),
+         "abs.s": lambda a: fn_op("fabsf", [as_f32(a.reg(1))], Type.f32()),
+         "sqrt.s": lambda a: fn_op("sqrtf", [as_f32(a.reg(1))], Type.f32()),
++        # EE (R5900) single-instruction float ops, as helpers m2c_macros.h defines
++        "max.s": lambda a: fn_op("M2C_MAXS", [as_f32(a.reg(1)), as_f32(a.reg(2))], Type.f32()),
++        "min.s": lambda a: fn_op("M2C_MINS", [as_f32(a.reg(1)), as_f32(a.reg(2))], Type.f32()),
++        "rsqrt.s": lambda a: fn_op("M2C_RSQRTS", [as_f32(a.reg(1)), as_f32(a.reg(2))], Type.f32()),
+         "div.s": lambda a: BinaryOp.f32(a.reg(1), "/", a.reg(2)),
+         "mul.s": lambda a: BinaryOp.f32(a.reg(1), "*", a.reg(2)),
+         # Double-precision arithmetic
+diff --git a/m2c_macros.h b/m2c_macros.h
+index a8d9014..4ced58c 100644
+--- a/m2c_macros.h
++++ b/m2c_macros.h
+@@ -74,4 +74,10 @@ typedef s64 M2C_UNK64;
+ #define M2C_CMP_STR(a, b) (0)
+ #define M2C_TAS_B(a) (0)
+ 
++
++/* EE (R5900) float instructions without a C operator: one instruction each */
++static inline float M2C_MAXS(float a, float b) { float r; __asm__("max.s %0, %1, %2" : "=f"(r) : "f"(a), "f"(b)); return r; }
++static inline float M2C_MINS(float a, float b) { float r; __asm__("min.s %0, %1, %2" : "=f"(r) : "f"(a), "f"(b)); return r; }
++static inline float M2C_RSQRTS(float a, float b) { float r; __asm__("rsqrt.s %0, %1, %2" : "=f"(r) : "f"(a), "f"(b)); return r; }
++
+ #endif
