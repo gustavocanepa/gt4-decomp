@@ -158,6 +158,10 @@ def main():
     m = re.search(r"\(original (\d+), mine \d+\)|MATCH \((\d+) instructions\)", judged)
     count = int(m.group(1) or m.group(2)) if m and not a.preserve_context else None
     asm = match.gnu_asm(addr, count).replace(".set noreorder\n.set noat\n", "")
+    # binutils' mips-linux-gnu-as refuses `cvt.w.s` for -march=r5900 ("opcode not supported on
+    # this processor"), so float-to-int functions never reached the permuter: keep those words raw.
+    asm = re.sub(r"(/\* [0-9A-F]{8} ([0-9A-F]{8}) \*/)\s+cvt\.w\.s\b[^\n]*",
+                 lambda m: f"{m.group(1)}  .word 0x{m.group(2)}", asm)
     open(os.path.join(work, "target.s"), "w", newline="\n").write(PRELUDE + asm)
     prepare = 'cp "$1" "$work/candidate.c"'
     if a.preserve_context:

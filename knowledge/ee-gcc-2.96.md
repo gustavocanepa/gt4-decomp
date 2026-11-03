@@ -196,6 +196,9 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - `sltu $v1, $zero, b; xori $v0, a, 0x0; movn flag, $v1, $v0` = `if (a && b) flag = true;` (bool
   flag, int/bool a, b set 0/1 earlier); `if (a) flag = b;` or `flag = a && b;` drop the `sltu`/`xori`
   (func_00352C90).
+- `andi t, v, 0x80; xori t, t, 0x0; movz` on a value built from bytes (`(p[1] << 8) | p[0]`) =
+  `(v & 0x80) > 0`; `(v & 0x80) != 0` (also `!!`, `?:`, `== 0x80`, `(v >> 7) & 1`) lets combine use
+  the bytes' known zero bits and narrow the test to `dsrl lo, lo, 7` of the low byte (func_004CA278).
 - Nested countdown loops in a constructor (`k = N-1 ... bne k, -1`, an empty loop padded with nops,
   constants re-materialised per inner loop) are g++ vec-init loops: build the arrays with
   `new (p) Holder;` where Holder's members are arrays of small classes with inline ctors; set an
@@ -572,6 +575,10 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   `get(&D_X, n)`; sched1 then hoists the address above the call (00563CC8).
 - `lui` shared but `addiu %lo` recomputed after a loop or if/else = second use through a pointer local
   (`p = (T *)D_X; ... p->x`).
+- Two direct uses of `D_X` around an `if` without else: the full address is held in `$sN` when the
+  join block has one real predecessor arm, only the `lui` when there is an `else` arm. An else with
+  nothing left in retail can be a dead store (`else { param = 0; }`, deleted after the address
+  decision): func_001F6B90 (`lui $s2` only) vs its twin 001F6E88 (no else, full address in `$s2`).
 - Strings: a literal (`"text"`) lands in the file's own .rodata and match.py compares only opcode and
   registers for it; `extern char D_X[];` with the retail address makes the `%hi/%lo` exact.
 
