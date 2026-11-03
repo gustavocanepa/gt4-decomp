@@ -154,7 +154,8 @@ stable objects `diff` reads only after every file compiled.
 | `import_names.py` | carries a sister game's names, translation units and subsystems over through shared functions (`--from ../GT4`): Tourist Trophy's layout comes from GT4 this way. `gthd --to ../TT` (run in GT4): GT4's GT HD names for the other game's twins (identical bodies, neartwin pairs >= 0.9) as a `// type:func gthd` block of its symbol_addrs (canonical there; replaced on every run): 620 names to Tourist Trophy |
 | `autoloop.py` | the automated loop above |
 | `permute.py` | decomp-permuter bridge for near misses |
-| `setup_linux.sh` | one-time Linux/WSL setup: compiler, MIPS binutils, permuter |
+| `setup_linux.sh` | one-time Linux/WSL setup: compilers, MIPS binutils, permuter, splat (permuter modules in a venv; fails loudly) |
+| `install_compilers.py` | installs the compilers project.toml names (all, or `--used src`), shared by setup_linux.sh and the CI |
 | `core2elf.py`, `iso_extract.py`, `find_tags.py`, `scan_text.py` | Polyphony CORE extraction (GT4, Tourist Trophy: decryption, inflate, ELF) and inspection |
 
 ## Tiered queue, decision oracle and rule search

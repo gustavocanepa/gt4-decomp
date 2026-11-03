@@ -32,30 +32,13 @@ jobs:
         run: find src -type f \( -name '*.c' -o -name '*.cpp' \) -print0 | xargs -0 python tools/asm_policy.py
       - name: Sources are where tools/layout.py puts them, with their real names
         run: python tools/organize.py --check
-      - name: Compiler (ee-gcc 2.96, decomp.me build)
+      - name: Compilers (ee-gcc 2.96 and the profiles the sources name, project.toml; decomp.me builds)
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update -qq
           sudo apt-get install -y -qq libc6:i386 binutils-mips-linux-gnu
-          mkdir -p ~/.local/share/gt4/ee-gcc2.96
-          curl -sL https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz \
-            | tar -xJ -C ~/.local/share/gt4/ee-gcc2.96
-      - name: Other compilers named by sources (project.toml [compilers], decomp.me builds)
-        run: |
+          python3 tools/install_compilers.py --used src
           find src -type f \( -name '*.c' -o -name '*.cpp' \) > /tmp/sources.txt
-          for name in $(xargs -a /tmp/sources.txt head -qn1 | sed -n 's|^/\* compiler: \([^ ]*\) \*/.*|\1|p' | sort -u); do
-            url=$(python3 -c "import tomllib,sys; print(tomllib.load(open('project.toml','rb'))['compilers'][sys.argv[1]]['archive'])" "$name")
-            mkdir -p ~/.local/share/gt4/compilers/"$name"
-            curl -sL "$url" | tar -xJ -C ~/.local/share/gt4/compilers/"$name"
-            echo "installed $name"
-            # tools a profile needs besides its compiler (e.g. a later assembler), by name and archive
-            python3 -c "import tomllib,sys; [print(k, v) for k, v in tomllib.load(open('project.toml','rb'))['compilers'][sys.argv[1]].get('needs', {}).items()]" "$name" |
-              while read -r need url; do
-                [ -d ~/.local/share/gt4/compilers/"$need" ] && continue
-                mkdir -p ~/.local/share/gt4/compilers/"$need"
-                curl -sL "$url" | tar -xJ -C ~/.local/share/gt4/compilers/"$need" && echo "installed $need (needed by $name)"
-              done
-          done
       - name: Every source compiles (with the compiler its first line names, else ee-gcc 2.96)
         # from the repository root, so -Iinclude (in every project.toml command) finds include/
         # (m2c_macros.h, types.h, the game headers include/gt4/); CPATH covers any command without it

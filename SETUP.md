@@ -43,12 +43,11 @@ pip install toml Levenshtein pynacl
 Ubuntu 24.04 marks its system Python as externally managed, so the walkthrough uses a virtual
 environment. Keep it active for every step below (`. .venv/bin/activate` in each new shell).
 
-**Stuck point: permuter modules.** `tools/setup_linux.sh` installs the permuter's modules with
-`apt` (`python3-toml`, `python3-levenshtein`), into the system Python, but then runs the permuter
-with whatever `python3` is first on `PATH`, which is the venv's. Without the second `pip install`
-above it prints `ModuleNotFoundError: No module named 'toml'`, yet the script still exits 0 and goes
-on to splat. With the modules in the venv it prints `permuter ok`. `toml Levenshtein pynacl` is the
-prerequisite list of the [decomp-permuter README](https://github.com/simonlindholm/decomp-permuter).
+**Permuter modules.** `tools/setup_linux.sh` installs them (`toml Levenshtein pynacl`, the
+[decomp-permuter README](https://github.com/simonlindholm/decomp-permuter)'s prerequisite list) into its own
+venv at `~/.local/share/gt4/venv` and runs the permuter check with that venv's Python, so the check
+passes or the script stops with `permuter check failed`; it no longer exits 0 after a
+`ModuleNotFoundError`.
 
 ## 3. Disc image and executable
 
@@ -72,32 +71,14 @@ bash tools/setup_linux.sh
 ```
 
 This installs the MIPS binutils, the 32-bit libc, ee-gcc 2.96 under `~/.local/share/gt4/ee-gcc2.96`,
-decomp-permuter and splat (23 s). Check that its output has both `permuter ok` and `splat 0.50.1`
+every compiler profile, decomp-permuter and splat. Check that its output has both `permuter ok` and `splat 0.50.1`
 (or later).
 
-**Stuck point: the other compilers.** `setup_linux.sh` installs only ee-gcc 2.96. Sources whose
-first line is `/* compiler: NAME */` use the profile `NAME` of `project.toml` (20 profiles at
-`b1e5cc1f6efc`), and several of them live in their own directory under
-`~/.local/share/gt4/compilers/` (ee-gcc 2.9, unpacked copies of ee-gcc 2.96) or need the ee-gcc 3.2
-assembler; those sources cannot be compiled without them. This installs every
-directory the current sources need, from the `dir`, `archive` and `needs` entries of
-`project.toml`, the way `.github/workflows/check.yml` does (about 4 s):
-
-```sh
-for name in $(find src -type f \( -name '*.c' -o -name '*.cpp' \) -exec head -qn1 {} + \
-        | sed -n 's|^/\* compiler: \([^ ]*\) \*/.*|\1|p' | sort -u); do
-  python3 - "$name" <<'PY'
-import os, sys, tomllib
-c = tomllib.load(open("project.toml", "rb"))["compilers"][sys.argv[1]]
-print(os.path.expanduser(c["dir"]), c["archive"])
-for need, url in c.get("needs", {}).items():
-    print(os.path.expanduser("~/.local/share/gt4/compilers/" + need), url)
-PY
-done | sort -u | while read -r dir url; do
-  [ -x "$dir/bin/ee-gcc" ] || [ -x "$dir/bin/ee-as" ] && continue
-  mkdir -p "$dir" && curl -fsSL "$url" | tar -xJ -C "$dir" && echo "installed $dir"
-done
-```
+`setup_linux.sh` also installs every compiler profile of `project.toml` (`tools/install_compilers.py`,
+the same script `.github/workflows/check.yml` runs with `--used src`): the ee-gcc 2.9 and 2.96 copies
+under `~/.local/share/gt4/compilers/` and the ee-gcc 3.2 assembler some profiles need. Sources whose
+first line is `/* compiler: NAME */` use the profile `NAME`, and cannot be compiled without it. Run
+`python3 tools/install_compilers.py` again at any time; directories already installed are left alone.
 
 ## 5. Split, function list and full build
 
