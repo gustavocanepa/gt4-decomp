@@ -743,7 +743,7 @@ def compile_data(dsrc, jobs):
 d="{WSL_DIR}"; mkdir -p "$d/dsrc" "$d/obj"
 cp -rup {to_wsl(os.path.join(ROOT, "include"))} "$d/dsrc/"
 cd "$d/dsrc"
-while read -r f o h; do rec=; {{ IFS= read -r rec < "../obj/$o.src"; }} 2>/dev/null; [ "$rec" = "$f $h" ] || echo "$f $o $h"; done < {to_wsl(listing)} > ../dtodo.txt
+while read -r f o h; do rec=; {{ IFS= read -r rec < "../obj/$o.src"; }} 2>/dev/null || true; [ "$rec" = "$f $h" ] || echo "$f $o $h"; done < {to_wsl(listing)} > ../dtodo.txt
 echo "stale data sources: $(wc -l < ../dtodo.txt)"
 cat ../dtodo.txt | xargs -r -P{jobs} -L1 bash -c 'f="$0"; o="../obj/$1"; rm -f "$o.o" "$o.src"; cp -f "{to_wsl(DATA_DIR)}/$f" "$1.c" && {project.compiler_command(None)} "$1.c" -o "$o.raw" 2>"$o.err" && mips-linux-gnu-objcopy {STRIP} --wildcard -G "D_*" -G "func_*" "$o.raw" "$o.o" && echo "$f $2" > "$o.src" || {{ rm -f "$o.o" "$o.src"; echo "data source $f does not compile"; head -n 3 "$o.err"; }}; rm -f "$o.raw"; true'
 """).strip(), flush=True)
@@ -887,7 +887,7 @@ def main():
         # The record is read with the shell's own `read` (no `$(cat ...)` subshell per source: ~64,000
         # forks made the up-to-date check take minutes; 80 s -> 1 s for the default profile alone).
         loops.append(f"""
-while read -r f o stem h; do rec=; {{ IFS= read -r rec < "../obj/$o.src"; }} 2>/dev/null; [ "$rec" = "$f {name or 'default'} $h" ] || echo "$f $o $stem $h"; done < {to_wsl(listing)} > ../todo_all.txt
+while read -r f o stem h; do rec=; {{ IFS= read -r rec < "../obj/$o.src"; }} 2>/dev/null || true; [ "$rec" = "$f {name or 'default'} $h" ] || echo "$f $o $stem $h"; done < {to_wsl(listing)} > ../todo_all.txt
 head -n {a.limit if a.limit else 1000000} ../todo_all.txt > ../todo.txt; echo "stale: $(wc -l < ../todo_all.txt), compiling: $(wc -l < ../todo.txt)"
 cat ../todo.txt | xargs -r -P{a.jobs} -L1 bash -c 'f="$0"; o="../obj/$1"; rm -f "$o.o" "$o.src"; cp -f "{to_wsl(project.SRC)}/$f" "$f" && {project.compiler_command(name)} "$f" -o "$o.raw" 2>"$o.err" && $(p=$HOME/.local/share/gt4/venv/bin/python; [ -x "$p" ] && echo "$p" || echo python3) "{to_wsl(os.path.join(ROOT, "tools", "compiler_alignment.py"))}" "$f" "$o.raw" && mips-linux-gnu-objcopy {STRIP} --wildcard -G "$2*" -G "$1*" "$o.raw" "$o.o" && echo "$f {name or 'default'} $3" > "$o.src" || rm -f "$o.o" "$o.src"; rm -f "$o.raw"; true'
 """)
