@@ -66,10 +66,55 @@ class Table:
         self.keep = set()     # names organize must leave as written (config/resolved_symbols.txt)
 
 
+_CACHE = os.path.join(ROOT, "build", "symbols_cache.pickle")
+
+
+def _inputs():
+    """(path, size, mtime_ns) of every file the table is read from, this module included: the
+    cache key. A changed or added symbol file, or a change to the parser, rebuilds the table."""
+    paths = [SYMBOL_ADDRS, STL, RESOLVED, CLASSES, ADHOC, os.path.abspath(__file__)]
+    if os.path.isdir(LIB_SYMBOLS):
+        paths += sorted(os.path.join(LIB_SYMBOLS, f) for f in os.listdir(LIB_SYMBOLS))
+    out = []
+    for p in paths:
+        try:
+            st = os.stat(p)
+            out.append((p, st.st_size, st.st_mtime_ns))
+        except OSError:
+            out.append((p, None, None))
+    return out
+
+
 def _load():
+    """The symbol table. Parsing the symbol files takes ~0.2 s, most of a judge call on a draft,
+    so the result is kept in build/symbols_cache.pickle and reused while its inputs are unchanged."""
     global _table
     if _table is not None:
         return _table
+    import pickle
+    key = _inputs()
+    try:
+        with open(_CACHE, "rb") as f:
+            cached_key, t = pickle.load(f)
+        if cached_key == key:
+            _table = t
+            return t
+    except Exception:
+        pass
+    t = _build()
+    try:
+        os.makedirs(os.path.dirname(_CACHE), exist_ok=True)
+        tmp = f"{_CACHE}.{os.getpid()}"
+        with open(tmp, "wb") as f:
+            pickle.dump((key, t), f, protocol=pickle.HIGHEST_PROTOCOL)
+        os.replace(tmp, _CACHE)
+    except OSError:
+        pass
+    _table = t
+    return t
+
+
+def _build():
     t = Table()
     bases = {}
     if os.path.exists(CLASSES):
@@ -153,7 +198,6 @@ def _load():
             if common:
                 top = [n for n in top if rank(n)[1] == common[0]]
         t.canonical[addr] = top[0]
-    _table = t
     return t
 
 

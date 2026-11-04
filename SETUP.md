@@ -7,7 +7,7 @@ prints `.text OK` and `.data OK`.
 | Path | Status |
 |---|---|
 | Ubuntu 24.04 in Distrobox on Arch Linux (Omarchy 4.0.6) | tested 2026-10-25 at `b1e5cc1f6efc`, full build OK |
-| Windows + WSL (Ubuntu) | **not tested yet**, see [the end of this file](#windows--wsl-not-tested-yet) |
+| Windows 11 + WSL 3.0.3 (Ubuntu 26.04) | tested 2026-11-03 at `122afce11`, full build OK, see [the end of this file](#windows--wsl) |
 
 Measured times below are from that run (one machine, x86_64, `--jobs 2`); expect different numbers
 on other hardware.
@@ -104,8 +104,34 @@ bash tools/run_tests.sh
 
 From installing the host packages to the build proof: 19 minutes, most of it the build.
 
-## Windows + WSL (not tested yet)
+## Windows + WSL
 
-Nobody has run this walkthrough on WSL yet. Steps 2 to 5 are expected to apply as they are inside
-an Ubuntu 24.04 WSL distribution (`wsl --install -d Ubuntu-24.04`), without step 1. If you run it,
-replace this section with what you did, how long each step took and where you got stuck.
+Tested 2026-11-03 at `122afce11` on Windows 11 Pro (build 26200), 16 cores, with WSL's default
+`Ubuntu` (26.04.1 LTS, Python 3.14): full build OK. Steps 2 to 5 apply as they are inside the
+distribution, without step 1; the places that got stuck:
+
+- **Distribution name.** `wsl --install -d Ubuntu-24.04` failed with `WSL_E_DISTRO_NOT_FOUND`:
+  `wsl --list --online` offered only `Ubuntu` (now 26.04). `wsl --install -d Ubuntu --no-launch`
+  installs it; `ubuntu.exe install --root` registers it without the interactive user prompt.
+- **`Catastrophic failure` / `Wsl/Service/E_UNEXPECTED`** on every start of the distribution, with
+  WSL 2.3.24: `wsl --update` (to 3.0.3), then `wsl --shutdown`, fixed it.
+- **Clone on the Linux filesystem** (`~/gt4-decomp`), not under `/mnt/c`: 65,000 files build much
+  faster there. Edit it from Windows through `\\wsl.localhost\Ubuntu\root\gt4-decomp`.
+- **Disc image.** `iso_extract.py` and `core2elf.py` also run under Windows' own Python, so the
+  image can stay on the Windows side; copy `orig/SCUS-97328/files/` and `CORE.GT4.elf` into the
+  Linux clone and check the hashes there.
+- **Python 3.14** worked for everything: `tools/setup_linux.sh` as is, and `rabbitizer` installed
+  into its venv (`~/.local/share/gt4/venv/bin/pip install rabbitizer`); one venv is enough.
+- **`cpp`** is not in the WSL image; `tools/permute.py` needs it (`run.sh: cpp: command not found`).
+  `setup_linux.sh` now installs it.
+
+- **m2c** (for `tools/cpu_solve.py`, `autoloop.py`, `swarm.py`) is not installed by any script: clone it
+  into `tools/ext/m2c` (gitignored) and apply the project's patches in this order:
+  `git clone https://github.com/matt-kempster/m2c tools/ext/m2c && cd tools/ext/m2c && for p in
+  unused-params passthrough-args ee-float-ops; do git apply ../../patches/m2c-$p.patch; done`, then
+  `pip install pycparser` in the venv. `tools/types_db.py build` (about a minute) before
+  `cpu_solve.py --context types`.
+
+Times: `splat.sh` 62 s, `find_functions.py` under a second, the first `build.py --jobs 2` 38 minutes
+(judge runs alongside it), ending in `.text OK  sha1 28422e7e20a6298224294255355487b9a22cef31` and
+`.data OK`.

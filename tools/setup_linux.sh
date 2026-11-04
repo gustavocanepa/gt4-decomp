@@ -5,10 +5,10 @@ set -e
 base="$HOME/.local/share/gt4"
 mkdir -p "$base"
 
-echo "== packages (MIPS binutils, 32-bit libc for the compiler, python venv)"
+echo "== packages (MIPS binutils, 32-bit libc for the compiler, python venv, cpp for the permuter)"
 sudo dpkg --add-architecture i386 2>/dev/null || true
 sudo apt-get update -qq
-sudo apt-get install -y -qq binutils-mips-linux-gnu libc6:i386 python3-venv >/dev/null
+sudo apt-get install -y -qq binutils-mips-linux-gnu libc6:i386 python3-venv cpp >/dev/null
 
 echo "== compilers (ee-gcc 2.96 and every profile project.toml names; decomp.me builds)"
 python3 "$(dirname "$0")/install_compilers.py"
