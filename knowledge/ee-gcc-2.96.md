@@ -756,3 +756,5 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
   local just before its first use (not at its declaration) fixed the last pair -> MATCH. A
   constant the original holds in a callee-saved FP register from the prologue on is a local
   initialised at the top (`f32 k = 0x1.0C152p-3f;`, func_00410630); write such literals in hex.
+
+- `addiu -K; andi 0xFF; sltiu N` on a byte value: `int c; ... (unsigned char)(c - K) < N` with `c` having a set whose bits combine cannot prove, for example `c = next;` after a loop's exit test, apart from `next`'s `lbu` (004CB558). If every set of `c` is a visible zero-extension, the `andi` is gone after the combine pass (seen in the RTL dumps). An `unsigned char c` gives `addiu 0xD6` instead (the cast distributes over the subtraction), and a signed compare gives `slti`.
