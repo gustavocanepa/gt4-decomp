@@ -26,16 +26,16 @@ to the other (`tools/crossgame.py`).
 - A first pilot matched 13 of 20 randomly picked functions by hand; see [PILOT.md](PILOT.md).
 - 14% of the functions are exact copies of another; one match settles a whole group.
 <!-- progress:start -->
-- **Progress (November 2026, commit `d4b39ed71eee`): 30,233 of 30,875 functions match (97.9%), 89.4% of the code bytes; 87.4% of the sources are clean.**
-  Clean source: 87.4% of the 30,234 function sources are free of m2c
+- **Progress (November 2026, commit `0820114112a8`): 30,243 of 30,875 functions match (98.0%), 89.6% of the code bytes; 87.4% of the sources are clean.**
+  Clean source: 87.4% of the 30,244 function sources are free of m2c
   macros, raw offset casts, temp_/var_ names and pasted headers (`tools/clean_report.py`).
   The live numbers are on the `progress` branch (objdiff report format); this paragraph is written by
   `tools/update_readme.py` from `progress/report.json`, never by hand.
 - **The full build reproduces the original executable** (both loaded segments, SHA-1 checked):
-  30,211 functions, 89.3% of the code bytes, are linked from C/C++
+  30,221 functions, 89.5% of the code bytes, are linked from C/C++
   source at their original addresses, and the rest is assembled from splat's disassembly of your own
-  executable. 776,034 of 2,664,152 data bytes (29.13%; `.data` plus `.bss`)
-  are byte-proven from source: the constants of 1,551 functions plus 15,266 typed
+  executable. 775,970 of 2,664,152 data bytes (29.13%; `.data` plus `.bss`)
+  are byte-proven from source: the constants of 1,553 functions plus 15,264 typed
   strings, pointer tables, vtables and arrays under `data/`, all placed at their original addresses. The
   `.bss` has no bytes to compare: its 18,875 variables (1,885,020 bytes) are declared
   under `data/bss/`, located by the link, and the code that uses them stays identical.
