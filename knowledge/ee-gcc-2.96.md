@@ -193,6 +193,10 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   the call right after the branch was enough (00564990, 00556BB8, both 1 off for several tiers).
   It works the other way too: 00559808 needed `throw()` on the callee to get retail's `bnel`.
   Whenever the only difference is a branch's likely bit, try `throw()` on each nearby callee.
+- **A `b` to the epilogue with an empty slot (`nop`) where ours copies the epilogue's `ld $s0`**
+  into it, after a loop whose exit sets the return value: the shared `return K;` block sits in the
+  middle of the function, not at the end. Placing `fail: return K;` right after the loop (later
+  `goto fail`s jump back to it) gave retail's slot (00522718).
 - **Byte tests in `$v1` instead of `$v0`** across a whole draft (`lbu $v1; beql $v1, $zero`) while
   the original tests in `$v0`: the draft is compiled as C, the game as C++. The same body as .cpp
   (`char *` instead of `void *` arithmetic, extern "C") takes `$v0` (func_003A78B8: 31 -> 25 differ,
