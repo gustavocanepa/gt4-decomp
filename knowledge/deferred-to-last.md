@@ -74,3 +74,11 @@ broad sweep of the 40 best `cpu_solve` near-misses in `build/queue.json` all pla
 sources spell them 6 (`func_549130`). This costs one regalloc point on the permuter's `jal` line (it
 can never reach a perfect 0 with a mismatched symbol) but is harmless for `match.py`, which compares
 opcodes only; a future cleanup could normalise the symbol spelling in `match.gnu_asm`.
+
+**Update 2026-11-10 (deepseek-v4):** the decision oracle is recovered (gdb 13.1 reads STABS on a
+Debian 12 host; no system-wide gdb change) and `oracle.py climb` matched 0055d778 from this pool
+by composing source edits that make the compiler reproduce the original's order (19 -> 6 -> 0
+decision units). So the compiler-*forcing* + search path — not source-shape rewriting — is the way
+forward for these: `oracle.py measure` now classifies the pool (of 297 measured m2c drafts, ~7 are
+logic-complete) and `climb`/`sched`/`aim` are usable. A campaign is under way; see
+build/phase3_progress.md and the PR for the running tally.
