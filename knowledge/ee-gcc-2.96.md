@@ -762,3 +762,32 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
   initialised at the top (`f32 k = 0x1.0C152p-3f;`, func_00410630); write such literals in hex.
 
 - `addiu -K; andi 0xFF; sltiu N` on a byte value: `int c; ... (unsigned char)(c - K) < N` with `c` having a set whose bits combine cannot prove, for example `c = next;` after a loop's exit test, apart from `next`'s `lbu` (004CB558). If every set of `c` is a visible zero-extension, the `andi` is gone after the combine pass (seen in the RTL dumps). An `unsigned char c` gives `addiu 0xD6` instead (the cast distributes over the subtraction), and a signed compare gives `slti`.
+- **A field read through an inline member's `this` reuses the object's address register**
+  (MMemoryCardPlayList__order, 0x17DC78): the original reads a local array's handle as
+  `lw a0,0(s2)` with `s2 = &list` (the register it also passes to the index call), not
+  `lw a0,0x10(sp)`. Writing the call as an inline member, `u32 size() { return hArray__size(rep); }`,
+  makes the read go through the `this` pseudo (= `&list`), which also gives `&list` the lower
+  callee-saved register (fixed an s2/s3 swap): 9 -> 0 differ. When a stack object's field is
+  loaded from `0(sN)` instead of `off(sp)`, look for the inline accessor.
+- **`mov.s` copies of long-lived FP constants right before an inline-asm `max.s`/`min.s`**
+  (func_00415AF8): retail stores `{0.0f, 1.0f}` (held in `$f21`/`$f22`) to a stack struct and then
+  feeds `mov.s $f2,$f21; mov.s $f3,$f22` to the clamp. That is a load of the stored field that
+  postreload cse turned into a register copy: write the clamp as `clampf(float v, const float &lo,
+  const float &hi)` and pass `r.lo, r.hi`. By-value bounds let the first cse forward the stored
+  values (no copies), and a `const Range &` member clamp forwards one field but not the other,
+  which also changes which constant gets the lower callee-saved register (allocation priority
+  follows the reference count). A literal aggregate `{0.0f, 1.0f}` folds the constants away;
+  the retail registers need float locals `lo = 0.0f, hi = 1.0f` used for both the struct and the
+  arithmetic.
+- **Folded float constants 1 ulp off = a different formula, not a different literal**
+  (func_00416040): ee-gcc folds in its own rounding, so a host-side IEEE calculation does not
+  predict the stored constant. Compile candidate formulas with `ee-gcc -O2 -S` on small
+  `float f() { return ...; }` functions and compare the `li.s` values. The race camera's linear
+  map is `inv = 1/(x1-x0); k = inv*(y1-y0); c = inv*(x1*y0 - x0*y1)` (0x3DE38E36/0x3DB2B8BF for
+  [-pi/4,0] -> [0,5 deg]); `(y1-y0)/(x1-x0)` and `y0 - k*x0` give 0x...37/0x...C0 or C1.
+- **One store of a value computed on two paths = the same final operation written in both
+  branches** (func_00423BF8, 5 rows left): retail multiplies `angle * t` once after the join and
+  stores it once to the addressable `angle` (bound by `const float &`). `angle = pi * t;` and
+  `angle = asinf_(len) * t;` in the two arms gives it (jump.c cross-jumps the identical
+  `mul.s; swc1` tails); `angle = ...; ... angle *= t;` stores twice, and a separate non-addressed
+  temporary is not stored at all.
