@@ -466,3 +466,28 @@ GT3 has no truncated drafts because almost no GT3 draft compiles: the latest ver
 functions is `does not compile` (ctx types), 704 of them from `saved_reg_gp` undeclared (GT3
 addresses its globals through `$gp`: `M2C_FIELD(saved_reg_gp, s32 *, -0x6EC8)`), the rest other
 context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
+
+### 11. Delay-slot fill and interblock motion defeated by a loop head
+- Symptom: retail leaves `nop` (or its own instruction) in a branch delay slot and keeps
+  the following instruction after the branch; gcc instead moves the first instruction of
+  the fall-through block into the slot (a `lui` address load, a `-1` return constant, an
+  `addiu`). The branch offset is then one short and every later row shifts.
+- Mechanism: sched2 / `fill_delay_slots` only moves an instruction into the slot when its
+  block has no other incoming edge. A block that is also a loop head has an incoming
+  back-edge, so its first instruction cannot be moved.
+- Lever: make the affected block the head of a loop (`do { ... } while (0);`). Only legal
+  where the block is a self-contained statement group, and it does not change semantics.
+- Evidence: func_00547428 (0x40-byte copy from `D_0064C380`): five earlier tiers stalled at
+  35-37/40 on exactly this (register homes plus a filled `beqz` slot); every plain source
+  shape tried here (early return, if/else, result variable, `?:`, src pointer local,
+  nsa-g/nsa/default) also stalled. Wrapping the copy in a loop head under an inverted guard
+  fixed the delay slot and the allocation at once (base `$v0`, pointer `$a3`, temps
+  `$v1/$a1/$a2`): MATCH, 40 instructions. func_0057FBEC (two copied blocks) improved
+  67/70 -> 14/70 because the same lever stopped the second symbol's `lui` being hoisted
+  into slot 1; its residue is a `$v0`/`$v1` allocator swap the lever does not reach.
+- Counter-example: func_004B2CF8 regressed (5/14 -> 12/13), and on func_004AB318 the loop
+  head fixed the slot content (`addiu $a3,$a3,8`) but flipped a plain `beqz` into `beql`
+  (section 8c). Apply only when retail's branch is already the plain form.
+- Style: `AGENTS.md` discourages `do { } while (0)` written only to move an instruction.
+  Treat this as a last resort for a block that is genuinely a statement group, and say in
+  the source comment why the loop head is there.
