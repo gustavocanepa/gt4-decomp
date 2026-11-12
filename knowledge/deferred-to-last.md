@@ -49,3 +49,36 @@ decision above). Evidence per group:
 - **vector/MMI bodies** (55): each needs at least 3 distinct VU0/COP2/MMI instructions without a C operator (`por`/`pcpyld`/`pcpyud`/`plzcw`/`mtsab`/`qfsrv` not counted), i.e. more inline asm statements than asm_policy.py allows (counted with operands, so one inline helper used several times is not overcounted). 003e8438, 004a70e8, 004a6c58, 0049a6a0, 001fde68, 0049a4f8, 0049d580, 0049db08, 0049a360, 0049e780, 0049c140, 0049e918, 0049a200, 004ac118, 005a6900, 0056e2c0, 0056e170, 003e7f08, 003b8ea0, 001c1a50, 001fdd28, 00451238, 00492978, 003e3840, 00492ef0, 003b8530, 003e8790, 0049e2d8, 003e3ed0, 0049f1f8, 00496638, 003b7dd8, 004961b8, 0049d970, 003e2710, 004a6e20, 003d51b0, 0049d728, 0049dcb0, 00499d00, 0044dcc0, 00499948, 004522d8, 00456918, 003e32e8, 00568b40, 0049f170, 005692c0, 0056df58, 0056de38, 00454f40, 00498e48, 00455708, 001c1760, 001c1678
 - **not code** (1): 00616f24 is 2800 bytes of a data table in .text (the words decode as `.word`/`tge`/`mfsa` noise); an inventory error rather than a function. 00616f24
 - **int-to-float inline asm sequence** (1): `plzcw`/`andi`/`sra $at`/`or` around a call. 00578598
+
+## Blocked on compiler-build codegen, not source (2026-11-07, deepseek-v4)
+
+These have a source the permuter (`tools/permute.py`) drives to a small, **nonzero** score and cannot
+close, because what remains is a decision of the compiler *build* we do not have, not of the C. That
+was shown by exhaustive search (a dozen source shapes each, every `[compilers]` profile, the relevant
+flags, and a permuter sweep), so re-attempting from source shape is not worth tries. Reported open.
+
+| Address | Residual (original vs ours) | What was ruled out |
+|---|---|---|
+| 0058d140 | `(x>>4)*6`: original `mult $zero,$v1,$a0` + `mflo $v1` (product through HI/LO); ours `mult $v1,$v1,$a0` (R5900 3-operand, one instruction shorter). | ee-gcc 2.96 and 2.9-both-assemblers emit the 3-op form; `-march=` is rejected (ee-gcc is EE-hardcoded); no plain MIPS gcc is installed. Permuter plateau = exactly 60 (one reordering). *Partly useful:* a variable factor (`u16 six=6`) forces `mult` over strength-reduced shifts (4/8 → 6/7) — but that is a source note, not a match. |
+| 004c5018 | loop test rotated to the bottom (`bltzl` back-edge) where retail keeps a top test (`bgez` exit + `b` back); retail re-reads `*p` twice (`lhu $v0` test, `lhu $a0` arg) and returns `n` from two sites; ours CSEs one `lhu` and merges the return. | nine loop shapes (`while`, `if(*)while`, `for(;;)`, early-return, `do{}while(1)`, compound `*p && f(*p++)<0`, explicit `goto`, double-`return n`); `nogcse`/`nsa` markers. gcc rotates them all. Best 11/19. |
+| 00549258 | result kept in `$a0` where retail uses `$a3`; because of that gcc folds `r+2` into the `lwl`/`lwr` offset and fills the `beq` delay with the epilogue `ld $s0` (forcing `beql`) instead of materialising `a0=r+2` (plain `beqz`). | packed struct, `u8*`, `u32*` temporaries, `throw()` on the callee, `volatile`, `nogcse`/`nsa`. The allocator never moves. Best 10/28. |
+
+**Permuter metric (why a "10/28" draft scores ~1150 there):** the permuter scores penalty
+edit-distance (INSERTION/DELETION 100, REORDERING 60, REGALLOC 5) over the full alignment, not the
+pairwise instruction diff `match.py` prints, so a draft that is 10/28 pairwise-different *plus* a
+reordering and a register swap legitimately scores ~1150. That is the scorer working, not a bug. A
+broad sweep of the 40 best `cpu_solve` near-misses in `build/queue.json` all plateaued nonzero (best
+60), so the ~632 open functions are these compiler-build residuals, not source-shape near misses.
+
+**Toolchain nit:** `match.gnu_asm` prints callee symbols as 8 hex digits (`func_00549130`) while most
+sources spell them 6 (`func_549130`). This costs one regalloc point on the permuter's `jal` line (it
+can never reach a perfect 0 with a mismatched symbol) but is harmless for `match.py`, which compares
+opcodes only; a future cleanup could normalise the symbol spelling in `match.gnu_asm`.
+
+**Update 2026-11-10 (deepseek-v4):** the decision oracle is recovered (gdb 13.1 reads STABS on a
+Debian 12 host; no system-wide gdb change) and `oracle.py climb` matched 0055d778 from this pool
+by composing source edits that make the compiler reproduce the original's order (19 -> 6 -> 0
+decision units). So the compiler-*forcing* + search path — not source-shape rewriting — is the way
+forward for these: `oracle.py measure` now classifies the pool (of 297 measured m2c drafts, ~7 are
+logic-complete) and `climb`/`sched`/`aim` are usable. A campaign is under way; see
+build/phase3_progress.md and the PR for the running tally.
