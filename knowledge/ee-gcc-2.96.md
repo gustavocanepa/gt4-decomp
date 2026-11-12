@@ -454,6 +454,11 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
     the function boundaries are fixed.
 
 ## Calls and tail calls
+- **Values loaded before a call reused after it, held in saved registers** (e.g. `lb $s5, 0($s2)`
+  feeding `tolower` and later `beqz $s5`, no reload) = the callee is declared
+  `__attribute__((const))` (or `pure`): a plain call clobbers memory, so cse reloads `*p` after it.
+  Holds for tiny same-unit helpers such as a ctype `tolower` (func_0053B5E0; gt4.md has the float
+  helper case).
 - Tail calls (C++ front end): a function ending in `j callee` (a jump, after restoring $ra) returns
   that callee's result: write `return callee(...);` with a non-void return type. A final
   `jal callee` followed by the epilogue means the result is not returned (a plain call).
