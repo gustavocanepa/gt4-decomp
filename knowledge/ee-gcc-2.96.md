@@ -186,6 +186,12 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - **`xori $v0, $v0, 0` on a compare result before a `movn`** (a no-op that no simple test produces) =
   a negated `<=`: `if (!(v <= hi)) v = hi;` (slt plus the `<=` inversion plus the `!` inversion,
   folded into an xori with 0 that combine keeps) (00558DB0).
+- **`ori $v1, f, K; xori $v0, c, 0; movn f, $v1, $v0`** for `if (c) f |= K;` = the flag local is
+  narrower than int (`s16 f`). With an int `f` the first jump pass already makes the cmove and cse
+  drops the XOR (`movn f, $v1, c`); a short `f` is only if-converted in the ce pass, after combine,
+  and mips `gen_conditional_move` emits NE as `xor c, 0`, which nothing folds any more. Building `f`
+  in compound steps (`f |= 7; f &= ~0x31;`, not `f = (f | 7) & ~0x31`) computes it in place and adds
+  refs that lift its global priority (func_0049ECF8).
 - **A branch-likely (`beql`/`bnel`) where the original has a plain branch with the same slot**
   (the slot holds the target's first instruction, e.g. the epilogue's `ld $s0`): declare the
   callees `throw()` (a C++ destructor too: `virtual ~B() throw() __asm__("func_ADDR")`). Without
