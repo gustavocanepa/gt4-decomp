@@ -403,6 +403,18 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - An arm `b other_arm` landing in the middle of another arm's compare chain is cross-jumping of a
   shared tail: rebuild the full condition per case (`c=='R'||c=='B'||c=='D'` jumping into case 3's
   `c=='R'||c=='D'`, 001d2b50).
+- An if/else whose first arm ends in `b` into the second arm's cleanup-call tail (a1/a2 set in the
+  arm's own order, `v0 = ret` only in the second arm's `b` delay slot and at the return label) is
+  a function returning its struct by value through the hidden pointer, with a `return` at the end
+  of each arm (001f38b0, a script Value; `Handle f(void *ctx) return result { ... }`, g++'s named
+  return value, since the list must be built in the slot shared by both arms). Mechanism: jump2
+  (after sched2) cross-jumps two jumps to the same label only when that label existed before the
+  pass. It also takes a label match of a single insn first. So an explicit `Handle *ret` with
+  `return ret;` per arm merges each arm's `v0 = ret` into the fail path's and moves both jumps to
+  a new label, and the arms never merge. One shared tail after the if/else gives the wrong sched2
+  argument order in the last block (the block ends early). With the tail written once per arm and
+  the if/else falling through, flow adds a `(use (const_int 0))` after the second arm's last call
+  (a call ending a block that falls into a label), and that blocks the match.
 - Order of derived locals matters: computing `type = k & 0x1F` up front (before unrelated stores)
   lets `k` die early and reuse `$a0` as in the original (0049d080).
 - `andi 1; andi 0xff; bnez` = `(unsigned char)(x & 1) == 0`-style test; `andi; sltu $zero` flag =
