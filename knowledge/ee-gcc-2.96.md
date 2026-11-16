@@ -107,6 +107,14 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   (00430A58).
 
 ## Statement order and scheduling
+- **Element 0 of a local vector accessed as `0($sN)` and elements 1/2 as `0x54($sp)`/`0x58($sp)`,
+  with loads and stores interleaved strictly in source order** = the code goes through pointer
+  locals (`f32 *u = up, *uy = &up[1], *uz = &up[2];`, like `d`/`dy`/`dz` for a negated vector).
+  Pointers that get no saved register are rematerialised by reload as `sp` offsets, but in sched1
+  they are unknown-alias pointers, so every load waits for the earlier stores. Where such a pointer
+  is declared matters: declared before an inline setter, cse rewrites the setter's store through it
+  and the following stores pick up output dependences (func_0037D620: `uz` declared after the
+  setters fixed the last 4 rows).
 - **Constants built only after earlier stores, never hoisted above them** (e.g. a GIF tag's
   `ori 0x8000; dsll32` after the Packet bookkeeping `sw`s), = the later statements sit in a
   `do { ... } while (0)` block, a packet macro's body. Its loop notes make the block's first insn a
@@ -271,6 +279,12 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   func_003AFD78, func_00472A78, func_00472758: case -> `extern char D_x[]` string returns).
 - A store duplicated at the end of both arms (`jr; sh` twice) is written in each arm; one store
   after the if/else gives a branch-likely into a shared tail (func_00350F48).
+- **The same flag tested twice, the second test kept at the join (`bnez v0, L; ... L: beqz v0`)**
+  where yours threads the first branch past the second (or drops the second test): read the flag
+  through an inline accessor in the first test (`static inline s32 mode(char *s) { return
+  s->b1D0; }`, `if (!mode(self)) {...} if (mode(self)) {...}`). Two plain reads let cse1 merge
+  the loads and turn the second test into jumps on every path; the inline's structure stops
+  that, and later passes still reuse the loaded register (no reload, no `andi`) (func_0037D620).
 - A 64-bit `ld`/mask/`or`/`sd` on a struct field is a bitfield update through a struct copy:
   `B t = *(B *)(p + off); t.b = 1; t.c = 0; *(B *)(p + off) = t;` (func_00374470); direct
   bitfield stores give `sb`.
