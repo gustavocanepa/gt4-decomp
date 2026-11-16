@@ -678,6 +678,15 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   `if (flags & 1) operator_delete(this);` as a tail `return`.
 - `delete p;` = `if (p != 0) dtor(p, 3);` as a sibling `j` (probe); `new T` = `jal new; li $a0, SIZE`.
 - `bool` parameters and results are used without masking (probe); a byte mask on entry means `u8`.
+- **Static init: an extra `ori $sN, 0xFFFF` reload means a destruction statement with no code.**
+  cse1 rewrites each surviving priority test to the 0xFFFF register of the statement 9 before it
+  (unused ones are deleted), and cse2 then reuses the first 0xFFFF set on its path. If the
+  original sets the register one statement later than the draft (here a second `ori $s1, 0xFFFF`
+  before the second destructor test), it has one more `init == 0` statement after the last
+  destructor whose code is optimised away. An empty `if (...) {}` vanishes before cse and has no
+  effect; a call to an `__attribute__((const))` function *returning a value*, result unused,
+  survives cse and is deleted by flow, which reproduces it (a `void` const call is kept)
+  (002E3100: 65 off -> MATCH).
 
 Several rules were learned from the Digital Devil Saga decompilation's documentation (github.com/Megami-Decomps/dds-decomp), restated here in our own words.
 
