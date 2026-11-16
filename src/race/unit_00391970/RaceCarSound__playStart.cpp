@@ -44,7 +44,7 @@ static inline void zeroAt(int base, int a, int b, int n) {
     for (i = n - 1, q = (f32 *)((a + b) + base); i >= 0; i--) *q-- = t = 0.0f;
 }
 
-extern "C" void func_003924D0(Self *s) {
+extern "C" void RaceCarSound__playStart(Self *s) {
     int i;
     if (s->inited) return;
     s->inited = 1;
