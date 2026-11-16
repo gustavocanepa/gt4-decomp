@@ -11,7 +11,7 @@ struct Bits { unsigned a:4,b:4,c:4,d:1,e:1,f:1,g:1,h:1,i:1,j:1,k:1,l:1,m:1,n:1,o
 struct Bits2 { unsigned a:1,b:1,c:1,d:1,e:1,f:1,g:1,h:1; };
 struct Obj { int unk; Entry *vt; char pad[0x24]; void *handle; int pad30; V4 v; Raw16 raw; int z54,z58,z5c; char p60[12]; V2 v6c; float f74; V2 v78,v80; float f88; Str str; Ext *ext; int p94; Bits bits; Bits2 bits2; };
 extern "C" void hObject__deepCopy(void *,void *);
-extern "C" Obj *GT4MC__FileGT4GameData__loadInstance(void *,void *,int,void *,void *,void *);
+extern "C" Obj *__dynamic_cast_2(void *,void *,int,void *,void *,void *);
 extern "C" const char *hModule__getName(Obj *);
 extern "C" char *func_005C2560(Rep *);
 extern "C" int func_0057F260(const char *) throw();
@@ -34,7 +34,7 @@ static inline void handle(void **d,void **s) { int empty=0; if(!*s || !func_0032
 extern "C" void mWidget__deepCopy(Obj *self,Obj *src) {
     Obj *copy=0;
     hObject__deepCopy(self,src);
-    if(src) { Entry *e=src->vt; copy=GT4MC__FileGT4GameData__loadInstance(e->fn,mWidget__tf,0,(char *)src+e->delta,hObject__tf,src); }
+    if(src) { Entry *e=src->vt; copy=__dynamic_cast_2(e->fn,mWidget__tf,0,(char *)src+e->delta,hObject__tf,src); }
     if(copy) {
         Str tmp;
         construct(&tmp,hModule__getName(copy));

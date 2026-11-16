@@ -16,7 +16,7 @@ extern char RaceBase__tf[];
 extern "C" int DynamicsConductor__GetCountDown(void *, int);
 extern "C" int func_0035AE58(int);
 extern "C" int func_003F7880(int, int) throw();
-extern "C" Obj *GT4MC__FileGT4GameData__loadInstance(void *, void *, int, void *, void *, void *);
+extern "C" Obj *__dynamic_cast_2(void *, void *, int, void *, void *, void *);
 
 extern "C" int func_003FD620(Owner *a0, Big *a1, Arg2 *a2, int a3, int *out)
 {
@@ -29,7 +29,7 @@ extern "C" int func_003FD620(Owner *a0, Big *a1, Arg2 *a2, int a3, int *out)
     H *h = a0->h;
     if (h) {
         TI *t = h->ti;
-        o = GT4MC__FileGT4GameData__loadInstance(t->x, RacePS2Base__tf, 0, (char *)h + t->off, RaceBase__tf, h);
+        o = __dynamic_cast_2(t->x, RacePS2Base__tf, 0, (char *)h + t->off, RaceBase__tf, h);
     }
     if (func_0035AE58(s2)) {
         Ent2 *e = &o->vt->e438;

@@ -90,7 +90,7 @@ typedef s64 M2C_UNK64;
 M2C_UNK func_002030E8(s32, void *);                 /* extern */
 M2C_UNK func_00248398(s32, void *);                 /* extern */
 M2C_UNK mWidget__deepCopy();                            /* extern */
-void *GT4MC__FileGT4GameData__loadInstance(s32, M2C_UNK, M2C_UNK, void *, M2C_UNK, void *); /* extern */
+void *__dynamic_cast_2(s32, M2C_UNK, M2C_UNK, void *, M2C_UNK, void *); /* extern */
 
 extern char mInputTextFace__tf[];
 extern char hObject__tf[];
@@ -102,7 +102,7 @@ void mInputTextFace__deepCopy(void *arg0, void *arg1) {
     mWidget__deepCopy();
     if (arg1 != NULL) {
         temp_v0 = M2C_FIELD(arg1, void **, 4);
-        var_s2 = GT4MC__FileGT4GameData__loadInstance(M2C_FIELD(temp_v0, s32 *, 4), (s32)mInputTextFace__tf, 0, arg1 + M2C_FIELD(temp_v0, s16 *, 0), (s32)hObject__tf, arg1);
+        var_s2 = __dynamic_cast_2(M2C_FIELD(temp_v0, s32 *, 4), (s32)mInputTextFace__tf, 0, arg1 + M2C_FIELD(temp_v0, s16 *, 0), (s32)hObject__tf, arg1);
     }
     if (var_s2 != NULL) {
         func_00248398(arg0 + 0xA0, var_s2 + 0xA0);

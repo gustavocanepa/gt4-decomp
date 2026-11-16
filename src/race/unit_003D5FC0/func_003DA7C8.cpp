@@ -21,7 +21,7 @@ int func_004809D8(void *, const void *, void *);
 void func_00575DA0(void *) throw();
 int func_0057DA20(char *, const char *, ...);
 u32 func_0057F260(const char *) throw();
-char *GT4MC__FileGT4GameData__loadInstance(void *, void *, int, void *, void *, void *);
+char *__dynamic_cast_2(void *, void *, int, void *, void *, void *);
 char *strobe__toUpper(void *);
 void *strobe__Any__setMember(void *, u32, u32, const char *, u32);
 }
@@ -33,8 +33,8 @@ struct String { char *dat; char pad[12]; String(const char *s):dat(D_00659E20.gr
 struct Value { int data[4]; Value(){data[0]=1;} ~Value(){func_004768C0(this);} void assign(const char *s){func_00476AE8(this,s);} };
 struct Car { char p0[0x14]; int id; void *ent; char p1[0x11DC - 0x1C]; u32 time; char p2[0x11E8 - 0x11E0]; int gap; const char *gapText; char p3[0x3444 - 0x11F0]; int grid; char p4[0x350C - 0x3448]; char name[128]; };
 struct Monitor { char p0[0x10]; void *race; char p1[0xE2 - 0x14]; u8 best[6]; int laps[6]; u32 times[6]; char p2[0xFB4 - 0x118]; char names[6][128]; };
-static inline char *toLabel(char *p){char *r=0; if(p){char *v=F(p,char *,0x5c); r=GT4MC__FileGT4GameData__loadInstance(F(v,void *,4),D_00606670,0,p+F(v,short,0),D_00607408,p);} return r;}
-static inline char *toMark(char *p){char *r=0; if(p){char *v=F(p,char *,0x5c); r=GT4MC__FileGT4GameData__loadInstance(F(v,void *,4),D_00608F30,0,p+F(v,short,0),D_00607408,p);} return r;}
+static inline char *toLabel(char *p){char *r=0; if(p){char *v=F(p,char *,0x5c); r=__dynamic_cast_2(F(v,void *,4),D_00606670,0,p+F(v,short,0),D_00607408,p);} return r;}
+static inline char *toMark(char *p){char *r=0; if(p){char *v=F(p,char *,0x5c); r=__dynamic_cast_2(F(v,void *,4),D_00608F30,0,p+F(v,short,0),D_00607408,p);} return r;}
 extern "C" void func_003DA7C8(Monitor *self, Car *car, void *owner, void *root, int first) {
  char buf[32];
  Value val;

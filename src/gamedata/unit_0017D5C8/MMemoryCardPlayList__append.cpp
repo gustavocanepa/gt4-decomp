@@ -35,7 +35,7 @@ extern "C" void func_002FC870(void *, int);
 extern "C" void func_002FE278(void *, int);
 extern "C" void func_003285A8(void *);
 extern "C" void func_003285F8(void *);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *, void *, int, void *, void *, void *);
+extern "C" void *__dynamic_cast_2(void *, void *, int, void *, void *, void *);
 
 extern "C" void MMemoryCardPlayList__append(void **out, void *input, int count, void *arg) {
     Hdr *a[4];
@@ -51,7 +51,7 @@ extern "C" void MMemoryCardPlayList__append(void **out, void *input, int count, 
     void *cast;
     if (b != 0) {
         Entry *e = b->vt;
-        cast = GT4MC__FileGT4GameData__loadInstance(e->fn, D_005D15A8, 0, (char *)b + e->delta, D_005D1260, b);
+        cast = __dynamic_cast_2(e->fn, D_005D15A8, 0, (char *)b + e->delta, D_005D1260, b);
     } else {
         cast = 0;
     }

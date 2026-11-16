@@ -2,7 +2,7 @@ typedef signed char s8; typedef unsigned char u8; typedef short s16; typedef uns
 typedef int s32; typedef unsigned int u32;
 
 extern "C" void mBox__deepCopy(void *arg0, void *arg1);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(s32, s32, s32, void *, s32, void *);
+extern "C" void *__dynamic_cast_2(s32, s32, s32, void *, s32, void *);
 
 extern char mOptionMenu__tf[];
 extern char hObject__tf[];
@@ -15,7 +15,7 @@ extern "C" void mOptionMenu__virtual_08(void *arg0, void *arg1) {
     var_v0 = 0;
     if (arg1 != 0) {
         temp_v0 = *(char **)((char *)arg1 + 4);
-        var_v0 = GT4MC__FileGT4GameData__loadInstance(*(s32 *)(temp_v0 + 4), (s32)mOptionMenu__tf, 0,
+        var_v0 = __dynamic_cast_2(*(s32 *)(temp_v0 + 4), (s32)mOptionMenu__tf, 0,
                                (char *)arg1 + *(s16 *)temp_v0, (s32)hObject__tf, arg1);
     }
     if (var_v0 != 0) {

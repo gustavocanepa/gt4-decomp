@@ -80,7 +80,7 @@ extern "C" void free(void *) throw();
 extern "C" void *func_00578CB0(s32);
 extern "C" void *func_00578CF0(s32, s32);
 extern "C" s32 func_0057F238(const char *, const char *);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *(*)(void), char *, s32, void *, char *, void *);
+extern "C" void *__dynamic_cast_2(void *(*)(void), char *, s32, void *, char *, void *);
 
 struct Lazy {
     Buf *p;
@@ -144,7 +144,7 @@ extern "C" void func_0010CA50(Self *self) {
             run->fD6C = 1;
             GET()
             if (func_003470A0(&b->f1AA4) == 1 && run != 0
-                && GT4MC__FileGT4GameData__loadInstance(((VEntry *)run->vtbl)->fn, RaceSolitaire__tf, 0,
+                && __dynamic_cast_2(((VEntry *)run->vtbl)->fn, RaceSolitaire__tf, 0,
                                  (char *)run + ((VEntry *)run->vtbl)->delta, RaceBasic__tf, run) != 0) {
                 GET()
                 VEntryB *e = (VEntryB *)(run->vtbl + 0x4F0);

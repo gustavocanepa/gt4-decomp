@@ -35,7 +35,7 @@ extern "C" void func_002FC870(void *, int);
 extern "C" void func_002FE278(void *, s32);
 extern "C" void func_003285A8(void *);
 extern "C" void func_003285F8(void *);
-extern "C" s32 GT4MC__FileGT4GameData__loadInstance(void *, void *, int, void *, void *, void *);
+extern "C" s32 __dynamic_cast_2(void *, void *, int, void *, void *, void *);
 
 static inline void store(void **out, Inner **r) {
     if (out != (void **)r) {
@@ -60,7 +60,7 @@ extern "C" void MMemoryCardPlayList__search(void **out, int unused, int count, v
         Inner *hh = ph[0];
         Base *b = hh->f10;
         s32 v = a0->f10;
-        s32 cast = b ? GT4MC__FileGT4GameData__loadInstance(b->vt->fn, D_005D15A8, 0, (char *)b + b->vt->delta, D_005D1260, b) : 0;
+        s32 cast = b ? __dynamic_cast_2(b->vt->fn, D_005D15A8, 0, (char *)b + b->vt->delta, D_005D1260, b) : 0;
         s32 res = func_001D13A0(v, cast);
         Inner **pr = r;
         func_002FE278(pr, res);

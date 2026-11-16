@@ -3,7 +3,7 @@ struct Entry { short delta,index; void (*fn)(void *); };
 struct S { int x; Entry *vt; char pad[0x98]; int a0; char pad2[8]; int ac; };
 extern char mComposite__tf[], hObject__tf[];
 extern "C" void mWidget__deepCopy(void *, void *);
-extern "C" int GT4MC__FileGT4GameData__loadInstance(void *,void *,int,void *,void *,void *);
+extern "C" int __dynamic_cast_2(void *,void *,int,void *,void *,void *);
 extern "C" int func_00206860(S *) throw();
 extern "C" void func_00206B60(void *,int) throw();
 extern "C" void func_0030BA08(void *,int);
@@ -17,7 +17,7 @@ extern "C" void mComposite__deepCopy(S *self, S *src) {
  S *copy=0;
  if(src) {
   Entry *e=src->vt;
-  copy=(S *)GT4MC__FileGT4GameData__loadInstance((void *)e->fn,mComposite__tf,0,(char *)src+e->delta,hObject__tf,src);
+  copy=(S *)__dynamic_cast_2((void *)e->fn,mComposite__tf,0,(char *)src+e->delta,hObject__tf,src);
  }
  if(copy) {
   int v_ac = copy->ac;

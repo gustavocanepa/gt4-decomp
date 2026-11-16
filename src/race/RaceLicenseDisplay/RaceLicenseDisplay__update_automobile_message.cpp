@@ -4,7 +4,7 @@ struct G { char pad[0x128]; int f128; };
 struct Lic { char pad0[0x10]; Src *p10; char pad1[0x228C - 0x14]; char s228C[0x20]; unsigned w20; char pad2[0x22C0 - 0x22B0]; char s22C0[4]; };
 extern char DynamicsConductorLicense__tf[], DynamicsConductor__tf[];
 extern G *DisplayRText__rtext_ptrs_;
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *, void *, int, void *, void *, void *);
+extern "C" void *__dynamic_cast_2(void *, void *, int, void *, void *, void *);
 extern "C" int func_003FA2B0(void *);
 extern "C" int func_0057DA20(void *, int, int);
 extern "C" void Oscillator__setCount(void *, int, int);
@@ -18,7 +18,7 @@ extern "C" void RaceLicenseDisplay__update_automobile_message(Lic *o, void *a)
     Src *s = o->p10;
     if (s) {
         Entry *e = s->vt;
-        p = GT4MC__FileGT4GameData__loadInstance(e->fn, DynamicsConductorLicense__tf, 0, (char *)s + e->delta, DynamicsConductor__tf, s);
+        p = __dynamic_cast_2(e->fn, DynamicsConductorLicense__tf, 0, (char *)s + e->delta, DynamicsConductor__tf, s);
     }
     if (p) {
         int n = func_003FA2B0(p);

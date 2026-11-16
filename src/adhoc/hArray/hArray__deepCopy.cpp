@@ -63,10 +63,10 @@ struct VT { short delta; short pad; void *fn; };
 struct Src { char pad[4]; VT *vt; };
 struct Self { char pad[0x10]; Vec v; };
 extern char hArray__tf[], hObject__tf[];
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *, void *, int, void *, void *, void *);
+extern "C" void *__dynamic_cast_2(void *, void *, int, void *, void *, void *);
 extern "C" void hArray__deepCopy(Self *self, Src *src) {
  Self *r=0;
- if(src) { VT *vt=src->vt; r=(Self *)GT4MC__FileGT4GameData__loadInstance(vt->fn,hArray__tf,0,(char *)src+vt->delta,hObject__tf,src); }
+ if(src) { VT *vt=src->vt; r=(Self *)__dynamic_cast_2(vt->fn,hArray__tf,0,(char *)src+vt->delta,hObject__tf,src); }
  if(r) {
   unsigned n=r->v.size();
   self->v.resize(n);

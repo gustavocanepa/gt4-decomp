@@ -15,7 +15,7 @@ struct NodeB {
 extern char mGarage__tf[];
 extern char RefCounter__tf[];
 
-extern void *GT4MC__FileGT4GameData__loadInstance(int, void *, int, void *, void *, void *);
+extern void *__dynamic_cast_2(int, void *, int, void *, void *, void *);
 extern void func_003285A8(void *);
 extern void func_003285F8(void *);
 
@@ -29,7 +29,7 @@ int func_0016D890(void **dest, NodeB **source)
     node = *source;
     if (node != 0) {
         Unk64 *u = node->unk64;
-        casted = GT4MC__FileGT4GameData__loadInstance(u->unk4, mGarage__tf, 0,
+        casted = __dynamic_cast_2(u->unk4, mGarage__tf, 0,
                                 (char *)node + u->unk0,
                                 RefCounter__tf, node);
     }

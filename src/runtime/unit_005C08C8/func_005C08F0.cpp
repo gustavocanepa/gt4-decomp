@@ -1498,7 +1498,7 @@ func_005C0F40 (const type_info& (*from)(void), const type_info& (*to)(void),
 		int require_public, void *address, const type_info & (*sub)(void), void *subptr);
 
 extern "C" void *
-GT4MC__FileGT4GameData__loadInstance (const type_info& (*from)(void), const type_info& (*to)(void),
+__dynamic_cast_2 (const type_info& (*from)(void), const type_info& (*to)(void),
                   int boff,
 		  void *address, const type_info & (*sub)(void), void *subptr);
 

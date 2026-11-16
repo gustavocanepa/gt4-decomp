@@ -4,7 +4,7 @@ typedef int (*FnPtr)();
 
 extern "C" int func_005BFC20(int a0, int a1, int a2, int a3, int t0, int t1);
 
-extern "C" int GT4MC__FileGT4GameData__loadInstance(FnPtr arg0, FnPtr arg1, int arg2, int arg3, FnPtr arg4, int arg5) {
+extern "C" int __dynamic_cast_2(FnPtr arg0, FnPtr arg1, int arg2, int arg3, FnPtr arg4, int arg5) {
     int s0 = arg0();
     int s1 = arg1();
     int t0result = arg4();

@@ -13,7 +13,7 @@ extern "C" void func_003285A8(s32);
 extern "C" void func_003285F8(s32);
 extern "C" s32 func_005D15A8(char *);
 extern "C" s32 func_005D1260(char *);
-extern "C" Obj *GT4MC__FileGT4GameData__loadInstance(Fn, Fn, int, char *, Fn, Obj *);
+extern "C" Obj *__dynamic_cast_2(Fn, Fn, int, char *, Fn, Obj *);
 static inline s32 invoke(Obj *self) {
     Entry *e = (Entry *)((char *)self->vt + 0xa0);
     return e->fn((char *)self + e->delta);
@@ -27,7 +27,7 @@ extern "C" void MMemoryCardFile__get_spectatorMode(s32 *arg0) {
     object = 0;
     if (base) {
         Entry *e = base->vt;
-        object = GT4MC__FileGT4GameData__loadInstance(e->fn, func_005D15A8, 0, (char *)base + e->delta, func_005D1260, base);
+        object = __dynamic_cast_2(e->fn, func_005D15A8, 0, (char *)base + e->delta, func_005D1260, base);
     }
     func_001740F0(buf, 2);
     s32 flag;

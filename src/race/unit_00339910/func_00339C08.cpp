@@ -10,7 +10,7 @@ struct Top { char p0[0x2880]; Obj *mid; };
 extern char RaceCarModel__tf[];
 extern char VehicleModel__tf[];
 extern "C" void func_00339AD0(s32 a0, void *a1, void *a2, s32 a3);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(s32 a0, void *a1, s32 a2, void *a3, void *a4, void *a5);
+extern "C" void *__dynamic_cast_2(s32 a0, void *a1, s32 a2, void *a3, void *a4, void *a5);
 typedef void (*F1)(void *);
 typedef void (*F2)(void *, s32, s32, float);
 extern "C" void func_00339C08(s32 target, Top *top, float floatArg) {
@@ -19,7 +19,7 @@ extern "C" void func_00339C08(s32 target, Top *top, float floatArg) {
     Obj *vehicle = top->mid;
     if (vehicle != 0) {
         Ent *e = (Ent *)vehicle->vt;
-        raceCar = (Obj *)GT4MC__FileGT4GameData__loadInstance((s32)e->fn, RaceCarModel__tf, 0, (char *)vehicle + e->delta, VehicleModel__tf, vehicle);
+        raceCar = (Obj *)__dynamic_cast_2((s32)e->fn, RaceCarModel__tf, 0, (char *)vehicle + e->delta, VehicleModel__tf, vehicle);
     }
     {
         Ent *e = (Ent *)(raceCar->vt + 0xE8);

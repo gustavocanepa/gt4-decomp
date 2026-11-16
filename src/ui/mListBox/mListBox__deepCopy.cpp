@@ -12,7 +12,7 @@ typedef unsigned int u32;
 typedef float f32;
 
 extern "C" void mScrollable__deepCopy(void *self, void *original);
-extern "C" int GT4MC__FileGT4GameData__loadInstance(s32, s32, s32, void *, s32, void *);
+extern "C" int __dynamic_cast_2(s32, s32, s32, void *, s32, void *);
 
 extern char mListBox__tf[];
 extern char hObject__tf[];
@@ -25,7 +25,7 @@ extern "C" void mListBox__deepCopy(void *self, void *original) {
     source = 0;
     if (original != 0) {
         vtableEntry = *(char **)((char *)original + 4);
-        source = (char *)GT4MC__FileGT4GameData__loadInstance(*(s32 *)(vtableEntry + 4), (s32)mListBox__tf, 0,
+        source = (char *)__dynamic_cast_2(*(s32 *)(vtableEntry + 4), (s32)mListBox__tf, 0,
                                        (char *)original + *(s16 *)vtableEntry, (s32)hObject__tf, original);
     }
     if (source != 0) {

@@ -17,7 +17,7 @@ extern "C" s32 mScrollable__GetClassID();
 extern "C" Obj *func_00206868(void*);
 extern "C" Obj *func_0025C300(void*);
 extern "C" s32 hObject__isInstanceOf(void*,s32);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void*,void*,int,void*,void*,void*);
+extern "C" void *__dynamic_cast_2(void*,void*,int,void*,void*,void*);
 extern "C" int func_0030BB18(void*);
 extern "C" char *func_005C2560(Rep*);
 extern "C" u32 func_0057F260(const char*) throw();
@@ -49,7 +49,7 @@ extern "C" void mScrollBox__onInitialize(Self *self) {
  for(Obj *p=func_00206868(self);p;p=func_0025C300(p)) {
   if(hObject__isInstanceOf(p,cls)) {
    Entry *e=p->vt;
-   self->scroll=GT4MC__FileGT4GameData__loadInstance(e->fn,(void*)mScrollable__tf,0,(char*)p+e->delta,(void*)mWidget__tf,p);
+   self->scroll=__dynamic_cast_2(e->fn,(void*)mScrollable__tf,0,(char*)p+e->delta,(void*)mWidget__tf,p);
    break;
   }
  }

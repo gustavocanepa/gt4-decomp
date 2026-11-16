@@ -3,12 +3,12 @@ struct Entry { short delta, index; void *fn; };
 struct Data { int a,b,c,d,e; };
 struct Obj { int head; Entry *vt; char pad[0x100]; Data data; };
 extern "C" void mWidget__deepCopy(Obj *, const Obj *);
-extern "C" Obj *GT4MC__FileGT4GameData__loadInstance(void *, void *, int, void *, void *, void *);
+extern "C" Obj *__dynamic_cast_2(void *, void *, int, void *, void *, void *);
 extern char mInputNumberFace__tf[], hObject__tf[];
 static inline Obj *cast(Obj *p) {
     if (!p) return 0;
     Entry *v = p->vt;
-    return GT4MC__FileGT4GameData__loadInstance(v->fn,mInputNumberFace__tf,0,(char *)p+v->delta,hObject__tf,p);
+    return __dynamic_cast_2(v->fn,mInputNumberFace__tf,0,(char *)p+v->delta,hObject__tf,p);
 }
 extern "C" void mInputNumberFace__virtual_08(Obj *o, Obj *p) {
     mWidget__deepCopy(o,p);

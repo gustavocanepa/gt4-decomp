@@ -1,7 +1,7 @@
 #include "types.h"
 
 extern "C" void mWidget__deepCopy(void *arg0, void *arg1);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *arg0, void *arg1, s32 arg2, void *arg3, void *arg4, void *arg5);
+extern "C" void *__dynamic_cast_2(void *arg0, void *arg1, s32 arg2, void *arg3, void *arg4, void *arg5);
 extern "C" void *func_005E49B0(void *arg0, void *arg1);
 extern char mColorFace__tf[];
 extern char hObject__tf[];
@@ -27,7 +27,7 @@ extern "C" void mColorFace__deepCopy(char *arg0, char *arg1) {
     r = 0;
     if (arg1 != 0) {
         e = *(Ent285FC0 **)(arg1 + 4);
-        r = (char *)GT4MC__FileGT4GameData__loadInstance(e->ptr, mColorFace__tf, 0, arg1 + e->delta, hObject__tf, arg1);
+        r = (char *)__dynamic_cast_2(e->ptr, mColorFace__tf, 0, arg1 + e->delta, hObject__tf, arg1);
     }
     if (r != 0) {
         if (arg0 + 0xA0 != r + 0xA0) {

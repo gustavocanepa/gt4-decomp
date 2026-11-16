@@ -15,7 +15,7 @@ extern "C" Str *strobe__Any__setMember(Str *,u32,u32,const char *,u32);
 extern "C" u32 func_0057F260(const char *) throw();
 extern "C" void free(void *) throw();
 extern "C" Found *func_00480878(int,Str *);
-extern "C" char *GT4MC__FileGT4GameData__loadInstance(void *,void (*)(),int,char *,void (*)(),Found *);
+extern "C" char *__dynamic_cast_2(void *,void (*)(),int,char *,void (*)(),Found *);
 extern "C" int func_003FA4B0(int,int,int,signed char *);
 extern "C" int func_0057DA20(char *,const char *,...);
 extern "C" void func_00476AE8(Val *,const char *);
@@ -36,7 +36,7 @@ extern "C" void RaceMonitor__update_pit_panel(Owner *self,int enabled) {
  construct(ps0,D_006A34B0);
  char *panel=0;
  Found *f=func_00480878(handle,&u.str);
- if(f) { Entry *e=f->entry; panel=GT4MC__FileGT4GameData__loadInstance(e->fn,func_00608F30,0,(char *)f+e->delta,func_00607408,f); }
+ if(f) { Entry *e=f->entry; panel=__dynamic_cast_2(e->fn,func_00608F30,0,(char *)f+e->delta,func_00607408,f); }
  destroy(&u.str);
  int count=0;
  if(panel) {

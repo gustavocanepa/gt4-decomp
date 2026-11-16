@@ -15,7 +15,7 @@ extern "C" Found *func_00480878(int,Str *);
 extern "C" void free(void *) throw();
 extern "C" int func_0057DA20(char *,const char *,...) throw();
 extern "C" u32 func_0057F260(const char *) throw();
-extern "C" char *GT4MC__FileGT4GameData__loadInstance(void *,void (*)(),int,char *,void (*)(),Found *);
+extern "C" char *__dynamic_cast_2(void *,void (*)(),int,char *,void (*)(),Found *);
 extern "C" char *strobe__toUpper(Rep *);
 extern "C" Str *strobe__Any__setMember(Str *,u32,u32,const char *,u32);
 struct Val { int type; int spare[3]; };
@@ -47,7 +47,7 @@ extern "C" void func_003DBBD0(Owner *self) {
     Found *found=func_00480878(handle,ps);
     if(found) {
         Entry *e=found->entry;
-        result=GT4MC__FileGT4GameData__loadInstance(e->fn,func_00608F30,0,(char *)found+e->delta,func_00607408,found);
+        result=__dynamic_cast_2(e->fn,func_00608F30,0,(char *)found+e->delta,func_00607408,found);
     }
     destroy(ps);
     if(result) *(int *)(result+0x74)=self->x70;

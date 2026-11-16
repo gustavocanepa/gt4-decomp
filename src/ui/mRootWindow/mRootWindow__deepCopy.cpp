@@ -39,7 +39,7 @@ extern char mRootWindow__tf[];
 extern char hObject__tf[];
 
 extern "C" void mBox__deepCopy(void *a, void *b);
-extern "C" Obj *GT4MC__FileGT4GameData__loadInstance(s32 a0, void *a1, s32 a2, void *a3, void *a4, void *a5);
+extern "C" Obj *__dynamic_cast_2(s32 a0, void *a1, s32 a2, void *a3, void *a4, void *a5);
 extern "C" struct S00659988 *func_005C11A8(void);
 extern "C" char *func_005C2560(Rep *r);
 extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
@@ -49,7 +49,7 @@ extern "C" void mRootWindow__deepCopy(Obj *arg0, hObject *arg1) {
     mBox__deepCopy(arg0, arg1);
     if (arg1 != 0) {
         TypeEntry *t = arg1->vtbl;
-        o = GT4MC__FileGT4GameData__loadInstance(t->type, mRootWindow__tf, 0, (char *)arg1 + t->offset, hObject__tf, arg1);
+        o = __dynamic_cast_2(t->type, mRootWindow__tf, 0, (char *)arg1 + t->offset, hObject__tf, arg1);
     }
     if (o != 0) {
         arg0->b4 = o->b4;

@@ -12,14 +12,14 @@ struct Face {
 extern char mTextFace__tf[];
 extern char hObject__tf[];
 extern "C" void mWidget__deepCopy(Face *,Object *);
-extern "C" Face *GT4MC__FileGT4GameData__loadInstance(void (*)(void *,void *),void *,int,void *,void *,void *);
+extern "C" Face *__dynamic_cast_2(void (*)(void *,void *),void *,int,void *,void *,void *);
 extern "C" void func_00248398(void *,void *);
 extern "C" void mTextFace__deepCopy(Face *self,Object *src) {
  mWidget__deepCopy(self,src);
  Face *r=0;
  if (src != 0) {
   VEntry *e=src->vt;
-  r=GT4MC__FileGT4GameData__loadInstance(e->fn,mTextFace__tf,0,(char *)src+e->delta,hObject__tf,src);
+  r=__dynamic_cast_2(e->fn,mTextFace__tf,0,(char *)src+e->delta,hObject__tf,src);
  }
  if (r != 0) {
   func_00248398(self->style,r->style);

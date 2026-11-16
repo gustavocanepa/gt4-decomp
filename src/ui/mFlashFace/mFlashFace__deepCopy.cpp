@@ -25,7 +25,7 @@ struct Obj {
 };
 
 extern "C" void mWidget__deepCopy(void *, void *);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *, void *, s32, void *, void *, void *);
+extern "C" void *__dynamic_cast_2(void *, void *, s32, void *, void *, void *);
 extern "C" void func_00293978(Str *, void *);
 extern "C" void func_002939D8(Obj *, Str *);
 extern "C" void func_00326798(void *, s32, s32, const char *);
@@ -38,7 +38,7 @@ extern "C" void mFlashFace__deepCopy(Obj *self, Obj *src) {
     mWidget__deepCopy(self, src);
     if (src != 0) {
         Ent *e = src->vt;
-        r = (Obj *)GT4MC__FileGT4GameData__loadInstance(e->ptr, mFlashFace__tf, 0, (char *)src + e->delta, hObject__tf, src);
+        r = (Obj *)__dynamic_cast_2(e->ptr, mFlashFace__tf, 0, (char *)src + e->delta, hObject__tf, src);
     }
     if (r != 0) {
         Str tmp;

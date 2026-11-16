@@ -25,7 +25,7 @@
 #define __deregister_frame_info func_005BED78
 #define __divdi3 __divdi3
 #define func_005C0F40 func_005C0F40
-#define GT4MC__FileGT4GameData__loadInstance GT4MC__FileGT4GameData__loadInstance
+#define __dynamic_cast_2 __dynamic_cast_2
 #define func_005BCA88 func_005BCA88
 #define func_005BCB68 func_005BCB68
 #define __eh_rtime_match func_005BCEA8

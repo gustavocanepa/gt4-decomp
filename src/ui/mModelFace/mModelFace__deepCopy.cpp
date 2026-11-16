@@ -50,7 +50,7 @@ extern char mModelFace__tf[];
 extern char hObject__tf[];
 
 extern "C" void mWidget__deepCopy(mModelFace *, hObject *);
-extern "C" mModelFace *GT4MC__FileGT4GameData__loadInstance(s32, void *, s32, void *, void *, void *);
+extern "C" mModelFace *__dynamic_cast_2(s32, void *, s32, void *, void *, void *);
 extern "C" void *func_002BE7F8(mModelFace *);
 extern "C" void func_002BE800(mModelFace *, void *);
 extern "C" void func_002BE988(Str *, mModelFace *);
@@ -82,7 +82,7 @@ extern "C" void mModelFace__deepCopy(mModelFace *self, hObject *src) {
     mWidget__deepCopy(self, src);
     if (src != 0) {
         TypeEntry *t = src->vtbl;
-        o = GT4MC__FileGT4GameData__loadInstance(t->type, mModelFace__tf, 0, (char *)src + t->offset, hObject__tf, src);
+        o = __dynamic_cast_2(t->type, mModelFace__tf, 0, (char *)src + t->offset, hObject__tf, src);
     }
     if (o != 0) {
         func_002BE800(self, func_002BE7F8(o));

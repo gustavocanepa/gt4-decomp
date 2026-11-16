@@ -25,7 +25,7 @@ struct mFadeActor {
 };
 
 extern char mColorFace__tf[], mWidget__tf[];
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *, void *, int, void *, void *, void *);
+extern "C" void *__dynamic_cast_2(void *, void *, int, void *, void *, void *);
 extern "C" void mWidget__setOpacity(Widget *, float);
 
 #define ABS(x) ((x) >= 0.0f ? (x) : -(x))
@@ -36,7 +36,7 @@ static inline Widget *castColored(Widget *w)
     if (!w)
         return 0;
     Entry *e = (Entry *)w->vt;
-    return (Widget *)GT4MC__FileGT4GameData__loadInstance((void *)e->fn, mColorFace__tf, 0, (char *)w + e->delta, mWidget__tf, w);
+    return (Widget *)__dynamic_cast_2((void *)e->fn, mColorFace__tf, 0, (char *)w + e->delta, mWidget__tf, w);
 }
 
 #define SET_COLOR(w, i, v) { Entry *e = (Entry *)((w)->vt + 0x1D8); e->fn((char *)(w) + e->delta, i, v); }

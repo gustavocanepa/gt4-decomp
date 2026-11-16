@@ -33,7 +33,7 @@ struct Face {
 extern char mImageFace__tf[];
 extern char hObject__tf[];
 extern "C" void mColorFace__deepCopy(void *, void *);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *, void *, int, void *, void *, void *);
+extern "C" void *__dynamic_cast_2(void *, void *, int, void *, void *, void *);
 extern "C" void *func_002A35F0(void *);
 extern "C" void func_002A35F8(void *, void *);
 
@@ -42,7 +42,7 @@ extern "C" void mImageFace__deepCopy(Face *self, void *src) {
     mColorFace__deepCopy(self, src);
     if (src != 0) {
         Entry *e = ((Obj *)src)->vtable;
-        copy = (Face *)GT4MC__FileGT4GameData__loadInstance(e->fn, mImageFace__tf, 0, (char *)src + e->delta, hObject__tf, src);
+        copy = (Face *)__dynamic_cast_2(e->fn, mImageFace__tf, 0, (char *)src + e->delta, hObject__tf, src);
     }
     if (copy != 0) {
         func_002A35F8(self, func_002A35F0(copy));

@@ -33,7 +33,7 @@ extern "C" int func_004809D8(Found *,Str *,Val *);
 extern "C" void free(void *) throw();
 extern "C" int func_0057DA20(char *,const char *,...);
 extern "C" u32 func_0057F260(const char *) throw();
-extern "C" Found *GT4MC__FileGT4GameData__loadInstance(void *,void (*)(),int,char *,void (*)(),Found *);
+extern "C" Found *__dynamic_cast_2(void *,void (*)(),int,char *,void (*)(),Found *);
 extern "C" char *strobe__toUpper(Rep *);
 extern "C" Str *strobe__Any__setMember(Str *,u32,u32,const char *,u32);
 static inline char *grab(Rep *r) { if(r->selfish) return strobe__toUpper(r); ++r->ref; return (char *)(r+1); }
@@ -41,7 +41,7 @@ static inline void construct(Str *s,const char *p) { s->p=grab(&D_00659E20); str
 static inline void destroy(Str *s) { Rep *r=(Rep *)s->p-1; if(--r->ref==0) free(r); }
 static inline Found *cast(Found *found) {
  Found *result=0;
- if(found) { Entry *e=found->entry; result=GT4MC__FileGT4GameData__loadInstance(e->fn,func_00608F30,0,(char *)found+e->delta,func_00607408,found); }
+ if(found) { Entry *e=found->entry; result=__dynamic_cast_2(e->fn,func_00608F30,0,(char *)found+e->delta,func_00607408,found); }
  return result;
 }
 extern "C" void RaceMonitor__setCarGapState(Self *self,Context *ctx) {

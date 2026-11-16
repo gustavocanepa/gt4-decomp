@@ -17,7 +17,7 @@ struct Str { char *p; };
 extern char mColorChipFace__tf[];
 extern char hObject__tf[];
 extern "C" void mWidget__deepCopy(void *, void *);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(s32, void *, s32, void *, void *, void *);
+extern "C" void *__dynamic_cast_2(s32, void *, s32, void *, void *, void *);
 extern "C" void func_0015A220(char *, Str *, s32);
 
 struct mColorChipFaceLayout {
@@ -33,7 +33,7 @@ extern "C" void mColorChipFace__deepCopy(void *self, void *src) {
     if (src != 0) {
         Obj *source = (Obj *)src;
         Entry *entry = source->vtable;
-        copy = (mColorChipFaceLayout *)GT4MC__FileGT4GameData__loadInstance((s32)entry->fn, mColorChipFace__tf, 0,
+        copy = (mColorChipFaceLayout *)__dynamic_cast_2((s32)entry->fn, mColorChipFace__tf, 0,
                              (char *)src + entry->delta, hObject__tf, src);
     }
     if (copy != 0) {

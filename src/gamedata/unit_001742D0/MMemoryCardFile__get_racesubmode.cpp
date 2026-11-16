@@ -17,7 +17,7 @@ extern "C" void func_002FC870(void *arg0, int arg1);
 extern "C" void func_002FE278(void *arg0, void *arg1);
 extern "C" void func_003285A8(void *p);
 extern "C" void func_003285F8(void *p);
-extern "C" int GT4MC__FileGT4GameData__loadInstance(void *arg0, void *arg1, int arg2, void *arg3, void *arg4, void *arg5);
+extern "C" int __dynamic_cast_2(void *arg0, void *arg1, int arg2, void *arg3, void *arg4, void *arg5);
 extern char D_005D15A8[];
 extern char D_005D1260[];
 
@@ -32,7 +32,7 @@ extern "C" void MMemoryCardFile__get_racesubmode(void **arg0, void *arg1) {
     var = 0;
     if (obj != 0) {
         char *desc = *(char **)((char *)obj + 0x4C);
-        var = GT4MC__FileGT4GameData__loadInstance(*(void **)(desc + 4), D_005D15A8, 0,
+        var = __dynamic_cast_2(*(void **)(desc + 4), D_005D15A8, 0,
                             (char *)obj + *(s16 *)desc, D_005D1260, obj);
     }
     func_001740F0(buf0, 2);

@@ -22,7 +22,7 @@ struct Self {
 };
 struct Self2 { char pad[0xE420]; VObj *unkE420; };
 extern "C" char RaceDisplay__tf[], RaceDisplayBase__tf[];
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *, void *, int, void *, void *, void *);
+extern "C" void *__dynamic_cast_2(void *, void *, int, void *, void *, void *);
 extern "C" void RacePS2Base__updateRace(void *);
 
 typedef void *(*Fn0)(void *);
@@ -34,7 +34,7 @@ extern "C" void RaceTrainingBase__updateRace(Self *self) {
         VObj *o = ((Self2 *)self)->unkE420;
         if (o != 0) {
             char *vt = o->vtbl;
-            VObj *p = (VObj *)GT4MC__FileGT4GameData__loadInstance(*(void **)(vt + 4), RaceDisplay__tf, 0, (char *)o + *(s16 *)vt, RaceDisplayBase__tf, o);
+            VObj *p = (VObj *)__dynamic_cast_2(*(void **)(vt + 4), RaceDisplay__tf, 0, (char *)o + *(s16 *)vt, RaceDisplayBase__tf, o);
             if (p != 0) {
                 EV1 *e = (EV1 *)(p->vtbl + 0x88);
                 e->fn((char *)p + e->delta, self->unk125FC != 0);

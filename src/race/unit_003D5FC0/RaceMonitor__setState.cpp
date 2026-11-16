@@ -20,7 +20,7 @@ int func_004809D8(void *,const void *,void *);
 void func_00575DA0(void *) throw();
 int func_0057DA20(char *,const char *,...);
 u32 func_0057F260(const char *) throw();
-char *GT4MC__FileGT4GameData__loadInstance(void *,void *,int,void *,void *,void *);
+char *__dynamic_cast_2(void *,void *,int,void *,void *,void *);
 char *strobe__toUpper(void *);
 void *strobe__Any__setMember(void *,u32,u32,const char *,u32);
 }
@@ -29,7 +29,7 @@ struct Rep { u32 len,res,ref,selfish; char *data(){return (char *)(this+1);} cha
 extern Rep D_00659E20;
 struct String { char *dat; char pad[12]; String(const char *s):dat(D_00659E20.grab()){strobe__Any__setMember(this,0,-1,s,func_0057F260(s));} ~String(){((Rep *)dat-1)->release();} };
 struct Value { int data[4]; Value(){data[0]=1;} ~Value(){func_004768C0(this);} void assign(const char *s){func_00476AE8(this,s);} };
-static inline char *cast(char *p){char *r=0; if(p){char *v=F(p,char *,0x5c); r=GT4MC__FileGT4GameData__loadInstance(F(v,void *,4),D_00608F30,0,p+F(v,short,0),D_00607408,p);} return r;}
+static inline char *cast(char *p){char *r=0; if(p){char *v=F(p,char *,0x5c); r=__dynamic_cast_2(F(v,void *,4),D_00608F30,0,p+F(v,short,0),D_00607408,p);} return r;}
 extern "C" void RaceMonitor__setState(char *self,char *ctx){
  if(F(self,void *,4)&&F(self,int,0x28)){
   char buf[64];

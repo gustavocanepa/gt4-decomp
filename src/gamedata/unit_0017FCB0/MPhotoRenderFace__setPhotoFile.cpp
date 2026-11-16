@@ -10,7 +10,7 @@ extern "C" void func_00174148(void *, void *);
 extern "C" void func_00197878(void *, int) throw();
 extern "C" void func_001978D0(void *, void *) throw();
 extern "C" void func_0019B010(int, int, int, int);
-extern "C" Inner *GT4MC__FileGT4GameData__loadInstance(int, void *, int, void *, void *, void *);
+extern "C" Inner *__dynamic_cast_2(int, void *, int, void *, void *, void *);
 extern char D_005D1260[];
 struct T { Holder *h; int p[3]; };
 struct U { int v; int p[3]; };
@@ -22,7 +22,7 @@ extern "C" void MPhotoRenderFace__setPhotoFile(void *a0, void *a1, int n, void *
         func_00174148(&h, a3);
         if (h.h->f10 != 0) {
             Obj *o = (Obj *)h.h->f10;
-            r = GT4MC__FileGT4GameData__loadInstance(o->v->a, D_005D1DB0, 0, (char *)o + o->v->d, D_005D1260, o);
+            r = __dynamic_cast_2(o->v->a, D_005D1DB0, 0, (char *)o + o->v->d, D_005D1260, o);
         }
         if (r != 0) {
             U s3obj; U *s3 = &s3obj;

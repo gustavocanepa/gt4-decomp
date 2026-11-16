@@ -3452,7 +3452,7 @@
 0x005BFAC8	type_info__dtor	high	no	std::type_info::~type_info()	vtable type_info[0]: slot 0 -> GT HD 0, margin 8.9: 1 descendants override both, destructor, sizes 56/24
 0x005C00E0	type_info____is_pointer_p	medium	no	std::type_info::__is_pointer_p() const	vtable __class_type_info[1]: slot 1 -> GT HD 1, margin 2.3: sizes 576/20
 0x005C0320	type_info____is_function_p	medium	no	std::type_info::__is_function_p() const	vtable __class_type_info[2]: slot 2 -> GT HD 2, margin 2.3: sizes 1088/20
-0x005C0FC8	GT4MC__FileGT4GameData__loadInstance	medium	yes	GT4MC::FileGT4GameData::loadInstance(GT4MC::Device*, void*, GT4MC::File::ProgressBase*, GranTurismo4::Status&)	called at the same place by 1 paired function(s) (0x00175920), anchored; sizes 144/476
+0x005C0FC8	__dynamic_cast_2	medium	yes	GT4MC::FileGT4GameData::loadInstance(GT4MC::Device*, void*, GT4MC::File::ProgressBase*, GranTurismo4::Status&)	called at the same place by 1 paired function(s) (0x00175920), anchored; sizes 144/476
 0x005C4278	mQuickWork__dtor	high	no	mQuickWork::~mQuickWork()	vtable mQuickWork[0]: slot 0 -> GT HD 0, margin 336.1: 165 descendants override both, destructor, sizes 72/24
 0x005C9888	hArrayCompare__dtor	high	no	hArrayCompare::~hArrayCompare()	vtable hArrayCompare[0]: slot 0 -> GT HD 0, margin 8.9: 1 descendants override both, destructor, sizes 56/24
 0x005CB8C8	mMemoryCardFile__dtor	high	no	mMemoryCardFile::~mMemoryCardFile()	vtable mMemoryCardFile[0]: slot 0 -> GT HD 0, margin 336.1: 165 descendants override both, destructor, sizes 72/24

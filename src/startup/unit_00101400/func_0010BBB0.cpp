@@ -58,7 +58,7 @@ extern "C" void func_0044CB10(void);
 extern "C" void free(void *) throw();
 extern "C" void *func_00578CB0(s32);
 extern "C" Cfg *func_00578CF0(s32, s32);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *from, void *to, s32 require_public, void *address, void *sub, void *subptr);
+extern "C" void *__dynamic_cast_2(void *from, void *to, s32 require_public, void *address, void *sub, void *subptr);
 
 extern "C" s32 func_0010BBB0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     Info info;
@@ -82,7 +82,7 @@ extern "C" s32 func_0010BBB0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         VEntry *vt;
         if (func_003470A0(&cfg->f1AA4) == 1 && race != 0
             && (vt = *(VEntry **)((char *)race + 0x64),
-                GT4MC__FileGT4GameData__loadInstance(vt->fn, RaceSolitaire__tf, 0, (char *)race + vt->delta, RacePS2Base__tf, race) != 0)) {
+                __dynamic_cast_2(vt->fn, RaceSolitaire__tf, 0, (char *)race + vt->delta, RacePS2Base__tf, race) != 0)) {
             race->loadSolitaire(cfg);
         } else {
             race->load(cfg);

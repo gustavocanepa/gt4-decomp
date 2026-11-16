@@ -34,7 +34,7 @@ extern "C" void func_004A7454();
 extern "C" void func_004A7550(char *);
 extern "C" void func_004A79D8(f32);
 extern "C" f32 func_00578598(s32);
-extern "C" char *GT4MC__FileGT4GameData__loadInstance(s32, void (*)(), int, char *, void (*)(), char *) throw();
+extern "C" char *__dynamic_cast_2(s32, void (*)(), int, char *, void (*)(), char *) throw();
 extern "C" f32 func_005F5010(f32 *);
 
 // Old GNU C++ RTTI stores the complete-object adjustment beside the type callback.
@@ -42,7 +42,7 @@ struct RttiEntry { short adjustment, index; int typeInfo; };
 static inline char *checkedRaceCast(char *object) {
     if (!object) return 0;
     RttiEntry *entry = *(RttiEntry **)(object + 0x64);
-    return GT4MC__FileGT4GameData__loadInstance(entry->typeInfo, RacePS2Base__tf, 0, object + entry->adjustment, RaceBase__tf, object);
+    return __dynamic_cast_2(entry->typeInfo, RacePS2Base__tf, 0, object + entry->adjustment, RaceBase__tf, object);
 }
 
 extern "C" s32 func_0037A458(char *arg0, char *arg1, s32 arg2, char *arg3) {

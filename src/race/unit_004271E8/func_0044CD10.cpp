@@ -1,6 +1,6 @@
 /* Starts a loaded game-data instance for an object id, or calls back at once when there is no such object. The
  * callback argument points at a pair (function pointer, int argument). func_004AE1F8(0, objectId) looks the object
- * up; when found, GT4MC__FileGT4GameData__loadInstance creates an instance from the table at owner+0xA8 (size at
+ * up; when found, __dynamic_cast_2 creates an instance from the table at owner+0xA8 (size at
  * +4, offset at +0), and the instance is filled: the pair {D_0044D540, callback arg} goes to +0xC8 (D_0044D540
  * lies in code, so it is probably a function address, inferred from the address), 1 to +0x60, 0 to +0x74, zeros to
  * +0x64 and a copy of the callback pair to +0x6C; then it is handed to func_004AED20 with D_008463B0. When the
@@ -17,7 +17,7 @@ typedef void (*F2)(s32, s32);
 
 extern "C" void *func_004AE1F8(s32, s32);
 extern "C" void func_004AED20(void *, void *);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(s32, s32, s32, s32, s32, s32);
+extern "C" void *__dynamic_cast_2(s32, s32, s32, s32, s32, s32);
 
 extern char D_0060B030[];
 extern char D_0060AD40[];
@@ -34,7 +34,7 @@ extern "C" void func_0044CD10(s32 objectId, void *callback) {
     owner = (char *)func_004AE1F8(0, objectId);
     if (owner != 0) {
         info = *(char **)(owner + 0xA8);
-        instance = (char *)GT4MC__FileGT4GameData__loadInstance(*(s32 *)(info + 4), (s32)D_0060B030, 0,
+        instance = (char *)__dynamic_cast_2(*(s32 *)(info + 4), (s32)D_0060B030, 0,
                                   (s32)(owner + *(s16 *)info), (s32)D_0060AD40, (s32)owner);
         pair.b = *(s32 *)((char *)callback + 4);
         pair.a = (s32)D_0044D540;

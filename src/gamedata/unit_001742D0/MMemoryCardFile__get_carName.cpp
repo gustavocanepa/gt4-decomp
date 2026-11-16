@@ -56,7 +56,7 @@ extern "C" void func_00326798(void *p, s32 size, s32 align, const char *name);
 extern "C" void func_003285A8(s32 arg0);
 extern "C" void func_003285F8(s32 arg0);
 extern "C" s32 func_0057F260(const char *s);
-extern "C" Inner *GT4MC__FileGT4GameData__loadInstance(void *arg0, const char *arg1, int arg2, void *arg3, const char *arg4, Inner *arg5);
+extern "C" Inner *__dynamic_cast_2(void *arg0, const char *arg1, int arg2, void *arg3, const char *arg4, Inner *arg5);
 extern "C" struct S00659988 *func_005C11A8(void);
 extern "C" char *func_005C2560(Rep *r);
 extern "C" void *func_005C2630(Str *s, s32 pos, s32 n, const char *src, s32 len);
@@ -96,7 +96,7 @@ extern "C" void MMemoryCardFile__get_carName(s32 *out, void *fileHandle) {
     fileObject = ((Outer *)file.p)->in;
     gameData = 0;
     if (fileObject != 0) {
-        gameData = GT4MC__FileGT4GameData__loadInstance(fileObject->tab->fn, D_005D15A8, 0, (char *)fileObject + fileObject->tab->delta, D_005D1260, fileObject);
+        gameData = __dynamic_cast_2(fileObject->tab->fn, D_005D15A8, 0, (char *)fileObject + fileObject->tab->delta, D_005D1260, fileObject);
     }
     if (gameData != 0) {
         Str *textPtr = &nameText;

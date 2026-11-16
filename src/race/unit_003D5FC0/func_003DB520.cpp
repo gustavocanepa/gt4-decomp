@@ -22,7 +22,7 @@ extern "C" Found *func_00480878(int,Str *);
 extern "C" void free(void *) throw();
 extern "C" void func_0057DA20(char *,const char *,...);
 extern "C" u32 func_0057F260(const char *) throw();
-extern "C" char *GT4MC__FileGT4GameData__loadInstance(void *,void (*)(),int,char *,void (*)(),Found *);
+extern "C" char *__dynamic_cast_2(void *,void (*)(),int,char *,void (*)(),Found *);
 extern "C" char *strobe__toUpper(Rep *);
 extern "C" Str *strobe__Any__setMember(Str *,u32,u32,const char *,u32);
 extern "C" char *DisplayRText__getRTextStr(int);
@@ -44,7 +44,7 @@ extern "C" void func_003DB520(Owner *self) {
     Found *found=func_00480878(handle,&first.s);
     if(found) {
         Entry *entry=found->entry;
-        instance=GT4MC__FileGT4GameData__loadInstance(entry->fn,func_00608F30,0,(char *)found+entry->delta,func_00607408,found);
+        instance=__dynamic_cast_2(entry->fn,func_00608F30,0,(char *)found+entry->delta,func_00607408,found);
     }
     destroy(&first.s);
     if(instance) *(int *)(instance+0x74)=func_003D8C18(self);

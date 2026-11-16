@@ -18,7 +18,7 @@ struct Obj {
 };
 
 extern "C" void mImageFace__deepCopy(void *, void *);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *,void *,int,void *,void *,void *);
+extern "C" void *__dynamic_cast_2(void *,void *,int,void *,void *,void *);
 extern "C" Info *func_005C11A8();
 extern "C" void func_00326798(void *,int,int,const char *);
 extern "C" char *func_005C2560(Rep *);
@@ -80,7 +80,7 @@ extern "C" void mFrameImageFace__deepCopy(Obj *self, void *src) {
     mImageFace__deepCopy(self,src);
     if(src) {
         Entry *e=((Base *)src)->vtable;
-        copy=(Obj *)GT4MC__FileGT4GameData__loadInstance(e->fn,mFrameImageFace__tf,0,(char *)src+e->delta,hObject__tf,src);
+        copy=(Obj *)__dynamic_cast_2(e->fn,mFrameImageFace__tf,0,(char *)src+e->delta,hObject__tf,src);
     }
     if(copy) {
         str_assign(&self->str[0],&copy->str[0]);

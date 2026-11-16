@@ -10,7 +10,7 @@ struct Obj {
 };
 extern "C" void RaceDisplay__tf();
 extern "C" void RaceDisplayBase__tf();
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *, void (*)(), int, char *, void (*)(), void *);
+extern "C" void *__dynamic_cast_2(void *, void (*)(), int, char *, void (*)(), void *);
 extern "C" s32 RaceInput__getButtons(void *);
 extern "C" s32 RaceInput__getButtonDown(void *);
 extern "C" s32 func_003A1F98(void *);
@@ -28,7 +28,7 @@ extern "C" void RaceBasic__handle_command_in_pause(Obj *self) {
                     Dyn *res = 0;
                     if (d) {
                         VE *e = d->vt;
-                        res = (Dyn *)GT4MC__FileGT4GameData__loadInstance(e->fn, RaceDisplay__tf, 0, (char *)d + e->delta, RaceDisplayBase__tf, d);
+                        res = (Dyn *)__dynamic_cast_2(e->fn, RaceDisplay__tf, 0, (char *)d + e->delta, RaceDisplayBase__tf, d);
                     }
                     if (res) {
                         func_003A1F38(res, func_003A1F98(res) ^ 1);

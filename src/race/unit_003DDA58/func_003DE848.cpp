@@ -16,7 +16,7 @@ extern Glob *D_00621CB4;
 
 extern "C" void RaceSolitaire__tf(void);
 extern "C" void RaceBase__tf(void);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *, void (*)(void), s32, void *, void (*)(void), void *);
+extern "C" void *__dynamic_cast_2(void *, void (*)(void), s32, void *, void (*)(void), void *);
 extern "C" char *Serialize__Base__getHeader(void *, void *);
 
 extern "C" s32 func_003DE848(Self *self, void *a1, void *a2) {
@@ -30,7 +30,7 @@ extern "C" s32 func_003DE848(Self *self, void *a1, void *a2) {
     Obj2 *c = 0;
     if (o != 0) {
         VEnt *t = (VEnt *)o->vt;
-        c = (Obj2 *)GT4MC__FileGT4GameData__loadInstance(t->tf, RaceSolitaire__tf, 0, (char *)o + t->delta, RaceBase__tf, o);
+        c = (Obj2 *)__dynamic_cast_2(t->tf, RaceSolitaire__tf, 0, (char *)o + t->delta, RaceBase__tf, o);
     }
     if (c == 0) {
         VEntG *g1 = (VEntG *)(o->vt + 0x1F8);

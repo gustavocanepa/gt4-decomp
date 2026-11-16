@@ -84,7 +84,7 @@ struct Camera {
 extern "C" void PauseBase__clearTimeCount(Self *);
 extern "C" void func_003C49C8(Self *) throw();
 extern "C" Root *func_003C3F98(Self *) throw();
-extern "C" Race *GT4MC__FileGT4GameData__loadInstance(void *,void *,int,void *,void *,Root *);
+extern "C" Race *__dynamic_cast_2(void *,void *,int,void *,void *,Root *);
 extern "C" int RaceMonitor__isFullScreenMode(void *);
 extern "C" void func_004857C8(const char *);
 extern "C" Camera *func_003C3FA0(Self *) throw();
@@ -120,7 +120,7 @@ extern "C" int PhotoPause__update(Self *self, void *input, Context *context) {
  if(!self->active) {
   Race *race=0;
   Root *r=func_003C3F98(self);
-  if(r) race=GT4MC__FileGT4GameData__loadInstance(r->vt->fn,RaceBasic__tf,0,(char*)r+r->vt->delta,RacePS2Base__tf,r);
+  if(r) race=__dynamic_cast_2(r->vt->fn,RaceBasic__tf,0,(char*)r+r->vt->delta,RacePS2Base__tf,r);
   void *monitor=race ? race->monitor : 0;
   if(monitor && RaceMonitor__isFullScreenMode(monitor)) {func_004857C8(D_006A2C78); return 3;}
   if(GetPitStopStatus(func_003C3FA0(self)->v44()->data) && !func_00333550()) {

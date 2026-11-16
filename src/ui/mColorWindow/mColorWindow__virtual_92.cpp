@@ -22,7 +22,7 @@ extern "C" f32 func_002313E0(void *);
 extern "C" f32 func_00231400(void *);
 extern "C" f32 func_00231420(void *);
 extern "C" f32 func_00231440(void *);
-extern "C" void *GT4MC__FileGT4GameData__loadInstance(void *, void *, int, void *, void *, void *);
+extern "C" void *__dynamic_cast_2(void *, void *, int, void *, void *, void *);
 
 extern "C" void mColorWindow__virtual_92(Obj *self, Base *arg1) {
     Vec4 v;
@@ -30,7 +30,7 @@ extern "C" void mColorWindow__virtual_92(Obj *self, Base *arg1) {
     char *s3 = self->unkC4;
     if (arg1 != 0) {
         VT0 *t = arg1->vt;
-        p = GT4MC__FileGT4GameData__loadInstance(t->ti, mRenderContextPS2__tf, 0, (char *)arg1 + t->delta, mRenderContext__tf, arg1);
+        p = __dynamic_cast_2(t->ti, mRenderContextPS2__tf, 0, (char *)arg1 + t->delta, mRenderContext__tf, arg1);
     }
     func_002180E0(p, s3);
     mBox__virtual_92(self, arg1);

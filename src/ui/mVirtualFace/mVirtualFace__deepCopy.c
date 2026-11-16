@@ -7,7 +7,7 @@ void *memcpy(void *, const void *, unsigned int);
 M2C_UNK mWidget__deepCopy(void *);                            /* extern */
 M2C_UNK func_003285A8(s32);                         /* extern */
 M2C_UNK func_003285F8(s32);                         /* extern */
-void *GT4MC__FileGT4GameData__loadInstance(s32, M2C_UNK, M2C_UNK, void *, M2C_UNK, void *); /* extern */
+void *__dynamic_cast_2(s32, M2C_UNK, M2C_UNK, void *, M2C_UNK, void *); /* extern */
 
 extern char mVirtualFace__tf[];
 extern char hObject__tf[];
@@ -21,7 +21,7 @@ void mVirtualFace__deepCopy(void *arg0, void *arg1) {
     var_v0 = NULL;
     if (arg1 != NULL) {
         temp_v0 = M2C_FIELD(arg1, void **, 4);
-        var_v0 = GT4MC__FileGT4GameData__loadInstance(M2C_FIELD(temp_v0, s32 *, 4), (s32)mVirtualFace__tf, 0, arg1 + M2C_FIELD(temp_v0, s16 *, 0), (s32)hObject__tf, arg1);
+        var_v0 = __dynamic_cast_2(M2C_FIELD(temp_v0, s32 *, 4), (s32)mVirtualFace__tf, 0, arg1 + M2C_FIELD(temp_v0, s16 *, 0), (s32)hObject__tf, arg1);
     }
     if (var_v0 != NULL) {
         if ((arg0 + 0xA0) != (var_v0 + 0xA0)) {
