@@ -1,0 +1,175 @@
+/*
+ * Static initialisation and destruction of a translation unit (gcc's
+ * __static_initialization_and_destruction_0, inferred): the 72 ids of the shared header (0..0x47),
+ * one global with a constructor and destructor, and the unit's registration with func_00325010.
+ *
+ * The unit has one more destruction statement whose code does not survive optimisation; it
+ * still decides the delay slot of the object-0x40 test (which 0xFFFF register cse keeps), so it
+ * is kept as a call to a const function whose value is unused, which flow deletes after cse
+ * (inferred: what the original statement was is unknown; see func_002E3100).
+ */
+#include "types.h"
+struct Obj { s32 v; };
+static inline void ctor(Obj *const self, s32 n) { self->v = n; }
+extern Obj D_0082E580;
+extern Obj D_0082E588;
+extern Obj D_0082E590;
+extern Obj D_0082E598;
+extern Obj D_0082E5A0;
+extern Obj D_0082E5A8;
+extern Obj D_0082E5B0;
+extern Obj D_0082E5B8;
+extern Obj D_0082E5C0;
+extern Obj D_0082E5C8;
+extern Obj D_0082E5D0;
+extern Obj D_0082E5D8;
+extern Obj D_0082E5E0;
+extern Obj D_0082E5E8;
+extern Obj D_0082E5F0;
+extern Obj D_0082E5F8;
+extern Obj D_0082E600;
+extern Obj D_0082E608;
+extern Obj D_0082E610;
+extern Obj D_0082E618;
+extern Obj D_0082E620;
+extern Obj D_0082E628;
+extern Obj D_0082E630;
+extern Obj D_0082E638;
+extern Obj D_0082E640;
+extern Obj D_0082E648;
+extern Obj D_0082E650;
+extern Obj D_0082E658;
+extern Obj D_0082E660;
+extern Obj D_0082E668;
+extern Obj D_0082E670;
+extern Obj D_0082E678;
+extern Obj D_0082E680;
+extern Obj D_0082E688;
+extern Obj D_0082E690;
+extern Obj D_0082E698;
+extern Obj D_0082E6A0;
+extern Obj D_0082E6A8;
+extern Obj D_0082E6B0;
+extern Obj D_0082E6B8;
+extern Obj D_0082E6C0;
+extern Obj D_0082E6C8;
+extern Obj D_0082E6D0;
+extern Obj D_0082E6D8;
+extern Obj D_0082E6E0;
+extern Obj D_0082E6E8;
+extern Obj D_0082E6F0;
+extern Obj D_0082E6F8;
+extern Obj D_0082E700;
+extern Obj D_0082E708;
+extern Obj D_0082E710;
+extern Obj D_0082E718;
+extern Obj D_0082E720;
+extern Obj D_0082E728;
+extern Obj D_0082E730;
+extern Obj D_0082E738;
+extern Obj D_0082E740;
+extern Obj D_0082E748;
+extern Obj D_0082E750;
+extern Obj D_0082E758;
+extern Obj D_0082E760;
+extern Obj D_0082E768;
+extern Obj D_0082E770;
+extern Obj D_0082E778;
+extern Obj D_0082E780;
+extern Obj D_0082E788;
+extern Obj D_0082E790;
+extern Obj D_0082E798;
+extern Obj D_0082E7A0;
+extern Obj D_0082E7A8;
+extern Obj D_0082E7B0;
+extern Obj D_0082E7B8;
+extern char D_0082E7C0[];
+extern char D_00619150[];
+extern char D_00698878[];
+extern "C" void func_00232D68(void);
+extern "C" void func_00232D90(void);
+extern "C" void func_00232DB8(void);
+extern "C" void func_00574D78(void *);
+extern "C" void func_00325010(void *, void *, s32, void (*)(void), void (*)(void), void (*)(void));
+extern "C" void func_00574DA8(void *, s32);
+
+extern "C" s32 released(void *self, s32 flags) __attribute__((const));
+extern "C" void func_00235ED0(s32 init, s32 prio)
+{
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E580, 0x0);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E588, 0x1);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E590, 0x2);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E598, 0x3);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E5A0, 0x4);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E5A8, 0x5);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E5B0, 0x6);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E5B8, 0x7);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E5C0, 0x8);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E5C8, 0x9);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E5D0, 0xa);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E5D8, 0xb);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E5E0, 0xc);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E5E8, 0xd);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E5F0, 0xe);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E5F8, 0xf);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E600, 0x10);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E608, 0x11);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E610, 0x12);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E618, 0x13);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E620, 0x14);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E628, 0x15);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E630, 0x16);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E638, 0x17);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E640, 0x18);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E648, 0x19);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E650, 0x1a);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E658, 0x1b);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E660, 0x1c);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E668, 0x1d);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E670, 0x1e);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E678, 0x1f);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E680, 0x20);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E688, 0x21);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E690, 0x22);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E698, 0x23);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E6A0, 0x24);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E6A8, 0x25);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E6B0, 0x26);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E6B8, 0x27);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E6C0, 0x28);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E6C8, 0x29);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E6D0, 0x2a);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E6D8, 0x2b);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E6E0, 0x2c);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E6E8, 0x2d);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E6F0, 0x2e);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E6F8, 0x2f);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E700, 0x30);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E708, 0x31);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E710, 0x32);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E718, 0x33);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E720, 0x34);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E728, 0x35);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E730, 0x36);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E738, 0x37);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E740, 0x38);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E748, 0x39);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E750, 0x3a);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E758, 0x3b);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E760, 0x3c);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E768, 0x3d);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E770, 0x3e);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E778, 0x3f);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E780, 0x40);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E788, 0x41);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E790, 0x42);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E798, 0x43);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E7A0, 0x44);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E7A8, 0x45);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E7B0, 0x46);
+    if (prio == 0xFFFF && init == 1) ctor(&D_0082E7B8, 0x47);
+    if (prio == 0xFFFF && init == 1) func_00574D78(D_0082E7C0);
+    if (prio == 0xFFFF && init == 1) func_00325010(D_00619150, D_00698878, 0xf0, func_00232D68, func_00232D90, func_00232DB8);
+    if (prio == 0xFFFF && init == 0) func_00574DA8(D_0082E7C0, 0x2);
+    if (prio == 0xFFFF && init == 0) released((void *)&D_00619150, 2);
+}
