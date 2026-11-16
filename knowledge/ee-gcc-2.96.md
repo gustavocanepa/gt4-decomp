@@ -428,6 +428,12 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   slot) after another call: the moves right after a call form a post-call scheduling group that
   keeps their emission order (a0 first). Any other insn computed between the two calls breaks
   the group (0037dc78: `f32 *last = self + 0x1A4;` written after the first call, not before).
+- FP values computed once and used both as call arguments and in stores at the end of the function
+  (angles in degrees, 00382e30): write the expression in the call and again in the store, not
+  as a mid-function variable (cse merges them and the lifetimes become retail's). If two such
+  chains still swap registers, judge the permutations of the final stores with `match.py
+  check-many`: their order sets the deaths, so it decides local-alloc's ties (1 of the 720 orders
+  matched, and it was the natural one: angles, then position).
 - Order of derived locals matters: computing `type = k & 0x1F` up front (before unrelated stores)
   lets `k` die early and reuse `$a0` as in the original (0049d080).
 - `andi 1; andi 0xff; bnez` = `(unsigned char)(x & 1) == 0`-style test; `andi; sltu $zero` flag =
