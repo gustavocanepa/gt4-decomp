@@ -47,6 +47,14 @@ command = 'bash {tools}/cc_as.sh "$HOME/.local/share/gt4/ee-gcc2.96/bin/ee-as -G
 archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.9-991111.tar.xz"
 needs = { "ee-gcc2.96" = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz" }
 
+# The later 991111-01 build of the SDK compiler: same code generation as ee-gcc2.9-991111, but it
+# pads `div.s` with two nops when the divisor/dividend was just loaded (the EE divide hazard), as
+# retail SDK float code does (005B8DF8).
+[compilers."ee-gcc2.9-991111-01"]
+dir = "~/.local/share/gt4/compilers/ee-gcc2.9-991111-01"
+command = "{dir}/bin/ee-gcc -c -O2 -G0 -fno-exceptions -Iinclude"
+archive = "https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.9-991111-01.tar.xz"
+
 # The project's compiler without strict aliasing: how the game's expat was built (THIRD_PARTY.md,
 # tools/libmatch.py). Same archive as the main compiler, unpacked a second time under this name.
 [compilers."ee-gcc2.96-no-strict-aliasing"]

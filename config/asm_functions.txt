@@ -38,6 +38,7 @@
 005c1d18 kernel-call stub
 005c1d20 kernel-call stub
 005c1d28 kernel-call stub
+005c1d30 kernel-call stub (break 0,1 + code 0xE, padded to 005c1d50 where the matched RTTI getter func_005C1D50 starts)
 0057f238 strcmp, hand-written assembly in SDK libstream (lbu/nop/bne/subu)
 0057f260 strlen, hand-written with 128-bit MMI instructions (lq/pceqb/ppac5/plzcw); no C compiles to it
 00100228 kernel-call stub (syscall), SDK assembly macro
