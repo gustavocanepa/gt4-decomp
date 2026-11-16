@@ -845,3 +845,15 @@ Try the compiler profile before rewriting code; most closures were a profile, no
 - 64-byte-aligned stack scratch: a VLA `char raw[n]` (n a runtime `int`) in an inner scope, aligned by hand with `(raw+0x3F)&~0x3F`; `aligned(64)` and `alloca` do not give the fp/s2 save. `__builtin_alloca((len+15)&~15)` gives the variable-length concat buffer.
 - Packed or bitfield request words: a 64-bit `unsigned long` bitfield struct passed as `long` reproduces the `dsll/or/and` chain; a `struct { long v; } __attribute__((packed))` member gives `ldl/ldr/sdl/sdr`; a plain `int[11]` struct assignment gives `lw/sw`.
 - Tools: `tools/profile_sweep.py` judges every kept draft under every profile; run it on each batch of new near misses before spending a worker retry. `tools/oracle.py` needs `gdb` in WSL (installed) and the venv python (`~/.local/share/gt4/venv/bin/python`).
+- String/list temporaries sharing stack slots (2026-11-16, 00314B88, 00315B78): this g++ never
+  reuses a temporary's slot (every temporary with a destructor gets a fresh one), so when retail
+  keeps several strings or lists in one slot, write them as placement new into one reused buffer
+  (`new (&buf) String(...)`, `((String *)&buf)->~String()`). The pointer the new returns, or an
+  inline helper's pointer parameter (`append(String *dst, ...)`), is the second register retail
+  keeps for the same object. Other levers there: a call through a handle's `operator->` or a
+  `get()` accessor reads the handle before the argument temporaries are built; a constructor
+  declared out of line (`Value(Handle *) __asm__("func_...")`) evaluates its argument call before
+  `this` is taken (inline constructors take `this` first); a function returning a class by value
+  (hidden pointer) placement-new'd into a buffer takes the destination address before its
+  arguments; storing a grabbed rep pointer as `*(s32 *)&p` puts that store in the s32 alias set of
+  the length load that follows.
