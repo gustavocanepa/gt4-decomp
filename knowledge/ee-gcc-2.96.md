@@ -186,6 +186,12 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - **`xori $v0, $v0, 0` on a compare result before a `movn`** (a no-op that no simple test produces) =
   a negated `<=`: `if (!(v <= hi)) v = hi;` (slt plus the `<=` inversion plus the `!` inversion,
   folded into an xori with 0 that combine keeps) (00558DB0).
+- **`ori $v1, f, K; xori $v0, c, 0; movn f, $v1, $v0`** for `if (c) f |= K;` = the flag local is
+  narrower than int (`s16 f`). With an int `f` the first jump pass already makes the cmove and cse
+  drops the XOR (`movn f, $v1, c`); a short `f` is only if-converted in the ce pass, after combine,
+  and mips `gen_conditional_move` emits NE as `xor c, 0`, which nothing folds any more. Building `f`
+  in compound steps (`f |= 7; f &= ~0x31;`, not `f = (f | 7) & ~0x31`) computes it in place and adds
+  refs that lift its global priority (func_0049ECF8).
 - **A branch-likely (`beql`/`bnel`) where the original has a plain branch with the same slot**
   (the slot holds the target's first instruction, e.g. the epilogue's `ld $s0`): declare the
   callees `throw()` (a C++ destructor too: `virtual ~B() throw() __asm__("func_ADDR")`). Without
@@ -448,6 +454,11 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
     the function boundaries are fixed.
 
 ## Calls and tail calls
+- **Values loaded before a call reused after it, held in saved registers** (e.g. `lb $s5, 0($s2)`
+  feeding `tolower` and later `beqz $s5`, no reload) = the callee is declared
+  `__attribute__((const))` (or `pure`): a plain call clobbers memory, so cse reloads `*p` after it.
+  Holds for tiny same-unit helpers such as a ctype `tolower` (func_0053B5E0; gt4.md has the float
+  helper case).
 - Tail calls (C++ front end): a function ending in `j callee` (a jump, after restoring $ra) returns
   that callee's result: write `return callee(...);` with a non-void return type. A final
   `jal callee` followed by the epilogue means the result is not returned (a plain call).
