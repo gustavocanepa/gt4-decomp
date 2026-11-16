@@ -415,6 +415,19 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   argument order in the last block (the block ends early). With the tail written once per arm and
   the if/else falling through, flow adds a `(use (const_int 0))` after the second arm's last call
   (a call ending a block that falls into a label), and that blocks the match.
+- FP registers of a short load/mul/store run swapped (`f1,f0,f1` in retail, `f0,f1,f0` here) are
+  local-alloc's order: each quantity is tried first with its life widened by one insn on both
+  sides (INSN_SCHEDULING fake birth/death in local-alloc.c), so neighbouring quantities conflict,
+  and the one with the shortest life (highest priority) takes `$f0`. Retail had more insns
+  inside the first element's life at sched1 that leave no code. In 0037dc78 these were the inits
+  of `f32 *vy = &v[1], *vz = &v[2]` pointers used again at the end of the function. With every
+  callee-saved register taken they get no hard register, so reload rematerialises their frame
+  equivalence as `0x44($sp)`/`0x48($sp)` and deletes the inits. A long-lived address pointer in
+  a function that saves s0-s7/fp is a lever that costs no instructions.
+- Two argument moves before a `jal` in the opposite order (`a1` before the call, `a0` in its delay
+  slot) after another call: the moves right after a call form a post-call scheduling group that
+  keeps their emission order (a0 first). Any other insn computed between the two calls breaks
+  the group (0037dc78: `f32 *last = self + 0x1A4;` written after the first call, not before).
 - Order of derived locals matters: computing `type = k & 0x1F` up front (before unrelated stores)
   lets `k` die early and reuse `$a0` as in the original (0049d080).
 - `andi 1; andi 0xff; bnez` = `(unsigned char)(x & 1) == 0`-style test; `andi; sltu $zero` flag =
