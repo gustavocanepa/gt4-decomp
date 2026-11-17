@@ -134,9 +134,9 @@ f32 func_00344798(void *, f32);
 f32 func_003447F8(void *, f32);
 f32 func_00344828(void *, f32);
 Vec func_00421DF8(const Vec &, f32, f32, f32);
-Vec func_00421E50(const Vec &, const Vec &);
+Vec Numerical_Math__Quaternion__rotate(const Vec &, const Vec &);
 f32 *func_00423AA0(f32 *, const Vec *, const Vec *, const Vec *);
-void *func_0044F4C0();
+void *DRIVERSUPPORT_NAME__GetMotoristDynamicParameter();
 f32 func_0044F930(void *);
 f32 func_0044F940(void *);
 f32 func_0044F950(void *);
@@ -167,7 +167,7 @@ static inline f32 random01(u32 *seed) {
 }
 static inline f32 randomRange(u32 *seed, f32 lo, f32 hi) { return (hi - lo) * random01(seed) + lo; }
 
-static inline f32 lookLimit(Head *h) { return h->cockpit ? func_0044F940(func_0044F4C0()) : func_0044F930(func_0044F4C0()); }
+static inline f32 lookLimit(Head *h) { return h->cockpit ? func_0044F940(DRIVERSUPPORT_NAME__GetMotoristDynamicParameter()) : func_0044F930(DRIVERSUPPORT_NAME__GetMotoristDynamicParameter()); }
 static inline void rivalPosition(Rival *r, Vec &p) {
     p[0] = func_00344798(r, 0.0f);
     p[1] = func_003447F8(r, 0.0f);
@@ -189,7 +189,7 @@ extern "C" void func_0040DDC0(Head *h, s32 mode, u32 *seed) {
         f32 d2 = n.pos[0] * n.pos[0] + n.pos[1] * n.pos[1] + n.pos[2] * n.pos[2];
         s32 passing = 0;
         if (n.pos[2] > 0.0f && h->speed < -11.111111f) {
-            f32 rate = h->cockpit ? func_0044F960(func_0044F4C0()) : func_0044F950(func_0044F4C0());
+            f32 rate = h->cockpit ? func_0044F960(DRIVERSUPPORT_NAME__GetMotoristDynamicParameter()) : func_0044F950(DRIVERSUPPORT_NAME__GetMotoristDynamicParameter());
             if (d2 < 225.0f) *func_00386438(h->a8) += rate * h->dt;
             else if (d2 < 625.0f) *func_00386438(h->a8) += rate * 0.5f * h->dt;
             else if (d2 < 6400.0f) *func_00386438(h->a8) -= rate * 0.5f * h->dt;
@@ -250,13 +250,13 @@ extern "C" void func_0040DDC0(Head *h, s32 mode, u32 *seed) {
             break;
         case 4: {
             f32 *p = func_00386438(h->a8);
-            *p -= func_0044F970(func_0044F4C0()) * h->dt * 0.5f;
+            *p -= func_0044F970(DRIVERSUPPORT_NAME__GetMotoristDynamicParameter()) * h->dt * 0.5f;
             if (*func_00386438(h->a8) < 0.5f) *func_00385F80(h->ac) = 5;
             break;
         }
         case 5: {
             f32 *p = func_00386438(h->a8);
-            *p -= func_0044F970(func_0044F4C0()) * h->dt * 0.5f;
+            *p -= func_0044F970(DRIVERSUPPORT_NAME__GetMotoristDynamicParameter()) * h->dt * 0.5f;
             if (*func_00386438(h->a8) < 0.0f) {
                 *func_00386438(h->a8) = 0.0f;
                 *func_00385F80(h->ac) = 1;
@@ -265,7 +265,7 @@ extern "C" void func_0040DDC0(Head *h, s32 mode, u32 *seed) {
         }
         case 6: {
             f32 *p = func_00386448(h->a8);
-            *p -= func_0044F980(func_0044F4C0()) * h->dt * 0.5f;
+            *p -= func_0044F980(DRIVERSUPPORT_NAME__GetMotoristDynamicParameter()) * h->dt * 0.5f;
             if (*func_00386448(h->a8) < 0.5f) {
                 *func_00385F80(h->ac) = 7;
                 *func_00385F90(h->ac) = -1;
@@ -274,7 +274,7 @@ extern "C" void func_0040DDC0(Head *h, s32 mode, u32 *seed) {
         }
         case 7: {
             f32 *p = func_00386448(h->a8);
-            *p -= func_0044F980(func_0044F4C0()) * h->dt * 0.5f;
+            *p -= func_0044F980(DRIVERSUPPORT_NAME__GetMotoristDynamicParameter()) * h->dt * 0.5f;
             if (*func_00386448(h->a8) < 0.0f) {
                 *func_00386448(h->a8) = 0.0f;
                 *func_00385F80(h->ac) = 1;
@@ -294,13 +294,13 @@ extern "C" void func_0040DDC0(Head *h, s32 mode, u32 *seed) {
     case 5:
     case 7: {
         s32 seen = 0;
-        if (func_0044FBE0(func_0044F4C0()) == 1) mode = 1;
+        if (func_0044FBE0(DRIVERSUPPORT_NAME__GetMotoristDynamicParameter()) == 1) mode = 1;
         if (*func_00385F80(h->ac) == 0) mode = 1;
         Vec target, d;
         f32 range;
         if (mode == 0) {
             f32 v = absf(*func_00385BA8(h->a0));
-            if (v < func_0044FA10(func_0044F4C0())) *func_00386568(h->a8) += h->dt;
+            if (v < func_0044FA10(DRIVERSUPPORT_NAME__GetMotoristDynamicParameter())) *func_00386568(h->a8) += h->dt;
             else *func_00386568(h->a8) = 0.0f;
             if (func_00350CE8(h->car, &target) == 0) {
                 mode = 1;
@@ -309,16 +309,16 @@ extern "C" void func_0040DDC0(Head *h, s32 mode, u32 *seed) {
                 d[0] = target.f.x - h->px;
                 d[1] = target.f.y - h->py;
                 d[2] = target.f.z - h->pz;
-                d = func_00421E50(h->rot, d);
+                d = Numerical_Math__Quaternion__rotate(h->rot, d);
                 f32 angle = func_0057D118(d[0], -d[2]);
-                range = func_0044FA00(func_0044F4C0());
+                range = func_0044FA00(DRIVERSUPPORT_NAME__GetMotoristDynamicParameter());
                 if (absf(angle) < range
                     || (range <= *func_00386578(h->a8) && angle <= -range)
                     || (*func_00386578(h->a8) <= -range && range <= angle)) {
                     *func_00386568(h->a8) = 0.0f;
                 } else {
                     f32 *t = func_00386568(h->a8);
-                    if (func_0044FA20(func_0044F4C0()) <= *t) mode = 1;
+                    if (func_0044FA20(DRIVERSUPPORT_NAME__GetMotoristDynamicParameter()) <= *t) mode = 1;
                 }
                 *func_00386578(h->a8) = angle;
             }

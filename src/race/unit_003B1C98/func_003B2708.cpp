@@ -162,7 +162,7 @@ void func_004152B0(Frame *, s32, Vec *);
 Info *func_0038DC18(CarGeometry *);
 s32 func_00459178(Info *);
 void *func_005A48D8(void *, s32, s32);
-s32 func_0035BBD8(void *);
+s32 GetPitStopStatus(void *);
 f32 func_00344798(void *, f32);
 f32 func_003447F8(void *, f32);
 f32 func_00344828(void *, f32);
@@ -270,7 +270,7 @@ extern "C" s32 func_003B2708(Self *self, CarGeometry *geo, void *car, s32 driver
     if (type == 5 && copilot) {
         view = 2;
     } else if (type == 0x11) {
-        if ((unsigned)(func_0035BBD8(car) - 2) < 4) view = 0;
+        if ((unsigned)(GetPitStopStatus(car) - 2) < 4) view = 0;
     }
     if (force) {
         look = 2;
