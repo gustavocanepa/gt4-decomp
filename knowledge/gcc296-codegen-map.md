@@ -491,3 +491,41 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
 - Style: `AGENTS.md` discourages `do { } while (0)` written only to move an instruction.
   Treat this as a last resort for a block that is genuinely a statement group, and say in
   the source comment why the loop head is there.
+
+### 12. A pointer hoisted above the first call: interblock motion, not a local at the top
+- Symptom: retail computes `sub = self + N` in the prologue zone (own saved register, frame
+  one slot larger) although the first use is many calls later, behind a branch. A draft with
+  `Sub *sub = &self->sub;` at the top issues the add after the first call, tied to `self`'s
+  register (frame one slot smaller, every later row shifted).
+- Mechanism: a function without loops is ONE haifa region (`rgn 0 nr_blocks N` in the
+  `-fsched-verbose=5` dump). An add that lives in a later, control-equivalent block has no
+  dependence on the calls before it (its source is still call-crossing at flow time), so
+  sched1 moves it up into block 0 and issues it at t=1. The same add written in block 0 has
+  no in-block consumer, priority 1, and is issued after the call.
+- Lever: do not declare the local. Write `&self->sub` at the late use sites; cse joins them
+  into one pseudo in that block and the scheduler hoists it.
+- Evidence: func_001737B8 (mMCFileActor vslot 54), eight failed entries since 10/13
+  (101/103, or 1/105 with the item read through the sub-object): MATCH with
+  `func_00105728(&self->texture)` / `func_001055C0(&self->texture)` and no local.
+- Dead ends measured there: `do { } while (0)` around the first call is a sched1 barrier
+  that also fixes the frame but stays in sched2 and reorders the prologue saves (9 off); a
+  copy `me = self` kept alive by a later dead store makes `self` non-call-crossing, which
+  anchors the add before the call (`sched_before_next_call`), but the copy has priority +1
+  and is issued first, so `self` stays in `$a0` (2 off).
+
+### 13. `sub.s` into the dying home, then `mov.s` to the argument register
+- Symptom: retail computes an argument as `sub.s $f20,$f20,$f21` and copies it to `$f19`;
+  the draft combines the subtraction straight into the argument register.
+- Mechanism: combine never merges across a call. The subtraction was written before an
+  intervening call, in place on a user variable (two sets, so the pseudo crosses the call
+  and sched1 is free to sink the insn below it).
+- Lever: `height -= inset;` before the call whose result is another argument, then pass
+  `height`. func_002182E0: 38 -> 14 rows (rest: allocation order of two float homes and
+  the issue order of the argument loads).
+
+### 14. Argument loads issued `a1, a2, a0`
+- sched2 ties the loads of one call on priority, class and dependents; INSN_LUID decides.
+  A load that comes first in retail was a fresh pseudo dying at the load: it gets the
+  argument register by copy preference and its copy sits before the glued group. A
+  function-scope variable assigned in both arms (`count = space;` / `count = length;`)
+  does this for the arm where cse keeps the copy (func_00227BE0, a2 proven, a1 open).
