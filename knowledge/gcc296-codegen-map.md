@@ -529,3 +529,29 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
   argument register by copy preference and its copy sits before the glued group. A
   function-scope variable assigned in both arms (`count = space;` / `count = length;`)
   does this for the arm where cse keeps the copy (func_00227BE0, a2 proven, a1 open).
+
+### 15. Live length doubled per constant set; a redundant set that survives to sched2 (2026-11-16)
+- Pass 1, local-alloc.c `update_equiv_regs` (read in GCC_COPY/gcc-20001003/gcc/local-alloc.c):
+  scanning insns in stream order, every set of a multi-set pseudo whose REG_EQUAL note is a
+  constant does `REG_LIVE_LENGTH (regno) *= 2`, until the first set without a constant note calls
+  `no_equiv`. So lreg's "across N insns" is the real live count x1, x2, x4... (measured on
+  func_00465078: ratios 1.03 / 2.05 / 4.10 against an exact per-insn count of the sched dump).
+  This decides global.c priority: `steer` (34 refs) with one `steer = 0` before its first
+  non-constant set is x2 (pri 2168, outranks curveLimit, f25/f26 swapped); with two constant
+  sets it is x4 (pri ~1115) and lands between curveLimit and lock as retail. A CSE'd self-copy
+  `(set r r)` with a REG_EQUAL constant counts too; reload deletes it later.
+- Pass 2, ifcvt.c `find_if_case_1`: `if (!c) x = K; else { ... }` with a small THEN block hoists
+  `x = K` above the branch and leaves the ELSE block's label with 0 uses. cselib (reload_cse)
+  clears its table at any CODE_LABEL, so a second `x = K` after that label survives reload_cse;
+  the jump pass after reload deletes the unused label; sched2 then still sees the second set
+  (an insn that reads x is held after it); jump2 `delete_noop_moves` finally deletes it because
+  `find_equiv_reg` scans back across jumps (it stops only at labels) to the first `x = K`.
+  Net effect: an invisible insn that orders sched2. Without the 0-use label, reload_cse deletes
+  the second set before sched2 and the reader moves up one slot.
+- Evidence: func_00465078 (6.8 KB AI driver controller): `if (sign == 0) { steer = 0.0f; } else
+  if (dir == 1) { steer = 0.0f; ...setup... } else {...}` fixed both the steer/curveLimit swap
+  and the lock copy `mov.s $f27,$f26` order at once: MATCH. The same source as `if (sign) {...}
+  else steer = 0.0f;` (case 2 conversion, no 0-use label) stays 1 off.
+- Diagnosis: compare lreg's live length with the per-insn count (build/work/465078/lv/live.py
+  SCHED LREG REG) to see the multiplier; `grep "\[0 uses\]"` in the .15.ce/.20.greg dumps for
+  labels ifcvt left behind.

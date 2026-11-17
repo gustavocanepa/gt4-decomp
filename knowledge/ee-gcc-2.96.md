@@ -288,6 +288,21 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
 - A 64-bit `ld`/mask/`or`/`sd` on a struct field is a bitfield update through a struct copy:
   `B t = *(B *)(p + off); t.b = 1; t.c = 0; *(B *)(p + off) = t;` (func_00374470); direct
   bitfield stores give `sb`.
+- **`xori $v0, k, C; movz flag, $one, $v0` (immediate xori, the 1 hoisted out of the loop)** for
+  `else if (k == C) flag = 1;` = the `k == C` test is a value (a bool inline helper,
+  `return a->kind[i] == C;`), not a branch condition (00465078). As a branch, the compare constant
+  is forced into a register (`(set k1 C)`), the jump pass's cmove reuses it and cse merges it with
+  the cmove's own `1`, giving `xor $v0, k, $reg`. As a value it expands as scc (`xori` + `sltiu`,
+  both immediates); combine folds the `sltiu` into the `movz` condition.
+- **Two direction tests that retail threads and copies (`lbu $v1, f; bne $v1, K, L; daddu $a0,
+  $v1` with later tests on `$a0`, a separate reload of another field on the threaded edge, and two
+  `x = -1` stores kept apart)** = every test reads the field straight from memory (`self->d == 1`
+  each time, no local) with the constant set before the first test (00465078). thread_jumps (right
+  after cse) only matches temporaries, not user variables; GCSE then turns the later loads into a
+  copy of the first load placed before the first branch, and that copy takes the branch's delay
+  slot, so reorg no longer merges the reload and cross-jump no longer merges the tails. A local
+  `unsigned char d = self->d;` gives one register, a hoisted reload and cross-jumped stores. The
+  switch that re-reads the field afterwards must still be its own `int previous = self->d`.
 
 ## Loops
 - **Three induction registers in a 24-entry pool walk** (`$s0` += size field pointer, `$s1` countdown
