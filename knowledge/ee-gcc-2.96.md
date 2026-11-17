@@ -107,6 +107,14 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   (00430A58).
 
 ## Statement order and scheduling
+- **Element 0 of a local vector accessed as `0($sN)` and elements 1/2 as `0x54($sp)`/`0x58($sp)`,
+  with loads and stores interleaved strictly in source order** = the code goes through pointer
+  locals (`f32 *u = up, *uy = &up[1], *uz = &up[2];`, like `d`/`dy`/`dz` for a negated vector).
+  Pointers that get no saved register are rematerialised by reload as `sp` offsets, but in sched1
+  they are unknown-alias pointers, so every load waits for the earlier stores. Where such a pointer
+  is declared matters: declared before an inline setter, cse rewrites the setter's store through it
+  and the following stores pick up output dependences (func_0037D620: `uz` declared after the
+  setters fixed the last 4 rows).
 - **Constants built only after earlier stores, never hoisted above them** (e.g. a GIF tag's
   `ori 0x8000; dsll32` after the Packet bookkeeping `sw`s), = the later statements sit in a
   `do { ... } while (0)` block, a packet macro's body. Its loop notes make the block's first insn a
@@ -271,9 +279,30 @@ shows X, write Y. "(probe)" marks rules re-checked by compiling the C++ shown wi
   func_003AFD78, func_00472A78, func_00472758: case -> `extern char D_x[]` string returns).
 - A store duplicated at the end of both arms (`jr; sh` twice) is written in each arm; one store
   after the if/else gives a branch-likely into a shared tail (func_00350F48).
+- **The same flag tested twice, the second test kept at the join (`bnez v0, L; ... L: beqz v0`)**
+  where yours threads the first branch past the second (or drops the second test): read the flag
+  through an inline accessor in the first test (`static inline s32 mode(char *s) { return
+  s->b1D0; }`, `if (!mode(self)) {...} if (mode(self)) {...}`). Two plain reads let cse1 merge
+  the loads and turn the second test into jumps on every path; the inline's structure stops
+  that, and later passes still reuse the loaded register (no reload, no `andi`) (func_0037D620).
 - A 64-bit `ld`/mask/`or`/`sd` on a struct field is a bitfield update through a struct copy:
   `B t = *(B *)(p + off); t.b = 1; t.c = 0; *(B *)(p + off) = t;` (func_00374470); direct
   bitfield stores give `sb`.
+- **`xori $v0, k, C; movz flag, $one, $v0` (immediate xori, the 1 hoisted out of the loop)** for
+  `else if (k == C) flag = 1;` = the `k == C` test is a value (a bool inline helper,
+  `return a->kind[i] == C;`), not a branch condition (00465078). As a branch, the compare constant
+  is forced into a register (`(set k1 C)`), the jump pass's cmove reuses it and cse merges it with
+  the cmove's own `1`, giving `xor $v0, k, $reg`. As a value it expands as scc (`xori` + `sltiu`,
+  both immediates); combine folds the `sltiu` into the `movz` condition.
+- **Two direction tests that retail threads and copies (`lbu $v1, f; bne $v1, K, L; daddu $a0,
+  $v1` with later tests on `$a0`, a separate reload of another field on the threaded edge, and two
+  `x = -1` stores kept apart)** = every test reads the field straight from memory (`self->d == 1`
+  each time, no local) with the constant set before the first test (00465078). thread_jumps (right
+  after cse) only matches temporaries, not user variables; GCSE then turns the later loads into a
+  copy of the first load placed before the first branch, and that copy takes the branch's delay
+  slot, so reorg no longer merges the reload and cross-jump no longer merges the tails. A local
+  `unsigned char d = self->d;` gives one register, a hoisted reload and cross-jumped stores. The
+  switch that re-reads the field afterwards must still be its own `int previous = self->d`.
 
 ## Loops
 - **Three induction registers in a 24-entry pool walk** (`$s0` += size field pointer, `$s1` countdown
@@ -842,3 +871,83 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
   `angle = asinf_(len) * t;` in the two arms gives it (jump.c cross-jumps the identical
   `mul.s; swc1` tails); `angle = ...; ... angle *= t;` stores twice, and a separate non-addressed
   temporary is not stored at all.
+
+## Pinned stack addresses, GCSE and inline references (func_003B2708 near miss, 82/1614)
+- **A callee-saved register holding `sp+OFF`** (`addiu $s1, $sp, 0x6B0`, then stores/loads `0($s1)`)
+  is a reference pseudo (an inline `f32 &` parameter, a reference-returning accessor, an inline
+  method's `this`) that won a hard register in global alloc; the same pseudo left unallocated is
+  rematerialised as a plain `OFF($sp)`. Fix the allocation (live range, priority), not the access.
+- **When the reference is set** follows evaluation order: `obj.X() = call();` with
+  `f32 &X() { return x; }` sets the reference *after* the call (g++ evaluates the call first);
+  `f32 &r = obj.x; r = call();` or a helper `get(f32 &x)` sets it before. Match retail's
+  `addiu $sN` position with this (look vectors, `frame.Chair()`).
+- **GCSE PRE merges `(plus fp OFF)` reference computations across branches.** A merged pseudo that
+  gets a register steals a callee-saved reg and stops cse2/postreload from forwarding stores to
+  loads (retail: plain `OFF($sp)` everywhere). Whether it gets a register depends on its live
+  range: a later use of the same slot (e.g. another clamp helper reusing it) can make it conflict
+  with every free saved register, so it is left unallocated as in retail.
+- **CSE never forwards a load through a `(reg ref)` pseudo** to a store at `(plus fp OFF)`
+  (find_best_addr keeps the cheaper pseudo); only ADDRESSOF referents are substituted. Forwarding
+  then happens postreload only if the stored value's hard register is still live: a wrong FP
+  allocation shows up as an extra `lwc1` reload of a clamp temporary.
+- **CSE skip-blocks stops at labels:** an inline helper with an early return
+  (`if (p.flag) return a; return clamp(a, lo, hi);`) puts a label in the skipped block, so constants
+  after it are re-materialised (`lui/ori/mtc1` again, fresh `li 1`) as in retail; the plain
+  `if (...) a = clamp(...)` lets CSE carry them across.
+- **Mixed int/float argument order:** the EE ABI assigns ints to a0-a3/t0-t3 and floats to f12-f19
+  independently, so `(s32, f32)` and `(f32, s32)` prototypes give the same registers but a different
+  setup order at the call; pick the one whose `mov.s $f12` / `addiu $a2` order matches retail.
+- **`.p2align 3` before a label after a barrier** shows up as an unreachable `nop` after a filled
+  branch delay slot when the instruction count before it is off by one from retail; fix the count
+  earlier in the function, not the label.
+- A function returning its first argument (`func_00386818`) is usually a constructor (old g++ ABI
+  ctors return `this`): declare it `Raw(Seat *, f32, s32) __asm__("func_00386818");`.
+
+## Late constants and late if-conversion (func_003B2708 match)
+- **`li K; xor c, k, $reg; movz` with the K register single-use** (where a branch compare would give
+  `xori`) = the cmove was made in the ce pass, after combine: the beq's forced `li K` is no longer
+  folded. One way to delay the conversion: the then-arm stores a value read through a `const T &`
+  bound to a literal (`if (kind == 5) p.flag = on;` in `setCrouch(Posture &p, s32 kind, const s32 &on)`,
+  called with `1`). The literal is an ADDRESSOF temporary: cse1 does not record what is stored in
+  `(mem (addressof))`, purge_addressof runs before the second if_convert, the store still takes two
+  insns there, and only cse2 shortens it to one (its source becomes the temp's `li 1`, which later
+  `kind == 1` compares also reuse). A MEM destination goes through noce_try_cmove_arith, which
+  reverses the arms; the register allocator still writes `movz load, one, c` because `one` stays live.
+  func_004323D0 shows the other route: an outer `else if (k == 5)` waits for its inner `else if`
+  to convert in the second if_convert pass.
+- **A sched1 hoist of a constant above a call** (`li $s1, 1` before an unrelated jal) only happens
+  when the pseudo already crosses a call (haifa-sched adds an anti-dependence on the last call
+  otherwise), so a constant made in the ce pass stays next to its use.
+- **cse keeps `neg.s` on a known float constant** (NEG costs one insn, a CONST_DOUBLE two to four)
+  but folds MINUS (6), MULT (7) and DIV (23) when both sides are known: `clampAbs(v, K)` gives a
+  run-time `neg.s` of `li.s K`, while `x1 - x0` on known constants never survives.
+- **Float arithmetic on a literal computed at run time** (`li.s R; neg.s; sub.s; mul.s; div.s`
+  with R unfolded) = R comes out of a compare of literals bound to const refs:
+  `static inline f32 maxOf(const f32 &a, const f32 &b) { return a < b ? b : a; }`,
+  `f32 range = maxOf(PI/10, 0.0f);`. cse2 resolves the compare only after the path into the join
+  has ended, and the join makes R a global pseudo (coloured after the block's locals). A
+  reference-returning `const f32 &max(...)` keeps both temporaries in stack slots instead.
+- **That join also hides `x == 0.0f` from cse at later `x += y`**, so the operands stay
+  `add.s x, x, y` instead of the constant-second `add.s x, y, x`. Writing `x = y + x` does not
+  help (expand_binop swaps back when the target is the second operand); a temporary does:
+  `f32 sum = y + x; x = sum;`.
+- **A long-lived `&local` pseudo** (`Posture &pose = posture;` used for later stores) is spilled
+  and rematerialised as `addiu $a0, $sp, OFF` before each use, as retail does; a gcse-made local
+  pseudo for the same address is set once and schedules the address chains differently.
+
+## One variable shared by two arms (func_0040DDC0, 6144 B)
+- **A `mov.s $fA,$fB` copy in a non-likely branch slot, stored only on the taken path**, with
+  `$fA` also holding a value computed on the fall-through path: one local that both arms use.
+  `f32 c = up;` before the test, `c = cos(heading)` in the fall-through arm, `d.y = c` in the
+  other. cse records `c == up` before the branch; the arm that reassigns `c` before using `up`
+  keeps `up`'s register, so only the other arm stores the copy, and the copy stays in the test
+  block (dbr puts it in the branch slot). A copy made with a fresh variable never survives:
+  cse makes the copy's destination canonical on both paths or on neither (`make_regs_eqv`
+  compares REGNO_LAST_UID), and a copy inside the arm is folded into its store by combine.
+- **Retail's unused 16-byte slot between temporaries**: `s32 spare[4];` declared right after the
+  object that takes the freed slot (`Vec n; s32 spare[4];`), with the scaled copy written
+  through a reference (`scale(Vec &out, Vec v, f32 t)`) so no return temporary is made.
+- **The first `cockpit ? a : b` test threaded past a later one** in my build but not in retail:
+  writing the later choice as an inline helper (`lookLimit(h)`) leaves the inlined parameter copy
+  at the join, so cse1's thread_jumps does not thread; it also flipped jump2's cross-jump of two
+  identical timer tails to retail's direction.
