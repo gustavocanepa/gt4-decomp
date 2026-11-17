@@ -902,3 +902,35 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
   earlier in the function, not the label.
 - A function returning its first argument (`func_00386818`) is usually a constructor (old g++ ABI
   ctors return `this`): declare it `Raw(Seat *, f32, s32) __asm__("func_00386818");`.
+
+## Late constants and late if-conversion (func_003B2708 match)
+- **`li K; xor c, k, $reg; movz` with the K register single-use** (where a branch compare would give
+  `xori`) = the cmove was made in the ce pass, after combine: the beq's forced `li K` is no longer
+  folded. One way to delay the conversion: the then-arm stores a value read through a `const T &`
+  bound to a literal (`if (kind == 5) p.flag = on;` in `setCrouch(Posture &p, s32 kind, const s32 &on)`,
+  called with `1`). The literal is an ADDRESSOF temporary: cse1 does not record what is stored in
+  `(mem (addressof))`, purge_addressof runs before the second if_convert, the store still takes two
+  insns there, and only cse2 shortens it to one (its source becomes the temp's `li 1`, which later
+  `kind == 1` compares also reuse). A MEM destination goes through noce_try_cmove_arith, which
+  reverses the arms; the register allocator still writes `movz load, one, c` because `one` stays live.
+  func_004323D0 shows the other route: an outer `else if (k == 5)` waits for its inner `else if`
+  to convert in the second if_convert pass.
+- **A sched1 hoist of a constant above a call** (`li $s1, 1` before an unrelated jal) only happens
+  when the pseudo already crosses a call (haifa-sched adds an anti-dependence on the last call
+  otherwise), so a constant made in the ce pass stays next to its use.
+- **cse keeps `neg.s` on a known float constant** (NEG costs one insn, a CONST_DOUBLE two to four)
+  but folds MINUS (6), MULT (7) and DIV (23) when both sides are known: `clampAbs(v, K)` gives a
+  run-time `neg.s` of `li.s K`, while `x1 - x0` on known constants never survives.
+- **Float arithmetic on a literal computed at run time** (`li.s R; neg.s; sub.s; mul.s; div.s`
+  with R unfolded) = R comes out of a compare of literals bound to const refs:
+  `static inline f32 maxOf(const f32 &a, const f32 &b) { return a < b ? b : a; }`,
+  `f32 range = maxOf(PI/10, 0.0f);`. cse2 resolves the compare only after the path into the join
+  has ended, and the join makes R a global pseudo (coloured after the block's locals). A
+  reference-returning `const f32 &max(...)` keeps both temporaries in stack slots instead.
+- **That join also hides `x == 0.0f` from cse at later `x += y`**, so the operands stay
+  `add.s x, x, y` instead of the constant-second `add.s x, y, x`. Writing `x = y + x` does not
+  help (expand_binop swaps back when the target is the second operand); a temporary does:
+  `f32 sum = y + x; x = sum;`.
+- **A long-lived `&local` pseudo** (`Posture &pose = posture;` used for later stores) is spilled
+  and rematerialised as `addiu $a0, $sp, OFF` before each use, as retail does; a gcse-made local
+  pseudo for the same address is set once and schedules the address chains differently.
