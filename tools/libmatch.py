@@ -832,7 +832,56 @@ def declare_external_objects(text, names):
     return text
 
 
-def emit_source(cfg, report, names, stubs=False, pad=False):
+def nothrow_cxx(text, callees, signatures, targets):
+    """A C source rewritten as C++ so that `throw()` can mark the callees defined earlier in the
+    library's file (knowledge/ee-gcc-2.96.md: gcc marks every function it has compiled as unable
+    to throw, and reorg schedules calls to those differently; a C++ declaration with `throw()`
+    gives the same mark without a stub that the calls would bind to). Everything goes inside
+    `extern "C"` (the symbols keep their C names); each declaration of a callee becomes its
+    definition's signature with `throw()` (g++ wants the same exception list on every declaration,
+    also on one written through a function typedef); a function declared `static` but defined
+    elsewhere loses `static` (g++ refuses it, gcc only warns); NULL becomes 0 before the targets
+    (C's `(void *)0` converts implicitly only in C)."""
+    lines = text.split("\n")
+    masked = mask_comments(text).split("\n")
+    out, depth, i = [], 0, 0
+    while i < len(lines):
+        code = masked[i]
+        start = depth == 0 and code.strip() and not code.lstrip().startswith(("#", "}"))
+        if not start:
+            depth += sum((c == "{") - (c == "}") for _, c in code_chars(code))
+            out.append(lines[i])
+            i += 1
+            continue
+        j = i
+        while ";" not in masked[j] and "{" not in masked[j] and j + 1 < len(lines):
+            j += 1
+        statement = " ".join(masked[i:j + 1])
+        if "{" in statement or "=" in statement:  # a definition or an initialised object
+            for k in range(i, j + 1):
+                depth += sum((c == "{") - (c == "}") for _, c in code_chars(masked[k]))
+            out += lines[i:j + 1]
+            i = j + 1
+            continue
+        named = re.search(r"(\w+)\s*\(", statement) or re.search(r"(\w+)\s*;", statement)
+        name = named.group(1) if named else None
+        block = lines[i:j + 1]
+        if name in callees:
+            block = (signatures[name].strip() + " throw();").split("\n")
+        if name in signatures and name not in targets and block[0].startswith("static "):
+            block[0] = block[0][len("static "):]
+        out += block
+        i = j + 1
+    text = "\n".join(out)
+    first = min((m.start() for t in targets
+                 for m in re.finditer(r"(?m)^(?:static\s+)?[^;{}()#]*?\n?" + re.escape(t) + r"\s*\(", text)
+                 if "{" in text[m.end():].split(";", 1)[0]), default=None)
+    if first is not None:
+        text = text[:first] + "#undef NULL\n#define NULL 0\n" + text[first:]
+    return 'extern "C" {\n' + text.rstrip() + "\n}\n"
+
+
+def emit_source(cfg, report, names, stubs=False, pad=False, cxx_nothrow=False):
     """The self-contained source for one function (or several consecutive ones: a function only
     reached through a pointer is glued to the one before it in the inventory), or None when it is
     not in the library.
@@ -840,6 +889,8 @@ def emit_source(cfg, report, names, stubs=False, pad=False):
     target (gcc marks every function it has compiled as unable to throw, and calls to those are
     scheduled differently: see knowledge/ee-gcc-2.96.md). The calls then bind to the stubs, so such
     a source is only good for the judge until the build knows how to resolve them.
+    cxx_nothrow: a C file only; the same mark through C++ `throw()` declarations of the earlier
+    functions the targets call (nothrow_cxx), so the source links like any other (a .cpp).
     The library's own compiler ([compilers.NAME] in project.toml, `compiler` in its config) is
     named by the caller on the first line of the source, as match.py and build.py expect.
     pad: a 16-byte constant ahead of the object's .rodata; gas 2.10 expands `lw $r, table($i)` into
@@ -980,6 +1031,14 @@ def emit_source(cfg, report, names, stubs=False, pad=False):
         if not declaration.endswith(";") or declaration not in text:
             raise ValueError(f"nothrow declaration not found: {declaration}")
         text = text.replace(declaration, declaration[:-1] + " throw();")
+    if cxx_nothrow and not cxx:
+        earlier = {d.name: d.signature(lines) for d in defs
+                   if d.kind == "func" and d.sig_start < first.sig_start}
+        called = {m.group(1) for t in targets for m in re.finditer(r"\b(\w+)\s*\(",
+                                                                   mask_comments("\n".join(t.body(lines))))}
+        signatures = {d.name: d.signature(lines) for d in defs if d.kind == "func"}
+        body_start = text.index("\n", text.index("*/")) + 1  # after the head comment
+        text = text[:body_start] + nothrow_cxx(text[body_start:], set(earlier) & called, signatures, set(names))
     return text.rstrip() + "\n"
 
 
@@ -1129,17 +1188,23 @@ def cmd_emit(cfg, jobs, only=None):
     print(f"{len(todo)} sources to emit")
     compiler = cfg.get("compiler")  # a [compilers.NAME] entry of project.toml, named by a marker line
     pending = os.path.join(OUT, "pending")
-    # What a source may need beyond the plain compile, cheapest first. A source that needs the
-    # stubs is kept aside (build/libmatch/pending/) until the build can resolve their symbols.
-    attempts = [(st, pd, cc) for st in (False, True) for cc in ([None] + ([compiler] if compiler else []))
-                for pd in (False, True)]
+    # What a source may need beyond the plain compile, cheapest first. A C source whose code
+    # depends on the earlier functions being compiled tries C++ `throw()` declarations next (a .cpp
+    # that links like any other); one that still needs the stubs is kept aside
+    # (build/libmatch/pending/) until the build can resolve their symbols.
+    attempts = [(mode, pd, cc) for mode in ("plain", "cxx_nothrow", "stubs")
+                for cc in ([None] + ([compiler] if compiler else [])) for pd in (False, True)]
 
     def work(item):
         names, addr = item
-        ext = ".cpp" if is_cxx(report["functions"][names[0]]["file"]) else ".c"
+        cxx = is_cxx(report["functions"][names[0]]["file"])
         first_log = None
-        for st, pd, cc in attempts:
-            text = emit_source(cfg, report, names, stubs=st, pad=pd)
+        for mode, pd, cc in attempts:
+            if mode == "cxx_nothrow" and cxx:
+                continue
+            ext = ".cpp" if cxx or mode == "cxx_nothrow" else ".c"
+            text = emit_source(cfg, report, names, stubs=mode == "stubs", pad=pd,
+                               cxx_nothrow=mode == "cxx_nothrow")
             if text is None:
                 return names, addr, "no", "no definition found in the flattened source"
             if cc:
@@ -1148,13 +1213,16 @@ def cmd_emit(cfg, jobs, only=None):
             first_log = first_log or log
             if not ok:
                 continue
-            if st:
+            if mode == "stubs":
                 os.makedirs(pending, exist_ok=True)
-                text = "/* needs: nothrow stubs for the functions defined earlier */\n" + text
+                # after the compiler line, which match.py and build.py read from the first line
+                head, _, rest = text.partition("\n") if cc else ("", "", text)
+                text = (head + "\n" if cc else "") + "/* needs: nothrow stubs for the functions defined earlier */\n" + rest
                 open(os.path.join(pending, f"func_{addr:08X}{ext}"), "w", newline="\n").write(text)
                 return names, addr, "pending", "nothrow stubs for the functions defined earlier"
             open(os.path.join(ROOT, "src", f"func_{addr:08X}{ext}"), "w", newline="\n").write(text)
-            return names, addr, "MATCH" + (f" ({cc})" if cc else "") + (" (rodata pad)" if pd else ""), log
+            return names, addr, ("MATCH" + (f" ({cc})" if cc else "") + (" (rodata pad)" if pd else "")
+                                 + (" (C++ nothrow declarations)" if mode == "cxx_nothrow" else "")), log
         return names, addr, "no", first_log
 
     counts = {}

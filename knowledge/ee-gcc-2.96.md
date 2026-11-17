@@ -801,7 +801,13 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
   in the slot, or a `nop` slot before a `jal` where the original hoists the argument load
   (`lw $a0, 0($sp)`). Add `throw()` to the callees (those at lower addresses in the same unit are the
   ones the original defined above): RaceSimplePanel__virtual_05 (func_003A78B8, 512 B), 25 differ
-  -> MATCH. C sources have no equivalent; compile game code as C++ when it is C++.
+  -> MATCH. C has no equivalent, but C code can be compiled as C++ for it: expat's doProlog
+  (func_004D2780, 5720 B) is 51 of 1430 off as a C source with declarations (0 with the stubs,
+  which do not link) and matches as a .cpp with the whole file in `extern "C"`, `throw()` on
+  the three earlier-defined functions it calls (every declaration of each, also the one
+  through a function typedef), `static` dropped from functions declared but not defined there
+  (g++ refuses them), and `NULL` as 0. `libmatch.py emit` tries this (`cxx_nothrow`) before
+  the stubs. Compile game code as C++ when it is C++.
   C library functions are nothrow in C++ too (glibc-style headers declare them `__THROW`):
   func_00575DA0 (free) needs `throw()` even at a higher address (func_004E70F0, a library
   destructor, 35 -> 11 differ; the last 11 were the sibling call, fixed by `return f(self);`).
