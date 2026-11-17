@@ -89,7 +89,8 @@ Known facts about Gran Turismo 4's code (learned while matching; add new ones as
 - A handle slot reused first for a temporary holder and then as the destination of the handle-assign idiom is one union reached through a pointer local set at the top of the function.
 - `if (f(...) >= 0x100)` on an unsigned-returning callee gives `sltiu; bnez` with the default in the delay slot only when the result is stored first and the default assignment is written after the call.
 - The two-callback registration variant is `func_002F3860(obj, &s, fn1, fn2)` (both function pointers loaded with lui/addiu before the jal); the 4-block MActor registration is the func_00308888 template.
-- Open (00135348, MCalendar::putRunRaceEvent): a c_str() result kept across the string release is loaded into $a0 and copied into the kept register in the original (shared reload by PRE); ours loads into the kept register and copies to $a0.
+- Solved (00135348, MCalendar::putRunRaceEvent, now matched): a c_str() result kept across the string release is loaded into $a0 and copied into the kept register in the original; the c_str/release recipe below (str_rep/rep_data nesting) gives that pair (also 0023E740).
+- Open (0023E740 2/142, 00227BE0 2/76, 0026F0A8 9/132): argument copies into $a/$f registers come out in parameter order in ours (a1 before a2, f12 before f13) where retail issues a higher register first, typically right after a preceding call (sched2 co-issues one copy with the jal; ties go to the lowest uid, and expand emits the copies in parameter order). Not changed by: declaration order, casts or no-op expressions on the arguments, const/throw() on the callee, the callee defined in the same file before or after, arguments built as temporaries inside the call (they evaluate left to right). One rule here would close all three.
 - A string temporary sharing its slot with another temp built later is a function-scope `union { Str s; Tmp tmp; } u;`, with `Str` padded to 0x10 so the following locals land at 0x10/0x20/0x30...; a call whose argument comes sp-relative instead of through `Str *ps` is written as `&u.s` at that site.
 - `xori $s3, $v0, 1` kept across a string release is `bool miss = !func(...)` with the callee declared returning `bool`.
 - An identity-matrix init with an inner pointer `addu v1, base, off` and a separate `addiu off, off, 4` induction variable needs an explicit byte-offset loop: `for (i = 0, m = (char *)self->m, off = 0; i < 4; i++, off += 4) { p = (f32 *)(m + j * 16 + off); *p = 0.0f; if (i == j) *p = 1.0f; }`; `m[j][i]` does not match. Loop-init order decides the prologue order.
@@ -844,3 +845,15 @@ Try the compiler profile before rewriting code; most closures were a profile, no
 - 64-byte-aligned stack scratch: a VLA `char raw[n]` (n a runtime `int`) in an inner scope, aligned by hand with `(raw+0x3F)&~0x3F`; `aligned(64)` and `alloca` do not give the fp/s2 save. `__builtin_alloca((len+15)&~15)` gives the variable-length concat buffer.
 - Packed or bitfield request words: a 64-bit `unsigned long` bitfield struct passed as `long` reproduces the `dsll/or/and` chain; a `struct { long v; } __attribute__((packed))` member gives `ldl/ldr/sdl/sdr`; a plain `int[11]` struct assignment gives `lw/sw`.
 - Tools: `tools/profile_sweep.py` judges every kept draft under every profile; run it on each batch of new near misses before spending a worker retry. `tools/oracle.py` needs `gdb` in WSL (installed) and the venv python (`~/.local/share/gt4/venv/bin/python`).
+- String/list temporaries sharing stack slots (2026-11-16, 00314B88, 00315B78): this g++ never
+  reuses a temporary's slot (every temporary with a destructor gets a fresh one), so when retail
+  keeps several strings or lists in one slot, write them as placement new into one reused buffer
+  (`new (&buf) String(...)`, `((String *)&buf)->~String()`). The pointer the new returns, or an
+  inline helper's pointer parameter (`append(String *dst, ...)`), is the second register retail
+  keeps for the same object. Other levers there: a call through a handle's `operator->` or a
+  `get()` accessor reads the handle before the argument temporaries are built; a constructor
+  declared out of line (`Value(Handle *) __asm__("func_...")`) evaluates its argument call before
+  `this` is taken (inline constructors take `this` first); a function returning a class by value
+  (hidden pointer) placement-new'd into a buffer takes the destination address before its
+  arguments; storing a grabbed rep pointer as `*(s32 *)&p` puts that store in the s32 alias set of
+  the length load that follows.
