@@ -871,3 +871,34 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
   `angle = asinf_(len) * t;` in the two arms gives it (jump.c cross-jumps the identical
   `mul.s; swc1` tails); `angle = ...; ... angle *= t;` stores twice, and a separate non-addressed
   temporary is not stored at all.
+
+## Pinned stack addresses, GCSE and inline references (func_003B2708 near miss, 82/1614)
+- **A callee-saved register holding `sp+OFF`** (`addiu $s1, $sp, 0x6B0`, then stores/loads `0($s1)`)
+  is a reference pseudo (an inline `f32 &` parameter, a reference-returning accessor, an inline
+  method's `this`) that won a hard register in global alloc; the same pseudo left unallocated is
+  rematerialised as a plain `OFF($sp)`. Fix the allocation (live range, priority), not the access.
+- **When the reference is set** follows evaluation order: `obj.X() = call();` with
+  `f32 &X() { return x; }` sets the reference *after* the call (g++ evaluates the call first);
+  `f32 &r = obj.x; r = call();` or a helper `get(f32 &x)` sets it before. Match retail's
+  `addiu $sN` position with this (look vectors, `frame.Chair()`).
+- **GCSE PRE merges `(plus fp OFF)` reference computations across branches.** A merged pseudo that
+  gets a register steals a callee-saved reg and stops cse2/postreload from forwarding stores to
+  loads (retail: plain `OFF($sp)` everywhere). Whether it gets a register depends on its live
+  range: a later use of the same slot (e.g. another clamp helper reusing it) can make it conflict
+  with every free saved register, so it is left unallocated as in retail.
+- **CSE never forwards a load through a `(reg ref)` pseudo** to a store at `(plus fp OFF)`
+  (find_best_addr keeps the cheaper pseudo); only ADDRESSOF referents are substituted. Forwarding
+  then happens postreload only if the stored value's hard register is still live: a wrong FP
+  allocation shows up as an extra `lwc1` reload of a clamp temporary.
+- **CSE skip-blocks stops at labels:** an inline helper with an early return
+  (`if (p.flag) return a; return clamp(a, lo, hi);`) puts a label in the skipped block, so constants
+  after it are re-materialised (`lui/ori/mtc1` again, fresh `li 1`) as in retail; the plain
+  `if (...) a = clamp(...)` lets CSE carry them across.
+- **Mixed int/float argument order:** the EE ABI assigns ints to a0-a3/t0-t3 and floats to f12-f19
+  independently, so `(s32, f32)` and `(f32, s32)` prototypes give the same registers but a different
+  setup order at the call; pick the one whose `mov.s $f12` / `addiu $a2` order matches retail.
+- **`.p2align 3` before a label after a barrier** shows up as an unreachable `nop` after a filled
+  branch delay slot when the instruction count before it is off by one from retail; fix the count
+  earlier in the function, not the label.
+- A function returning its first argument (`func_00386818`) is usually a constructor (old g++ ABI
+  ctors return `this`): declare it `Raw(Seat *, f32, s32) __asm__("func_00386818");`.
