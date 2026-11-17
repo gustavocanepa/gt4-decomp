@@ -934,3 +934,20 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
 - **A long-lived `&local` pseudo** (`Posture &pose = posture;` used for later stores) is spilled
   and rematerialised as `addiu $a0, $sp, OFF` before each use, as retail does; a gcse-made local
   pseudo for the same address is set once and schedules the address chains differently.
+
+## One variable shared by two arms (func_0040DDC0, 6144 B)
+- **A `mov.s $fA,$fB` copy in a non-likely branch slot, stored only on the taken path**, with
+  `$fA` also holding a value computed on the fall-through path: one local that both arms use.
+  `f32 c = up;` before the test, `c = cos(heading)` in the fall-through arm, `d.y = c` in the
+  other. cse records `c == up` before the branch; the arm that reassigns `c` before using `up`
+  keeps `up`'s register, so only the other arm stores the copy, and the copy stays in the test
+  block (dbr puts it in the branch slot). A copy made with a fresh variable never survives:
+  cse makes the copy's destination canonical on both paths or on neither (`make_regs_eqv`
+  compares REGNO_LAST_UID), and a copy inside the arm is folded into its store by combine.
+- **Retail's unused 16-byte slot between temporaries**: `s32 spare[4];` declared right after the
+  object that takes the freed slot (`Vec n; s32 spare[4];`), with the scaled copy written
+  through a reference (`scale(Vec &out, Vec v, f32 t)`) so no return temporary is made.
+- **The first `cockpit ? a : b` test threaded past a later one** in my build but not in retail:
+  writing the later choice as an inline helper (`lookLimit(h)`) leaves the inlined parameter copy
+  at the join, so cse1's thread_jumps does not thread; it also flipped jump2's cross-jump of two
+  identical timer tails to retail's direction.
