@@ -144,7 +144,7 @@ extern "C" Bigint *D_00657EF8;
 extern "C" int D_00885AD4;
 #define result D_00657EF8
 #define result_k D_00885AD4
-#define _IO_dtoa func_005999B8
+#define _IO_dtoa _IO_dtoa
 
 extern "C" char *
 _IO_dtoa
