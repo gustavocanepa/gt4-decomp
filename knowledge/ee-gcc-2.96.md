@@ -990,3 +990,20 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
   sched_analyze's last uses/sets of v0, so the next reload into v0 stops depending on earlier v0
   users; the dependent counts then tie as in retail. func_0041D140's last 3 differences went away
   with `Vec *func_0041C6F8(...)` instead of `void` (same rule as `Quat *func_004225E0`, 001f7860).
+
+## Address-taken locals, C vs C++, and local-alloc's fake lifetimes (func_00519E08, 1144 B, 240 -> 0)
+- **An address-taken pointer local (`func_00531738(&entry)`) reloaded from its stack slot after
+  some field stores but not others** = the file is C, not C++. g++ knows the local is addressable
+  before expansion and gives it a fixed-scalar MEM (`/f`, MEM_SCALAR_P); under strict aliasing
+  alias.c's fixed_scalar_and_varying_struct_p then says no in-struct store can touch it, so the
+  pointer is never reloaded after `entry->x = v`. cc1 expands statement by statement: the local
+  is a pseudo until `&entry` is seen, put_var_into_stack/addressof sets no scalar flag, and int
+  stores through other pointers conflict with the slot by alias set. no-strict-aliasing reloads
+  after every store (too many); unions on the stored fields do not help in C++. Count the
+  `lw x, N($sp)` of the slot in retail and in each draft to tell the three apart.
+- **`lw $v0, 0(...); ... lw $v0, 4($v0)` (a pointer and the value loaded through it share one
+  register) where yours puts the pointer elsewhere**: local-alloc cannot tie through a MEM and,
+  with INSN_SCHEDULING, extends every qty's life by one insn on both sides
+  (local-alloc.c fake_birth/fake_death), so a block-local pointer never shares with the load it
+  dies in. Retail's pointer was a global pseudo: one function-scope variable (`Field *field;`)
+  used by two loops spans blocks, global.c allocates it with exact conflicts and it takes `$v0`.
