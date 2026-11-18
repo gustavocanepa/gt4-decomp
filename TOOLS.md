@@ -49,6 +49,19 @@ priority, the hard register each got and the original's register in its place) p
 ready lists and reorg's summary. knowledge/gcc296-codegen-map.md maps each residual class to the
 pass and the source lever, with the functions it was proven on.
 
+Stack-slot residuals come first on large C++ functions (vectors, quaternions and angles passed and
+returned by value): once one temporary lands in a different slot, every register after it differs
+and the judge's diff stops being readable. `slotsig.py ADDR FILE` splits both sides at their calls
+and prints, call by call, the stack offsets each side touches (also through registers that hold
+`$sp + X`); the first differing call is the statement to change (a variable declared earlier or in
+its own block, an assignment instead of an initialisation, a copy made or avoided). `variants.py
+ADDR BASE SPEC` then judges many text-replacement variants of a draft at once (8 in parallel by
+default) and ranks them by differing instructions, differing calls and the first differing call.
+gcc 2.96 reuses a freed temporary only for a request of the same machine mode; a new temporary
+records the size it was asked for (4 for an `Angle {float}`), an exact fit needs that size, and with
+`-fno-strict-aliasing` adjacent free BLKmode slots are merged (`combine_temp_slots`) and split again
+on demand: block boundaries therefore move slots, not only the statements themselves.
+
 `match.py check` proves one function in isolation; `build.py` proves them all together, with
 real addresses. Run the build before every commit: a function only counts once it links.
 
@@ -104,6 +117,9 @@ stable objects `diff` reads only after every file compiled.
 |---|---|
 | `project.py` | reads `project.toml`; loads the executable through its loader (cached) |
 | `match.py` | `asm`/`gnu` views of an original function; `check` compiles and judges a source. The m2c export (`gnu_asm`/`m2c_asm`) prints the mnemonic for the instructions rabbitizer shows as `.word` though valid (`cvt.w.s`, 736 sites: m2c skipped them silently) |
+| `slotsig.py` | per-call stack-slot signature of a draft against the original (`ADDR FILE`, or `--diff` on a saved `match.py check` output): which stack offsets each side touches between consecutive calls, spill area left out; the first differing call is where a temporary or local landed in another slot |
+| `variants.py` | judges many variants of one draft in parallel (`--jobs 8`) and ranks them: a spec file of `## name` / `<<<` old `===` new `>>>` text replacements, or `--just FILE...`; columns are differing instructions, differing calls (slotsig.py) and the first differing call |
+| `schedtrace.py` | why the scheduler ordered a block: haifa-sched's own trace (`FILE --uid N --pass sched` (or `sched2`), from -fsched-verbose: ready lists with the best candidate last, the insn chosen each cycle, which dependences became ready or were queued), or `FILE --args FUNC --nth K`: the argument-register copies of the K-th call to FUNC in regmove / sched1 / sched2 order, each with its source and whether it dies there (sched1 prefers dying sources, then luid = prototype order) |
 | `build.py` | full build and SHA-1 comparison with the original; per-function report in `build/full/` |
 | `resolve_symbols.py` | addresses for the symbols matched sources use but the symbol table lacks (soft-float helpers, vtables, mangled members), read back from the original's relocated words; writes `config/resolved_symbols.txt` (rerun after a full build) |
 | `link_diff.py`, `fix_symbols.py` | explain and repair functions that differ after linking |
