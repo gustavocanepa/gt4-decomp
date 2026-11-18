@@ -555,3 +555,21 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
 - Diagnosis: compare lreg's live length with the per-insn count (build/work/465078/lv/live.py
   SCHED LREG REG) to see the multiplier; `grep "\[0 uses\]"` in the .15.ce/.20.greg dumps for
   labels ifcvt left behind.
+
+### 18. A global FP pseudo blocked by local-alloc's hard registers, not by global priority (2026-11-18)
+- Symptom: a value that spans blocks (`h = car->m40`, used before and after an `if`) takes `$f3`
+  where retail has `$f2`, and a 0.0 constant in the `if` takes `$f2`; global priorities show
+  the constant first (3 refs over 9 insns, doubled to 18 by REG_EQUIV, against h's 3/19).
+- Read the greg dump's `;; N conflicts:` line for the pseudo: the hard registers at its end
+  (`32 33 34` = f0-f2) are the registers local-alloc already gave to block-local temporaries
+  overlapping it in the merge block. Fixing the global order alone does nothing while f2 stays a
+  hard conflict, so check both.
+- Levers (func_00361908, 16 -> 2): (1) read the field twice (`car->m40` in both statements, no
+  local): gcse PRE loads it on each path (as it did for m44), giving one pseudo with 2 sets and
+  4 refs that outranks the constant; reorg then merges the two loads into the branch delay slot;
+  (2) reorder independent statements in the merge block (`m1060 = ...` before `m103C = m48 *
+  9.8`) so sched1's order gives the overlapping local (`m20`) `$f3` and frees `$f2`.
+- Related, loop preheader order: loop.c emits hoisted movables in loop-body order, so an
+  invariant (`0x80` of `0x80 - x`) comes before another (a base-register copy for the second
+  byte read) only if its expression comes first in the body: `int angle = 0x80 - a[j]; u8 r =
+  b[j];` instead of reading both bytes first (func_00361908, 2 -> 0).
