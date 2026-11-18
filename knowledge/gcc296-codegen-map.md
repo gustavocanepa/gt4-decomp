@@ -556,6 +556,64 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
   SCHED LREG REG) to see the multiplier; `grep "\[0 uses\]"` in the .15.ce/.20.greg dumps for
   labels ifcvt left behind.
 
+### 16. Equal-span FP quantities: an inline reference layer adds the stage retail had (2026-11-18)
+- Symptom: three values loaded, negated and stored in one block (a conjugate quaternion) take
+  `$f0,$f1,$f2` in load order in the draft, but retail gives `$f0` to the last-loaded one and
+  still loads them in the same order.
+- Mechanism (local-alloc 2*refs/span, sched1 2-issue): when every cycle of the block is full
+  (here 3 loads + 3 negs + 4 stores + 6 ALU address/argument insns), each load+neg+store
+  quantity spans the same number of insns and the quantity order (first set) decides. Retail
+  had one extra 1-cycle stage between each `neg` and its store, which bunches the stores at the
+  end: spans 15/15/14, so the last component wins `$f0`.
+- Lever: write the result through a setter with a reference parameter instead of field stores:
+  `static inline void setQ(Quat &r, f32 x, f32 y, f32 z, f32 w) { r.x = x; ... }` and
+  `makeQuat(...) { Quat r; setQ(r, x, y, z, w); return r; }`. Field stores, store-order
+  permutations, `operator[]` (char*) stores, const/ref parameters and 576 load-order x store-order
+  combinations did not do it.
+- Method that found it: `build/work/41d140/simL.py`, a small model of haifa's list scheduler for
+  one block (units memory/alu x2/flop, issue rate 2, rank = priority, weight, class, dependents,
+  luid; priorities copied from the `-fsched-verbose=5` dependence table) plus local-alloc's
+  priority. Validated against the real schedule, then brute-forced over block changes (drop or
+  add an insn, add a dependence, permute luids) to see which inputs give retail's registers; the
+  surviving change ("one extra stage per component") pointed at an inline layer.
+- Evidence: func_0041D140 fixed-L block, 13 -> 4 differ.
+
+### 17. Two rematerialised addresses at one call issued in the "wrong" order (open, 2026-11-18)
+- Symptom: before a `jal`, retail issues `addiu $v1,$sp,X` (for a3) before `addiu $v0,$sp,Y`
+  (for a0), and the f13 copy before the a0 copy; the draft issues them in argument order.
+- Facts read from the source (reload1.c, haifa-sched.c) and checked on dumps:
+  - spill registers are taken round-robin per insn (`last_spill_reg`, advanced in
+    set_reload_reg; find_equiv_reg/inheritance hits do not advance it) and skip the insn's own
+    hard registers; observed order here v0, v1, a0, a1. The registers a later call gets
+    therefore reveal the order the reloads were processed in.
+  - input reloads are emitted immediately before their insn, so sched2's luid of the two
+    reloads equals the sched1 order of the two argument copies.
+  - sched2 ties them on priority, class and dependents, so luid decides; a reload register that
+    is reused by a later argument load gets a longer chain and wins (that is why the IK calls
+    issue `&endL`'s reload first).
+  - sched1 puts an argument copy first only if its source dies there (INSN_REG_WEIGHT counts
+    REG_DEAD/REG_UNUSED); argument copies are otherwise in prototype order, and every copy is
+    anti/output dependent on the previous call (all class 2).
+  - cse1 forgets `(plus $1 c)` frame addresses across calls ($1 is call-used) but keeps the
+    pseudo that held one; gcse's single PRE pass plus the final cprop pass merge every later
+    pseudo set of the same frame address into the first one, so an address pseudo never dies
+    early while a later call still needs the address.
+  - MIPS has no ADJUST_PRIORITY/MD_SCHED hooks; machine_dependent_reorg only runs for MIPS16;
+    Sony's sce-patch changes none of haifa/reload/local-alloc/gcse.
+- Open case: func_0041D140 call 28 (4 rows): retail's next call proves the a0 copy was reloaded
+  first, yet sched2 issued the a3 reload first; no source form found (about 1,500 variants:
+  wrappers, reference layers, pointer variables, assignment forms, IK prototypes, random
+  combinations). Retail's sched2 block must contain something the draft's lacks (compare
+  section 15's invisible redundant set).
+- Progress (z34, 3 left): wrapping the debug stores after the call as
+  `do { if (dbg) { ... } } while (0);` (or `for (;;) { ...; break; }`) fixed retail's
+  `mov.s $f13` between the a3 and a0 copies. The loop notes make the first insn after them (the
+  dbg pointer reload) a sched2 barrier: it becomes a dependent of every earlier insn that reads
+  a register still live (here f20 and sp), so the f13 copy gains one dependent and ties with the
+  a0 copy (4/4), and luid then puts f13 first. The two reloads stay 6 (v0) / 5 (v1): the barrier
+  insn is also the only later v1 user, so v1 gains nothing. `build/work/41d140/deps28.py DUMP`
+  prints these counts from a `-fsched-verbose=5` sched2 dump.
+
 ### 18. A global FP pseudo blocked by local-alloc's hard registers, not by global priority (2026-11-18)
 - Symptom: a value that spans blocks (`h = car->m40`, used before and after an `if`) takes `$f3`
   where retail has `$f2`, and a 0.0 constant in the `if` takes `$f2`; global priorities show
@@ -599,3 +657,21 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
   after the virtual functions moves the vptr; space subobjects with a wrapper struct instead.
 - flow's redundant-store removal (mem_set_list) is flushed by an inline asm (min.s/max.s clamp):
   `a = K - a; a2 = K - a2;` before both clamps lets the raw `a2` store die as in retail.
+
+### 20. A redundant store as an invisible reference; a pointer copy kept for one arm (func_00412C78, 2026-11-18)
+- **s-register rotation of struct-address pseudos with equal asm refs** (`&b`/`&c` homes swapped,
+  same number of uses in both listings): flow counts a reference the final code no longer has.
+  `fix(&x, 0, 0, 0.5)` right after `integrate(&x, dt)` (which ends with `acc = 0`) stores `acc = 0`
+  again in the same block: flow counts the store (16 refs instead of 15, floor_log2 jumps from 3
+  to 4), global.c ranks that pseudo first, and reload_cse deletes the store as a no-op (cselib
+  knows the slot holds `$f20`). Look for a helper call whose extra store is redundant in its block.
+- **`daddu v0,s0` at the top of a block, used only by one arm's store** (the other arm and the
+  block itself use `$s0`): a pointer with two sets. `f32 *p = vel;` before the test, the positive
+  arm stores through `p`, the negative arm reassigns `p = vel;` first. A plain copy (an inline
+  parameter, a fresh local) never survives: gcse cprop finds it available in the arm, and cse2's
+  last path through the block gives the block and the arm one canonical register
+  (make_regs_eqv). Same rule as the float copy of func_0040DDC0 (ee-gcc-2.96.md, "One variable
+  shared by two arms"); here it applied to one of three inlined copies of the same spring, so that
+  case got its own helper.
+- A cross-jumped tail can hide a wrong constant: once registers matched, the only difference left
+  was a `b` into another case's `sw; jal; li.s 2.0; swc1` tail (the source stored 1.0f).
