@@ -573,3 +573,29 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
   invariant (`0x80` of `0x80 - x`) comes before another (a base-register copy for the second
   byte read) only if its expression comes first in the body: `int angle = 0x80 - a[j]; u8 r =
   b[j];` instead of reading both bytes first (func_00361908, 2 -> 0).
+
+### 19. Stack-slot layout and rules from a 4.9 KB match (func_004173B0, 2026-11-18)
+- Temp slots (function.c assign_stack_temp_for_type) are reused only by the SAME machine mode,
+  most recently freed first. A struct with a union holding a u128 and an int[2] array are both
+  BLKmode (reuse each other's freed 16-byte slots, no split below 16 bytes); a plain f32 is SFmode
+  (fresh 4-byte slots). A one-float class WITH a user copy constructor (the unit's `Angle`) is
+  TREE_ADDRESSABLE, hence BLKmode: its temporaries bound to `const Angle &` are stored to 16-byte
+  slots; without the copy constructor it stays SFmode in a register. Compile a 10-line probe with
+  build/work/4173b0/cc.sh to settle such questions before guessing.
+- By-value parameters of an inline that are passed on by reference (`clampMap(m, v, lo, hi)` ->
+  `clampf(.., lo, hi)`) are stored to SF stack slots; literals bound directly to `const f32 &`
+  are not. Two inline expansions get their two param slots in reverse order (freed slot reuse).
+- gcc 2.96 gcse kills every memory expression in a block that contains ANY store (no alias
+  analysis, mem_set_in_block): a load reused across an `if` (PRE) in the draft but reloaded in
+  retail means retail had a store between the two loads in RTL order (here: `s32 active =
+  p->active;` read before the `arm = ...` stores).
+- A value retail reaches through one pseudo across calls (the same `$fp` for every access) is a
+  reference or pointer variable in the source (`Vec &arm = shoulderPos;`); cse forgets frame
+  addresses at calls, so a plain local is re-addressed from `$sp` after each call.
+- Store via `4(s0)` but load via `0x44(t0)` (t0 = a spilled base reloaded) = the unit's
+  `x = (*this)[0] + v[0]` operator+= form: member store, char*-arithmetic load whose address
+  pseudo reload rematerialises from the spilled base.
+- In C++ gcc 2.96 the vptr goes after the class's own data members: a padding member declared
+  after the virtual functions moves the vptr; space subobjects with a wrapper struct instead.
+- flow's redundant-store removal (mem_set_list) is flushed by an inline asm (min.s/max.s clamp):
+  `a = K - a; a2 = K - a2;` before both clamps lets the raw `a2` store die as in retail.
