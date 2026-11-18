@@ -725,3 +725,22 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
 - floatconv was built with the EE's `FLT_ROUNDS 0`, not the project's `<float.h>` stand-in value 1:
   `_IO_strtod`'s fast path (`nd <= DBL_DIG && FLT_ROUNDS == 1`) is missing in retail. The group
   compiles under ee-gcc2.96-g (no filled soft-float call delay slots), like newlib.
+
+### 24. PRE-made frame-address pseudos and local-alloc ties (func_00402320, 3904 B, 2026-11-18)
+- gcse PRE turns every `(plus $sp-base c)` that several blocks compute into one reaching
+  register, inserting copies on the edges where it is missing (`PRE/HOIST: edge (a,b), copy
+  expression N` in the .08.gcse dump). These pseudos then compete in global alloc with
+  priority floor_log2(refs) * refs / live length. Retail kept only the ones with the most uses
+  (here &pos, &dir in $s4/$s3, with no register for sp+0x70), and that was decided by how many
+  inline members reach each object through `this`: a by-value `put()`, reference accessors
+  `f32 &X()`, a member `up()` for a choice made on the vector.
+- Two function-scope vectors reused for two jobs (case 5's position and normal, later the eye
+  vector and the rotated vector) gave retail's shared slots 0x40/0x50 and its two long-lived
+  address registers; separate block locals did not.
+- A last v0/v1 swap inside a two-armed member came from local-alloc.c QTY_CMP_PRI: PRE inserted
+  dead address copies into one arm, sched1 dual-issued them into the lui -> addiu -> lq stalls,
+  the address quantity's life grew, and the TI data quantity (size 2) outranked it. What fixed
+  it was the other arm's form: stores through `X() = ...` instead of `x = ...`. That changes the
+  expressions the arm makes available, and so the insertions. `oracle.py force --set` certified
+  the decision first; a generated combination search over the helper forms (variants.py, 47
+  variants) found the source.
