@@ -694,3 +694,18 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
 - C++ gives addressable locals (`&be`, `&bbits` passed to d2b) their frame slots in declaration
   order. C assigns them late, at the first address-taken use. Retail's frame had the Bigint buffers
   first, then `be`, then `bbits`.
+
+### 22. SGI iterator vs const_iterator slots; declaration order inside a block (func_004E8F58, 2026-11-18)
+- In the original the `begin()`/`end()` results of a map or list went through the same 16-byte
+  BLKmode slots as the string temporaries, while the loop variable sat in its own 4-byte slot.
+  SGI STL explains it: `_Rb_tree_iterator(const iterator &)` (and `_List_iterator`'s) is the copy
+  constructor of `iterator`, so `iterator` is TREE_ADDRESSABLE and BLKmode, but it is only a
+  converting constructor for `const_iterator`, which stays SImode. So write the loop as
+  `const_iterator it = m.begin()` over a non-const container, and give the two iterator structs
+  those constructors. Giving both a copy constructor puts the loop variables into the low
+  BLKmode slots; giving neither one keeps the temporaries in registers.
+- One block-scope local declared before its neighbour's temporaries moves every slot after it.
+  Retail's `char buf[128]; Str cred = a + ":" + b; Base64 enc;` gave buf 0x90, the temporaries
+  of the `+` chain (one new slot at 0x110), then enc 0x120. Declaring `enc` before `cred` added a
+  slot and a pseudo, and that pseudo pushed a 14-reference `this` (priority
+  floor_log2(refs) * refs / live length) out of `$fp` onto the stack.
