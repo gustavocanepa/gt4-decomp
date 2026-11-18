@@ -709,3 +709,19 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
   of the `+` chain (one new slot at 0x110), then enc 0x120. Declaring `enc` before `cred` added a
   slot and a pseudo, and that pseudo pushed a 14-reference `this` (priority
   floor_log2(refs) * refs / live length) out of `$fp` onto the stack.
+
+### 23. Correction to 21: the floatconv unit is C; group sources give the nothrow context (2026-11-18)
+- except.c `nothrow_function_p()` returns 1 when `!flag_exceptions`, so in a C unit built with
+  -fno-exceptions every function compiled earlier in the file becomes TREE_NOTHROW, and calls to
+  it carry the REG_EH_REGION 0 note that reorg's liveness scan needs. A one-function C source that
+  only declares its callees loses that note. Section 21's C++ + `throw()` form imitates it, but
+  C++ changes other things: frame slots in declaration order, statement-expression conditions,
+  and `(void)&x` making `x` a stack variable where C's ADDRESSOF purge gives it back a register.
+- The faithful form is a group source: the real earlier bodies in one C file, judged from the
+  first function's address (match.py judges everything the object puts after it), as libmatch's
+  source_groups do. _IO_strtod matched this way, verbatim, appended to the Binit..d2b group
+  together with ratio (0x5978E8-0x599788, 1960 instructions); build.py lets a group replace later
+  source starts.
+- floatconv was built with the EE's `FLT_ROUNDS 0`, not the project's `<float.h>` stand-in value 1:
+  `_IO_strtod`'s fast path (`nd <= DBL_DIG && FLT_ROUNDS == 1`) is missing in retail. The group
+  compiles under ee-gcc2.96-g (no filled soft-float call delay slots), like newlib.
