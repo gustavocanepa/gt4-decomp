@@ -744,3 +744,36 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
   expressions the arm makes available, and so the insertions. `oracle.py force --set` certified
   the decision first; a generated combination search over the helper forms (variants.py, 47
   variants) found the source.
+
+### 25. CSE's zero holders, wider-mode constants and a sched barrier from cross-jumped arms (func_00368628, 3752 B, 2026-11-18)
+- **A float 0.0 kept in a callee-saved register across a call and copied into later locals**
+  (`mov.s $f22, $f0` in a `jal` slot, then `mov.s $f2, $f22`, `mov.s $f29, $f22`): mips CONST_COSTS
+  prices a CONST_DOUBLE at 2 insns and a REG at 0, so cse replaces every later `x = 0.0f` (and
+  the 0.0 operand of a compare) with any register it knows holds 0. Which register: make_regs_eqv
+  keeps as class head the one whose REGNO_LAST_UID is latest, so the holder is a variable set to
+  0 before the call that is used (or set again) late in the function (here `extra`). It also
+  costs a 13th FP register, which is what pushed `dt` onto the stack as in retail.
+- **A fresh `mtc1 $zero` where yours reuses a register known to be 0**: cse lost the
+  equivalence. Two ways retail does it: the path skipped around a block that sets the holder
+  (invalidate_skipped_block: `rate = 0; if (A && B) rate = K; else if (C && D) rate = K;`, two
+  `rate = K` arms that jump2 merges back into one), or the statements are in an order that
+  makes the copy go the other way (`extra = out; out = rest; load = 0.0f;` keeps `load`'s own
+  zero; `load = 0.0f; out = rest;` gives `out = load`). gcse's CONST-PROP turns copies back into
+  constants but cse2 redoes them, so the cse1/cse2 dumps decide, not gcse.
+- **A spilled int flag with one reference more than retail** (it outranked two flags retail
+  kept in `$s7`/`$fp`): `pos = 1; rec->flags = 1;` lets cse store `(subreg:QI pos)` through
+  src_related (a CONST_INT already in a wider-mode register), which counts as a use. Retail's
+  `li v0,1; sw v0,pos; sb v0,flags` came from the store first through an inline setter with a
+  by-value parameter (`setFlags(rec, 1); pos = 1;`): the parameter is an SImode pseudo, so reload
+  finds `$v0 == 1` for the spilled `pos = 1`, and sched2 still puts the `sw` before the `sb` the
+  cut arm cross-jumps into. `u8`/`bool` locals change nothing here (PROMOTE_MODE widens them).
+- **Two independent insns issued in the "wrong" order at the head of a block** (`mtc1 $zero`
+  before a `c.lt.s` that has the higher priority): retail had a block boundary between them.
+  Writing the zero in both arms of the preceding `if` (`if (clipped) { ...; rate = 0.0f; } else
+  { rate = 0.0f; }`) gives that boundary, and jump2 cross-jumps the two copies into retail's
+  single `mtc1`. regsearch.py found the same effect with `do { } while (0)`, which AGENTS.md
+  does not accept as a source form.
+- A value computed before a call and kept in a callee-saved register that is reused for the
+  next steps (`sub.s $f22,$f22,$f24` before `jal`, then `div.s $f22`, `div.s $f22`) is one
+  variable updated in place (`extra -= power; extra = extra * 1000 / f(); extra = dt * extra /
+  23400;`); a separate `delta` local takes another register.
