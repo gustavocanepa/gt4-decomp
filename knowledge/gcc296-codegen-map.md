@@ -675,3 +675,22 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
   case got its own helper.
 - A cross-jumped tail can hide a wrong constant: once registers matched, the only difference left
   was a `b` into another case's `sw; jal; li.s 2.0; swc1` tail (the source stored 1.0f).
+
+### 21. C or C++, `throw()`, and statement expressions in conditions (func_005999B8, 2026-11-18)
+- libio's `_IO_dtoa` (4.8 KB, public floatconv.c) matched only as C++ with every earlier helper
+  declared `throw()`. The same body as C stayed at 55 of 1196, all branch-likely and delay-slot
+  choices. Why: `can_throw()` (except.c) counts any call without a `REG_EH_REGION <= 0` note as
+  throwing, in C as well, and resource.c's `find_dead_or_set_registers` stops its liveness scan
+  there. A call gets that note only when the callee is `TREE_NOTHROW`: declared `throw()`, or
+  compiled earlier in the same unit with nothing in it that can throw (toplev.c). C++ headers
+  declare malloc/free `throw()`, so in a C++ unit the allocating helpers are nothrow too. The
+  smaller toplev-only set (leaf helpers) was worse (37).
+- g++ 2.96 wraps every `if` condition in `CLEANUP_POINT_EXPR`. fold pushes it inward past `&&`
+  operands only when `has_cleanups()` is false, and a statement expression is a language-specific
+  tree code (`has_cleanups` = -1). So `if (!word1(d) && ...)` with the statement-expression
+  `word0/word1` macros is computed as a value (`sltiu`, then `beqz`), while C branches directly. Inline
+  accessor functions fix that, but then fold rewrites `!(word1(d) & 1)` into a computed bit
+  test (`xori; andi; beqz`): writing `(word1(d) & 1) == 0` gives retail's `andi; bnez`.
+- C++ gives addressable locals (`&be`, `&bbits` passed to d2b) their frame slots in declaration
+  order. C assigns them late, at the first address-taken use. Retail's frame had the Bigint buffers
+  first, then `be`, then `bbits`.
