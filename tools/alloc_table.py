@@ -251,9 +251,10 @@ def reg_stats(text):
 def greg_summary(text):
     """order, conflicts, preferences, dispositions, hard regs used from the greg dump."""
     order = []
-    m = re.search(r";; \d+ regs? to allocate:((?: \d+)+)", text)
+    # a multi-register pseudo is listed with its size: `842 (2)`
+    m = re.search(r";; \d+ regs? to allocate:((?: \d+(?: \(\d+\))?)+)", text)
     if m:
-        order = [int(t) for t in m.group(1).split()]
+        order = [int(t) for t in re.sub(r"\(\d+\)", " ", m.group(1)).split()]
     conflicts = {int(a): [int(t) for t in b.split()]
                  for a, b in re.findall(r";; (\d+) conflicts:((?: \d+)*)", text)}
     prefs = {int(a): [int(t) for t in b.split()]

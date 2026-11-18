@@ -801,7 +801,13 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
   in the slot, or a `nop` slot before a `jal` where the original hoists the argument load
   (`lw $a0, 0($sp)`). Add `throw()` to the callees (those at lower addresses in the same unit are the
   ones the original defined above): RaceSimplePanel__virtual_05 (func_003A78B8, 512 B), 25 differ
-  -> MATCH. C sources have no equivalent; compile game code as C++ when it is C++.
+  -> MATCH. C has no equivalent, but C code can be compiled as C++ for it: expat's doProlog
+  (func_004D2780, 5720 B) is 51 of 1430 off as a C source with declarations (0 with the stubs,
+  which do not link) and matches as a .cpp with the whole file in `extern "C"`, `throw()` on
+  the three earlier-defined functions it calls (every declaration of each, also the one
+  through a function typedef), `static` dropped from functions declared but not defined there
+  (g++ refuses them), and `NULL` as 0. `libmatch.py emit` tries this (`cxx_nothrow`) before
+  the stubs. Compile game code as C++ when it is C++.
   C library functions are nothrow in C++ too (glibc-style headers declare them `__THROW`):
   func_00575DA0 (free) needs `throw()` even at a higher address (func_004E70F0, a library
   destructor, 35 -> 11 differ; the last 11 were the sibling call, fixed by `return f(self);`).
@@ -951,3 +957,53 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
   writing the later choice as an inline helper (`lookLimit(h)`) leaves the inlined parameter copy
   at the join, so cse1's thread_jumps does not thread; it also flipped jump2's cross-jump of two
   identical timer tails to retail's direction.
+
+## Big functions: gcse table size, arg order, unchanging pseudos (func_0041D140, 5432 B, 1103 -> 13)
+- **A rotation of spill slots by one pseudo = gcse's PRE hash table has the wrong size.** gcse.c
+  sizes the expression table as (insns entering gcse / 2) | 1 buckets and `pre_delete` creates the
+  reaching registers bucket by bucket; reload gives spill slots in pseudo order. The hash of
+  `(plus (reg r) (const_int c))` is 16983 + r + c (this build's rtx codes REG 69, CONST_INT 63,
+  PLUS 83; the gcse dump prints "Expression hash table (N buckets"). So the same addresses come out
+  in another slot order when the draft has a few insns more or less than retail before gcse. Find
+  the bucket counts that give retail's order, then tune the insn count with knobs that leave the
+  code alone: `const T &` vs by-value parameters of inline helpers that take literals (each
+  literal bound to a reference adds a temporary store). An automatic toggle search over helper
+  parameters (judge each variant, keep those whose register-masked shape is unchanged) found them.
+- **`hi - lo` computed at run time on two constants** (`mtc1 $zero; sub.s` with lo stored by
+  `swc1`): the bound is the result of `maxOf(const f32 &, const f32 &) { return a < b ? b : a; }`
+  on literals (as func_003B2708), placed after the last join before the arithmetic. IEEE forbids
+  folding x - 0.0, cse1 cannot see through the join and cprop has nothing to propagate. A by-value
+  inline parameter whose argument is a caller variable is stored from the caller's register.
+- **The order of argument-register copies follows the prototype, not the register numbers.**
+  Under the EABI ints and floats are numbered separately, so `f(int *, J *, J *, f32 l1, f32 l2,
+  V *, ...)` and `f(int *, J *, J *, V *, ..., f32 l1, f32 l2)` pass the same registers but emit the
+  copies in another order; sched1 ranks ready insns by priority, then by register pressure (a copy
+  whose source pseudo dies there first), then luid. Retail's `mov.s $f12/$f13` before `la $t2` at an
+  IK call came from the floats being declared before the axis pointers. tools/schedtrace.py
+  `--args FUNC --nth K` lists the copies in sched1 / sched2 order with their death status.
+- **Spill reloads that retail hoists above unrelated stores** come from an RTX_UNCHANGING (`/u`)
+  pseudo: the reference returned by an inline accessor (`const Quat &rotation() const`). A plain
+  `const Quat &r = j.rot;` is set twice (0, then the address) at expansion and is not unchanging;
+  reload copies the flag to the spill slot and sched2's true_dependence lets the load pass stores.
+- **A reload order that retail swaps at a call (v0 vs v1 first) can come from the previous call's
+  return type.** A call that sets `$v0` (callee declared returning a pointer, result unused) resets
+  sched_analyze's last uses/sets of v0, so the next reload into v0 stops depending on earlier v0
+  users; the dependent counts then tie as in retail. func_0041D140's last 3 differences went away
+  with `Vec *func_0041C6F8(...)` instead of `void` (same rule as `Quat *func_004225E0`, 001f7860).
+
+## Address-taken locals, C vs C++, and local-alloc's fake lifetimes (func_00519E08, 1144 B, 240 -> 0)
+- **An address-taken pointer local (`func_00531738(&entry)`) reloaded from its stack slot after
+  some field stores but not others** = the file is C, not C++. g++ knows the local is addressable
+  before expansion and gives it a fixed-scalar MEM (`/f`, MEM_SCALAR_P); under strict aliasing
+  alias.c's fixed_scalar_and_varying_struct_p then says no in-struct store can touch it, so the
+  pointer is never reloaded after `entry->x = v`. cc1 expands statement by statement: the local
+  is a pseudo until `&entry` is seen, put_var_into_stack/addressof sets no scalar flag, and int
+  stores through other pointers conflict with the slot by alias set. no-strict-aliasing reloads
+  after every store (too many); unions on the stored fields do not help in C++. Count the
+  `lw x, N($sp)` of the slot in retail and in each draft to tell the three apart.
+- **`lw $v0, 0(...); ... lw $v0, 4($v0)` (a pointer and the value loaded through it share one
+  register) where yours puts the pointer elsewhere**: local-alloc cannot tie through a MEM and,
+  with INSN_SCHEDULING, extends every qty's life by one insn on both sides
+  (local-alloc.c fake_birth/fake_death), so a block-local pointer never shares with the load it
+  dies in. Retail's pointer was a global pseudo: one function-scope variable (`Field *field;`)
+  used by two loops spans blocks, global.c allocates it with exact conflicts and it takes `$v0`.

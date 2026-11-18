@@ -555,3 +555,225 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
 - Diagnosis: compare lreg's live length with the per-insn count (build/work/465078/lv/live.py
   SCHED LREG REG) to see the multiplier; `grep "\[0 uses\]"` in the .15.ce/.20.greg dumps for
   labels ifcvt left behind.
+
+### 16. Equal-span FP quantities: an inline reference layer adds the stage retail had (2026-11-18)
+- Symptom: three values loaded, negated and stored in one block (a conjugate quaternion) take
+  `$f0,$f1,$f2` in load order in the draft, but retail gives `$f0` to the last-loaded one and
+  still loads them in the same order.
+- Mechanism (local-alloc 2*refs/span, sched1 2-issue): when every cycle of the block is full
+  (here 3 loads + 3 negs + 4 stores + 6 ALU address/argument insns), each load+neg+store
+  quantity spans the same number of insns and the quantity order (first set) decides. Retail
+  had one extra 1-cycle stage between each `neg` and its store, which bunches the stores at the
+  end: spans 15/15/14, so the last component wins `$f0`.
+- Lever: write the result through a setter with a reference parameter instead of field stores:
+  `static inline void setQ(Quat &r, f32 x, f32 y, f32 z, f32 w) { r.x = x; ... }` and
+  `makeQuat(...) { Quat r; setQ(r, x, y, z, w); return r; }`. Field stores, store-order
+  permutations, `operator[]` (char*) stores, const/ref parameters and 576 load-order x store-order
+  combinations did not do it.
+- Method that found it: `build/work/41d140/simL.py`, a small model of haifa's list scheduler for
+  one block (units memory/alu x2/flop, issue rate 2, rank = priority, weight, class, dependents,
+  luid; priorities copied from the `-fsched-verbose=5` dependence table) plus local-alloc's
+  priority. Validated against the real schedule, then brute-forced over block changes (drop or
+  add an insn, add a dependence, permute luids) to see which inputs give retail's registers; the
+  surviving change ("one extra stage per component") pointed at an inline layer.
+- Evidence: func_0041D140 fixed-L block, 13 -> 4 differ.
+
+### 17. Two rematerialised addresses at one call issued in the "wrong" order (open, 2026-11-18)
+- Symptom: before a `jal`, retail issues `addiu $v1,$sp,X` (for a3) before `addiu $v0,$sp,Y`
+  (for a0), and the f13 copy before the a0 copy; the draft issues them in argument order.
+- Facts read from the source (reload1.c, haifa-sched.c) and checked on dumps:
+  - spill registers are taken round-robin per insn (`last_spill_reg`, advanced in
+    set_reload_reg; find_equiv_reg/inheritance hits do not advance it) and skip the insn's own
+    hard registers; observed order here v0, v1, a0, a1. The registers a later call gets
+    therefore reveal the order the reloads were processed in.
+  - input reloads are emitted immediately before their insn, so sched2's luid of the two
+    reloads equals the sched1 order of the two argument copies.
+  - sched2 ties them on priority, class and dependents, so luid decides; a reload register that
+    is reused by a later argument load gets a longer chain and wins (that is why the IK calls
+    issue `&endL`'s reload first).
+  - sched1 puts an argument copy first only if its source dies there (INSN_REG_WEIGHT counts
+    REG_DEAD/REG_UNUSED); argument copies are otherwise in prototype order, and every copy is
+    anti/output dependent on the previous call (all class 2).
+  - cse1 forgets `(plus $1 c)` frame addresses across calls ($1 is call-used) but keeps the
+    pseudo that held one; gcse's single PRE pass plus the final cprop pass merge every later
+    pseudo set of the same frame address into the first one, so an address pseudo never dies
+    early while a later call still needs the address.
+  - MIPS has no ADJUST_PRIORITY/MD_SCHED hooks; machine_dependent_reorg only runs for MIPS16;
+    Sony's sce-patch changes none of haifa/reload/local-alloc/gcse.
+- Open case: func_0041D140 call 28 (4 rows): retail's next call proves the a0 copy was reloaded
+  first, yet sched2 issued the a3 reload first; no source form found (about 1,500 variants:
+  wrappers, reference layers, pointer variables, assignment forms, IK prototypes, random
+  combinations). Retail's sched2 block must contain something the draft's lacks (compare
+  section 15's invisible redundant set).
+- Progress (z34, 3 left): wrapping the debug stores after the call as
+  `do { if (dbg) { ... } } while (0);` (or `for (;;) { ...; break; }`) fixed retail's
+  `mov.s $f13` between the a3 and a0 copies. The loop notes make the first insn after them (the
+  dbg pointer reload) a sched2 barrier: it becomes a dependent of every earlier insn that reads
+  a register still live (here f20 and sp), so the f13 copy gains one dependent and ties with the
+  a0 copy (4/4), and luid then puts f13 first. The two reloads stay 6 (v0) / 5 (v1): the barrier
+  insn is also the only later v1 user, so v1 gains nothing. `build/work/41d140/deps28.py DUMP`
+  prints these counts from a `-fsched-verbose=5` sched2 dump.
+
+### 18. A global FP pseudo blocked by local-alloc's hard registers, not by global priority (2026-11-18)
+- Symptom: a value that spans blocks (`h = car->m40`, used before and after an `if`) takes `$f3`
+  where retail has `$f2`, and a 0.0 constant in the `if` takes `$f2`; global priorities show
+  the constant first (3 refs over 9 insns, doubled to 18 by REG_EQUIV, against h's 3/19).
+- Read the greg dump's `;; N conflicts:` line for the pseudo: the hard registers at its end
+  (`32 33 34` = f0-f2) are the registers local-alloc already gave to block-local temporaries
+  overlapping it in the merge block. Fixing the global order alone does nothing while f2 stays a
+  hard conflict, so check both.
+- Levers (func_00361908, 16 -> 2): (1) read the field twice (`car->m40` in both statements, no
+  local): gcse PRE loads it on each path (as it did for m44), giving one pseudo with 2 sets and
+  4 refs that outranks the constant; reorg then merges the two loads into the branch delay slot;
+  (2) reorder independent statements in the merge block (`m1060 = ...` before `m103C = m48 *
+  9.8`) so sched1's order gives the overlapping local (`m20`) `$f3` and frees `$f2`.
+- Related, loop preheader order: loop.c emits hoisted movables in loop-body order, so an
+  invariant (`0x80` of `0x80 - x`) comes before another (a base-register copy for the second
+  byte read) only if its expression comes first in the body: `int angle = 0x80 - a[j]; u8 r =
+  b[j];` instead of reading both bytes first (func_00361908, 2 -> 0).
+
+### 19. Stack-slot layout and rules from a 4.9 KB match (func_004173B0, 2026-11-18)
+- Temp slots (function.c assign_stack_temp_for_type) are reused only by the SAME machine mode,
+  most recently freed first. A struct with a union holding a u128 and an int[2] array are both
+  BLKmode (reuse each other's freed 16-byte slots, no split below 16 bytes); a plain f32 is SFmode
+  (fresh 4-byte slots). A one-float class WITH a user copy constructor (the unit's `Angle`) is
+  TREE_ADDRESSABLE, hence BLKmode: its temporaries bound to `const Angle &` are stored to 16-byte
+  slots; without the copy constructor it stays SFmode in a register. Compile a 10-line probe with
+  build/work/4173b0/cc.sh to settle such questions before guessing.
+- By-value parameters of an inline that are passed on by reference (`clampMap(m, v, lo, hi)` ->
+  `clampf(.., lo, hi)`) are stored to SF stack slots; literals bound directly to `const f32 &`
+  are not. Two inline expansions get their two param slots in reverse order (freed slot reuse).
+- gcc 2.96 gcse kills every memory expression in a block that contains ANY store (no alias
+  analysis, mem_set_in_block): a load reused across an `if` (PRE) in the draft but reloaded in
+  retail means retail had a store between the two loads in RTL order (here: `s32 active =
+  p->active;` read before the `arm = ...` stores).
+- A value retail reaches through one pseudo across calls (the same `$fp` for every access) is a
+  reference or pointer variable in the source (`Vec &arm = shoulderPos;`); cse forgets frame
+  addresses at calls, so a plain local is re-addressed from `$sp` after each call.
+- Store via `4(s0)` but load via `0x44(t0)` (t0 = a spilled base reloaded) = the unit's
+  `x = (*this)[0] + v[0]` operator+= form: member store, char*-arithmetic load whose address
+  pseudo reload rematerialises from the spilled base.
+- In C++ gcc 2.96 the vptr goes after the class's own data members: a padding member declared
+  after the virtual functions moves the vptr; space subobjects with a wrapper struct instead.
+- flow's redundant-store removal (mem_set_list) is flushed by an inline asm (min.s/max.s clamp):
+  `a = K - a; a2 = K - a2;` before both clamps lets the raw `a2` store die as in retail.
+
+### 20. A redundant store as an invisible reference; a pointer copy kept for one arm (func_00412C78, 2026-11-18)
+- **s-register rotation of struct-address pseudos with equal asm refs** (`&b`/`&c` homes swapped,
+  same number of uses in both listings): flow counts a reference the final code no longer has.
+  `fix(&x, 0, 0, 0.5)` right after `integrate(&x, dt)` (which ends with `acc = 0`) stores `acc = 0`
+  again in the same block: flow counts the store (16 refs instead of 15, floor_log2 jumps from 3
+  to 4), global.c ranks that pseudo first, and reload_cse deletes the store as a no-op (cselib
+  knows the slot holds `$f20`). Look for a helper call whose extra store is redundant in its block.
+- **`daddu v0,s0` at the top of a block, used only by one arm's store** (the other arm and the
+  block itself use `$s0`): a pointer with two sets. `f32 *p = vel;` before the test, the positive
+  arm stores through `p`, the negative arm reassigns `p = vel;` first. A plain copy (an inline
+  parameter, a fresh local) never survives: gcse cprop finds it available in the arm, and cse2's
+  last path through the block gives the block and the arm one canonical register
+  (make_regs_eqv). Same rule as the float copy of func_0040DDC0 (ee-gcc-2.96.md, "One variable
+  shared by two arms"); here it applied to one of three inlined copies of the same spring, so that
+  case got its own helper.
+- A cross-jumped tail can hide a wrong constant: once registers matched, the only difference left
+  was a `b` into another case's `sw; jal; li.s 2.0; swc1` tail (the source stored 1.0f).
+
+### 21. C or C++, `throw()`, and statement expressions in conditions (func_005999B8, 2026-11-18)
+- libio's `_IO_dtoa` (4.8 KB, public floatconv.c) matched only as C++ with every earlier helper
+  declared `throw()`. The same body as C stayed at 55 of 1196, all branch-likely and delay-slot
+  choices. Why: `can_throw()` (except.c) counts any call without a `REG_EH_REGION <= 0` note as
+  throwing, in C as well, and resource.c's `find_dead_or_set_registers` stops its liveness scan
+  there. A call gets that note only when the callee is `TREE_NOTHROW`: declared `throw()`, or
+  compiled earlier in the same unit with nothing in it that can throw (toplev.c). C++ headers
+  declare malloc/free `throw()`, so in a C++ unit the allocating helpers are nothrow too. The
+  smaller toplev-only set (leaf helpers) was worse (37).
+- g++ 2.96 wraps every `if` condition in `CLEANUP_POINT_EXPR`. fold pushes it inward past `&&`
+  operands only when `has_cleanups()` is false, and a statement expression is a language-specific
+  tree code (`has_cleanups` = -1). So `if (!word1(d) && ...)` with the statement-expression
+  `word0/word1` macros is computed as a value (`sltiu`, then `beqz`), while C branches directly. Inline
+  accessor functions fix that, but then fold rewrites `!(word1(d) & 1)` into a computed bit
+  test (`xori; andi; beqz`): writing `(word1(d) & 1) == 0` gives retail's `andi; bnez`.
+- C++ gives addressable locals (`&be`, `&bbits` passed to d2b) their frame slots in declaration
+  order. C assigns them late, at the first address-taken use. Retail's frame had the Bigint buffers
+  first, then `be`, then `bbits`.
+
+### 22. SGI iterator vs const_iterator slots; declaration order inside a block (func_004E8F58, 2026-11-18)
+- In the original the `begin()`/`end()` results of a map or list went through the same 16-byte
+  BLKmode slots as the string temporaries, while the loop variable sat in its own 4-byte slot.
+  SGI STL explains it: `_Rb_tree_iterator(const iterator &)` (and `_List_iterator`'s) is the copy
+  constructor of `iterator`, so `iterator` is TREE_ADDRESSABLE and BLKmode, but it is only a
+  converting constructor for `const_iterator`, which stays SImode. So write the loop as
+  `const_iterator it = m.begin()` over a non-const container, and give the two iterator structs
+  those constructors. Giving both a copy constructor puts the loop variables into the low
+  BLKmode slots; giving neither one keeps the temporaries in registers.
+- One block-scope local declared before its neighbour's temporaries moves every slot after it.
+  Retail's `char buf[128]; Str cred = a + ":" + b; Base64 enc;` gave buf 0x90, the temporaries
+  of the `+` chain (one new slot at 0x110), then enc 0x120. Declaring `enc` before `cred` added a
+  slot and a pseudo, and that pseudo pushed a 14-reference `this` (priority
+  floor_log2(refs) * refs / live length) out of `$fp` onto the stack.
+
+### 23. Correction to 21: the floatconv unit is C; group sources give the nothrow context (2026-11-18)
+- except.c `nothrow_function_p()` returns 1 when `!flag_exceptions`, so in a C unit built with
+  -fno-exceptions every function compiled earlier in the file becomes TREE_NOTHROW, and calls to
+  it carry the REG_EH_REGION 0 note that reorg's liveness scan needs. A one-function C source that
+  only declares its callees loses that note. Section 21's C++ + `throw()` form imitates it, but
+  C++ changes other things: frame slots in declaration order, statement-expression conditions,
+  and `(void)&x` making `x` a stack variable where C's ADDRESSOF purge gives it back a register.
+- The faithful form is a group source: the real earlier bodies in one C file, judged from the
+  first function's address (match.py judges everything the object puts after it), as libmatch's
+  source_groups do. _IO_strtod matched this way, verbatim, appended to the Binit..d2b group
+  together with ratio (0x5978E8-0x599788, 1960 instructions); build.py lets a group replace later
+  source starts.
+- floatconv was built with the EE's `FLT_ROUNDS 0`, not the project's `<float.h>` stand-in value 1:
+  `_IO_strtod`'s fast path (`nd <= DBL_DIG && FLT_ROUNDS == 1`) is missing in retail. The group
+  compiles under ee-gcc2.96-g (no filled soft-float call delay slots), like newlib.
+
+### 24. PRE-made frame-address pseudos and local-alloc ties (func_00402320, 3904 B, 2026-11-18)
+- gcse PRE turns every `(plus $sp-base c)` that several blocks compute into one reaching
+  register, inserting copies on the edges where it is missing (`PRE/HOIST: edge (a,b), copy
+  expression N` in the .08.gcse dump). These pseudos then compete in global alloc with
+  priority floor_log2(refs) * refs / live length. Retail kept only the ones with the most uses
+  (here &pos, &dir in $s4/$s3, with no register for sp+0x70), and that was decided by how many
+  inline members reach each object through `this`: a by-value `put()`, reference accessors
+  `f32 &X()`, a member `up()` for a choice made on the vector.
+- Two function-scope vectors reused for two jobs (case 5's position and normal, later the eye
+  vector and the rotated vector) gave retail's shared slots 0x40/0x50 and its two long-lived
+  address registers; separate block locals did not.
+- A last v0/v1 swap inside a two-armed member came from local-alloc.c QTY_CMP_PRI: PRE inserted
+  dead address copies into one arm, sched1 dual-issued them into the lui -> addiu -> lq stalls,
+  the address quantity's life grew, and the TI data quantity (size 2) outranked it. What fixed
+  it was the other arm's form: stores through `X() = ...` instead of `x = ...`. That changes the
+  expressions the arm makes available, and so the insertions. `oracle.py force --set` certified
+  the decision first; a generated combination search over the helper forms (variants.py, 47
+  variants) found the source.
+
+### 25. CSE's zero holders, wider-mode constants and a sched barrier from cross-jumped arms (func_00368628, 3752 B, 2026-11-18)
+- **A float 0.0 kept in a callee-saved register across a call and copied into later locals**
+  (`mov.s $f22, $f0` in a `jal` slot, then `mov.s $f2, $f22`, `mov.s $f29, $f22`): mips CONST_COSTS
+  prices a CONST_DOUBLE at 2 insns and a REG at 0, so cse replaces every later `x = 0.0f` (and
+  the 0.0 operand of a compare) with any register it knows holds 0. Which register: make_regs_eqv
+  keeps as class head the one whose REGNO_LAST_UID is latest, so the holder is a variable set to
+  0 before the call that is used (or set again) late in the function (here `extra`). It also
+  costs a 13th FP register, which is what pushed `dt` onto the stack as in retail.
+- **A fresh `mtc1 $zero` where yours reuses a register known to be 0**: cse lost the
+  equivalence. Two ways retail does it: the path skipped around a block that sets the holder
+  (invalidate_skipped_block: `rate = 0; if (A && B) rate = K; else if (C && D) rate = K;`, two
+  `rate = K` arms that jump2 merges back into one), or the statements are in an order that
+  makes the copy go the other way (`extra = out; out = rest; load = 0.0f;` keeps `load`'s own
+  zero; `load = 0.0f; out = rest;` gives `out = load`). gcse's CONST-PROP turns copies back into
+  constants but cse2 redoes them, so the cse1/cse2 dumps decide, not gcse.
+- **A spilled int flag with one reference more than retail** (it outranked two flags retail
+  kept in `$s7`/`$fp`): `pos = 1; rec->flags = 1;` lets cse store `(subreg:QI pos)` through
+  src_related (a CONST_INT already in a wider-mode register), which counts as a use. Retail's
+  `li v0,1; sw v0,pos; sb v0,flags` came from the store first through an inline setter with a
+  by-value parameter (`setFlags(rec, 1); pos = 1;`): the parameter is an SImode pseudo, so reload
+  finds `$v0 == 1` for the spilled `pos = 1`, and sched2 still puts the `sw` before the `sb` the
+  cut arm cross-jumps into. `u8`/`bool` locals change nothing here (PROMOTE_MODE widens them).
+- **Two independent insns issued in the "wrong" order at the head of a block** (`mtc1 $zero`
+  before a `c.lt.s` that has the higher priority): retail had a block boundary between them.
+  Writing the zero in both arms of the preceding `if` (`if (clipped) { ...; rate = 0.0f; } else
+  { rate = 0.0f; }`) gives that boundary, and jump2 cross-jumps the two copies into retail's
+  single `mtc1`. regsearch.py found the same effect with `do { } while (0)`, which AGENTS.md
+  does not accept as a source form.
+- A value computed before a call and kept in a callee-saved register that is reused for the
+  next steps (`sub.s $f22,$f22,$f24` before `jal`, then `div.s $f22`, `div.s $f22`) is one
+  variable updated in place (`extra -= power; extra = extra * 1000 / f(); extra = dt * extra /
+  23400;`); a separate `delta` local takes another register.
