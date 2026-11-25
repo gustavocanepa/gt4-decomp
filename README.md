@@ -58,6 +58,39 @@ What the game code does, as far as the project has established it (each page mar
 - [`knowledge/runtime-types.md`](knowledge/runtime-types.md): the ref-counted string, handles, allocator, STL containers and object layout seen in the matched code.
 - [`knowledge/coverage-map.md`](knowledge/coverage-map.md): what is matched and what is missing, by subsystem; [`knowledge/gt4.md`](knowledge/gt4.md) and [`knowledge/ee-gcc-2.96.md`](knowledge/ee-gcc-2.96.md) cover the compiler side.
 
+## Compiler source code (reference)
+
+**[GCC source bundle (Google Drive, ~266 MB zip)](https://drive.google.com/file/d/1Mg2o5BIx-BnFGTpHInprhUdV_uRjIGN6/view?usp=drive_link)**
+
+This is the closest we have to the source code of the exact compiler that built GT4, and of its
+relatives. It does not decide matches: the judge is always the prebuilt `ee-gcc 2.96`
+(`2.96-ee-001003-1`) binary. What it does is explain *why* the compiler made the choices you see in
+the assembly: instruction patterns, register allocation order, scheduling tie-breaks, stack frame
+layout, constant splitting. Reading the pass that made a decision is often faster than guessing at
+it from the output.
+
+There is no public, complete source tree for `ee-gcc 2.96`. Every PS2 matching decomp uses the
+prebuilt binaries. The bundle collects every piece found:
+
+| Folder | What it is | How exact |
+|---|---|---|
+| `ee-gcc-2.96-001003/recovered-gnupro-src/` | Sony/Cygnus GNUPro base tree for 2.96, recovered from a truncated archive.org SDK dump (`DTL-S2324`); `src-sce-patched/` has Sony's patch applied | **Exact** for every file present, but cut off inside `gcc/config/`. Includes the full R5900 backend (`mips.c`, `mips.h`, `mips.md`, `elf5900.h`, `t-r5900`, `fp-bit.c`). The core passes are missing. |
+| `ee-gcc-2.96-001003/sce/ee/gcc/sce-patch` | Sony's own 2.96 source diff (44 files), from the GPL source-offer package `ee001003_1.tgz` | Exact. Covers the EE backend, the VU assembler, `-G0` defaults and front-end tweaks. |
+| `ee-gcc-2.96-001003/dtl-s2324-tool_chain/` | Sony's 2.96 toolchain docs (change notes, build steps, EE compiler manual) and partial binaries of `2.96-ee-001003`, the build before `-1` | The docs are official; the binaries are **not** GT4's build. |
+| `gcc-20001003/` | Upstream FSF GCC trunk on 2000-10-03 (git `7e51098e`, reports `2.97 20001003`) | Same date, different branch, no R5900 code. It is the best stand-in for the core passes (`haifa-sched.c`, `local-alloc.c`, `global.c`, `reload1.c`, `cse.c`, `combine.c`, `loop.c`, `function.c`, `cp/`). 621 of the 801 `gcc/` files present in both trees are byte-identical. It is also the exact source of the libraries GT4 links: SGI STL, libio, RTTI (`tinfo.cc`), libgcc. |
+| `ee-gcc-2.9-991111-01/` | Sony's complete, buildable 2.9 tree with its patch applied | Exact source of GT4's **second** compiler, which built about 270 Sony SDK functions. |
+
+Inside the zip, `GCC_INDEX.md` says which tree to open for which question, `README.md` covers
+provenance and hashes, and `GCC_INVESTIGATION.md` is the full research log (sources, what was ruled
+out, how to rebuild the FSF tree from git). Codegen rules already worked out from this source are in
+[`knowledge/ee-gcc-2.96.md`](knowledge/ee-gcc-2.96.md) and
+[`knowledge/gcc296-codegen-map.md`](knowledge/gcc296-codegen-map.md).
+
+Unzip it at the repository root; it unpacks to `GCC_COPY/`, which carries its own `.gitignore`
+so nothing in it gets committed. The only known way to get the complete 2.96 tree is a clean dump
+of the `DTL-S2324B` (Runtime Libraries 2.3.4 / 2.4 Tools, October 2001) or `DTL-S2525` disc. If
+you have one, please get in touch.
+
 ## Related projects and native port
 
 - **[GT4 Native](https://github.com/gustavocanepa/gt4-native)** is the separate, experimental source-level PC port built from this matching decompilation. It is **not playable**; matching PS2 code does not automatically run on a modern PC. GT4 Native maintains an automated, pinned-source import and host-compatibility triage pipeline, but imported or link-tested files are not automatically integrated into the runtime.
