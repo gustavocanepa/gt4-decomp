@@ -777,3 +777,26 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
   next steps (`sub.s $f22,$f22,$f24` before `jal`, then `div.s $f22`, `div.s $f22`) is one
   variable updated in place (`extra -= power; extra = extra * 1000 / f(); extra = dt * extra /
   23400;`); a separate `delta` local takes another register.
+
+## 16. Mechanisms from the 2026-11-25 worker pass
+
+- **Post-call group**: after a call, consecutive simple hard-reg/pseudo moves are glued to it in
+  expand order (the `+` rows in `-fsched-verbose`). Where no group forms, the second issue slot of
+  the call's cycle goes to the lowest-position dependent that is immediately ready (002C34B0,
+  002182E0).
+- **Cross-jump blocker**: flow inserts `(use (const_int 0))` after a call that ends a block before
+  a label, and `find_cross_jump` stops on it, so a call written in both arms is never tail-merged.
+- **Stale branch probability**: reorg's choice of thread for a delay slot follows the REG_BR_PROB
+  note; a plain EQ test gets 40% and fills from the fall-through.
+- **Clobber count**: the number of leading clobber insns in an aggregate initialiser changes
+  sched1's two-per-cycle packing and, through it, local-alloc spans (0026F630).
+- **Alias set 0 for a union member**: a store to a member of an anonymous union has alias set 0 and
+  keeps its order against calls and other stores (0053C2F0).
+- **A statement between two loops** stops loop.c's "multiple entry points" bail-out so the buffer
+  address is hoisted (0054B1A8); an ascending `for` is reversed by loop.c.
+- **cse1 flushes its hash table every 1000 insns**: a constant held in a register across two
+  statements means the flush falls between them (004242F0, open).
+- **Accessors taking `unsigned x` and masking `x & 0xFF`** match where a `u8` parameter does not
+  (SAFER 0044B900, 0044BBD8).
+- 00445B88 compares five fields against -1 that leave no code; only their number is recoverable,
+  so the source uses `f[33..35]` and says so in a comment.
