@@ -800,3 +800,79 @@ context errors. A GT3 draft pipeline needs a `$gp` base rule first (open).
   (SAFER 0044B900, 0044BBD8).
 - 00445B88 compares five fields against -1 that leave no code; only their number is recoverable,
   so the source uses `f[33..35]` and says so in a comment.
+
+## 17. Mechanisms from the second 2026-11-25 pass (variable reuse, alias sets, flat chains)
+
+Four near misses of the deferred list closed with source-shape levers that no earlier entry had
+(func_00417110, func_004B9438, func_0053A178, func_0050E6E8); one old rule was confirmed. Each rule
+names the pass that decides and what to look for in the listing.
+
+- **One scratch variable for several values** (the strongest lever of the pass). A user variable
+  set in more than one block is ONE pseudo for all its values: global.c allocates it once, with
+  the conflicts and preferences of all its ranges, and local-alloc never ties it into a quantity.
+  Signs in the listing: unrelated values in the same register one after the other where the
+  draft's separate variables take the lowest free register each (`x`, `abs(...)`, an `Angle`
+  value all in `$f2`); a `load T; copy n = T` pair where the draft has one register (the copy's
+  destination is the reused variable: it keeps the register of its earlier value and cse cannot
+  fold the copy because the pseudo is not the temp's class); a local-alloc "near tie" between two
+  temp chains (the chain whose last link is assigned to the reused variable loses that link's
+  two refs: func_00417110, k-chain 30/46 -> 24/38 against 14/22).
+  - func_00417110: `v` = constant term of the quadratic, then the chosen cosine, then
+    `abs(PI/2 - acos(v))`, then the angle. It conflicts with hard `$f12` (the `PI - v` argument),
+    so prune_preferences drops its `$f12` preference and it takes `$f2`.
+  - func_0053A178: `n` = address of the counts table, then the count read from it
+    (`n = (*count)++`): retail's `lw a0; daddu a3,a0` with the limit test on `a0`.
+  The original programmers reuse `t`, `n`, parameters: when a register "moves" between unrelated
+  values, try one variable before anything else.
+- **Flat `else if` chain against nested ifs for a selected value** (func_00417110): with
+  `if (A) x = r[0]; else if (B) x = r[1]; else if (C) x = min(...); else return;` the variable is
+  only set at the three success points, so it does not conflict with gcse's reaching register of
+  the `r[0]` loads; global.c `expand_preferences` then passes the argument-register preference
+  through the copy `x = r0` and the load pseudo takes `$f12`. A nested form that assigns
+  `x = r[1]` before testing it makes the two conflict and swaps the homes. Do not judge the two
+  forms by the diff count while another allocation residual is open: the flat chain was 100 off
+  before the scratch variable and exact after it.
+- **global.c details read on this function** (GCC_COPY/gcc-20001003/gcc/global.c):
+  `set_preference` also takes the FIRST operand of an arithmetic source (`r = a * b` prefers
+  the hard register local-alloc gave `a`); in `find_reg` a copy preference beats that plain
+  preference; `prune_preferences` first removes preferred registers the pseudo conflicts with
+  (a call-argument preference dies when the argument register is set while the value is live)
+  and pass 0 skips registers a lower-priority conflicting pseudo prefers.
+- **A directly accessed global scalar has alias set 0** (func_0050E6E8). `extern int g; g = x;`
+  is `(mem/f (lo_sum ..) 0)`: it conflicts with every load, so every later load through a
+  pointer depends on the store and the store gets a high sched1/sched2 priority. A struct member
+  (`blk.arg = x`) or a dereference carries the alias set of its type: a pointer-typed member
+  store does not conflict with `int` loads, has priority 1 and is issued as a filler when the
+  memory unit is idle. Retail's `sh zero,g1; sw cb,g2; lw; lw; sw; sw; sw arg,g3` needed g1
+  plain (first), g2 and g3 pointer members of two block structs, and the two loads in locals
+  (a load after a store through the other base keeps its dependence). Symptom to look for: a
+  global store that the draft issues early and retail leaves for the end of the block (or the
+  reverse), with its `lui` late as well. Under `-fno-strict-aliasing` none of this applies.
+- **No named temporary for an element that is tested and updated** (func_004B9438):
+  `if (s[i] >= 0x3040 && s[i] <= 0x309F) s[i] += 0x60;`. fold turns the range test on the
+  `unsigned short` lvalue into `(u16)(x + 0xCFC0) < 0x60` in the narrow type: the constant is
+  the zero-extended `0xCFC0` (hoisted by loop.c into a register, `ori`) followed by
+  `andi 0xFFFF`; a test written on an `int` copy gives `addiu -0x3040; sltiu`. With no user
+  pseudo for the character, the count and loop.c's pointer get retail's homes (a named `u16 c`
+  swaps them). A length helper that indexes (`while (s[n]) n++`) keeps the pointer copy in the
+  loop preheader; one that walks its own copy of the pointer puts the copy before the first
+  test, where reorg takes it into the branch's slot.
+- **`throw()` on a later callee decides an earlier branch-likely** (confirmed, section 7):
+  func_00417110's `bc1f` with the return-value copy in its slot needed `throw()` on the tangent
+  callee that the fall-through path calls: resource.c's forward scan only learns that `$f0` is
+  clobbered when it may cross that call.
+- **`xori reg,reg,0` before `movz/movn`** (func_00529770, open): mips `gen_conditional_move`
+  always emits `cmp = op0 XOR op1`, also for a comparison with 0. if_convert runs three times
+  before reload (after jump1, right before cse2 inside `.10.cse2`, and `.15.ce` after combine);
+  only a conversion made by the third call keeps the xor. So the source arm was not a single
+  insn until combine (or its else block had a second predecessor until thread_jumps): every
+  plain if/else or `?:` is converted earlier and loses the `xori`.
+- **Reading sched1 ties** (func_00417110, func_0052C640): among equal priorities the weight
+  comes first, then the class against the last scheduled insn, then the NUMBER of dependents
+  (a product used twice is issued before one used once, whatever the source order), then luid.
+  local-alloc's spans are counted in sched1's order, which sched2 hides: when only a quantity
+  priority is off, look for the insn whose sched1 slot can move, not at the final listing.
+- Tools: `tools/schedtrace.py` cannot compile on a Windows mount; the same dump comes from
+  `bash tools/rtl_wsl.sh FILE OUTDIR "<compiler command> -fsched-verbose=5"` (the `.17.sched`
+  and `.25.sched2` files then carry the dependence tables and ready lists). `tools/oracle.py`
+  needs the venv Python of setup_linux.sh (`~/.local/share/gt4/venv/bin/python3`).
