@@ -81,3 +81,15 @@ decision units). So the compiler-*forcing* + search path — not source-shape re
 forward for these: `oracle.py measure` now classifies the pool (of 297 measured m2c drafts, ~7 are
 logic-complete) and `climb`/`sched`/`aim` are usable. A campaign is under way; see
 build/phase3_progress.md and the PR for the running tally.
+
+## Footnote: 00455708, the largest open function (2026-11-18, opus-octavio)
+
+At 4176 B, 00455708 is the largest unmatched function. It is not matchable under the current
+rules: its body uses VU0 macro instructions that ee-gcc 2.96 never emits from C (`vmulax.xyzw`,
+`vmaddaz.xyzw`, `vmadday.xyzw`, `vmaddw.xyzw`, `vmul.xyzw` x2 each, `qmtc2.ni` x2, `cfc2.i` x2,
+`sqc2` x4, `vnop` x12), so a source would need about 10 distinct inline-asm statements, against
+`MAX_ASM = 2` in tools/asm_policy.py. It stays open with the vector/MMI group above, waiting for
+the owner's call (raise the limit for VU0 bodies, grandfather it, or list it in
+config/asm_functions.txt). Work went to the next largest functions instead: _IO_dtoa (005999B8),
+the pdistd-http request builder (004E8F58) and _IO_strtod (00598818). All three are plain
+sources that pass the policy.
