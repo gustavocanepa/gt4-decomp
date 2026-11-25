@@ -27,7 +27,7 @@ struct Reply {
 
 extern int D_0064A308;      /* 1 while the link is up */
 extern int D_0064A30C;      /* the link's handle, 0 without one */
-extern short D_0064A310;    /* set by func_00514760 when the saved request must be sent again */
+extern short D_0064A310;    /* cleared here; func_00514760 sets it to 1 */
 extern Request D_008A0190;
 extern Reply D_008A03B8;
 extern Saved D_008A0398;

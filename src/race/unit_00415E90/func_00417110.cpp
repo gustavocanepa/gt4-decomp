@@ -39,7 +39,7 @@ struct Angle {
 
 extern "C" {
 f32 func_0059D2A0(f32 x);           /* arc cosine (libm) */
-f32 func_0057D1F0(f32 a) throw();   /* tangent; defined earlier in the program, so it cannot throw */
+f32 func_0057D1F0(f32 a) throw();   /* tangent of the math library; a C library function cannot throw */
 Angle func_004233C0(f32 a, f32 b, f32 c); /* angle of a triangle from its three sides */
 }
 
