@@ -22,7 +22,9 @@ jobs:
           python -m pip install rabbitizer
           python -m unittest discover -s tests -v
   sources:
-    runs-on: ubuntu-latest
+    # Ubuntu 26.04 runners cannot install binutils-mips-linux-gnu.
+    # Keep the legacy MIPS toolchain on the supported 24.04 image.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
