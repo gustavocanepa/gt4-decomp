@@ -876,3 +876,17 @@ names the pass that decides and what to look for in the listing.
   `bash tools/rtl_wsl.sh FILE OUTDIR "<compiler command> -fsched-verbose=5"` (the `.17.sched`
   and `.25.sched2` files then carry the dependence tables and ready lists). `tools/oracle.py`
   needs the venv Python of setup_linux.sh (`~/.local/share/gt4/venv/bin/python3`).
+
+## 18. Mechanisms from the 2026-11-26 worker pass
+
+- Callee return type steers sched2: declaring a tail-call wrapper as `int` makes the call a SET of `$2`, which empties the `$v0` use list and moves the dependent store into the delay slot (005293D0).
+- sched2 has no weight criterion after reload: ties go by class against the last scheduled insn, then dependent count, then luid. An `int` store after an `int` load depends through alias sets; a pointer-typed field (`void *user`) breaks that (005319A8).
+- An accessor returning bool (`h.isValid()`) gives the branch REG_BR_PROB 5000 and makes reorg fill the `beqz` delay slot from the target; a plain `p != 0` gives 3999 and takes the fall-through. `__builtin_expect` fixes the slot but adds a DI pseudo and swaps `v0`/`v1` (002127E8).
+- Stores through a bare `(mem (reg))` cursor stop cse from merging stack-slot loads; indexed stores share one load and lose the `mov.s` copies (0021F6C8).
+- A temporary used after its copy (`next = weight + 2.0f; weight = next;`) reproduces `add.s; mov.s`; `weight += 2.0f` adds in place (00216748).
+- Units around 0x3C8xxx-0x3D6xxx use the no-strict-aliasing profile (003D6D30, 003C8668).
+- A variable assigned twice in a loop (`n_times_set == 2`) is not a giv: loop.c reduces only `self + i*stride`. The loop pass runs twice and trivially-dead-insn deletion runs between them, so dead copies count only in the first pass; this shifts the hoist threshold (64, minus 3 per moved insn) (003C8668).
+- A derived giv only accumulates benefit if its source register has a single use.
+- local-alloc tries a "false" life widened by one insn on each side; moving one slot in sched1 (already-shifted index before the calls, x/y/z read after the products) fixed 003E8610.
+- Ternary `h ? 8.0f : 16.0f` keeps `li 3; or`; `float y = 8; if (!h) y = 16;` lets cse1 fold it into `li 3` (0049B850, still open at 13 off).
+- Variadic allocator declaration `int f(void *out, ...)` is the only form that gives both `sll` for `u16*4` and `dsll32/dsrl32` for the unsigned product (005237C8, open).
