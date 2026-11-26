@@ -890,3 +890,132 @@ names the pass that decides and what to look for in the listing.
 - local-alloc tries a "false" life widened by one insn on each side; moving one slot in sched1 (already-shifted index before the calls, x/y/z read after the products) fixed 003E8610.
 - Ternary `h ? 8.0f : 16.0f` keeps `li 3; or`; `float y = 8; if (!h) y = 16;` lets cse1 fold it into `li 3` (0049B850, still open at 13 off).
 - Variadic allocator declaration `int f(void *out, ...)` is the only form that gives both `sll` for `u16*4` and `dsll32/dsrl32` for the unsigned product (005237C8, open).
+
+## 26. A hoisted then-arm against an earlier constant; asm-built constants and local-alloc (func_0057DE48, open, 2026-11-25)
+Custom vprintf, 930 instructions, 12 differing (draft build/work/57de48/r/best_12.cpp; diary in
+attempts.jsonl and build/work/57de48/NOTES.md).
+- **ifcvt find_if_case_1 inserts the hoisted then-arm right before `earliest`**, which is the jump
+  itself when the condition is a plain register (`if (!fixed)`): an earlier `char *dot = 0;`
+  stays ahead of the hoisted `size = i`, sched2 ties the two (priority 1, dependents 1) and luid
+  keeps `dot = 0` first, so reorg slots `size = i`. Retail has the reverse order.
+  BRANCH_COST is 1 for the EE (mips.h gives 2 only to R4000/R6000), so `{ size = i; dot = 0; }`
+  is never hoisted.
+- **Writing the copy before the branch instead** (`size = i; dot = 0; if (fixed) {...}`) gives
+  the order but makes cse1 canonicalise i to `size` in the arm whenever size's REGNO_LAST_UID is
+  later than i's (make_regs_eqv). Ending size's uses earlier makes i canonical and fixes the
+  rows, but moves preferences that hang on those uses (`size = ndig - last` hands size's `$a0`
+  preference to ndig through expand_preferences). An arm that reassigns size first
+  (`size = prec; if (i >= prec) size = i;`) keeps i, but the first jump pass already builds
+  `(if_then_else (ne slt 0) prec i)`, so reload ties i (`movn`) where retail ties prec (`movz`).
+- **Unfolded 64-bit constants** (`li 0x380; dsll32 20`, both `li`s before both shifts): every C
+  form folds to `dli` (CONST_COSTS is 0 for any CONST_INT, so cse always folds); a one-insn
+  `dsll32` asm helper reproduces them. With `__asm__ __volatile__` the asm is a sched1/sched2
+  barrier: insns written before it stay before it, and the load scheduled ahead of the `li`s
+  (longest latency) decides local-alloc's overlaps. update_equiv_regs moves a once-set constant
+  pseudo's init next to its single use, so writing the constant early does not keep it early;
+  a variable set twice (in-place `"+r"`) does.
+- Method: oracle `rec['local']` (block, pseudos, birth/death, refs, result) gives local-alloc's
+  quantity order directly; priority = floor_log2(refs) * refs / (death - birth). Forcing the
+  F-block locals to retail's registers (oracle force --at alloc) left one sched2 pick, which
+  proves the remaining work is the quantity order, not the logic.
+
+## 27. A copy before a branch whose arm must keep reading the source register (func_0057DE48, 2026-11-25)
+- Retail `daddu s0,s1` (size = i) before `beqz fixed`, an unrelated insn in the slot, and the arm
+  computing `max(i, prec)` from `s1`: write the copy before the `if` and **store to the copy's
+  destination first in the arm** with a value that is used (`size = prec; dot = q - size - 1;
+  size = (i < size) ? size : i;`). The store kills cse1's `size == i` equivalence (otherwise
+  make_regs_eqv makes the longer-lived `size` canonical and the arm reads `s0`).
+- Cmove orientation decides reload's tie: the jump-time if_convert(0) (inside `.02.jump`, before
+  cse1) builds a two-value select `x = c ? a : b` as `(if_then_else (eq slt 0) i prec)` and a
+  reassign-first `x = b; if (c) x = a;` as `(if_then_else (ne slt 0) b a)`. movsi_on_si's first
+  alternative ties operand 3 to the output, so the first gives `daddu x,prec; movz x,i` and the
+  second `movn x,prec` with `i` tied. Use the form whose operand 3 is the register retail copies
+  into the output first. Same lever for a DImode select (`bias = neg; if (!negative) bias = pos;`
+  gives `movn pos,neg`).
+- Sony's backend (GCC_COPY SCE296 `mips.h`): CONST_COSTS is 0 for every CONST_INT, and cc1 has a
+  64-bit HOST_WIDE_INT, so a shifted 64-bit constant is always folded and printed as one `dli`.
+
+## 28. Stack-slot reuse decided by a class's size (func_002A6D10, 2026-11-25)
+Symptom: every block-local slot after one point is 0x10 off and the frame is 0x10 smaller than
+retail; one temporary sits in a free hole where retail opens a new slot.
+Mechanism (function.c, gcc-20001003, the same file in the ee tree): block locals and temporaries
+are temp slots. `assign_stack_temp_for_type` reuses a free slot only if the modes are equal (a
+class is BLKmode only with a non-trivial copy constructor, cp/class.c), and splits a BLKmode slot
+when `size - CEIL_ROUND(request, 16) >= 16`. `combine_temp_slots` (no-strict-aliasing only)
+merges adjacent free BLKmode slots by adding the **requested** sizes (`p->size += q->size`), not
+their 16-byte footprints. So a 4-byte object in a 16-byte slot contributes 4, and whether a
+later split leaves a reusable remainder depends on the exact sizeof of each earlier object.
+Lever: the sizeof of the classes involved. In mInputTextFace::onKeyPress a 16-byte MethodHandle
+left a 0x1C remainder (split off at 0x210, where the next SymID temporary landed); with an
+8-byte MethodHandle (`s32 p; s32 pad;`) the handle takes the whole remainder and the SymID
+opens a new slot, as in retail. When a slot shift starts after a large array reuses earlier
+blocks' slots, recompute the combined size from the requested sizes before trying statement
+orders.
+
+## 29. Untied constants, reused C89 variables and sched barriers at calls (func_00393D20, 3312 B, 2026-11-26)
+- **A product left untied from its dying constant** (retail `lui/ori/mtc1 $f0; mul.s $f12, $f1, $f0`
+  where the draft gives `mtc1 $f12; mul.s $f12, $f1, $f12`): local-alloc's block_alloc ties operand
+  0 with a dying operand (operand 1 first, then the others), and combine_regs refuses when either
+  pseudo is not block-local (`reg_qty < 0`). Retail's product is a global pseudo: the source
+  reuses one variable across branches (C89 style), e.g. the small-camera scale product stored in
+  the variable the other branch uses for `cosv`, and the scale itself in the other branch's `root`
+  (00393D20: 18 -> 8 rows). A `const f32 k = 0.85f` at function scope does not help (cse propagates
+  it). The same reuse explains two different values in one register in two arms (`half` = fw*0.5
+  then sx*0.5, both `$f13`).
+- **Insns forced before the next call** (haifa-sched.c sched_analyze): an insn reading a pseudo
+  with REG_N_CALLS_CROSSED == 0 is chained before the next call (sched_before_next_call), and a
+  call depends on every pending memory read (flush_pending_lists). Otherwise a conversion or a
+  shift whose result crosses calls sinks below a call that has the longer chain (calls in a long
+  straight-line block carry priority ~100, conversions < 60). Placement of `w2 = w*2` relative to
+  a call in the source still decides global-alloc's live length (h2 vs w2 taking s1/s2).
+- **Real C++ virtual calls vs a named entry pointer**: `VEntry *ve = ...; ve->fn(obj + ve->delta)`
+  gives other v0/v1 choices than `obj->slotN()`; declare the class with real virtuals (slot k at
+  `+8*(k+1)`, vptr after the leading fields).
+- **Matched (2026-11-26, 8 -> 0) by three more levers**, each read in the gcc source:
+  - **Arm tails cross-jumped after sched2.** jump2 (the only `JUMP_CROSS_JUMP` pass) runs after
+    sched2 (toplev.c). Writing the same tail in both arms (`cosv = fh / sy * 0.85f;` /
+    `cosv = fw / sx * 0.85f;`) lets sched2 schedule the constant load and the multiply inside each
+    arm; jump2 then merges them into the join, whose own schedule starts with the product already
+    ready. Retail's `li 0.85; mul.s; li 1.0` (mul before the second constant) came out of this; any
+    single join-block form issues the 1.0 load first (the mul waits for the 0.85 load's latency).
+    A fresh `aspect = fw / fh` local for the compare (not a reused C89 variable) kept d2 in f4.
+  - **Keeping an insn below a call in sched1.** sched_analyze_1 gives the SET of a pseudo with
+    REG_N_CALLS_CROSSED == 0 an anti dependence on the previous call; a set of a call-crossing
+    pseudo has none and floats above the call. `r *= 0.5f` after the call (r crosses calls) was
+    hoisted back; `f32 r = fw / zoom * 0.5f;` written after the call (a new value that crosses no
+    call, divide included) stays below it, and the divide's latency issues r*r after c*c and the
+    add, so local-alloc sees h*h, c*c, r, add, r*r, sub: r*r has the shortest span, takes f0,
+    then c*c f1, h*h f2 as retail. (With equal spans the earlier-born quantity wins: an r*r tied
+    with c*c on priority always lost on qty number.)
+  - **Global preferences follow dying values.** global.c expand_preferences merges the preference
+    sets of a global set in an insn and a global that dies in it, and set_preference only looks at
+    operand 0 of an arithmetic source. `r = c * r` (in place) merged r's and c's preferences into
+    the root's chain and gave root f2; keeping the product in its own local (`f32 cr = c * r;
+    cosv = (cr + root) / d2;`) gave root f1 as retail.
+
+## 30. Ordering local-alloc quantities through sched1's tie-breaks (func_004013E8, 3464 B, 2026-11-26)
+Five spring channels, each clamped with asm `max.s`/`min.s`; retail keeps the position update and
+the clamp temporary both in `$f1` and the velocity reload in `$f0`. 38 -> 0 by three levers:
+- **Local-alloc needs the right quantity placed first, and sched1's order decides it.** With
+  INSN_SCHEDULING, find_free_reg first tries each quantity's range widened by one insn on each side
+  (local-alloc.c fake_birth/fake_death) and marks that range, so the quantity allocated second
+  avoids an adjacent one's register. Retail's registers need the velocity chain (load, max, min,
+  store) issued completely before the temporary's load: the velocity quantity is then short
+  (30000, placed first, `$f0`), the position update next to it is pushed to `$f1`, and the
+  temporary, no longer adjacent to the update, also gets `$f1`.
+- **A load through a pointer waits for a store sched1 cannot disambiguate.** alias.c knows a
+  pointer's value only from a REG_EQUAL/REG_EQUIV note, and local-alloc adds REG_EQUIV after
+  sched1, so `*(float *)px` must follow every earlier store, while a direct frame access does not.
+  Writing the velocity clamp and its store first, then reading the position through the pointer
+  (`v = clamp(*pv); st.v = v; t = mx(*(float *)px, lo); x = mn(t, hi); st.x = x;`) produces that
+  order. Equal-priority loads otherwise tie-break on dependents count (rank_for_schedule): a direct
+  frame load collects more memory dependents and wins.
+- The same in a vector subtraction (`to -= mine`, components in a row): retail's component
+  quantities are not adjacent. A pointer to `mine` taken where it is declared (so cse no longer
+  folds it to a frame address by the time it is used) and each component read into a temporary
+  before its subtraction (`float my = pm[1]; to.Y() -= my;`) separates them.
+- **A zero compare's register can be a variable's.** The last register was the 0.0 of
+  `if (0 < v) ... else if (v < 0)`: retail had `float rate = 0.0f;` before the tests, with
+  `rate = ...` in both arms. cse substitutes the register known to hold 0 (rate's) into both
+  compares, and rate lives in `$f1` through the arms. No source order of the tests moves a plain
+  constant zero off `$f0`.

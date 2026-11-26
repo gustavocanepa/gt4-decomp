@@ -1007,3 +1007,16 @@ Applied to the 3,708 near misses of at most 12 instructions (`fragments.py apply
   (local-alloc.c fake_birth/fake_death), so a block-local pointer never shares with the load it
   dies in. Retail's pointer was a global pseudo: one function-scope variable (`Field *field;`)
   used by two loops spans blocks, global.c allocates it with exact conflicts and it takes `$v0`.
+
+## ee-gcc 2.9-991111 formatter notes (func_005AF850, 3352 B, MATCH 2026-11-26)
+- PROMOTE_MODE widens every char local to SImode, so a `char c` variable always loads with `lb`.
+  A single `lbu` whose value is sign-extended with `sll/sra` where it is used as a number, and
+  reused for the loop test, is `*fmt` read directly everywhere (cse/gcse share the QImode load).
+- Spill-slot order follows declaration order (out, ctx, end, width, plen, count, &remain).
+- `if (len < prec) prec -= len; else prec = 0;` gives `subu; movz`; the `?:` form gives a movn
+  shape and drops instructions. `padc = ' '` set inside each arm (retail loads 0x20 in both arms'
+  delay slots).
+- Reload's round-robin spill registers (reload1.c `last_spill_reg`) make two identical arms
+  differ only in the reload register; cross-jumping then merges them in the draft and not in
+  retail until the earlier reload count matches. Fix the earlier differences first.
+- The `-991111-01` build differs from `-991111` in hazard nops (mtc1 -> c.eq.s, loop heads).
