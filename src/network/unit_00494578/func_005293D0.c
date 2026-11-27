@@ -77,6 +77,9 @@ int func_005292C0(struct Owner *self, struct Key16 *key, int *out);
 struct Conn *func_0052AA18(struct Owner *self);
 int func_0052BDD8(struct Owner *self, struct Conn *c);
 int func_0052D448(char *buf, unsigned size);
+/* Declared int on purpose: the call then sets $v0 instead of clobbering it, which
+   decides the sched2 order of the stores after it. The callee itself is a void
+   tail-call wrapper. */
 int func_0053A860(char *timer);
 
 /* Opens a connection record for the peer described by info: rejects a peer whose id and address

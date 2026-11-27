@@ -72,7 +72,7 @@ struct Entry *func_00535C88(struct Obj *self, unsigned idx);
 int func_00535CB0(struct Obj *self, unsigned idx, struct Entry **out);
 int func_00536568(int id);
 int func_00538870(int type, void *out);
-int func_0053A878(char *timer);
+void func_0053A878(char *timer);
 void *func_005A48D8(void *dst, int c, unsigned n);
 
 /* Handles an accepted join for slot idx (names provisional, inferred from the code): records the
