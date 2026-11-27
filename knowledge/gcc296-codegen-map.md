@@ -1040,3 +1040,15 @@ the clamp temporary both in `$f1` and the velocity reload in `$f0`. 38 -> 0 by t
 - `001F5850`: take `&row` directly at every use (one PRE pseudo hoisted after the temporary), a single return, and declare `func_00314B20` as value-returning so the call SETs `$v0` and decides the sched2 order of the two address reloads.
 - `001DFE60`: a `text()` virtual call as a member of the string struct (one address pseudo for the call result and the `c_str` this), with a string/handle union slot and an inline `set_bool`.
 - Fable usage limit note: three parallel Fable workers exhaust the limit in about 3 hours; stagger them or use two.
+
+## 21. Pass of 2026-11-27 (wA4 / wB4)
+
+- Odd retail address forms such as `(obj+4)+(i*44+0x20)` are plain `obj->elems[i].field`: gcc 2.96 puts the 16-byte-aligned part of the field offset into the index term and folds the remainder into the base.
+- `if (to < from) for (...) else for (...)` (a `for` in each arm) stops cse1 from sharing `i*44`, as retail does; a do-while or a shared `j = from` before the `if` does not.
+- Function-scope scratch variables shared by two passes become one pseudo each and get higher allocation priority than block-local ones; this reproduces retail's a0/a2 layout.
+- A variable assigned twice in a loop body (`it = &items[i]; if (more[i]) it = more[i];`) is not strength-reduced; a separate variable is (40 off).
+- The same full expression written in both arms raises allocation priority through extra references; jump2 merges the tails back.
+- An inline ref constructor fed an implicit temporary gives one 4-byte stack slot per temporary and call-crossing locals that spill like retail.
+- `handled = 1` written after the byte store of 1 stops cse from reusing its register.
+- gcse: a reg-reg copy is not recorded for copy propagation if its source or destination is set again later in the same basic block.
+- Open: 004BDB48 (2 off, `sw zero,0(s7)` vs spill of `count`), 00251300, 0031A6A0, 004C81D8.
