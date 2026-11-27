@@ -1029,4 +1029,4 @@ the clamp temporary both in `$f1` and the velocity reload in `$f0`. 38 -> 0 by t
 - gcse does PRE on memory loads in this version: re-reading a field through an inline accessor at the start of each arm keeps the reload; a chained assignment `angle = x = state(self)->angle` keeps the `mov.s` that cprop otherwise folds (003485D0).
 - gas 2.10 (as2004 profile) assembles `l.s $f2,sym($3)` after another `l.s` with `lwc1` instead of `lui`; one-line near misses of that shape may only need the as2004 profile (003485D0).
 - Writing negation `v = -v` inside each arm instead of once before the test leaves only the `side` store shared, so tail merging yields the retail `bc1tl` (003513F8).
-- Open at 2 off: 004C2830's draft in wA2 (base/index live range around the sum); 002B7310 stays 2/104.
+- Still open: 002B7310 stays at 2/104; 00516B40 needs related-value addressing off one symbol (&D_00854038 + offsets).
