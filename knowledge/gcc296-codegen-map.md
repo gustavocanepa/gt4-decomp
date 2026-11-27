@@ -1019,3 +1019,14 @@ the clamp temporary both in `$f1` and the velocity reload in `$f0`. 38 -> 0 by t
   `rate = ...` in both arms. cse substitutes the register known to hold 0 (rate's) into both
   compares, and rate lives in `$f1` through the arms. No source order of the tests moves a plain
   constant zero off `$f0`.
+
+## 19. Mechanisms from the second 2026-11-26 worker pass
+
+- A pass-through inline for the start value keeps the arm at two insns until combine, so if-convert happens only in the `ce` pass (`xori` + `movz`), and gcse PRE then stops hoisting the load above the join (004C2830).
+- Indexed presence tests (`&fonts->data` with `i*11`) keep `(plus base idx)` away from cse/gcse; combine splits it into `addu v1,base,idx; lw 4(v1)` (004C2830).
+- Declaring `int count` before `u8 i` decides a global-alloc priority tie in favour of the lower pseudo number (004C2830).
+- A scratch pointer reused for two roles becomes one global pseudo with a copy preference for `$a1`, which pushes the table base to `$t0`; the default (strict aliasing) profile also changes sched2 store order against nsa (005178D8).
+- gcse does PRE on memory loads in this version: re-reading a field through an inline accessor at the start of each arm keeps the reload; a chained assignment `angle = x = state(self)->angle` keeps the `mov.s` that cprop otherwise folds (003485D0).
+- gas 2.10 (as2004 profile) assembles `l.s $f2,sym($3)` after another `l.s` with `lwc1` instead of `lui`; one-line near misses of that shape may only need the as2004 profile (003485D0).
+- Writing negation `v = -v` inside each arm instead of once before the test leaves only the `side` store shared, so tail merging yields the retail `bc1tl` (003513F8).
+- Open at 2 off: 004C2830's draft in wA2 (base/index live range around the sum); 002B7310 stays 2/104.
