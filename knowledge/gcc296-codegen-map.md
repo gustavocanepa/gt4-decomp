@@ -1030,3 +1030,13 @@ the clamp temporary both in `$f1` and the velocity reload in `$f0`. 38 -> 0 by t
 - gas 2.10 (as2004 profile) assembles `l.s $f2,sym($3)` after another `l.s` with `lwc1` instead of `lui`; one-line near misses of that shape may only need the as2004 profile (003485D0).
 - Writing negation `v = -v` inside each arm instead of once before the test leaves only the `side` store shared, so tail merging yields the retail `bc1tl` (003513F8).
 - Still open: 002B7310 stays at 2/104; 00516B40 needs related-value addressing off one symbol (&D_00854038 + offsets).
+
+## 20. Mechanisms from the third 2026-11-26/27 worker pass
+
+- `003EA098`: the minimum of three readings written as a full three-element sort with one shared swap temporary. The third, codeless compare-and-swap keeps the swapped-out values live, so every THEN block has three sets at each if_convert pass and no `movn` is made; the retail `sltu` + `bnel` + move appears.
+- `002A38A0` (no-strict-aliasing): each coordinate stored through a single-use reference accessor (`uv[i].X() = ...`), no temporaries. The reference pseudo hides the store address from alias.c until combine, so nothing is CSE'd before reload; reload_cse then produces the retail copies.
+- `004C2048` (sibling of 004C2830): data-member presence test, inline error exits, and `last = start = p` in a two-insn arm block movz if-conversion.
+- `00227BE0`: the frame-wait call duplicated in the partial arm adds one call to the sched2 block, giving the a1/a2 copies four dependents against a0's three; jump2 cross-jumps the copies back.
+- `001F5850`: take `&row` directly at every use (one PRE pseudo hoisted after the temporary), a single return, and declare `func_00314B20` as value-returning so the call SETs `$v0` and decides the sched2 order of the two address reloads.
+- `001DFE60`: a `text()` virtual call as a member of the string struct (one address pseudo for the call result and the `c_str` this), with a string/handle union slot and an inline `set_bool`.
+- Fable usage limit note: three parallel Fable workers exhaust the limit in about 3 hours; stagger them or use two.
