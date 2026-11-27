@@ -93,3 +93,29 @@ the owner's call (raise the limit for VU0 bodies, grandfather it, or list it in
 config/asm_functions.txt). Work went to the next largest functions instead: _IO_dtoa (005999B8),
 the pdistd-http request builder (004E8F58) and _IO_strtod (00598818). All three are plain
 sources that pass the policy.
+
+## Footnote: 0057DE48, libstream's custom vprintf (2026-11-25, opus-octavio)
+
+3720 B, 930 instructions, best draft 8 differing (build/work/57de48/r/best_8.cpp; diary in
+attempts.jsonl and build/work/57de48/NOTES.md). All 8 sit in the `%F` conversion (a float passed
+as int bits, widened to double bits):
+
+    li v0,0x380; li a0,0xC80; dsll32 v0,v0,20; dsll32 a0,a0,20; sra a1,a3,31; dsll a2,a3,29;
+    movn v0,a0,a1; lui v1,0x7FE0; daddu a2,a2,v0; and v1,a3,v1; movz a2,zero,v1
+
+Why this looks like an inline-asm block in the original, not compiled C:
+- The unit's neighbours are hand-written float assembly: 0057F490 (int -> double, uses `sub`,
+  `addi`, `plzcw`, which ee-gcc never emits), then dpadd 0057F578, dpcmp, dpdiv, dpmul.
+- No C form leaves the constants unfolded: CONST_COSTS is 0 for every CONST_INT (SCE296 mips.h),
+  block-local constants fold in cse1, and a function-scope constant gets a REG_EQUAL note from
+  gcse cprop that cse2 folds (only `-fno-gcse` keeps `li` + `dsll32`, and that profile changes
+  the rest of the function). A C constant always prints as one `dli`.
+- No single-instruction asm reproduces the order: an asm is `unit none` in sched1 and wins ties
+  on register weight; forcing retail's registers with the oracle still leaves the post-reload
+  order wrong (6-9 rows). The retail sequence is a hand-interleaved routine with sv in, v out.
+- Written as one 11-instruction asm (build/work/57de48/jg/b.cpp) the judge refuses it
+  (asm_policy: multi-instruction block), so it was not judged. Confirming it needs the owner's
+  permission to run the comparison with the policy off; submitting it needs a policy decision.
+
+Everything else in the function matches, including the decimal case (codegen map section 27).
+Waiting for the owner's call: grandfather it with the asm block, or leave it open at 8.
