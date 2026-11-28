@@ -1067,3 +1067,18 @@ the clamp temporary both in `$f1` and the velocity reload in `$f0`. 38 -> 0 by t
 - `throw()` on an earlier same-unit callee turns a branch-slot `nop` into the fallthrough insn (00328DD0).
 - `++count`, not `count++`, on a member (post-increment builds an address pseudo).
 - Open: 002F4A10 (3 off; dtor address unified with the this-copy in cse1), 004C81D8 (1 off), 004C6C90 (38 off).
+
+## 23. Third pass of 2026-11-28 (wA6 / wB6)
+
+- An `s16` return on an inline hides a recompute from cse1: the wide arm's `return count * 40` is not folded into a copy of `base` (004C81D8).
+- gcse's final copy propagation only reaches other basic blocks; a PRE-made copy and its same-block uses keep the copy register. A test gcse folds away still ends the block (002F4A10; the match needs a never-set local flag that leaves no code).
+- A set block written three times in an if / else-if chain is forwarded from the stores by cse1 (no frame reloads) and merged back by jump2; compares must use a scratch copy (004C6C90, 3 off).
+- A pass-through inline on an address (`same(&n->header)`) delays if-conversion to the ce pass and keeps `xori reg,reg,0` + `movz` (00529770, 23 off). A local without a register is computed by reload straight into the argument register and stored to its slot. A 4-byte header declared as a word-aligned union takes a 4-byte slot; `{u16,u16}` struct is BLKmode and rounds to 16.
+- An inline-constructed temporary has its address taken before the new-expression is evaluated; a pointer temp bound to `T *const &` computes it late (002B4A00). Inline ctor body order: vtable store, then fields.
+- Temp-slot sharing between types (`assign_stack_temp`) only happens under no-strict-aliasing, so two types in one 16-byte slot signals an nsa unit.
+- Unused 16-byte slots are dead by-value return slots of inline wrappers (00165390).
+- An inline accessor at every use makes each switch case reload the handle; a named reference lets gcse keep the checked value (002AD388). Conversely one named reference for a far member keeps `lui/ori; addu; lb` instead of a folded big-offset load (00165390).
+- `bool x : 8` gives the word and/or store; unsigned/int/enum `: 8` give `sb`.
+- Jump tables need the empty `case N:` labels; four labels give a compare tree.
+- Index the array, not a pointer copy: `buf[i]` keeps `daddu t0,s0` (002AD388).
+- Open: 0023E740 and 002B7310 (2 off each), 0026F0A8 (3 off), 004C6C90 (3 off), 00529770 (23 off), 0052C640 (2 off).
