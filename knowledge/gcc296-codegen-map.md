@@ -1052,3 +1052,18 @@ the clamp temporary both in `$f1` and the velocity reload in `$f0`. 38 -> 0 by t
 - `handled = 1` written after the byte store of 1 stops cse from reusing its register.
 - gcse: a reg-reg copy is not recorded for copy propagation if its source or destination is set again later in the same basic block.
 - Open: 004BDB48 (2 off, `sw zero,0(s7)` vs spill of `count`), 00251300, 0031A6A0, 004C81D8.
+
+## 22. Second pass of 2026-11-28 (wA5 / wB5)
+
+- Sum grouping follows inline boundaries: an inline `rows(t)` returning `data + (a+b)*6` indexed `rows(t)[i].b[k]` gives `off + (data + n6)`; macros reassociate to `(off + n6) + data`. An inline `row(base, i)` with the `n*6` term inside the memory index gives retail's `n6 + (data + off)` (004BF938).
+- One shared `return -1` block: `if (p == 0 || p >= END - 1) return -1;` keeps the failure block multi-predecessor and stops `li v0,-1` being hoisted (004BC978).
+- An early `Desc *pd = &d;` is an invisible sched1 filler: reload deletes its init and rematerialises `daddu a2,sp` at each use, pushing `count = 0` one cycle down (004BDB48; same idiom as `Rec *pr = &rec` in 004BF4D0).
+- `s16 k = node->score; score = k;` with `int bestScore` gives `lh` + `sh` of one register; plain assignment gives `lhu` (004C6C90).
+- Real out-of-line ctors/dtors via `__asm__("func_XXXXXXXX")` names (ABI passes in-charge 2 itself) plus a declared copy constructor give a 16-byte BLKmode slot; fixed the s3/s4 swap in 0031ADF8 and matched 0031E830, 00319040, 0022FBE0.
+- A non-inline ctor of a temporary evaluates its argument before the temporary's address, so the address pseudo is born late.
+- A `const T &` inline parameter hides a load from cse1 (bound temporary is an addressof store): `left.get() == 0 || isNull(right.get())` with `isNull(Object *const &)` gives retail's `daddu a3,v1` copy (0031A6A0). Only the right operand through the reference works.
+- loop.c hoist order depends on the first-pass insn count: a life-1 `high` moves only while threshold (64, minus 3 per move) >= insn count. A bool accessor `it->isNull()` supplies the missing insn (002EEA88).
+- cse1 swaps `A = expr; B = A` into `B = expr; A = B` when B's last mention is later; a function-scope scratch reused after the loop keeps A canonical (00328DD0).
+- `throw()` on an earlier same-unit callee turns a branch-slot `nop` into the fallthrough insn (00328DD0).
+- `++count`, not `count++`, on a member (post-increment builds an address pseudo).
+- Open: 002F4A10 (3 off; dtor address unified with the this-copy in cse1), 004C81D8 (1 off), 004C6C90 (38 off).
