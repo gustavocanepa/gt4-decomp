@@ -1,0 +1,17 @@
+name: progress
+
+# Uploads the objdiff report generated locally by tools/report.py (names, sizes and percentages
+# only) as the artifact decomp.dev reads.
+on:
+  push:
+    branches: [progress]
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SCUS-97328_report
+          path: report.json
